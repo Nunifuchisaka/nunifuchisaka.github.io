@@ -10,7 +10,10 @@
   grid-template-columns: 1fr 1fr;
   margin-top: 1em;
   &__1 {
-    
+    padding-bottom: 2em;
+  }
+  &__2 {
+
   }
 }
 
@@ -27,4 +30,7 @@
   border: solid 4px #000;
   border-top: 0;
   border-bottom: 0;
+  @include sp {
+    border: 0;
+  }
 }
