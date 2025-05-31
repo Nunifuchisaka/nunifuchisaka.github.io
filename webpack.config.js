@@ -1,5 +1,5 @@
 const HTML_MINITY = true,
-      DIST_DIR = './dist',
+      DIST_DIR = './docs',
       SRC_DIR = './src',
       START_PATH = '',
       SITE_URL = 'https://github.com/Nunifuchisaka/me/' + START_PATH,
