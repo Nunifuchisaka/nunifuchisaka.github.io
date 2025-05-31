@@ -1,0 +1,13 @@
+@use "sass:math";
+@use "../tool" as *;
+
+.is_none { display: none !important }
+
+@include pc {
+  br.sp,
+  .is_pc_none_1 { display: none !important }
+}
+@include sp {
+  br.pc,
+  .is_sp_none_1 { display: none !important }
+}

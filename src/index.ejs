@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "./";
+const meta = {
+  type: "website",
+  title: "ぬにふちさか",
+  description: "ぬにふちさか関連リンク集",
+};
+%>
+<%- include("assets/html/_head",{meta:meta}) %>
+</head>
+<body>
+<%- include("assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include("assets/html/_header",{path:path}) %>
+
+<div class="wrapper_1">
+  <div class="wrapper_1__1">
+
+    <ul class="list_1">
+      <li><a href="https://x.com/nunifuchisaka" target="_blank">Twitter(X)</a></li>
+      <li><a href="https://www.youtube.com/@nunifuchisaka" target="_blank">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@nunifuchisaka" target="_blank">TikTok</a></li>
+      <li><a href="https://www.instagram.com/nunifuchisaka/" target="_blank">Instagram</a></li>
+      <li><a href="https://marshmallow-qa.com/nunifuchisaka" target="_blank">マシュマロ</a></li>
+      <li><a href="https://querie.me/user/nunifuchisaka" target="_blank">Querie</a></li>
+    </ul>
+
+  </div><!-- /.wrapper_1__1 -->
+  <div class="wrapper_1__1">
+
+    <ul class="list_2">
+      <%
+      const photos = [
+        'Gre_VdGaYAAUB5q',
+        'GsIRdv9bsAAz3y0',
+        'GsISHIKbUAASTMb',
+        'GsDK83EbUAAMksq',
+        'Gr40Jl6WEAA2yoY',
+        'GrkFsw7boAIltqx',
+        'GrfBeJTb0AESHJn',
+        'GrZ_gi3bAAEKMIb',
+        'GrPrZRZXEAAGSYH',
+        'Gqwqm2ebYAAIgrD',
+        'GqSJFCIbAAM4OdF',
+      ];
+      photos.forEach(function (value, key) { %>
+        <li>
+          <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096">
+            <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="" draggable="false">
+          </a>
+        </li>
+      <% }); %>
+    </ul><!-- /.list_2 -->
+
+  </div><!-- /.wrapper_1__1 -->
+</div><!-- /.wrapper_1 -->
+
+<%- include("assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include("assets/html/_body_after") %>
+</body>
+</html>

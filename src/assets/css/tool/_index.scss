@@ -1,0 +1,81 @@
+@use "sass:math";
+
+$gothic: "ヒラギノ角ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", Helvetica, Arial, Verdana, sans-serif;
+
+$breakpoint1: 767px;
+
+$site-width--pc: 1440;//px
+$site-width--sp: 750;//px
+
+
+@mixin fz($size: 16) {
+  font-size: math.div($size, 10) + rem;
+}
+
+@function px2vw2($px){
+  $px: math.div($px * 100, $site-width--sp);
+  $px: round($px * 100);
+  @return math.div($px, 100) * 1vw;
+}
+
+@function px2vw1($px){
+  $px: math.div($px * 100, $site-width--pc);
+  $px: round( $px * 100);
+  @return math.div($px, 100) * 1vw;
+}
+
+@function clamp1($px){
+  $vw: math.div($px * 100, $site-width--pc);
+  $vw: round($vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  $px_min: math.div($px, 1.2);
+  $px_min: round($px_min);
+  @if ( 0 > $px ) {
+    @return clamp($px * 1px, $vw, $px_min * 1px);
+  } @else {
+    @return clamp($px_min * 1px, $vw, $px * 1px);
+  }
+}
+
+@function min1($px){
+  $vw: math.div($px * 100, $site-width--pc);
+  $vw: round( $vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  @return min($px * 1px, $vw);
+}
+
+@function max1($px){
+  $vw: math.div($px * 100, $site-width--pc);
+  $vw: round( $vw * 100);
+  $vw: math.div($vw, 100) * 1vw;
+  @return max($px * 1px, $vw);
+}
+
+
+$width1: 800px;
+
+$padding1--pc: 40px;
+$padding1--sp: px2vw2(40);
+
+$header_1__height--pc: 0;
+$header_1__height--sp: 0;
+
+
+@mixin sp {
+  @media (max-width: $breakpoint1) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media (min-width: $breakpoint1 + 1) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  // @media (max-width: $breakpoint1) and (orientation: landscape) {
+  @media (min-aspect-ratio: 16/7.5) {
+    @content;
+  }
+}

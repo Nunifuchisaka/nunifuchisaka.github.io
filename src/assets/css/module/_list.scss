@@ -1,0 +1,51 @@
+@use "sass:math";
+@use "../tool" as *;
+
+/*
+## .list_2
+使用箇所：
+内容：画廊
+*/
+
+.list_2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  // grid-gap: 1em;
+  li {
+
+  }
+  a {
+    display: block;
+  }
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+}
+
+
+/*
+## .list_1
+使用箇所：
+内容：リンク集
+*/
+
+.list_1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1em;
+  padding: 0 1em;
+  li {
+
+  }
+  a {
+    display: block;
+    padding: 1em;
+    text-align: center;
+    text-decoration: none;
+    background: #000;
+    border-radius: 100vw;
+  }
+}

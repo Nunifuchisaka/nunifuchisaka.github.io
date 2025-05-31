@@ -1,0 +1,66 @@
+@use "sass:math";
+@use "../tool" as *;
+
+/*
+## .header_2
+使用箇所：
+内容：
+*/
+
+.header_2 {
+  position: relative;
+  max-width: $width1;
+  margin: 0 auto;
+  &__bg {
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: math.div(1500, 500);
+    }
+  }
+  &__icon {
+    position: absolute;
+    top: 180px;
+    left: 50px;
+    width: 134px;
+    // margin-top: -100px;
+    // padding: 0 50px;
+    @include sp {
+      top: px2vw2(140);
+      left: px2vw2(20);
+      width: px2vw2(200);
+    }
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border: solid 4px #000;
+      border-radius: 50%;
+    }
+  }
+  &__1 {
+    padding: 1em;
+    margin-left: 200px;
+    @include sp {
+      margin-left: px2vw2(240);
+    }
+  }
+  .name {
+    font-size: math.div(20, 16) * 100%;
+    font-weight: 700;
+  }
+}
+
+
+/*
+## #header
+使用箇所：
+内容：
+*/
+
+#header {
+  padding: 1em;
+  color: #fff;
+  text-align: center;
+  background: #000;
+}

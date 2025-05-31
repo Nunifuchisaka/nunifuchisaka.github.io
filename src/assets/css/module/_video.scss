@@ -1,0 +1,14 @@
+@use "sass:math";
+@use "../tool" as *;
+
+/*
+## .video_1
+使用箇所：
+内容：
+*/
+
+.video_1 {
+	iframe, video {
+		aspect-ratio: math.div(16, 9);
+	}
+}

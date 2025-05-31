@@ -1,0 +1,47 @@
+<%
+if( meta.titleSeparator ) {
+	meta.titleAfter = meta.titleSeparator + SITE_NAME;
+} else {
+	meta.titleAfter = "";
+}
+
+if ( !meta.keywords ) meta.keywords = "";
+if ( !meta.type ) meta.type = "article";
+if ( !meta.url ) meta.url = "";
+if ( !meta.image ) meta.image = "img/og.png";
+
+%><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<!-- <link rel="icon" href="<%= SITE_URL %>favicon.ico">
+<link rel="apple-touch-icon" href="<%= SITE_URL %>apple-touch-icon.png">
+<link rel="android_icon" href="<%= SITE_URL %>apple-touch-icon.png"> -->
+
+<title><%= meta.title %><%= meta.titleAfter %></title>
+<meta name="description" content="<%= meta.description %>">
+<!-- <meta name="keywords" content="<%= meta.keywords %>"> -->
+
+<meta property="og:site_name" content="<%= SITE_NAME %>">
+<meta property="og:type" content="<%= meta.type %>">
+<meta property="og:title" content="<%= meta.title %>">
+<meta property="og:description" content="<%= meta.description %>">
+<meta property="og:url" content="<%= SITE_URL %><%= meta.url %>">
+<!-- <meta property="og:image" content="<%= SITE_URL %><%= meta.image %>"> -->
+
+<!-- <meta name="twitter:card" content="summary_large_image"> -->
+
+<link rel="stylesheet" href="<%= START_PATH %>assets/css/common.css">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<!-- <script src="<%= START_PATH %>assets/js/vendor.js" defer></script>
+<script src="<%= START_PATH %>assets/js/common.js" defer></script> -->
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "WebPage",
+	"name": "<%= meta.title %><%= meta.titleAfter %>",
+	"url": "<%= SITE_URL %><%= meta.url %>",
+	"description": "<%= meta.description %>"
+}
+</script>

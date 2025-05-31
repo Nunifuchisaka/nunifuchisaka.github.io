@@ -1,0 +1,30 @@
+@use "sass:math";
+@use "../tool" as *;
+
+/*
+## .wrapper_1
+*/
+
+.wrapper_1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 1em;
+  &__1 {
+    
+  }
+}
+
+
+/*
+## #wrapper
+使用箇所：
+内容：
+*/
+
+#wrapper {
+  max-width: $width1;
+  margin: 0 auto;
+  border: solid 4px #000;
+  border-top: 0;
+  border-bottom: 0;
+}

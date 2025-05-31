@@ -1,0 +1,44 @@
+@use "sass:math";
+@use "../tool" as *;
+
+/*
+## .a_fadein_1
+*/
+
+.a_fadein_1 {
+	opacity: 0;
+	transition: opacity 1s, transform 1s;
+	&.is_b2t {
+		transform: translateY(20px);
+	}
+	&.is_r2l {
+		transform: translateX(40px);
+	}
+	&.is_animation {
+		opacity: 1;
+		&.is_b2t {
+			transform: translateY(0) !important;
+		}
+		&.is_r2l {
+			transform: translateX(0) !important;
+		}
+	}
+	@media screen and (max-width: $breakpoint1){
+		&.is_b2t {
+			transform: translateY(3vw);
+		}
+		&.is_r2l {
+			transform: translateX(6vw);
+		}
+	}
+}
+
+@media all and (-ms-high-contrast:none){
+	//*::-ms-backdrop,
+	.a_fadein_1.is_b2t {
+		transform: translateY(20px) !important;
+	}
+	.a_fadein_1.is_r2l {
+		transform: translateX(40px) !important;
+	}
+}

@@ -1,0 +1,39 @@
+@use "sass:math";
+@use "../tool" as *;
+
+html {
+	min-height: 100%;
+	font-size: 62.5%;
+}
+
+body {
+	-webkit-text-size-adjust: 100%;
+	-webkit-font-smoothing: subpixel-antialiased; //antialiased;
+	min-height: 100%;
+	font: 1.6rem/1.6 $gothic;
+	color: #eaf4fc;
+	background: #16160e;
+	@include sp {
+		font-size: px2vw2(28);
+	}
+}
+
+img {
+	vertical-align: top;
+}
+
+a {
+	color: rgb(29, 155, 240);
+	text-underline-offset: .2em;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+strong {
+	
+}
+
+em {
+	
+}
