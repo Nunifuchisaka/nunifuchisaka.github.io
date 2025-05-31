@@ -1,0 +1,23 @@
+<section id="portfolio" class="section_1">
+  <h2 class="section_1__h1">
+    Portfolio
+  </h2>
+  <ul class="list_3">
+    <%
+    const portfolio = [
+      {
+        title: "桜兎フルガ 公式サイト",
+        eyecatch: "otofuruga.webp",
+        url: "https://otofuruga.pink/",
+      },
+    ];
+    portfolio.forEach(function (value, key) { %>
+      <li>
+        <a href="<%= value.url %>" target="_blank">
+          <img src="assets/img/<%= value.eyecatch %>" alt="">
+          <p><%= value.title %></p>
+        </a>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_3 -->
+</section><!-- /#portfolio.section_1 -->

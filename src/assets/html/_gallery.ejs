@@ -1,0 +1,23 @@
+<ul class="list_2">
+  <%
+  const photos = [
+    'Gre_VdGaYAAUB5q',
+    'GsDK83EbUAAMksq',
+    'GrfBeJTb0AESHJn',
+    'GolmOnNWYAAGFez',
+    'GollkXpWQAABxgZ',
+    'Golmy_nXkAAW0gw',
+    'GnoEDuJaMAIrEuF',
+    'Gni5VEOaMAAaV-i',
+    'Gnk5oHlaMAEDi-v',
+    'GWANrwpXcAA2bbu',
+    'GWAN_u2WMAAvwdY',
+  ];
+  photos.forEach(function (value, key) { %>
+    <li>
+      <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank">
+        <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="" draggable="false">
+      </a>
+    </li>
+  <% }); %>
+</ul><!-- /.list_2 -->

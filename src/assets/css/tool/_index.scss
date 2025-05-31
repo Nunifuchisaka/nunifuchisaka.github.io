@@ -54,8 +54,10 @@ $site-width--sp: 750;//px
 
 $width1: 800px;
 
-$padding1--pc: 40px;
-$padding1--sp: px2vw2(40);
+$padding1--pc_: 40;
+$padding1--pc: $padding1--pc_ + 0px;
+$padding1--sp_: 40;
+$padding1--sp: px2vw2($padding1--sp_);
 
 $header_1__height--pc: 0;
 $header_1__height--sp: 0;

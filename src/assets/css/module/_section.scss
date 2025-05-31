@@ -1,2 +1,25 @@
 @use "sass:math";
 @use "../tool" as *;
+
+/*
+## .section_1
+使用箇所：
+内容：
+*/
+
+.section_1 {
+  padding: 0 $padding1--pc;
+  @include sp {
+    padding: 0 $padding1--sp;
+  }
+  &__h1 {
+    font-size: math.div(24, 16) * 100%;
+    font-weight: 700;
+  }
+  .wrapper_1 + & {
+    margin-top: $padding1--pc;
+    @include sp {
+      margin-top: $padding1--sp;
+    }
+  }
+}
