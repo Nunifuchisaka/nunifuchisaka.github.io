@@ -1,0 +1,52 @@
+<section id="guide" class="section_1">
+  <h2 class="section_1__h1">
+    Guide
+  </h2>
+  <ul class="list_4">
+    <%
+    const photos = [
+      'VRChat_2025-05-31b',
+      'VRChat_2025-05-31',
+      'VRChat_2025-05-25d',
+      'VRChat_2025-05-25c',
+      'VRChat_2025-05-25b',
+      'VRChat_2025-05-25',
+      'VRChat_2025-05-23',
+      'VRChat_2025-05-22',
+      'VRChat_2025-05-21',
+      'VRChat_2025-05-20b',
+      'VRChat_2025-05-20',
+      'VRChat_2025-05-14',
+      'VRChat_2025-05-11',
+      'VRChat_2025-05-07',
+      'VRChat_2025-05-06',
+      'VRChat_2025-05-01',
+      'VRChat_2025-04-21',
+      'VRChat_2025-04-20',
+      'VRChat_2025-04-18',
+      'VRChat_2025-04-17',
+      'VRChat_2025-04-16',
+      'VRChat_2025-04-13',
+      'VRChat_2025-04-12',
+      'VRChat_2025-02-18',
+      'VRChat_2025-04-12',
+      'VRChat_2025-04-13',
+      'VRChat_2025-04-16',
+      'VRChat_2025-04-17',
+      'VRChat_2025-04-18',
+      'VRChat_2025-04-20',
+      'VRChat_2025-04-21',
+      'VRChat_2025-01-15',
+      'VRChat_2025-01-29',
+      'VRChat_2024-12-23',
+      'VRChat_2024-12-16',
+    ];
+    photos.forEach(function (value, key) { %>
+      <li>
+        <a href="assets/img/guide/<%= value %>.webp" target="_blank">
+          <img src="assets/img/guide/<%= value %>.webp" alt="" loading="lazy">
+        </a>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_4 -->
+</section><!-- /#guide.section_1 -->

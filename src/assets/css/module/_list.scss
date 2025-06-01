@@ -2,6 +2,45 @@
 @use "../tool" as *;
 
 /*
+## .list_4
+使用箇所：
+内容：
+*/
+
+.list_4 {
+  counter-reset: i 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  @include sp {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  li {
+    counter-increment: i;
+    position: relative;
+    &::after {
+      content: counter(i);
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 2em;
+      font-size: math.div(12, 16) * 100%;
+      color: #fff;
+      text-align: center;
+      background: rgba(0,0,0.7);
+    }
+  }
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .section_1__h1 + & {
+    margin-top: 1em;
+  }
+}
+
+/*
 ## .list_3
 使用箇所：
 内容：

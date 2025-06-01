@@ -16,6 +16,7 @@
     font-size: math.div(24, 16) * 100%;
     font-weight: 700;
   }
+  & + &,
   .wrapper_1 + & {
     margin-top: $padding1--pc;
     @include sp {
