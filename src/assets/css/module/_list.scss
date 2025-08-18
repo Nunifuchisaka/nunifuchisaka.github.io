@@ -2,6 +2,30 @@
 @use "../tool" as *;
 
 /*
+## .list_5
+使用箇所：VR機材
+内容：
+*/
+
+.list_5 {
+  padding: 1em;
+  li {
+    text-indent: -1em;
+    padding-left: 1em;
+    &::before {
+      content: "・";
+    }
+    + li {
+      margin-top: 1em;
+    }
+  }
+  a {
+    
+  }
+}
+
+
+/*
 ## .list_4
 使用箇所：
 内容：

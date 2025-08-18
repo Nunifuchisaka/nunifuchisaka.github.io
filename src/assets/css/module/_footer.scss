@@ -8,14 +8,12 @@
 */
 
 #footer {
+  margin-top: $padding1--pc;
   padding: 1em;
   color: #fff;
   text-align: center;
   background: #000;
-  .section_1 + & {
-    margin-top: $padding1--pc;
-    @include sp {
-      margin-top: $padding1--sp;
-    }
+  @include sp {
+    margin-top: $padding1--sp;
   }
 }
