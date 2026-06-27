@@ -1,8 +1,8 @@
 module.exports = {
-  plugins: [
-    require('postcss-sort-media-queries')({
-      sort: 'mobile-first',
-    }),
-    require('autoprefixer')
-  ]
-}
+  plugins: {
+    'autoprefixer': {},
+    'postcss-sort-media-queries': {
+      sort: 'desktop-first', // 'mobile-first'
+    },
+  },
+};

@@ -1,11 +1,11 @@
 @use "sass:math";
 
-$gothic: "ヒラギノ角ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", Helvetica, Arial, Verdana, sans-serif;
+$gothic: "ヒラギノ角ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", meiryo, "ＭＳ Ｐゴシック", helvetica, arial, verdana, sans-serif;
 
 $breakpoint1: 767px;
 
-$site-width--pc: 1440;//px
-$site-width--sp: 750;//px
+$site-width--pc: 1440;// px
+$site-width--sp: 750;// px
 
 
 @mixin fz($size: 16) {
@@ -30,7 +30,7 @@ $site-width--sp: 750;//px
   $vw: math.div($vw, 100) * 1vw;
   $px_min: math.div($px, 1.2);
   $px_min: round($px_min);
-  @if ( 0 > $px ) {
+  @if  0 > $px  {
     @return clamp($px * 1px, $vw, $px_min * 1px);
   } @else {
     @return clamp($px_min * 1px, $vw, $px * 1px);
@@ -77,7 +77,7 @@ $header_1__height--sp: 0;
 
 @mixin landscape {
   // @media (max-width: $breakpoint1) and (orientation: landscape) {
-  @media (min-aspect-ratio: 16/7.5) {
+  @media (aspect-ratio >= 16/7.5) {
     @content;
   }
 }

@@ -19,9 +19,6 @@
       margin-top: 1em;
     }
   }
-  a {
-    
-  }
 }
 
 
@@ -32,17 +29,15 @@
 */
 
 .list_4 {
-  counter-reset: i 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   @include sp {
     grid-template-columns: repeat(4, 1fr);
   }
   li {
-    counter-increment: i;
     position: relative;
     &::after {
-      content: counter(i);
+      content: var(--num);
       position: absolute;
       right: 0;
       bottom: 0;
@@ -50,7 +45,7 @@
       font-size: math.div(12, 16) * 100%;
       color: #fff;
       text-align: center;
-      background: rgba(0,0,0.7);
+      background: rgb(0 0 0.7);
     }
   }
   img {
@@ -63,6 +58,7 @@
     margin-top: 1em;
   }
 }
+
 
 /*
 ## .list_3
@@ -107,6 +103,7 @@
 .list_2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
+
   // grid-gap: 1em;
   li {
 

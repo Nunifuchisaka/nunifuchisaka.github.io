@@ -1,213 +1,396 @@
-const HTML_MINITY = true,
+const SRC_DIR = './src',
       DIST_DIR = './docs',
-      SRC_DIR = './src',
-      START_PATH = '',
-      SITE_URL = 'https://nunifuchisaka.github.io/' + START_PATH,
-      SITE_NAME = 'ぬにふちさか',
-      path = require('path'),
+      DIST_UNCOMPRESSED_DIR = './dist_uncompressed';
+
+const SITE_DATA = {
+  START_PATH: '',
+  SITE_URL: 'https://nunifuchisaka.github.io/',
+  SITE_NAME: 'ぬにふちさか',
+};
+
+const BROWSER_SYNC_CONFIG = {
+  host: 'localhost',
+};
+
+const IMAGE_OPTIMIZATION_CONFIG = {
+  IMG_TO_WEBP_SRC_DIR: 'img2webp',
+  IMG_TO_WEBP2_SRC_DIR: 'img2webp2/src',
+  IMG_TO_WEBP2_DIST_DIR: 'img2webp2/dist',
+  WEBP_QUALITY: 50,
+  RESIZE_WIDTH: 960,
+};
+
+
+// --- 以下、webpackの動作設定（通常は編集不要）---
+const path = require('path'),
       glob = require('glob'),
-      DIST_PATH = path.resolve(__dirname, DIST_DIR),
-      SRC_PATH = path.resolve(__dirname, SRC_DIR),
+      fs = require('fs'),
       RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts'),
       BrowserSyncPlugin = require('browser-sync-webpack-plugin'),
-      ssi = require('./node_modules/browsersync-ssi'),
-      HtmlWebpackPlugin = require('html-webpack-plugin'),
-      MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-      //ImageminWebpWebpackPlugin= require('imagemin-webp-webpack-plugin'),
+      CopyPlugin = require('copy-webpack-plugin'),
       TerserPlugin = require('terser-webpack-plugin'),
-      config = {
-        entry: {},
-        plugins: [],
-      };
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
+      htmlMinifier = require('html-minifier-terser'),
+      MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+      sharp = require('sharp'),
+      postcss = require('postcss'),
+      cssnano = require('cssnano'),
+      StylelintPlugin = require('stylelint-webpack-plugin'),
+      SRC_PATH = path.resolve(__dirname, SRC_DIR),
+      DIST_PATH = path.resolve(__dirname, DIST_DIR),
+      DIST_UNCOMPRESSED_PATH = path.resolve(__dirname, DIST_UNCOMPRESSED_DIR);
 
-module.exports = (env, argv) => {
-  
-  const minify = 'production' === argv.mode;
-  
-  //JS
-  glob.sync('**/*.js', {
-    cwd: SRC_DIR,
-    ignore: '**/_*.js'
-  }).forEach(key => {
-    config.entry[key.replace('.js', '')] = path.resolve(SRC_DIR, key);
-  });
-  
-  //EJS
-  glob.sync('**/*.ejs', {
-    cwd: SRC_DIR,
-    ignore: '**/_*.ejs'
-  }).forEach(key => {
-    const baseName = path.basename(key, '.ejs'),
-          htmlKey = key.replace('.ejs', '.html'),
-          srcPath  = path.resolve(SRC_DIR, key);
-    console.log('EJS : ', key, htmlKey);
-    config.plugins.push(
-      new HtmlWebpackPlugin({
-        template: srcPath,
-        filename: htmlKey,
-        inject: false,
-        //cache: false,
-        minify: {
-          collapseWhitespace: minify && HTML_MINITY,
-          keepClosingSlash: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true
-        }
-      })
-    );
-  });
-  
-  //SCSS
-  glob.sync('**/*.scss', {
-    cwd: SRC_DIR,
-    ignore: '**/_*.scss',
-  }).forEach(key => {
-    const cssKey = key.replace('.scss', '.css');
-    console.log('CSS : ', key, cssKey);
-    config.entry[cssKey] = path.resolve(SRC_DIR, key);
-  });
-  
-  //pluginsを統合
-  config.plugins.push(
-    new BrowserSyncPlugin({
-      //https: true,
-      host: 'localhost',
-      port: 3000,
-      server: { baseDir: [DIST_DIR] },
-      //startPath: START_PATH,
-      files: [
-        DIST_DIR + "/**/*.html",
-        DIST_DIR + "/**/*.css",
-        DIST_DIR + "/**/*.js",
-        DIST_DIR + "/**/*.json",
-      ],
-      'middleware': ssi({
-        baseDir: DIST_DIR,
-        ext: '.html',
-        version: '1.4.0'
-      })
-    }, {
-      reload: false,
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name]',
-    }),
-    new RemoveEmptyScriptsPlugin(),
-  );
-  
-  //configを統合
-  return Object.assign(config, {
+let guides = [];
+try {
+  // フォルダが存在する場合のみ、ファイル名の一覧を配列で取得（.DS_Storeなどは除外）
+  const targetFolder = path.resolve(DIST_PATH, 'assets/img/guide');
+  if (fs.existsSync(targetFolder)) {
+    guides = fs.readdirSync(targetFolder)
+      .filter(file => !file.startsWith('.'))
+      .reverse();
+  }
+} catch (e) {
+  console.error('ファイル名の取得に失敗しました:', e);
+}
+
+/**5
+ * Webpack設定を生成する関数
+ */
+const createConfig_development = ({ outputPath }) => {
+
+  const config = {
+    mode: 'development',
+    devtool: false,
+    entry: {},
     output: {
-      path: DIST_PATH,
+      path: outputPath,
       filename: '[name].js',
-      assetModuleFilename: START_PATH + 'assets/[name][ext][query]',
-    },
-    optimization: {
-      minimize: minify,
-      minimizer: [
-        new TerserPlugin({
-          extractComments: false,
-          terserOptions: {
-            compress: {
-              drop_console: true, // console.* を削除
-            },
-          },
-        })
-      ],
-      splitChunks: {
-        name: START_PATH + 'assets/js/vendor',
-        chunks: 'initial',
-      }
+      assetModuleFilename: 'assets/[name][ext][query]',
     },
     module: {
       rules: [
         {
-          test: /\.ejs$/i,
-          use: [
-            {
-              loader: 'html-loader',
-              options: {
-                sources: {
-                  urlFilter: (attribute, value, resourcePath) => {
-                    return false;
-                  },
-                },
-                minimize: false,
-              },
-            }, {
-              loader: 'ejs-plain-loader',
-              options: {
-                data: {
-                  START_PATH: START_PATH,
-                  SITE_URL: SITE_URL,
-                  SITE_NAME: SITE_NAME,
-                },
-              },
-            },
-          ]
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 2,
-              }
-            },
-            'postcss-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                implementation: require('sass'),
-                sassOptions: {
-                  includePaths: [
-                    path.resolve(__dirname, 'node_modules')
-                  ],
-                  outputStyle: (minify)?'compressed':'expanded',
-                }
-              }
-            }
-          ]
-        }, {
-          test: /\.(jpg|png|webp|svg|gif|eot|ttf|woff)$/i,
-          type: 'asset',
-          parser: {
-            dataUrlCondition: {
-              maxSize: 50 * 1024,
-            },
-          },
-        }, {
-          test: /node_modules\/(.+)\.css$/,
-          use: [
-            {
-              loader: 'style-loader',
-            }, {
-              loader: 'css-loader',
-              options: { url: false },
-            },
+          test: /\.(jpg|jpeg|png|webp|svg|gif|eot|ttf|woff)$/i,
+          type: 'asset/inline',
+          exclude: [
+            /node_modules/,
+            path.resolve(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP_SRC_DIR),
+            path.resolve(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP2_SRC_DIR),
           ],
         },
       ]
     },
-    externals: {
-      // jquery: 'jQuery',
+    plugins: [
+      new RemoveEmptyScriptsPlugin(),
+    ],
+    watch: false,
+    target: ['web'],
+  };
+
+  // CSS
+  glob.sync('**/*.scss', { cwd: SRC_PATH, ignore: '**/_*.scss' }).forEach(key => {
+    config.entry[key.replace('.scss', '.css')] = path.resolve(SRC_PATH, key);
+  });
+  config.module.rules.push({
+    test: /\.scss$/,
+    use: [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 3,
+          url: {
+            filter: (url, resourcePath) => {
+              if (/(--pc|--sp|--exc)\.(jpg|jpeg|png|webp|svg|gif)(\?\d+)?$/i.test(url)) {
+                return false;
+              }
+              if (url.startsWith('/')) {
+                return false;
+              }
+              return true;
+            },
+          },
+        }
+      },
+      'postcss-loader',
+      {
+        loader: 'resolve-url-loader',
+        options: {
+          sourceMap: true
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true,
+          implementation: require('sass'),
+          sassOptions: {
+            outputStyle: 'expanded'
+          }
+        }
+      }
+    ],
+  });
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      filename: '[name]'
+    }),
+    new StylelintPlugin({
+      files: [`${SRC_DIR}/**/*.scss`],
+      fix: true
+    }),
+    {
+      apply: (compiler) => {
+        compiler.hooks.emit.tap('RemoveCssBannerPlugin', (compilation) => {
+          for (const assetName in compilation.assets) {
+            if (assetName.endsWith('.css')) {
+              const originalSource = compilation.assets[assetName].source().toString();
+              const cleanedSource = originalSource.replace(/\/\*![\s\S]*?\*\//g, '');
+              compilation.assets[assetName] = {
+                source: () => cleanedSource,
+                size: () => cleanedSource.length
+              };
+            }
+          }
+        });
+      }
+    }
+  );
+
+  // HTML
+  glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs' }).forEach(key => {
+    config.plugins.push(
+      new HtmlWebpackPlugin({
+        template: path.resolve(SRC_PATH, key),
+        filename: key.replace('.ejs', '.html'),
+        inject: false,
+        minify: false,
+      })
+    );
+  });
+  config.module.rules.push({
+    test: /\.ejs$/i,
+    use: [
+      {
+        loader: 'html-loader',
+        options: {
+          sources: false,
+          minimize: false
+        }
+      }, {
+        loader: 'ejs-plain-loader',
+        options: {
+          data: {
+            ...SITE_DATA,
+            guides: guides
+          }
+        }
+      }
+    ]
+  });
+
+  return config;
+}
+const createConfig_production = ({ outputPath }) => {
+
+  const config = {
+    mode: 'production',
+    entry: {},
+    output: {
+      path: outputPath,
+      filename: '[name].js',
+      assetModuleFilename: 'assets/[name][ext][query]',
+    },
+    module: {
+      rules: []
+    },
+    plugins: [], 
+    optimization: {
+      minimize: true,
+      minimizer: [ new TerserPlugin({ extractComments: false }) ],
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'assets/js/vendor',
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
     },
     watch: true,
     watchOptions: {
-      ignored: ['/node_modules', '/gitignore']
+      ignored: [
+        '**/node_modules/**',
+        '**/.DS_Store',
+        '**/Thumbs.db',
+        './img2webp/**/*.webp',
+        '**/img2webp2/dist/**',
+      ],
     },
     target: ['web'],
-    resolve: {
-      extensions: ['.ts', '.js']
-    },
-    stats: {
-      errorDetails: true
-    }
+    resolve: { extensions: ['.js','.ts'] },
+  };
+
+  // JS
+  glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js' }).forEach(key => {
+    config.entry[key.replace('.js', '')] = path.resolve(SRC_PATH, key);
   });
-  
+  config.module.rules.push({
+    test: /\.js$/,
+    exclude: /node_modules/,
+    use: 'babel-loader'
+  });
+
+  config.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        // ① img2webp（リサイズなし、WebP化のみ）
+        {
+          // ⭕ `path.resolve` を使わず、コンテキスト（基準位置）を指定して相対パスで記述することでバグを解消
+          context: path.resolve(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP_SRC_DIR),
+          from: '**/*.{jpg,jpeg,png}',
+          to: path.join(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP_SRC_DIR, '[path][name].webp'),
+          async transform(content) {
+            return await sharp(content)
+              .webp({ quality: IMAGE_OPTIMIZATION_CONFIG.WEBP_QUALITY })
+              .toBuffer();
+          },
+          noErrorOnMissing: true,
+        },
+        // ② img2webp2（日付リネーム＋リサイズ＋WebP変換）
+        {
+          context: path.resolve(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP2_SRC_DIR),
+          from: '**/*.{jpg,jpeg,png}',
+          to(pathData) {
+            if (!global.img2webp2Cache) {
+              global.img2webp2Cache = {
+                sourceMap: new Map(), // 元ファイル -> 出力先の紐付け
+                usedPaths: new Set()  // すでに予約された出力先一覧
+              };
+            }
+            const fs = require('fs');
+            const absoluteFilename = pathData.absoluteFilename;
+            const sourceName = path.parse(absoluteFilename).name;
+            const targetDir = path.resolve(
+              __dirname,
+              IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP2_DIST_DIR
+            );
+            const match = sourceName.match(
+              /^VRChat_(\d{4}-\d{2}-\d{2})_(\d{2})-\d{2}-\d{2}/
+            );
+            let baseName = sourceName;
+            if (match) {
+              const dateStr = match[1];
+              const hour = parseInt(match[2], 10);
+              if (hour < 5) {
+                const date = new Date(dateStr);
+                date.setDate(date.getDate() - 1);
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                baseName = `VRChat_${yyyy}-${mm}-${dd}`;
+              } else {
+                baseName = `VRChat_${dateStr}`;
+              }
+            }
+
+            // すでにこのファイル（絶対パス）を一度処理したことがあるなら、その時の名前をそのまま返す（2重処理対策）
+            if (global.img2webp2Cache.sourceMap.has(absoluteFilename)) {
+              return path.relative(outputPath, global.img2webp2Cache.sourceMap.get(absoluteFilename));
+            }
+
+            let finalName = baseName;
+            let index = 0;
+            while (true) {
+              const absoluteOutputPath = path.join(targetDir, `${finalName}.webp`);
+              
+              // ディスクに存在せず、他のファイルにも予約されていなければ確定
+              if (!fs.existsSync(absoluteOutputPath) && !global.img2webp2Cache.usedPaths.has(absoluteOutputPath)) {
+                global.img2webp2Cache.sourceMap.set(absoluteFilename, absoluteOutputPath);
+                global.img2webp2Cache.usedPaths.add(absoluteOutputPath);
+                return path.relative(outputPath, absoluteOutputPath);
+              }
+
+              index++;
+              if (index <= 26) {
+                finalName = `${baseName}${String.fromCharCode(96 + index)}`;
+              } else {
+                finalName = `${baseName}_${index}`;
+              }
+            }
+          },
+          async transform(content) {
+            return await sharp(content)
+              .resize({
+                width: IMAGE_OPTIMIZATION_CONFIG.RESIZE_WIDTH,
+                withoutEnlargement: true,
+              })
+              .webp({
+                quality: IMAGE_OPTIMIZATION_CONFIG.WEBP_QUALITY,
+              })
+              .toBuffer();
+          },
+          noErrorOnMissing: true,
+        },
+        {
+          from: DIST_UNCOMPRESSED_PATH,
+          to: DIST_PATH,
+          globOptions: {
+            ignore: ['**/*.js', '**/.DS_Store', '**/Thumbs.db'],
+          },
+          transform: async (content, absoluteFrom) => {
+            if (absoluteFrom.endsWith('.html')) {
+              return await htmlMinifier.minify(
+                content.toString(), {
+                collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+                minifyJS: true,
+                minifyCSS: true,
+                processScripts: ['application/ld+json'],
+                includeAutoGeneratedTags: false,
+              });
+            }
+            if (absoluteFrom.endsWith('.css')) {
+              return (
+                await postcss([cssnano({ preset: ['default', { discardComments: { removeAll: true } }] })]).process(content, { from: undefined })).css;
+            }
+            return content;
+          },
+        },
+      ]
+    }),
+    new BrowserSyncPlugin({
+      ...BROWSER_SYNC_CONFIG,
+      server: {
+        baseDir: [DIST_DIR]
+      },
+      files: [
+        DIST_DIR + '/**/*.html',
+        DIST_DIR + '/**/*.css',
+        DIST_DIR + '/**/*.js'
+      ],
+      ghostMode: false,
+    }, { reload: true })
+  );
+
+  return config;
 };
+
+// sharpのファイルロックによる書き込みエラーを防ぐ
+sharp.cache(false);
+
+module.exports = [
+  createConfig_development({
+    outputPath: DIST_UNCOMPRESSED_PATH,
+  }),
+  createConfig_production({
+    outputPath: DIST_PATH,
+  }),
+];

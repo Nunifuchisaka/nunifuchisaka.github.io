@@ -7,8 +7,8 @@ html {
 }
 
 body {
-	-webkit-text-size-adjust: 100%;
-	-webkit-font-smoothing: subpixel-antialiased; //antialiased;
+	text-size-adjust: 100%;
+	-webkit-font-smoothing: subpixel-antialiased; // antialiased;
 	min-height: 100%;
 	font: 1.6rem/1.6 $gothic;
 	color: #eaf4fc;
@@ -27,7 +27,7 @@ img {
 }
 
 a {
-	color: rgb(29, 155, 240);
+	color: rgb(29 155 240);
 	text-underline-offset: .2em;
 	&:hover {
 		text-decoration: none;
