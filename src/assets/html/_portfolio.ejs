@@ -14,7 +14,7 @@
     portfolio.forEach(function (value, key) { %>
       <li>
         <a href="<%= value.url %>" target="_blank" rel="noopener">
-          <img src="assets/img/<%= value.eyecatch %>" alt="">
+          <img src="assets/img/<%= value.eyecatch %>" alt="<%= value.title %>">
           <p><%= value.title %><span class="visually-hidden">（新しいタブで開きます）</span></p>
         </a>
       </li>

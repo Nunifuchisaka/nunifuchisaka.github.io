@@ -8,7 +8,10 @@ if( meta.titleSeparator ) {
 if ( !meta.keywords ) meta.keywords = "";
 if ( !meta.type ) meta.type = "article";
 if ( !meta.url ) meta.url = "";
-if ( !meta.image ) meta.image = "img/og.png";
+if ( !meta.image ) meta.image = "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg";
+
+const canonicalUrl = SITE_URL + meta.url;
+const ogImage = meta.image.startsWith("http") ? meta.image : SITE_URL + meta.image;
 
 %><meta charset="utf-8">
 
@@ -30,18 +33,19 @@ if ( !meta.image ) meta.image = "img/og.png";
 <title><%= meta.title %><%= meta.titleAfter %></title>
 <meta name="description" content="<%= meta.description %>">
 <!-- <meta name="keywords" content="<%= meta.keywords %>"> -->
+<link rel="canonical" href="<%= canonicalUrl %>">
 
 <meta property="og:site_name" content="<%= SITE_NAME %>">
 <meta property="og:type" content="<%= meta.type %>">
 <meta property="og:title" content="<%= meta.title %>">
 <meta property="og:description" content="<%= meta.description %>">
-<meta property="og:url" content="<%= SITE_URL %><%= meta.url %>">
-<!-- <meta property="og:image" content="<%= SITE_URL %><%= meta.image %>"> -->
+<meta property="og:url" content="<%= canonicalUrl %>">
+<meta property="og:image" content="<%= ogImage %>">
 
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="<%= meta.title %>">
 <meta name="twitter:description" content="<%= meta.description %>">
-<!-- <meta name="twitter:image" content="<%= SITE_URL %><%= meta.image %>"> -->
+<meta name="twitter:image" content="<%= ogImage %>">
 
 <link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/common.css?3">
@@ -55,7 +59,27 @@ if ( !meta.image ) meta.image = "img/og.png";
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "<%= meta.title %><%= meta.titleAfter %>",
-  "url": "<%= SITE_URL %><%= meta.url %>",
+  "url": "<%= canonicalUrl %>",
   "description": "<%= meta.description %>"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "<%= SITE_NAME %>",
+  "url": "<%= SITE_URL %>",
+  "image": "<%= ogImage %>",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
 }
 </script>
