@@ -56,6 +56,30 @@ try {
   console.error('ファイル名の取得に失敗しました:', e);
 }
 
+// 案内実績（累計人数・活動期間・マイルストーン）を guides のファイル名から集計する
+// ファイル名に日付が含まれないものは（不正な形式のファイルも含め）件数にのみ加算し、日付集計からは除外する
+const MILESTONE_STEP = 50;
+let guideStats = { total: guides.length, firstDate: null, lastDate: null, milestones: [] };
+try {
+  const dated = guides
+    .map(file => {
+      const matched = file.match(/(\d{4}-\d{2}-\d{2})/);
+      return matched ? { file, date: matched[1] } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  if (dated.length) {
+    guideStats.firstDate = dated[0].date;
+    guideStats.lastDate = dated[dated.length - 1].date;
+    for (let n = MILESTONE_STEP; n <= dated.length; n += MILESTONE_STEP) {
+      guideStats.milestones.push({ count: n, date: dated[n - 1].date });
+    }
+  }
+} catch (e) {
+  console.error('案内実績の集計に失敗しました:', e);
+}
+
 /**
  * Webpack設定を生成する関数
  */
@@ -184,7 +208,8 @@ const createConfig_development = ({ outputPath }) => {
         options: {
           data: {
             ...SITE_DATA,
-            guides: guides
+            guides: guides,
+            guideStats: guideStats
           }
         }
       }
