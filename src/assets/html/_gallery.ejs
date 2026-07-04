@@ -17,7 +17,7 @@
   ];
   photos.forEach(function (value, key) { %>
     <li>
-      <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" class="glightbox" data-gallery="gallery" data-type="image">
+      <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="ギャラリー画像 <%= key + 1 %>/<%= photos.length %>(新しいタブで開きます)">
         <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="" draggable="false">
       </a>
     </li>

@@ -121,6 +121,9 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
 }
+.list_4 a {
+  display: block;
+}
 .list_4 li {
   position: relative;
 }

@@ -3,6 +3,31 @@
 
 .is_none { display: none !important }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: .5em 1em;
+  background: #16160e;
+  color: #eaf4fc;
+  &:focus {
+    left: 0;
+  }
+}
+
 @include pc {
   br.sp,
   .is_pc_none_1 { display: none !important }

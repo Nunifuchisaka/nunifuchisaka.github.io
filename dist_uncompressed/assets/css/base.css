@@ -688,9 +688,38 @@ a {
 a:hover {
   text-decoration: none;
 }
+a:focus-visible {
+  outline: 2px solid rgb(29, 155, 240);
+  outline-offset: 2px;
+}
 
 .is_none {
   display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.5em 1em;
+  background: #16160e;
+  color: #eaf4fc;
+}
+.skip-link:focus {
+  left: 0;
 }
 /*
 ## .a_fadein_1

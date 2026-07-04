@@ -607,7 +607,7 @@ const photos = [
   <ul class="list_4">
     <% photos.forEach(function (value, key) { %>
       <li style="--num: '<%= photos.length - key %>';">
-        <a href="assets/img/cluster/<%= value %>.webp" target="_blank" class="glightbox" data-gallery="cluster" data-type="image">
+        <a href="assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="cluster" data-type="image" aria-label="cluster写真 <%= key + 1 %>/<%= photos.length %>(新しいタブで開きます)">
           <img src="assets/img/cluster/<%= value %>.webp" alt="" loading="lazy">
         </a>
       </li>
