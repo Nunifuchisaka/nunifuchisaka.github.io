@@ -2,6 +2,20 @@
 @use "../tool" as *;
 
 /*
+## .list_6
+使用箇所：動画
+内容：
+*/
+
+.list_6 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+  padding: 0 1em;
+}
+
+
+/*
 ## .list_5
 使用箇所：VR機材
 内容：

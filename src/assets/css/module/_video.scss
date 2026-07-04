@@ -3,12 +3,15 @@
 
 /*
 ## .video_1
-使用箇所：
-内容：
+使用箇所：動画
+内容：Vimeo等の動画埋め込み。既定は16:9、動画ごとに実際のアスペクト比が異なる場合はiframeへ直接style="aspect-ratio: ..."を指定して上書きする
 */
 
 .video_1 {
-	iframe, video {
-		aspect-ratio: math.div(16, 9);
-	}
+  iframe, video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: math.div(16, 9);
+  }
 }

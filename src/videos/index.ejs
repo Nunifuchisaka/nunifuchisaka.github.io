@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  title: "回想",
+  description: "過去の断片を振り返る",
+  url: "videos/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+</head>
+<body>
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_header") %>
+
+<main id="main">
+<header class="header_3">
+  <h2 class="header_3__h1">
+    回想
+  </h2>
+</header><!-- /.header_3 -->
+
+<ul class="list_6">
+  <%
+  const videos = [
+    "1207053023",
+    "1207052178",
+    "1207051556",
+    "1207050904",
+  ];
+  videos.forEach(function (vimeoId) { %>
+    <li>
+      <div class="video_1">
+        <iframe src="https://player.vimeo.com/video/<%= vimeoId %>?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat動画"></iframe>
+      </div><!-- /.video_1 -->
+    </li>
+  <% }); %>
+</ul><!-- /.list_6 -->
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+<script src="https://player.vimeo.com/api/player.js" defer></script>
+</body>
+</html>
