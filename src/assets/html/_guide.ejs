@@ -3,9 +3,12 @@
     Guide
   </h2>
   <ul class="list_4">
-    <% guides.forEach(function(value, key) { %>
+    <% guides.forEach(function(value, key) {
+      const dateMatch = value.match(/(\d{4})-(\d{2})-(\d{2})/);
+      const dateLabel = dateMatch ? `${dateMatch[1]}年${parseInt(dateMatch[2], 10)}月${parseInt(dateMatch[3], 10)}日` : '';
+    %>
       <li style="--num: '<%= guides.length - key %>';">
-        <a href="assets/img/guide/<%= value %>" target="_blank">
+        <a href="assets/img/guide/<%= value %>" target="_blank" class="glightbox" data-gallery="guide" data-type="image"<% if (dateLabel) { %> data-title="<%= dateLabel %>"<% } %>>
           <img src="assets/img/guide/<%= value %>" alt="" loading="lazy">
         </a>
       </li>

@@ -1,8 +1,8 @@
 <%
 if( meta.titleSeparator ) {
-	meta.titleAfter = meta.titleSeparator + SITE_NAME;
+  meta.titleAfter = meta.titleSeparator + SITE_NAME;
 } else {
-	meta.titleAfter = "";
+  meta.titleAfter = "";
 }
 
 if ( !meta.keywords ) meta.keywords = "";
@@ -10,7 +10,7 @@ if ( !meta.type ) meta.type = "article";
 if ( !meta.url ) meta.url = "";
 if ( !meta.image ) meta.image = "img/og.png";
 
-%><meta charset="UTF-8">
+%><meta charset="utf-8">
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
@@ -18,7 +18,6 @@ if ( !meta.image ) meta.image = "img/og.png";
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-KEESYXVLZP');
 </script>
 
@@ -39,20 +38,24 @@ if ( !meta.image ) meta.image = "img/og.png";
 <meta property="og:url" content="<%= SITE_URL %><%= meta.url %>">
 <!-- <meta property="og:image" content="<%= SITE_URL %><%= meta.image %>"> -->
 
-<!-- <meta name="twitter:card" content="summary_large_image"> -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= meta.title %>">
+<meta name="twitter:description" content="<%= meta.description %>">
+<!-- <meta name="twitter:image" content="<%= SITE_URL %><%= meta.image %>"> -->
 
-<link rel="stylesheet" href="/assets/css/common.css?2">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
 
 <script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
-<!-- <script src="<%= START_PATH %>assets/js/vendor.js" defer></script>
-<script src="<%= START_PATH %>assets/js/common.js" defer></script> -->
+<script src="<%= START_PATH %>assets/js/vendor.js" defer></script>
+<script src="<%= START_PATH %>assets/js/common.js" defer></script>
 
 <script type="application/ld+json">
 {
-	"@context": "https://schema.org",
-	"@type": "WebPage",
-	"name": "<%= meta.title %><%= meta.titleAfter %>",
-	"url": "<%= SITE_URL %><%= meta.url %>",
-	"description": "<%= meta.description %>"
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "<%= meta.title %><%= meta.titleAfter %>",
+  "url": "<%= SITE_URL %><%= meta.url %>",
+  "description": "<%= meta.description %>"
 }
 </script>

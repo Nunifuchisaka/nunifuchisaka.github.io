@@ -1,2 +1,42 @@
 @use "sass:math";
 @use "../tool" as *;
+
+.gslide-description {
+  flex: unset;
+}
+
+.glightbox-clean {
+  .gprev,
+  .gnext,
+  .gclose {
+    &:hover {
+      background-color: rgb(29 155 240);
+    }
+  }
+
+  .gslide-title {
+    margin-bottom: 0;
+    font-family: inherit;
+    color: inherit;
+  }
+
+  .gdesc-inner {
+    padding: 1em;
+  }
+
+  .gslide-desc {
+    margin-top: 1em;
+  }
+
+  .gslide-description {
+    background: none;
+  }
+}
+
+.glightbox-mobile .glightbox-container .gslide-description {
+  position: static;
+  bottom: auto;
+  padding: 0;
+  max-height: none;
+  background: none;
+}
