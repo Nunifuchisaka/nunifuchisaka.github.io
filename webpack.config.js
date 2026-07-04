@@ -40,6 +40,9 @@ const path = require('path'),
       DIST_PATH = path.resolve(__dirname, DIST_DIR),
       DIST_UNCOMPRESSED_PATH = path.resolve(__dirname, DIST_UNCOMPRESSED_DIR);
 
+// img2webp2の日付リネーム処理で使う出力先キャッシュ（watchを跨いで永続化させる）
+let img2webp2Cache = null;
+
 let guides = [];
 try {
   // フォルダが存在する場合のみ、ファイル名の一覧を配列で取得（.DS_Storeなどは除外）
@@ -53,7 +56,7 @@ try {
   console.error('ファイル名の取得に失敗しました:', e);
 }
 
-/**5
+/**
  * Webpack設定を生成する関数
  */
 const createConfig_development = ({ outputPath }) => {
@@ -84,7 +87,6 @@ const createConfig_development = ({ outputPath }) => {
       new RemoveEmptyScriptsPlugin(),
     ],
     watch: false,
-    target: ['web'],
   };
 
   // CSS
@@ -229,8 +231,6 @@ const createConfig_production = ({ outputPath }) => {
         '**/img2webp2/dist/**',
       ],
     },
-    target: ['web'],
-    resolve: { extensions: ['.js','.ts'] },
   };
 
   // JS
@@ -264,13 +264,12 @@ const createConfig_production = ({ outputPath }) => {
           context: path.resolve(__dirname, IMAGE_OPTIMIZATION_CONFIG.IMG_TO_WEBP2_SRC_DIR),
           from: '**/*.{jpg,jpeg,png}',
           to(pathData) {
-            if (!global.img2webp2Cache) {
-              global.img2webp2Cache = {
+            if (!img2webp2Cache) {
+              img2webp2Cache = {
                 sourceMap: new Map(), // 元ファイル -> 出力先の紐付け
                 usedPaths: new Set()  // すでに予約された出力先一覧
               };
             }
-            const fs = require('fs');
             const absoluteFilename = pathData.absoluteFilename;
             const sourceName = path.parse(absoluteFilename).name;
             const targetDir = path.resolve(
@@ -297,8 +296,8 @@ const createConfig_production = ({ outputPath }) => {
             }
 
             // すでにこのファイル（絶対パス）を一度処理したことがあるなら、その時の名前をそのまま返す（2重処理対策）
-            if (global.img2webp2Cache.sourceMap.has(absoluteFilename)) {
-              return path.relative(outputPath, global.img2webp2Cache.sourceMap.get(absoluteFilename));
+            if (img2webp2Cache.sourceMap.has(absoluteFilename)) {
+              return path.relative(outputPath, img2webp2Cache.sourceMap.get(absoluteFilename));
             }
 
             let finalName = baseName;
@@ -307,9 +306,9 @@ const createConfig_production = ({ outputPath }) => {
               const absoluteOutputPath = path.join(targetDir, `${finalName}.webp`);
               
               // ディスクに存在せず、他のファイルにも予約されていなければ確定
-              if (!fs.existsSync(absoluteOutputPath) && !global.img2webp2Cache.usedPaths.has(absoluteOutputPath)) {
-                global.img2webp2Cache.sourceMap.set(absoluteFilename, absoluteOutputPath);
-                global.img2webp2Cache.usedPaths.add(absoluteOutputPath);
+              if (!fs.existsSync(absoluteOutputPath) && !img2webp2Cache.usedPaths.has(absoluteOutputPath)) {
+                img2webp2Cache.sourceMap.set(absoluteFilename, absoluteOutputPath);
+                img2webp2Cache.usedPaths.add(absoluteOutputPath);
                 return path.relative(outputPath, absoluteOutputPath);
               }
 
