@@ -1,0 +1,75 @@
+
+.dice_1 {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em 1em;
+  text-align: center;
+}
+.dice_1__lead {
+  margin-bottom: 1.5em;
+}
+.dice_1__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75em 2em;
+  font: inherit;
+  font-weight: 700;
+  color: #16160e;
+  cursor: pointer;
+  background: #eaf4fc;
+  border: 0;
+  border-radius: 100vw;
+  transition: opacity 0.2s;
+}
+.dice_1__button:hover {
+  opacity: 0.8;
+}
+.dice_1__button:focus-visible {
+  outline: 2px solid rgb(29, 155, 240);
+  outline-offset: 2px;
+}
+.dice_1__button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.dice_1__icon {
+  font-size: 125%;
+}
+.dice_1__icon.is_rolling {
+  animation: dice_1_spin 0.6s ease-in-out;
+}
+.dice_1__result {
+  margin-top: 2em;
+  min-height: 6em;
+}
+.dice_1__question {
+  font-size: 125%;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.dice_1__example {
+  margin-top: 0.5em;
+  color: rgba(234, 244, 252, 0.7);
+}
+
+@keyframes dice_1_spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  30% {
+    transform: rotate(120deg) scale(1.2);
+  }
+  60% {
+    transform: rotate(240deg) scale(0.9);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dice_1__icon.is_rolling {
+    animation: none;
+  }
+}

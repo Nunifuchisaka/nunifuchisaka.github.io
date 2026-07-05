@@ -1,0 +1,79 @@
+@use "sass:math";
+@use "../assets/css/tool" as *;
+
+.dice_1 {
+  max-width: $width1;
+  margin: 0 auto;
+  padding: 2em 1em;
+  text-align: center;
+
+  &__lead {
+    margin-bottom: 1.5em;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    padding: .75em 2em;
+    font: inherit;
+    font-weight: 700;
+    color: #16160e;
+    cursor: pointer;
+    background: #eaf4fc;
+    border: 0;
+    border-radius: 100vw;
+    transition: opacity .2s;
+
+    &:hover {
+      opacity: .8;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgb(29 155 240);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: .6;
+    }
+  }
+
+  &__icon {
+    font-size: math.div(20, 16) * 100%;
+
+    &.is_rolling {
+      animation: dice_1_spin .6s ease-in-out;
+    }
+  }
+
+  &__result {
+    margin-top: 2em;
+    min-height: 6em;
+  }
+
+  &__question {
+    font-size: math.div(20, 16) * 100%;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  &__example {
+    margin-top: .5em;
+    color: rgb(234 244 252 / 70%);
+  }
+}
+
+@keyframes dice_1_spin {
+  0% { transform: rotate(0deg) scale(1); }
+  30% { transform: rotate(120deg) scale(1.2); }
+  60% { transform: rotate(240deg) scale(.9); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dice_1__icon.is_rolling {
+    animation: none;
+  }
+}

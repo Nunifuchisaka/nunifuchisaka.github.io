@@ -18,21 +18,21 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="android_icon" href="/apple-touch-icon.png">
 
-<title>案内実績 | ぬにふちさか</title>
-<meta name="description" content="VRChatを始めるお手伝いをしてきた案内実績・タイムライン">
+<title>話題サイコロ | ぬにふちさか</title>
+<meta name="description" content="VRChatでの雑談中に話題を迷ったときにランダムに話題を選んでくれるサイコロ">
 <!-- <meta name="keywords" content=""> -->
-<link rel="canonical" href="https://nunifuchisaka.github.io/timeline/">
+<link rel="canonical" href="https://nunifuchisaka.github.io/dice/">
 
 <meta property="og:site_name" content="ぬにふちさか">
 <meta property="og:type" content="article">
-<meta property="og:title" content="案内実績">
-<meta property="og:description" content="VRChatを始めるお手伝いをしてきた案内実績・タイムライン">
-<meta property="og:url" content="https://nunifuchisaka.github.io/timeline/">
+<meta property="og:title" content="話題サイコロ">
+<meta property="og:description" content="VRChatでの雑談中に話題を迷ったときにランダムに話題を選んでくれるサイコロ">
+<meta property="og:url" content="https://nunifuchisaka.github.io/dice/">
 <meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="案内実績">
-<meta name="twitter:description" content="VRChatを始めるお手伝いをしてきた案内実績・タイムライン">
+<meta name="twitter:title" content="話題サイコロ">
+<meta name="twitter:description" content="VRChatでの雑談中に話題を迷ったときにランダムに話題を選んでくれるサイコロ">
 <meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
 
 <link rel="stylesheet" href="/assets/css/base.css">
@@ -46,9 +46,9 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "案内実績 | ぬにふちさか",
-  "url": "https://nunifuchisaka.github.io/timeline/",
-  "description": "VRChatを始めるお手伝いをしてきた案内実績・タイムライン"
+  "name": "話題サイコロ | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/dice/",
+  "description": "VRChatでの雑談中に話題を迷ったときにランダムに話題を選んでくれるサイコロ"
 }
 </script>
 
@@ -72,6 +72,7 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="/dice/dice.css">
 </head>
 <body>
 <a class="skip-link" href="#main">本文へスキップ</a>
@@ -106,59 +107,25 @@
 <main id="main">
 <header class="header_3">
   <h2 class="header_3__h1">
-    案内実績
+    話題サイコロ
   </h2>
 </header><!-- /.header_3 -->
 
-<p>
-  「#VRChat始めました」の報告をもとに集計した、VRChatを始めるお手伝いをしてきた記録です。
-</p>
-
-<ul class="list_5">
-  <li>
-    累計案内人数: 270人
-  </li>
-  <li>
-    活動開始日: 2024-12-16
-  </li>
-  <li>
-    直近の案内日: 2026-07-04
-  </li>
-</ul><!-- /.list_5 -->
-
-<header class="header_3">
-  <h2 class="header_3__h1">
-    マイルストーン
-  </h2>
-</header><!-- /.header_3 -->
-
-<ul class="list_5">
-  
-    <li>
-      50人目: 2025-07-01
-    </li>
-  
-    <li>
-      100人目: 2025-10-24
-    </li>
-  
-    <li>
-      150人目: 2026-03-29
-    </li>
-  
-    <li>
-      200人目: 2026-05-09
-    </li>
-  
-    <li>
-      250人目: 2026-06-17
-    </li>
-  
-</ul><!-- /.list_5 -->
-
-<p>
-  <a href="/#guide">写真をすべて見る</a>
-</p>
+<div class="dice_1">
+  <p class="dice_1__lead">
+    話題に迷ったら、ボタンを押してみよう。
+  </p>
+  <button type="button" class="dice_1__button" id="js-dice-button">
+    <i class="fa-solid fa-dice dice_1__icon" id="js-dice-icon" aria-hidden="true"></i>
+    <span>サイコロを振る</span>
+  </button>
+  <div class="dice_1__result" id="js-dice-result" aria-live="polite">
+    <p class="dice_1__question" id="js-dice-question">
+      ボタンを押すと話題が表示されます
+    </p>
+    <p class="dice_1__example" id="js-dice-example"></p>
+  </div>
+</div><!-- /.dice_1 -->
 </main><!-- /#main -->
 
 <footer id="footer">
@@ -167,5 +134,6 @@
 </div><!-- /#wrapper -->
 
 
+<script src="/dice/dice.js" defer></script>
 </body>
 </html>
