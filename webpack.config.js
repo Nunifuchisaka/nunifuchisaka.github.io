@@ -183,6 +183,22 @@ const createConfig_development = ({ outputPath }) => {
     }
   );
 
+  // 独立ランディングページ（自己完結HTML）。EJS/SCSSのビルドやlintを通さず静的コピーで
+  // dist_uncompressed へ配置し、後段の docs コピーで他ページと同じくminifyして公開する。
+  config.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(SRC_PATH, 'deepfrostice'),
+          to: path.resolve(outputPath, 'deepfrostice'),
+          globOptions: {
+            ignore: ['**/.DS_Store', '**/Thumbs.db'],
+          },
+        },
+      ],
+    })
+  );
+
   // HTML
   glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs' }).forEach(key => {
     config.plugins.push(
