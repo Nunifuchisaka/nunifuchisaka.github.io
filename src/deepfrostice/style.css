@@ -232,6 +232,21 @@ h2.sect-title {
 }
 .nav-links a.navlink:hover { color: var(--text); }
 
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  padding: 0.32rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  transition: color 0.2s var(--ease-soft), background 0.2s var(--ease-soft), border-color 0.2s var(--ease-soft);
+}
+.lang-switch:hover { color: var(--text); background: var(--glass-bg); border-color: var(--glass-hi); }
+
 /* ナビ内の内部リンクは狭い画面では隠し、外部リンクボタンだけ残す */
 .nav-inner-links { display: flex; gap: clamp(0.6rem, 2vw, 1.4rem); }
 
