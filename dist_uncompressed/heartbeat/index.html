@@ -701,7 +701,7 @@
       <article class="card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.5l1.6-4 2.8 8 2.4-6 1.4 2h6.3"/></svg></div>
         <h3>心音4種を収録</h3>
-        <p>馬・人間・大型動物を素材に、1拍のなかで重ね合わせた創作サウンド。AudioClipを差し替えるだけで切り替えられます。</p>
+        <p>複数の心音を1拍のなかで重ね合わせた創作サウンド。鼓動の重さと速さが異なる4種から、AudioClipを差し替えるだけで選べます。</p>
       </article>
 
       <article class="card reveal">
@@ -759,7 +759,7 @@
     </div>
 
     <div class="note reveal">
-      <strong>心音を変えるには。</strong> <code>Origin</code> のAudioSourceの <code>AudioClip</code> を、<code>HB_Chimera1</code>〜<code>HB_Chimera4</code> のいずれかに差し替えてください。初期状態では <code>HB_Chimera1</code>（馬）が設定されています。
+      <strong>心音を変えるには。</strong> <code>Origin</code> のAudioSourceの <code>AudioClip</code> を、<code>HB_Chimera1</code>〜<code>HB_Chimera4</code> のいずれかに差し替えてください。初期状態では <code>HB_Chimera1</code> が設定されています。
     </div>
   </div>
 </section>
@@ -771,13 +771,13 @@
   <div class="wrap">
     <span class="eyebrow reveal">Sounds</span>
     <h2 class="sect-title reveal">収録している心音（4種）</h2>
-    <p class="sect-lead reveal">いずれも「Chimera（キメラ＝生きものの心臓を象ったサウンド）」シリーズとして制作した合成音です。実在の生体データではありません。ループ長はすべて揃えてあるため、差し替えても継ぎ目は出ません。</p>
+    <p class="sect-lead reveal">いずれも「Chimera」シリーズとして制作した合成音です。鼓動の重さ・速さ・密度がそれぞれ異なります。ループ長は揃えてあるため、差し替えても継ぎ目は出ません。</p>
 
     <div class="sound-grid">
       <article class="sound reveal">
         <div class="name">HB_Chimera1 <span class="default-chip">初期設定</span></div>
-        <div class="sub">馬（ウマ）の心音</div>
-        <p>ウマの心音をイメージしたトラック。低く落ち着いた鼓動が規則的に刻まれます。シリーズ内で最も高音質です。</p>
+        <div class="sub">低く落ち着いた、規則的な鼓動</div>
+        <p>落ち着いた低い鼓動が、乱れなく一定のリズムで刻まれます。シリーズ内で最も高音質です。</p>
         <dl>
           <dt>形式</dt><dd>MP3 / 48,000 Hz / ステレオ / 320 kbps</dd>
           <dt>長さ</dt><dd>約 6.24 秒（ループ）</dd>
@@ -787,8 +787,8 @@
 
       <article class="sound reveal">
         <div class="name">HB_Chimera2</div>
-        <div class="sub">人間の心音</div>
-        <p>人間の心音をイメージしたトラック。Chimera1と同じテンポ感で、より軽く自然な質感にまとめています。データ量を抑えた版です。</p>
+        <div class="sub">1をすこし変えたもの</div>
+        <p>Chimera1と同じテンポ感のまま、より軽く自然な質感にまとめています。データ量を抑えた版です。</p>
         <dl>
           <dt>形式</dt><dd>MP3 / 48,000 Hz / ステレオ / 128 kbps</dd>
           <dt>長さ</dt><dd>約 6.29 秒（ループ）</dd>
@@ -798,25 +798,23 @@
 
       <article class="sound reveal">
         <div class="name">HB_Chimera3</div>
-        <div class="sub">人間 × 大型動物 の融合心音</div>
-        <p>低く重い大型動物（ゾウ／クジラ級）の鼓動を土台に、人間の速く高い心音を倍音のように重畳。心拍数は大型動物側に合わせた、ゆっくり重い鼓動です。</p>
+        <div class="sub">重い鼓動を土台にした、ゆっくりした心拍</div>
+        <p>低く重い鼓動を土台に、速く高い心音を倍音のように重ねています。テンポはゆっくりで、一拍ごとの存在感が強く出ます。</p>
         <dl>
           <dt>形式</dt><dd>MP3 / 48,000 Hz / ステレオ / 320 kbps</dd>
           <dt>長さ</dt><dd>6.240 秒（ループ）</dd>
           <dt>リズム</dt><dd>周期 2.08 秒（約 29 bpm）を3拍</dd>
-          <dt>構成</dt><dd>大型動物（基盤）＋ 人間（混合比 0.55）</dd>
         </dl>
       </article>
 
       <article class="sound reveal">
         <div class="name">HB_Chimera4</div>
-        <div class="sub">馬 × 人間 × 大型動物 の三重融合心音</div>
-        <p>シリーズ3種すべてを1拍のなかに同時に重ねた三重キメラ。大型動物を土台に、馬の中域の胴鳴り、人間の明るい倍音を層状に積んでいます。Chimera3より密度が高く、少し速い鼓動です。</p>
+        <div class="sub">密度が高く、少し速めの鼓動</div>
+        <p>低域・中域・高域の心音を1拍のなかへ層状に積み重ねた、シリーズで最も密度の高い音。Chimera3より少し速いテンポです。</p>
         <dl>
           <dt>形式</dt><dd>MP3 / 48,000 Hz / ステレオ / 320 kbps</dd>
           <dt>長さ</dt><dd>6.240 秒（ループ）</dd>
           <dt>リズム</dt><dd>周期 1.56 秒（約 38.5 bpm）を4拍</dd>
-          <dt>構成</dt><dd>大型動物（1.0）＋ 馬（0.7）＋ 人間（0.5）</dd>
         </dl>
       </article>
     </div>
