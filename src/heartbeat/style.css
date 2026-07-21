@@ -201,6 +201,21 @@ code {
 }
 .navlink:hover { color: var(--text); background: var(--panel-bg); }
 
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  padding: 0.32rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  transition: color 0.2s var(--ease-soft), background 0.2s var(--ease-soft), border-color 0.2s var(--ease-soft);
+}
+.lang-switch:hover { color: var(--text); background: var(--panel-bg); border-color: var(--panel-hi); }
+
 /* =========================================================
    ヒーロー
    ========================================================= */
