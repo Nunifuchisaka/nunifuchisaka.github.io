@@ -1,0 +1,1 @@
+!function(){var t="dark";try{var e=localStorage.getItem("dfiAnimTheme");["dark","light","sepia","contrast"].indexOf(e)>=0?t=e:window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches&&(t="light")}catch(t){}document.documentElement.setAttribute("data-theme",t)}();

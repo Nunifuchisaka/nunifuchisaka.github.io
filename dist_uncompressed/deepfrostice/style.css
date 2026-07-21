@@ -1,0 +1,823 @@
+/* =========================================================
+   カラートークン。深蒼〜氷のパレット。ダーク基調が氷に映えるが
+   ライトでも破綻しないよう prefers-color-scheme で両方定義する。
+   ========================================================= */
+:root {
+  color-scheme: dark light;
+
+  /* 深蒼の背景レイヤー */
+  --bg-0: #06121f;   /* 最も深い地 */
+  --bg-1: #0a1a2f;   /* 基調 */
+  --bg-2: #0e2138;   /* セクション区切りのわずかな段差 */
+
+  /* 氷・霜のアクセント */
+  --ice: #7fd3ff;
+  --ice-bright: #bfeaff;
+  --frost: #eef7ff;
+  --deep: #123b4d;   /* 深部の青緑 */
+
+  /* テキスト */
+  --text: #eaf3fb;
+  --text-soft: #a9c3d8;
+  --text-faint: #6f8aa2;
+
+  /* ガラス層（半透明パネル）。ダーク地に明るい半透明を重ねる */
+  --glass-bg: rgba(20, 42, 66, 0.55);
+  --glass-bg-strong: rgba(16, 36, 58, 0.72);
+  --glass-border: rgba(190, 234, 255, 0.16);
+  --glass-hi: rgba(255, 255, 255, 0.14);   /* 上端の光を受けるボーダー */
+  --hairline: rgba(190, 234, 255, 0.10);
+
+  /* 影（大きい面ほど深い影） */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.42);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.55);
+
+  --accent-grad: linear-gradient(120deg, var(--ice-bright), var(--ice));
+
+  --nav-h: 3.5rem;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --maxw: 74rem;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ライトモード。氷の明るい水面を思わせる淡いブルー地 */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-0: #eef6fc;
+    --bg-1: #e2eef8;
+    --bg-2: #d5e6f4;
+
+    --ice: #2f8ecb;
+    --ice-bright: #5cb4e6;
+    --frost: #ffffff;
+    --deep: #1c5a72;
+
+    --text: #10293b;
+    --text-soft: #345066;
+    --text-faint: #5a7488;
+
+    --glass-bg: rgba(255, 255, 255, 0.58);
+    --glass-bg-strong: rgba(255, 255, 255, 0.74);
+    --glass-border: rgba(30, 90, 130, 0.18);
+    --glass-hi: rgba(255, 255, 255, 0.85);
+    --hairline: rgba(30, 90, 130, 0.14);
+
+    --shadow-sm: 0 1px 2px rgba(20, 60, 90, 0.12);
+    --shadow-md: 0 12px 30px rgba(20, 60, 90, 0.16);
+    --shadow-lg: 0 26px 66px rgba(20, 60, 90, 0.22);
+
+    --accent-grad: linear-gradient(120deg, #2f8ecb, #1c6fa8);
+  }
+}
+
+/* =========================================================
+   リセットと基盤
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg-1);
+  line-height: 1.6;
+  letter-spacing: 0;
+  overflow-x: hidden;                 /* body は横スクロールさせない */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 深蒼のグラデ地。オーロラ状の光を薄く敷いて氷の空気感を作る */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(120% 90% at 78% -10%, rgba(127, 211, 255, 0.16), transparent 55%),
+    radial-gradient(90% 70% at 8% 8%, rgba(120, 160, 220, 0.12), transparent 50%),
+    radial-gradient(100% 120% at 50% 120%, rgba(18, 59, 77, 0.5), transparent 60%),
+    linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+}
+@media (prefers-color-scheme: light) {
+  body::before {
+    background:
+      radial-gradient(120% 90% at 80% -10%, rgba(92, 180, 230, 0.28), transparent 55%),
+      radial-gradient(90% 70% at 6% 6%, rgba(120, 190, 235, 0.22), transparent 50%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+  }
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { max-width: 100%; display: block; }
+
+::selection { background: rgba(127, 211, 255, 0.35); color: var(--frost); }
+
+:focus-visible {
+  outline: 2px solid var(--ice-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   レイアウト共通
+   ========================================================= */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4vw, 2.5rem);
+}
+
+section { position: relative; }
+
+.section-pad { padding-block: clamp(3.5rem, 9vw, 7rem); }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ice);
+  margin: 0 0 0.9rem;
+}
+
+h2.sect-title {
+  font-size: clamp(1.7rem, 4.4vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 750;
+  margin: 0 0 0.7rem;
+}
+
+.sect-lead {
+  font-size: clamp(1rem, 2.2vw, 1.12rem);
+  color: var(--text-soft);
+  max-width: 46rem;
+  margin: 0 0 clamp(2rem, 5vw, 3rem);
+}
+
+/* =========================================================
+   デスクトップのテキストスケール。
+   ルートの font-size を上げ、rem 基準の見出し・本文・ラベル・
+   パラメータ表を一律にふたまわり拡大する（clamp の上限 rem も連動）。
+   版面幅(--maxw)とナビ高(--nav-h)は実寸を維持し、レイアウトの骨格は
+   保ったまま文字だけを大きくする。行間(unitless)・字間(em)は比率のまま
+   保たれ、拡大後も可読性を損なわない。モバイル幅は据え置き。
+   ========================================================= */
+@media (min-width: 860px) {
+  html { font-size: 120%; }
+  :root {
+    --maxw: 61.7rem;
+    --nav-h: 2.92rem;
+  }
+}
+
+/* =========================================================
+   ヘッダー（translucent 固定ナビ）
+   ========================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: 0 1px 0 var(--glass-hi) inset;
+}
+.nav .wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 0.98rem;
+  white-space: nowrap;
+}
+.brand .mark {
+  width: 1.55rem; height: 1.55rem;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 1px 3px rgba(127, 211, 255, 0.5));
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 2vw, 1.4rem);
+  margin-left: auto;
+  font-size: 0.9rem;
+}
+.nav-links a.navlink {
+  color: var(--text-soft);
+  transition: color 0.2s var(--ease-soft);
+}
+.nav-links a.navlink:hover { color: var(--text); }
+
+/* ナビ内の内部リンクは狭い画面では隠し、外部リンクボタンだけ残す */
+.nav-inner-links { display: flex; gap: clamp(0.6rem, 2vw, 1.4rem); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 650;
+  font-size: 0.86rem;
+  background: var(--accent-grad);
+  color: #04131f;
+  box-shadow: var(--shadow-sm), 0 0 0 1px rgba(255,255,255,0.2) inset;
+  transition: transform 0.18s var(--ease), filter 0.18s var(--ease-soft);
+  white-space: nowrap;
+}
+.nav-cta:hover { transform: translateY(-1px); filter: brightness(1.06); }
+.nav-cta svg { width: 1rem; height: 1rem; }
+
+@media (max-width: 640px) {
+  .nav-inner-links { display: none; }
+}
+
+/* =========================================================
+   ヒーロー
+   ========================================================= */
+.hero {
+  position: relative;
+  padding-top: calc(var(--nav-h) + clamp(2.5rem, 8vw, 5rem));
+  padding-bottom: clamp(3rem, 8vw, 6rem);
+  overflow: hidden;
+}
+/* キービジュアルを外した分、コピーは単カラムで左詰め。行長が伸びすぎないよう最大幅で抑える */
+.hero-copy { min-width: 0; max-width: 46rem; }
+
+/* ヒーローのメインビジュアル（実機スクリーンショット）。角丸・柔らかい影・氷質感の縁取りで品よく */
+.hero-figure {
+  margin: clamp(2rem, 5vw, 3.4rem) 0 0;
+  border-radius: clamp(16px, 2.2vw, 26px);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-lg);
+}
+.hero-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+/* 上端の淡い光と外周の霜色ハイライトで、氷を通して見るような縁取りを重ねる */
+.hero-figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 var(--glass-hi),
+    inset 0 0 0 1px var(--glass-border),
+    inset 0 30px 60px -40px rgba(191, 234, 255, 0.28);
+}
+
+.badge-beta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: var(--ice-bright);
+  background: rgba(127, 211, 255, 0.10);
+  border: 1px solid var(--glass-border);
+  margin-bottom: 1.2rem;
+}
+.badge-beta .dot {
+  width: 0.45rem; height: 0.45rem; border-radius: 50%;
+  background: var(--ice-bright);
+  box-shadow: 0 0 8px var(--ice-bright);
+}
+
+.hero h1 {
+  margin: 0 0 0.2rem;
+  font-size: clamp(2.4rem, 7vw, 4.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 780;
+  background: linear-gradient(180deg, var(--frost), var(--ice));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-color-scheme: light) {
+  .hero h1 { background: linear-gradient(180deg, #0f3a56, #2f8ecb); -webkit-background-clip: text; background-clip: text; }
+}
+.hero .jp-name {
+  margin: 0 0 1.1rem;
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-soft);
+}
+.hero .catch {
+  margin: 0 0 1.6rem;
+  font-size: clamp(1.02rem, 2.4vw, 1.22rem);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 34rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.9rem;
+}
+.tag {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.36rem 0.8rem;
+  border-radius: 999px;
+  color: var(--text-soft);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 650;
+  font-size: 0.95rem;
+  transition: transform 0.18s var(--ease), filter 0.2s var(--ease-soft), background 0.2s var(--ease-soft);
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--accent-grad);
+  color: #04131f;
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.22) inset;
+}
+.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn-ghost {
+  background: var(--glass-bg);
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { transform: translateY(-2px); background: var(--glass-bg-strong); }
+.btn svg { width: 1.1rem; height: 1.1rem; }
+
+/* =========================================================
+   特徴カードグリッド
+   ========================================================= */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(0.8rem, 2vw, 1.1rem);
+}
+.card {
+  position: relative;
+  padding: 1.3rem 1.3rem 1.4rem;
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 1px 0 var(--glass-hi) inset, var(--shadow-sm);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease-soft), border-color 0.25s var(--ease-soft);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 0 var(--glass-hi) inset, var(--shadow-md);
+  border-color: rgba(127, 211, 255, 0.4);
+}
+.card .icon {
+  width: 2.6rem; height: 2.6rem;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  margin-bottom: 0.9rem;
+  background: rgba(127, 211, 255, 0.12);
+  border: 1px solid var(--glass-border);
+  color: var(--ice-bright);
+}
+.card .icon svg { width: 1.5rem; height: 1.5rem; }
+.card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+/* =========================================================
+   導入手順（番号付きステップ）
+   ========================================================= */
+.steps {
+  display: grid;
+  gap: 0.9rem;
+  counter-reset: step;
+  max-width: 52rem;
+}
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.step .num {
+  counter-increment: step;
+  width: 2rem; height: 2rem;
+  flex: 0 0 auto;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  font-weight: 750;
+  font-size: 0.95rem;
+  color: #04131f;
+  background: var(--accent-grad);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.2) inset;
+}
+.step .num::before { content: counter(step); }
+.step p { margin: 0.15rem 0 0; line-height: 1.55; }
+.step code { font-size: 0.92em; }
+
+.note {
+  margin-top: 1.4rem;
+  max-width: 52rem;
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(127, 211, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--ice);
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.note svg { width: 1.2rem; height: 1.2rem; flex: 0 0 auto; color: var(--ice); margin-top: 0.1rem; }
+
+code, .mono {
+  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+  background: rgba(127, 211, 255, 0.12);
+  border: 1px solid var(--hairline);
+  padding: 0.1em 0.42em;
+  border-radius: 6px;
+  font-size: 0.88em;
+  color: var(--ice-bright);
+  word-break: break-word;
+}
+@media (prefers-color-scheme: light) {
+  code, .mono { color: var(--deep); }
+}
+
+/* =========================================================
+   テストシーンの使い方
+   ========================================================= */
+.testscene {
+  max-width: 60rem;
+}
+.menu-path {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+  font-size: 0.88rem;
+  color: var(--ice-bright);
+  margin-bottom: 1.4rem;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+@media (prefers-color-scheme: light) { .menu-path { color: var(--deep); } }
+.menu-path svg { width: 1rem; height: 1rem; flex: 0 0 auto; }
+
+.btn-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 0.7rem;
+}
+.btn-item {
+  padding: 0.9rem 1.05rem;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.btn-item .k {
+  display: inline-block;
+  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--ice-bright);
+  background: rgba(127, 211, 255, 0.12);
+  border: 1px solid var(--hairline);
+  padding: 0.14rem 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+@media (prefers-color-scheme: light) { .btn-item .k { color: var(--deep); } }
+.btn-item p { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-soft); }
+
+/* =========================================================
+   パラメータリファレンス（details で折りたたみ）
+   ========================================================= */
+.params { max-width: 62rem; }
+details.param-group {
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+}
+details.param-group > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  list-style: none;
+  user-select: none;
+  transition: background 0.2s var(--ease-soft);
+}
+details.param-group > summary::-webkit-details-marker { display: none; }
+details.param-group > summary:hover { background: rgba(127, 211, 255, 0.06); }
+.chev {
+  width: 1.05rem; height: 1.05rem;
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--text-faint);
+  transition: transform 0.25s var(--ease);
+}
+details.param-group[open] > summary .chev { transform: rotate(90deg); }
+.grp-badge {
+  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ice);
+  background: rgba(127, 211, 255, 0.1);
+  border: 1px solid var(--hairline);
+  padding: 0.1rem 0.45rem;
+  border-radius: 5px;
+}
+
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 30rem;
+}
+table caption {
+  text-align: left;
+  padding: 0 1.2rem 0.8rem;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+thead th {
+  text-align: left;
+  padding: 0.6rem 1.2rem;
+  font-weight: 650;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+tbody td {
+  padding: 0.7rem 1.2rem;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td:first-child {
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.param-note {
+  padding: 0.9rem 1.2rem 1.1rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--text-faint);
+  border-top: 1px solid var(--hairline);
+}
+.param-note code { font-size: 0.85em; }
+
+/* =========================================================
+   実写ショット（実機スクリーンショット）
+   ========================================================= */
+.shot-photo {
+  margin: 2.4rem 0 0;
+  max-width: 54rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-md);
+}
+.shot-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.shot-photo figcaption {
+  padding: 0.75rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-faint);
+  border-top: 1px solid var(--hairline);
+}
+
+/* =========================================================
+   注意・制約
+   ========================================================= */
+.constraints {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: clamp(0.8rem, 2vw, 1.1rem);
+  max-width: 62rem;
+}
+.constraint {
+  padding: 1.2rem 1.3rem;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.constraint h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.constraint h3 svg { width: 1.2rem; height: 1.2rem; color: var(--ice); flex: 0 0 auto; }
+.constraint p { margin: 0; font-size: 0.9rem; line-height: 1.6; color: var(--text-soft); }
+.constraint p + p { margin-top: 0.6rem; }
+
+/* =========================================================
+   フッター
+   ========================================================= */
+footer {
+  border-top: 1px solid var(--hairline);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding-block: clamp(2.2rem, 5vw, 3.2rem);
+  margin-top: clamp(2rem, 6vw, 4rem);
+}
+footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+footer .f-brand { font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.4rem; }
+footer .f-meta { font-size: 0.85rem; color: var(--text-faint); line-height: 1.7; max-width: 36rem; }
+footer .f-links { display: flex; gap: 1.2rem; font-size: 0.9rem; }
+footer .f-links a { color: var(--text-soft); transition: color 0.2s var(--ease-soft); }
+footer .f-links a:hover { color: var(--text); }
+footer .credit { font-size: 0.82rem; color: var(--text-faint); margin-top: 1.2rem; width: 100%; }
+
+/* =========================================================
+   スクロール reveal（IntersectionObserver で付与）
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* 固定ナビと本文の境目を blur/グラデでなじませるトップマスク */
+.top-fade {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  height: 2.5rem;
+  z-index: 90;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--bg-1), transparent);
+  opacity: 0.7;
+}
+
+/* =========================================================
+   アクセシビリティ：モーション低減
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   アクセシビリティ：透明度低減（backdrop-filter を外し不透明化）
+   ========================================================= */
+@media (prefers-reduced-transparency: reduce) {
+  .nav, .card, .step, .btn-ghost, .tag, .btn-item, details.param-group,
+  .constraint, footer, .menu-path {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  :root {
+    --glass-bg: #122a42;
+    --glass-bg-strong: #0e243a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --glass-bg: #ffffff; --glass-bg-strong: #f4f9fd; }
+  }
+}
+
+/* =========================================================
+   アクセシビリティ：高コントラスト（境界線を明確化）
+   ========================================================= */
+@media (prefers-contrast: more) {
+  :root {
+    --glass-border: rgba(191, 234, 255, 0.6);
+    --hairline: rgba(191, 234, 255, 0.4);
+    --text-soft: #d4e6f4;
+    --text-faint: #a9c3d8;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --glass-border: rgba(16, 41, 59, 0.6);
+      --hairline: rgba(16, 41, 59, 0.35);
+      --text-soft: #1c3a50;
+      --text-faint: #33526a;
+    }
+  }
+  .card, .step, .constraint, details.param-group, .btn-item { border-width: 1.5px; }
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.5rem; top: 0.5rem;
+  transform: translateY(-140%);
+  background: var(--accent-grad);
+  color: #04131f;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 650;
+  z-index: 200;
+  transition: transform 0.2s var(--ease);
+}
+.skip-link:focus { transform: none; }

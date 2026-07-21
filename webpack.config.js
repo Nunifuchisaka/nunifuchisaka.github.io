@@ -183,10 +183,12 @@ const createConfig_development = ({ outputPath }) => {
     }
   );
 
-  // 独立ページ（自己完結HTML）。EJS/SCSSのビルドやlintを通さず静的コピーで
-  // dist_uncompressed へ配置し、後段の docs コピーで他ページと同じくminifyして公開する。
+  // 独立ページ。EJS/SCSSのビルドを通さず静的コピーで dist_uncompressed へ配置し、
+  // 後段の docs コピーで他ページと同じく html/css をminifyして公開する。
   // 新しい独立ページを足すときは、このディレクトリ名の配列に追加するだけでよい。
   // deepfrostice はサブディレクトリ（例 animation/）ごと丸ごとコピーされる。
+  // なお .js は docs コピー側で除外され、production の `**/*.js` エントリ側が
+  // babel＋Terserを通して docs へ出力する（dist_uncompressed には素のまま残る）。
   const STANDALONE_PAGES = ['deepfrostice', 'heartbeat'];
   config.plugins.push(
     new CopyPlugin({
