@@ -748,7 +748,7 @@
     <h2>仕組みの全体像</h2>
     <p class="section-lead">やることは一本道です。<strong>メニュー操作</strong>が<strong>同期パラメータ</strong>を変え、それが <strong>FXレイヤー</strong>を通じて <strong>AnimationClip</strong> を再生し、クリップが Renderer 上の <code>material.&lt;プロパティ&gt;</code> を書き換えます。</p>
 
-    <figure class="diagram">
+    <figure class="diagram" id="fig-flow-overview">
       <div class="flow">
         <div class="flow-node"><span class="n-k">MENU</span><span class="n-v">Expression Menu<br>「DeepFrostIce」</span></div>
         <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
@@ -913,7 +913,7 @@ DeepFrostIceSample_VisibleOn  : <b>1</b>   <i>（1フレーム定数）</i></pre
     <h3>Motion Time レイヤー（Radial Puppet 用・4本）</h3>
     <p>1ステートだけのレイヤーを作り、その State に 0→1 のクリップを置きます。State のインスペクタで <strong>Motion Time</strong> を有効化し、対応する Float パラメータを割り当てます。すると 0〜1 のパラメータがクリップの正規化時間へ写像され、結果としてクリップの from→to（Absorption なら 0→5）へ写ります。</p>
 
-    <figure class="diagram">
+    <figure class="diagram" id="fig-layer-freeze">
       <div class="layer">
         <div class="l-head"><b>Layer：Freeze</b> <span class="l-meta">weight 1 ・ Write Defaults off</span></div>
         <div class="l-body">
@@ -940,7 +940,7 @@ DeepFrostIceSample_VisibleOn  : <b>1</b>   <i>（1フレーム定数）</i></pre
     <h3>Off/On トグルレイヤー（3本）</h3>
     <p>Off / On の2ステートを作り、既定ステートは <strong>Off</strong>。Bool パラメータで相互遷移させます。<strong>Off→On は「If」、On→Off は「IfNot」</strong>。どちらも <code>Has Exit Time = off</code>、遷移時間は <code>0.1</code> 秒です。</p>
 
-    <figure class="diagram">
+    <figure class="diagram" id="fig-layer-topsnow">
       <div class="layer">
         <div class="l-head"><b>Layer：TopSnow</b> <span class="l-meta">weight 1 ・ Write Defaults off ・ default = Off</span></div>
         <div class="l-body">
@@ -989,7 +989,7 @@ DeepFrostIceSample_VisibleOn  : <b>1</b>   <i>（1フレーム定数）</i></pre
       <li>7項目は<strong>ルートに直挿しせず、サブメニュー1個にまとめて</strong>、ルートにはその入口を1つだけ置きます。サンプルでは <code>DeepFrostIceSampleMenuControls.asset</code> に7項目、<code>DeepFrostIceSampleMenu.asset</code> に「DeepFrostIce」サブメニュー1件、という2枚構成です。</li>
     </ul>
 
-    <figure class="diagram">
+    <figure class="diagram" id="fig-menu-tree">
       <div class="tree">
         <ul>
           <li><span class="t-root">アバターのルートメニュー</span>

@@ -630,7 +630,7 @@
     </div>
 
     <!-- 胸元のContactと減衰範囲の関係を示す図。写真がないため図版で説明する -->
-    <figure class="hero-figure">
+    <figure class="hero-figure" id="fig-contact-range">
       <svg viewBox="0 0 480 300" role="img" aria-labelledby="heroFigTitle heroFigDesc">
         <title id="heroFigTitle">胸元のContactと音の届く範囲</title>
         <desc id="heroFigDesc">アバターの胸（Chestボーン）に付く半径0.2メートルの検知範囲と、その中心から0.17メートルまでしか届かない心音の減衰範囲を示した断面図。</desc>
@@ -849,51 +849,52 @@
     <h2 class="sect-title reveal">2つのレイヤーで動いています</h2>
     <p class="sect-lead reveal">「ギミック自体のON/OFF」と「触れているかどうか」を別々のレイヤーに分けています。メニューでOFFにすれば、接触しても鳴りません。</p>
 
-    <div class="diagram reveal">
+    <div class="diagram reveal" id="fig-layer-flow">
       <svg viewBox="0 0 700 260" role="img" aria-labelledby="flowTitle flowDesc">
         <title id="flowTitle">HeartBeatの制御フロー</title>
         <desc id="flowDesc">Expressionsメニューのトグルがパラメータ HeartBeat を切り替え、HeartBeatレイヤーがOriginオブジェクトのアクティブ状態を制御する。並行して、Contact Receiverがパラメータ HeartBeat_Contact を切り替え、HeartBeat_ContactレイヤーがAudioSourceの有効・無効を制御する。</desc>
 
+        <!-- 矢印は右端の結果ラベルがviewBox(700)内に収まる長さに抑えている -->
         <g font-size="12" fill="currentColor">
           <!-- 上段：メニュー系 -->
-          <rect x="10" y="26" width="150" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
-          <text x="85" y="49" text-anchor="middle">メニューのトグル</text>
-          <text x="85" y="66" text-anchor="middle" opacity="0.6" font-size="11">Expressions Menu</text>
+          <rect x="6" y="26" width="150" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
+          <text x="81" y="49" text-anchor="middle">メニューのトグル</text>
+          <text x="81" y="66" text-anchor="middle" opacity="0.6" font-size="11">Expressions Menu</text>
 
-          <path d="M166 52h48" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
+          <path d="M160 52h22" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
 
-          <rect x="220" y="26" width="160" height="52" rx="12" fill="rgba(255,107,127,0.12)" stroke="#ff6b7f" stroke-opacity="0.5"/>
-          <text x="300" y="49" text-anchor="middle">HeartBeat</text>
-          <text x="300" y="66" text-anchor="middle" opacity="0.6" font-size="11">bool・同期・保存あり・初期ON</text>
+          <rect x="186" y="26" width="170" height="52" rx="12" fill="rgba(255,107,127,0.12)" stroke="#ff6b7f" stroke-opacity="0.5"/>
+          <text x="271" y="49" text-anchor="middle">HeartBeat</text>
+          <text x="271" y="66" text-anchor="middle" opacity="0.6" font-size="11">bool・同期・保存あり・初期ON</text>
 
-          <path d="M386 52h48" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
+          <path d="M360 52h22" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
 
-          <rect x="440" y="26" width="180" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
-          <text x="530" y="49" text-anchor="middle">HeartBeatレイヤー</text>
-          <text x="530" y="66" text-anchor="middle" opacity="0.6" font-size="11">On.anim / Off.anim</text>
+          <rect x="386" y="26" width="168" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
+          <text x="470" y="49" text-anchor="middle" font-size="11">HeartBeatレイヤー</text>
+          <text x="470" y="66" text-anchor="middle" opacity="0.6" font-size="11">On.anim / Off.anim</text>
 
           <!-- 下段：Contact系 -->
-          <rect x="10" y="150" width="150" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
-          <text x="85" y="173" text-anchor="middle">頭が胸に触れる</text>
-          <text x="85" y="190" text-anchor="middle" opacity="0.6" font-size="11">Contact Receiver</text>
+          <rect x="6" y="150" width="150" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
+          <text x="81" y="173" text-anchor="middle">頭が胸に触れる</text>
+          <text x="81" y="190" text-anchor="middle" opacity="0.6" font-size="11">Contact Receiver</text>
 
-          <path d="M166 176h48" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
+          <path d="M160 176h22" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
 
-          <rect x="220" y="150" width="160" height="52" rx="12" fill="rgba(255,107,127,0.12)" stroke="#ff6b7f" stroke-opacity="0.5"/>
-          <text x="300" y="173" text-anchor="middle">HeartBeat_Contact</text>
-          <text x="300" y="190" text-anchor="middle" opacity="0.6" font-size="11">bool・同期・保存なし</text>
+          <rect x="186" y="150" width="170" height="52" rx="12" fill="rgba(255,107,127,0.12)" stroke="#ff6b7f" stroke-opacity="0.5"/>
+          <text x="271" y="173" text-anchor="middle">HeartBeat_Contact</text>
+          <text x="271" y="190" text-anchor="middle" opacity="0.6" font-size="11">bool・同期・保存なし</text>
 
-          <path d="M386 176h48" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
+          <path d="M360 176h22" stroke="#ff6b7f" stroke-width="1.6" marker-end="url(#ah)"/>
 
-          <rect x="440" y="150" width="180" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
-          <text x="530" y="173" text-anchor="middle">HeartBeat_Contactレイヤー</text>
-          <text x="530" y="190" text-anchor="middle" opacity="0.6" font-size="11">Play.anim / Stop.anim</text>
+          <rect x="386" y="150" width="168" height="52" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.28"/>
+          <text x="470" y="173" text-anchor="middle" font-size="11">HeartBeat_Contactレイヤー</text>
+          <text x="470" y="190" text-anchor="middle" opacity="0.6" font-size="11">Play.anim / Stop.anim</text>
 
           <!-- 結果 -->
-          <text x="640" y="56" font-size="11" opacity="0.75" fill="#ffb3bd">→ Originを表示/非表示</text>
-          <text x="640" y="180" font-size="11" opacity="0.75" fill="#ffb3bd">→ AudioSourceを有効/無効</text>
+          <text x="560" y="56" font-size="10" opacity="0.75" fill="#ffb3bd">→ Originを表示/非表示</text>
+          <text x="560" y="180" font-size="10" opacity="0.75" fill="#ffb3bd">→ AudioSourceを有効/無効</text>
 
-          <text x="10" y="238" font-size="11" opacity="0.6">2つのレイヤーは独立。メニューがOFFならOrigin自体が消えるため、接触しても鳴りません。</text>
+          <text x="6" y="238" font-size="11" opacity="0.6">2つのレイヤーは独立。メニューがOFFならOrigin自体が消えるため、接触しても鳴りません。</text>
         </g>
 
         <defs>
