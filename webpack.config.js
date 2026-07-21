@@ -183,19 +183,19 @@ const createConfig_development = ({ outputPath }) => {
     }
   );
 
-  // 独立ランディングページ（自己完結HTML）。EJS/SCSSのビルドやlintを通さず静的コピーで
+  // 独立ページ（自己完結HTML）。EJS/SCSSのビルドやlintを通さず静的コピーで
   // dist_uncompressed へ配置し、後段の docs コピーで他ページと同じくminifyして公開する。
+  // 新しい独立ページを足すときは、このディレクトリ名の配列に追加するだけでよい。
+  const STANDALONE_PAGES = ['deepfrostice', 'param-animation'];
   config.plugins.push(
     new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(SRC_PATH, 'deepfrostice'),
-          to: path.resolve(outputPath, 'deepfrostice'),
-          globOptions: {
-            ignore: ['**/.DS_Store', '**/Thumbs.db'],
-          },
+      patterns: STANDALONE_PAGES.map(dir => ({
+        from: path.resolve(SRC_PATH, dir),
+        to: path.resolve(outputPath, dir),
+        globOptions: {
+          ignore: ['**/.DS_Store', '**/Thumbs.db'],
         },
-      ],
+      })),
     })
   );
 
