@@ -243,6 +243,7 @@ h2.sect-title {
   padding: 0.32rem 0.62rem;
   border-radius: 999px;
   border: 1px solid var(--glass-border);
+  white-space: nowrap;
   transition: color 0.2s var(--ease-soft), background 0.2s var(--ease-soft), border-color 0.2s var(--ease-soft);
 }
 .lang-switch:hover { color: var(--text); background: var(--glass-bg); border-color: var(--glass-hi); }
