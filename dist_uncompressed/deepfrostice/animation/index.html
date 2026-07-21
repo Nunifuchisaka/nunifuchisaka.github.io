@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マテリアル／シェーダーのパラメータをアニメーションで動かす｜VRChatアバター向け汎用ガイド</title>
-<meta name="description" content="VRChatアバターで、シェーダー／マテリアルのプロパティをExpression Menuから動かすための汎用手順。連続値はRadial Puppet、オン/オフはToggle。AnimationClip・AnimatorController・Expression Parameters/Menu・Modular Avatarの組み方を、Unity Editor上の操作として再現できる粒度で解説。">
+<title>アニメーション設定ガイド｜DeepFrostIceShader（氷・深蒼凍・霜シェーダー）</title>
+<meta name="description" content="DeepFrostIceの凍結・融解・厚み吸収・ディゾルブ・トップスノー・スパークル・表示切替を、VRChatのExpression Menuから動かす手順。同梱サンプル DeepFrostIceSample.prefab をドラッグするだけの最短ルートと、AnimationClip・AnimatorController・Expression Parameters/Menu・Modular Avatarを理解して自作・改変するルートを解説。">
 <!-- 初期テーマ確定（FOUC防止）。localStorage → prefers-color-scheme の順に解決してからbodyを描く -->
 <script>
   (function () {
-    var KEY = 'paramAnimTheme';
+    var KEY = 'dfiAnimTheme';
     var VALID = ['dark', 'light', 'sepia', 'contrast'];
     var theme = 'dark';
     try {
@@ -41,6 +41,7 @@
     --maxw: 64rem;
 
     --bg: #15171c;
+    --head-bg: rgba(21, 23, 28, 0.88);
     --surface: #1c1f26;
     --surface-2: #23262f;
     --border: #313640;
@@ -66,6 +67,7 @@
   [data-theme="light"] {
     color-scheme: light;
     --bg: #f6f4ef;
+    --head-bg: rgba(246, 244, 239, 0.9);
     --surface: #ffffff;
     --surface-2: #f0ede6;
     --border: #e3ded3;
@@ -91,6 +93,7 @@
   [data-theme="sepia"] {
     color-scheme: light;
     --bg: #e9ddc4;
+    --head-bg: rgba(233, 221, 196, 0.9);
     --surface: #f3e9d4;
     --surface-2: #e2d5b7;
     --border: #d3c4a0;
@@ -116,6 +119,7 @@
   [data-theme="contrast"] {
     color-scheme: dark;
     --bg: #000000;
+    --head-bg: #000000;
     --surface: #000000;
     --surface-2: #0b0b0b;
     --border: #ffffff;
@@ -193,7 +197,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    background: var(--head-bg);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -215,7 +219,10 @@
     align-items: center;
     gap: 0.5rem;
     margin-right: auto;
+    color: var(--text);
+    text-decoration: none;
   }
+  .head-title:hover { color: var(--accent); }
   .head-title .mark {
     width: 1.35rem; height: 1.35rem;
     color: var(--accent);
@@ -261,7 +268,7 @@
   [data-theme="contrast"] .theme-btn { border-color: var(--border); }
   [data-theme="contrast"] .theme-btn[aria-pressed="true"] { border-color: var(--on-accent); }
   .theme-btn .lbl { white-space: nowrap; }
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .theme-btn .lbl { display: none; }
     .theme-btn { padding: 0.44rem 0.55rem; }
   }
@@ -343,6 +350,22 @@
     color: var(--text);
   }
 
+  /* ステップの帯（STEP A / STEP B） */
+  .step-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 0.7rem;
+  }
+
   /* =========================================================
      目次
      ========================================================= */
@@ -367,7 +390,7 @@
     list-style: none;
     counter-reset: toc;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
     gap: 0.3rem 1.2rem;
   }
   .toc li { counter-increment: toc; }
@@ -436,7 +459,7 @@
   table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 34rem;
+    min-width: 36rem;
     font-size: 0.9rem;
   }
   caption {
@@ -540,7 +563,7 @@
   .callout-grid .callout { margin: 0; }
 
   /* =========================================================
-     図解（CSS/HTML＋インラインSVGアイコン）
+     図解（CSS/HTML＋インラインSVG）
      ========================================================= */
   figure.diagram {
     margin: 1.4rem 0;
@@ -620,7 +643,7 @@
   .trans { display: grid; gap: 0.15rem; text-align: center; color: var(--text-faint); font-size: 0.72rem; font-family: var(--mono); }
   .trans svg { width: 1.5rem; height: 0.9rem; color: var(--accent); }
 
-  /* メニュー階層ツリー */
+  /* Hierarchy / メニュー階層ツリー */
   .tree { font-family: var(--mono); font-size: 0.84rem; line-height: 1.9; }
   .tree ul { list-style: none; margin: 0; padding-left: 1.3rem; }
   .tree > ul { padding-left: 0; }
@@ -669,11 +692,11 @@
 
 <header class="site-head">
   <div class="wrap">
-    <p class="head-title">
+    <a class="head-title" href="../">
       <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/><circle cx="18.5" cy="15" r="2.6"/><path d="M18.5 12.4V9"/></svg>
-      パラメータ・アニメーション ガイド
-      <span>VRChat Avatar</span>
-    </p>
+      DeepFrostIce
+      <span>アニメーション設定</span>
+    </a>
     <div class="theme-switch" role="group" aria-label="配色テーマの切り替え">
       <button type="button" class="theme-btn" data-theme-value="dark" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 7 7 0 1020 14.5z"/></svg>
@@ -688,7 +711,7 @@
         <span class="lbl">セピア</span>
       </button>
       <button type="button" class="theme-btn" data-theme-value="contrast" aria-pressed="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" fill="currentColor"/><path d="M12 3a9 9 0 010 18z" fill="currentColor" stroke="none"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 010 18z" fill="currentColor" stroke="none"/></svg>
         <span class="lbl">高コントラスト</span>
       </button>
     </div>
@@ -699,147 +722,196 @@
 
 <section class="hero-doc">
   <div class="wrap">
-    <p class="eyebrow">How-to / Unity + VRChat SDK3</p>
-    <h1>マテリアル／シェーダーのパラメータを<br>アニメーションで動かす</h1>
-    <p class="lead">VRChatアバターで、シェーダー（マテリアル）のプロパティを Expression Menu から動かすための汎用手順です。連続値は Radial Puppet、オン/オフは Toggle。AnimationClip・AnimatorController・Expression Parameters/Menu・Modular Avatar の組み方を、Unity Editor 上の操作として再現できる粒度でまとめています。</p>
+    <p class="eyebrow">DeepFrostIce / VRChat Avatar</p>
+    <h1>パラメータをアニメーションで動かす</h1>
+    <p class="lead">DeepFrostIce の凍結・融解・厚み吸収・ディゾルブ・トップスノー・スパークル・表示切替を、VRChat の Expression Menu から動かすためのガイドです。<strong>同梱サンプルをドラッグするだけの最短ルート（STEP A）</strong>と、<strong>仕組みを理解して自分のメッシュに組む／改変するルート（STEP B）</strong>の二段構えでまとめています。</p>
 
     <div class="toc" aria-label="目次">
       <h2>目次</h2>
       <ol>
-        <li><a href="#concept">仕組みの全体像</a></li>
-        <li><a href="#decide">連続値かオン/オフか</a></li>
-        <li><a href="#clips">手順1：クリップを作る</a></li>
-        <li><a href="#controller">手順2：Animatorレイヤーを組む</a></li>
-        <li><a href="#expression">手順3：パラメータとメニュー</a></li>
-        <li><a href="#modular-avatar">手順4：Modular Avatarで組む</a></li>
-        <li><a href="#manual">MAを使わない手動組み込み</a></li>
-        <li><a href="#example">実例：DeepFrostIce</a></li>
+        <li><a href="#overview">仕組みの全体像</a></li>
+        <li><a href="#step-a">STEP A：同梱サンプルを使う</a></li>
+        <li><a href="#controls">サンプルの操作一覧</a></li>
+        <li><a href="#clips">STEP B-1：クリップを作る</a></li>
+        <li><a href="#controller">STEP B-2：Animatorレイヤー</a></li>
+        <li><a href="#expression">STEP B-3：パラメータとメニュー</a></li>
+        <li><a href="#modular-avatar">STEP B-4：Modular Avatar</a></li>
+        <li><a href="#manual">MAなしの手動組み込み</a></li>
         <li><a href="#caveats">つまずきやすい注意点</a></li>
       </ol>
     </div>
   </div>
 </section>
 
-<section class="block" id="concept">
+<section class="block" id="overview">
   <div class="wrap">
     <h2>仕組みの全体像</h2>
-    <p class="section-lead">やることは一本道です。<strong>メニュー操作</strong>が<strong>同期パラメータ</strong>を変え、それが<strong>Animatorレイヤー</strong>を通じて<strong>AnimationClip</strong>を再生し、クリップが Renderer 上の <code>material.&lt;プロパティ&gt;</code> を書き換えます。この鎖を1本ずつ用意していきます。</p>
+    <p class="section-lead">やることは一本道です。<strong>メニュー操作</strong>が<strong>同期パラメータ</strong>を変え、それが <strong>FXレイヤー</strong>を通じて <strong>AnimationClip</strong> を再生し、クリップが Renderer 上の <code>material.&lt;プロパティ&gt;</code> を書き換えます。</p>
 
     <figure class="diagram">
       <div class="flow">
-        <div class="flow-node"><span class="n-k">MENU</span><span class="n-v">Expression Menu</span></div>
+        <div class="flow-node"><span class="n-k">MENU</span><span class="n-v">Expression Menu<br>「DeepFrostIce」</span></div>
         <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
-        <div class="flow-node"><span class="n-k">PARAM</span><span class="n-v">同期パラメータ<br>Float / Bool</span></div>
+        <div class="flow-node"><span class="n-k">PARAM</span><span class="n-v"><code>DFI_Freeze</code> など<br>Float / Bool</span></div>
         <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
         <div class="flow-node"><span class="n-k">FX LAYER</span><span class="n-v">Animator<br>レイヤー</span></div>
         <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
         <div class="flow-node"><span class="n-k">CLIP</span><span class="n-v">AnimationClip</span></div>
         <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
-        <div class="flow-node"><span class="n-k">RESULT</span><span class="n-v"><code>material.<br>_Property</code></span></div>
+        <div class="flow-node"><span class="n-k">RESULT</span><span class="n-v"><code>material.<br>_FreezeAmount</code></span></div>
       </div>
       <figcaption>メニュー操作から見た目の変化まで。左から右へ値が伝わる。</figcaption>
     </figure>
 
-    <p>アバターへ組み込む部分（Animator・パラメータ・メニュー）は <strong>Modular Avatar</strong> でマージするのが本ガイドの推奨です。プレハブをアバター配下にドラッグするだけで済み、アバター側の既存メニュー／パラメータと衝突せず、複数アバターに使い回せます（手動で組む方法も後述）。</p>
-
-    <div class="callout">
-      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>この手順が使える対象</p>
-      <p>アニメーション可能なマテリアルの float / color プロパティを持つシェーダーなら、製品を問わず同じ手順で動かせます。本ガイドは <code>DeepFrostIce</code> の実装を具体例として引用していますが、<code>ColdAir</code> や <code>FrozeNade</code> など他の製品でも、プロパティ名とレンジを読み替えるだけで同じように組めます。</p>
+    <div class="callout ok">
+      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>この鎖は同梱サンプルに全部入っています</p>
+      <p>クリップ・AnimatorController・Expression パラメータ・メニュー・Modular Avatar の設定はすべて <code>Sample/</code> に生成済みです。<strong>まず動かしたいだけなら STEP A だけで完了</strong>します。自分のメッシュに適用したい・値を変えたい場合に STEP B へ進んでください。</p>
     </div>
   </div>
 </section>
 
-<section class="block" id="decide">
+<section class="block" id="step-a">
   <div class="wrap">
-    <h2>連続値か、オン/オフか</h2>
-    <p class="section-lead">最初に「そのパラメータをどう操作させたいか」を決めます。ここで <strong>メニューUI</strong> と <strong>クリップの形</strong> がほぼ決まります。</p>
+    <span class="step-badge">Step A</span>
+    <h2>同梱サンプルをそのまま使う</h2>
+    <p class="section-lead">プレハブをアバターの配下にドラッグしてアップロードするだけで、Expression Menu に「DeepFrostIce」サブメニューが追加され、Radial スライダーとトグルで氷を動かせます。Animator もパラメータもメニューも、手で触る必要はありません。</p>
+
+    <h3>用意するもの</h3>
+    <ul>
+      <li>VRChat SDK3（Avatars）を導入した Unity プロジェクト</li>
+      <li><strong>Modular Avatar</strong>（サンプルのマージに使用）</li>
+      <li>DeepFrostIce 本体（<code>Sample/</code> フォルダを含む）</li>
+    </ul>
+
+    <ol class="steps">
+      <li>
+        <h3>アバターのシーンを開く</h3>
+        <p>いつもアップロードしているアバターのシーンを開き、Hierarchy にアバターが置かれている状態にします。</p>
+      </li>
+      <li>
+        <h3>サンプルをアバター配下にドラッグ</h3>
+        <p><code>Sample/DeepFrostIceSample.prefab</code> を、Hierarchy 上で<strong>アバターの子</strong>になるようにドラッグ＆ドロップします。これだけで、FX レイヤー・同期パラメータ・メニューがビルド時にマージされる状態になります。</p>
+        <figure class="code">
+          <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg>ドラッグ後の Hierarchy</figcaption>
+<pre>YourAvatar
+├─ Armature ...
+├─ Body ...
+└─ <b>DeepFrostIceSample</b>              <i>← ドラッグしたプレハブ</i>
+   └─ <b>DeepFrostIce Sphere</b>          <i>（Renderer + DeepFrostIceSample.mat）</i></pre>
+        </figure>
+      </li>
+      <li>
+        <h3>位置とスケールを調整（任意）</h3>
+        <p>既定は <code>0.15</code> スケールの氷球プロップです。手や腰のボーンの下に入れる、大きさを変えるなど、好きな見せ方に調整してかまいません。</p>
+      </li>
+      <li>
+        <h3>いつも通りアップロード</h3>
+        <p>VRChat SDK からいつも通りビルド＆アップロードします。ビルド時に Modular Avatar が、FX Controller・Expression Parameters・Expression Menu へ自動でマージします。<strong>アバター側の既存メニューやパラメータは壊れません。</strong></p>
+      </li>
+      <li>
+        <h3>VRChatで動かす</h3>
+        <p>Expression Menu を開き、<strong>「DeepFrostIce」サブメニュー</strong>へ入ります。Freeze / Melt / Absorption / Dissolve は Radial Puppet（リングを回して 0 から増やす）、Top Snow / Sparkle / Visible はトグルです。</p>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>初期値について</p>
+      <p>Radial の4つ（Freeze / Melt / Absorption / Dissolve）は既定 <code>0</code>＝未適用の状態から始まります。トグルの3つ（Top Snow / Sparkle / Visible）は<strong>既定 ON</strong> なので、アップロード直後から見た目で効果を確認できます。いずれも <strong>saved</strong> 指定なので、ワールドをまたいでも最後の状態が維持されます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="controls">
+  <div class="wrap">
+    <h2>サンプルの操作一覧</h2>
+    <p class="section-lead">「DeepFrostIce」サブメニューの7項目が、それぞれどのパラメータ・どのプロパティに繋がっているかの対応表です。STEP B で自作・改変するときの設計図にもなります。</p>
 
     <div class="table-wrap">
       <table>
-        <caption>操作したいものごとの組み方の対応表</caption>
+        <caption>DeepFrostIceSample のメニュー項目とパラメータの対応</caption>
         <thead>
-          <tr><th>動かしたいもの</th><th>値の性質</th><th>メニューUI</th><th>Animatorレイヤー</th><th>クリップ</th></tr>
+          <tr><th>メニュー項目</th><th>種類</th><th>同期パラメータ</th><th>動かす対象</th><th>レンジ / 値</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>0→1 や 0→5 の連続変化<br>（凍結量・融解量・吸収濃度・ディゾルブ量 など）</td>
-            <td><code>Float</code></td>
-            <td>Radial Puppet</td>
-            <td>Motion Time（1ステート）</td>
-            <td>from→to の線形カーブ1本</td>
-          </tr>
-          <tr>
-            <td>機能のオン/オフ<br>（トップスノー・スパークル など）</td>
-            <td><code>Bool</code></td>
-            <td>Toggle</td>
-            <td>Off / On（2ステート）</td>
-            <td>定数カーブ2本</td>
-          </tr>
-          <tr>
-            <td>オブジェクトごとの表示/非表示</td>
-            <td><code>Bool</code></td>
-            <td>Toggle</td>
-            <td>Off / On（2ステート）</td>
-            <td><code>m_IsActive</code> 定数2本</td>
-          </tr>
+          <tr><td>Freeze</td><td>Radial Puppet</td><td><code>DFI_Freeze</code><br>Float・saved・既定0</td><td><code>material._FreezeAmount</code></td><td>0 → 1</td></tr>
+          <tr><td>Melt</td><td>Radial Puppet</td><td><code>DFI_Melt</code><br>Float・saved・既定0</td><td><code>material._MeltAmount</code></td><td>0 → 1</td></tr>
+          <tr><td>Absorption</td><td>Radial Puppet</td><td><code>DFI_Absorption</code><br>Float・saved・既定0</td><td><code>material._AbsorptionDensity</code></td><td><strong>0 → 5</strong></td></tr>
+          <tr><td>Dissolve</td><td>Radial Puppet</td><td><code>DFI_Dissolve</code><br>Float・saved・既定0</td><td><code>material._DissolveAmount</code></td><td>0 → 1</td></tr>
+          <tr><td>Top Snow</td><td>Toggle</td><td><code>DFI_TopSnow</code><br>Bool・saved・<strong>既定ON</strong></td><td><code>material._TopSnowAmount</code></td><td>0 / 0.6</td></tr>
+          <tr><td>Sparkle</td><td>Toggle</td><td><code>DFI_Sparkle</code><br>Bool・saved・<strong>既定ON</strong></td><td><code>material._SparkleIntensity</code></td><td>0 / 3</td></tr>
+          <tr><td>Visible</td><td>Toggle</td><td><code>DFI_Visible</code><br>Bool・saved・<strong>既定ON</strong></td><td>子GameObject の <code>m_IsActive</code></td><td>Off / On</td></tr>
         </tbody>
       </table>
     </div>
-    <p>連続値の Radial Puppet は「押している間だけリング状のスライダーが出て 0〜1 を回す」UI、Toggle は「押すたびに切り替わる」UIです。表示/非表示だけはマテリアルではなくオブジェクトの有効状態を動かします（後述）。</p>
+
+    <p>Absorption だけレンジが <strong>0→5</strong> ですが、パラメータ自体は他と同じ 0〜1 です。これは<strong>クリップ側の値レンジを 0→5 にしている</strong>だけ、という点が後の STEP B-1 の要点になります。</p>
   </div>
 </section>
 
 <section class="block" id="clips">
   <div class="wrap">
-    <h2><span class="num">手順1</span>クリップを作る</h2>
-    <p class="section-lead">Animation ウィンドウで、対象は必ず <strong>Renderer が乗っている GameObject</strong> を選びます。バインドのキーは <code>material.&lt;プロパティ名&gt;</code> です（Unity では「Mesh Renderer → Material.＿プロパティ」として一覧に出ます）。</p>
+    <span class="step-badge">Step B-1</span>
+    <h2>クリップを作る</h2>
+    <p class="section-lead">Animation ウィンドウで、対象は必ず <strong>Renderer が乗っている GameObject</strong>（サンプルでは <code>DeepFrostIce Sphere</code>）を選びます。バインドのキーは <code>material.&lt;プロパティ名&gt;</code> です（Unity では「Mesh Renderer → Material.＿プロパティ」として一覧に出ます）。</p>
 
     <h3>連続値のクリップ（線形カーブ1本）</h3>
-    <p>先頭に from、末尾に to のキーを打った線形カーブを1本だけ入れます。クリップの長さ自体は Motion Time で正規化されるため意味を持ちません（1秒で十分）。0→1 以外のレンジ（例：吸収は 0→5）は、パラメータではなく<strong>クリップの値レンジ側</strong>で表現します。</p>
+    <p>先頭に from、末尾に to のキーを打った線形カーブを1本だけ入れます。クリップの長さ自体は Motion Time で正規化されるため意味を持ちません（1秒で十分）。<strong>0→1 以外のレンジは、パラメータではなくクリップの値レンジ側で表現</strong>します。</p>
     <figure class="code">
-      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 18V6M4 18h16M8 14l3-4 3 2 4-6"/></svg>連続値クリップの中身（Freeze の例）</figcaption>
+      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 18V6M4 18h16M8 14l3-4 3 2 4-6"/></svg>DeepFrostIceSample_Freeze.anim の中身</figcaption>
 <pre>対象 GameObject : <b>DeepFrostIce Sphere</b>   <i>（Rendererが乗る子）</i>
 プロパティ      : Mesh Renderer → <b>Material._FreezeAmount</b>
 キー            : 0.00s = <b>0</b>   /   1.00s = <b>1</b>    <i>（線形 / Linear）</i>
 
-吸収など 0→5 のときは末尾キーを 5 にするだけ：
-プロパティ      : Mesh Renderer → <b>Material._AbsorptionDensity</b>
-キー            : 0.00s = <b>0</b>   /   1.00s = <b>5</b></pre>
+Melt / Dissolve も同じ形（0→1）：
+  DeepFrostIceSample_Melt      : <b>Material._MeltAmount</b>       0 → 1
+  DeepFrostIceSample_Dissolve  : <b>Material._DissolveAmount</b>   0 → 1
+
+Absorption だけ末尾キーが 5：
+  DeepFrostIceSample_Absorption: <b>Material._AbsorptionDensity</b>  0 → <b>5</b></pre>
     </figure>
 
     <h3>オン/オフのクリップ（定数2本）</h3>
-    <p>Off と On で1本ずつ、それぞれ1フレームの定数クリップを作ります。Write Defaults を off で運用する場合、<strong>Off クリップでも必ずそのプロパティを off 値で打つ</strong>のが要点です（打たないと値が戻りません）。</p>
+    <p>Off と On で1本ずつ、それぞれ1フレームの定数クリップを作ります。Write Defaults を off で運用するため、<strong>Off クリップでも必ずそのプロパティを off 値で打つ</strong>のが要点です（打たないと値が戻りません）。</p>
     <figure class="code">
-      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11M4 7h.01M4 12h.01M4 17h.01"/></svg>トグルクリップの中身（Top Snow の例）</figcaption>
-<pre><b>TopSnow Off</b> : Material._TopSnowAmount = <b>0</b>     <i>（1フレーム定数）</i>
-<b>TopSnow On</b>  : Material._TopSnowAmount = <b>0.6</b>   <i>（1フレーム定数）</i>
+      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 7h11M8 12h11M8 17h11M4 7h.01M4 12h.01M4 17h.01"/></svg>トグル用の定数クリップ（4本）</figcaption>
+<pre>DeepFrostIceSample_TopSnowOff  : <b>Material._TopSnowAmount</b>   = <b>0</b>
+DeepFrostIceSample_TopSnowOn   : <b>Material._TopSnowAmount</b>   = <b>0.6</b>
 
-Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
-「off値」「on値」を定数で1本ずつ作る。</pre>
+DeepFrostIceSample_SparkleOff  : <b>Material._SparkleIntensity</b> = <b>0</b>
+DeepFrostIceSample_SparkleOn   : <b>Material._SparkleIntensity</b> = <b>3</b>
+
+<i>いずれも1フレームの定数カーブ</i></pre>
     </figure>
 
     <h3>表示/非表示のクリップ（m_IsActive）</h3>
-    <p>オブジェクトごと消したい場合は、マテリアルではなく <strong>子 GameObject の有効状態</strong>（<code>m_IsActive</code>）を動かします。ポイントは、Animator が乗るルートではなく<strong>その子（Renderer 側）</strong>を対象にすること。子を対象にすれば、非表示にしても Animator まで止まりません。</p>
+    <p>オブジェクトごと消す場合は、マテリアルではなく <strong>子 GameObject の有効状態</strong>（<code>m_IsActive</code>）を動かします。ポイントは、Animator が乗るルート（<code>DeepFrostIceSample</code>）ではなく<strong>その子（<code>DeepFrostIce Sphere</code>）</strong>を対象にすること。子を対象にすれば、非表示にしても Animator まで止まりません。</p>
     <figure class="code">
-      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>表示切替クリップの中身（Visible の例）</figcaption>
+      <figcaption><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>DeepFrostIceSample_Visible*.anim の中身</figcaption>
 <pre>対象 GameObject : <b>DeepFrostIce Sphere</b>   <i>（子。ルートではない）</i>
 プロパティ      : <b>Is Active</b>  <i>（m_IsActive / type = GameObject）</i>
-<b>Visible Off</b> : 0     <i>（1フレーム定数）</i>
-<b>Visible On</b>  : 1     <i>（1フレーム定数）</i></pre>
+
+DeepFrostIceSample_VisibleOff : <b>0</b>   <i>（1フレーム定数）</i>
+DeepFrostIceSample_VisibleOn  : <b>1</b>   <i>（1フレーム定数）</i></pre>
     </figure>
+
+    <div class="callout">
+      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>自分のメッシュに適用したいとき</p>
+      <p>サンプルの氷球ではなく自分のアクセサリや衣装に使いたい場合は、<strong>DeepFrostIce のマテリアルを自分の Renderer に割り当て</strong>、上記クリップの<strong>対象 GameObject を自分の Renderer に差し替える</strong>だけです。プロパティ名とレンジはそのまま使えます。</p>
+    </div>
   </div>
 </section>
 
 <section class="block" id="controller">
   <div class="wrap">
-    <h2><span class="num">手順2</span>Animatorレイヤーを組む</h2>
-    <p class="section-lead">FX 用の AnimatorController を用意し、パラメータごとに1レイヤーを足します。マージ先に無駄が残らないよう、<strong>自動生成される空の Base Layer は削除</strong>しておきます。各レイヤーは <strong>Weight = 1</strong>、<strong>Write Defaults = off</strong> で統一します。</p>
+    <span class="step-badge">Step B-2</span>
+    <h2>Animatorレイヤーを組む</h2>
+    <p class="section-lead">FX 用の AnimatorController に、パラメータごとに1レイヤーを足します。サンプルの <code>DeepFrostIceSample.controller</code> は<strong>7レイヤー</strong>（Motion Time 4本＋トグル3本）構成で、マージ先に無駄が残らないよう<strong>自動生成される空の Base Layer は削除</strong>してあります。各レイヤーは <strong>Weight = 1</strong>、<strong>Write Defaults = off</strong> で統一しています。</p>
 
     <h3>パラメータを宣言する</h3>
-    <p>Animator の Parameters に、連続値は <code>Float</code>、オン/オフは <code>Bool</code> を追加します。<strong>名前は後述の同期パラメータ名と一致</strong>させます（食い違うと動きません）。</p>
+    <p>Animator の Parameters に、連続値は <code>Float</code>（<code>DFI_Freeze</code> / <code>DFI_Melt</code> / <code>DFI_Absorption</code> / <code>DFI_Dissolve</code>）、オン/オフは <code>Bool</code>（<code>DFI_TopSnow</code> / <code>DFI_Sparkle</code> / <code>DFI_Visible</code>）を追加します。<strong>名前は Expression パラメータ名と完全一致</strong>させます。</p>
 
-    <h3>Motion Time レイヤー（Radial Puppet 用）</h3>
-    <p>1ステートだけのレイヤーを作り、その State に 0→1 クリップを置きます。State のインスペクタで <strong>Motion Time</strong> を有効化し、対応する Float パラメータを割り当てます。すると 0〜1 のパラメータがクリップの正規化時間へ写像され、結果としてクリップの from→to（0→5 なども含む）へ写ります。</p>
+    <h3>Motion Time レイヤー（Radial Puppet 用・4本）</h3>
+    <p>1ステートだけのレイヤーを作り、その State に 0→1 のクリップを置きます。State のインスペクタで <strong>Motion Time</strong> を有効化し、対応する Float パラメータを割り当てます。すると 0〜1 のパラメータがクリップの正規化時間へ写像され、結果としてクリップの from→to（Absorption なら 0→5）へ写ります。</p>
 
     <figure class="diagram">
       <div class="layer">
@@ -847,20 +919,30 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
         <div class="l-body">
           <div class="state is-default">
             <span class="s-name">Freeze</span>
-            <span class="s-sub">Motion = 0→1 クリップ</span>
+            <span class="s-sub">Motion = DeepFrostIceSample_Freeze</span>
             <span class="tag">Motion Time = DFI_Freeze</span>
           </div>
         </div>
       </div>
-      <figcaption>Motion Time レイヤー：1ステートで 0–1 をクリップの時間に写す。</figcaption>
+      <div class="layer">
+        <div class="l-head"><b>Layer：Absorption</b> <span class="l-meta">weight 1 ・ Write Defaults off</span></div>
+        <div class="l-body">
+          <div class="state is-default">
+            <span class="s-name">Absorption</span>
+            <span class="s-sub">Motion = DeepFrostIceSample_Absorption（0→5）</span>
+            <span class="tag">Motion Time = DFI_Absorption</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>Motion Time レイヤー：1ステートで 0–1 をクリップの時間に写す。Melt / Dissolve も同型。</figcaption>
     </figure>
 
-    <h3>Off/On トグルレイヤー</h3>
-    <p>Off / On の2ステートを作り、既定ステートは <strong>Off</strong>。Bool パラメータで相互遷移させます。<strong>Off→On は「If（bool = true）」、On→Off は「IfNot（bool = false）」</strong>。どちらも <code>Has Exit Time = off</code>、遷移時間は 0.1 秒程度（即応させたいなら 0）にします。</p>
+    <h3>Off/On トグルレイヤー（3本）</h3>
+    <p>Off / On の2ステートを作り、既定ステートは <strong>Off</strong>。Bool パラメータで相互遷移させます。<strong>Off→On は「If」、On→Off は「IfNot」</strong>。どちらも <code>Has Exit Time = off</code>、遷移時間は <code>0.1</code> 秒です。</p>
 
     <figure class="diagram">
       <div class="layer">
-        <div class="l-head"><b>Layer：Top Snow</b> <span class="l-meta">weight 1 ・ Write Defaults off ・ default = Off</span></div>
+        <div class="l-head"><b>Layer：TopSnow</b> <span class="l-meta">weight 1 ・ Write Defaults off ・ default = Off</span></div>
         <div class="l-body">
           <div class="state is-default">
             <span class="s-name">Off</span>
@@ -877,25 +959,26 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
           </div>
         </div>
       </div>
-      <figcaption>トグルレイヤー：Bool で Off/On を往復。Has Exit Time は off。</figcaption>
+      <figcaption>トグルレイヤー：Bool で Off/On を往復。Sparkle（0 / 3）と Visible（m_IsActive）も同型。</figcaption>
     </figure>
 
     <div class="callout">
       <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5v8l-9 5-9-5V8z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg>Write Defaults の統一</p>
-      <p>FX 全体で Write Defaults の on/off を混在させないのが鉄則です。本ガイドは <strong>off で統一</strong>する前提なので、各ステートのクリップに「そのステートで欲しい値」を明示的に入れています。Modular Avatar を使う場合は <code>Match Avatar Write Defaults</code> がアバター側の流儀に自動で合わせてくれます。</p>
+      <p>FX 全体で Write Defaults の on/off を混在させないのが鉄則です。サンプルは <strong>off 前提</strong>で、各ステートのクリップに「そのステートで欲しい値」を明示的に入れています。Modular Avatar の <code>Match Avatar Write Defaults</code> が、マージ先アバターの流儀に自動で合わせます。</p>
     </div>
   </div>
 </section>
 
 <section class="block" id="expression">
   <div class="wrap">
-    <h2><span class="num">手順3</span>同期パラメータとメニュー</h2>
+    <span class="step-badge">Step B-3</span>
+    <h2>同期パラメータとメニュー</h2>
     <p class="section-lead">Animator を動かすための <strong>同期パラメータ</strong> と、それを触るための <strong>Expression Menu</strong> を用意します。</p>
 
     <h3>Expression Parameters</h3>
     <ul>
-      <li>連続値：<code>Float</code>、<strong>Saved 有効</strong>、既定値 <code>0</code>。</li>
-      <li>オン/オフ：<code>Bool</code>、<strong>Saved 有効</strong>、既定値は初期状態に合わせる（例：トップスノー／スパークル／表示は既定 <strong>ON</strong>）。</li>
+      <li>連続値：<code>Float</code>、<strong>Saved 有効</strong>、既定値 <code>0</code>（<code>DFI_Freeze</code> ほか4つ）。</li>
+      <li>オン/オフ：<code>Bool</code>、<strong>Saved 有効</strong>、<strong>既定 ON</strong> を明示（<code>DFI_TopSnow</code> / <code>DFI_Sparkle</code> / <code>DFI_Visible</code>）。</li>
       <li>名前は Animator のパラメータ名と<strong>完全一致</strong>させます。</li>
     </ul>
 
@@ -903,7 +986,7 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
     <ul>
       <li><strong>Radial Puppet</strong>：コントロール自身の Parameter は空のまま、<em>Rotation（サブパラメータ）</em>に Float 名を割り当てます。</li>
       <li><strong>Toggle</strong>：コントロールの Parameter に Bool 名を割り当て、Value = 1。</li>
-      <li>これら（例では7項目）を<strong>ルートに直挿しせず、サブメニュー1個にまとめて</strong>、ルートにはそのサブメニューへのコントロールを1つだけ置きます。</li>
+      <li>7項目は<strong>ルートに直挿しせず、サブメニュー1個にまとめて</strong>、ルートにはその入口を1つだけ置きます。サンプルでは <code>DeepFrostIceSampleMenuControls.asset</code> に7項目、<code>DeepFrostIceSampleMenu.asset</code> に「DeepFrostIce」サブメニュー1件、という2枚構成です。</li>
     </ul>
 
     <figure class="diagram">
@@ -912,7 +995,7 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
           <li><span class="t-root">アバターのルートメニュー</span>
             <ul>
               <li>（アバター既存の項目…）</li>
-              <li><span class="t-root">Product Test</span> <span class="t-type">SubMenu</span>
+              <li><span class="t-root">DeepFrostIce</span> <span class="t-type">SubMenu</span>
                 <ul>
                   <li>Freeze <span class="t-type">Radial</span></li>
                   <li>Melt <span class="t-type">Radial</span></li>
@@ -934,18 +1017,19 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
 
 <section class="block" id="modular-avatar">
   <div class="wrap">
-    <h2><span class="num">手順4</span>Modular Avatarで組む（推奨）</h2>
-    <p class="section-lead">ここまでの Controller・Parameters・Menu を、プレハブのルートに載せた4つの MA コンポーネントでアバターへマージします。<strong>プレハブをアバター配下にドラッグするだけ</strong>で完了し、既存の FX／メニュー／パラメータを壊しません。</p>
+    <span class="step-badge">Step B-4</span>
+    <h2>Modular Avatarでマージする</h2>
+    <p class="section-lead">Controller・Parameters・Menu を、プレハブのルート（<code>DeepFrostIceSample</code>）に載せた4つのコンポーネントでアバターへマージします。これが「ドラッグするだけで動く」正体です。</p>
 
     <ol class="steps">
       <li>
         <h3>Animator（一時置き）</h3>
-        <p>プレハブのルートに <code>Animator</code> を付け、Controller に上で作った FX 用 Controller を指定します。これはマージ用の受け渡しで、下の Merge Animator が<strong>マージ後に自動で外します</strong>。</p>
+        <p>ルートに <code>Animator</code> を付け、Controller に <code>DeepFrostIceSample.controller</code> を指定します。これはマージ用の受け渡しで、下の Merge Animator が<strong>マージ後に自動で外します</strong>。</p>
       </li>
       <li>
         <h3>MA Merge Animator</h3>
         <ul>
-          <li><code>Merge Animator To</code> = 作った Controller</li>
+          <li><code>Merge Animator To</code> = <code>DeepFrostIceSample.controller</code></li>
           <li><code>Layer Type</code> = <strong>FX</strong></li>
           <li><code>Delete Attached Animator</code> = <strong>ON</strong>（上の一時 Animator を掃除）</li>
           <li><code>Path Mode</code> = <strong>Relative</strong>（クリップのパスをプレハブ内の Renderer に解決）</li>
@@ -954,17 +1038,17 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
       </li>
       <li>
         <h3>MA Parameters</h3>
-        <p>同期パラメータをアバターの Expression Parameters へ登録します。<strong>Float は Saved・既定 0</strong>、<strong>Bool は Saved・明示的な既定値</strong>（既定 ON にしたいものは明示的に ON）を指定します。</p>
+        <p>7つの同期パラメータをアバターの Expression Parameters へ登録します。<strong>Float 4つは Saved・既定 0</strong>、<strong>Bool 3つは Saved・明示的に既定 ON</strong>を指定しています。</p>
       </li>
       <li>
         <h3>MA Menu Installer</h3>
-        <p><code>Menu to Append</code> に「SubMenu を1つ持つルートメニュー」を指定します。アバターのメニューへその SubMenu が <strong>append</strong> され、ルートを埋めません。</p>
+        <p><code>Menu to Append</code> に <code>DeepFrostIceSampleMenu.asset</code>（「DeepFrostIce」SubMenu を1つ持つルートメニュー）を指定します。アバターのメニューへその SubMenu が <strong>append</strong> され、ルートを埋めません。</p>
       </li>
     </ol>
 
     <div class="callout ok">
-      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>MAの利点</p>
-      <p>Controller・Parameters・Menu をアバター本体に手作業でコピーしないので、<strong>アバター側の既存設定と衝突しない</strong>・<strong>複数アバターに使い回せる</strong>・<strong>更新差し替えが楽</strong>という利点があります。Renderer とマテリアルは同じプレハブ内に置き、Relative パスで解決させます。</p>
+      <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>MAでマージする利点</p>
+      <p>Controller・Parameters・Menu をアバター本体へ手作業でコピーしないので、<strong>既存設定と衝突しない</strong>・<strong>複数アバターに使い回せる</strong>・<strong>更新の差し替えが楽</strong>という利点があります。Renderer とマテリアルは同じプレハブ内に置き、Relative パスで解決させます。</p>
     </div>
   </div>
 </section>
@@ -974,37 +1058,11 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
     <h2>MAを使わない手動組み込み</h2>
     <p class="section-lead">Modular Avatar を使わない場合は、同じ中身をアバター本体へ直接足します。手数が増え、衝突にも注意が要りますが仕組みは同じです。</p>
     <ul>
-      <li><strong>FX Controller</strong>：手順2で作ったレイヤー（Motion Time／トグル）をアバターの FX AnimatorController へ複製。クリップのバインドパスが、アバター配下での Renderer のパスと一致するよう<strong>パスを合わせ直します</strong>。</li>
-      <li><strong>Expression Parameters</strong>：Float（Saved・0）／Bool（Saved・明示既定）を手動登録。</li>
-      <li><strong>Expression Menu</strong>：SubMenu を作って Radial／Toggle コントロールを入れ、アバターのメニューへその SubMenu を追加。</li>
+      <li><strong>FX Controller</strong>：STEP B-2 の7レイヤー（Motion Time 4本／トグル3本）をアバターの FX AnimatorController へ複製。クリップのバインドパスが、アバター配下での Renderer のパスと一致するよう<strong>パスを合わせ直します</strong>。</li>
+      <li><strong>Expression Parameters</strong>：<code>DFI_*</code> の Float 4つ（Saved・0）／Bool 3つ（Saved・既定ON）を手動登録。</li>
+      <li><strong>Expression Menu</strong>：SubMenu を作って Radial／Toggle の7コントロールを入れ、アバターのメニューへその SubMenu を追加。</li>
       <li>Write Defaults は<strong>アバターの FX 全体の流儀に合わせて統一</strong>します（混在させない）。</li>
     </ul>
-  </div>
-</section>
-
-<section class="block" id="example">
-  <div class="wrap">
-    <h2>実例：DeepFrostIce の対応表</h2>
-    <p class="section-lead">本ガイドの下敷きにした <code>DeepFrostIce</code> の実装では、7項目を次のように割り当てています。他製品でも「メニュー項目 → 対象プロパティ → レンジ」を読み替えれば同じ構造で組めます。</p>
-
-    <div class="table-wrap">
-      <table>
-        <caption>DeepFrostIce のパラメータ割り当て（実装済みプレハブより）</caption>
-        <thead>
-          <tr><th>メニュー項目</th><th>種類</th><th>同期パラメータ</th><th>対象</th><th>レンジ / 値</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Freeze</td><td>Radial</td><td><code>Float</code></td><td><code>material._FreezeAmount</code></td><td>0 → 1</td></tr>
-          <tr><td>Melt</td><td>Radial</td><td><code>Float</code></td><td><code>material._MeltAmount</code></td><td>0 → 1</td></tr>
-          <tr><td>Absorption</td><td>Radial</td><td><code>Float</code></td><td><code>material._AbsorptionDensity</code></td><td>0 → 5</td></tr>
-          <tr><td>Dissolve</td><td>Radial</td><td><code>Float</code></td><td><code>material._DissolveAmount</code></td><td>0 → 1</td></tr>
-          <tr><td>Top Snow</td><td>Toggle</td><td><code>Bool</code>（既定ON）</td><td><code>material._TopSnowAmount</code></td><td>0 / 0.6</td></tr>
-          <tr><td>Sparkle</td><td>Toggle</td><td><code>Bool</code>（既定ON）</td><td><code>material._SparkleIntensity</code></td><td>0 / 3</td></tr>
-          <tr><td>Visible</td><td>Toggle</td><td><code>Bool</code>（既定ON）</td><td>子GameObject <code>m_IsActive</code></td><td>Off / On</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>連続値の4つは Motion Time レイヤー＋Radial Puppet、オン/オフの3つは Off/On トグルレイヤー＋Toggle。Absorption だけレンジが 0→5 ですが、これは<strong>クリップの末尾キーを 5 にしている</strong>だけで、パラメータ自体は他と同じ 0〜1 です。</p>
   </div>
 </section>
 
@@ -1020,7 +1078,7 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
       </div>
       <div class="callout warn">
         <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg>Motion Time のレンジ</p>
-        <p>Radial は必ず 0〜1。<strong>0→5 のような幅はクリップ側の値レンジで表現</strong>します。パラメータを 0〜5 にしようとしないこと。</p>
+        <p>Radial は必ず 0〜1。<strong>Absorption の 0→5 のような幅はクリップ側の値レンジで表現</strong>します。パラメータを 0〜5 にしようとしないこと。</p>
       </div>
       <div class="callout warn">
         <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg>ルートメニューの圧迫</p>
@@ -1028,15 +1086,15 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
       </div>
       <div class="callout warn">
         <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg>同期パラメータのコスト</p>
-        <p>同期は 256bit の枠を共有（Float=8bit / Bool=1bit）。<strong>必要な分だけ</strong>にし、ローカルで十分なものは非同期も検討します。</p>
+        <p>同期は 256bit の枠を共有（Float=8bit / Bool=1bit）。サンプルは Float 4＋Bool 3 で <strong>35bit</strong> 使います。不要な項目は削って構いません。</p>
       </div>
       <div class="callout warn">
         <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg>名前の食い違い</p>
-        <p>Animator パラメータ／Expression Parameters／メニューの<strong>名前は完全一致</strong>。1文字違うだけで無反応になります。</p>
+        <p>Animator パラメータ／Expression Parameters／メニューの<strong>名前は完全一致</strong>。<code>DFI_Freeze</code> が1文字違うだけで無反応になります。</p>
       </div>
       <div class="callout warn">
         <p class="c-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17h.01"/></svg>表示切替の対象</p>
-        <p>オブジェクト非表示は <strong>Animator が乗る子（Renderer 側）</strong>の <code>m_IsActive</code> を動かします。ルートを消すと Animator まで止まります。</p>
+        <p>オブジェクト非表示は <strong>子の <code>DeepFrostIce Sphere</code></strong> の <code>m_IsActive</code> を動かします。Animator が乗るルートを消すと Animator まで止まります。</p>
       </div>
     </div>
   </div>
@@ -1046,8 +1104,8 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
 
 <footer>
   <div class="wrap">
-    <p>VRChatアバター向けの汎用手順書です。特定商品専用ではなく、シェーダー／マテリアルのプロパティをExpression Menuから制御したいときに共通で参照できます。</p>
-    <p class="f-meta">Unity + VRChat SDK3 (Avatars) / Modular Avatar ・ 実例：DeepFrostIce</p>
+    <p>DeepFrostIceShader（氷・深蒼凍・霜シェーダー）の同梱サンプルを前提としたアニメーション設定ガイドです。<a href="../">製品ページへ戻る</a></p>
+    <p class="f-meta">Unity + VRChat SDK3 (Avatars) / Modular Avatar ・ Sample: DeepFrostIceSample.prefab</p>
   </div>
 </footer>
 
@@ -1055,7 +1113,7 @@ Sparkle なら _SparkleIntensity を 0 / 3 で2本、というように
   // テーマ切替：クリック/Enter/Spaceで data-theme を切替え、localStorage に記憶。
   // aria-pressed で現在テーマを支援技術へ伝える。初期テーマは head 側で確定済み。
   (function () {
-    var KEY = 'paramAnimTheme';
+    var KEY = 'dfiAnimTheme';
     var root = document.documentElement;
     var btns = Array.prototype.slice.call(document.querySelectorAll('.theme-btn'));
 

@@ -186,7 +186,8 @@ const createConfig_development = ({ outputPath }) => {
   // 独立ページ（自己完結HTML）。EJS/SCSSのビルドやlintを通さず静的コピーで
   // dist_uncompressed へ配置し、後段の docs コピーで他ページと同じくminifyして公開する。
   // 新しい独立ページを足すときは、このディレクトリ名の配列に追加するだけでよい。
-  const STANDALONE_PAGES = ['deepfrostice', 'param-animation'];
+  // deepfrostice はサブディレクトリ（例 animation/）ごと丸ごとコピーされる。
+  const STANDALONE_PAGES = ['deepfrostice'];
   config.plugins.push(
     new CopyPlugin({
       patterns: STANDALONE_PAGES.map(dir => ({
