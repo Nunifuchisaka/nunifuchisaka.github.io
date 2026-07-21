@@ -187,7 +187,7 @@ const createConfig_development = ({ outputPath }) => {
   // dist_uncompressed へ配置し、後段の docs コピーで他ページと同じくminifyして公開する。
   // 新しい独立ページを足すときは、このディレクトリ名の配列に追加するだけでよい。
   // deepfrostice はサブディレクトリ（例 animation/）ごと丸ごとコピーされる。
-  const STANDALONE_PAGES = ['deepfrostice'];
+  const STANDALONE_PAGES = ['deepfrostice', 'heartbeat'];
   config.plugins.push(
     new CopyPlugin({
       patterns: STANDALONE_PAGES.map(dir => ({
