@@ -509,59 +509,6 @@ code, .mono {
 }
 
 /* =========================================================
-   テストシーンの使い方
-   ========================================================= */
-.testscene {
-  max-width: 60rem;
-}
-.menu-path {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1rem;
-  border-radius: var(--radius-sm);
-  background: var(--glass-bg-strong);
-  border: 1px solid var(--glass-border);
-  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
-  font-size: 0.88rem;
-  color: var(--ice-bright);
-  margin-bottom: 1.4rem;
-  max-width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-@media (prefers-color-scheme: light) { .menu-path { color: var(--deep); } }
-.menu-path svg { width: 1rem; height: 1rem; flex: 0 0 auto; }
-
-.btn-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-  gap: 0.7rem;
-}
-.btn-item {
-  padding: 0.9rem 1.05rem;
-  border-radius: var(--radius-sm);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-.btn-item .k {
-  display: inline-block;
-  font-family: ui-monospace, "SFMono-Regular", "Consolas", monospace;
-  font-size: 0.8rem;
-  font-weight: 650;
-  color: var(--ice-bright);
-  background: rgba(127, 211, 255, 0.12);
-  border: 1px solid var(--hairline);
-  padding: 0.14rem 0.5rem;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-}
-@media (prefers-color-scheme: light) { .btn-item .k { color: var(--deep); } }
-.btn-item p { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-soft); }
-
-/* =========================================================
    パラメータリファレンス（details で折りたたみ）
    ========================================================= */
 .params { max-width: 62rem; }
@@ -773,8 +720,8 @@ footer .credit { font-size: 0.82rem; color: var(--text-faint); margin-top: 1.2re
    アクセシビリティ：透明度低減（backdrop-filter を外し不透明化）
    ========================================================= */
 @media (prefers-reduced-transparency: reduce) {
-  .nav, .card, .step, .btn-ghost, .tag, .btn-item, details.param-group,
-  .constraint, footer, .menu-path {
+  .nav, .card, .step, .btn-ghost, .tag, details.param-group,
+  .constraint, footer {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
@@ -805,7 +752,7 @@ footer .credit { font-size: 0.82rem; color: var(--text-faint); margin-top: 1.2re
       --text-faint: #33526a;
     }
   }
-  .card, .step, .constraint, details.param-group, .btn-item { border-width: 1.5px; }
+  .card, .step, .constraint, details.param-group { border-width: 1.5px; }
 }
 
 .skip-link {

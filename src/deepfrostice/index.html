@@ -35,7 +35,6 @@
       <span class="nav-inner-links">
         <a class="navlink" href="#features">特徴</a>
         <a class="navlink" href="#setup">導入</a>
-        <a class="navlink" href="#test">テストシーン</a>
         <a class="navlink" href="#params">パラメータ</a>
         <a class="navlink" href="#notes">注意</a>
       </span>
@@ -236,43 +235,7 @@
 </section>
 
 <!-- ======================================================
-     5. テストシーンの使い方
-     ====================================================== -->
-<section id="test" class="section-pad">
-  <div class="wrap testscene">
-    <span class="eyebrow reveal">Test Scene</span>
-    <h2 class="sect-title reveal">テストシーンで全機能を確認</h2>
-    <p class="sect-lead reveal">Editorメニューから、全機能をまとめて検証できるテストシーンを生成できます。Gameビュー左上のボタンで各機能を切り替えて確認します。</p>
-
-    <div class="menu-path reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-      Tools / Nunifuchisaka / DeepFrostIce / Create Test Scene
-    </div>
-
-    <div class="btn-list">
-      <div class="btn-item reveal"><span class="k">Normal Light: ON/OFF</span><p>Unity標準のDirectional Lightの点灯切り替え。OFF時は環境光・反射強度も暗くなり、VRC Light Volumes単体の見え方を確認しやすくなります。</p></div>
-      <div class="btn-item reveal"><span class="k">Front / Back / Left / Right / Top / Low</span><p>Directional Lightの向きを切り替えます。</p></div>
-      <div class="btn-item reveal"><span class="k">Freeze 0〜100% + Animate Freeze</span><p>Freeze Amountを切り替え、縁と結晶ノイズの濃い部分から霜が広がって全体が凍りつく様子を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Melt 0〜100% + Animate Melt / Water Film</span><p>霜の融解と、露出面へ現れる流れる疑似水膜を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Absorption 0 / 1 / 2.5 / 5 + Animate</span><p>Absorption Densityを切り替え、厚みに応じて縁・厚い部分ほど Deep Color に沈む様子を確認します（0では無色透明）。</p></div>
-      <div class="btn-item reveal"><span class="k">Top Snow: ON/OFF</span><p>Top Snow Amountを切り替え、球の上面ほど雪が積もったように霜が濃くなる様子を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Sparkle: ON/OFF</span><p>Sparkle Intensityを切り替え、視線・ライト角度が合った瞬間だけ丸い光点がきらめく様子を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Light Volumes: ON/OFF + 各ライト</span><p>VRC Light Volumes由来の光（疑似的に動く色付きポイントライト）を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Point Light: ON/OFF</span><p>メイン以外の追加ライト（ForwardAddパス）による氷への映り込みを確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Shadow Occluder: ON/OFF</span><p>遮蔽物による氷本体への影の落ち方（リアルタイムシャドウ受け）を確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Dissolve 0〜95% + Animate Dissolve</span><p>凍結前線・氷結晶の割断面・青白い発光芯が消失境界に先行し、その後を氷が欠けること、床の影は欠けた輪郭にだけ追従することを確認します。</p></div>
-      <div class="btn-item reveal"><span class="k">Fallback Preview: ON/OFF</span><p>Quest実機がなくても、VRCFallbackタグから近似したプレビュー用マテリアルに一時的に差し替えて確認できます（反射・屈折・霜のない平坦な見た目）。</p></div>
-    </div>
-
-    <div class="note reveal" style="margin-top:1.6rem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
-      <span>サンプルマテリアルは霜を半分だけ乗せた状態なので、素の氷側（反射・分散・スパークル等）と霜側（マット寄り）の両方の見た目差を同じシーンで確認できます。</span>
-    </div>
-  </div>
-</section>
-
-<!-- ======================================================
-     6. パラメータリファレンス
+     5. パラメータリファレンス
      ====================================================== -->
 <section id="params" class="section-pad">
   <div class="wrap params">
@@ -518,7 +481,7 @@
 </section>
 
 <!-- ======================================================
-     7. 注意・制約
+     6. 注意・制約
      ====================================================== -->
 <section id="notes" class="section-pad">
   <div class="wrap">
@@ -557,7 +520,7 @@
 </main>
 
 <!-- ======================================================
-     8. フッター
+     7. フッター
      ====================================================== -->
 <footer>
   <div class="wrap">
