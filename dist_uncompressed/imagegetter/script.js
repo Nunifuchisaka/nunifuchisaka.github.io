@@ -19,3 +19,15 @@
 
   els.forEach(function (el) { io.observe(el); });
 })();
+
+// Lightbox（GLightbox、CDN読み込み）。読み込みに失敗した場合は画像を通常表示のままにする。
+(function () {
+  if (typeof window.GLightbox !== 'function') return;
+  window.GLightbox({
+    selector: '.glightbox',
+    touchNavigation: true,
+    loop: false,
+    zoomable: true,
+    closeOnOutsideClick: true
+  });
+})();

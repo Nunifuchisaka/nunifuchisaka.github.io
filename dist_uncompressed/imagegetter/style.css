@@ -743,3 +743,48 @@ footer .credit { font-size: 0.82rem; color: var(--text-faint); margin-top: 1.2re
   transition: transform 0.2s var(--ease);
 }
 .skip-link:focus { transform: none; }
+
+/* =========================================================
+   Lightbox（GLightbox、CDN読み込み）。サイトのミント×深緑トーンに
+   最小限だけ合わせる。CDN読み込みに失敗した場合はここは無効になり
+   画像は通常表示のまま残る（プログレッシブエンハンスメント）。
+   ========================================================= */
+.hero-figure-link { display: block; cursor: zoom-in; }
+
+.goverlay { background: rgba(6, 23, 21, 0.92) !important; }
+
+.gslide-image img { border-radius: var(--radius-sm); }
+
+.glightbox-clean .gslide-description {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.glightbox-clean .gslide-title {
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+}
+.glightbox-clean .gslide-desc {
+  font-family: system-ui, sans-serif;
+  color: var(--text-soft);
+}
+
+.glightbox-clean .gclose,
+.glightbox-clean .gnext,
+.glightbox-clean .gprev {
+  background-color: var(--glass-bg-strong) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.glightbox-clean .gclose:hover,
+.glightbox-clean .gnext:hover,
+.glightbox-clean .gprev:hover {
+  background-color: rgba(70, 217, 160, 0.22) !important;
+}
+.glightbox-clean .gclose path,
+.glightbox-clean .gnext path,
+.glightbox-clean .gprev path {
+  fill: var(--mint-bright);
+}

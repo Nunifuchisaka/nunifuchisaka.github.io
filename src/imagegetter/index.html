@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ImageGetter / 複数URLシェア画像一括取得ツール</title>
 <meta name="description" content="複数URLのシェア画像（og:image）を一括取得・保存するWindows向けツール ImageGetter。GUI版・CLI版を収録し、出力先・オプションのプリセット機能やAIエージェント連携にも対応しています。">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/css/glightbox.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -76,10 +77,14 @@
       </div>
     </div>
 
-    <!-- 実機スクリーンショット（GUI版の操作画面） -->
+    <!-- 実機スクリーンショット（GUI版の操作画面）。クリックで拡大表示（GLightbox、CDN読み込み） -->
     <figure class="hero-figure" id="fig-hero">
-      <img src="img/imagegetter-hero.webp" width="762" height="712" loading="eager" decoding="async"
-           alt="ImageGetterのGUI画面。URL一覧・プリセット・出力先フォルダ・オプション・実行ログが並ぶダークテーマの実際の操作画面。">
+      <a class="hero-figure-link glightbox" href="img/imagegetter-hero.webp"
+         data-title="ImageGetterのGUI画面。URL一覧・プリセット・出力先フォルダ・オプション・実行ログが並ぶダークテーマの実際の操作画面。"
+         aria-label="画像を拡大表示">
+        <img src="img/imagegetter-hero.webp" width="762" height="712" loading="eager" decoding="async"
+             alt="ImageGetterのGUI画面。URL一覧・プリセット・出力先フォルダ・オプション・実行ログが並ぶダークテーマの実際の操作画面。">
+      </a>
     </figure>
   </div>
 </section>
@@ -366,6 +371,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js" defer></script>
 <script src="script.js" defer></script>
 
 </body>
