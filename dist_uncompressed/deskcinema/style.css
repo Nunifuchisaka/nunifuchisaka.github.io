@@ -129,6 +129,9 @@ h1 em { color: var(--accent); font-style: normal; }
 .eyebrow { margin: 0 0 .5rem; color: var(--accent); font-size: .69rem; font-weight: 800; letter-spacing: .18em; }
 .section-title { max-width: 19em; margin: 0; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.16; letter-spacing: -.04em; }
 .section-lead { max-width: 43rem; margin: .9rem 0 2.3rem; color: var(--text-muted); }
+.feature-showcase { margin: 1.6rem 0 2.1rem; overflow: hidden; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+.feature-showcase img { display: block; width: 100%; height: auto; }
+.feature-showcase figcaption { padding: .75rem 1rem; color: var(--text-muted); background: var(--surface); border-top: 1px solid var(--border); font-size: .8rem; }
 .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .card, .control-card { background: rgba(15, 18, 27, .82); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
 .card { min-height: 205px; padding: 1.35rem; transition: transform .25s var(--ease), border-color .2s, background-color .2s, box-shadow .25s; }.card:hover { background: var(--surface-raised); border-color: var(--border-strong); box-shadow: var(--shadow-md); transform: translateY(-3px); }
