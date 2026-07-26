@@ -192,13 +192,23 @@ const createConfig_development = ({ outputPath }) => {
   const STANDALONE_PAGES = ['deepfrostice', 'heartbeat', 'imagegetter', 'glossyskin', 'deskcinema'];
   config.plugins.push(
     new CopyPlugin({
-      patterns: STANDALONE_PAGES.map(dir => ({
-        from: path.resolve(SRC_PATH, dir),
-        to: path.resolve(outputPath, dir),
-        globOptions: {
-          ignore: ['**/.DS_Store', '**/Thumbs.db'],
+      patterns: [
+        ...STANDALONE_PAGES.map(dir => ({
+          from: path.resolve(SRC_PATH, dir),
+          to: path.resolve(outputPath, dir),
+          globOptions: {
+            ignore: ['**/.DS_Store', '**/Thumbs.db'],
+          },
+        })),
+        {
+          from: path.resolve(SRC_PATH, 'assets/img'),
+          to: path.resolve(outputPath, 'assets/img'),
+          globOptions: {
+            ignore: ['**/.DS_Store', '**/Thumbs.db'],
+          },
+          noErrorOnMissing: true,
         },
-      })),
+      ],
     })
   );
 
