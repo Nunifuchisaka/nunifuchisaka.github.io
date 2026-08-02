@@ -600,6 +600,18 @@ const photos = [
   'c27fc2a6-6c97-479b-9d6e-ef5917de7fd2',
   'c931d006-f2be-4b29-83ca-c3a36458e399',
 ];
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const t = {
+  ja: {
+    ariaLabel: (key, total) => `cluster写真 ${key + 1}/${total}(新しいタブで開きます)`,
+    alt: "clusterでの活動写真",
+  },
+  en: {
+    ariaLabel: (key, total) => `cluster photo ${key + 1}/${total} (opens in a new tab)`,
+    alt: "Photo from cluster activities",
+  },
+};
+const l = t[pageLocale];
 %><section id="cluster" class="section_1">
   <h2 class="section_1__h1">
     cluster
@@ -607,8 +619,8 @@ const photos = [
   <ul class="list_4">
     <% photos.forEach(function (value, key) { %>
       <li style="--num: '<%= photos.length - key %>';">
-        <a href="assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="cluster" data-type="image" aria-label="cluster写真 <%= key + 1 %>/<%= photos.length %>(新しいタブで開きます)">
-          <img src="assets/img/cluster/<%= value %>.webp" alt="clusterでの活動写真" loading="lazy">
+        <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="cluster" data-type="image" aria-label="<%= l.ariaLabel(key, photos.length) %>">
+          <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy">
         </a>
       </li>
     <% }); %>

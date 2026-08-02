@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../";
+const meta = {
+  type: "website",
+  title: "Nunifuchisaka",
+  description: "Nunifuchisaka's link collection",
+  url: "en/",
+  altUrl: "",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+</head>
+<body>
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_header",{locale:"en"}) %>
+
+<main id="main">
+<div class="wrapper_1">
+  <div class="wrapper_1__1">
+
+    <%- include(path + "assets/html/_link",{locale:"en"}) %>
+
+  </div><!-- /.wrapper_1__1 -->
+  <div class="wrapper_1__2">
+
+    <%- include(path + "assets/html/_gallery",{locale:"en"}) %>
+
+  </div><!-- /.wrapper_1__2 -->
+</div><!-- /.wrapper_1 -->
+
+<%- include(path + "assets/html/_portfolio",{locale:"en"}) %>
+<%- include(path + "assets/html/_guide",{locale:"en"}) %>
+<%- include(path + "assets/html/_cluster",{locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer",{locale:"en"}) %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../";
+const meta = {
+  title: "Guide Log",
+  description: "A guide log and timeline of helping people get started with VRChat",
+  url: "en/timeline/",
+  altUrl: "timeline/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+</head>
+<body>
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_header",{locale:"en"}) %>
+
+<main id="main">
+<header class="header_3">
+  <h2 class="header_3__h1">
+    Guide Log
+  </h2>
+</header><!-- /.header_3 -->
+
+<p>
+  A record of helping people get started with VRChat, tallied from reports tagged “#VRChat始めました” (I started VRChat).
+</p>
+
+<ul class="list_5">
+  <li>
+    Total people guided: <%= guideStats.total %>
+  </li>
+  <li>
+    Started on: <%= guideStats.firstDate %>
+  </li>
+  <li>
+    Most recent guide date: <%= guideStats.lastDate %>
+  </li>
+</ul><!-- /.list_5 -->
+
+<header class="header_3">
+  <h2 class="header_3__h1">
+    Milestones
+  </h2>
+</header><!-- /.header_3 -->
+
+<ul class="list_5">
+  <% guideStats.milestones.forEach(function (milestone) { %>
+    <li>
+      Person #<%= milestone.count %>: <%= milestone.date %>
+    </li>
+  <% }); %>
+</ul><!-- /.list_5 -->
+
+<p>
+  <a href="/en/#guide">View all photos</a>
+</p>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer",{locale:"en"}) %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

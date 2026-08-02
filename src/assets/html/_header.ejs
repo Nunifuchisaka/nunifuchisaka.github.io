@@ -1,14 +1,45 @@
-<header class="header_2">
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const t = {
+  ja: {
+    top: "トップページ",
+    timeline: "案内実績",
+    equipment: "VR機材",
+    videos: "回想",
+    dice: "話題サイコロ",
+    lead: "ENTP-A＂召喚獣＂<br>冬生まれ雪国育ち 氷属性<br>親しくなった人間の召喚に応じることがあるらしい。<br>Publicに出没する報告が多数ある。",
+    langLabel: "言語切替",
+  },
+  en: {
+    top: "Home",
+    timeline: "Guide Log",
+    equipment: "VR Gear",
+    videos: "Memories",
+    dice: "Topic Dice",
+    lead: "ENTP-A “Summon Beast”<br>Born in winter, raised in snow country. Ice element.<br>Reportedly responds to summons from humans it has grown close to.<br>Frequently spotted roaming Public instances.",
+    langLabel: "Language",
+  },
+};
+const l = t[pageLocale];
+const prefix = pageLocale === "en" ? "/en" : "";
+%><header class="header_2">
   <div class="header_2__bg">
     <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" draggable="false">
   </div>
   <nav>
     <ul>
-      <li><a href="/">トップページ</a></li>
-      <li><a href="/timeline/">案内実績</a></li>
-      <li><a href="/equipment/">VR機材</a></li>
-      <li><a href="/videos/">回想</a></li>
-      <li><a href="/dice/">話題サイコロ</a></li>
+      <li><a href="<%= prefix %>/"><%= l.top %></a></li>
+      <li><a href="<%= prefix %>/timeline/"><%= l.timeline %></a></li>
+      <li><a href="<%= prefix %>/equipment/"><%= l.equipment %></a></li>
+      <li><a href="<%= prefix %>/videos/"><%= l.videos %></a></li>
+      <li><a href="<%= prefix %>/dice/"><%= l.dice %></a></li>
+      <li class="header_2__lang">
+        <label class="visually-hidden" for="js-lang-select"><%= l.langLabel %></label>
+        <select id="js-lang-select">
+          <option value="ja"<% if (pageLocale === "ja") { %> selected<% } %>>日本語</option>
+          <option value="en"<% if (pageLocale === "en") { %> selected<% } %>>English</option>
+        </select>
+      </li>
     </ul>
   </nav><!-- /#hnav -->
   <div class="header_2__icon">
@@ -19,7 +50,7 @@
       ぬにふちさか
     </h1>
     <p class="lead">
-      ENTP-A＂召喚獣＂<br>冬生まれ雪国育ち 氷属性<br>親しくなった人間の召喚に応じることがあるらしい。<br>Publicに出没する報告が多数ある。
+      <%- l.lead %>
     </p>
   </div>
 </header>

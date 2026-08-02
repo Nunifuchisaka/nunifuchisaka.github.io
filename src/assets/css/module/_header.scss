@@ -46,6 +46,7 @@
     background: rgb(0 0 0 / 80%);
     ul {
       display: flex;
+      align-items: center;
       padding: .5em;
     }
     li {
@@ -57,6 +58,18 @@
 
       // color: #000;
 
+    }
+  }
+  &__lang {
+    margin-left: auto;
+    padding: .5em 1em;
+    select {
+      padding: .3em .5em;
+      font-size: inherit;
+      color: #000;
+      background: #fff;
+      border: none;
+      border-radius: 4px;
     }
   }
   &__icon {

@@ -1,17 +1,27 @@
-<section id="guide" class="section_1">
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+%><section id="guide" class="section_1">
   <h2 class="section_1__h1">
     Guide
   </h2>
   <ul class="list_4">
     <% guides.forEach(function(value, key) {
       const dateMatch = value.match(/(\d{4})-(\d{2})-(\d{2})/);
-      const dateLabel = dateMatch ? `${dateMatch[1]}年${parseInt(dateMatch[2], 10)}月${parseInt(dateMatch[3], 10)}日` : '';
-      const guideAlt = dateLabel ? `${dateLabel}の案内写真` : '案内写真';
-      const guideAriaLabel = guideAlt + '(新しいタブで開きます)';
+      const year = dateMatch ? parseInt(dateMatch[1], 10) : null;
+      const month = dateMatch ? parseInt(dateMatch[2], 10) : null;
+      const day = dateMatch ? parseInt(dateMatch[3], 10) : null;
+      const dateLabel = dateMatch
+        ? (pageLocale === "en" ? `${MONTH_NAMES_EN[month - 1]} ${day}, ${year}` : `${year}年${month}月${day}日`)
+        : '';
+      const guideAlt = dateLabel
+        ? (pageLocale === "en" ? `Guide photo from ${dateLabel}` : `${dateLabel}の案内写真`)
+        : (pageLocale === "en" ? "Guide photo" : "案内写真");
+      const guideAriaLabel = guideAlt + (pageLocale === "en" ? " (opens in a new tab)" : "(新しいタブで開きます)");
     %>
       <li style="--num: '<%= guides.length - key %>';">
-        <a href="assets/img/guide/<%= value %>" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image"<% if (dateLabel) { %> data-title="<%= dateLabel %>"<% } %> aria-label="<%= guideAriaLabel %>">
-          <img src="assets/img/guide/<%= value %>" alt="<%= guideAlt %>" loading="lazy">
+        <a href="/assets/img/guide/<%= value %>" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image"<% if (dateLabel) { %> data-title="<%= dateLabel %>"<% } %> aria-label="<%= guideAriaLabel %>">
+          <img src="/assets/img/guide/<%= value %>" alt="<%= guideAlt %>" loading="lazy">
         </a>
       </li>
     <% }); %>

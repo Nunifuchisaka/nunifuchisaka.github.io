@@ -1,1 +1,4 @@
-<a class="skip-link" href="#main">本文へスキップ</a>
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const skipLabel = pageLocale === "en" ? "Skip to main content" : "本文へスキップ";
+%><a class="skip-link" href="#main"><%= skipLabel %></a>

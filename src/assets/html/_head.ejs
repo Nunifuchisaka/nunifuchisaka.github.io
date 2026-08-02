@@ -1,4 +1,6 @@
 <%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+
 if( meta.titleSeparator ) {
   meta.titleAfter = meta.titleSeparator + SITE_NAME;
 } else {
@@ -12,6 +14,9 @@ if ( !meta.image ) meta.image = "https://pbs.twimg.com/profile_images/1778446890
 
 const canonicalUrl = SITE_URL + meta.url;
 const ogImage = meta.image.startsWith("http") ? meta.image : SITE_URL + meta.image;
+const altUrl = typeof meta.altUrl === "string" ? SITE_URL + meta.altUrl : null;
+const jaUrl = pageLocale === "ja" ? canonicalUrl : altUrl;
+const enUrl = pageLocale === "en" ? canonicalUrl : altUrl;
 
 %><meta charset="utf-8">
 
@@ -34,6 +39,11 @@ const ogImage = meta.image.startsWith("http") ? meta.image : SITE_URL + meta.ima
 <meta name="description" content="<%= meta.description %>">
 <!-- <meta name="keywords" content="<%= meta.keywords %>"> -->
 <link rel="canonical" href="<%= canonicalUrl %>">
+<% if (jaUrl && enUrl) { %>
+<link rel="alternate" hreflang="ja" href="<%= jaUrl %>">
+<link rel="alternate" hreflang="en" href="<%= enUrl %>">
+<link rel="alternate" hreflang="x-default" href="<%= jaUrl %>">
+<% } %>
 
 <meta property="og:site_name" content="<%= SITE_NAME %>">
 <meta property="og:type" content="<%= meta.type %>">
@@ -51,8 +61,9 @@ const ogImage = meta.image.startsWith("http") ? meta.image : SITE_URL + meta.ima
 <link rel="stylesheet" href="/assets/css/common.css?3">
 
 <script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
-<script src="<%= START_PATH %>assets/js/vendor.js" defer></script>
-<script src="<%= START_PATH %>assets/js/common.js" defer></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
 
 <script type="application/ld+json">
 {

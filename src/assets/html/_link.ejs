@@ -1,87 +1,106 @@
-<ul class="list_1">
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const t = {
+  ja: {
+    metaCode: "Meta 招待コード",
+    marshmallow: "マシュマロ",
+    wishlistBefore: "BOOTH&nbsp;",
+    wishlistAfter: "欲しい物リスト",
+    newTab: "（新しいタブで開きます）",
+  },
+  en: {
+    metaCode: "Meta Referral Code",
+    marshmallow: "Marshmallow (Q&A)",
+    wishlistBefore: "BOOTH&nbsp;",
+    wishlistAfter: "Wish List",
+    newTab: "(opens in a new tab)",
+  },
+};
+const l = t[pageLocale];
+%><ul class="list_1">
   <li>
     <a href="https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5" target="_blank" rel="noopener">
       <i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i>
       VRChat
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://www.meta.com/referrals/link/Nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-meta" aria-hidden="true"></i>
-      Meta 招待コード
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+      <%= l.metaCode %>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://cluster.mu/u/nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-solid fa-infinity" aria-hidden="true"></i>
       cluster
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://x.com/nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-twitter" aria-hidden="true"></i>
       <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
       Twitter(X)
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://www.youtube.com/@nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-youtube" aria-hidden="true"></i>
       YouTube
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://vimeo.com/nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-vimeo-v" aria-hidden="true"></i>
       Vimeo
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
       <i class="fa-solid fa-store" aria-hidden="true"></i>
       BOOTH
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://www.tiktok.com/@nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
       TikTok
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://www.instagram.com/nunifuchisaka/" target="_blank" rel="noopener">
       <i class="fa-brands fa-instagram" aria-hidden="true"></i>
       Instagram
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://marshmallow-qa.com/nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-      マシュマロ
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+      <%= l.marshmallow %>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://querie.me/user/nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-solid fa-comments" aria-hidden="true"></i>
       Querie
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <li>
     <a href="https://github.com/Nunifuchisaka" target="_blank" rel="noopener">
       <i class="fa-brands fa-github" aria-hidden="true"></i>
       GitHub
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
   <!-- <li>
     <a href="https://nunifuchisaka.fanbox.cc/" target="_blank" rel="noopener">
       <i class="fa-solid fa-box" aria-hidden="true"></i>
       FANBOX
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li> -->
   <li>
     <a href="https://booth.pm/wish_list_names/dXqTayEr" target="_blank" rel="noopener">
       <i class="fa-solid fa-store" aria-hidden="true"></i>
-      BOOTH&nbsp;<br class="sp">欲しい物リスト
-    <span class="visually-hidden">（新しいタブで開きます）</span></a>
+      <%- l.wishlistBefore %><br class="sp"><%= l.wishlistAfter %>
+    <span class="visually-hidden"><%= l.newTab %></span></a>
   </li>
 </ul>

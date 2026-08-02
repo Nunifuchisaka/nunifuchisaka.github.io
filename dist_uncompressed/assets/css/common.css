@@ -51,11 +51,24 @@
 }
 .header_2 nav ul {
   display: flex;
+  align-items: center;
   padding: 0.5em;
 }
 .header_2 nav a {
   display: block;
   padding: 0.5em 1em;
+}
+.header_2__lang {
+  margin-left: auto;
+  padding: 0.5em 1em;
+}
+.header_2__lang select {
+  padding: 0.3em 0.5em;
+  font-size: inherit;
+  color: #000;
+  background: #fff;
+  border: none;
+  border-radius: 4px;
 }
 .header_2__icon {
   position: absolute;

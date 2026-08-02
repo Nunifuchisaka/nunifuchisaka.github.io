@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("js-lang-select");e&&e.addEventListener("change",()=>{const n=e.value,t=window.location.pathname,o="/en"===t||t.startsWith("/en/");"en"!==n||o?"ja"===n&&o&&(window.location.href=t.replace(/^\/en/,"")||"/"):window.location.href="/en"+t})});
