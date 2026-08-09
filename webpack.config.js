@@ -189,7 +189,7 @@ const createConfig_development = ({ outputPath }) => {
   // deepfrostice はサブディレクトリ（例 animation/）ごと丸ごとコピーされる。
   // なお .js は docs コピー側で除外され、production の `**/*.js` エントリ側が
   // babel＋Terserを通して docs へ出力する（dist_uncompressed には素のまま残る）。
-  const STANDALONE_PAGES = ['deepfrostice', 'heartbeat', 'imagegetter', 'glossyskin', 'deskcinema'];
+  const STANDALONE_PAGES = ['deepfrostice', 'heartbeat', 'imagegetter', 'glossyskin', 'deskcinema', 'publicwalker'];
   config.plugins.push(
     new CopyPlugin({
       patterns: [
