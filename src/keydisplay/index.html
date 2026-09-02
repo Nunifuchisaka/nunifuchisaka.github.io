@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyDisplay / キー入力オーバーレイ表示アプリ</title>
+<meta name="description" content="Unity/Blenderなどの操作解説・実況動画向けに、押しているキーやマウスのクリック・ドラッグを画面に表示するオーバーレイアプリ KeyDisplay。修飾キーの結合表示、ショートカット説明、クリック透過に対応。Windows/macOS両対応。">
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/keydisplay/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/keydisplay/en/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/keydisplay/">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#features">本文へスキップ</a>
+
+<!-- ======================================================
+     1. ヘッダー（translucent 固定ナビ）
+     ====================================================== -->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="KeyDisplay トップへ">
+      <!-- ロゴマーク：キーキャップ -->
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="markg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8fb0ff"/>
+            <stop offset="1" stop-color="#3660d6"/>
+          </linearGradient>
+        </defs>
+        <rect x="3" y="4" width="18" height="16" rx="4" fill="url(#markg)" opacity="0.24"/>
+        <rect x="3" y="4" width="18" height="16" rx="4" fill="none" stroke="url(#markg)" stroke-width="1.5"/>
+        <path d="M8 12.5h8M8 16h5" stroke="url(#markg)" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span>Key<span style="color:var(--accent-bright)">Display</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="サイト内ナビゲーション">
+      <span class="nav-inner-links">
+        <a class="navlink" href="#features">特徴</a>
+        <a class="navlink" href="#setup">使い方</a>
+        <a class="navlink" href="#params">設定項目</a>
+        <a class="navlink" href="#notes">注意</a>
+      </span>
+      <a class="lang-switch" href="en/" hreflang="en" lang="en">English</a>
+      <a class="nav-cta" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener" title="BOOTHの販売ページを開く">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm14.5 0H21l1 2h-4.5l.5-2zM8 20a1.6 1.6 0 100 3.2A1.6 1.6 0 008 20zm8 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+        BOOTHで見る
+      </a>
+    </nav>
+  </div>
+</header>
+<div class="top-fade" aria-hidden="true"></div>
+
+<main id="top">
+
+<!-- ======================================================
+     2. ヒーロー
+     ====================================================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="badge"><span class="dot"></span>Windows/macOS向け・β版</span>
+      <span class="price-chip"><s>¥800</s> <b>¥400</b>（50%OFF）</span>
+      <h1>KeyDisplay</h1>
+      <p class="jp-name">キー入力オーバーレイ表示アプリ</p>
+      <p class="catch">Unity/Blenderなどの操作解説・実況動画を撮るときに、今押しているキーを画面に常時表示するオーバーレイアプリです。マウスカーソルの位置やクリック、ドラッグの軌跡もあわせて表示できます。</p>
+      <div class="hero-tags">
+        <span class="tag">修飾キーを結合表示</span>
+        <span class="tag">Unity/Blenderショートカット説明</span>
+        <span class="tag">クリック透過</span>
+        <span class="tag">カーソル・クリック表示</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm6 14a1.6 1.6 0 100 3.2A1.6 1.6 0 009 20zm7 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+          BOOTHで入手する
+        </a>
+        <a class="btn btn-ghost" href="#features">特徴を見る</a>
+      </div>
+    </div>
+
+    <!-- 実機スクリーンショットではなく、表示イメージを示したSVGモックアップ -->
+    <figure class="hero-figure" id="fig-hero">
+      <img src="img/hero-mockup.svg" width="720" height="480" loading="eager" decoding="async"
+           alt="KeyDisplayのオーバーレイ表示イメージ。左下にCtrl+Shift+Sの結合キーキャップとショートカット説明、右上にマウスカーソルのリングハイライトとクリックの波紋、中央にドラッグ軌跡を示したモックアップ図。">
+      <figcaption>※実機スクリーンショットではなく、表示イメージを示したモックアップ図です。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================================================
+     3. 特徴
+     ====================================================== -->
+<section id="features" class="section-pad">
+  <div class="wrap">
+    <span class="eyebrow reveal">Features</span>
+    <h2 class="sect-title reveal">押しているキーを、そのまま映像に</h2>
+    <p class="sect-lead reveal">グローバルなキーボード／マウスフックで、Unity/Blenderにフォーカスがあっても動作します。録画・配信に映してよいものだけを、見やすく表示します。</p>
+
+    <div class="feature-grid">
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3" opacity="0.35"/><path d="M8 12h8M8 15.5h5" /></svg></div>
+        <h3>押しているキーをリアルタイム表示</h3>
+        <p>今押しているキーを画面へすぐに表示します。離すと設定した時間でふわっとフェードアウトします。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="7" height="7" rx="2" opacity="0.4"/><rect x="9" y="8" width="7" height="7" rx="2" opacity="0.65"/><rect x="15" y="8" width="6" height="7" rx="2"/></svg></div>
+        <h3>修飾キーの組み合わせを結合表示</h3>
+        <p><code>Ctrl + Shift + S</code>のような組み合わせを、1つのキーキャップにまとめて表示します。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="3" opacity="0.35"/><path d="M7.5 9.5h9M7.5 13h6M7.5 16.5h4" /></svg></div>
+        <h3>Unity/Blenderのショートカット説明</h3>
+        <p>アクティブなアプリがBlender/Unityのときだけ、押したキーがそのアプリで何のショートカットかを簡単な説明とあわせて表示します（ON/OFF可能）。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3.5v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9v-6z" opacity="0.35"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>対象アプリ外では自動的に非表示</h3>
+        <p>Blender/Unity以外のアプリを操作している間は、既定でキー入力の表示自体をオフにします。録画中にチャットやパスワード欄に切り替えたキー入力の映り込みを防ぐ安全機能です（設定でOFFにもできます）。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7" opacity="0.4"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg></div>
+        <h3>マウスカーソルをリングでハイライト</h3>
+        <p>マウスカーソルの位置を常時リング状に表示できます。今どこを見て操作しているかが伝わりやすくなります。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" opacity="0.9"/><circle cx="12" cy="12" r="8" opacity="0.3"/></svg></div>
+        <h3>クリックの波紋（左右で別色）</h3>
+        <p>クリックした瞬間、その場所に波紋（リップル）エフェクトを表示します。右クリックは左/中クリックと別の色にできるので、「実行」か「メニューを開いた」かを動画上で見分けやすくなります。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v6m0 0-3-3m3 3 3-3" /><path d="M12 20v-6m0 0-3 3m3-3 3 3" opacity="0.6"/></svg></div>
+        <h3>ホイールのスクロール方向を表示</h3>
+        <p>マウスホイールを回すと、カーソル位置に上下の矢印が一瞬表示されて消えます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c4-1 6-9 10-10m0 0-3 .5m3-.5-.5 3" /></svg></div>
+        <h3>ドラッグ操作の軌跡を表示</h3>
+        <p>ボタンを押しながらのドラッグ操作は、その軌跡を線で表示し、離すとフェードアウトします。視点回転やシーンビュー操作など「ドラッグしている」こと自体を伝えたい場面向けです。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3" opacity="0.3"/><path d="M8 8l8 8M16 8l-8 8" opacity="0.85"/></svg></div>
+        <h3>オーバーレイはクリック透過</h3>
+        <p>下にあるUnity/Blenderの操作をオーバーレイが妨げません（設定でOFFにも切り替えられます）。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10" opacity="0.85"/><circle cx="18" cy="18" r="2.2"/></svg></div>
+        <h3>表示位置・色・時間をリアルタイム調整</h3>
+        <p>表示位置（画面の四隅）、余白、文字サイズ、表示保持時間、同時表示数、背景色・文字色・アクセント色などを、設定画面からその場で変更できます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="8" opacity="0.35"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5" /></svg></div>
+        <h3>ホットキーでまとめて一時停止</h3>
+        <p><code>Ctrl+Alt+P</code>で、キー表示・カーソルハイライト・クリック波紋をまとめて一時停止できます。一時停止中は「一時停止中」バッジを常に表示するので、消し忘れによる録画事故を防げます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.4 17.6a9 9 0 1115.2 0" opacity="0.4"/><path d="M4.4 17.6A9 9 0 019.1 4.3"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Windows / macOS両対応</h3>
+        <p>Tauri製の軽量なオーバーレイアプリです。Windows・macOSどちらでも利用できます。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     4. 使い方
+     ====================================================== -->
+<section id="setup" class="section-pad">
+  <div class="wrap">
+    <span class="eyebrow reveal">Setup</span>
+    <h2 class="sect-title reveal">使い方</h2>
+    <p class="sect-lead reveal">インストールすれば、あとは普段どおりUnity/Blenderを操作するだけです。</p>
+
+    <div class="steps">
+      <div class="step reveal">
+        <span class="num" aria-hidden="true"></span>
+        <div>
+          <h3>KeyDisplayをインストールして起動する</h3>
+          <p>インストール後に起動すると、タスクトレイ（macOSではメニューバー）にアイコンが常駐します。</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="num" aria-hidden="true"></span>
+        <div>
+          <h3>Unity/Blenderを操作する</h3>
+          <p>押しているキーが自動で画面に表示されます。マウスカーソルのハイライトやクリックの波紋も、設定でONにしていればそのまま表示されます。</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="num" aria-hidden="true"></span>
+        <div>
+          <h3>トレイアイコンから設定を開く</h3>
+          <p>「設定を開く...」から、表示位置・色・時間などを好みに調整できます。設定はリアルタイムに反映されます。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+      <span>macOSでキーが表示されない場合は、「システム設定 &gt; プライバシーとセキュリティ &gt; アクセシビリティ」でKeyDisplayへの許可が必要です。Blender/Unityの判定（ショートカット説明の出し分け）には、別途「画面収録」の許可が必要になる場合があります。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     5. 設定項目リファレンス
+     ====================================================== -->
+<section id="params" class="section-pad">
+  <div class="wrap params">
+    <span class="eyebrow reveal">Reference</span>
+    <h2 class="sect-title reveal">設定できる項目</h2>
+    <p class="sect-lead reveal">トレイメニューおよび設定ウィンドウから、以下をリアルタイムに変更できます。各グループをクリックすると展開します。</p>
+
+    <!-- 表示位置・文字 -->
+    <details class="param-group reveal" open>
+      <summary>表示位置・文字 <span class="grp-badge">Layout</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>設定項目</th><th>説明</th><th>初期値</th></tr></thead>
+          <tbody>
+            <tr><td>表示位置</td><td>キーキャップを表示する画面の角（四隅から選択）</td><td>左下</td></tr>
+            <tr><td>余白（横/縦）</td><td>画面端からの余白</td><td>40px / 60px</td></tr>
+            <tr><td>文字サイズ</td><td>キーキャップの文字サイズ</td><td>22px</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 色・不透明度 -->
+    <details class="param-group reveal">
+      <summary>色・不透明度 <span class="grp-badge">Appearance</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>設定項目</th><th>説明</th><th>初期値</th></tr></thead>
+          <tbody>
+            <tr><td>背景色</td><td>キーキャップの背景色</td><td>#1e1e1e</td></tr>
+            <tr><td>背景の不透明度</td><td>キーキャップ背景の不透明度</td><td>0.9</td></tr>
+            <tr><td>文字色</td><td>キーキャップの文字色</td><td>#ffffff</td></tr>
+            <tr><td>アクセント色</td><td>押下中のキーキャップの枠線の色</td><td>#5a8cff</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 表示タイミング -->
+    <details class="param-group reveal">
+      <summary>表示タイミング <span class="grp-badge">Timing</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>設定項目</th><th>説明</th><th>初期値</th></tr></thead>
+          <tbody>
+            <tr><td>表示保持時間</td><td>キーを離してからフェードアウトするまでの時間</td><td>700ms</td></tr>
+            <tr><td>同時表示数</td><td>同時に表示する最大キー数（超えると古いものから消えます）</td><td>8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- 動作 -->
+    <details class="param-group reveal">
+      <summary>動作 <span class="grp-badge">Behavior</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>設定項目</th><th>説明</th><th>初期値</th></tr></thead>
+          <tbody>
+            <tr><td>クリック透過</td><td>オーバーレイをクリック透過にするか（Unity/Blender操作の邪魔をしない）</td><td>ON</td></tr>
+            <tr><td>オーバーレイ表示</td><td>オーバーレイ自体の表示/非表示</td><td>ON</td></tr>
+            <tr><td>ショートカット説明表示</td><td>Blender/Unityのショートカット説明表示のON/OFF（共通）</td><td>ON</td></tr>
+            <tr><td>対象アプリ外で非表示</td><td>Blender/Unity以外のアプリではキー入力自体を表示しない安全機能</td><td>ON</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- マウス表示 -->
+    <details class="param-group reveal">
+      <summary>マウス表示 <span class="grp-badge">Mouse</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>設定項目</th><th>説明</th><th>初期値</th></tr></thead>
+          <tbody>
+            <tr><td>カーソルハイライト</td><td>マウスカーソルの位置を常時リング状にハイライトするか</td><td>ON</td></tr>
+            <tr><td>カーソルハイライト色</td><td>カーソルのリング表示の色</td><td>#ffd60a</td></tr>
+            <tr><td>クリック波紋エフェクト</td><td>クリック時の波紋表示のON/OFF。同じ設定でホイールのスクロール表示・ドラッグ軌跡表示もまとめてON/OFFします</td><td>ON</td></tr>
+            <tr><td>クリック波紋色（左/中）</td><td>左クリック・中クリック時の波紋の色</td><td>#ff453a</td></tr>
+            <tr><td>クリック波紋色（右）</td><td>右クリック時の波紋の色。左/中クリックと別色にして見分けやすくできます</td><td>#3aa5ff</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note">一時停止ホットキー（<code>Ctrl+Alt+P</code>）は現状固定で、設定からの変更はできません。設定は<code>config.json</code>（Windows: <code>%APPDATA%\com.nunifuchisaka.keydisplay\config.json</code> / macOS: <code>~/Library/Application Support/com.nunifuchisaka.keydisplay/config.json</code>）に保存されます。</p>
+    </details>
+  </div>
+</section>
+
+<!-- ======================================================
+     6. 注意
+     ====================================================== -->
+<section id="notes" class="section-pad">
+  <div class="wrap">
+    <span class="eyebrow reveal">Notes</span>
+    <h2 class="sect-title reveal">ご利用にあたって</h2>
+    <p class="sect-lead reveal">導入前に確認してください。</p>
+
+    <div class="constraints">
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>プライマリディスプレイのみに表示</h3>
+        <p>現在はメインディスプレイ（プライマリモニター）のみに表示されます。複数モニター環境で、サブモニター側にキー表示やカーソルハイライトを出すことはできません。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>一時停止ホットキーは固定です</h3>
+        <p>一時停止のホットキー（<code>Ctrl+Alt+P</code>）は現在固定です。他のアプリのショートカットと被る場合は、トレイメニューの「一時停止」から手動で切り替えてください。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>macOSでは権限設定が必要です</h3>
+        <p>グローバルなキーボード監視には「アクセシビリティ」の許可が必要です。Blender/Unityの判定（ショートカット説明の出し分け）には、別途「画面収録」の許可が必要になる場合があります。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>まれにキーが押しっぱなし表示のまま残ることがあります</h3>
+        <p>グローバルなキーボード監視の仕組み上、ごくまれにキーを離した通知を取りこぼし、キーが押しっぱなしの表示のまま残ることがあります。その場合はトレイメニューの「表示をクリア」で即座にリセットできます。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>現在はβ版として提供しています</h3>
+        <p>利用環境によって挙動が変わる場合があります。特にmacOS環境（特にRetinaディスプレイでのカーソル位置合わせ）やマウスホイールの上下判定、一時停止ホットキーの動作は、実機での検証が十分でない部分が残っています。録画で使う前に、まずご自身の環境で短時間の動作確認をおすすめします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================================================
+     7. フッター
+     ====================================================== -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="f-brand">KeyDisplay / キー入力オーバーレイ表示アプリ</div>
+      <p class="f-meta">
+        Unity/Blenderなどの操作解説・実況動画向けのキー入力オーバーレイ表示アプリです。Windows/macOS両対応。
+        本ページは商品に同梱のドキュメントを元にした説明書です。
+      </p>
+    </div>
+    <nav class="f-links" aria-label="フッターリンク">
+      <a href="#features">特徴</a>
+      <a href="#setup">使い方</a>
+      <a href="#params">設定項目</a>
+      <a href="#notes">注意</a>
+      <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
+      <a href="/">ぬにふちさか</a>
+    </nav>
+    <p class="credit">Created by ぬにふちさか (Nunifuchisaka)</p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
