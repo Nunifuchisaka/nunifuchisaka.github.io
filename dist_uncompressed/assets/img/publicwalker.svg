@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10141f"/>
+      <stop offset="1" stop-color="#06080f"/>
+    </linearGradient>
+    <linearGradient id="ac" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9cc9ff"/>
+      <stop offset="1" stop-color="#2f6fe0"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <g transform="translate(70 110) scale(5.8)" fill="none">
+    <path d="M12 3l7 2.8v5.4c0 4.3-2.7 7.6-7 9.3-4.3-1.7-7-5-7-9.3V5.8L12 3Z" fill="url(#ac)" opacity="0.22"/>
+    <path d="M12 3l7 2.8v5.4c0 4.3-2.7 7.6-7 9.3-4.3-1.7-7-5-7-9.3V5.8L12 3Z" stroke="url(#ac)" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M8.5 12l2.5 2.5L16 9" stroke="url(#ac)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="232" y="178" font-family="system-ui, sans-serif" font-size="36" font-weight="700" fill="#f5f7fc">Public<tspan fill="#7bb7ff">Walker</tspan></text>
+  <text x="234" y="218" font-family="system-ui, sans-serif" font-size="17" fill="#9aa3ba">Windows desktop app for VRChat</text>
+</svg>
