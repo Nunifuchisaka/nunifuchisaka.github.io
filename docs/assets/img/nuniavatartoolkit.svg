@@ -10,11 +10,10 @@
     </linearGradient>
   </defs>
   <rect width="640" height="360" fill="url(#bg)"/>
-  <g transform="translate(52 112) scale(5.6)" fill="none">
+  <g transform="translate(70 110) scale(5.8)" fill="none">
     <path d="M12 3l8 4.6v8.8L12 21l-8-4.6V7.6z" fill="url(#ac)" opacity="0.22"/>
     <path d="M12 3l8 4.6v8.8L12 21l-8-4.6V7.6zM12 3v18M4 7.6l16 8.8M20 7.6L4 16.4" stroke="url(#ac)" stroke-width="1" stroke-linejoin="round"/>
   </g>
-  <text x="214" y="164" font-family="system-ui, sans-serif" font-size="34" font-weight="700" fill="#ececec">Nuni Avatar <tspan fill="#f5ad62">Toolkit</tspan></text>
-  <text x="215" y="200" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#ececec">for Blender</text>
-  <text x="216" y="240" font-family="system-ui, sans-serif" font-size="17" fill="#b8b8b8">Blender Add-on for VRChat / VRM Avatars</text>
+  <text x="232" y="178" font-family="system-ui, sans-serif" font-size="36" font-weight="700" fill="#ececec">NuniAvatar<tspan fill="#f5ad62">Toolkit</tspan></text>
+  <text x="234" y="218" font-family="system-ui, sans-serif" font-size="17" fill="#b8b8b8">Blender Add-on for VRChat / VRM Avatars</text>
 </svg>
