@@ -665,6 +665,9 @@ tbody td:first-child {
    ヒーロー：バッジ並び・ブランド表記
    ========================================================= */
 .brand-accent { color: var(--accent-bright); }
+.brand_1 { line-height: 1.15; }
+.brand_1__sub { display: block; font-size: 0.66em; font-weight: 600; letter-spacing: 0.01em; color: var(--text-soft); }
+.hero h1 .h1_sub_1 { display: block; margin-top: 0.1em; font-size: 0.5em; letter-spacing: -0.01em; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
 .hero-badges .badge { margin-bottom: 0; }
 .hero .jp-name { word-break: keep-all; overflow-wrap: anywhere; }
