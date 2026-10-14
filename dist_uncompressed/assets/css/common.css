@@ -335,6 +335,16 @@
     -o-object-fit: cover;
        object-fit: cover;
   }
+  .header_2 nav ul {
+    flex-wrap: wrap;
+  }
+  .header_2 nav a {
+    padding: 0.5em 0.6em;
+    white-space: nowrap;
+  }
+  .header_2__lang {
+    padding: 0.3em 0.6em;
+  }
   .header_2__icon {
     top: 26.67vw;
     left: 2.67vw;

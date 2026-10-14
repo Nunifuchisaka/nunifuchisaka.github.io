@@ -48,6 +48,9 @@
       display: flex;
       align-items: center;
       padding: .5em;
+      @include sp {
+        flex-wrap: wrap;
+      }
     }
     li {
 
@@ -55,6 +58,10 @@
     a {
       display: block;
       padding: .5em 1em;
+      @include sp {
+        padding: .5em .6em;
+        white-space: nowrap;
+      }
 
       // color: #000;
 
@@ -63,6 +70,9 @@
   &__lang {
     margin-left: auto;
     padding: .5em 1em;
+    @include sp {
+      padding: .3em .6em;
+    }
     select {
       padding: .3em .5em;
       font-size: inherit;
