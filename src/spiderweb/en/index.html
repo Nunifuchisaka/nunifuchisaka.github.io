@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpiderWeb / Thread Gimmick</title>
+<meta name="description" content="A thread gimmick for VRChat avatars. Silver rings light up, threads shoot from your fingertips, and a swing of the arm pins 24 threads into the space around you while rose petals fall. Cut them one at a time with a finger gun, or bring them all down with a shockwave. Modular Avatar support, PC only.">
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/spiderweb/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/spiderweb/en/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/spiderweb/">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#features">Skip to content</a>
+
+<!-- ======================================================
+     1. ヘッダー
+     ====================================================== -->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="SpiderWeb home">
+      <!-- ロゴマーク：蜘蛛の巣 -->
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="markg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff9bd2"/>
+            <stop offset="1" stop-color="#ff3fa4"/>
+          </linearGradient>
+        </defs>
+        <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="url(#markg)" stroke-width="1.1" stroke-linecap="round" opacity="0.7"/>
+        <path d="M12 6.2l4.1 1.7 1.7 4.1-1.7 4.1-4.1 1.7-4.1-1.7-1.7-4.1 1.7-4.1z" stroke="url(#markg)" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span>Spider<span class="brand-accent">Web</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Site navigation">
+      <span class="nav-inner-links">
+        <a class="navlink" href="#features">Features</a>
+        <a class="navlink" href="#setup">Setup</a>
+        <a class="navlink" href="#usage">Usage</a>
+        <a class="navlink" href="#adjust">Adjust</a>
+        <a class="navlink" href="#notes">Notes</a>
+      </span>
+      <a class="lang-switch" href="../" hreflang="ja" lang="ja">日本語</a>
+      <!-- TODO: 商品ページ公開後に差し替え -->
+      <a class="nav-cta" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener" title="Open the BOOTH shop">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm14.5 0H21l1 2h-4.5l.5-2zM8 20a1.6 1.6 0 100 3.2A1.6 1.6 0 008 20zm8 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+        BOOTH
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ======================================================
+     2. ヒーロー
+     ====================================================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="badge"><span class="dot"></span>VRChat / Modular Avatar</span>
+      <h1>SpiderWeb</h1>
+      <p class="jp-name">Thread Gimmick</p>
+      <p class="catch">Pin the space around you with threads cast from your fingertips. Silver rings light up and threads shoot from your fingers; swing your arm and 24 threads are strung through the area around you while rose petals rain down. Cut them one at a time with a finger gun, or bring them all down at once with a shockwave. A gimmick for VRChat avatars.</p>
+      <div class="hero-tags">
+        <span class="tag">VRChat / Modular Avatar</span>
+        <span class="tag">PC only</span>
+        <span class="tag">11 bits of synced parameters</span>
+      </div>
+      <div class="hero-actions">
+        <!-- TODO: 商品ページ公開後に差し替え -->
+        <a class="btn btn-primary" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm6 14a1.6 1.6 0 100 3.2A1.6 1.6 0 009 20zm7 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+          Get it on BOOTH
+        </a>
+        <a class="btn btn-ghost" href="#features">See features</a>
+      </div>
+      <ol class="flow">
+        <li>Rings</li>
+        <li>Finger threads</li>
+        <li>Space threads</li>
+        <li>Petals</li>
+        <li>Shockwave brings them down</li>
+      </ol>
+    </div>
+
+    <!-- TODO: スクリーンショット（利用可能なアバターで撮影後に追加） -->
+  </div>
+</section>
+
+<!-- ======================================================
+     3. 特徴
+     ====================================================== -->
+<section id="features" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Features</span>
+    <h2 class="sect-title reveal">One continuous effect, from ring to room</h2>
+    <p class="sect-lead reveal">The rings light up, threads extend from your fingertips, and a swing of the arm fixes the threads in space. Finish by bringing them all down with a shockwave. Touching a thread does not cut it; only the finger gun and the shockwave do.</p>
+
+    <div class="feature-grid">
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="8" ry="4.5"/><path d="M4 12v3c0 2.5 3.6 4.5 8 4.5s8-2 8-4.5v-3" opacity="0.5"/></svg></div>
+        <h3>Metal rings</h3>
+        <p>Silver, band-shaped rings on all 10 fingers. They stay metal until you fire; then a magenta (deep pink) glow overlays the whole ring within 0.5 seconds, and swinging your arm returns it to metal in 0.15 seconds. They never go black, even in dark worlds.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><path d="M7 12l14-5M7 12l14 0M7 12l14 5" opacity="0.8"/></svg></div>
+        <h3>Finger threads</h3>
+        <p>Fire with both hands open (gesture 2) and 7 threads per hand, 14 in total, extend in a bundle of about 15 degrees in the direction of your fingertips. The tips stay fixed where you fired, and only the roots follow the rings, so the threads stay straight even as you walk or bend your fingers.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21L10 3M9 21l3-18M14 21l5-14M18 21l3-10" opacity="0.85"/><path d="M2 18h20" opacity="0.4"/></svg></div>
+        <h3>Space threads</h3>
+        <p>Swing your arm and the finger threads disappear, replaced by 24 threads (20 m long) that pierce the floor at scattered points 1 to 6 m around you and rise at a slant. They are fixed in the world and stay even if you walk away, and everyone sees the same arrangement.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 2 5 5 4.2 8.2C15.4 14.4 13.2 17 12 21c-1.2-4-3.4-6.6-4.2-9.8C7 8 8.5 5 12 3z"/><path d="M12 8v7" opacity="0.5"/></svg></div>
+        <h3>Rose petals</h3>
+        <p>Petals keep falling from 6 m above and pile up on the world's floor (Colliders). After landing they lie flat and come to rest. Up to about 990 petals accumulate, and the oldest ones disappear first.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9l3-3v6l-3 3H8v5H5v-5H4z" opacity="0.85"/><path d="M19 4l-5 16" stroke-dasharray="2 2.5" opacity="0.7"/></svg></div>
+        <h3>Cut one at a time with a finger gun</h3>
+        <p>From 0.65 seconds after the space threads appear, make a finger gun (6) with one hand and swing the same arm to turn exactly one thread white and drop it. The order is fixed and synced, so other players see the same order.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="6" opacity="0.6"/><circle cx="12" cy="12" r="10" opacity="0.3"/></svg></div>
+        <h3>Shockwave</h3>
+        <p>From 1.0 second after the space threads appear, put one hand in front of your chest as a fist (1), pull it away, and within 0.4 seconds sweep the same hand sideways open (2). A shockwave that distorts the background spreads out from you, and all remaining threads turn white and fall.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon icon-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 9V4M9.5 10L5 7M9.5 14L5 17M14.5 10L19 7M14.5 14L19 17M12 15v5" opacity="0.8"/></svg></div>
+        <h3>Back mark</h3>
+        <p>The moment you fire, a purple glowing spider crest appears between your shoulder blades. It stays visible even where it would be buried in opaque hair or clothing, and disappears 0.15 seconds after the shockwave.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" opacity="0.35"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+        <h3>Easy setup</h3>
+        <p>Modular Avatar support. Place the prefab directly under your avatar and the menu (a single SpiderWeb → Mode toggle) and the FX are merged automatically. A menu item is included to fit the back mark to your body.</p>
+      </article>
+    </div>
+
+    <!-- TODO: スクリーンショット（利用可能なアバターで撮影後に追加） -->
+  </div>
+</section>
+
+<!-- ======================================================
+     4. 導入
+     ====================================================== -->
+<section id="setup" class="section-pad">
+  <div class="wrap">
+    <span class="eyebrow reveal">Setup</span>
+    <h2 class="sect-title reveal">Setup</h2>
+    <p class="sect-lead reveal">Place the prefab, align the rings, and run three menu items in order. That's it.</p>
+
+    <div class="note reveal">
+      <strong>Prerequisites.</strong> A project with the VRChat SDK3 (Avatars) and <a href="https://modular-avatar.nadena.dev/" target="_blank" rel="noopener">Modular Avatar</a> 1.15 or later installed through the VRChat Creator Companion.
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div>
+          <h3>Import the unitypackage</h3>
+          <p>Import the purchased unitypackage into your project. It installs to <code>Assets/Nunifuchisaka/SpiderWeb/</code>.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Place the prefab on your avatar</h3>
+          <p>Drag <code>Assets/Nunifuchisaka/SpiderWeb/SpiderWeb.prefab</code> into the Hierarchy directly under your avatar (the object with the VRC Avatar Descriptor).</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Align the rings</h3>
+          <p>The rings are inside <code>SpiderWeb</code>, in the form <code>Finger_&lt;L/R&gt;_&lt;finger&gt;/Ring_&lt;L/R&gt;_&lt;finger&gt;</code> such as <code>Finger_L_Thumb/Ring_L_Thumb</code> (fingers: Thumb, Index, Ring, Little). The middle finger is the exception: <code>Wrist_L/Ring_L</code> and <code>Wrist_R/Ring_R</code>.</p>
+          <p>Each ring automatically follows its finger bone, so just adjust the Transform position and rotation until it sits near the base of that finger. Do not change Scale (the finger threads are children of the ring and would be scaled with it; behavior with a changed Scale has not been verified).</p>
+          <p>The rings are hidden while editing. Turn on the GameObject's Active check only when you want to see them, and turn it off again afterward. What is shown at runtime is decided by the animations, so forgetting to turn it off does not change behavior.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Re-fit the threads to the rings</h3>
+          <p>Select your avatar in the Hierarchy and run <code>Tools/Nunifuchisaka/SpiderWeb/Refit Selected Avatar Threads</code>. It re-fits the position and direction of the finger threads to the rings you adjusted. <strong>Run it every time you move a ring.</strong></p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Fit the back mark to your body</h3>
+          <p>With the avatar selected, run <code>Tools/Nunifuchisaka/SpiderWeb/Fit Back Mark To Selected Avatar</code>. It sets the height, size, and depth of the back mark automatically from your body shape (chest-to-neck height, shoulder width, and the surface of your back).</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Check the Contact count</h3>
+          <p>Run <code>Tools/Nunifuchisaka/SpiderWeb/Validate Avatar Contact Budget</code> to confirm the avatar's total Contact count is within the limit (256). SpiderWeb uses 2 Receivers.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Save the scene and upload</h3>
+          <p>Save the scene and upload your avatar as usual.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     5. 使い方
+     ====================================================== -->
+<section id="usage" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Usage</span>
+    <h2 class="sect-title reveal">Usage</h2>
+    <p class="sect-lead reveal">Turn it on from the Expressions menu, then fire with gestures. Gesture numbers are VRChat's standard ones.</p>
+
+    <ul class="gesture-key reveal">
+      <li><span class="num">1</span>Fist</li>
+      <li><span class="num">2</span>Open hand</li>
+      <li><span class="num">6</span>Finger gun</li>
+    </ul>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div>
+          <h3>Turn Mode on</h3>
+          <p>In the Expressions menu, go to SpiderWeb → Mode and turn it ON.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Get ready and fire</h3>
+          <p>Make fists (1) with both hands to get ready, then open both hands (2) to fire. The rings light up, the finger threads extend, and the back mark appears.</p>
+          <p>If either hand holds a gesture other than 1 or 2 for 0.15 seconds or longer while you are getting ready, the preparation is canceled. Start over from both fists.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Swing your arm</h3>
+          <p>From 0.5 seconds after firing, swing an arm. The finger threads disappear and the 24 space threads and the petals appear. The space threads stay fixed in place even when you walk away.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Cut one at a time with the finger gun</h3>
+          <p>From 0.65 seconds after the space threads appear, make a finger gun (6) with one hand and swing the same arm to drop exactly one thread. To drop the next, either bring your arm back or release the gun, then swing again.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Drop them all with the shockwave</h3>
+          <p>From 1.0 second after the space threads appear, put one hand in front of your chest as a fist (1). Pull that hand away, and within 0.4 seconds sweep the same hand sideways open (2). The shockwave brings all remaining threads down.</p>
+          <p>If you don't swing, the threads stay as they are and you can get into the stance again.</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Clear and start over</h3>
+          <p>Make fists (1) with both hands to clear the threads and petals and return to the ready state (except while you are in the shockwave stance). Open both hands (2) from there to fire again. Turning Mode OFF clears everything immediately.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card reveal">
+      <div class="table-scroll">
+        <table>
+          <caption>Ways to bring the threads down</caption>
+          <thead>
+            <tr><th scope="col">Method</th><th scope="col">Available from</th><th scope="col">Action</th><th scope="col">Result</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Finger gun</th><td>0.65 s after the space threads appear</td><td>Make a finger gun (6) with one hand and swing the same arm</td><td>One thread turns white and falls per swing, in a fixed order that other players see in the same order</td></tr>
+            <tr><th scope="row">Shockwave</th><td>1.0 s after the space threads appear</td><td>Fist (1) in front of the chest, pull that hand away, then within 0.4 s sweep the same hand sideways open (2)</td><td>A background-distorting shockwave spreads out from you, and all remaining threads turn white and fall</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note reveal" style="margin-top:1.4rem">
+      <strong>There is no time limit.</strong> Once triggered, everything stays until you turn Mode OFF or clear it with both fists. Touching a thread does not drop it (only the finger gun and the shockwave do).
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     6. 調整
+     ====================================================== -->
+<section id="adjust" class="section-pad">
+  <div class="wrap params">
+    <span class="eyebrow reveal">Adjust</span>
+    <h2 class="sect-title reveal">Adjustments</h2>
+    <p class="sect-lead reveal">The color and brightness of the threads and rings are fixed (there are no menus or dials for them). To change the look, open a group below and adjust the relevant material or Transform.</p>
+
+    <details class="param-group reveal" open>
+      <summary>Back mark position <span class="grp-badge">BackMark</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">First run <code>Fit Back Mark To Selected Avatar</code>. To adjust by hand, edit the Transform of <code>SpiderWeb/BackMarkAnchor/BackMark</code> under your avatar.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Field</th><th scope="col">Description</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Position Y</th><td>Height</td></tr>
+            <tr><th scope="row">Position Z</th><td>Front-to-back. Negative values are toward the back</td></tr>
+            <tr><th scope="row">Scale</th><td>Size. The default is 0.4 m wide by 0.2 m tall</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note"><code>BackMarkAnchor</code> only snaps to the chest, so do not move it. To check the position, temporarily turn on the Active check of <code>BackMark</code>, and turn it off again afterward (forgetting to do so does not change behavior).</p>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>The mark is hidden by hair or clothing <span class="grp-badge">SpiderWebBackMark.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">Adjust the properties of <code>Material/SpiderWebBackMark.mat</code>.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Property</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_DepthPull</th><td>0.3</td><td>How far (in meters) the mark is pulled toward the camera. Set it to the thickness of the hair plus some margin. Its position and size on screen do not change</td></tr>
+            <tr><th scope="row">_GrazingFade</th><td>0.3</td><td>How much the mark is suppressed when viewed at a steep angle. 0 disables it</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note">If <code>_DepthPull</code> is too high, the mark may be drawn over arms and the like when seen from the side. <code>_GrazingFade</code> can reduce that.</p>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>Shockwave <span class="grp-badge">SpiderWebShockwave.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">Adjust the properties of <code>Material/SpiderWebShockwave.mat</code>.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_Distortion</th><td>Strength of the distortion. Lower it if the distortion from your own view bothers you</td></tr>
+            <tr><th scope="row">_RimPower</th><td>How strongly the distortion is concentrated toward the edge</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>Petal color <span class="grp-badge">SpiderWebPetal.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">Adjust the properties of <code>Material/SpiderWebPetal.mat</code>.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_Color</th><td>Color at the base of the petal</td></tr>
+            <tr><th scope="row">_TipColor</th><td>Color at the tip of the petal</td></tr>
+            <tr><th scope="row">_EdgeColor</th><td>Color of the glowing edge</td></tr>
+            <tr><th scope="row">_BackfaceTint</th><td>Tint of the back face</td></tr>
+            <tr><th scope="row">_EdgeGlow</th><td>Strength of the edge glow</td></tr>
+            <tr><th scope="row">_Sheen</th><td>Soft sheen</td></tr>
+            <tr><th scope="row">_Iridescence</th><td>Subtle color shift depending on the viewing angle</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>Worlds with water <span class="grp-badge">Render Queue</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">The threads use Render Queue 3100 and the shockwave 3110, so they are drawn after ordinary transparent objects (3000).</p>
+      <p class="param-note">If threads are hidden in a world whose water is drawn at 3100 or later, set the Render Queue of the thread materials (<code>SpiderWebThread.mat</code> and <code>SpiderWebCurve.mat</code>) higher than the water, and the shockwave later still.</p>
+    </details>
+
+    <div class="note reveal" style="margin-top:1.4rem">
+      <strong>Generation menus are not for normal use.</strong> The Create ... items and Rebuild All Assets under <code>Tools/Nunifuchisaka/SpiderWeb/</code> are for regenerating the product. They reset the materials and settings you have adjusted to their defaults, so do not use them for normal setup or adjustment.
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     7. 注意
+     ====================================================== -->
+<section id="notes" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Notes</span>
+    <h2 class="sect-title reveal">Notes and limitations</h2>
+    <p class="sect-lead reveal">Please check these before buying or setting up.</p>
+
+    <div class="constraints">
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 18H2L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>PC only (no Quest)</h3>
+        <p>Quest (Android) is not supported, because the product uses custom shaders and background distortion (GrabPass).</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Performance rank: Medium or lower</h3>
+        <p>Because the petals use particle collision, the avatar's performance rank will be Medium or lower. The petals number up to 1000 (32 triangles each), and 14 VRC Position Constraints are used to pin the tips.</p>
+        <p>Check the overall rank of your avatar on Unity's upload screen.</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10v4M12 10v4M16 10v4" opacity="0.7"/></svg>11 bits of synced parameters, 2 Receivers</h3>
+        <p>The synced parameters total 11 bits (the Mode Bool, the arm-swing and shockwave Bools, and an Int for the number of threads dropped). There are 2 Contact Receivers (the left and right sensors in front of the chest).</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h18"/><path d="M6 18L9 6M12 18l1-12M18 18l-2-12" opacity="0.8"/></svg>The floor height is set by where you stand</h3>
+        <p>The space threads are laid out using the height of your feet at the moment of triggering as the floor. They do not follow the actual shape of the floor, such as stairs or slopes.</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.5 2 5 5 4.2 8.2C15.4 14.4 13.2 17 12 21c-1.2-4-3.4-6.6-4.2-9.8C7 8 8.5 5 12 3z"/></svg>How the petals pile up</h3>
+        <p>Petals land on the world's floors, walls, and furniture Colliders and pile up. They fall through floors that have no Collider and disappear after 66 seconds. They do not collide with players.</p>
+        <p>After a shockwave, the petals already piled on the floor remain for up to 66 seconds (new petals stop).</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>The sensors in front of the chest</h3>
+        <p>Depending on your body shape, the sensors in front of the chest may not line up (for example, false triggers when you fold your arms or clap, or no response when you take the stance). If this bothers you, please get in touch.</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c.5-3 2.5-4.5 5-4.5s4.5 1.5 5 4.5M14 18.5c.4-2 1.8-3 3.5-3s3 1 3.5 3" opacity="0.8"/></svg>How other players see it</h3>
+        <p>Other players see the same effect through the synced gestures. However, network delay can make the timing slightly off.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================================================
+     8. フッター
+     ====================================================== -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="f-brand">SpiderWeb / Thread Gimmick</div>
+      <p class="f-meta">
+        A thread gimmick for VRChat avatars. Requires Modular Avatar.
+        This page is the product manual.
+      </p>
+    </div>
+    <nav class="f-links" aria-label="Footer links">
+      <a href="#features">Features</a>
+      <a href="#setup">Setup</a>
+      <a href="#usage">Usage</a>
+      <a href="#adjust">Adjust</a>
+      <!-- TODO: 商品ページ公開後に差し替え -->
+      <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
+      <a href="/">Nunifuchisaka</a>
+    </nav>
+    <p class="credit">Created by ぬにふちさか (Nunifuchisaka)</p>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+
+</body>
+</html>

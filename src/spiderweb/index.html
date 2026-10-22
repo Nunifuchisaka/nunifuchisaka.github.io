@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpiderWeb / 糸のギミック</title>
+<meta name="description" content="VRChatアバター用の糸のギミック。銀の指輪が光り、指先から糸が伸び、腕を振ると周囲に24本の糸と薔薇の花びらが降る。ガンで一本ずつ、衝撃波で一斉に落とせます。Modular Avatar対応・PC専用。">
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/spiderweb/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/spiderweb/en/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/spiderweb/">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#features">本文へスキップ</a>
+
+<!-- ======================================================
+     1. ヘッダー
+     ====================================================== -->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="SpiderWeb トップへ">
+      <!-- ロゴマーク：蜘蛛の巣 -->
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="markg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff9bd2"/>
+            <stop offset="1" stop-color="#ff3fa4"/>
+          </linearGradient>
+        </defs>
+        <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="url(#markg)" stroke-width="1.1" stroke-linecap="round" opacity="0.7"/>
+        <path d="M12 6.2l4.1 1.7 1.7 4.1-1.7 4.1-4.1 1.7-4.1-1.7-1.7-4.1 1.7-4.1z" stroke="url(#markg)" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span>Spider<span class="brand-accent">Web</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="サイト内ナビゲーション">
+      <span class="nav-inner-links">
+        <a class="navlink" href="#features">特徴</a>
+        <a class="navlink" href="#setup">導入</a>
+        <a class="navlink" href="#usage">使い方</a>
+        <a class="navlink" href="#adjust">調整</a>
+        <a class="navlink" href="#notes">注意</a>
+      </span>
+      <a class="lang-switch" href="en/" hreflang="en" lang="en">English</a>
+      <!-- TODO: 商品ページ公開後に差し替え -->
+      <a class="nav-cta" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener" title="BOOTHのショップを開く">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm14.5 0H21l1 2h-4.5l.5-2zM8 20a1.6 1.6 0 100 3.2A1.6 1.6 0 008 20zm8 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+        BOOTH
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ======================================================
+     2. ヒーロー
+     ====================================================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="badge"><span class="dot"></span>VRChat / Modular Avatar</span>
+      <h1>SpiderWeb</h1>
+      <p class="jp-name">糸のギミック</p>
+      <p class="catch">指先から放つ糸で、空間を縫い止める。銀の指輪が光り、指先から糸が伸びる。腕を振れば周囲に24本の糸が張られ、薔薇の花びらが降り注ぐ。ガンで一本ずつ、衝撃波で一斉に落とせる、VRChatアバター用のギミックです。</p>
+      <div class="hero-tags">
+        <span class="tag">VRChat / Modular Avatar</span>
+        <span class="tag">PC専用</span>
+        <span class="tag">同期パラメータ 11bit</span>
+      </div>
+      <div class="hero-actions">
+        <!-- TODO: 商品ページ公開後に差し替え -->
+        <a class="btn btn-primary" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm6 14a1.6 1.6 0 100 3.2A1.6 1.6 0 009 20zm7 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
+          BOOTHで見る
+        </a>
+        <a class="btn btn-ghost" href="#features">特徴を見る</a>
+      </div>
+      <ol class="flow">
+        <li>指輪</li>
+        <li>指の糸</li>
+        <li>空間の糸</li>
+        <li>花びら</li>
+        <li>衝撃波で一斉に落とす</li>
+      </ol>
+    </div>
+
+    <!-- TODO: スクリーンショット（利用可能なアバターで撮影後に追加） -->
+  </div>
+</section>
+
+<!-- ======================================================
+     3. 特徴
+     ====================================================== -->
+<section id="features" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Features</span>
+    <h2 class="sect-title reveal">指輪から空間まで、ひと続きの演出</h2>
+    <p class="sect-lead reveal">指輪が光り、指先から糸が伸び、腕を振ると糸が空間へ固定される。最後は衝撃波で一斉に落とせます。糸に触れても落ちず、落とすのはガンと衝撃波だけです。</p>
+
+    <div class="feature-grid">
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="8" ry="4.5"/><path d="M4 12v3c0 2.5 3.6 4.5 8 4.5s8-2 8-4.5v-3" opacity="0.5"/></svg></div>
+        <h3>金属の指輪</h3>
+        <p>全10指に銀色の帯状の指輪。普段は金属のままで、発射すると0.5秒で全体にマゼンタ（濃いピンク）の発光が重なり、腕を振ると0.15秒で金属に戻ります。暗いワールドでも黒く沈みません。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><path d="M7 12l14-5M7 12l14 0M7 12l14 5" opacity="0.8"/></svg></div>
+        <h3>指の糸</h3>
+        <p>両手のパー（2）で発射すると、片手7本・計14本の糸が指先の方向へ約15度の束で伸びます。先端は発射した位置に固定され、根元だけが指輪に追従するので、歩いたり指を曲げたりしても糸はまっすぐ張られたままです。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21L10 3M9 21l3-18M14 21l5-14M18 21l3-10" opacity="0.85"/><path d="M2 18h20" opacity="0.4"/></svg></div>
+        <h3>空間の糸</h3>
+        <p>腕を振ると指の糸が消え、自分の周囲1〜6mの床をばらばらな位置で貫いて斜めに立ち上がる24本の糸（全長20m）がワールドに固定されます。歩いても残り、配置は全員に同じ形で見えます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 2 5 5 4.2 8.2C15.4 14.4 13.2 17 12 21c-1.2-4-3.4-6.6-4.2-9.8C7 8 8.5 5 12 3z"/><path d="M12 8v7" opacity="0.5"/></svg></div>
+        <h3>薔薇の花びら</h3>
+        <p>上空6mから花びらが降り続け、ワールドの床（Collider）に積もります。着地後は水平に寝て静止し、最大約990枚まで溜まって、古いものから消えていきます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9l3-3v6l-3 3H8v5H5v-5H4z" opacity="0.85"/><path d="M19 4l-5 16" stroke-dasharray="2 2.5" opacity="0.7"/></svg></div>
+        <h3>ガンで一本ずつ切る</h3>
+        <p>空間の糸が出て0.65秒後から、片手をガン（6）にして同じ腕を振ると、一振りで一本だけ白くなって落ちます。落ちる順は固定で、他のプレイヤーにも同じ順で同期します。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="6" opacity="0.6"/><circle cx="12" cy="12" r="10" opacity="0.3"/></svg></div>
+        <h3>衝撃波</h3>
+        <p>空間の糸が出て1.0秒後から、胸の前へ片手をグー（1）で入れ、その手を外してから0.4秒以内にパー（2）で横へ振り抜くと、自分を中心に背景が歪む衝撃波が広がり、残りの糸がすべて白くなって落ちます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon icon-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 9V4M9.5 10L5 7M9.5 14L5 17M14.5 10L19 7M14.5 14L19 17M12 15v5" opacity="0.8"/></svg></div>
+        <h3>背中の紋章</h3>
+        <p>発射と同時に、肩甲骨の間に紫に光る蜘蛛の紋章が浮かびます。不透明な髪や服に埋まる位置でも貫通して見え、衝撃波の0.15秒後に消えます。</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" opacity="0.35"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+        <h3>導入が簡単</h3>
+        <p>Modular Avatar対応。prefabをアバター直下に置くだけで、メニュー（SpiderWeb → Mode のトグル1つ）とFXが自動で組み込まれます。背中の紋章を体型に合わせるメニューも付いています。</p>
+      </article>
+    </div>
+
+    <!-- TODO: スクリーンショット（利用可能なアバターで撮影後に追加） -->
+  </div>
+</section>
+
+<!-- ======================================================
+     4. 導入
+     ====================================================== -->
+<section id="setup" class="section-pad">
+  <div class="wrap">
+    <span class="eyebrow reveal">Setup</span>
+    <h2 class="sect-title reveal">導入手順</h2>
+    <p class="sect-lead reveal">prefabを置いて指輪の位置を合わせ、3つのメニューを順に実行すれば完了です。</p>
+
+    <div class="note reveal">
+      <strong>前提。</strong> VRChat Creator CompanionでVRChat SDK3（Avatars）と <a href="https://modular-avatar.nadena.dev/" target="_blank" rel="noopener">Modular Avatar</a> 1.15以降を導入したプロジェクトが必要です。
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div>
+          <h3>unitypackageをインポートする</h3>
+          <p>購入したunitypackageをプロジェクトへインポートします。<code>Assets/Nunifuchisaka/SpiderWeb/</code> に入ります。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Prefabをアバターに入れる</h3>
+          <p><code>Assets/Nunifuchisaka/SpiderWeb/SpiderWeb.prefab</code> を、Hierarchy上のアバター（VRC Avatar Descriptorが付いたオブジェクト）の直下へドラッグ＆ドロップします。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>指輪の位置を合わせる</h3>
+          <p>指輪は <code>SpiderWeb</code> の中に、<code>Finger_L_Thumb/Ring_L_Thumb</code> のような <code>Finger_&lt;L/R&gt;_&lt;指&gt;/Ring_&lt;L/R&gt;_&lt;指&gt;</code>（指は Thumb・Index・Ring・Little）の形で入っています。中指だけは <code>Wrist_L/Ring_L</code>・<code>Wrist_R/Ring_R</code> です。</p>
+          <p>各指の骨に自動で追従するので、Transformの位置と回転だけで、各指の付け根付近にはまるよう調整します。Scaleは変えないでください（指の糸が指輪の子として一緒に拡大されるため、変えた場合の動作は確認していません）。</p>
+          <p>指輪は編集中は非表示です。確認するときだけGameObjectのチェック（Active）を入れ、終わったら外します。実行時の表示はアニメーションが決めるので、戻し忘れても動作は変わりません。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>糸の位置と向きを指輪に合わせ直す</h3>
+          <p>Hierarchyでアバターを選び、メニュー <code>Tools/Nunifuchisaka/SpiderWeb/Refit Selected Avatar Threads</code> を実行します。指の糸の出る位置と向きを、調整した指輪に合わせ直します。<strong>指輪を動かしたら毎回実行してください。</strong></p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>背中の紋章を体型に合わせる</h3>
+          <p>同じくアバターを選んで、<code>Tools/Nunifuchisaka/SpiderWeb/Fit Back Mark To Selected Avatar</code> を実行します。背中の紋章の高さ・大きさ・奥行きを、体型（胸から首の高さ、肩幅、背中の表面）から自動で決めます。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>Contact数を確認する</h3>
+          <p><code>Tools/Nunifuchisaka/SpiderWeb/Validate Avatar Contact Budget</code> で、アバター全体のContact数が上限（256）以内か確認します。SpiderWebが使うReceiverは2個です。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>シーンを保存してアップロードする</h3>
+          <p>シーンを保存し、通常どおりアバターをアップロードします。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     5. 使い方
+     ====================================================== -->
+<section id="usage" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Usage</span>
+    <h2 class="sect-title reveal">使い方</h2>
+    <p class="sect-lead reveal">Expressionメニューでオンにして、ジェスチャーで発射します。ジェスチャーの番号はVRChat標準のものです。</p>
+
+    <ul class="gesture-key reveal">
+      <li><span class="num">1</span>グー</li>
+      <li><span class="num">2</span>パー</li>
+      <li><span class="num">6</span>ガン</li>
+    </ul>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div>
+          <h3>Modeをオンにする</h3>
+          <p>Expressionメニューの「SpiderWeb」→「Mode」をONにします。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>準備して発射する</h3>
+          <p>両手をグー（1）にして準備し、そこから両手をパー（2）にすると発射します。指輪が光り、指の糸が伸び、背中の紋章が現れます。</p>
+          <p>準備中に、どちらかの手が1・2以外のジェスチャーを0.15秒以上はさむと準備が解除されます。その場合は両手グーからやり直してください。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>腕を振る</h3>
+          <p>発射から0.5秒以降に腕を振ると、指の糸が消え、空間の糸24本と花びらが現れます。空間の糸はその場に固定され、歩いても残ります。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>ガンで一本ずつ落とす</h3>
+          <p>空間の糸が出て0.65秒後から、片手をガン（6）にして同じ腕を振ると、一本だけ落ちます。次の一本を落とすには、腕を戻すかガンをやめてから、もう一度振ってください。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>衝撃波で一斉に落とす</h3>
+          <p>空間の糸が出て1.0秒後から、胸の前へ片手をグー（1）で入れます。その手を外してから0.4秒以内に、同じ手のパー（2）で横へ振り抜くと、衝撃波で残りの糸がすべて落ちます。</p>
+          <p>振らなければ糸はそのまま残り、もう一度構え直せます。</p>
+        </div>
+      </div>
+
+      <div class="step reveal">
+        <div>
+          <h3>消す・やり直す</h3>
+          <p>両手をグー（1）にすると、糸と花びらを消して準備状態へ戻ります（衝撃波の構え中を除く）。そのまま両手をパー（2）にすれば再発射できます。ModeをOFFにすると、すべて即座に消えます。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card reveal">
+      <div class="table-scroll">
+        <table>
+          <caption>糸の落とし方</caption>
+          <thead>
+            <tr><th scope="col">方法</th><th scope="col">使えるタイミング</th><th scope="col">操作</th><th scope="col">結果</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">ガン</th><td>空間の糸が出て0.65秒後から</td><td>片手をガン（6）にして、同じ腕を振る</td><td>一振りで一本だけ白くなって落ちる。固定の順で、他のプレイヤーにも同じ順で見える</td></tr>
+            <tr><th scope="row">衝撃波</th><td>空間の糸が出て1.0秒後から</td><td>胸の前へ片手グー（1）→ その手を外し、0.4秒以内に同じ手のパー（2）で横へ振り抜く</td><td>自分を中心に背景が歪む衝撃波が広がり、残りの糸がすべて白くなって落ちる</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note reveal" style="margin-top:1.4rem">
+      <strong>表示時間に制限はありません。</strong> 発動後はModeをOFFにするか、両手グーで消すまで残ります。糸に触れても落ちません（落とすのはガンと衝撃波だけです）。
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     6. 調整
+     ====================================================== -->
+<section id="adjust" class="section-pad">
+  <div class="wrap params">
+    <span class="eyebrow reveal">Adjust</span>
+    <h2 class="sect-title reveal">調整</h2>
+    <p class="sect-lead reveal">糸と指輪の色・明るさは固定です（調整用のメニューやダイヤルはありません）。見た目を変えたいときは、各グループを開いて該当のマテリアルやTransformを調整してください。</p>
+
+    <details class="param-group reveal" open>
+      <summary>背中の紋章の位置 <span class="grp-badge">BackMark</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">まず <code>Fit Back Mark To Selected Avatar</code> を実行します。手で直すときは、アバター配下の <code>SpiderWeb/BackMarkAnchor/BackMark</code> のTransformを調整します。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">項目</th><th scope="col">説明</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Position Y</th><td>高さ</td></tr>
+            <tr><th scope="row">Position Z</th><td>前後。負の値が背中側</td></tr>
+            <tr><th scope="row">Scale</th><td>大きさ。標準は幅0.4m×高さ0.2m</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note"><code>BackMarkAnchor</code> は胸に吸着するだけのノードなので動かさないでください。位置を確認するときは、<code>BackMark</code> のActiveを一時的に入れます。確認が済んだら戻しておきます（戻し忘れても動作は変わりません）。</p>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>紋章が髪や服に隠れる <span class="grp-badge">SpiderWebBackMark.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro"><code>Material/SpiderWebBackMark.mat</code> のプロパティを調整します。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">プロパティ</th><th scope="col">既定</th><th scope="col">説明</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_DepthPull</th><td>0.3</td><td>紋章をカメラ側へ寄せる距離（m）。髪の厚み＋余裕を指定します。画面上の位置と大きさは変わりません</td></tr>
+            <tr><th scope="row">_GrazingFade</th><td>0.3</td><td>斜めから見たときの描画を抑える度合い。0で無効</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note"><code>_DepthPull</code> を上げすぎると、横から見たときに腕などの上に紋章が描かれることがあります。その場合は <code>_GrazingFade</code> で抑えられます。</p>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>衝撃波 <span class="grp-badge">SpiderWebShockwave.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro"><code>Material/SpiderWebShockwave.mat</code> のプロパティを調整します。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">プロパティ</th><th scope="col">説明</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_Distortion</th><td>歪みの強さ。自分視点の歪みが気になるときは下げます</td></tr>
+            <tr><th scope="row">_RimPower</th><td>歪みを縁へ集める度合い</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>花びらの色 <span class="grp-badge">SpiderWebPetal.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro"><code>Material/SpiderWebPetal.mat</code> のプロパティを調整します。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">プロパティ</th><th scope="col">説明</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">_Color</th><td>花びらの根元の色</td></tr>
+            <tr><th scope="row">_TipColor</th><td>花びらの先端の色</td></tr>
+            <tr><th scope="row">_EdgeColor</th><td>縁の光の色</td></tr>
+            <tr><th scope="row">_BackfaceTint</th><td>裏面の色味</td></tr>
+            <tr><th scope="row">_EdgeGlow</th><td>縁の光の強さ</td></tr>
+            <tr><th scope="row">_Sheen</th><td>やわらかなつや</td></tr>
+            <tr><th scope="row">_Iridescence</th><td>視線によるほのかな色変化</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="param-group reveal">
+      <summary>水面のあるワールド <span class="grp-badge">Render Queue</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <p class="param-intro">糸のRender Queueは3100、衝撃波は3110で、通常の透明物（3000）の後に描きます。</p>
+      <p class="param-note">水面が3100以上で描かれるワールドで糸が隠れる場合は、糸のマテリアル（<code>SpiderWebThread.mat</code>・<code>SpiderWebCurve.mat</code>）のRender Queueを水面より大きくし、衝撃波はさらに後にしてください。</p>
+    </details>
+
+    <div class="note reveal" style="margin-top:1.4rem">
+      <strong>生成メニューは通常使いません。</strong> <code>Tools/Nunifuchisaka/SpiderWeb/</code> にある Create 〜 や Rebuild All Assets などの生成メニューは、製品の再生成用です。調整したマテリアルや設定を初期値へ戻すため、通常の導入・調整では使わないでください。
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     7. 注意
+     ====================================================== -->
+<section id="notes" class="section-pad section-alt">
+  <div class="wrap">
+    <span class="eyebrow reveal">Notes</span>
+    <h2 class="sect-title reveal">注意・制約</h2>
+    <p class="sect-lead reveal">導入前に確認してください。</p>
+
+    <div class="constraints">
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 18H2L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>PC専用（Quest非対応）</h3>
+        <p>Quest（Android）には対応しません。独自シェーダーと、背景の歪み（GrabPass）を使うためです。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>パフォーマンスランクはMedium以下</h3>
+        <p>花びらのパーティクル衝突を使うため、パフォーマンスランクはMedium以下になります。花びらは最大1000枚（1枚32三角形）で、先端固定用のVRC Position Constraintを14個使います。</p>
+        <p>アバター全体のランクは、Unityのアップロード画面で確認してください。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10v4M12 10v4M16 10v4" opacity="0.7"/></svg>同期パラメータ11bit・Receiver 2個</h3>
+        <p>同期パラメータは11bitです（ModeのBool、腕振り・衝撃波のBool、落とした本数のInt）。Contact Receiverは2個（胸の前の左右センサー）です。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h18"/><path d="M6 18L9 6M12 18l1-12M18 18l-2-12" opacity="0.8"/></svg>床の高さは発動した足元が基準</h3>
+        <p>空間の糸は、発動したときの足元の高さを床として配置します。階段や坂など、実際の床の形には沿いません。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.5 2 5 5 4.2 8.2C15.4 14.4 13.2 17 12 21c-1.2-4-3.4-6.6-4.2-9.8C7 8 8.5 5 12 3z"/></svg>花びらの積もり方</h3>
+        <p>花びらは、ワールドの床・壁・家具のColliderに当たって積もります。Colliderの無い床は通り抜け、66秒で消えます。プレイヤーには当たりません。</p>
+        <p>衝撃波の後も、床に積もった花びらは66秒まで残ります（新しい花びらは止まります）。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>胸の前のセンサー</h3>
+        <p>胸の前のセンサーは、体格によって位置が合わないことがあります（腕組みや拍手での誤発動、構えても反応しない等）。気になる場合はお問い合わせください。</p>
+      </div>
+
+      <div class="constraint reveal">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c.5-3 2.5-4.5 5-4.5s4.5 1.5 5 4.5M14 18.5c.4-2 1.8-3 3.5-3s3 1 3.5 3" opacity="0.8"/></svg>他のプレイヤーへの見え方</h3>
+        <p>他のプレイヤーにも、ジェスチャーの同期で同じ演出が見えます。ただし通信の遅れにより、タイミングが少しずれることがあります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================================================
+     8. フッター
+     ====================================================== -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="f-brand">SpiderWeb / 糸のギミック</div>
+      <p class="f-meta">
+        VRChatアバター用の糸のギミック。Modular Avatarを利用します。
+        本ページは商品の説明書です。
+      </p>
+    </div>
+    <nav class="f-links" aria-label="フッターリンク">
+      <a href="#features">特徴</a>
+      <a href="#setup">導入</a>
+      <a href="#usage">使い方</a>
+      <a href="#adjust">調整</a>
+      <!-- TODO: 商品ページ公開後に差し替え -->
+      <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
+      <a href="/">ぬにふちさか</a>
+    </nav>
+    <p class="credit">Created by ぬにふちさか (Nunifuchisaka)</p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
