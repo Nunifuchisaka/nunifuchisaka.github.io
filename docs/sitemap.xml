@@ -101,6 +101,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nunifuchisaka.github.io/gashadokuro/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/gashadokuro/en/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://nunifuchisaka.github.io/en/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
