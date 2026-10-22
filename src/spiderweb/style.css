@@ -251,8 +251,11 @@ code {
    ヒーロー
    ========================================================= */
 .hero { padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 3.5rem); }
-.hero .wrap { display: grid; justify-items: center; }
-.hero-copy { min-width: 0; max-width: 46rem; text-align: center; }
+.hero .wrap { display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
+@media (min-width: 980px) {
+  .hero .wrap { grid-template-columns: 1fr 1.1fr; align-items: center; }
+}
+.hero-copy { min-width: 0; }
 
 .badge {
   display: inline-flex;
@@ -290,13 +293,13 @@ h1 {
   letter-spacing: 0.04em;
 }
 .catch {
-  margin: 0 auto 1.4rem;
+  margin: 0 0 1.4rem;
   color: var(--text-soft);
   font-size: 1.03rem;
   max-width: 34em;
 }
 
-.hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-bottom: 1.6rem; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.6rem; }
 .tag {
   font-size: 0.76rem;
   color: var(--text-soft);
@@ -306,7 +309,7 @@ h1 {
   padding: 0.28rem 0.7rem;
 }
 
-.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
 .btn {
   display: inline-flex;
   align-items: center;
@@ -336,6 +339,24 @@ h1 {
   .btn:hover { transform: none; }
 }
 
+/* ヒーローの画像（ワールドに張られた糸と花びら） */
+.hero-figure {
+  margin: 0;
+  border-radius: clamp(16px, 2.2vw, 26px);
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-lg);
+}
+.hero-figure img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.hero-figure figcaption {
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  line-height: 1.5;
+  border-top: 1px solid var(--hairline);
+}
+
 /* 演出の流れ（指輪 → 指の糸 → 空間の糸 → 花びら → 衝撃波） */
 .flow {
   list-style: none;
@@ -344,7 +365,6 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   gap: 0.4rem;
   font-size: 0.8rem;
 }
@@ -438,6 +458,34 @@ h1 {
 .card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; letter-spacing: -0.01em; }
 .card p { margin: 0; color: var(--text-soft); font-size: 0.9rem; }
 .card p + p { margin-top: 0.5rem; }
+
+/* 実機スクリーンショット */
+.shot-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.2rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .shot-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.shot {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-md);
+}
+.shot img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.shot figcaption {
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-faint);
+  border-top: 1px solid var(--hairline);
+}
+.shot figcaption strong { color: var(--text-soft); font-weight: 650; }
 
 /* =========================================================
    導入・使い方ステップ
@@ -648,7 +696,7 @@ details.param-group[open] > summary .chev { transform: rotate(90deg); }
 
 /* コントラスト強調環境では枠線をはっきりさせる */
 @media (prefers-contrast: more) {
-  .card, .step, .constraint, .table-card, details.param-group, .flow li, .gesture-key li {
+  .card, .step, .constraint, .table-card, .hero-figure, .shot, details.param-group, .flow li, .gesture-key li {
     border-color: var(--text-soft);
   }
 }
