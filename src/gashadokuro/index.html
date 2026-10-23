@@ -291,7 +291,7 @@
         <table>
           <thead><tr><th scope="col">項目</th><th scope="col">既定</th><th scope="col">説明</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Scale</th><td>4</td><td>拡大率</td></tr>
+            <tr><th scope="row">Scale</th><td>4</td><td>拡大率。出現・消滅の燃え際（Dissolve）は拡大率4に合わせてあるため、大きくすると腕を真上に上げたときに指先が欠けます。4より大きくしないでください</td></tr>
             <tr><th scope="row">Position</th><td>(0, 0.4, −1.0)</td><td>自分からの位置。zを小さくすると遠ざかり、yで高さが変わります</td></tr>
           </tbody>
         </table>
@@ -340,6 +340,7 @@
       <div class="constraint reveal">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 18H2L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>PC専用（Quest非対応）</h3>
         <p>Quest（Android）では、VRChatの仕様でFinal IKが動かないため、表示されません。</p>
+        <p>同じアバターをQuest（Android）向けにもアップロードするときは、このギミックを外してください（Android版のプロジェクトでは、プレハブを削除するか、EditorOnlyにします）。</p>
       </div>
 
       <div class="constraint reveal">
@@ -377,7 +378,17 @@
 
       <div class="constraint reveal">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Performance Rank</h3>
-        <p>アバターのボーンが31本、Particle System が2個（ブレスと炎）増えます。このギミックだけでアバターのPerformance Rankが下がることがあります。最終的なランクは、アバター全体の構成によって変わります。</p>
+        <p>Bounds（大きさ）が各辺約15mになるため、このギミックだけでPerformance RankはVery Poorになります。骸骨を出していない（非表示の）ときも、同じように数えられます。</p>
+        <p>Liloumoisに入れて、VRChat SDKの性能表示（PC、Modular Avatarの処理後）で測った増加分です。</p>
+        <ul>
+          <li>ポリゴン：+19,918</li>
+          <li>ボーン：+44</li>
+          <li>Skinned Mesh：+1</li>
+          <li>マテリアル：+3</li>
+          <li>Particle System：+2（ブレスと炎。これだけでGood）</li>
+          <li>最大パーティクル：+296（ブレス200、炎96。これだけでGood）</li>
+          <li>VRC Constraint：+20</li>
+        </ul>
       </div>
 
       <div class="constraint reveal">
@@ -390,7 +401,7 @@
         <ul>
           <li>VRChat PCアバター（Avatar SDK3）向け</li>
           <li>Modular Avatar（NDMF）が必要です</li>
-          <li>lilToon が必要です（骸骨のマテリアルに使っています）</li>
+          <li>lilToon 2.3 以降が必要です（骸骨のマテリアルに使っています。2.4.1 で確認）</li>
           <li>Final IK か、VRLabs の Final IK Stub が必要です</li>
           <li>Unity 2022.3.22f1、VRChat SDK 3.10.5、Modular Avatar 1.18.7、lilToon 2.4.1を使用して確認しています</li>
           <li>同期パラメーターの使用量：1bit</li>

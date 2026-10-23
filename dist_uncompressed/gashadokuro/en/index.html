@@ -291,7 +291,7 @@
         <table>
           <thead><tr><th scope="col">Field</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Scale</th><td>4</td><td>Scale factor</td></tr>
+            <tr><th scope="row">Scale</th><td>4</td><td>Scale factor. The burning edge of the appear/disappear effect (Dissolve) is tuned for a scale of 4, so at larger scales the fingertips get cut off when the arms are raised straight up. Don't set it above 4</td></tr>
             <tr><th scope="row">Position</th><td>(0, 0.4, −1.0)</td><td>Position relative to you. Lower z moves it farther away; y sets the height</td></tr>
           </tbody>
         </table>
@@ -340,6 +340,7 @@
       <div class="constraint reveal">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 18H2L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>PC only (no Quest support)</h3>
         <p>On Quest (Android), Final IK doesn't run due to VRChat's specifications, so the skeleton isn't shown.</p>
+        <p>If you also upload the same avatar for Quest (Android), remove this gimmick from the Android version (in the Android project, delete the prefab or set it to EditorOnly).</p>
       </div>
 
       <div class="constraint reveal">
@@ -377,7 +378,17 @@
 
       <div class="constraint reveal">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Performance Rank</h3>
-        <p>It adds 31 bones and 2 Particle Systems (the breath and the flame) to your avatar. This gimmick alone may lower your avatar's Performance Rank. The final rank depends on your avatar's overall setup.</p>
+        <p>The Bounds (size) become about 15 m on each side, so this gimmick alone makes your avatar's Performance Rank Very Poor. This is counted even while the skeleton is hidden.</p>
+        <p>The increase measured on Liloumois with the VRChat SDK's performance stats (PC, after Modular Avatar processing):</p>
+        <ul>
+          <li>Polygons: +19,918</li>
+          <li>Bones: +44</li>
+          <li>Skinned Meshes: +1</li>
+          <li>Materials: +3</li>
+          <li>Particle Systems: +2 (the breath and the flame; Good on their own)</li>
+          <li>Max particles: +296 (breath 200, flame 96; Good on their own)</li>
+          <li>VRC Constraints: +20</li>
+        </ul>
       </div>
 
       <div class="constraint reveal">
@@ -390,7 +401,7 @@
         <ul>
           <li>For VRChat PC avatars (Avatar SDK3)</li>
           <li>Requires Modular Avatar (NDMF)</li>
-          <li>Requires lilToon (used for the skeleton's material)</li>
+          <li>Requires lilToon 2.3 or later (used for the skeleton's material; tested with 2.4.1)</li>
           <li>Requires Final IK or VRLabs' Final IK Stub</li>
           <li>Tested with Unity 2022.3.22f1, VRChat SDK 3.10.5, Modular Avatar 1.18.7 and lilToon 2.4.1</li>
           <li>Synced parameter usage: 1 bit</li>
