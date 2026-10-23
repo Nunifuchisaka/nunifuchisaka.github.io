@@ -470,6 +470,37 @@ h1 {
 .card p { margin: 0; color: var(--text-soft); font-size: 0.9rem; }
 .card p + p { margin-top: 0.5rem; }
 
+/* 実機スクリーンショット */
+.shot-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.2rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .shot-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1000px) {
+  .shot-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.shot {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-md);
+}
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.shot figcaption {
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-faint);
+  border-top: 1px solid var(--hairline);
+}
+.shot figcaption strong { color: var(--text-soft); font-weight: 650; }
+
 /* =========================================================
    導入・使い方ステップ
    ========================================================= */
@@ -662,7 +693,7 @@ details.param-group[open] > summary .chev { transform: rotate(90deg); }
 
 /* コントラスト強調環境では枠線をはっきりさせる */
 @media (prefers-contrast: more) {
-  .card, .step, .constraint, .table-card, details.param-group, .flow li {
+  .card, .step, .constraint, .table-card, .hero-figure, .shot, details.param-group, .flow li {
     border-color: var(--text-soft);
   }
 }
