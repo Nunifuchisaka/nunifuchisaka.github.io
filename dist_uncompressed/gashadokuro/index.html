@@ -54,8 +54,7 @@
         <a class="navlink" href="#notes">注意</a>
       </span>
       <a class="lang-switch" href="en/" hreflang="en" lang="en">English</a>
-      <!-- TODO: 商品ページ公開後に差し替え -->
-      <a class="nav-cta" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener" title="BOOTHのショップを開く">
+      <a class="nav-cta" href="https://nunifuchisaka.booth.pm/items/9034355" target="_blank" rel="noopener" title="BOOTHの商品ページを開く">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm14.5 0H21l1 2h-4.5l.5-2zM8 20a1.6 1.6 0 100 3.2A1.6 1.6 0 008 20zm8 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
         BOOTH
       </a>
@@ -81,8 +80,7 @@
         <span class="tag">同期パラメーター 1bit</span>
       </div>
       <div class="hero-actions">
-        <!-- TODO: 商品ページ公開後に差し替え -->
-        <a class="btn btn-primary" href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
+        <a class="btn btn-primary" href="https://nunifuchisaka.booth.pm/items/9034355" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h13l-1 2H4l1 9h11l1-6h2l-1.2 8H3.2L2 6zm6 14a1.6 1.6 0 100 3.2A1.6 1.6 0 009 20zm7 0a1.6 1.6 0 100 3.2A1.6 1.6 0 0016 20z"/></svg>
           BOOTHで見る
         </a>
@@ -146,7 +144,7 @@
       <article class="card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h3l2-2M3 15h3l2 2"/><path d="M11 8c2-1.5 4-1.5 6 0M11 12h10M11 16c2 1.5 4 1.5 6 0" opacity="0.8"/></svg></div>
         <h3>闇のブレス</h3>
-        <p>両手をグーにして1.5秒続けると、骸骨が口を開き、黒い煙を前へ吐きます。どちらかの手を開くと止まります。</p>
+        <p>両手をグーにして1.5秒続けると、骸骨が口を開き、黒い瘴気の雲を約8m先まで吐きます。雲の中を紫白の光の筋が走り、桃紫の火の粉と灰が舞います。どちらかの手を開くと止まります。</p>
       </article>
 
       <article class="card reveal">
@@ -187,8 +185,8 @@
       </figure>
       <figure class="shot reveal">
         <img src="img/gashadokuro-breath.webp" width="1600" height="900" loading="lazy" decoding="async"
-             alt="夕暮れの背景の中、骸骨の口から黒い煙が前へ吐き出されている様子。">
-        <figcaption><strong>闇のブレス。</strong>骸骨が口を開き、黒い煙を前へ吐きます。</figcaption>
+             alt="骸骨が口から黒い瘴気の雲と紫の光の筋を吐いている様子。">
+        <figcaption><strong>闇のブレス。</strong>骸骨が口を開き、黒い瘴気の雲を前へ吐きます。</figcaption>
       </figure>
       <figure class="shot reveal">
         <img src="img/gashadokuro-reach.webp" width="1600" height="900" loading="lazy" decoding="async"
@@ -311,19 +309,6 @@
         </table>
       </div>
     </details>
-
-    <details class="param-group reveal">
-      <summary>ブレスの煙の色 <span class="grp-badge">Gashadokuro_Smoke.mat</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
-      <p class="param-intro"><code>Material/Gashadokuro_Smoke.mat</code> のプロパティを調整します。</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th scope="col">プロパティ</th><th scope="col">既定</th><th scope="col">説明</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">_Color</th><td>白</td><td>煙の色の調整（テクスチャは墨色で、縁が紫です）</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
   </div>
 </section>
 
@@ -384,10 +369,11 @@
           <li>ポリゴン：+19,918</li>
           <li>ボーン：+44</li>
           <li>Skinned Mesh：+1</li>
-          <li>マテリアル：+3</li>
-          <li>Particle System：+2（ブレスと炎。これだけでGood）</li>
-          <li>最大パーティクル：+296（ブレス200、炎96。これだけでGood）</li>
+          <li>マテリアル：+8</li>
+          <li>Particle System：+7（ブレス6層と炎。これだけでMedium）</li>
+          <li>最大パーティクル：+563（ブレス467、炎96。これだけでMedium）</li>
           <li>VRC Constraint：+20</li>
+          <li>テクスチャメモリ：+12.75 MB</li>
         </ul>
       </div>
 
@@ -430,8 +416,7 @@
       <a href="#setup">導入</a>
       <a href="#params">調整</a>
       <a href="#notes">注意</a>
-      <!-- TODO: 商品ページ公開後に差し替え -->
-      <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">BOOTH</a>
+      <a href="https://nunifuchisaka.booth.pm/items/9034355" target="_blank" rel="noopener">BOOTH</a>
       <a href="/">ぬにふちさか</a>
     </nav>
     <p class="credit">Created by ぬにふちさか (Nunifuchisaka)</p>
