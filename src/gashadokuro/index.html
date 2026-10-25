@@ -222,8 +222,11 @@
       <div class="step reveal">
         <div>
           <h3>体格に合わせる</h3>
-          <p>Hierarchy で「<code>Gashadokuro</code>」を選び、メニューの <code>Tools &gt; Nunifuchisaka &gt; Gashadokuro &gt; Fit To Avatar</code> を実行します。骸骨の腕の長さ・肩の位置・掌の向きを、アバターの体格に合わせます。</p>
+          <p>Hierarchy で置いた「<code>Gashadokuro</code>」を選び、Inspector の「<code>Gashadokuro Fitter</code>」にある <strong>Fit To Avatar</strong> ボタンを押します（メニューの <code>Tools &gt; Nunifuchisaka &gt; Gashadokuro &gt; Fit To Avatar</code> でも同じです）。骸骨の腕の長さ・肩の位置・掌の向きを、アバターの体格に合わせます。</p>
+          <p>骸骨の大きさも、このときアバターの肩の高さから自動で決まります（<code>Big</code> の Scale、1.5〜4）。体の小さいアバターでも、手で大きさを変える必要はありません。</p>
           <p><strong>この操作をしないと、骸骨の胴がねじれたり、腕が曲がったりします。</strong></p>
+          <p>ボタンが押せず「アバター（Humanoid）のルート直下に…」と表示されるときは、<code>Gashadokuro</code> がアバターのルートの直下に入っていません。</p>
+          <p>プレハブを置くと、Scene ビューに骸骨が出現した姿で表示されます。Fit のあとは決まった大きさで表示されるので、アバターと並べて背丈を確かめられます。この表示はエディタ上の確認用で、Game ビューやアップロードされるアバターには影響しません。</p>
         </div>
       </div>
 
@@ -247,7 +250,7 @@
       <div class="step reveal">
         <div>
           <h3>ブレスを吐く</h3>
-          <p>両手をグーにして1.5秒続けると、ブレスを吐きます。どちらかの手を開くと止まります。</p>
+          <p>骸骨の口は普段閉じています。両手をグーにして1.5秒続けると、口を開いてブレスを吐きます。どちらかの手を開くと止まります。</p>
         </div>
       </div>
     </div>
@@ -270,12 +273,12 @@
         <table>
           <thead><tr><th scope="col">項目</th><th scope="col">既定</th><th scope="col">説明</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Scale</th><td>4</td><td>拡大率。出現・消滅の燃え際（Dissolve）は拡大率4に合わせてあるため、大きくすると腕を真上に上げたときに指先が欠けます。4より大きくしないでください</td></tr>
-            <tr><th scope="row">Position</th><td>(0, 0.4, −1.0)</td><td>自分からの位置。zを小さくすると遠ざかり、yで高さが変わります</td></tr>
+            <tr><th scope="row">Scale</th><td>4（Fit が肩の高さから決める）</td><td>拡大率。Fit To Avatar がアバターの肩の高さから 1.5〜4 の範囲で決めます。出現・消滅の燃え際（Dissolve）の都合で、4より大きくすると腕を真上に上げたときに指先が欠けます。4より大きくしないでください</td></tr>
+            <tr><th scope="row">Position</th><td>(0, 0.4, −1.0) × Scale ÷ 4</td><td>自分からの位置。Fit To Avatar が Scale に合わせて決めます。zを小さくすると遠ざかり、yで高さが変わります</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="param-note">肩の高さが合わないアバターは、<code>Big</code> の Position の y と Scale で追い込みます。</p>
+      <p class="param-note">Fit のあとに <code>Big</code> の Scale と Position を手で直してもかまいません。ただし Fit To Avatar をやり直すと、肩の高さから決めた値で上書きされます。Scale を小さくすると、ブレスの届く距離も比例して短くなります（約8mは Scale 4 のとき。Scale 2 で約4m）。</p>
     </details>
 
     <details class="param-group reveal">

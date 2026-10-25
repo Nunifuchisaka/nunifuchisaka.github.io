@@ -221,8 +221,11 @@
       <div class="step reveal">
         <div>
           <h3>Fit it to your avatar</h3>
-          <p>Select "<code>Gashadokuro</code>" in the Hierarchy and run <code>Tools &gt; Nunifuchisaka &gt; Gashadokuro &gt; Fit To Avatar</code> from the menu. This matches the skeleton's arm length, shoulder position and palm direction to your avatar's build.</p>
+          <p>Select the placed "<code>Gashadokuro</code>" in the Hierarchy and press the <strong>Fit To Avatar</strong> button in the "<code>Gashadokuro Fitter</code>" component in the Inspector (running <code>Tools &gt; Nunifuchisaka &gt; Gashadokuro &gt; Fit To Avatar</code> from the menu does the same). This matches the skeleton's arm length, shoulder position and palm direction to your avatar's build.</p>
+          <p>It also sets the skeleton's size automatically from your avatar's shoulder height (the Scale of <code>Big</code>, between 1.5 and 4). Even on a small avatar, there's no need to resize it by hand.</p>
           <p><strong>Without this step, the skeleton's torso twists and its arms bend.</strong></p>
+          <p>If the button is disabled and a message (in Japanese) asks you to place it directly under a Humanoid avatar root, <code>Gashadokuro</code> isn't directly under your avatar root.</p>
+          <p>Once placed, the skeleton is shown in the Scene view in its risen pose. After fitting, it's shown at the chosen size, so you can check its height next to your avatar. This is an editor-only preview and doesn't affect the Game view or the uploaded avatar.</p>
         </div>
       </div>
 
@@ -246,7 +249,7 @@
       <div class="step reveal">
         <div>
           <h3>Breathe darkness</h3>
-          <p>Hold both hands in fists for 1.5 seconds to breathe. Open either hand to stop.</p>
+          <p>The skeleton's jaw stays closed normally. Hold both hands in fists for 1.5 seconds, and it opens its jaw to breathe. Open either hand to stop.</p>
         </div>
       </div>
     </div>
@@ -269,12 +272,12 @@
         <table>
           <thead><tr><th scope="col">Field</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Scale</th><td>4</td><td>Scale factor. The burning edge of the appear/disappear effect (Dissolve) is tuned for a scale of 4, so at larger scales the fingertips get cut off when the arms are raised straight up. Don't set it above 4</td></tr>
-            <tr><th scope="row">Position</th><td>(0, 0.4, −1.0)</td><td>Position relative to you. Lower z moves it farther away; y sets the height</td></tr>
+            <tr><th scope="row">Scale</th><td>4 (set by Fit from shoulder height)</td><td>Scale factor. Fit To Avatar sets it between 1.5 and 4 from your avatar's shoulder height. Because of the burning edge of the appear/disappear effect (Dissolve), the fingertips get cut off when the arms are raised straight up at scales above 4. Don't set it above 4</td></tr>
+            <tr><th scope="row">Position</th><td>(0, 0.4, −1.0) × Scale ÷ 4</td><td>Position relative to you. Fit To Avatar sets it to match the Scale. Lower z moves it farther away; y sets the height</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="param-note">If the shoulder height doesn't match your avatar, fine-tune the y of <code>Big</code>'s Position and its Scale.</p>
+      <p class="param-note">You can adjust the Scale and Position of <code>Big</code> by hand after fitting. Running Fit To Avatar again overwrites them with the values derived from shoulder height. A smaller Scale also shortens the breath's reach proportionally (about 8 m at Scale 4; about 4 m at Scale 2).</p>
     </details>
 
     <details class="param-group reveal">
