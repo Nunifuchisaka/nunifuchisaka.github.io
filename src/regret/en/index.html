@@ -164,13 +164,13 @@
       <article class="card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-4M6 6h4v4H6zM14 14h6v6h-6z" opacity="0.8"/><path d="M14 10l4-4M18 6h-3M18 6v3" opacity="0.6"/></svg></div>
         <h3>Choose the attachment point</h3>
-        <p>You can pick the left toe (default), the right toe, the left foot, the right foot, or the right wrist. Choosing a right-side option automatically mirrors the model.</p>
+        <p>Attach it to any Humanoid bone: feet, toes, shins, thighs, hips, chest, neck, head, shoulders, arms, wrists, or fingers. You can also attach it to any object inside your avatar using "Specify by Object". The default is the left toe. Choosing a right-side part automatically mirrors the model.</p>
       </article>
 
       <article class="card reveal">
         <div class="icon icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M9.5 10l5 4" stroke-dasharray="1.4 1.6"/></svg></div>
         <h3>Place more than one</h3>
-        <p>You can put one on each foot, or one on a foot and one on an arm. Flicking one does not knock off the other. Each one has its own menu toggle.</p>
+        <p>You can put one on each foot, or one on a foot and one on an arm. Flicking one does not knock off the other. Each one has its own menu toggle, named after its attachment point (for example, "Regret (Left Toe)").</p>
       </article>
 
       <article class="card reveal">
@@ -219,7 +219,8 @@
         <div>
           <h3>Place the prefab on your avatar</h3>
           <p>Drag and drop the prefab "<code>Regret</code>" directly under the avatar's root (the topmost level of the avatar).</p>
-          <p>Leave its position, rotation, and scale at their default values. The attachment point is adjusted automatically at upload to match the body part you chose.</p>
+          <p>The attachment point is adjusted automatically at upload to match the body part you chose. Moving the position or rotation does not change where it attaches, so you can move them freely.</p>
+          <p>Changing the scale sets the hand's size (for example, 1.5 makes it 1.5 times larger). The collision and pick-up area scale by the same factor. The attachment point, flick sensitivity, and flight speed and height do not change. Keep X, Y, and Z the same; if they differ, the average is used and treated uniformly.</p>
         </div>
       </div>
 
@@ -281,7 +282,7 @@
   <div class="wrap params">
     <span class="eyebrow reveal">Adjust</span>
     <h2 class="sect-title reveal">Settings</h2>
-    <p class="sect-lead reveal">Values you can change inside the prefab. Leave the position, rotation, and scale of the root ("<code>Regret</code>") as they are, and adjust through the Inspector settings.</p>
+    <p class="sect-lead reveal">Values you can change inside the prefab. Adjust them through the Inspector settings. The position and rotation of the root ("<code>Regret</code>") do not affect where it attaches, and its scale sets the hand's size.</p>
 
     <details class="param-group reveal" open>
       <summary>Attachment point and mirroring <span class="grp-badge">Regret</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
@@ -290,13 +291,14 @@
         <table>
           <thead><tr><th scope="col">Item</th><th scope="col">Options</th><th scope="col">Description</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Attachment point</th><td>Left toe (default) / Right toe / Left foot / Right foot / Right wrist</td><td>The body part the bone attaches to. At upload, it is attached to this part.</td></tr>
-            <tr><th scope="row">Mirror on right side</th><td>On / Off</td><td>Mirrors the model left-right when you choose the right foot or right wrist. Turn it off if you do not want mirroring, for example with a symmetrical object.</td></tr>
+            <tr><th scope="row">Attachment point</th><td>Any Humanoid bone (default: left toe) / "Specify by Object" for an object inside the avatar</td><td>The body part the bone attaches to. At upload, it is attached to this part. Renaming or deleting the object you specified causes an upload error.</td></tr>
+            <tr><th scope="row">Mirror on right side</th><td>On / Off</td><td>Mirrors the model left-right when you choose a right-side part (a bone whose name starts with "Right", and objects beneath it). Turn it off if you do not want mirroring, for example with a symmetrical object.</td></tr>
             <tr><th scope="row">Auto-fit collision</th><td>On / Off</td><td>Automatically sets the floor-hitting size and the pick-up area to match the look. To set them yourself, turn this off and adjust the BoxCollider and GrabReceiver by hand.</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="param-note">Some avatars do not have a toe bone (Toes) set up. In that case, upload shows an error, so choose "Left foot" or "Right foot" instead.</p>
+      <p class="param-note">Some avatars do not have the chosen bone assigned to Humanoid (for example, no toe bone, Toes). In that case, upload shows an error, so choose a different part.</p>
+      <p class="param-note">Do not place it inside hair, a skirt, or other parts that sway with PhysBone. It can change how they move or make the hand fall off on its own. The Inspector and upload show a warning for this.</p>
     </details>
 
     <details class="param-group reveal">
@@ -321,7 +323,7 @@
 
     <details class="param-group reveal">
       <summary>Placing more than one <span class="grp-badge">Regret</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
-      <p class="param-intro">Place another "<code>Regret</code>" prefab directly under the avatar's root, and choose a different attachment point for each. Each one also gets its own menu toggle.</p>
+      <p class="param-intro">Place another "<code>Regret</code>" prefab directly under the avatar's root, and choose a different attachment point for each. Each one also gets its own menu toggle, named after its attachment point (for example, "Regret (Left Toe)").</p>
       <p class="param-note">The avatar's load and the number of sync parameters used both increase with the number of instances.</p>
     </details>
   </div>
@@ -355,8 +357,8 @@
       </div>
 
       <div class="constraint reveal">
-        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>The current version is not yet confirmed in VRChat</h3>
-        <p>It has been checked in the Unity Editor, but it has not yet been confirmed in VRChat. Synchronization between two people's screens, joining mid-session, improvements to position drift while moving, the right foot, right wrist, multiple placements, and height changes cannot be guaranteed by Unity Editor testing alone.</p>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>In the current version, only the left toe and right wrist have been tested in VRChat</h3>
+        <p>The only parts tested in VRChat itself are the left toe and the right wrist. The right foot, other body parts, multiple placements, and height changes, as well as synchronization between two people's screens and joining mid-session, have been checked only in the Unity Editor. They cannot be guaranteed in VRChat.</p>
       </div>
 
       <div class="constraint reveal">

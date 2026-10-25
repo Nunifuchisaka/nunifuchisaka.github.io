@@ -164,13 +164,13 @@
       <article class="card reveal">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-4M6 6h4v4H6zM14 14h6v6h-6z" opacity="0.8"/><path d="M14 10l4-4M18 6h-3M18 6v3" opacity="0.6"/></svg></div>
         <h3>付ける場所を選べる</h3>
-        <p>左足のつま先（初期設定）・右足のつま先・左足・右足・右手首から選べます。右足と右手首を選ぶと、見た目が自動で左右反転します。</p>
+        <p>足・腕・手首・頭など、Humanoid のすべての骨に付けられます。アバターの中の好きなオブジェクトを指定して付けることもできます（初期設定は左足のつま先）。右側の部位を選ぶと、見た目が自動で左右反転します。</p>
       </article>
 
       <article class="card reveal">
         <div class="icon icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M9.5 10l5 4" stroke-dasharray="1.4 1.6"/></svg></div>
         <h3>複数置ける</h3>
-        <p>左右の足に1個ずつ、あるいは足と腕に1個ずつ置けます。片方を振っても、もう片方は落ちません。メニューの切り替えも1個ずつ別に入ります。</p>
+        <p>左右の足に1個ずつ、あるいは足と腕に1個ずつ置けます。片方を振っても、もう片方は落ちません。メニューの切り替えも1個ずつ別に入ります。メニュー名には、付ける場所の名前が入ります（「Regret（左つま先）」など）。</p>
       </article>
 
       <article class="card reveal">
@@ -219,7 +219,8 @@
         <div>
           <h3>プレハブをアバターに入れる</h3>
           <p>プレハブ「<code>Regret</code>」を、アバターのいちばん上の階層（アバターのルート）の直下にドラッグ＆ドロップします。</p>
-          <p>位置・回転・大きさは、初期値のまま変えないでください。付ける位置は、アップロード時に自動で、選んだ部位に合わせます。</p>
+          <p>付ける位置は、アップロード時に自動で、選んだ部位に合わせます。位置・回転は付く位置に影響しないので、動かしても構いません。</p>
+          <p>大きさ（Scale）を変えると、手の大きさになります（例: 1.5 で 1.5倍）。当たり判定と拾える範囲も同じ倍率で大きくなります。付く位置・振って落ちる感度・飛び方（速さ・高さ）は変わりません。X・Y・Z は同じ値にしてください（違うときは平均の値で、そろえて扱います）。</p>
         </div>
       </div>
 
@@ -281,7 +282,7 @@
   <div class="wrap params">
     <span class="eyebrow reveal">Adjust</span>
     <h2 class="sect-title reveal">調整</h2>
-    <p class="sect-lead reveal">プレハブの中で変えられる値です。プレハブのルート（<code>Regret</code>）の位置・回転・大きさは変えず、Inspector の設定で調整してください。</p>
+    <p class="sect-lead reveal">プレハブの中で変えられる値です。プレハブの中の値は、Inspector の設定で調整してください。ルート（<code>Regret</code>）の位置・回転は付く位置に影響せず、大きさは手の大きさの倍率になります。</p>
 
     <details class="param-group reveal" open>
       <summary>付ける場所と向き <span class="grp-badge">Regret</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
@@ -290,13 +291,14 @@
         <table>
           <thead><tr><th scope="col">項目</th><th scope="col">選べる値</th><th scope="col">説明</th></tr></thead>
           <tbody>
-            <tr><th scope="row">付ける場所</th><td>左足のつま先（初期設定）／右足のつま先／左足／右足／右手首</td><td>骨を付ける部位。アップロード時に、この部位へ合わせて付きます</td></tr>
-            <tr><th scope="row">右側のとき左右反転</th><td>オン／オフ</td><td>右足・右手首を選んだとき、見た目を左右反転します。左右対称の物などで反転したくないときは外してください</td></tr>
+            <tr><th scope="row">付ける場所</th><td>Humanoid のすべての骨（初期設定は左足のつま先）／「Object で指定」にアバター内のオブジェクト</td><td>骨を付ける部位。アップロード時に、この部位へ合わせて付きます。Object の名前を変えたり消したりすると、アップロード時にエラーになります</td></tr>
+            <tr><th scope="row">右側のとき左右反転</th><td>オン／オフ</td><td>右側の部位（名前が「右」の骨と、その下のオブジェクト）を選んだとき、見た目を左右反転します。左右対称の物などで反転したくないときは外してください</td></tr>
             <tr><th scope="row">当たり判定を自動で合わせる</th><td>オン／オフ</td><td>床にぶつかる大きさと、拾える範囲を、見た目に合わせて自動で決めます。自分で調整したいときは外し、BoxCollider と GrabReceiver を手で設定してください</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="param-note">アバターによっては、つま先の骨（Toes）が設定されていないことがあります。その場合はアップロード時にエラーが出るので、「左足」か「右足」を選んでください。</p>
+      <p class="param-note">選んだ骨がアバターの Humanoid に割り当てられていないことがあります（つま先の骨 Toes が無いなど）。その場合はアップロード時にエラーが出るので、別の部位を選んでください。</p>
+      <p class="param-note">髪・スカートなど、PhysBone で揺れる部分の中には付けないでください。揺れ方が変わったり、勝手に落ちたりします。Inspector とアップロード時に注意が出ます。</p>
     </details>
 
     <details class="param-group reveal">
@@ -321,7 +323,7 @@
 
     <details class="param-group reveal">
       <summary>いくつも置く <span class="grp-badge">Regret</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
-      <p class="param-intro">プレハブ「<code>Regret</code>」をもう1個アバターのルートの直下に置き、それぞれ別の「付ける場所」を選びます。メニューの切り替えも1個ずつ別に入ります。</p>
+      <p class="param-intro">プレハブ「<code>Regret</code>」をもう1個アバターのルートの直下に置き、それぞれ別の「付ける場所」を選びます。メニューの切り替えも1個ずつ別に入ります。メニュー名には、付ける場所の名前が入ります（「Regret（左つま先）」など）。</p>
       <p class="param-note">個数に応じて、アバターの負荷と同期パラメーターの使用量が増えます。</p>
     </details>
   </div>
@@ -355,8 +357,8 @@
       </div>
 
       <div class="constraint reveal">
-        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>現行版のVRChat実機での確認は未完了</h3>
-        <p>Unity Editorでの検証は済んでいますが、VRChat実機での確認は未完了です。2人の画面での同期、途中参加、移動中の位置ずれの改善、右足・右手首・複数設置・身長変更は、Unity Editorでの検証だけでは保証できません。</p>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></svg>現行版の実機で確かめたのは左足のつま先と右手首だけ</h3>
+        <p>VRChat実機で確かめたのは、左足のつま先と右手首だけです。右足・そのほかの部位・複数設置・身長変更、2人の画面での同期、途中参加は、Unity Editorでの検証のみです。実機では保証できません。</p>
       </div>
 
       <div class="constraint reveal">
