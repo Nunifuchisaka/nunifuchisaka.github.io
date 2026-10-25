@@ -277,7 +277,12 @@
           </tbody>
         </table>
       </div>
-      <p class="param-note">You can adjust the Scale and Position of <code>Big</code> by hand after fitting. Running Fit To Avatar again overwrites them with the values derived from shoulder height. A smaller Scale also shortens the breath's reach proportionally (about 8 m at Scale 4; about 4 m at Scale 2).</p>
+      <p class="param-note"><strong>Changing the size by hand after Fit</strong> (Fit sets the Scale automatically from shoulder height; only do this if that isn't what you want)</p>
+      <p class="param-note">1. In the Hierarchy, select <code>Big</code> inside <code>Gashadokuro</code>.</p>
+      <p class="param-note">2. In the Inspector, change the three Scale values (X, Y, Z) together to the same number (for example, 2.5 to make it smaller).</p>
+      <p class="param-note">3. If the height or distance looks off, change the Y and Z of Position by the same ratio. Setting it to (0, 0.4, −1.0) × new Scale ÷ 4 gives the same placement Fit would (for Scale 2.5: (0, 0.25, −0.625)).</p>
+      <p class="param-note">The Scale and Position that Fit decided are kept in the Inspector of <code>Gashadokuro</code> (Gashadokuro Fitter), in the rows labeled "髑髏の大きさ" (skeleton size) and "位置" (position). If you change them after Fit, the current values are shown there as a notice.</p>
+      <p class="param-note">Notes: running Fit To Avatar again resets the Scale and Position you changed to the values derived from shoulder height (the arm matching doesn't depend on Scale, so you don't need to run Fit again after resizing). Don't set Scale above 4 (with the arms raised straight up, the fingertips get cut off at the burning edge of the appear/disappear effect). A smaller Scale also shortens the breath's reach proportionally (about 8 m at Scale 4; about 4 m at Scale 2). The skeleton's gaze distance (about 2 m) and the width of the burning band do not shrink, so the smaller you go, the thicker the burning band looks relative to the skeleton, and the appear/disappear flames pass over it more quickly.</p>
     </details>
 
     <details class="param-group reveal">

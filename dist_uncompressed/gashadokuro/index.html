@@ -278,7 +278,12 @@
           </tbody>
         </table>
       </div>
-      <p class="param-note">Fit のあとに <code>Big</code> の Scale と Position を手で直してもかまいません。ただし Fit To Avatar をやり直すと、肩の高さから決めた値で上書きされます。Scale を小さくすると、ブレスの届く距離も比例して短くなります（約8mは Scale 4 のとき。Scale 2 で約4m）。</p>
+      <p class="param-note"><strong>Fit のあとに大きさを手で変えるとき</strong>（Fit は Scale を肩の高さから自動で決めます。そのままで足りない場合だけ行ってください）</p>
+      <p class="param-note">1. Hierarchy で、<code>Gashadokuro</code> の中の <code>Big</code> を選びます。</p>
+      <p class="param-note">2. Inspector の Scale の3つの値（X・Y・Z）を、同じ値にそろえて変えます（例: 小さくするなら 2.5）。</p>
+      <p class="param-note">3. 高さや距離がずれたら、Position の Y と Z も同じ比率で変えます。(0, 0.4, −1.0) × 新しい Scale ÷ 4 にすれば、Fit と同じ配置になります（Scale 2.5 なら (0, 0.25, −0.625)）。</p>
+      <p class="param-note">Fit が決めた元の Scale と Position は、<code>Gashadokuro</code> の Inspector（Gashadokuro Fitter）の「髑髏の大きさ」「位置」に残っています。Fit のあとに変えると、同じ場所に現在の値が注意として表示されます。</p>
+      <p class="param-note">注意: Fit To Avatar をやり直すと、手で変えた Scale と Position は肩の高さから決めた値に戻ります（腕の合わせ方は Scale に左右されないので、大きさを変えたあとに Fit をやり直す必要はありません）。Scale は4より大きくしないでください（腕を真上に上げたとき、出現・消滅の燃え際で指先が欠けます）。Scale を小さくすると、ブレスの届く距離も比例して短くなります（約8mは Scale 4 のとき。Scale 2 で約4m）。一方、髑髏の視線の距離（約2m）と燃える帯の幅は縮まないので、小さくするほど燃える帯が髑髏に対して太く見え、出現・消滅の炎が通り過ぎるのも早くなります。</p>
     </details>
 
     <details class="param-group reveal">
