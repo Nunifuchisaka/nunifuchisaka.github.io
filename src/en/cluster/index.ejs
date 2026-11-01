@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../";
+const meta = {
+  title: "cluster",
+  description: "Photos from my activities in cluster",
+  url: "en/cluster/",
+  altUrl: "cluster/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"cluster",locale:"en"}) %>
+
+<main id="main">
+<section class="section_2 page_1" aria-labelledby="cluster-heading">
+  <h1 class="page_1__h1" id="cluster-heading">cluster</h1>
+  <p class="section_2__lead">Photos taken in cluster, the metaverse platform.</p>
+  <%- include(path + "assets/html/_cluster",{locale:"en"}) %>
+</section>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  title: "Claude Code の使い方",
+  description: "ぬにふちさかの Claude Code のエージェント構成と、サイトや説明書づくりでの使い方",
+  url: "claude-code/",
+  altUrl: "en/claude-code/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"claude-code"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_claude-code") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

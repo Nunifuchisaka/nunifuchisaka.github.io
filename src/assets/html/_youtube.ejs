@@ -1,0 +1,35 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+// webpack がビルド時に取ってくる新しい順の動画（src/assets/data/youtube.json）。1件も無いときは欄ごと出さない
+const videos = (youtube && youtube.videos) || [];
+const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const formatDate = (iso) => {
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  // 投稿日は日本時間で表す
+  const jst = new Date(d.getTime() + 9 * 3600000);
+  const y = jst.getUTCFullYear(), m = jst.getUTCMonth() + 1, day = jst.getUTCDate();
+  return isEn ? `${MONTHS_EN[m - 1]} ${day}, ${y}` : `${y}年${m}月${day}日`;
+};
+const l = isEn
+  ? { more: "See all videos on YouTube", play: (title) => `Play “${title}”`, newTab: "(opens in a new tab)" }
+  : { more: "YouTubeですべての動画を見る", play: (title) => `「${title}」を再生`, newTab: "（新しいタブで開きます）" };
+%><% if (videos.length) { %><section id="youtube" class="section_2" aria-labelledby="youtube-heading">
+  <h2 class="section_2__h1" id="youtube-heading">YouTube</h2>
+  <ul class="list_13">
+    <% videos.forEach(function (video) { %>
+      <li>
+        <div class="list_13__player js_youtube" data-id="<%= video.id %>">
+          <a class="list_13__poster" href="https://www.youtube.com/watch?v=<%= video.id %>" target="_blank" rel="noopener" aria-label="<%= l.play(video.title) %>">
+            <img src="https://i.ytimg.com/vi/<%= video.id %>/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+            <span class="list_13__play" aria-hidden="true"></span>
+          </a>
+        </div>
+        <p class="list_13__title"><%= video.title %></p>
+        <p class="list_13__date"><time datetime="<%= video.published %>"><%= formatDate(video.published) %></time></p>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_13 -->
+  <p class="section_2__more"><a href="<%= youtube.channelUrl %>" target="_blank" rel="noopener"><%= l.more %><span class="visually-hidden"><%= l.newTab %></span></a></p>
+</section><!-- /#youtube.section_2 --><% } %>

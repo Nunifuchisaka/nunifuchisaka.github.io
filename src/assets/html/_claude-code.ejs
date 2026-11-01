@@ -1,0 +1,171 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+// ぬにふちさかの Claude Code の使い方。事実だけを書く（出典：CLAUDE.md、.claude/settings.json、git の履歴、管理人の取り決め）
+const l = isEn ? {
+  title: "How I use Claude Code",
+  lead: "This site and my BOOTH manual sites are built together with Anthropic's Claude Code. Here is how my agents are set up and how a request moves from idea to release.",
+  setupTitle: "Setup",
+  me: "Me",
+  meNote: "Asks for things in plain Japanese and picks from the options offered",
+  hub: "Claude Code",
+  hubNote: "Reads the request, splits the work and reports back",
+  agentsTitle: "Agents",
+  agents: [
+    { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code: palette, type, wireframes, and the one element that makes the page memorable." },
+    { name: "技師 (Gishi)", role: "Implementation", note: "Writes the code, builds it, and checks it with validators and screenshots." },
+  ],
+  skillsTitle: "Skills",
+  skills: [
+    { name: "Frontend Design", note: "Anthropic's official skill for design that doesn't look templated. Added on October 31, 2026." },
+    { name: "booth-product-site", note: "A skill of my own for making the manual sites for my BOOTH products." },
+  ],
+  memoryTitle: "Project notes",
+  memory: { name: "CLAUDE.md", note: "Kept in the repository: how the site is structured, the build commands, and the class naming rules. It also says to always reply in Japanese." },
+  flowTitle: "How a request moves",
+  flow: [
+    { title: "Ask", note: "Say what I want in Japanese." },
+    { title: "See the proposal", note: "Before any code, Claude shows a design direction: colors, type and wireframes." },
+    { title: "Pick and approve", note: "Confirmations always come as choices, with the recommended one first." },
+    { title: "Build and check", note: "Build, validate the HTML, and look at screenshots in light and dark, desktop and phone." },
+    { title: "Read the report", note: "The report says plainly what could not be checked." },
+  ],
+  rulesTitle: "Rules I keep",
+  rules: [
+    "Confirmations and approvals are multiple choice.",
+    "Anything that couldn't be verified is written down as such.",
+    "No force pushes.",
+  ],
+  examplesTitle: "Examples",
+  examples: [
+    { title: "This top page (November 2026)", note: "Redesigned with the Frontend Design skill in a Claude Code cloud session. It went through several directions — a field-guide page, an ice crystal in three.js, a snowflake of guide photos, a photo timeline — before settling on this one." },
+    { title: "BOOTH product manuals", note: "Manual sites for DeepFrostIce, HeartBeat, SpiderWeb and more, many in both Japanese and English." },
+    { title: "Commit history", note: "As of November 2, 2026, 33 of the 51 commits on main record Claude as a co-author — across Opus, Sonnet, Haiku and Fable models." },
+  ],
+} : {
+  title: "Claude Code の使い方",
+  lead: "このサイトやBOOTHの説明書サイトは、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、依頼から公開までの進め方を紹介します。",
+  setupTitle: "構成",
+  me: "ぬにふちさか",
+  meNote: "やりたいことを日本語で伝え、出てきた選択肢から選ぶ",
+  hub: "Claude Code",
+  hubNote: "依頼を読み、作業を分けて任せ、結果を報告する",
+  agentsTitle: "エージェント",
+  agents: [
+    { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。配色・書体・ワイヤーフレームと、ページの決め手になる要素。" },
+    { name: "技師", role: "実装", note: "コードを書き、ビルドし、HTMLの検証やスクリーンショットで確かめる。" },
+  ],
+  skillsTitle: "スキル",
+  skills: [
+    { name: "Frontend Design", note: "テンプレート感のないデザインのための、Anthropic公式のスキル。2026年10月31日に導入。" },
+    { name: "booth-product-site", note: "BOOTHの商品の説明書サイトを作るための、自分用のスキル。" },
+  ],
+  memoryTitle: "プロジェクトの覚え書き",
+  memory: { name: "CLAUDE.md", note: "リポジトリに置いている指示書。サイトの構成・ビルドの手順・クラス名の付け方を書き、「常に日本語で応答する」と決めている。" },
+  flowTitle: "依頼から公開まで",
+  flow: [
+    { title: "依頼する", note: "やりたいことを日本語で伝える。" },
+    { title: "案を見る", note: "コードを書く前に、配色・書体・ワイヤーフレームなどの方向性の案を出してもらう。" },
+    { title: "選んで承認する", note: "確認はいつも選択式。おすすめが先頭に来る。" },
+    { title: "作って確かめる", note: "ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。" },
+    { title: "報告を読む", note: "確認できなかったことも、はっきり書いてもらう。" },
+  ],
+  rulesTitle: "決めているルール",
+  rules: [
+    "確認や承認は選択式にする。",
+    "確認できなかったことは明記する。",
+    "force push はしない。",
+  ],
+  examplesTitle: "作ったもの",
+  examples: [
+    { title: "このサイトのトップページ（2026年11月）", note: "Frontend Designスキルを使い、Claude Codeのクラウドのセッションで作り直した。図鑑風、three.jsの氷晶、案内写真の雪の結晶、写真の時間軸と、何度も方向を変えて今の形に。" },
+    { title: "BOOTHの商品の説明書サイト", note: "DeepFrostIce、HeartBeat、SpiderWebなど。多くは日本語と英語の2言語。" },
+    { title: "コミットの記録", note: "2026年11月2日時点で、mainの51件のコミットのうち33件に、Claudeが共同作業者として記録されている。モデルはOpus・Sonnet・Haiku・Fable。" },
+  ],
+};
+%><section class="section_2 page_1" aria-labelledby="claude-heading">
+  <h1 class="page_1__h1" id="claude-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+</section>
+
+<section class="section_2" aria-labelledby="setup-heading">
+  <h2 class="section_2__h1" id="setup-heading"><%= l.setupTitle %></h2>
+  <div class="team_1">
+    <div class="team_1__node team_1__node--me">
+      <p class="team_1__name"><%= l.me %></p>
+      <p class="team_1__note"><%= l.meNote %></p>
+    </div>
+    <div class="team_1__link" aria-hidden="true"></div>
+    <div class="team_1__node team_1__node--hub">
+      <p class="team_1__name"><%= l.hub %></p>
+      <p class="team_1__note"><%= l.hubNote %></p>
+    </div>
+    <div class="team_1__link" aria-hidden="true"></div>
+    <div class="team_1__groups">
+      <div class="team_1__group">
+        <h3 class="team_1__h"><%= l.agentsTitle %></h3>
+        <ul>
+          <% l.agents.forEach(function (agent) { %>
+            <li class="team_1__node">
+              <p class="team_1__name"><%= agent.name %> <span class="team_1__role"><%= agent.role %></span></p>
+              <p class="team_1__note"><%= agent.note %></p>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+      <div class="team_1__group">
+        <h3 class="team_1__h"><%= l.skillsTitle %></h3>
+        <ul>
+          <% l.skills.forEach(function (skill) { %>
+            <li class="team_1__node">
+              <p class="team_1__name" lang="en"><%= skill.name %></p>
+              <p class="team_1__note"><%= skill.note %></p>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+      <div class="team_1__group">
+        <h3 class="team_1__h"><%= l.memoryTitle %></h3>
+        <ul>
+          <li class="team_1__node">
+            <p class="team_1__name" lang="en"><%= l.memory.name %></p>
+            <p class="team_1__note"><%= l.memory.note %></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section_2" aria-labelledby="flow-heading">
+  <h2 class="section_2__h1" id="flow-heading"><%= l.flowTitle %></h2>
+  <ol class="flow_1">
+    <% l.flow.forEach(function (step) { %>
+      <li class="flow_1__step">
+        <p class="flow_1__title"><%= step.title %></p>
+        <p class="flow_1__note"><%= step.note %></p>
+      </li>
+    <% }); %>
+  </ol>
+</section>
+
+<section class="section_2" aria-labelledby="rules-heading">
+  <h2 class="section_2__h1" id="rules-heading"><%= l.rulesTitle %></h2>
+  <ul class="rules_1">
+    <% l.rules.forEach(function (rule) { %>
+      <li><%= rule %></li>
+    <% }); %>
+  </ul>
+</section>
+
+<section class="section_2" aria-labelledby="examples-heading">
+  <h2 class="section_2__h1" id="examples-heading"><%= l.examplesTitle %></h2>
+  <dl class="examples_1">
+    <% l.examples.forEach(function (example) { %>
+      <div class="examples_1__item">
+        <dt><%= example.title %></dt>
+        <dd><%= example.note %></dd>
+      </div>
+    <% }); %>
+  </dl>
+</section>

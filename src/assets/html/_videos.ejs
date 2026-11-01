@@ -1,0 +1,25 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const l = isEn
+  ? { title: "Memories", lead: "Fragments of days gone by, in video.", frame: (n, total) => `VRChat video ${n} of ${total}` }
+  : { title: "回想", lead: "過ぎた日の断片を、動画で振り返ります。", frame: (n, total) => `VRChatの動画 ${n}/${total}` };
+const videos = [
+  "1214749484",
+  "1214748689",
+  "1207053023",
+  "1207052178",
+  "1207051556",
+  "1207050904",
+];
+%><section class="section_2 page_1" aria-labelledby="videos-heading">
+  <h1 class="page_1__h1" id="videos-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <ul class="list_15">
+    <% videos.forEach(function (vimeoId, i) { %>
+      <li>
+        <iframe src="https://player.vimeo.com/video/<%= vimeoId %>?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="<%= l.frame(i + 1, videos.length) %>"></iframe>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_15 -->
+</section>

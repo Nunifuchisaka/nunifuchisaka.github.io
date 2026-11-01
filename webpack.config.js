@@ -21,6 +21,17 @@ const IMAGE_OPTIMIZATION_CONFIG = {
 };
 
 
+// トップページの YouTube 欄。ビルドのたびに新しい順の動画を取りに行き、src/assets/data/youtube.json に保存する。
+// 取れなかったとき（オフラインなど）は、保存済みの json をそのまま使う。
+// チャンネルID（UC から始まる）が分かっていれば CHANNEL_ID に書くと、ハンドルからの検索を省ける。
+const YOUTUBE_CONFIG = {
+  HANDLE: 'nunifuchisaka',
+  CHANNEL_ID: '',
+  COUNT: 4,
+  CACHE_FILE: 'src/assets/data/youtube.json',
+};
+
+
 // --- 以下、webpackの動作設定（通常は編集不要）---
 const path = require('path'),
       glob = require('glob'),
@@ -80,6 +91,93 @@ try {
   console.error('案内実績の集計に失敗しました:', e);
 }
 
+// WebP 画像の幅・高さをファイルの先頭から読む（写真をトリミングせずに並べるため、縦横比を HTML に書き出す）
+const readWebpSize = (file) => {
+  try {
+    const buf = Buffer.alloc(30);
+    const fd = fs.openSync(file, 'r');
+    fs.readSync(fd, buf, 0, 30, 0);
+    fs.closeSync(fd);
+    const chunk = buf.toString('ascii', 12, 16);
+    if (chunk === 'VP8X') return { width: 1 + buf.readUIntLE(24, 3), height: 1 + buf.readUIntLE(27, 3) };
+    if (chunk === 'VP8 ') return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+    if (chunk === 'VP8L') {
+      const bits = buf.readUInt32LE(21);
+      return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+    }
+  } catch (e) {
+    // 読めないときは縦横比なし（既定の比率で並ぶ）
+  }
+  return null;
+};
+const imageSizes = {};
+['guide', 'cluster'].forEach((dir) => {
+  const folder = path.resolve(DIST_PATH, 'assets/img', dir);
+  if (!fs.existsSync(folder)) return;
+  fs.readdirSync(folder).filter((file) => file.endsWith('.webp')).forEach((file) => {
+    const size = readWebpSize(path.join(folder, file));
+    if (size) imageSizes[`${dir}/${file}`] = size;
+  });
+});
+
+// YouTube の新しい動画（YOUTUBE_CONFIG 参照）。EJS には youtube.videos を渡し、ビルド開始時に中身を更新する
+const youtube = { channelUrl: `https://www.youtube.com/@${YOUTUBE_CONFIG.HANDLE}`, channelId: YOUTUBE_CONFIG.CHANNEL_ID, videos: [] };
+const youtubeCachePath = path.resolve(__dirname, YOUTUBE_CONFIG.CACHE_FILE);
+try {
+  if (fs.existsSync(youtubeCachePath)) {
+    const cached = JSON.parse(fs.readFileSync(youtubeCachePath, 'utf8'));
+    youtube.channelId = youtube.channelId || cached.channelId || '';
+    youtube.videos.push(...(cached.videos || []));
+  }
+} catch (e) {
+  console.error('YouTube の保存データを読めませんでした:', e.message);
+}
+const decodeXml = (text) => text
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+const fetchText = async (url) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(url, { signal: controller.signal, headers: { 'accept-language': 'ja' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.text();
+  } finally {
+    clearTimeout(timer);
+  }
+};
+let youtubeFetched = false;
+const updateYoutube = async () => {
+  if (youtubeFetched) return;
+  youtubeFetched = true;
+  try {
+    if (!youtube.channelId) {
+      const page = await fetchText(youtube.channelUrl);
+      const found = page.match(/"externalId":"(UC[\w-]{22})"/) || page.match(/channel\/(UC[\w-]{22})/);
+      if (!found) throw new Error('チャンネルIDが見つかりません');
+      youtube.channelId = found[1];
+    }
+    const feed = await fetchText(`https://www.youtube.com/feeds/videos.xml?channel_id=${youtube.channelId}`);
+    const videos = [...feed.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, entry]) => ({
+      id: (entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/) || [])[1],
+      title: decodeXml((entry.match(/<title>([^<]*)<\/title>/) || [])[1] || ''),
+      published: (entry.match(/<published>([^<]+)<\/published>/) || [])[1],
+    }))
+      .filter((video) => video.id)
+      .sort((a, b) => (b.published || '').localeCompare(a.published || ''))
+      .slice(0, YOUTUBE_CONFIG.COUNT);
+    if (!videos.length) throw new Error('動画が見つかりません');
+    youtube.videos.splice(0, youtube.videos.length, ...videos);
+    const json = JSON.stringify({ channelId: youtube.channelId, videos }, null, 2) + '\n';
+    const before = fs.existsSync(youtubeCachePath) ? fs.readFileSync(youtubeCachePath, 'utf8') : '';
+    if (json !== before) {
+      fs.mkdirSync(path.dirname(youtubeCachePath), { recursive: true });
+      fs.writeFileSync(youtubeCachePath, json);
+    }
+  } catch (e) {
+    console.warn(`YouTube の新しい動画を取れませんでした（保存済みの${youtube.videos.length}件を使います）:`, e.message);
+  }
+};
+
 /**
  * Webpack設定を生成する関数
  */
@@ -109,6 +207,12 @@ const createConfig_development = ({ outputPath }) => {
     },
     plugins: [
       new RemoveEmptyScriptsPlugin(),
+      {
+        apply: (compiler) => {
+          compiler.hooks.beforeRun.tapPromise('YoutubePlugin', updateYoutube);
+          compiler.hooks.watchRun.tapPromise('YoutubePlugin', updateYoutube);
+        },
+      },
     ],
     watch: false,
   };
@@ -238,7 +342,9 @@ const createConfig_development = ({ outputPath }) => {
           data: {
             ...SITE_DATA,
             guides: guides,
-            guideStats: guideStats
+            guideStats: guideStats,
+            imageSizes: imageSizes,
+            youtube: youtube
           }
         }
       }

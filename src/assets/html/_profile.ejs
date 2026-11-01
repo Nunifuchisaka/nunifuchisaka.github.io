@@ -1,0 +1,36 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+// もとのヘッダー（バナー・アイコン・名前・紹介文）を整えたキービジュアル。紹介文は旧ヘッダーの文言と改行のまま
+const t = {
+  ja: {
+    name: "ぬにふちさか",
+    nameLang: "ja",
+    reading: "Nunifuchisaka",
+    readingLang: "en",
+    lead: ["ENTP-A＂召喚獣＂", "冬生まれ雪国育ち 氷属性", "親しくなった人間の召喚に応じることがあるらしい。", "Publicに出没する報告が多数ある。"],
+  },
+  en: {
+    name: "Nunifuchisaka",
+    nameLang: "en",
+    reading: "ぬにふちさか",
+    readingLang: "ja",
+    lead: ["ENTP-A “Summon Beast”", "Born in winter, raised in snow country. Ice element.", "Reportedly responds to summons from humans it has grown close to.", "Frequently spotted roaming Public instances."],
+  },
+};
+const l = t[pageLocale];
+const escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+%><div class="profile_2">
+  <div class="profile_2__banner">
+    <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" width="1500" height="500" draggable="false">
+  </div>
+  <div class="profile_2__body">
+    <div class="profile_2__icon">
+      <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" width="400" height="400" draggable="false">
+    </div>
+    <div class="profile_2__text">
+      <h1 class="profile_2__name" lang="<%= l.nameLang %>"><%= l.name %></h1>
+      <p class="profile_2__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
+      <p class="profile_2__lead"><%- l.lead.map(escape).join("<br>") %></p>
+    </div>
+  </div>
+</div><!-- /.profile_2 -->

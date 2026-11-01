@@ -1,0 +1,141 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS_EN_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const parse = (file) => {
+  const m = file.match(/(\d{4})-(\d{2})-(\d{2})/);
+  return m ? { y: +m[1], m: +m[2], d: +m[3] } : null;
+};
+const fullDate = (p) => isEn ? `${MONTHS_EN[p.m - 1]} ${p.d}, ${p.y}` : `${p.y}年${p.m}月${p.d}日`;
+
+// 案内写真（古い順）。日付の無いファイルは集計から外す
+const chron = [...guides].sort().map((file) => ({ file: file, date: parse(file) })).filter((p) => p.date);
+const total = chron.length;
+const first = total ? chron[0].date : null;
+const last = total ? chron[total - 1].date : null;
+
+// 月ごとの回数（0回の月も並べる）
+const months = [];
+if (total) {
+  let y = first.y, m = first.m;
+  while (y < last.y || (y === last.y && m <= last.m)) {
+    months.push({ y: y, m: m, count: 0 });
+    m += 1;
+    if (m > 12) { m = 1; y += 1; }
+  }
+  chron.forEach((p) => {
+    const month = months.find((x) => x.y === p.date.y && x.m === p.date.m);
+    if (month) month.count += 1;
+  });
+}
+const maxCount = Math.max(1, ...months.map((x) => x.count));
+const busiest = months.reduce((a, b) => (b.count > a.count ? b : a), months[0] || { count: 0 });
+const monthLabel = (x) => isEn ? `${MONTHS_EN_SHORT[x.m - 1]} ${x.y}` : `${x.y}年${x.m}月`;
+const axisLabel = (x) => x.m === 1 ? String(x.y) : (isEn ? MONTHS_EN_SHORT[x.m - 1] : `${x.m}月`);
+
+// 節目：1回目、50回ごと、いちばん新しい回
+const steps = [1];
+for (let n = 50; n <= total; n += 50) steps.push(n);
+if (total && steps[steps.length - 1] !== total) steps.push(total);
+const nth = (n) => isEn ? `No. ${n}` : `${n}回目`;
+const size = (file) => imageSizes[`guide/${file}`] || { width: 960, height: 540 };
+
+const t = isEn ? {
+  title: "Guide Log",
+  headline: total ? `From <span>${fullDate(first)}</span> to <span>${fullDate(last)}</span>, I guided newcomers <span>${total} times</span>.` : "",
+  lead: "Counted from the “#VRChat始めました” (I started VRChat) posts. One photo is one guide; sometimes several people at once.",
+  chartTitle: "Guides per month",
+  chartNote: `The busiest month was ${monthLabel(busiest)}, with ${busiest.count}.`,
+  table: "Show as a table",
+  month: "Month",
+  count: "Guides",
+  unit: (n) => `${n}`,
+  milestones: "Milestones",
+  latest: "Latest",
+  firstLabel: "The first one",
+  open: (n, date) => `Open the photo from guide No. ${n} (${date})`,
+  more: "See every guide photo by month",
+  moreHref: "/en/#guide",
+} : {
+  title: "案内実績",
+  headline: total ? `<span>${fullDate(first)}から</span><span>${fullDate(last)}まで、</span><span>${total}回の初心者案内。</span>` : "",
+  lead: "「#VRChat始めました」の報告をもとに数えています。写真1枚が案内1回で、一度に何人かを案内することもあります。",
+  chartTitle: "月ごとの案内回数",
+  chartNote: `いちばん多かったのは${monthLabel(busiest)}の${busiest.count}回です。`,
+  table: "表で見る",
+  month: "月",
+  count: "回数",
+  unit: (n) => `${n}回`,
+  milestones: "節目",
+  latest: "最新",
+  firstLabel: "はじめての案内",
+  open: (n, date) => `${n}回目（${date}）の写真を大きく表示`,
+  more: "すべての案内写真を月ごとに見る",
+  moreHref: "/#guide",
+};
+%><section class="section_2 page_1" aria-labelledby="timeline-heading">
+  <h1 class="page_1__h1" id="timeline-heading"><%= t.title %></h1>
+  <% if (total) { %>
+    <p class="page_1__headline"><%- t.headline %></p>
+  <% } %>
+  <p class="section_2__lead"><%= t.lead %></p>
+</section>
+
+<% if (total) { %>
+<section class="section_2" aria-labelledby="chart-heading">
+  <h2 class="section_2__h1" id="chart-heading"><%= t.chartTitle %></h2>
+  <p class="section_2__note"><%= t.chartNote %></p>
+  <div class="chart_1" aria-hidden="true">
+    <ol class="chart_1__bars" style="--max: <%= maxCount %>;">
+      <% months.forEach(function (x) { %>
+        <li class="chart_1__bar<% if (x.count === busiest.count) { %> chart_1__bar--peak<% } %>" style="--v: <%= x.count %>;">
+          <span class="chart_1__fill"></span>
+          <span class="chart_1__tip"><strong><%= t.unit(x.count) %></strong> <%= monthLabel(x) %></span>
+          <% if (x.count === busiest.count) { %><span class="chart_1__value"><%= x.count %></span><% } %>
+        </li>
+      <% }); %>
+    </ol>
+    <ol class="chart_1__axis">
+      <% months.forEach(function (x) { %>
+        <li<% if (x.m === 1) { %> class="chart_1__year"<% } %>><% if (x.m === 1 || x.m % 3 === 1) { %><%= axisLabel(x) %><% } %></li>
+      <% }); %>
+    </ol>
+  </div>
+  <details class="chart_1__details">
+    <summary><%= t.table %></summary>
+    <table class="table_2">
+      <thead><tr><th scope="col"><%= t.month %></th><th scope="col"><%= t.count %></th></tr></thead>
+      <tbody>
+        <% months.forEach(function (x) { %>
+          <tr><th scope="row"><%= monthLabel(x) %></th><td><%= t.unit(x.count) %></td></tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+<section class="section_2" aria-labelledby="milestones-heading">
+  <h2 class="section_2__h1" id="milestones-heading"><%= t.milestones %></h2>
+  <ol class="milestone_1">
+    <% steps.forEach(function (n) {
+      const photo = chron[n - 1];
+      const s = size(photo.file);
+      const date = fullDate(photo.date);
+      const note = n === 1 ? t.firstLabel : (n === total ? t.latest : "");
+    %>
+      <li class="milestone_1__item">
+        <p class="milestone_1__head">
+          <span class="milestone_1__nth"><%= nth(n) %></span>
+          <time class="milestone_1__date" datetime="<%= photo.date.y %>-<%= String(photo.date.m).padStart(2, "0") %>-<%= String(photo.date.d).padStart(2, "0") %>"><%= date %></time>
+          <% if (note) { %><span class="milestone_1__note"><%= note %></span><% } %>
+        </p>
+        <a class="milestone_1__photo js_viewer" href="/assets/img/guide/<%= photo.file %>" target="_blank" rel="noopener" data-gallery="milestones" data-title="<%= date %>" data-note="<%= nth(n) %>" aria-label="<%= t.open(n, date) %>">
+          <img src="/assets/img/guide/<%= photo.file %>" alt="" loading="lazy" width="<%= s.width %>" height="<%= s.height %>">
+        </a>
+      </li>
+    <% }); %>
+  </ol>
+  <p class="section_2__more"><a href="<%= t.moreHref %>"><%= t.more %></a></p>
+</section>
+<% } %>

@@ -1,0 +1,55 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+// current：いま開いているページ（"home" / "timeline" / "equipment" / "videos" / "dice" / "cluster" / "claude-code"）。aria-current を付ける
+const currentPage = typeof current !== "undefined" ? current : "home";
+const isEn = pageLocale === "en";
+const t = {
+  ja: {
+    name: "ぬにふちさか",
+    navLabel: "サイト内",
+    timeline: "案内実績",
+    equipment: "VR機材",
+    videos: "回想",
+    dice: "話題サイコロ",
+    cluster: "cluster",
+    claudeCode: "Claude Code",
+    langLabel: "言語切替",
+    toDark: "ダークにする",
+    toLight: "ライトにする",
+  },
+  en: {
+    name: "Nunifuchisaka",
+    navLabel: "Site",
+    timeline: "Guide Log",
+    equipment: "VR Gear",
+    videos: "Memories",
+    dice: "Topic Dice",
+    cluster: "cluster",
+    claudeCode: "Claude Code",
+    langLabel: "Language",
+    toDark: "Switch to dark",
+    toLight: "Switch to light",
+  },
+};
+const l = t[pageLocale];
+const prefix = isEn ? "/en" : "";
+%><header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="<%= prefix %>/"<% if (currentPage === "home") { %> aria-current="page"<% } %>><%= l.name %></a>
+    <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
+      <ul>
+        <% [["timeline", l.timeline], ["equipment", l.equipment], ["videos", l.videos], ["dice", l.dice], ["cluster", l.cluster], ["claude-code", l.claudeCode]].forEach(function (item) { %>
+          <li><a href="<%= prefix %>/<%= item[0] %>/"<% if (currentPage === item[0]) { %> aria-current="page"<% } %>><%= item[1] %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select"><%= l.langLabel %></label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja"<% if (!isEn) { %> selected<% } %>>日本語</option>
+        <option value="en"<% if (isEn) { %> selected<% } %>>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="<%= l.toDark %>" data-label-light="<%= l.toLight %>"><%= l.toDark %></button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->

@@ -1,66 +1,87 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-const newTab = pageLocale === "en" ? "(opens in a new tab)" : "（新しいタブで開きます）";
-%><section id="portfolio" class="section_1">
-  <h2 class="section_1__h1">
-    Portfolio
-  </h2>
-  <ul class="list_3">
-    <%
-    const portfolio = [
-      {
-        title: "桜兎フルガ 公式サイト",
-        eyecatch: "otofuruga.webp",
-        url: "https://otofuruga.pink/",
-      },
-      {
-        title: "DeepFrostIce",
-        eyecatch: "deepfrostice.webp",
-        url: "https://nunifuchisaka.github.io/deepfrostice/",
-      },
-      {
-        title: "HeartBeat",
-        eyecatch: "heartbeat.jpg",
-        url: "https://nunifuchisaka.github.io/heartbeat/",
-      },
-      {
-        title: "SpiderWeb",
-        eyecatch: "spiderweb.webp",
-        url: "https://nunifuchisaka.github.io/spiderweb/",
-      },
-      {
-        title: "ImageGetter",
-        eyecatch: "imagegetter.webp",
-        url: "https://nunifuchisaka.github.io/imagegetter/",
-      },
-      {
-        title: "GlossySkin",
-        eyecatch: "glossyskin.webp",
-        url: "https://nunifuchisaka.github.io/glossyskin/",
-      },
-      {
-        title: "DeskCinema",
-        eyecatch: "deskcinema.png",
-        url: "https://nunifuchisaka.github.io/deskcinema/",
-      },
-      {
-        title: "NuniAvatarToolkit",
-        eyecatch: "nuniavatartoolkit.svg",
-        url: "https://nunifuchisaka.github.io/nuniavatartoolkit/",
-      },
-      {
-        title: "PublicWalker",
-        eyecatch: "publicwalker.svg",
-        url: "https://nunifuchisaka.github.io/publicwalker/",
-      },
-    ];
-    portfolio.forEach(function (value, key) { %>
+const isEn = pageLocale === "en";
+const newTab = isEn ? "(opens in a new tab)" : "（新しいタブで開きます）";
+// 各作品：種類（kind）と、何ができるかの一文（desc）。説明書ページの description をもとに短くしたもの
+const portfolio = [
+  {
+    title: "桜兎フルガ 公式サイト",
+    eyecatch: "otofuruga.webp",
+    url: "https://otofuruga.pink/",
+    kind: { ja: "Webサイト制作", en: "Website" },
+    desc: { ja: "桜兎フルガさんの公式サイト。", en: "The official website of Oto Furuga." },
+  },
+  {
+    title: "DeepFrostIce",
+    eyecatch: "deepfrostice.webp",
+    url: "https://nunifuchisaka.github.io/deepfrostice/",
+    kind: { ja: "シェーダー", en: "Shader" },
+    desc: { ja: "VRChat PCアバター用の氷シェーダー。屈折・フロスト・凍結と融解まで表現。", en: "An ice shader for VRChat PC avatars, with refraction, frost, freezing and melting." },
+  },
+  {
+    title: "HeartBeat",
+    eyecatch: "heartbeat.jpg",
+    url: "https://nunifuchisaka.github.io/heartbeat/",
+    kind: { ja: "アバターギミック", en: "Avatar gimmick" },
+    desc: { ja: "相手の頭が胸に触れたときだけ、すぐそばで心音が鳴る。", en: "A heartbeat that plays only when someone rests their head on your chest." },
+  },
+  {
+    title: "SpiderWeb",
+    eyecatch: "spiderweb.webp",
+    url: "https://nunifuchisaka.github.io/spiderweb/",
+    kind: { ja: "アバターギミック", en: "Avatar gimmick" },
+    desc: { ja: "指先から糸が伸び、腕を振ると糸と薔薇の花びらが降る。", en: "Threads stretch from your fingertips; swing your arm and threads and rose petals fall." },
+  },
+  {
+    title: "ImageGetter",
+    eyecatch: "imagegetter.webp",
+    url: "https://nunifuchisaka.github.io/imagegetter/",
+    kind: { ja: "Windowsツール", en: "Windows tool" },
+    desc: { ja: "複数のURLから、シェア画像（og:image）をまとめて取得・保存。", en: "Fetches and saves the share images (og:image) of many URLs at once." },
+  },
+  {
+    title: "GlossySkin",
+    eyecatch: "glossyskin.webp",
+    url: "https://nunifuchisaka.github.io/glossyskin/",
+    kind: { ja: "テクスチャ", en: "Texture" },
+    desc: { ja: "凪 -Nagi- 専用のツヤ肌マスク。lilToonのMatCapのマスクを差し替えるだけ。", en: "A glossy-skin mask for Nagi. Just swap the lilToon MatCap mask." },
+  },
+  {
+    title: "DeskCinema",
+    eyecatch: "deskcinema.png",
+    url: "https://nunifuchisaka.github.io/deskcinema/",
+    kind: { ja: "Windowsアプリ", en: "Windows app" },
+    desc: { ja: "ローカル動画やYouTubeを、モニターごとに動画壁紙として再生。", en: "Plays local videos or YouTube as a video wallpaper on each monitor." },
+  },
+  {
+    title: "NuniAvatarToolkit",
+    eyecatch: "nuniavatartoolkit.svg",
+    url: "https://nunifuchisaka.github.io/nuniavatartoolkit/",
+    kind: { ja: "Blenderアドオン", en: "Blender add-on" },
+    desc: { ja: "隠れメッシュの削除や服のフィットなど、アバター制作のメッシュ最適化をひとまとめに。無料。", en: "All-in-one mesh tools for avatar making: remove hidden faces, fit clothes, and more. Free." },
+  },
+  {
+    title: "PublicWalker",
+    eyecatch: "publicwalker.svg",
+    url: "https://nunifuchisaka.github.io/publicwalker/",
+    kind: { ja: "Windowsツール", en: "Windows tool" },
+    desc: { ja: "前に行ったVRChatのpublicインスタンスに戻ってきたら知らせてくれる常駐ツール。", en: "Lets you know when you are back in a VRChat Public instance you visited before." },
+  },
+];
+%><section id="portfolio" class="section_2" aria-labelledby="portfolio-heading">
+  <h2 class="section_2__h1" id="portfolio-heading">Products</h2>
+  <ul class="list_9">
+    <% portfolio.forEach(function (item) { %>
       <li>
-        <a href="<%= value.url %>" target="_blank" rel="noopener">
-          <img src="/assets/img/<%= value.eyecatch %>" alt="<%= value.title %>">
-          <p><%= value.title %><span class="visually-hidden"><%= newTab %></span></p>
+        <a href="<%= item.url %>" target="_blank" rel="noopener">
+          <span class="list_9__image"><img src="/assets/img/<%= item.eyecatch %>" alt="" loading="lazy"></span>
+          <span class="list_9__body">
+            <span class="list_9__kind"><%= item.kind[pageLocale] %></span>
+            <span class="list_9__title"><%= item.title %><span class="visually-hidden"><%= newTab %></span></span>
+            <span class="list_9__desc"><%= item.desc[pageLocale] %></span>
+          </span>
         </a>
       </li>
     <% }); %>
-  </ul><!-- /.list_3 -->
-</section><!-- /#portfolio.section_1 -->
+  </ul><!-- /.list_9 -->
+</section><!-- /#portfolio.section_2 -->
