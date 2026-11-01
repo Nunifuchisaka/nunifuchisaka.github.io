@@ -7,6 +7,7 @@ const t = {
     equipment: "VR機材",
     videos: "回想",
     dice: "話題サイコロ",
+    cluster: "cluster",
     lead: "ENTP-A＂召喚獣＂<br>冬生まれ雪国育ち 氷属性<br>親しくなった人間の召喚に応じることがあるらしい。<br>Publicに出没する報告が多数ある。",
     langLabel: "言語切替",
   },
@@ -16,6 +17,7 @@ const t = {
     equipment: "VR Gear",
     videos: "Memories",
     dice: "Topic Dice",
+    cluster: "cluster",
     lead: "ENTP-A “Summon Beast”<br>Born in winter, raised in snow country. Ice element.<br>Reportedly responds to summons from humans it has grown close to.<br>Frequently spotted roaming Public instances.",
     langLabel: "Language",
   },
@@ -33,6 +35,7 @@ const prefix = pageLocale === "en" ? "/en" : "";
       <li><a href="<%= prefix %>/equipment/"><%= l.equipment %></a></li>
       <li><a href="<%= prefix %>/videos/"><%= l.videos %></a></li>
       <li><a href="<%= prefix %>/dice/"><%= l.dice %></a></li>
+      <li><a href="<%= prefix %>/cluster/"><%= l.cluster %></a></li>
       <li class="header_2__lang">
         <label class="visually-hidden" for="js-lang-select"><%= l.langLabel %></label>
         <select id="js-lang-select">

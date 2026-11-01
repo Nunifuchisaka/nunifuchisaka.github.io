@@ -1,50 +1,36 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-const isEn = pageLocale === "en";
+// もとのヘッダー（バナー・アイコン・名前・紹介文）を整えたキービジュアル。紹介文は旧ヘッダーの文言と改行のまま
 const t = {
   ja: {
     name: "ぬにふちさか",
-    navLabel: "サイト内",
-    timeline: "案内実績",
-    equipment: "VR機材",
-    videos: "回想",
-    dice: "話題サイコロ",
-    langLabel: "言語切替",
-    toDark: "ダークにする",
-    toLight: "ライトにする",
+    nameLang: "ja",
+    reading: "Nunifuchisaka",
+    readingLang: "en",
+    lead: ["ENTP-A＂召喚獣＂", "冬生まれ雪国育ち 氷属性", "親しくなった人間の召喚に応じることがあるらしい。", "Publicに出没する報告が多数ある。"],
   },
   en: {
     name: "Nunifuchisaka",
-    navLabel: "Site",
-    timeline: "Guide Log",
-    equipment: "VR Gear",
-    videos: "Memories",
-    dice: "Topic Dice",
-    langLabel: "Language",
-    toDark: "Switch to dark",
-    toLight: "Switch to light",
+    nameLang: "en",
+    reading: "ぬにふちさか",
+    readingLang: "ja",
+    lead: ["ENTP-A “Summon Beast”", "Born in winter, raised in snow country. Ice element.", "Reportedly responds to summons from humans it has grown close to.", "Frequently spotted roaming Public instances."],
   },
 };
 const l = t[pageLocale];
-const prefix = isEn ? "/en" : "";
-%><header class="header_4">
-  <div class="header_4__inner">
-    <h1 class="header_4__title"><a class="header_4__home" href="<%= prefix %>/" aria-current="page"><%= l.name %></a></h1>
-    <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
-      <ul>
-        <li><a href="<%= prefix %>/timeline/"><%= l.timeline %></a></li>
-        <li><a href="<%= prefix %>/equipment/"><%= l.equipment %></a></li>
-        <li><a href="<%= prefix %>/videos/"><%= l.videos %></a></li>
-        <li><a href="<%= prefix %>/dice/"><%= l.dice %></a></li>
-      </ul>
-    </nav>
-    <div class="header_4__tools">
-      <label class="visually-hidden" for="js-lang-select"><%= l.langLabel %></label>
-      <select class="header_4__select" id="js-lang-select">
-        <option value="ja"<% if (!isEn) { %> selected<% } %>>日本語</option>
-        <option value="en"<% if (isEn) { %> selected<% } %>>English</option>
-      </select>
-      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="<%= l.toDark %>" data-label-light="<%= l.toLight %>"><%= l.toDark %></button>
+const escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+%><div class="profile_2">
+  <div class="profile_2__banner">
+    <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" width="1500" height="500" draggable="false">
+  </div>
+  <div class="profile_2__body">
+    <div class="profile_2__icon">
+      <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" width="400" height="400" draggable="false">
+    </div>
+    <div class="profile_2__text">
+      <h1 class="profile_2__name" lang="<%= l.nameLang %>"><%= l.name %></h1>
+      <p class="profile_2__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
+      <p class="profile_2__lead"><%- l.lead.map(escape).join("<br>") %></p>
     </div>
   </div>
-</header><!-- /.header_4 -->
+</div><!-- /.profile_2 -->

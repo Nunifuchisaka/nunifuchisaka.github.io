@@ -1,1 +1,0 @@
-(()=>{const e=document.querySelector(".js_cluster_show");e&&e.addEventListener("click",()=>{const c=document.querySelectorAll(".js_cluster_more");c.forEach(e=>e.classList.remove("is_none")),e.remove(),c[0]?.querySelector("a")?.focus()})})();

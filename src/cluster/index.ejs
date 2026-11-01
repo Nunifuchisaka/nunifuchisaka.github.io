@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  title: "cluster",
+  description: "clusterでの活動写真",
+  url: "cluster/",
+  altUrl: "en/cluster/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"cluster"}) %>
+
+<main id="main">
+<section class="section_2 page_1" aria-labelledby="cluster-heading">
+  <h1 class="page_1__h1" id="cluster-heading">cluster</h1>
+  <p class="section_2__lead">メタバースプラットフォーム cluster で撮った写真です。</p>
+  <%- include(path + "assets/html/_cluster") %>
+</section>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

@@ -95,9 +95,6 @@
   margin: 0 auto;
   padding: var(--space-2) var(--space-4);
 }
-.header_4__title {
-  font-size: 1.6rem;
-}
 .header_4__home {
   font-size: 1.6rem;
   font-weight: 900;
@@ -119,6 +116,12 @@
 }
 .header_4__nav a:hover {
   text-decoration: underline;
+}
+.header_4__nav a[aria-current=page] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
 }
 .header_4__tools {
   display: flex;
@@ -146,12 +149,92 @@
 }
 
 /*
+## .profile_2
+使用箇所：トップページの最初の画面
+内容：もとのヘッダー（X のバナー・アイコン・名前・紹介文）を整えたもの。
+     アイコンはバナーの下端に半分かけ、名前と紹介文はその右（スマホでは下）に置く
+*/
+.profile_2 {
+  max-width: var(--width-page);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+.profile_2__banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/1;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background: var(--color-surface);
+  border-radius: 8px;
+}
+.profile_2__body {
+  display: grid;
+  grid-template-columns: 176px 1fr;
+  gap: 0 var(--space-4);
+  padding: 0 var(--space-3);
+}
+.profile_2__icon {
+  margin-top: -88px;
+}
+.profile_2__icon img {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background: var(--color-surface);
+  border: 6px solid var(--color-bg);
+  border-radius: 50%;
+}
+.profile_2__text {
+  padding-top: var(--space-3);
+}
+.profile_2__name {
+  font-size: clamp(3.2rem, 2.4rem + 2vw, 4.8rem);
+  font-weight: 900;
+  line-height: 1.15;
+}
+.profile_2__reading {
+  margin-top: 2px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+.profile_2__lead {
+  margin-top: var(--space-2);
+  font-size: 1.6rem;
+  line-height: 1.9;
+}
+
+/*
+## .page_1
+使用箇所：トップページ以外の新デザインのページ（cluster）
+内容：ページの見出し
+*/
+.page_1 {
+  padding-top: var(--space-3);
+}
+.page_1__h1 {
+  font-size: clamp(3.2rem, 2.4rem + 2vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+/*
 ## .section_2
 使用箇所：トップページ
 内容：各節の見出し・注記・導入文
 */
-.section_2 + .section_2 {
+.section_2 {
   margin-top: var(--space-5);
+}
+.section_2:first-child {
+  margin-top: var(--space-4);
 }
 .section_2__h1 {
   font-size: 2.6rem;
@@ -171,66 +254,45 @@
 }
 
 /*
-## #links
-使用箇所：トップページ「呼び出し方」
-内容：連絡先。ページの役目なので最初の画面の直後に置く
-*/
-.top_1 #links {
-  margin: 0 calc(var(--space-4) * -1);
-  padding: var(--space-3) var(--space-4) var(--space-4);
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-}
-
-/*
 ## .list_7
-使用箇所：トップページ「呼び出し方」
-内容：外部リンク一覧（台座の上に横並び）
+使用箇所：トップページ「リンク集」
+内容：外部リンクのボタン（アイコン＋名前）。どれも新しいタブで開く
 */
 .list_7 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
   margin-top: var(--space-2);
 }
 .list_7 a {
   display: flex;
   gap: 10px;
   align-items: center;
-  min-height: 44px;
-  font-size: 1.7rem;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 52px;
+  padding: 10px 20px;
+  font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.3;
-  text-decoration: underline;
-  text-decoration-color: var(--color-line);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.3em;
+  text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 100vw;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 .top_1 .list_7 a {
   color: var(--color-text);
 }
 .list_7 a:hover {
-  text-decoration-color: var(--color-accent);
+  background: var(--color-bg);
+  border-color: var(--color-text-muted);
 }
 .list_7 a i {
-  width: 1.2em;
+  flex: none;
+  width: 1.25em;
   color: var(--color-link);
   text-align: center;
-}
-
-/*
-## .flavor_1
-使用箇所：トップページ「生態」
-内容：モンスター図鑑のフレーバーテキストとして書いた自己紹介。表にせず、書いたままの改行で読ませる
-*/
-.flavor_1 {
-  max-width: 34em;
-  margin-top: var(--space-2);
-  padding-left: var(--space-2);
-  font-size: 1.7rem;
-  line-height: 2;
-  border-left: 3px solid var(--color-line);
 }
 
 /*
@@ -393,29 +455,6 @@
 }
 
 /*
-## .button_1
-使用箇所：トップページ「clusterでの目撃」
-内容：隠れている写真を表示するボタン
-*/
-.button_1 {
-  display: block;
-  box-sizing: border-box;
-  min-height: 44px;
-  margin-top: var(--space-3);
-  padding: 8px 20px;
-  font: inherit;
-  font-weight: 700;
-  color: var(--color-text);
-  cursor: pointer;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-}
-.button_1:hover {
-  border-color: var(--color-text-muted);
-}
-
-/*
 ## 写真ビューア（GLightbox）の日付
 使用箇所：トップページで写真を大きく開いたとき
 内容：既定では暗い背景に暗い文字になるため、明るい文字にする
@@ -452,23 +491,37 @@
     padding: 4px 10px;
     letter-spacing: 0;
   }
+  .profile_2 {
+    padding: 0;
+  }
+  .profile_2__banner img {
+    border-radius: 0;
+  }
+  .profile_2__body {
+    grid-template-columns: 1fr;
+    padding: 0 var(--space-2);
+  }
+  .profile_2__icon {
+    width: 112px;
+    margin-top: -56px;
+  }
+  .profile_2__icon img {
+    border-width: 4px;
+  }
+  .profile_2__text {
+    padding-top: var(--space-1);
+  }
   .section_2__h1 {
     font-size: 2.2rem;
   }
-  .top_1 #links {
-    margin: 0 calc(var(--space-2) * -1);
-    padding: var(--space-3) var(--space-2);
-  }
   .list_7 {
-    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0 var(--space-2);
+    gap: 8px;
   }
   .list_7 a {
-    font-size: 1.5rem;
-  }
-  .flavor_1 {
-    font-size: 1.6rem;
+    min-height: 48px;
+    padding: 8px 14px;
+    font-size: 1.4rem;
   }
   .list_8 {
     margin: var(--space-2) calc(var(--space-2) * -1) 0;
