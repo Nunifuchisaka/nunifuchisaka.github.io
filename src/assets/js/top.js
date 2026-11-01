@@ -82,15 +82,15 @@ const init = (stage) => {
   const ice = new MeshPhysicalMaterial({
     color: 0xffffff,
     metalness: 0,
-    roughness: 0.05,
+    roughness: 0.02,
     transmission: 1,
-    thickness: 1.6,
+    thickness: 2.2,
     ior: ICE_IOR,
-    dispersion: 0.6,
+    dispersion: 0.8,
     attenuationColor: new Color(readToken("--color-ice") || "#9db7c6"),
-    attenuationDistance: 3.4,
+    attenuationDistance: 7,
     specularIntensity: 1,
-    envMapIntensity: 1.1,
+    envMapIntensity: 2.2,
     flatShading: true,
   });
   const crystal = new Mesh(crystalGeometry, ice);
@@ -99,18 +99,47 @@ const init = (stage) => {
   crystalGroup.add(crystal);
   scene.add(crystalGroup);
 
-  // 氷晶の中の写真。回転させず、常にこちらを向かせる（回るのは氷だけ）
-  const PHOTO_HEIGHT = 1.3;
-  const photoMaterial = new MeshBasicMaterial({ toneMapped: false });
-  const photo = new Mesh(new PlaneGeometry(PHOTO_HEIGHT * (400 / 540), PHOTO_HEIGHT), photoMaterial);
+  // 氷晶の中の写真。氷晶と同じ「先の尖った六角」の形に切り抜き、芯として封じる。
+  // 回転させず常にこちらを向かせる（回るのは氷だけ）。幅は氷晶の内側（対辺 約1.07）に収める。
+  const PHOTO_WIDTH = 0.92;
+  const PHOTO_HEIGHT = 2.3;
+  const PHOTO_TIP = 0.42; // 尖りの高さ
+  const photoMaterial = new MeshBasicMaterial({ toneMapped: false, alphaTest: 0.5 });
+  const photo = new Mesh(new PlaneGeometry(PHOTO_WIDTH, PHOTO_HEIGHT), photoMaterial);
   photo.visible = false;
   scene.add(photo);
   new TextureLoader().load(stage.dataset.photo, (texture) => {
-    texture.colorSpace = SRGBColorSpace;
-    photo.geometry.dispose();
-    photo.geometry = new PlaneGeometry(PHOTO_HEIGHT * (texture.image.width / texture.image.height), PHOTO_HEIGHT);
-    photoMaterial.map = texture;
+    const image = texture.image;
+    const px = 160; // 1単位あたりのピクセル数
+    const cutout = document.createElement("canvas");
+    cutout.width = Math.round(PHOTO_WIDTH * px * 2);
+    cutout.height = Math.round(PHOTO_HEIGHT * px * 2);
+    const ctx = cutout.getContext("2d");
+    const w = cutout.width;
+    const h = cutout.height;
+    const tip = (PHOTO_TIP / PHOTO_HEIGHT) * h;
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w, tip);
+    ctx.lineTo(w, h - tip);
+    ctx.lineTo(w / 2, h);
+    ctx.lineTo(0, h - tip);
+    ctx.lineTo(0, tip);
+    ctx.closePath();
+    ctx.clip();
+    // 縦長の枠に cover で収める。顔が左寄りの写真なので、横は 4 割の位置を中心にする
+    const scale = Math.max(w / image.width, h / image.height);
+    const dw = image.width * scale;
+    const dh = image.height * scale;
+    const focusX = Number(stage.dataset.photoFocus || 0.5);
+    const dx = Math.min(0, Math.max(w - dw, w / 2 - dw * focusX));
+    ctx.drawImage(image, dx, (h - dh) / 2, dw, dh);
+
+    const cutoutTexture = new CanvasTexture(cutout);
+    cutoutTexture.colorSpace = SRGBColorSpace;
+    photoMaterial.map = cutoutTexture;
     photoMaterial.needsUpdate = true;
+    texture.dispose();
     photo.visible = true;
     requestRender();
   });
@@ -163,8 +192,9 @@ const init = (stage) => {
     const frontHeight = visibleHeightAt(CAMERA_Z);
     const frontWidth = frontHeight * camera.aspect;
     const crystalHeight = TIP * 2;
-    const byHeight = (frontHeight * 0.6) / crystalHeight;
-    const byWidth = (frontWidth * 0.42) / (RADIUS * 2);
+    const byHeight = (frontHeight * 0.68) / crystalHeight;
+    // 縦長の画面では名前の大半が隠れないよう、氷晶を細めに抑える
+    const byWidth = (frontWidth * (camera.aspect < 0.8 ? 0.27 : 0.42)) / (RADIUS * 2);
     layout.baseScale = Math.min(byHeight, byWidth);
     // 下端の文字（読み・ひとこと）に重ならないよう、少し上に置く
     layout.centerY = frontHeight * 0.08;

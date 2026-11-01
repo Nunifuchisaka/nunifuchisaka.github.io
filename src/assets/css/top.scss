@@ -277,7 +277,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__name {
     font-size: clamp(5.6rem, 11vw, 14.4rem);
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.1;
+    margin-bottom: var(--space-1);
     letter-spacing: 0;
     .is_ready & {
       position: absolute;
