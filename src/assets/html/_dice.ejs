@@ -1,0 +1,49 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const l = isEn ? {
+  title: "Topic Dice",
+  lead: "Stuck for something to talk about in VRChat? Roll the dice and talk about the topic that comes up. No topic repeats until every one has come up.",
+  roll: "Roll the dice",
+  first: "Roll the dice and a topic will appear here.",
+  fullscreen: "Show full screen",
+  exitFullscreen: "Exit full screen",
+  remaining: "{n} topics left before they repeat",
+} : {
+  title: "話題サイコロ",
+  lead: "VRChatで話題に迷ったら、サイコロを振ってみてください。出た話題について話してみましょう。すべての話題が一巡するまで、同じ話題は出ません。",
+  roll: "サイコロを振る",
+  first: "サイコロを振ると、ここに話題が出ます。",
+  fullscreen: "全画面で表示",
+  exitFullscreen: "全画面をやめる",
+  remaining: "一巡するまで、あと{n}個",
+};
+// サイコロの6面の目（3×3 の格子のどこに点を置くか）
+const pips = [[5], [1, 9], [1, 5, 9], [1, 3, 7, 9], [1, 3, 5, 7, 9], [1, 3, 4, 6, 7, 9]];
+%><section class="section_2 page_1" aria-labelledby="dice-heading">
+  <h1 class="page_1__h1" id="dice-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+</section>
+
+<div class="dice_2 js_dice" data-label-fullscreen="<%= l.fullscreen %>" data-label-exit="<%= l.exitFullscreen %>">
+  <div class="dice_2__stage">
+    <div class="dice_2__cube js_dice_cube" aria-hidden="true">
+      <% pips.forEach(function (face, i) { %>
+        <span class="dice_2__face dice_2__face--<%= i + 1 %>">
+          <% for (let cell = 1; cell <= 9; cell++) { %><span class="dice_2__pip<% if (face.indexOf(cell) !== -1) { %> is_on<% } %>"></span><% } %>
+        </span>
+      <% }); %>
+    </div>
+  </div>
+
+  <div class="dice_2__result js_dice_result" aria-live="polite">
+    <p class="dice_2__question js_dice_question"><%= l.first %></p>
+    <ul class="dice_2__examples js_dice_examples"></ul>
+  </div>
+
+  <div class="dice_2__controls">
+    <button type="button" class="dice_2__roll js_dice_roll"><%= l.roll %></button>
+    <p class="dice_2__remaining js_dice_remaining" data-template="<%= l.remaining %>"></p>
+    <button type="button" class="dice_2__fullscreen js_dice_fullscreen" hidden><%= l.fullscreen %></button>
+  </div>
+</div><!-- /.dice_2 -->

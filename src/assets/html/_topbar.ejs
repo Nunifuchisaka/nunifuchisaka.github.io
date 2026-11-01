@@ -1,6 +1,6 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-// current：いま開いているページ（"home" または "cluster"）。aria-current を付ける
+// current：いま開いているページ（"home" / "timeline" / "equipment" / "videos" / "dice" / "cluster" / "claude-code"）。aria-current を付ける
 const currentPage = typeof current !== "undefined" ? current : "home";
 const isEn = pageLocale === "en";
 const t = {
@@ -12,6 +12,7 @@ const t = {
     videos: "回想",
     dice: "話題サイコロ",
     cluster: "cluster",
+    claudeCode: "Claude Code",
     langLabel: "言語切替",
     toDark: "ダークにする",
     toLight: "ライトにする",
@@ -24,6 +25,7 @@ const t = {
     videos: "Memories",
     dice: "Topic Dice",
     cluster: "cluster",
+    claudeCode: "Claude Code",
     langLabel: "Language",
     toDark: "Switch to dark",
     toLight: "Switch to light",
@@ -36,11 +38,9 @@ const prefix = isEn ? "/en" : "";
     <a class="header_4__home" href="<%= prefix %>/"<% if (currentPage === "home") { %> aria-current="page"<% } %>><%= l.name %></a>
     <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
       <ul>
-        <li><a href="<%= prefix %>/timeline/"><%= l.timeline %></a></li>
-        <li><a href="<%= prefix %>/equipment/"><%= l.equipment %></a></li>
-        <li><a href="<%= prefix %>/videos/"><%= l.videos %></a></li>
-        <li><a href="<%= prefix %>/dice/"><%= l.dice %></a></li>
-        <li><a href="<%= prefix %>/cluster/"<% if (currentPage === "cluster") { %> aria-current="page"<% } %>><%= l.cluster %></a></li>
+        <% [["timeline", l.timeline], ["equipment", l.equipment], ["videos", l.videos], ["dice", l.dice], ["cluster", l.cluster], ["claude-code", l.claudeCode]].forEach(function (item) { %>
+          <li><a href="<%= prefix %>/<%= item[0] %>/"<% if (currentPage === item[0]) { %> aria-current="page"<% } %>><%= item[1] %></a></li>
+        <% }); %>
       </ul>
     </nav>
     <div class="header_4__tools">

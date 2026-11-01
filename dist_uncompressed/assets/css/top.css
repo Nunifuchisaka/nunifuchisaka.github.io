@@ -225,6 +225,19 @@
   font-weight: 900;
   line-height: 1.2;
 }
+.page_1__headline {
+  max-width: 22em;
+}
+.page_1__headline span {
+  display: inline-block;
+}
+.page_1__headline {
+  margin-top: var(--space-2);
+  font-size: clamp(2rem, 1.4rem + 1.6vw, 3rem);
+  font-weight: 700;
+  line-height: 1.5;
+  text-wrap: balance;
+}
 
 /*
 ## .section_2
@@ -649,6 +662,520 @@
   animation-duration: 0.38s;
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
+
+/*
+## .chart_1
+使用箇所：案内実績「月ごとの案内回数」
+内容：月ごとの棒グラフ（1系列なので凡例なし。いちばん多い月だけ数値を出し、ほかは触れると出る）。
+     同じ数値は下の表（table_2）でも読める。対応ブラウザでは、画面に入るとき棒が伸びる（scroll-driven animations）
+*/
+.chart_1 {
+  --bar: #2f6fb0;
+  overflow-x: clip;
+  margin-top: var(--space-3);
+}
+:root[data-theme=dark] .chart_1 {
+  --bar: #4a8ad0;
+}
+.chart_1__bars, .chart_1__axis {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 2px;
+}
+.chart_1__bars {
+  align-items: end;
+  height: 220px;
+  padding-top: 28px;
+  border-bottom: 1px solid var(--color-line);
+}
+.chart_1__bar {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.chart_1__bar:hover .chart_1__tip {
+  visibility: visible;
+}
+.chart_1__bar:hover .chart_1__fill {
+  filter: brightness(1.15);
+}
+.chart_1__fill {
+  display: block;
+  width: 100%;
+  max-width: 28px;
+  height: calc(var(--v) / var(--max) * 100%);
+  margin: 0 auto;
+  background: var(--bar);
+  border-radius: 4px 4px 0 0;
+  transform-origin: bottom;
+}
+.chart_1__value {
+  position: absolute;
+  bottom: calc(var(--v) / var(--max) * 100% + 4px);
+  left: 50%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+.chart_1__tip {
+  position: absolute;
+  bottom: calc(var(--v) / var(--max) * 100% + 8px);
+  left: 50%;
+  z-index: 1;
+  padding: 4px 10px;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  visibility: hidden;
+  color: var(--color-bg);
+  pointer-events: none;
+  background: var(--color-text);
+  border-radius: 4px;
+  transform: translateX(-50%);
+}
+.chart_1__tip strong {
+  font-weight: 700;
+}
+.chart_1__bar:nth-child(-n+3) .chart_1__tip {
+  left: 0;
+  transform: none;
+}
+.chart_1__bar:nth-last-child(-n+3) .chart_1__tip {
+  right: 0;
+  left: auto;
+  transform: none;
+}
+.chart_1__axis {
+  margin-top: 6px;
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.chart_1__axis li {
+  overflow: visible;
+  white-space: nowrap;
+}
+.chart_1__year {
+  font-weight: 700;
+  color: var(--color-text);
+}
+.chart_1__details {
+  margin-top: var(--space-2);
+}
+.chart_1__details summary {
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+  font-weight: 700;
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+@supports (animation-timeline: view()) {
+}
+@keyframes chart_1_grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+/*
+## .table_2
+使用箇所：案内実績（グラフと同じ数値の表）
+*/
+.table_2 {
+  min-width: 16em;
+  margin-top: var(--space-1);
+  font-variant-numeric: tabular-nums;
+  border-collapse: collapse;
+}
+.table_2 th,
+.table_2 td {
+  padding: 6px 16px 6px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--color-line);
+}
+.table_2 thead th {
+  font-size: 1.3rem;
+  color: var(--color-text-muted);
+}
+.table_2 tbody th {
+  font-weight: 400;
+}
+.table_2 td {
+  text-align: right;
+}
+
+/*
+## .milestone_1
+使用箇所：案内実績「節目」
+内容：1回目・50回ごと・最新の写真を、縦の線でつないだ年表。写真はトリミングしない。押すと viewer_1 で開く
+*/
+.milestone_1 {
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding-left: 32px;
+}
+.milestone_1::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 7px;
+  width: 2px;
+  background: var(--color-line);
+}
+.milestone_1__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 14em) minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  align-items: start;
+}
+.milestone_1__item::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: -32px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-bg);
+  border: 3px solid var(--color-text);
+  border-radius: 50%;
+}
+.milestone_1__head {
+  display: grid;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.milestone_1__nth {
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.milestone_1__date {
+  font-size: 1.5rem;
+}
+.milestone_1__note {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.milestone_1__photo {
+  display: block;
+  justify-self: start;
+  max-width: min(100%, 640px);
+  overflow: hidden;
+  border-radius: 6px;
+}
+.milestone_1__photo img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 420px;
+  background: var(--color-surface);
+}
+
+/*
+## .jump_1
+使用箇所：VR機材（用途への移動）
+*/
+.jump_1 {
+  margin-top: var(--space-3);
+}
+.jump_1 ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.jump_1 a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  padding: 4px 16px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 100vw;
+}
+.top_1 .jump_1 a {
+  color: var(--color-text);
+}
+.jump_1 a:hover {
+  border-color: var(--color-text-muted);
+}
+.jump_1__count {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+## .list_14
+使用箇所：VR機材
+内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）
+*/
+.list_14 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.list_14 a {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: var(--space-2);
+  align-items: start;
+  box-sizing: border-box;
+  height: 100%;
+  padding: var(--space-2);
+  text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  transition: border-color 0.15s;
+}
+.top_1 .list_14 a {
+  color: var(--color-text);
+}
+.list_14 a:hover {
+  border-color: var(--color-text-muted);
+}
+.list_14 a:hover .list_14__shop {
+  text-decoration: underline;
+}
+.list_14__icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  font-size: 2.2rem;
+  color: var(--color-link);
+  background: var(--color-bg);
+  border-radius: 50%;
+}
+.list_14__image img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  background: var(--color-bg);
+  border-radius: 8px;
+}
+.list_14__body {
+  display: grid;
+  gap: 4px;
+}
+.list_14__name {
+  font-size: 1.7rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.list_14__what {
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+.list_14__note {
+  padding-left: 10px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  border-left: 3px solid var(--color-line);
+}
+.list_14__shop {
+  margin-top: 2px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-link);
+}
+
+/*
+## .list_15
+使用箇所：回想（Vimeo の動画）
+*/
+.list_15 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+.list_15 iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border: 0;
+  border-radius: 6px;
+}
+
+/*
+## .team_1
+使用箇所：Claude Code の使い方「構成」
+内容：自分 → Claude Code → エージェント・スキル・覚え書き、を縦の線でつないだ図
+*/
+.team_1 {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--space-3);
+}
+.team_1__node {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 30em;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+}
+.team_1__node--me, .team_1__node--hub {
+  text-align: center;
+}
+.team_1__node--hub {
+  color: var(--color-bg);
+  background: var(--color-text);
+  border-color: var(--color-text);
+}
+.team_1__node--hub .team_1__note {
+  color: inherit;
+  opacity: 0.85;
+}
+.team_1__link {
+  width: 2px;
+  height: var(--space-3);
+  background: var(--color-line);
+}
+.team_1__name {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.team_1__role {
+  margin-left: 0.4em;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.team_1__note {
+  margin-top: 4px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+.team_1__groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+  padding-top: var(--space-2);
+  border-top: 2px solid var(--color-line);
+}
+.team_1__groups .team_1__node {
+  max-width: none;
+}
+.team_1__groups ul {
+  display: grid;
+  gap: 10px;
+}
+.team_1__h {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+/*
+## .flow_1
+使用箇所：Claude Code の使い方「依頼から公開まで」
+内容：手順（本当に順番があるので番号を付ける）
+*/
+.flow_1 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  counter-reset: flow_1;
+}
+.flow_1__step {
+  position: relative;
+  padding-top: 44px;
+  counter-increment: flow_1;
+}
+.flow_1__step::before {
+  content: counter(flow_1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  font-weight: 900;
+  color: var(--color-bg);
+  background: var(--color-text);
+  border-radius: 50%;
+}
+.flow_1__title {
+  font-size: 1.7rem;
+  font-weight: 900;
+}
+.flow_1__note {
+  margin-top: 4px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+
+/*
+## .rules_1
+使用箇所：Claude Code の使い方「決めているルール」
+*/
+.rules_1 {
+  display: grid;
+  gap: 8px;
+  margin-top: var(--space-2);
+}
+.rules_1 li {
+  position: relative;
+  padding-left: 1.4em;
+}
+.rules_1 li::before {
+  content: "";
+  position: absolute;
+  top: 0.7em;
+  left: 0.2em;
+  width: 0.5em;
+  height: 0.5em;
+  background: var(--color-text-muted);
+  border-radius: 50%;
+}
+
+/*
+## .examples_1
+使用箇所：Claude Code の使い方「作ったもの」
+*/
+.examples_1 {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 44em;
+  margin-top: var(--space-2);
+}
+.examples_1 dt {
+  font-size: 1.7rem;
+  font-weight: 900;
+}
+.examples_1 dd {
+  margin-top: 4px;
+  line-height: 1.8;
+}
 @media (max-width: 767px){
   .top_1 {
     font-size: 1.6rem;
@@ -743,6 +1270,28 @@
     bottom: 12px;
     transform: none;
   }
+  .chart_1__bars {
+    height: 160px;
+  }
+  .milestone_1__item {
+    grid-template-columns: 1fr;
+  }
+  .list_14 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .list_15 {
+    grid-template-columns: 1fr;
+  }
+  .team_1__groups {
+    grid-template-columns: 1fr;
+  }
+  .flow_1 {
+    grid-template-columns: 1fr;
+  }
+  .flow_1__step {
+    padding: 0 0 0 48px;
+  }
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme=light]) {
@@ -755,4 +1304,14 @@
     --color-accent: #f2b35e;
     --color-line: #383e47;
   }
+  :root:not([data-theme=light]) .chart_1 {
+    --bar: #4a8ad0;
+  }
+}
+@media (prefers-reduced-motion: no-preference){
+    .chart_1__fill {
+      animation: chart_1_grow linear both;
+      animation-range: entry 0% cover 35%;
+      animation-timeline: view();
+    }
 }
