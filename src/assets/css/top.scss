@@ -126,6 +126,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 .header_4 {
   position: relative;
   z-index: 2;
+  view-transition-name: topbar;
   &__inner {
     display: flex;
     flex-wrap: wrap;
@@ -324,6 +325,9 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 .section_2 {
   margin-top: var(--space-5);
+  &--photos {
+    container-type: inline-size;
+  }
   &:first-child {
     margin-top: var(--space-4);
   }
@@ -407,39 +411,51 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## .list_8
-使用箇所：トップページ「目撃写真」
-内容：Xの投稿写真を横に送る帯。端の写真が切れて見えることで、続きがあると分かる
+使用箇所：トップページ「写真」
+内容：Xの投稿写真を大小のタイルで組む（横スクロールにはしない）。押すと viewer_1 で開く。
+     4列（スマホは2列）の正方形のマスに、大きい1枚（2×2）と横長の数枚（2×1）を混ぜ、隙間は dense で詰める。
+     行の高さは、親（.section_2--photos）の幅から container query 単位で列幅と同じにする
 */
 
 .list_8 {
+  --cols: 4;
+  --gap: 8px;
+
   display: grid;
-  grid-auto-columns: min(320px, 72vw);
-  grid-auto-flow: column;
-  gap: var(--space-2);
-  margin: var(--space-2) calc(var(--space-4) * -1) 0;
-  padding: 0 var(--space-4) var(--space-2);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 0 var(--space-4);
+
+  // minmax(0, 1fr)：大きな元画像に引っぱられて列が広がらないようにする
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: calc((100cqi - var(--gap) * (var(--cols) - 1)) / var(--cols));
+  grid-auto-flow: dense;
+  gap: var(--gap);
+  margin-top: var(--space-2);
   @include sp {
-    margin: var(--space-2) calc(var(--space-2) * -1) 0;
-    padding: 0 var(--space-2) var(--space-2);
-    scroll-padding: 0 var(--space-2);
+    --cols: 2;
+    --gap: 6px;
   }
   li {
-    scroll-snap-align: start;
+    &:nth-child(1) {
+      grid-row: span 2;
+      grid-column: span 2;
+    }
+
+    // 4・7・10・13枚目を横長に（13枚でちょうど行が埋まる）
+    &:nth-child(3n + 4) {
+      grid-column: span 2;
+    }
   }
   a {
     display: block;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
   }
   img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 5;
+    height: 100%;
     object-fit: cover;
     background: var(--color-surface);
-    border-radius: 4px;
   }
 }
 
@@ -587,20 +603,125 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 
 /*
-## 写真ビューア（GLightbox）の日付
-使用箇所：トップページで写真を大きく開いたとき
-内容：既定では暗い背景に暗い文字になるため、明るい文字にする
+## .viewer_1
+使用箇所：トップページ・cluster ページ（assets/js/viewer.js が作る dialog）
+内容：写真ビューア。写真は View Transitions で一覧から広がって開く
 */
 
-.top_1 .glightbox-clean {
-  .gslide-description {
-    background: transparent;
+.viewer_1 {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-4) 72px;
+  color: #eef0f2;
+  background: transparent;
+  border: 0;
+  @include sp {
+    padding: 56px var(--space-1) var(--space-3);
   }
-  .gslide-title {
-    margin-bottom: 0;
-    font-family: $font;
-    font-size: 1.6rem;
+  &::backdrop {
+    background: rgb(12 14 17 / 94%);
+  }
+  &[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  &__figure {
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100dvh - var(--space-4) * 2 - 48px);
+    object-fit: contain;
+    border-radius: 4px;
+    @include sp {
+      max-height: calc(100dvh - 140px);
+    }
+  }
+
+  &__caption {
+    display: flex;
+    gap: .8em;
+    font-size: 1.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__title {
     font-weight: 700;
-    color: #eef3f6;
   }
+
+  &__note {
+    color: #a9b0b8;
+  }
+
+  &__button {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    font: inherit;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: #eef0f2;
+    cursor: pointer;
+    background: rgb(255 255 255 / 8%);
+    border: 0;
+    border-radius: 50%;
+    &:hover {
+      background: rgb(255 255 255 / 18%);
+    }
+    &:focus-visible {
+      outline: 3px solid #f2b35e;
+      outline-offset: 2px;
+    }
+    &:disabled {
+      visibility: hidden;
+    }
+    &--prev {
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+    }
+    &--next {
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+    }
+    &--close {
+      top: 12px;
+      right: 12px;
+      font-size: 2.8rem;
+    }
+    @include sp {
+      &--prev,
+      &--next {
+        top: auto;
+        bottom: 12px;
+        transform: none;
+      }
+    }
+  }
+}
+
+
+/*
+## View Transitions
+内容：写真が広がる動きの速さ（上部のバーは .header_4 に名前を付け、ページ移動の間も動かさない）
+*/
+
+::view-transition-group(viewer-photo) {
+  animation-duration: .38s;
+  animation-timing-function: cubic-bezier(.2, .7, .3, 1);
 }

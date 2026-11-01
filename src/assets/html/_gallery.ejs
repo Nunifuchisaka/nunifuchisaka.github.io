@@ -2,18 +2,18 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const t = {
   ja: {
-    ariaLabel: (key, total) => `ギャラリー画像 ${key + 1}/${total}(新しいタブで開きます)`,
+    ariaLabel: (key, total) => `写真 ${key + 1}/${total} を大きく表示`,
     alt: "ぬにふちさかの投稿写真",
     heading: "写真",
   },
   en: {
-    ariaLabel: (key, total) => `Gallery photo ${key + 1}/${total} (opens in a new tab)`,
+    ariaLabel: (key, total) => `Open photo ${key + 1} of ${total}`,
     alt: "Photo posted by Nunifuchisaka",
     heading: "Photos",
   },
 };
 const l = t[pageLocale];
-%><section id="gallery" class="section_2" aria-labelledby="gallery-heading">
+%><section id="gallery" class="section_2 section_2--photos" aria-labelledby="gallery-heading">
   <h2 class="section_2__h1" id="gallery-heading"><%= l.heading %></h2>
   <ul class="list_8">
     <%
@@ -34,7 +34,7 @@ const l = t[pageLocale];
     ];
     photos.forEach(function (value, key) { %>
       <li>
-        <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="<%= l.ariaLabel(key, photos.length) %>">
+        <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="js_viewer" data-gallery="gallery" aria-label="<%= l.ariaLabel(key, photos.length) %>">
           <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="<%= l.alt %>" draggable="false">
         </a>
       </li>

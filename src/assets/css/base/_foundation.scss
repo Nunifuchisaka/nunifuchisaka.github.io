@@ -45,3 +45,17 @@ strong {
 em {
 	
 }
+
+
+// ページ移動をなめらかにつなぐ（同じサイト内の移動のみ。対応していないブラウザでは何も起きない）
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
