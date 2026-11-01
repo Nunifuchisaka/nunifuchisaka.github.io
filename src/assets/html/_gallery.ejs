@@ -4,35 +4,40 @@ const t = {
   ja: {
     ariaLabel: (key, total) => `ギャラリー画像 ${key + 1}/${total}(新しいタブで開きます)`,
     alt: "ぬにふちさかの投稿写真",
+    heading: "目撃写真",
   },
   en: {
     ariaLabel: (key, total) => `Gallery photo ${key + 1}/${total} (opens in a new tab)`,
     alt: "Photo posted by Nunifuchisaka",
+    heading: "Sightings",
   },
 };
 const l = t[pageLocale];
-%><ul class="list_2">
-  <%
-  const photos = [
-    'GuJjH2-a8AEbmvQ',
-    'Gs8ES3lbwAAVIp8',
-    'Gre_VdGaYAAUB5q',
-    'GsDK83EbUAAMksq',
-    'GrfBeJTb0AESHJn',
-    'GolmOnNWYAAGFez',
-    'GollkXpWQAABxgZ',
-    'Golmy_nXkAAW0gw',
-    'GnoEDuJaMAIrEuF',
-    'Gni5VEOaMAAaV-i',
-    'Gnk5oHlaMAEDi-v',
-    'GWANrwpXcAA2bbu',
-    'GWAN_u2WMAAvwdY',
-  ];
-  photos.forEach(function (value, key) { %>
-    <li>
-      <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="<%= l.ariaLabel(key, photos.length) %>">
-        <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="<%= l.alt %>" draggable="false">
-      </a>
-    </li>
-  <% }); %>
-</ul><!-- /.list_2 -->
+%><section id="gallery" class="section_2" aria-labelledby="gallery-heading">
+  <h2 class="section_2__h1" id="gallery-heading"><%= l.heading %></h2>
+  <ul class="list_8">
+    <%
+    const photos = [
+      'GuJjH2-a8AEbmvQ',
+      'Gs8ES3lbwAAVIp8',
+      'Gre_VdGaYAAUB5q',
+      'GsDK83EbUAAMksq',
+      'GrfBeJTb0AESHJn',
+      'GolmOnNWYAAGFez',
+      'GollkXpWQAABxgZ',
+      'Golmy_nXkAAW0gw',
+      'GnoEDuJaMAIrEuF',
+      'Gni5VEOaMAAaV-i',
+      'Gnk5oHlaMAEDi-v',
+      'GWANrwpXcAA2bbu',
+      'GWAN_u2WMAAvwdY',
+    ];
+    photos.forEach(function (value, key) { %>
+      <li>
+        <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="<%= l.ariaLabel(key, photos.length) %>">
+          <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="<%= l.alt %>" draggable="false">
+        </a>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_8 -->
+</section><!-- /#gallery.section_2 -->

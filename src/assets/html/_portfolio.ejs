@@ -1,11 +1,10 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const newTab = pageLocale === "en" ? "(opens in a new tab)" : "（新しいタブで開きます）";
-%><section id="portfolio" class="section_1">
-  <h2 class="section_1__h1">
-    Portfolio
-  </h2>
-  <ul class="list_3">
+const heading = pageLocale === "en" ? "Things I made" : "つくったもの";
+%><section id="portfolio" class="section_2" aria-labelledby="portfolio-heading">
+  <h2 class="section_2__h1" id="portfolio-heading"><%= heading %></h2>
+  <ul class="list_9">
     <%
     const portfolio = [
       {
@@ -57,10 +56,10 @@ const newTab = pageLocale === "en" ? "(opens in a new tab)" : "（新しいタ�
     portfolio.forEach(function (value, key) { %>
       <li>
         <a href="<%= value.url %>" target="_blank" rel="noopener">
-          <img src="/assets/img/<%= value.eyecatch %>" alt="<%= value.title %>">
-          <p><%= value.title %><span class="visually-hidden"><%= newTab %></span></p>
+          <img src="/assets/img/<%= value.eyecatch %>" alt="" loading="lazy">
+          <span class="list_9__title"><%= value.title %><span class="visually-hidden"><%= newTab %></span></span>
         </a>
       </li>
     <% }); %>
-  </ul><!-- /.list_3 -->
-</section><!-- /#portfolio.section_1 -->
+  </ul><!-- /.list_9 -->
+</section><!-- /#portfolio.section_2 -->

@@ -1,0 +1,92 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const t = {
+  ja: {
+    name: "ぬにふちさか",
+    nameLang: "ja",
+    reading: "Nunifuchisaka",
+    readingLang: "en",
+    navLabel: "サイト内",
+    timeline: "案内実績",
+    equipment: "VR機材",
+    videos: "回想",
+    dice: "話題サイコロ",
+    langLabel: "言語切替",
+    toDark: "ダークにする",
+    toLight: "ライトにする",
+    data: [
+      ["分類", "ENTP-A“召喚獣”"],
+      ["生まれ", "冬・雪国"],
+      ["属性", "氷"],
+      ["習性", "親しくなった人間の召喚に応じることがあるらしい"],
+      ["出没地", "Public（目撃報告多数）"],
+    ],
+  },
+  en: {
+    name: "Nunifuchisaka",
+    nameLang: "en",
+    reading: "ぬにふちさか",
+    readingLang: "ja",
+    navLabel: "Site",
+    timeline: "Guide Log",
+    equipment: "VR Gear",
+    videos: "Memories",
+    dice: "Topic Dice",
+    langLabel: "Language",
+    toDark: "Switch to dark",
+    toLight: "Switch to light",
+    data: [
+      ["Type", "ENTP-A “Summon Beast”"],
+      ["Born", "Winter, snow country"],
+      ["Element", "Ice"],
+      ["Habit", "Reportedly answers summons from humans it has grown close to"],
+      ["Habitat", "Public instances (many sightings)"],
+    ],
+  },
+};
+const l = t[pageLocale];
+const prefix = pageLocale === "en" ? "/en" : "";
+%><header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="<%= prefix %>/" aria-current="page"><%= l.name %></a>
+    <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
+      <ul>
+        <li><a href="<%= prefix %>/timeline/"><%= l.timeline %></a></li>
+        <li><a href="<%= prefix %>/equipment/"><%= l.equipment %></a></li>
+        <li><a href="<%= prefix %>/videos/"><%= l.videos %></a></li>
+        <li><a href="<%= prefix %>/dice/"><%= l.dice %></a></li>
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select"><%= l.langLabel %></label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja"<% if (pageLocale === "ja") { %> selected<% } %>>日本語</option>
+        <option value="en"<% if (pageLocale === "en") { %> selected<% } %>>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="<%= l.toDark %>" data-label-light="<%= l.toLight %>"><%= l.toDark %></button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+<div class="profile_1">
+  <div class="profile_1__banner">
+    <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" draggable="false">
+  </div>
+  <div class="profile_1__body">
+    <div class="profile_1__icon">
+      <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" draggable="false">
+    </div>
+    <div class="profile_1__head">
+      <h1 class="profile_1__name" lang="<%= l.nameLang %>"><%= l.name %><span class="profile_1__eye" aria-hidden="true"></span></h1>
+      <p class="profile_1__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
+    </div>
+    <dl class="profile_1__data">
+      <% l.data.forEach(function (row) { %>
+        <div class="profile_1__row">
+          <dt><%= row[0] %></dt>
+          <dd><%= row[1] %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </div>
+</div><!-- /.profile_1 -->

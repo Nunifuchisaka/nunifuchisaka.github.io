@@ -78,300 +78,370 @@
   ]
 }
 </script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&amp;family=Zen+Kaku+Gothic+New:wght@400;700&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+
 </head>
-<body>
+<body class="top_1">
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <div id="wrapper">
-<header class="header_2">
-  <div class="header_2__bg">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/" aria-current="page">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        <li><a href="/en/timeline/">Guide Log</a></li>
+        <li><a href="/en/equipment/">VR Gear</a></li>
+        <li><a href="/en/videos/">Memories</a></li>
+        <li><a href="/en/dice/">Topic Dice</a></li>
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+<div class="profile_1">
+  <div class="profile_1__banner">
     <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" draggable="false">
   </div>
-  <nav>
-    <ul>
-      <li><a href="/en/">Home</a></li>
-      <li><a href="/en/timeline/">Guide Log</a></li>
-      <li><a href="/en/equipment/">VR Gear</a></li>
-      <li><a href="/en/videos/">Memories</a></li>
-      <li><a href="/en/dice/">Topic Dice</a></li>
-      <li class="header_2__lang">
-        <label class="visually-hidden" for="js-lang-select">Language</label>
-        <select id="js-lang-select">
-          <option value="ja">日本語</option>
-          <option value="en" selected>English</option>
-        </select>
-      </li>
-    </ul>
-  </nav><!-- /#hnav -->
-  <div class="header_2__icon">
-    <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" draggable="false">
+  <div class="profile_1__body">
+    <div class="profile_1__icon">
+      <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" draggable="false">
+    </div>
+    <div class="profile_1__head">
+      <h1 class="profile_1__name" lang="en">Nunifuchisaka<span class="profile_1__eye" aria-hidden="true"></span></h1>
+      <p class="profile_1__reading" lang="ja">ぬにふちさか</p>
+    </div>
+    <dl class="profile_1__data">
+      
+        <div class="profile_1__row">
+          <dt>Type</dt>
+          <dd>ENTP-A “Summon Beast”</dd>
+        </div>
+      
+        <div class="profile_1__row">
+          <dt>Born</dt>
+          <dd>Winter, snow country</dd>
+        </div>
+      
+        <div class="profile_1__row">
+          <dt>Element</dt>
+          <dd>Ice</dd>
+        </div>
+      
+        <div class="profile_1__row">
+          <dt>Habit</dt>
+          <dd>Reportedly answers summons from humans it has grown close to</dd>
+        </div>
+      
+        <div class="profile_1__row">
+          <dt>Habitat</dt>
+          <dd>Public instances (many sightings)</dd>
+        </div>
+      
+    </dl>
   </div>
-  <div class="header_2__1">
-    <h1 class="name">
-      ぬにふちさか
-    </h1>
-    <p class="lead">
-      ENTP-A “Summon Beast”<br>Born in winter, raised in snow country. Ice element.<br>Reportedly responds to summons from humans it has grown close to.<br>Frequently spotted roaming Public instances.
-    </p>
-  </div>
-</header>
+</div><!-- /.profile_1 -->
+
 
 <main id="main">
-<div class="wrapper_1">
-  <div class="wrapper_1__1">
+<div class="wrapper_2">
+  <div class="wrapper_2__1">
 
-    <ul class="list_1">
-  <li>
-    <a href="https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5" target="_blank" rel="noopener">
-      <i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i>
-      VRChat
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://www.meta.com/referrals/link/Nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-meta" aria-hidden="true"></i>
-      Meta Referral Code
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://cluster.mu/u/nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-solid fa-infinity" aria-hidden="true"></i>
-      cluster
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://x.com/nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-twitter" aria-hidden="true"></i>
-      <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-      Twitter(X)
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://www.youtube.com/@nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-      YouTube
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://vimeo.com/nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-vimeo-v" aria-hidden="true"></i>
-      Vimeo
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
-      <i class="fa-solid fa-store" aria-hidden="true"></i>
-      BOOTH
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://www.tiktok.com/@nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
-      TikTok
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://www.instagram.com/nunifuchisaka/" target="_blank" rel="noopener">
-      <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-      Instagram
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://marshmallow-qa.com/nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-      Marshmallow (Q&amp;A)
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://querie.me/user/nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-solid fa-comments" aria-hidden="true"></i>
-      Querie
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <li>
-    <a href="https://github.com/Nunifuchisaka" target="_blank" rel="noopener">
-      <i class="fa-brands fa-github" aria-hidden="true"></i>
-      GitHub
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-  <!-- <li>
-    <a href="https://nunifuchisaka.fanbox.cc/" target="_blank" rel="noopener">
-      <i class="fa-solid fa-box" aria-hidden="true"></i>
-      FANBOX
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li> -->
-  <li>
-    <a href="https://booth.pm/wish_list_names/dXqTayEr" target="_blank" rel="noopener">
-      <i class="fa-solid fa-store" aria-hidden="true"></i>
-      BOOTH&nbsp;<br class="sp">Wish List
-    <span class="visually-hidden">(opens in a new tab)</span></a>
-  </li>
-</ul>
+    <section id="links" class="section_2" aria-labelledby="links-heading">
+  <h2 class="section_2__h1" id="links-heading">How to summon</h2>
+  <p class="section_2__note">Each one opens an external site in a new tab.</p>
+  <ul class="list_7">
+    <li>
+      <a href="https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5" target="_blank" rel="noopener">
+        <i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i>
+        VRChat
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://www.meta.com/referrals/link/Nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-meta" aria-hidden="true"></i>
+        Meta Referral Code
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://cluster.mu/u/nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-solid fa-infinity" aria-hidden="true"></i>
+        cluster
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://x.com/nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-twitter" aria-hidden="true"></i>
+        <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+        Twitter(X)
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://www.youtube.com/@nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+        YouTube
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://vimeo.com/nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-vimeo-v" aria-hidden="true"></i>
+        Vimeo
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://nunifuchisaka.booth.pm/" target="_blank" rel="noopener">
+        <i class="fa-solid fa-store" aria-hidden="true"></i>
+        BOOTH
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://www.tiktok.com/@nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+        TikTok
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://www.instagram.com/nunifuchisaka/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+        Instagram
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://marshmallow-qa.com/nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        Marshmallow (Q&amp;A)
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://querie.me/user/nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-solid fa-comments" aria-hidden="true"></i>
+        Querie
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <li>
+      <a href="https://github.com/Nunifuchisaka" target="_blank" rel="noopener">
+        <i class="fa-brands fa-github" aria-hidden="true"></i>
+        GitHub
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+    <!-- <li>
+      <a href="https://nunifuchisaka.fanbox.cc/" target="_blank" rel="noopener">
+        <i class="fa-solid fa-box" aria-hidden="true"></i>
+        FANBOX
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li> -->
+    <li>
+      <a href="https://booth.pm/wish_list_names/dXqTayEr" target="_blank" rel="noopener">
+        <i class="fa-solid fa-store" aria-hidden="true"></i>
+        BOOTH&nbsp;Wish List
+        <span class="list_7__arrow" aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span></a>
+    </li>
+  </ul><!-- /.list_7 -->
+</section><!-- /#links.section_2 -->
 
-  </div><!-- /.wrapper_1__1 -->
-  <div class="wrapper_1__2">
 
-    <ul class="list_2">
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GuJjH2-a8AEbmvQ?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 1/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GuJjH2-a8AEbmvQ?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/Gs8ES3lbwAAVIp8?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 2/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/Gs8ES3lbwAAVIp8?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/Gre_VdGaYAAUB5q?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 3/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/Gre_VdGaYAAUB5q?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GsDK83EbUAAMksq?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 4/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GsDK83EbUAAMksq?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GrfBeJTb0AESHJn?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 5/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GrfBeJTb0AESHJn?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GolmOnNWYAAGFez?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 6/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GolmOnNWYAAGFez?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GollkXpWQAABxgZ?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 7/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GollkXpWQAABxgZ?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/Golmy_nXkAAW0gw?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 8/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/Golmy_nXkAAW0gw?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GnoEDuJaMAIrEuF?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 9/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GnoEDuJaMAIrEuF?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/Gni5VEOaMAAaV-i?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 10/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/Gni5VEOaMAAaV-i?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/Gnk5oHlaMAEDi-v?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 11/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/Gnk5oHlaMAEDi-v?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GWANrwpXcAA2bbu?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 12/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GWANrwpXcAA2bbu?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-    <li>
-      <a href="https://pbs.twimg.com/media/GWAN_u2WMAAvwdY?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 13/13 (opens in a new tab)">
-        <img src="https://pbs.twimg.com/media/GWAN_u2WMAAvwdY?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
-      </a>
-    </li>
-  
-</ul><!-- /.list_2 -->
+  </div><!-- /.wrapper_2__1 -->
+  <div class="wrapper_2__2">
 
-  </div><!-- /.wrapper_1__2 -->
-</div><!-- /.wrapper_1 -->
+    <section id="gallery" class="section_2" aria-labelledby="gallery-heading">
+  <h2 class="section_2__h1" id="gallery-heading">Sightings</h2>
+  <ul class="list_8">
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GuJjH2-a8AEbmvQ?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 1/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GuJjH2-a8AEbmvQ?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/Gs8ES3lbwAAVIp8?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 2/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/Gs8ES3lbwAAVIp8?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/Gre_VdGaYAAUB5q?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 3/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/Gre_VdGaYAAUB5q?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GsDK83EbUAAMksq?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 4/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GsDK83EbUAAMksq?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GrfBeJTb0AESHJn?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 5/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GrfBeJTb0AESHJn?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GolmOnNWYAAGFez?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 6/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GolmOnNWYAAGFez?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GollkXpWQAABxgZ?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 7/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GollkXpWQAABxgZ?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/Golmy_nXkAAW0gw?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 8/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/Golmy_nXkAAW0gw?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GnoEDuJaMAIrEuF?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 9/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GnoEDuJaMAIrEuF?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/Gni5VEOaMAAaV-i?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 10/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/Gni5VEOaMAAaV-i?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/Gnk5oHlaMAEDi-v?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 11/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/Gnk5oHlaMAEDi-v?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GWANrwpXcAA2bbu?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 12/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GWANrwpXcAA2bbu?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+      <li>
+        <a href="https://pbs.twimg.com/media/GWAN_u2WMAAvwdY?format=webp&name=4096x4096" target="_blank" rel="noopener" class="glightbox" data-gallery="gallery" data-type="image" aria-label="Gallery photo 13/13 (opens in a new tab)">
+          <img src="https://pbs.twimg.com/media/GWAN_u2WMAAvwdY?format=webp" alt="Photo posted by Nunifuchisaka" draggable="false">
+        </a>
+      </li>
+    
+  </ul><!-- /.list_8 -->
+</section><!-- /#gallery.section_2 -->
 
-<section id="portfolio" class="section_1">
-  <h2 class="section_1__h1">
-    Portfolio
-  </h2>
-  <ul class="list_3">
+
+  </div><!-- /.wrapper_2__2 -->
+</div><!-- /.wrapper_2 -->
+
+<section id="portfolio" class="section_2" aria-labelledby="portfolio-heading">
+  <h2 class="section_2__h1" id="portfolio-heading">Things I made</h2>
+  <ul class="list_9">
     
       <li>
         <a href="https://otofuruga.pink/" target="_blank" rel="noopener">
-          <img src="/assets/img/otofuruga.webp" alt="桜兎フルガ 公式サイト">
-          <p>桜兎フルガ 公式サイト<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/otofuruga.webp" alt="" loading="lazy">
+          <span class="list_9__title">桜兎フルガ 公式サイト<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/deepfrostice/" target="_blank" rel="noopener">
-          <img src="/assets/img/deepfrostice.webp" alt="DeepFrostIce">
-          <p>DeepFrostIce<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/deepfrostice.webp" alt="" loading="lazy">
+          <span class="list_9__title">DeepFrostIce<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/heartbeat/" target="_blank" rel="noopener">
-          <img src="/assets/img/heartbeat.jpg" alt="HeartBeat">
-          <p>HeartBeat<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/heartbeat.jpg" alt="" loading="lazy">
+          <span class="list_9__title">HeartBeat<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/spiderweb/" target="_blank" rel="noopener">
-          <img src="/assets/img/spiderweb.webp" alt="SpiderWeb">
-          <p>SpiderWeb<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/spiderweb.webp" alt="" loading="lazy">
+          <span class="list_9__title">SpiderWeb<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/imagegetter/" target="_blank" rel="noopener">
-          <img src="/assets/img/imagegetter.webp" alt="ImageGetter">
-          <p>ImageGetter<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/imagegetter.webp" alt="" loading="lazy">
+          <span class="list_9__title">ImageGetter<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/glossyskin/" target="_blank" rel="noopener">
-          <img src="/assets/img/glossyskin.webp" alt="GlossySkin">
-          <p>GlossySkin<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/glossyskin.webp" alt="" loading="lazy">
+          <span class="list_9__title">GlossySkin<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/deskcinema/" target="_blank" rel="noopener">
-          <img src="/assets/img/deskcinema.png" alt="DeskCinema">
-          <p>DeskCinema<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/deskcinema.png" alt="" loading="lazy">
+          <span class="list_9__title">DeskCinema<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/nuniavatartoolkit/" target="_blank" rel="noopener">
-          <img src="/assets/img/nuniavatartoolkit.svg" alt="NuniAvatarToolkit">
-          <p>NuniAvatarToolkit<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/nuniavatartoolkit.svg" alt="" loading="lazy">
+          <span class="list_9__title">NuniAvatarToolkit<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
       <li>
         <a href="https://nunifuchisaka.github.io/publicwalker/" target="_blank" rel="noopener">
-          <img src="/assets/img/publicwalker.svg" alt="PublicWalker">
-          <p>PublicWalker<span class="visually-hidden">(opens in a new tab)</span></p>
+          <img src="/assets/img/publicwalker.svg" alt="" loading="lazy">
+          <span class="list_9__title">PublicWalker<span class="visually-hidden">(opens in a new tab)</span></span>
         </a>
       </li>
     
-  </ul><!-- /.list_3 -->
-</section><!-- /#portfolio.section_1 -->
-<section id="guide" class="section_1">
-  <h2 class="section_1__h1">
-    Guide
-  </h2>
-  <ul class="list_4">
+  </ul><!-- /.list_9 -->
+</section><!-- /#portfolio.section_2 -->
+<section id="guide" class="section_2" aria-labelledby="guide-heading">
+  <h2 class="section_2__h1" id="guide-heading">Guide log</h2>
+  <p class="section_2__lead">I help people who are new to VRChat find their way around. 270 people so far. <a href="/en/timeline/">See the full guide log</a></p>
+  <ul class="list_10">
     
       <li style="--num: '270';">
         <a href="/assets/img/guide/VRChat_2026-07-04.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image" data-title="July 4, 2026" aria-label="Guide photo from July 4, 2026 (opens in a new tab)">
@@ -1993,13 +2063,11 @@
         </a>
       </li>
     
-  </ul><!-- /.list_4 -->
-</section><!-- /#guide.section_1 -->
-<section id="cluster" class="section_1">
-  <h2 class="section_1__h1">
-    cluster
-  </h2>
-  <ul class="list_4">
+  </ul><!-- /.list_10 -->
+</section><!-- /#guide.section_2 -->
+<section id="cluster" class="section_2" aria-labelledby="cluster-heading">
+  <h2 class="section_2__h1" id="cluster-heading">Sightings in cluster</h2>
+  <ul class="list_10">
     
       <li style="--num: '599';">
         <a href="/assets/img/cluster/12dff13d-9368-4bc0-ab00-6c7825cda2b9.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="cluster" data-type="image" aria-label="cluster photo 1/599 (opens in a new tab)">
@@ -5595,8 +5663,8 @@
         </a>
       </li>
     
-  </ul><!-- /.list_4 -->
-</section><!-- /#cluster.section_1 -->
+  </ul><!-- /.list_10 -->
+</section><!-- /#cluster.section_2 -->
 </main><!-- /#main -->
 
 <footer id="footer">

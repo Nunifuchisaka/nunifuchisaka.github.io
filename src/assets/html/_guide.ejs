@@ -1,11 +1,13 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const guideText = pageLocale === "en"
+  ? { heading: "Guide log", lead: `I help people who are new to VRChat find their way around. ${guides.length} people so far.`, more: "See the full guide log", href: "/en/timeline/" }
+  : { heading: "案内の記録", lead: `VRChatを始めたばかりの人を案内しています。これまでに${guides.length}人。`, more: "案内実績をくわしく見る", href: "/timeline/" };
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-%><section id="guide" class="section_1">
-  <h2 class="section_1__h1">
-    Guide
-  </h2>
-  <ul class="list_4">
+%><section id="guide" class="section_2" aria-labelledby="guide-heading">
+  <h2 class="section_2__h1" id="guide-heading"><%= guideText.heading %></h2>
+  <p class="section_2__lead"><%= guideText.lead %> <a href="<%= guideText.href %>"><%= guideText.more %></a></p>
+  <ul class="list_10">
     <% guides.forEach(function(value, key) {
       const dateMatch = value.match(/(\d{4})-(\d{2})-(\d{2})/);
       const year = dateMatch ? parseInt(dateMatch[1], 10) : null;
@@ -25,5 +27,5 @@ const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", 
         </a>
       </li>
     <% }); %>
-  </ul><!-- /.list_4 -->
-</section><!-- /#guide.section_1 -->
+  </ul><!-- /.list_10 -->
+</section><!-- /#guide.section_2 -->
