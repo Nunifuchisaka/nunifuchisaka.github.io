@@ -2,43 +2,43 @@
 @use "tool" as *;
 
 /*
-# トップページ「雪国の生きもの図鑑の一頁」
+# トップページ「召喚の氷晶」
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
-色：雪明 #F2F5F7 / 夜藍 #141C2B / 霜鼠 #566373 / 氷縹 #2A6688 / 南天 #B3262E
-南天（--color-accent）は名前の横の点（雪うさぎの目）にだけ使う。
+色：霜花 #E9F1F5 / 樹皮 #2B2420 / 夜空 #18222E / 結露 #9DB7C6 / 灯 #F2B35E（ライトでは #9A5A0E）
+灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+氷晶の描画は assets/js/top.js（three.js）。色は下のトークンを JS が読み取って使う。
 */
 
-$font-display: "Klee One", "Zen Kaku Gothic New", $gothic;
-$font-body: "Zen Kaku Gothic New", $gothic;
+$font: "Zen Kaku Gothic Antique", $gothic;
 
 @mixin theme-light {
   color-scheme: light;
 
-  --color-bg: #f2f5f7;
-  --color-surface: #fff;
-  --color-text: #141c2b;
-  --color-text-muted: #566373;
-  --color-link: #2a6688;
-  --color-accent: #b3262e;
-  --color-line: #c9d3dc;
-  --color-focus: #2a6688;
-  --color-badge-bg: rgb(20 28 43 / 80%);
-  --color-badge-text: #f2f5f7;
+  --color-bg: #e9f1f5;
+  --color-surface: #f7fafc;
+  --color-text: #2b2420;
+  --color-text-muted: #55606a;
+  --color-link: #1e5a80;
+  --color-accent: #9a5a0e;
+  --color-line: #c3d2dc;
+  --color-ice: #9db7c6;
+  --color-badge-bg: rgb(24 34 46 / 80%);
+  --color-badge-text: #eef3f6;
 }
 
 @mixin theme-dark {
   color-scheme: dark;
 
-  --color-bg: #141c2b;
-  --color-surface: #1d2840;
-  --color-text: #e8eef3;
-  --color-text-muted: #a3afbd;
-  --color-link: #8cc4e3;
-  --color-accent: #f08a8e;
-  --color-line: #34425a;
-  --color-focus: #8cc4e3;
-  --color-badge-bg: rgb(20 28 43 / 80%);
-  --color-badge-text: #e8eef3;
+  --color-bg: #18222e;
+  --color-surface: #212d3b;
+  --color-text: #eef3f6;
+  --color-text-muted: #a7b4bf;
+  --color-link: #9ccbe6;
+  --color-accent: #f2b35e;
+  --color-line: #33445a;
+  --color-ice: #9db7c6;
+  --color-badge-bg: rgb(24 34 46 / 80%);
+  --color-badge-text: #eef3f6;
 }
 
 :root {
@@ -48,9 +48,8 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   --space-2: 16px;
   --space-3: 24px;
   --space-4: 40px;
-  --space-5: 64px;
-  --radius-1: 10px;
-  --width-page: 1040px;
+  --space-5: 72px;
+  --width-page: 1120px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,8 +70,8 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 */
 
 .top_1 {
-  font: 400 1.6rem/1.8 $font-body;
-  letter-spacing: .04em;
+  font: 400 1.6rem/1.75 $font;
+  letter-spacing: .03em;
   color: var(--color-text);
   background: var(--color-bg);
   @include sp {
@@ -86,7 +85,7 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   a:focus-visible,
   button:focus-visible,
   select:focus-visible {
-    outline: 2px solid var(--color-focus);
+    outline: 3px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -97,11 +96,13 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   }
 
   #wrapper {
-    max-width: var(--width-page);
+    max-width: none;
     border: 0;
   }
 
   #main {
+    max-width: var(--width-page);
+    margin: 0 auto;
     padding: 0 var(--space-4);
     @include sp {
       padding: 0 var(--space-2);
@@ -109,12 +110,16 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   }
 
   #footer {
-    margin-top: var(--space-5);
-    padding: var(--space-3) var(--space-2);
+    max-width: var(--width-page);
+    margin: var(--space-5) auto 0;
+    padding: var(--space-3) var(--space-4);
     font-size: 1.3rem;
     color: var(--color-text-muted);
+    text-align: left;
     background: transparent;
-    border-top: 1px solid var(--color-line);
+    @include sp {
+      padding: var(--space-3) var(--space-2);
+    }
   }
 }
 
@@ -126,11 +131,15 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 */
 
 .header_4 {
+  position: relative;
+  z-index: 2;
   &__inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-1) var(--space-3);
+    max-width: var(--width-page);
+    margin: 0 auto;
     padding: var(--space-2) var(--space-4);
     @include sp {
       gap: var(--space-1) var(--space-2);
@@ -139,15 +148,11 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   }
 
   &__home {
-    font-family: $font-display;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 900;
     text-decoration: none;
     .top_1 & {
       color: var(--color-text);
-    }
-    @include sp {
-      font-size: 1.6rem;
     }
   }
 
@@ -186,11 +191,11 @@ $font-body: "Zen Kaku Gothic New", $gothic;
     padding: 4px 12px;
     font: inherit;
     font-size: 1.3rem;
-    letter-spacing: .04em;
+    letter-spacing: .03em;
     color: var(--color-text);
     background: var(--color-surface);
     border: 1px solid var(--color-line);
-    border-radius: 100vw;
+    border-radius: 6px;
     @include sp {
       padding: 4px 10px;
       letter-spacing: 0;
@@ -200,151 +205,118 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   &__theme {
     cursor: pointer;
     &:hover {
-      border-color: var(--color-link);
+      border-color: var(--color-text-muted);
     }
   }
 }
 
 
 /*
-## .profile_1
-使用箇所：トップページ
-内容：バナー・アイコン・名前・図鑑データ。名前の横の赤い点（.profile_1__eye）がこのページの決め手
+## .stage_1
+使用箇所：トップページの最初の画面
+内容：氷晶（three.js の canvas）と名前。描画できたら .is_ready が付き、
+     名前は canvas 側に描かれる（DOM の h1 は読み上げ用に残して見た目だけ隠す）。
+     WebGL が使えない環境では .stage_1__fallback の静止画と DOM の名前を出す。
 */
 
-.profile_1 {
-  &__banner {
-    padding: 0 var(--space-4);
-    @include sp {
-      padding: 0;
+.stage_1 {
+  position: relative;
+  height: clamp(520px, 84svh, 880px);
+  overflow: hidden;
+  @include sp {
+    height: clamp(480px, 80svh, 720px);
+  }
+
+  &__canvas {
+    position: absolute;
+    inset: 0;
+    touch-action: pan-y;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
     }
-    img {
+    canvas {
       display: block;
       width: 100%;
-      height: clamp(120px, 22vw, 220px);
-      object-fit: cover;
-      background: var(--color-surface);
-      border-radius: var(--radius-1);
-      @include sp {
-        border-radius: 0;
-      }
+      height: 100%;
     }
   }
 
-  &__body {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0 var(--space-4);
+  &__fallback {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    width: min(42vw, 300px);
+    transform: translateX(-50%);
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      clip-path: polygon(50% 0, 100% 18%, 100% 82%, 50% 100%, 0 82%, 0 18%);
+    }
+    .is_ready & {
+      display: none;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    right: 0;
+    bottom: var(--space-4);
+    left: 0;
+    max-width: var(--width-page);
+    margin: 0 auto;
     padding: 0 var(--space-4);
+    pointer-events: none;
     @include sp {
-      grid-template-columns: 1fr;
+      bottom: var(--space-3);
       padding: 0 var(--space-2);
     }
   }
 
-  &__icon {
-    grid-row: 1 / span 2;
-    width: 144px;
-    margin-top: -72px;
-    margin-left: var(--space-3);
-    @include sp {
-      grid-row: auto;
-      width: 96px;
-      margin-top: -48px;
-      margin-left: 0;
-    }
-    img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1;
-      background: var(--color-surface);
-      border: 4px solid var(--color-bg);
-      border-radius: 50%;
-      box-sizing: border-box;
-    }
-  }
-
-  &__head {
-    padding-top: var(--space-3);
-    @include sp {
-      padding-top: var(--space-2);
-    }
-  }
-
   &__name {
-    position: relative;
-    display: inline-block;
-    font-family: $font-display;
-    font-size: clamp(4rem, 3.2rem + 3vw, 6.4rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: .08em;
-    animation: settle_1 .9s cubic-bezier(.2, .7, .3, 1) both;
-    &:lang(en) {
-      letter-spacing: .02em;
+    font-size: clamp(5.6rem, 11vw, 14.4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0;
+    .is_ready & {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
     }
-  }
-
-  // 雪うさぎの目（南天の実）。赤はここにしか使わない
-  &__eye {
-    display: inline-block;
-    width: .2em;
-    height: .2em;
-    margin-left: .12em;
-    vertical-align: .55em;
-    background: var(--color-accent);
-    border-radius: 50%;
   }
 
   &__reading {
-    margin-top: 4px;
     font-size: 1.4rem;
-    letter-spacing: .12em;
+    font-weight: 700;
+    letter-spacing: .1em;
     color: var(--color-text-muted);
   }
 
-  &__data {
-    display: grid;
-    gap: 6px;
-    max-width: 34em;
-    margin-top: var(--space-3);
+  &__lead {
+    max-width: 32em;
+    margin-top: 4px;
   }
 
-  &__row {
-    display: grid;
-    grid-template-columns: 6.5em 1fr;
-    gap: var(--space-2);
-    dt {
-      padding-top: .2em;
-      font-size: 1.3rem;
-      line-height: 1.5;
-      letter-spacing: .08em;
-      color: var(--color-text-muted);
-    }
-    dd {
-      line-height: 1.6;
+  &__hint {
+    position: absolute;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    display: none;
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    .is_ready & {
+      display: block;
     }
     @include sp {
-      grid-template-columns: 5.5em 1fr;
-      gap: var(--space-1);
+      top: var(--space-2);
+      right: var(--space-2);
+      bottom: auto;
     }
-  }
-}
-
-@keyframes settle_1 {
-  from {
-    opacity: 0;
-    transform: translateY(-.25em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .profile_1__name {
-    animation: none;
   }
 }
 
@@ -352,7 +324,7 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 /*
 ## .wrapper_2
 使用箇所：トップページ
-内容：呼び出し方（リンク）と目撃写真の2段組み
+内容：生態（プロフィール）と目撃写真の2段組み
 */
 
 .wrapper_2 {
@@ -363,7 +335,6 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   @include sp {
     grid-template-columns: 1fr;
     gap: var(--space-5);
-    margin-top: var(--space-4);
   }
 }
 
@@ -375,19 +346,16 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 */
 
 .section_2 {
-  & + & {
-    margin-top: var(--space-5);
-  }
+  & + &,
   .wrapper_2 + & {
     margin-top: var(--space-5);
   }
 
   &__h1 {
-    font-family: $font-display;
-    font-size: 2.4rem;
-    font-weight: 600;
+    font-size: 2.6rem;
+    font-weight: 700;
     line-height: 1.4;
-    letter-spacing: .06em;
+    letter-spacing: .04em;
     @include sp {
       font-size: 2.2rem;
     }
@@ -397,7 +365,6 @@ $font-body: "Zen Kaku Gothic New", $gothic;
     margin-top: 4px;
     font-size: 1.3rem;
     line-height: 1.5;
-    letter-spacing: .08em;
     color: var(--color-text-muted);
   }
 
@@ -409,43 +376,94 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 
 
 /*
+## #links
+使用箇所：トップページ「呼び出し方」
+内容：氷晶の真下に置く台座。ページの役目（連絡先への案内）なので最初の画面の直後に置く
+*/
+
+.top_1 #links {
+  margin: 0 calc(var(--space-4) * -1);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  @include sp {
+    margin: 0 calc(var(--space-2) * -1);
+    padding: var(--space-3) var(--space-2);
+  }
+}
+
+
+/*
 ## .list_7
 使用箇所：トップページ「呼び出し方」
-内容：外部リンク一覧
+内容：外部リンク一覧（台座の上に横並び）
 */
 
 .list_7 {
-  display: grid;
-  gap: var(--space-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--space-4);
   margin-top: var(--space-2);
+  @include sp {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 var(--space-2);
+  }
   a {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
-    box-sizing: border-box;
-    min-height: 48px;
-    padding: 10px 16px;
-    line-height: 1.4;
-    text-decoration: none;
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-1);
-    transition: border-color .2s;
+    min-height: 44px;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-decoration: underline;
+    text-decoration-color: var(--color-line);
+    text-decoration-thickness: 2px;
+    text-underline-offset: .3em;
     .top_1 & {
       color: var(--color-text);
     }
     &:hover {
-      border-color: var(--color-link);
+      text-decoration-color: var(--color-accent);
+    }
+    @include sp {
+      font-size: 1.5rem;
     }
     i {
-      width: 1.25em;
+      width: 1.2em;
       color: var(--color-link);
       text-align: center;
     }
   }
-  &__arrow {
-    margin-left: auto;
-    color: var(--color-text-muted);
+}
+
+
+/*
+## .list_11
+使用箇所：トップページ「生態」
+内容：プロフィールの項目と値
+*/
+
+.list_11 {
+  display: grid;
+  gap: 6px;
+  margin-top: var(--space-2);
+  &__row {
+    display: grid;
+    grid-template-columns: 6em 1fr;
+    gap: var(--space-2);
+    dt {
+      padding-top: .15em;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+    @include sp {
+      grid-template-columns: 5.5em 1fr;
+      gap: var(--space-1);
+    }
   }
 }
 
@@ -463,8 +481,6 @@ $font-body: "Zen Kaku Gothic New", $gothic;
   margin-top: var(--space-2);
   a {
     display: block;
-    overflow: hidden;
-    border-radius: 6px;
   }
   img {
     display: block;
@@ -479,29 +495,23 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 /*
 ## .list_9
 使用箇所：トップページ「つくったもの」
-内容：制作物カード
+内容：制作物の一覧（画像＋名前）
 */
 
 .list_9 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-2);
+  gap: var(--space-4) var(--space-3);
+  margin-top: var(--space-3);
   @include sp {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-2);
+    gap: var(--space-3) var(--space-2);
   }
   a {
     display: block;
-    height: 100%;
-    overflow: hidden;
     text-decoration: none;
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-1);
-    transition: border-color .2s;
-    &:hover {
-      border-color: var(--color-link);
+    &:hover .list_9__title {
+      text-decoration: underline;
     }
   }
   img {
@@ -509,11 +519,13 @@ $font-body: "Zen Kaku Gothic New", $gothic;
     width: 100%;
     aspect-ratio: math.div(16, 9);
     object-fit: cover;
+    background: var(--color-surface);
+    border-radius: 4px;
   }
   &__title {
     display: block;
-    padding: 10px 14px 12px;
-    font-size: 1.5rem;
+    margin-top: 10px;
+    font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.4;
     overflow-wrap: anywhere;
@@ -532,7 +544,7 @@ $font-body: "Zen Kaku Gothic New", $gothic;
 
 .list_10 {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 4px;
   margin-top: var(--space-2);
   @include sp {
@@ -554,7 +566,7 @@ $font-body: "Zen Kaku Gothic New", $gothic;
       text-align: center;
       pointer-events: none;
       background: var(--color-badge-bg);
-      border-radius: 4px;
+      border-radius: 3px;
     }
   }
   a {

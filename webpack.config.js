@@ -267,7 +267,8 @@ const createConfig_production = ({ outputPath }) => {
       splitChunks: {
         cacheGroups: {
           vendor: {
-            test: /[\\/]node_modules[\\/]/,
+            // three はトップページ（assets/js/top.js）だけで使うため、全ページ共通の vendor.js には入れない
+            test: /[\\/]node_modules[\\/](?!three[\\/])/,
             name: 'assets/js/vendor',
             chunks: 'all',
             enforce: true

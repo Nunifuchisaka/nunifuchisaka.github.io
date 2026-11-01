@@ -6,6 +6,9 @@ const t = {
     nameLang: "ja",
     reading: "Nunifuchisaka",
     readingLang: "en",
+    lead: "冬生まれ雪国育ち、氷属性の召喚獣。",
+    hint: "横にドラッグすると氷晶が回ります",
+    fallbackAlt: "ぬにふちさか",
     navLabel: "サイト内",
     timeline: "案内実績",
     equipment: "VR機材",
@@ -14,19 +17,15 @@ const t = {
     langLabel: "言語切替",
     toDark: "ダークにする",
     toLight: "ライトにする",
-    data: [
-      ["分類", "ENTP-A“召喚獣”"],
-      ["生まれ", "冬・雪国"],
-      ["属性", "氷"],
-      ["習性", "親しくなった人間の召喚に応じることがあるらしい"],
-      ["出没地", "Public（目撃報告多数）"],
-    ],
   },
   en: {
     name: "Nunifuchisaka",
     nameLang: "en",
     reading: "ぬにふちさか",
     readingLang: "ja",
+    lead: "A summon beast of the ice element, born in winter and raised in snow country.",
+    hint: "Drag sideways to turn the crystal",
+    fallbackAlt: "Nunifuchisaka",
     navLabel: "Site",
     timeline: "Guide Log",
     equipment: "VR Gear",
@@ -35,13 +34,6 @@ const t = {
     langLabel: "Language",
     toDark: "Switch to dark",
     toLight: "Switch to light",
-    data: [
-      ["Type", "ENTP-A “Summon Beast”"],
-      ["Born", "Winter, snow country"],
-      ["Element", "Ice"],
-      ["Habit", "Reportedly answers summons from humans it has grown close to"],
-      ["Habitat", "Public instances (many sightings)"],
-    ],
   },
 };
 const l = t[pageLocale];
@@ -68,25 +60,15 @@ const prefix = pageLocale === "en" ? "/en" : "";
   </div>
 </header><!-- /.header_4 -->
 
-<div class="profile_1">
-  <div class="profile_1__banner">
-    <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" draggable="false">
+<div class="stage_1 js_crystal_stage" data-photo="/assets/img/crystal.webp">
+  <div class="stage_1__canvas js_crystal_canvas" aria-hidden="true"></div>
+  <div class="stage_1__fallback" aria-hidden="true">
+    <img src="/assets/img/crystal.webp" alt="" width="400" height="540" draggable="false">
   </div>
-  <div class="profile_1__body">
-    <div class="profile_1__icon">
-      <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" draggable="false">
-    </div>
-    <div class="profile_1__head">
-      <h1 class="profile_1__name" lang="<%= l.nameLang %>"><%= l.name %><span class="profile_1__eye" aria-hidden="true"></span></h1>
-      <p class="profile_1__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
-    </div>
-    <dl class="profile_1__data">
-      <% l.data.forEach(function (row) { %>
-        <div class="profile_1__row">
-          <dt><%= row[0] %></dt>
-          <dd><%= row[1] %></dd>
-        </div>
-      <% }); %>
-    </dl>
+  <div class="stage_1__text">
+    <h1 class="stage_1__name js_crystal_name" lang="<%= l.nameLang %>"><%= l.name %></h1>
+    <p class="stage_1__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
+    <p class="stage_1__lead"><%= l.lead %></p>
   </div>
-</div><!-- /.profile_1 -->
+  <p class="stage_1__hint"><%= l.hint %></p>
+</div><!-- /.stage_1 -->
