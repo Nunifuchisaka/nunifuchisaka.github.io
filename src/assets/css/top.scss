@@ -2,11 +2,11 @@
 @use "tool" as *;
 
 /*
-# トップページ「召喚の氷晶」
+# トップページ「六花の記録」
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
 色：霜花 #E9F1F5 / 樹皮 #2B2420 / 夜空 #18222E / 結露 #9DB7C6 / 灯 #F2B35E（ライトでは #9A5A0E）
 灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
-氷晶の描画は assets/js/top.js（three.js）。色は下のトークンを JS が読み取って使う。
+結晶の描画は assets/js/top.js（three.js）。
 */
 
 $font: "Zen Kaku Gothic Antique", $gothic;
@@ -147,6 +147,10 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     }
   }
 
+  &__title {
+    font-size: 1.6rem;
+  }
+
   &__home {
     font-size: 1.6rem;
     font-weight: 900;
@@ -212,130 +216,91 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 
 /*
-## .stage_1
+## .stage_2
 使用箇所：トップページの最初の画面
-内容：氷晶（three.js の canvas）と名前。描画できたら .is_ready が付き、
-     名前は canvas 側に描かれる（DOM の h1 は読み上げ用に残して見た目だけ隠す）。
-     WebGL が使えない環境では .stage_1__fallback の静止画と DOM の名前を出す。
+内容：「六花の記録」。案内写真で組んだ雪の結晶（three.js の canvas）と、その説明。
+     描画できたら .is_ready、WebGL や写真が使えなければ .is_unsupported が付く（canvas の枠を畳む）。
+     写真そのものは下の #guide の一覧にもあるので、canvas は読み上げの対象から外す。
 */
 
-.stage_1 {
+.stage_2 {
   position: relative;
-  height: clamp(520px, 84svh, 880px);
-  overflow: hidden;
+  max-width: var(--width-page);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
   @include sp {
-    height: clamp(480px, 80svh, 720px);
+    padding: 0 var(--space-2);
   }
 
   &__canvas {
-    position: absolute;
-    inset: 0;
+    height: clamp(440px, 80svh, 860px);
     touch-action: pan-y;
-    cursor: grab;
-    &:active {
-      cursor: grabbing;
+    @include sp {
+      height: clamp(300px, 92vw, 420px);
     }
     canvas {
       display: block;
       width: 100%;
       height: 100%;
     }
-  }
-
-  &__fallback {
-    position: absolute;
-    top: 8%;
-    left: 50%;
-    width: min(42vw, 300px);
-    transform: translateX(-50%);
-    img {
-      display: block;
-      width: 100%;
-      height: auto;
-      clip-path: polygon(50% 0, 100% 18%, 100% 82%, 50% 100%, 0 82%, 0 18%);
-    }
-    .is_ready & {
+    .is_unsupported & {
       display: none;
     }
   }
 
-  &__text {
+  // 触れている写真の日付。ポインターの右上に出す
+  &__date {
     position: absolute;
-    right: 0;
-    bottom: var(--space-4);
+    top: 0;
     left: 0;
-    max-width: var(--width-page);
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-    pointer-events: none;
-    @include sp {
-      bottom: var(--space-3);
-      padding: 0 var(--space-2);
-    }
-  }
-
-  &__name {
-    font-size: clamp(5.6rem, 11vw, 14.4rem);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: var(--space-1);
-    letter-spacing: 0;
-    .is_ready & {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-    }
-  }
-
-  &__reading {
+    padding: 2px 10px;
     font-size: 1.4rem;
     font-weight: 700;
-    letter-spacing: .1em;
-    color: var(--color-text-muted);
+    color: var(--color-bg);
+    white-space: nowrap;
+    pointer-events: none;
+    visibility: hidden;
+    background: var(--color-text);
+    border-radius: 4px;
+    transform: translate(calc(var(--x, 0px) + 14px), calc(var(--y, 0px) - 36px));
+    &.is_visible {
+      visibility: visible;
+    }
   }
 
-  &__lead {
-    max-width: 32em;
-    margin-top: 4px;
+  &__text {
+    display: grid;
+    grid-template-columns: minmax(0, 36em) auto;
+    gap: var(--space-1) var(--space-4);
+    align-items: end;
+    justify-content: space-between;
+    padding: var(--space-2) 0 var(--space-4);
+    @include sp {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__caption {
+    font-size: 1.7rem;
+    line-height: 1.8;
+    @include sp {
+      font-size: 1.6rem;
+    }
   }
 
   &__hint {
-    position: absolute;
-    right: var(--space-4);
-    bottom: var(--space-4);
-    display: none;
     font-size: 1.3rem;
     color: var(--color-text-muted);
-    pointer-events: none;
-    .is_ready & {
-      display: block;
-    }
-    @include sp {
-      top: var(--space-2);
-      right: var(--space-2);
-      bottom: auto;
+    .is_unsupported & {
+      display: none;
     }
   }
-}
 
-
-/*
-## .wrapper_2
-使用箇所：トップページ
-内容：生態（プロフィール）と目撃写真の2段組み
-*/
-
-.wrapper_2 {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
-  @include sp {
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
+  // 結晶の並び方の説明。結晶を描けないときは出さない
+  &__structure {
+    .is_unsupported & {
+      display: none;
+    }
   }
 }
 
@@ -347,8 +312,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 */
 
 .section_2 {
-  & + &,
-  .wrapper_2 + & {
+  & + & {
     margin-top: var(--space-5);
   }
 
@@ -472,23 +436,38 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .list_8
 使用箇所：トップページ「目撃写真」
-内容：写真グリッド（Xの投稿写真）
+内容：Xの投稿写真を横に送る帯。端の写真が切れて見えることで、続きがあると分かる
 */
 
 .list_8 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-top: var(--space-2);
+  grid-auto-columns: min(320px, 72vw);
+  grid-auto-flow: column;
+  gap: var(--space-2);
+  margin: var(--space-2) calc(var(--space-4) * -1) 0;
+  padding: 0 var(--space-4) var(--space-2);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 var(--space-4);
+  @include sp {
+    margin: var(--space-2) calc(var(--space-2) * -1) 0;
+    padding: 0 var(--space-2) var(--space-2);
+    scroll-padding: 0 var(--space-2);
+  }
+  li {
+    scroll-snap-align: start;
+  }
   a {
     display: block;
   }
   img {
     display: block;
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     background: var(--color-surface);
+    border-radius: 4px;
   }
 }
 
@@ -579,5 +558,71 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     aspect-ratio: 1;
     object-fit: cover;
     background: var(--color-surface);
+  }
+}
+
+
+/*
+## .month_1
+使用箇所：トップページ「案内の記録（月ごと）」
+内容：月の見出しと、その月の写真
+*/
+
+.month_1 {
+  margin-top: var(--space-4);
+  &__h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  &__count {
+    margin-left: .5em;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .button_1
+使用箇所：トップページ「clusterでの目撃」
+内容：隠れている写真を表示するボタン
+*/
+
+.button_1 {
+  display: block;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin-top: var(--space-3);
+  padding: 8px 20px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-text);
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  &:hover {
+    border-color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## 写真ビューア（GLightbox）の日付
+使用箇所：トップページで写真を大きく開いたとき
+内容：既定では暗い背景に暗い文字になるため、明るい文字にする
+*/
+
+.top_1 .glightbox-clean {
+  .gslide-description {
+    background: transparent;
+  }
+  .gslide-title {
+    margin-bottom: 0;
+    font-family: $font;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #eef3f6;
   }
 }

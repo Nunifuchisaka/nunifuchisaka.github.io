@@ -1,31 +1,49 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-const guideText = pageLocale === "en"
-  ? { heading: "Guide log", lead: `I help people who are new to VRChat find their way around. ${guides.length} people so far.`, more: "See the full guide log", href: "/en/timeline/" }
-  : { heading: "案内の記録", lead: `VRChatを始めたばかりの人を案内しています。これまでに${guides.length}人。`, more: "案内実績をくわしく見る", href: "/timeline/" };
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const guideText = pageLocale === "en"
+  ? { heading: "Guide log by month", lead: `Every photo here is the day someone started VRChat with me. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
+  : { heading: "案内の記録（月ごと）", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}枚。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
+
+// guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
+const groups = [];
+guides.forEach(function (value, key) {
+  const m = value.match(/(\d{4})-(\d{2})-(\d{2})/);
+  const monthKey = m ? `${m[1]}-${m[2]}` : "other";
+  let group = groups[groups.length - 1];
+  if (!group || group.key !== monthKey) {
+    const label = m
+      ? (pageLocale === "en" ? `${MONTH_NAMES_EN[+m[2] - 1]} ${m[1]}` : `${+m[1]}年${+m[2]}月`)
+      : (pageLocale === "en" ? "Undated" : "日付なし");
+    group = { key: monthKey, label: label, items: [] };
+    groups.push(group);
+  }
+  const dateLabel = m
+    ? (pageLocale === "en" ? `${MONTH_NAMES_EN[+m[2] - 1]} ${+m[3]}, ${m[1]}` : `${+m[1]}年${+m[2]}月${+m[3]}日`)
+    : "";
+  group.items.push({ file: value, num: guides.length - key, dateLabel: dateLabel });
+});
+const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "photos"}` : `${n}枚`;
 %><section id="guide" class="section_2" aria-labelledby="guide-heading">
   <h2 class="section_2__h1" id="guide-heading"><%= guideText.heading %></h2>
   <p class="section_2__lead"><%= guideText.lead %> <a href="<%= guideText.href %>"><%= guideText.more %></a></p>
-  <ul class="list_10">
-    <% guides.forEach(function(value, key) {
-      const dateMatch = value.match(/(\d{4})-(\d{2})-(\d{2})/);
-      const year = dateMatch ? parseInt(dateMatch[1], 10) : null;
-      const month = dateMatch ? parseInt(dateMatch[2], 10) : null;
-      const day = dateMatch ? parseInt(dateMatch[3], 10) : null;
-      const dateLabel = dateMatch
-        ? (pageLocale === "en" ? `${MONTH_NAMES_EN[month - 1]} ${day}, ${year}` : `${year}年${month}月${day}日`)
-        : '';
-      const guideAlt = dateLabel
-        ? (pageLocale === "en" ? `Guide photo from ${dateLabel}` : `${dateLabel}の案内写真`)
-        : (pageLocale === "en" ? "Guide photo" : "案内写真");
-      const guideAriaLabel = guideAlt + (pageLocale === "en" ? " (opens in a new tab)" : "(新しいタブで開きます)");
-    %>
-      <li style="--num: '<%= guides.length - key %>';">
-        <a href="/assets/img/guide/<%= value %>" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image"<% if (dateLabel) { %> data-title="<%= dateLabel %>"<% } %> aria-label="<%= guideAriaLabel %>">
-          <img src="/assets/img/guide/<%= value %>" alt="<%= guideAlt %>" loading="lazy">
-        </a>
-      </li>
-    <% }); %>
-  </ul><!-- /.list_10 -->
+  <% groups.forEach(function (group) { %>
+    <div class="month_1">
+      <h3 class="month_1__h1"><%= group.label %> <span class="month_1__count"><%= countLabel(group.items.length) %></span></h3>
+      <ul class="list_10">
+        <% group.items.forEach(function (item) {
+          const guideAlt = item.dateLabel
+            ? (pageLocale === "en" ? `Guide photo from ${item.dateLabel}` : `${item.dateLabel}の案内写真`)
+            : (pageLocale === "en" ? "Guide photo" : "案内写真");
+          const guideAriaLabel = guideAlt + (pageLocale === "en" ? " (opens in a new tab)" : "(新しいタブで開きます)");
+        %>
+          <li style="--num: '<%= item.num %>';">
+            <a href="/assets/img/guide/<%= item.file %>" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image"<% if (item.dateLabel) { %> data-title="<%= item.dateLabel %>"<% } %> aria-label="<%= guideAriaLabel %>">
+              <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy">
+            </a>
+          </li>
+        <% }); %>
+      </ul><!-- /.list_10 -->
+    </div><!-- /.month_1 -->
+  <% }); %>
 </section><!-- /#guide.section_2 -->

@@ -1,321 +1,396 @@
-// トップページ「召喚の氷晶」。
-// 六角柱の氷晶（屈折率 1.31 ＝ 氷）の中に本人の写真を封じ、その奥に名前を置く。
-// 名前は氷晶越しに屈折して見える。読み込み時に一度だけ氷晶が育つ（召喚）。
-// 横ドラッグで回せる。WebGL が使えなければ何もせず、CSS の静止画（.stage_1__fallback）が残る。
+// トップページ「六花の記録」。
+// 案内写真を六角形に切り、古い順に中心から外へ並べて、一つの雪の結晶（六花）を組み上げる。
+// 読み込み時に一度だけ、日付の順に結晶が育つ。写真に触れると日付が出て、クリックで写真ビューアが開く。
+// 写真は webpack が作るアトラス（assets/img/guide-atlas.webp）1枚から読む。
 import {
-  CanvasTexture,
   Color,
-  Group,
-  LatheGeometry,
+  InstancedBufferAttribute,
+  InstancedMesh,
+  LinearMipmapLinearFilter,
   MathUtils,
-  Mesh,
-  MeshBasicMaterial,
-  MeshPhysicalMaterial,
-  NoToneMapping,
+  Matrix4,
   PerspectiveCamera,
+  Plane,
   PlaneGeometry,
-  PMREMGenerator,
+  Raycaster,
   SRGBColorSpace,
   Scene,
+  ShaderMaterial,
   TextureLoader,
   Vector2,
+  Vector3,
   WebGLRenderer,
 } from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
-const FONT_FAMILY = '"Zen Kaku Gothic Antique"';
+const FOV = 20;
 const CAMERA_Z = 10;
-const BACKDROP_Z = -3;
-const FOV = 30;
-const SUMMON_MS = 1800;
-const IDLE_SPEED = 0.08; // rad/s
-const ICE_IOR = 1.31;
+const GROW_MS = 2800;
+const TILE_GAP = 0.9; // マスに対する写真の大きさ（隙間が霜の筋になる）
+const HOVER_SCALE = 3.2;
+const TILT = 0.14; // ポインターに合わせて傾ける最大角（rad）
 
-const readToken = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-const visibleHeightAt = (distance) => 2 * distance * Math.tan(MathUtils.degToRad(FOV / 2));
-const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
+// ---- 結晶の形（六角格子の軸座標 q, r） ----
+
+// 60度回す
+const rotate = ([q, r]) => [-r, q + r];
+const rotateTimes = (cell, times) => {
+  let out = cell;
+  for (let i = 0; i < times; i++) out = rotate(out);
+  return out;
+};
+
+// 一本の枝（0度方向）のマスを、中心からの距離順に作る。
+// 主軸 k に対し、偶数の k から左右 60 度に側枝を伸ばす（長さは k に比例）。
+const buildBranch = (length) => {
+  const cells = [];
+  for (let k = 1; k <= length; k++) {
+    cells.push({ cell: [k, 0], dist: k, order: 0 });
+    if (k >= 4 && k % 2 === 0) {
+      const side = Math.floor(k * 0.45);
+      for (let j = 1; j <= side; j++) {
+        cells.push({ cell: [k, j], dist: k + j, order: j * 2 - 1 });
+        cells.push({ cell: [k + j, -j], dist: k + j, order: j * 2 });
+      }
+    }
+  }
+  return cells;
+};
+
+// 必要な枚数ぶんのマスを、育つ順（＝日付順）に返す。先頭は中心。
+const buildFlake = (count) => {
+  let length = 1;
+  while (1 + buildBranch(length).length * 6 < count) length++;
+  const placements = [];
+  buildBranch(length).forEach((entry) => {
+    for (let arm = 0; arm < 6; arm++) {
+      placements.push({ cell: rotateTimes(entry.cell, arm), dist: entry.dist, order: entry.order, arm });
+    }
+  });
+  placements.sort((a, b) => a.dist - b.dist || a.order - b.order || a.arm - b.arm);
+  return [[0, 0], ...placements.map((p) => p.cell)].slice(0, count);
+};
+
+// 尖った頂点が上下に来る六角形（外接円の半径 1）の中心座標
+const toXY = ([q, r]) => [Math.sqrt(3) * (q + r / 2), 1.5 * r];
+
+// ---- シェーダー ----
+
+const vertexShader = /* glsl */ `
+  attribute vec2 aTile;
+  attribute float aBirth;
+  attribute float aIndex;
+  uniform float uProgress;
+  uniform float uHover;
+  varying vec2 vUv;
+  varying vec2 vTile;
+  varying float vAppear;
+  varying float vHover;
+
+  void main() {
+    float appear = smoothstep(aBirth, aBirth + 0.12, uProgress);
+    float hover = 1.0 - step(0.5, abs(aIndex - uHover));
+    vec3 p = position * max(appear, 0.001) * mix(1.0, ${HOVER_SCALE.toFixed(2)}, hover);
+    vec4 local = instanceMatrix * vec4(p, 1.0);
+    local.z += hover * 0.6;
+    gl_Position = projectionMatrix * modelViewMatrix * local;
+    vUv = uv;
+    vTile = aTile;
+    vAppear = appear;
+    vHover = hover;
+  }
+`;
+
+const fragmentShader = /* glsl */ `
+  uniform sampler2D uAtlas;
+  uniform vec2 uGrid;
+  uniform vec3 uIce;
+  varying vec2 vUv;
+  varying vec2 vTile;
+  varying float vAppear;
+  varying float vHover;
+
+  void main() {
+    // 六角形の内側か（尖りが上下・外接円の半径 1）
+    vec2 p = (vUv - 0.5) * vec2(1.7320508, 2.0);
+    vec2 a = abs(p);
+    float edge = 1.0 - (a.y + a.x * 0.5773503);
+    float aa = fwidth(edge);
+    float alpha = smoothstep(0.0, aa * 1.5, edge);
+    if (alpha <= 0.0) discard;
+
+    // アトラスの 1 マス（正方形）から、六角形の外接矩形ぶんを読む
+    vec2 tileUv = vec2(0.5 + p.x * 0.5, 0.5 + p.y * 0.5) * 0.94 + 0.03;
+    vec2 atlasUv = vec2(
+      (vTile.x + tileUv.x) / uGrid.x,
+      1.0 - (vTile.y + (1.0 - tileUv.y)) / uGrid.y
+    );
+    vec3 photo = texture2D(uAtlas, atlasUv).rgb;
+
+    // 現れる途中は氷の色から写真へ澄んでいく。縁には薄く霜を残す
+    vec3 color = mix(uIce, photo, smoothstep(0.55, 1.0, vAppear));
+    float rim = 1.0 - smoothstep(0.0, 0.14, edge);
+    color = mix(color, uIce, rim * 0.6 * (1.0 - vHover));
+
+    gl_FragColor = vec4(color, alpha);
+    #include <colorspace_fragment>
+  }
+`;
+
+// ---- 本体 ----
 
 const init = (stage) => {
-  const mount = stage.querySelector(".js_crystal_canvas");
-  const nameEl = stage.querySelector(".js_crystal_name");
-  if (!mount || !nameEl) return;
+  const mount = stage.querySelector(".js_flake_canvas");
+  const dateEl = stage.querySelector(".js_flake_date");
+  const dataEl = stage.querySelector(".js_flake_data");
+  if (!mount || !dataEl) return;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  let renderer;
+  let data;
   try {
-    renderer = new WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    data = JSON.parse(dataEl.textContent);
   } catch {
     return;
   }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-  renderer.toneMapping = NoToneMapping;
-  mount.appendChild(renderer.domElement);
+  const photos = data.photos || [];
+  if (!photos.length) return;
 
+  let renderer;
+  try {
+    renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  } catch {
+    stage.classList.add("is_unsupported");
+    return;
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  mount.appendChild(renderer.domElement);
+  const canvas = renderer.domElement;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const scene = new Scene();
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 50);
   camera.position.set(0, 0, CAMERA_Z);
 
-  const pmrem = new PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  pmrem.dispose();
+  // 配置
+  const cells = buildFlake(photos.length);
+  const centers = cells.map(toXY);
+  const extentX = Math.max(...centers.map(([x]) => Math.abs(x))) + 1;
+  const extentY = Math.max(...centers.map(([, y]) => Math.abs(y))) + 1;
+  const rows = Math.ceil(photos.length / data.cols);
 
-  // 奥の板：背景色の上に名前を描く。屈折の材料になるので不透明にする
-  const textCanvas = document.createElement("canvas");
-  const textTexture = new CanvasTexture(textCanvas);
-  textTexture.colorSpace = SRGBColorSpace;
-  const backdrop = new Mesh(
-    new PlaneGeometry(1, 1),
-    new MeshBasicMaterial({ map: textTexture, toneMapped: false }),
-  );
-  backdrop.position.z = BACKDROP_Z;
-  scene.add(backdrop);
-
-  // 氷晶：先の尖った六角柱（雪の結晶の角柱と同じ形）
-  const RADIUS = 0.62;
-  const SHOULDER = 1.25;
-  const TIP = 1.95;
-  const crystalGeometry = new LatheGeometry(
-    [new Vector2(0, -TIP), new Vector2(RADIUS, -SHOULDER), new Vector2(RADIUS, SHOULDER), new Vector2(0, TIP)],
-    6,
-  );
-  const ice = new MeshPhysicalMaterial({
-    color: 0xffffff,
-    metalness: 0,
-    roughness: 0.02,
-    transmission: 1,
-    thickness: 2.2,
-    ior: ICE_IOR,
-    dispersion: 0.8,
-    attenuationColor: new Color(readToken("--color-ice") || "#9db7c6"),
-    attenuationDistance: 7,
-    specularIntensity: 1,
-    envMapIntensity: 2.2,
-    flatShading: true,
+  const geometry = new PlaneGeometry(Math.sqrt(3), 2);
+  const tiles = new Float32Array(photos.length * 2);
+  const births = new Float32Array(photos.length);
+  const indices = new Float32Array(photos.length);
+  photos.forEach((photo, i) => {
+    tiles[i * 2] = i % data.cols;
+    tiles[i * 2 + 1] = Math.floor(i / data.cols);
+    births[i] = (photos.length > 1 ? i / (photos.length - 1) : 0) * 0.88;
+    indices[i] = i;
   });
-  const crystal = new Mesh(crystalGeometry, ice);
-  const crystalGroup = new Group();
-  crystalGroup.rotation.z = -0.16;
-  crystalGroup.add(crystal);
-  scene.add(crystalGroup);
+  geometry.setAttribute("aTile", new InstancedBufferAttribute(tiles, 2));
+  geometry.setAttribute("aBirth", new InstancedBufferAttribute(births, 1));
+  geometry.setAttribute("aIndex", new InstancedBufferAttribute(indices, 1));
 
-  // 氷晶の中の写真。氷晶と同じ「先の尖った六角」の形に切り抜き、芯として封じる。
-  // 回転させず常にこちらを向かせる（回るのは氷だけ）。幅は氷晶の内側（対辺 約1.07）に収める。
-  const PHOTO_WIDTH = 0.92;
-  const PHOTO_HEIGHT = 2.3;
-  const PHOTO_TIP = 0.42; // 尖りの高さ
-  const photoMaterial = new MeshBasicMaterial({ toneMapped: false, alphaTest: 0.5 });
-  const photo = new Mesh(new PlaneGeometry(PHOTO_WIDTH, PHOTO_HEIGHT), photoMaterial);
-  photo.visible = false;
-  scene.add(photo);
-  new TextureLoader().load(stage.dataset.photo, (texture) => {
-    const image = texture.image;
-    const px = 160; // 1単位あたりのピクセル数
-    const cutout = document.createElement("canvas");
-    cutout.width = Math.round(PHOTO_WIDTH * px * 2);
-    cutout.height = Math.round(PHOTO_HEIGHT * px * 2);
-    const ctx = cutout.getContext("2d");
-    const w = cutout.width;
-    const h = cutout.height;
-    const tip = (PHOTO_TIP / PHOTO_HEIGHT) * h;
-    ctx.beginPath();
-    ctx.moveTo(w / 2, 0);
-    ctx.lineTo(w, tip);
-    ctx.lineTo(w, h - tip);
-    ctx.lineTo(w / 2, h);
-    ctx.lineTo(0, h - tip);
-    ctx.lineTo(0, tip);
-    ctx.closePath();
-    ctx.clip();
-    // 縦長の枠に cover で収める。顔が左寄りの写真なので、横は 4 割の位置を中心にする
-    const scale = Math.max(w / image.width, h / image.height);
-    const dw = image.width * scale;
-    const dh = image.height * scale;
-    const focusX = Number(stage.dataset.photoFocus || 0.5);
-    const dx = Math.min(0, Math.max(w - dw, w / 2 - dw * focusX));
-    ctx.drawImage(image, dx, (h - dh) / 2, dw, dh);
-
-    const cutoutTexture = new CanvasTexture(cutout);
-    cutoutTexture.colorSpace = SRGBColorSpace;
-    photoMaterial.map = cutoutTexture;
-    photoMaterial.needsUpdate = true;
-    texture.dispose();
-    photo.visible = true;
-    requestRender();
+  const material = new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      uAtlas: { value: null },
+      uGrid: { value: new Vector2(data.cols, rows) },
+      uIce: { value: new Color("#c9dce6") },
+      uProgress: { value: 0 },
+      uHover: { value: -1 },
+    },
+    alphaToCoverage: true,
   });
 
-  const layout = { baseScale: 1, centerY: 0, width: 1, height: 1 };
+  const mesh = new InstancedMesh(geometry, material, photos.length);
+  const matrix = new Matrix4();
+  centers.forEach(([x, y], i) => {
+    matrix.makeTranslation(x, y, 0);
+    mesh.setMatrixAt(i, matrix);
+  });
+  mesh.instanceMatrix.needsUpdate = true;
+  mesh.frustumCulled = false;
+  scene.add(mesh);
 
-  const drawName = () => {
-    const pixelRatio = renderer.getPixelRatio();
-    const width = Math.min(Math.round(layout.width * pixelRatio), 2048);
-    const height = Math.min(Math.round(layout.height * pixelRatio), 2048);
-    textCanvas.width = width;
-    textCanvas.height = height;
-    const ctx = textCanvas.getContext("2d");
-    const bg = readToken("--color-bg") || "#e9f1f5";
-    const fg = readToken("--color-text") || "#2b2420";
-    scene.background = new Color(bg);
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, width, height);
-
-    const name = nameEl.textContent.trim();
-    ctx.font = `900 100px ${FONT_FAMILY}, sans-serif`;
-    const measured = ctx.measureText(name).width || 1;
-    const size = Math.min((100 * width * 0.9) / measured, height * 0.3);
-    ctx.font = `900 ${size}px ${FONT_FAMILY}, sans-serif`;
-    ctx.fillStyle = fg;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    // 氷晶の中心の高さに名前を置く（奥の板への投影位置に合わせる）
-    const backdropHeight = visibleHeightAt(CAMERA_Z - BACKDROP_Z);
-    const projectedY = layout.centerY * ((CAMERA_Z - BACKDROP_Z) / CAMERA_Z);
-    const y = height / 2 - (projectedY / backdropHeight) * height;
-    ctx.fillText(name, width / 2, y);
-    textTexture.needsUpdate = true;
-  };
-
+  // 大きさ合わせ：結晶全体が画面の枠に収まるよう、1マスの大きさ（mesh.scale）を決める
   const resize = () => {
-    const width = stage.clientWidth;
-    const height = stage.clientHeight;
+    const width = mount.clientWidth;
+    const height = mount.clientHeight;
     if (!width || !height) return;
-    layout.width = width;
-    layout.height = height;
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-
-    const backdropHeight = visibleHeightAt(CAMERA_Z - BACKDROP_Z) * 1.02;
-    backdrop.scale.set(backdropHeight * camera.aspect, backdropHeight, 1);
-
-    const frontHeight = visibleHeightAt(CAMERA_Z);
-    const frontWidth = frontHeight * camera.aspect;
-    const crystalHeight = TIP * 2;
-    const byHeight = (frontHeight * 0.68) / crystalHeight;
-    // 縦長の画面では名前の大半が隠れないよう、氷晶を細めに抑える
-    const byWidth = (frontWidth * (camera.aspect < 0.8 ? 0.27 : 0.42)) / (RADIUS * 2);
-    layout.baseScale = Math.min(byHeight, byWidth);
-    // 下端の文字（読み・ひとこと）に重ならないよう、少し上に置く
-    layout.centerY = frontHeight * 0.08;
-    crystalGroup.position.y = layout.centerY;
-    photo.position.y = layout.centerY;
-
-    drawName();
+    const visibleHeight = 2 * CAMERA_Z * Math.tan(MathUtils.degToRad(FOV / 2));
+    const visibleWidth = visibleHeight * camera.aspect;
+    const scale = Math.min((visibleWidth * 0.48) / extentX, (visibleHeight * 0.49) / extentY);
+    mesh.scale.set(scale * TILE_GAP, scale * TILE_GAP, scale * TILE_GAP);
+    // 位置は格子の間隔で決め、写真だけを少し小さく描く
+    centers.forEach(([x, y], i) => {
+      matrix.makeTranslation(x / TILE_GAP, y / TILE_GAP, 0);
+      mesh.setMatrixAt(i, matrix);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
     requestRender();
   };
 
-  // 回転：アイドルのゆっくりした回転＋横ドラッグ（慣性つき）
-  let angle = 0.5;
-  let velocity = 0;
-  let dragging = false;
-  let lastX = 0;
-  let lastMoveTime = 0;
+  // ---- ポインター ----
+  const raycaster = new Raycaster();
+  const pointer = new Vector2();
+  const plane = new Plane();
+  const hit = new Vector3();
+  const tilt = { x: 0, y: 0, targetX: 0, targetY: 0 };
+  let hovered = -1;
 
-  const canvas = renderer.domElement;
-  canvas.addEventListener("pointerdown", (event) => {
-    dragging = true;
-    lastX = event.clientX;
-    lastMoveTime = performance.now();
-    velocity = 0;
-    canvas.setPointerCapture(event.pointerId);
+  const pick = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
+    raycaster.setFromCamera(pointer, camera);
+    mesh.updateMatrixWorld();
+    plane.setFromNormalAndCoplanarPoint(
+      new Vector3(0, 0, 1).applyQuaternion(mesh.quaternion),
+      mesh.position,
+    );
+    if (!raycaster.ray.intersectPlane(plane, hit)) return -1;
+    mesh.worldToLocal(hit);
+    const lx = hit.x * TILE_GAP;
+    const ly = hit.y * TILE_GAP;
+    let best = -1;
+    let bestDist = 0.95 * 0.95;
+    centers.forEach(([x, y], i) => {
+      const d = (x - lx) ** 2 + (y - ly) ** 2;
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    });
+    return best;
+  };
+
+  const showDate = (index, event) => {
+    if (index < 0) {
+      dateEl.classList.remove("is_visible");
+      return;
+    }
+    dateEl.textContent = photos[index].date;
+    const rect = stage.getBoundingClientRect();
+    dateEl.style.setProperty("--x", `${event.clientX - rect.left}px`);
+    dateEl.style.setProperty("--y", `${event.clientY - rect.top}px`);
+    dateEl.classList.add("is_visible");
+  };
+
+  const setHover = (index) => {
+    if (index === hovered) return;
+    hovered = index;
+    material.uniforms.uHover.value = index;
+    canvas.style.cursor = index >= 0 ? "pointer" : "";
     requestRender();
-  });
+  };
+
   canvas.addEventListener("pointermove", (event) => {
-    if (!dragging) return;
-    const now = performance.now();
-    const dx = event.clientX - lastX;
-    const dt = Math.max(now - lastMoveTime, 1) / 1000;
-    angle += dx * 0.01;
-    velocity = (dx * 0.01) / dt;
-    lastX = event.clientX;
-    lastMoveTime = now;
+    if (!reduceMotion.matches) {
+      const rect = canvas.getBoundingClientRect();
+      tilt.targetY = (((event.clientX - rect.left) / rect.width) * 2 - 1) * TILT;
+      tilt.targetX = (((event.clientY - rect.top) / rect.height) * 2 - 1) * TILT;
+    }
+    if (event.pointerType === "mouse") {
+      const index = pick(event);
+      setHover(index);
+      showDate(index, event);
+    }
     requestRender();
   });
-  const endDrag = () => {
-    dragging = false;
-  };
-  canvas.addEventListener("pointerup", endDrag);
-  canvas.addEventListener("pointercancel", endDrag);
+  canvas.addEventListener("pointerleave", () => {
+    tilt.targetX = 0;
+    tilt.targetY = 0;
+    setHover(-1);
+    dateEl.classList.remove("is_visible");
+    requestRender();
+  });
+  // クリック（タップ）で、下の一覧にある同じ写真のリンクを押して写真ビューアを開く
+  canvas.addEventListener("click", (event) => {
+    const index = pick(event);
+    if (index < 0) return;
+    const link = document.querySelector(`#guide a[href$="/${CSS.escape(photos[index].file)}"]`);
+    if (link) link.click();
+  });
 
-  // 描画ループ：画面内かつタブが表示中のときだけ回す
-  let summonStart = null;
-  let lastTime = null;
+  // ---- 描画ループ（必要なときだけ回す） ----
+  let growStart = null;
   let frameId = null;
   let onScreen = true;
-
-  const shouldAnimate = () => onScreen && !document.hidden;
+  let atlasReady = false;
 
   const render = (now) => {
     frameId = null;
-    if (summonStart === null) summonStart = now;
-    const dt = lastTime === null ? 0 : Math.min((now - lastTime) / 1000, 0.1);
-    lastTime = now;
-
+    if (!atlasReady) return;
+    if (growStart === null) growStart = now;
     const still = reduceMotion.matches;
-    const progress = still ? 1 : easeOutCubic(Math.min((now - summonStart) / SUMMON_MS, 1));
+    const t = still ? 1 : Math.min((now - growStart) / GROW_MS, 1);
+    // 前半はゆっくり、後半は速く（案内が増えていった流れに合わせる）
+    material.uniforms.uProgress.value = still ? 1 : t * t * (3 - 2 * t) * 0.6 + t * 0.4;
 
-    if (!dragging) {
-      angle += velocity * dt;
-      velocity *= Math.pow(0.04, dt);
-      if (Math.abs(velocity) < 0.01) velocity = 0;
-      if (!still) angle += IDLE_SPEED * dt;
-    }
-
-    const s = layout.baseScale;
-    const grow = Math.max(progress, 0.001);
-    crystalGroup.scale.set(s * (0.55 + 0.45 * grow), s * grow, s * (0.55 + 0.45 * grow));
-    crystal.rotation.y = angle + (1 - progress) * 2.6;
-    photo.scale.setScalar(s * grow);
+    tilt.x += (tilt.targetX - tilt.x) * 0.12;
+    tilt.y += (tilt.targetY - tilt.y) * 0.12;
+    mesh.rotation.x = tilt.x;
+    mesh.rotation.y = tilt.y;
 
     renderer.render(scene, camera);
-    if (!stage.classList.contains("is_ready")) stage.classList.add("is_ready");
+    stage.classList.add("is_ready");
 
-    const moving = !still || dragging || velocity !== 0 || progress < 1;
-    if (moving && shouldAnimate()) requestRender();
+    const tiltMoving = Math.abs(tilt.targetX - tilt.x) + Math.abs(tilt.targetY - tilt.y) > 0.0005;
+    if ((t < 1 || tiltMoving) && onScreen && !document.hidden) requestRender();
   };
 
   function requestRender() {
-    if (frameId === null && shouldAnimate()) {
+    if (frameId === null && onScreen && !document.hidden) {
       frameId = requestAnimationFrame(render);
     }
   }
 
+  new TextureLoader().load(
+    data.atlas,
+    (texture) => {
+      texture.colorSpace = SRGBColorSpace;
+      texture.minFilter = LinearMipmapLinearFilter;
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      material.uniforms.uAtlas.value = texture;
+      atlasReady = true;
+      requestRender();
+    },
+    undefined,
+    () => stage.classList.add("is_unsupported"),
+  );
+
   new IntersectionObserver((entries) => {
     onScreen = entries[0].isIntersecting;
-    if (onScreen) {
-      lastTime = null;
-      requestRender();
-    }
+    requestRender();
   }).observe(stage);
-
-  document.addEventListener("visibilitychange", () => {
-    lastTime = null;
-    requestRender();
-  });
-
-  // テーマが変わったら名前の板を描き直す
-  const redraw = () => {
-    drawName();
-    requestRender();
-  };
-  new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  document.addEventListener("visibilitychange", requestRender);
   reduceMotion.addEventListener("change", requestRender);
-
   canvas.addEventListener("webglcontextlost", (event) => {
     event.preventDefault();
-    stage.classList.remove("is_ready");
+    stage.classList.add("is_unsupported");
   });
 
-  new ResizeObserver(resize).observe(stage);
+  new ResizeObserver(resize).observe(mount);
   resize();
-
-  // 書体が届いたら名前を描き直す（届く前は代替書体で描いている）
-  if (document.fonts && document.fonts.load) {
-    document.fonts.load(`900 100px ${FONT_FAMILY}`, nameEl.textContent.trim()).then(redraw, () => {});
-  }
 };
 
-const stage = document.querySelector(".js_crystal_stage");
+// cluster の写真：最初は一部だけ出し、ボタンで残りを出す
+const initClusterMore = () => {
+  const button = document.querySelector(".js_cluster_show");
+  if (!button) return;
+  button.addEventListener("click", () => {
+    const items = document.querySelectorAll(".js_cluster_more");
+    items.forEach((item) => item.classList.remove("is_none"));
+    button.remove();
+    // 新しく出た最初の写真へフォーカスを移す
+    items[0]?.querySelector("a")?.focus();
+  });
+};
+
+const stage = document.querySelector(".js_flake_stage");
 if (stage) init(stage);
+initClusterMore();

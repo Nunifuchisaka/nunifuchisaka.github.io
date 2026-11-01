@@ -1,14 +1,17 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const formatDate = (file) => {
+  const m = file.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return "";
+  const y = +m[1], mo = +m[2], d = +m[3];
+  return pageLocale === "en" ? `${MONTHS_EN[mo - 1]} ${d}, ${y}` : `${y}年${mo}月${d}日`;
+};
+const count = guideAtlas.files.length;
+const firstDate = count ? formatDate(guideAtlas.files[0]) : "";
 const t = {
   ja: {
     name: "ぬにふちさか",
-    nameLang: "ja",
-    reading: "Nunifuchisaka",
-    readingLang: "en",
-    lead: "冬生まれ雪国育ち、氷属性の召喚獣。",
-    hint: "横にドラッグすると氷晶が回ります",
-    fallbackAlt: "ぬにふちさか",
     navLabel: "サイト内",
     timeline: "案内実績",
     equipment: "VR機材",
@@ -17,15 +20,13 @@ const t = {
     langLabel: "言語切替",
     toDark: "ダークにする",
     toLight: "ライトにする",
+    caption: `VRChatを始めた人を案内した日の写真、${count}枚。`,
+    structure: `真ん中が最初の日（${firstDate}）で、外側ほど新しい日です。`,
+    more: "日付ごとの一覧を見る",
+    hint: "写真に触れると日付が出ます。クリックすると大きく開きます。",
   },
   en: {
     name: "Nunifuchisaka",
-    nameLang: "en",
-    reading: "ぬにふちさか",
-    readingLang: "ja",
-    lead: "A summon beast of the ice element, born in winter and raised in snow country.",
-    hint: "Drag sideways to turn the crystal",
-    fallbackAlt: "Nunifuchisaka",
     navLabel: "Site",
     timeline: "Guide Log",
     equipment: "VR Gear",
@@ -34,13 +35,23 @@ const t = {
     langLabel: "Language",
     toDark: "Switch to dark",
     toLight: "Switch to light",
+    caption: `${count} photos from days I helped someone get started in VRChat.`,
+    structure: `The center is the first day (${firstDate}); newer days grow outward.`,
+    more: "Browse them by date",
+    hint: "Point at a photo to see its date. Click to open it.",
   },
 };
 const l = t[pageLocale];
 const prefix = pageLocale === "en" ? "/en" : "";
+const flakeData = {
+  atlas: guideAtlas.file,
+  tile: guideAtlas.tile,
+  cols: guideAtlas.cols,
+  photos: guideAtlas.files.map((file) => ({ file: file, date: formatDate(file) })),
+};
 %><header class="header_4">
   <div class="header_4__inner">
-    <a class="header_4__home" href="<%= prefix %>/" aria-current="page"><%= l.name %></a>
+    <h1 class="header_4__title"><a class="header_4__home" href="<%= prefix %>/" aria-current="page"><%= l.name %></a></h1>
     <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
       <ul>
         <li><a href="<%= prefix %>/timeline/"><%= l.timeline %></a></li>
@@ -60,15 +71,12 @@ const prefix = pageLocale === "en" ? "/en" : "";
   </div>
 </header><!-- /.header_4 -->
 
-<div class="stage_1 js_crystal_stage" data-photo="/assets/img/crystal.webp" data-photo-focus="0.38">
-  <div class="stage_1__canvas js_crystal_canvas" aria-hidden="true"></div>
-  <div class="stage_1__fallback" aria-hidden="true">
-    <img src="/assets/img/crystal.webp" alt="" width="400" height="540" draggable="false">
+<div class="stage_2 js_flake_stage">
+  <div class="stage_2__canvas js_flake_canvas" aria-hidden="true"></div>
+  <p class="stage_2__date js_flake_date" aria-hidden="true"></p>
+  <div class="stage_2__text">
+    <p class="stage_2__caption"><%= l.caption %><span class="stage_2__structure"><%= pageLocale === "en" ? " " : "" %><%= l.structure %></span> <a href="#guide"><%= l.more %></a></p>
+    <p class="stage_2__hint"><%= l.hint %></p>
   </div>
-  <div class="stage_1__text">
-    <h1 class="stage_1__name js_crystal_name" lang="<%= l.nameLang %>"><%= l.name %></h1>
-    <p class="stage_1__reading" lang="<%= l.readingLang %>"><%= l.reading %></p>
-    <p class="stage_1__lead"><%= l.lead %></p>
-  </div>
-  <p class="stage_1__hint"><%= l.hint %></p>
-</div><!-- /.stage_1 -->
+  <script type="application/json" class="js_flake_data"><%- JSON.stringify(flakeData) %></script>
+</div><!-- /.stage_2 -->
