@@ -29,6 +29,8 @@ const initYoutube = () => {
       iframe.title = poster.getAttribute("aria-label") || "YouTube";
       iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
       iframe.allowFullscreen = true;
+      // YouTube の埋め込みは参照元（オリジン）が無いと「Error 153」になるため、公式の埋め込みコードと同じ指定にする
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
       player.replaceChildren(iframe);
       iframe.focus();
     });
