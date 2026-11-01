@@ -80,15 +80,16 @@ try {
   console.error('案内実績の集計に失敗しました:', e);
 }
 
-// トップページの「六花の記録」用。案内写真を古い順に並べ、1枚の画像（アトラス）にまとめる。
+// トップページの時間軸（案内写真をなぞって見る）用。案内写真を古い順に並べ、縮小版を1枚の画像（アトラス）にまとめる。
+// なぞっている間はこの縮小版を描き、手を止めたら元の写真に差し替える。
 // アトラスは production のビルド開始時に sharp で docs/ へ直接書き出す（GuideAtlasPlugin）。
 // i 枚目の写真は、アトラスの (i % cols, floor(i / cols)) のマスに入る。
-const GUIDE_ATLAS_TILE = 96;
 const guidesChronological = [...guides].sort();
 const guideAtlas = {
   file: '/assets/img/guide-atlas.webp',
-  tile: GUIDE_ATLAS_TILE,
-  cols: Math.max(1, Math.ceil(Math.sqrt(guidesChronological.length))),
+  tileWidth: 160,
+  tileHeight: 90,
+  cols: 16,
   files: guidesChronological,
 };
 
@@ -280,8 +281,7 @@ const createConfig_production = ({ outputPath }) => {
       splitChunks: {
         cacheGroups: {
           vendor: {
-            // three はトップページ（assets/js/top.js）だけで使うため、全ページ共通の vendor.js には入れない
-            test: /[\\/]node_modules[\\/](?!three[\\/])/,
+            test: /[\\/]node_modules[\\/]/,
             name: 'assets/js/vendor',
             chunks: 'all',
             enforce: true
@@ -301,7 +301,7 @@ const createConfig_production = ({ outputPath }) => {
     },
   };
 
-  // 案内写真のアトラス（トップページ「六花の記録」用）
+  // 案内写真のアトラス（トップページの時間軸用）
   config.plugins.push({
     apply: (compiler) => {
       let builtKey = null;
@@ -309,17 +309,17 @@ const createConfig_production = ({ outputPath }) => {
         const key = guideAtlas.files.join('|');
         const outFile = path.join(outputPath, guideAtlas.file);
         if (key === builtKey && fs.existsSync(outFile)) return;
-        const { tile, cols, files } = guideAtlas;
+        const { tileWidth, tileHeight, cols, files } = guideAtlas;
         if (!files.length) return;
         const rows = Math.ceil(files.length / cols);
         const tiles = await Promise.all(files.map(async (file, i) => ({
           input: await sharp(path.resolve(outputPath, 'assets/img/guide', file))
-            .resize(tile, tile, { fit: 'cover' })
+            .resize(tileWidth, tileHeight, { fit: 'cover' })
             .toBuffer(),
-          left: (i % cols) * tile,
-          top: Math.floor(i / cols) * tile,
+          left: (i % cols) * tileWidth,
+          top: Math.floor(i / cols) * tileHeight,
         })));
-        await sharp({ create: { width: cols * tile, height: rows * tile, channels: 3, background: '#9db7c6' } })
+        await sharp({ create: { width: cols * tileWidth, height: rows * tileHeight, channels: 3, background: '#808080' } })
           .composite(tiles)
           .webp({ quality: 72 })
           .toFile(outFile);

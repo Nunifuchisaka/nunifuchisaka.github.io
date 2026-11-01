@@ -2,11 +2,11 @@
 @use "tool" as *;
 
 /*
-# トップページ「六花の記録」
+# トップページ「思い出をなぞる」
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
-色：霜花 #E9F1F5 / 樹皮 #2B2420 / 夜空 #18222E / 結露 #9DB7C6 / 灯 #F2B35E（ライトでは #9A5A0E）
+色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
 灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
-結晶の描画は assets/js/top.js（three.js）。
+時間軸の操作は assets/js/top.js（canvas 2D）。
 */
 
 $font: "Zen Kaku Gothic Antique", $gothic;
@@ -14,31 +14,25 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 @mixin theme-light {
   color-scheme: light;
 
-  --color-bg: #e9f1f5;
-  --color-surface: #f7fafc;
+  --color-bg: #edeeef;
+  --color-surface: #f7f7f8;
   --color-text: #2b2420;
-  --color-text-muted: #55606a;
+  --color-text-muted: #555d66;
   --color-link: #1e5a80;
   --color-accent: #9a5a0e;
-  --color-line: #c3d2dc;
-  --color-ice: #9db7c6;
-  --color-badge-bg: rgb(24 34 46 / 80%);
-  --color-badge-text: #eef3f6;
+  --color-line: #cfd3d7;
 }
 
 @mixin theme-dark {
   color-scheme: dark;
 
-  --color-bg: #18222e;
-  --color-surface: #212d3b;
-  --color-text: #eef3f6;
-  --color-text-muted: #a7b4bf;
+  --color-bg: #1b1e23;
+  --color-surface: #23272e;
+  --color-text: #eef0f2;
+  --color-text-muted: #a9b0b8;
   --color-link: #9ccbe6;
   --color-accent: #f2b35e;
-  --color-line: #33445a;
-  --color-ice: #9db7c6;
-  --color-badge-bg: rgb(24 34 46 / 80%);
-  --color-badge-text: #eef3f6;
+  --color-line: #383e47;
 }
 
 :root {
@@ -216,89 +210,178 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 
 /*
-## .stage_2
+## .stage_3
 使用箇所：トップページの最初の画面
-内容：「六花の記録」。案内写真で組んだ雪の結晶（three.js の canvas）と、その説明。
-     描画できたら .is_ready、WebGL や写真が使えなければ .is_unsupported が付く（canvas の枠を畳む）。
-     写真そのものは下の #guide の一覧にもあるので、canvas は読み上げの対象から外す。
+内容：案内写真を1枚大きく見せ、その下の時間軸（1本＝1枚、日付の位置）をなぞって写真を替える。
+     なぞっている間は canvas に縮小版を描き（.is_scrubbing）、手を止めたら img の元写真に戻す。
+     JS が無くても最新の1枚と時間軸は見える。
 */
 
-.stage_2 {
-  position: relative;
-  max-width: var(--width-page);
+.stage_3 {
+  // 写真が画面の高さの 68% を超えないよう、写真の幅に合わせて全体の幅を決める（時間軸と左右の端を揃える）
+  max-width: min(var(--width-page), calc(68svh * 16 / 9 + var(--space-4) * 2));
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: var(--space-1) var(--space-4) 0;
   @include sp {
+    max-width: none;
     padding: 0 var(--space-2);
   }
 
-  &__canvas {
-    height: clamp(440px, 80svh, 860px);
-    touch-action: pan-y;
+  &__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: var(--color-surface);
+    border-radius: 6px;
     @include sp {
-      height: clamp(300px, 92vw, 420px);
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .is_unsupported & {
-      display: none;
+      margin: 0 calc(var(--space-2) * -1);
+      border-radius: 0;
     }
   }
 
-  // 触れている写真の日付。ポインターの右上に出す
-  &__date {
+  &__img,
+  &__canvas {
     position: absolute;
-    top: 0;
-    left: 0;
-    padding: 2px 10px;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__canvas {
+    visibility: hidden;
+    .is_scrubbing & {
+      visibility: visible;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px var(--space-2);
+    align-items: baseline;
+    margin-top: var(--space-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__date {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    @include sp {
+      font-size: 2rem;
+    }
+  }
+
+  &__count {
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+  }
+
+  &__open {
+    margin-left: auto;
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--color-bg);
-    white-space: nowrap;
-    pointer-events: none;
-    visibility: hidden;
-    background: var(--color-text);
+  }
+
+  // 時間軸。上下に余白をとって、指でもなぞりやすい高さにする
+  &__track {
+    position: relative;
+    height: 56px;
+    margin-top: var(--space-1);
+    cursor: ew-resize;
+    touch-action: pan-y;
     border-radius: 4px;
-    transform: translate(calc(var(--x, 0px) + 14px), calc(var(--y, 0px) - 36px));
-    &.is_visible {
-      visibility: visible;
+    &:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  &__ticks {
+    position: absolute;
+    inset: 12px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  &__tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-text-muted);
+    opacity: .55;
+  }
+
+  // 今見ている写真の位置
+  &__thumb {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    margin-left: -1px;
+    pointer-events: none;
+    background: var(--color-text);
+    border-radius: 2px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 11px;
+      height: 11px;
+      background: var(--color-text);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__axis {
+    position: relative;
+    height: 1.6em;
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    padding-left: 4px;
+    white-space: nowrap;
+    border-left: 1px solid var(--color-line);
+    &--minor {
+      @include sp {
+        display: none;
+      }
+    }
+
+    // 右端に近い目盛りは、文字を線の左側に出してはみ出さないようにする
+    &--end {
+      padding-right: 4px;
+      padding-left: 0;
+      border-right: 1px solid var(--color-line);
+      border-left: 0;
+      transform: translateX(-100%);
     }
   }
 
   &__text {
     display: grid;
-    grid-template-columns: minmax(0, 36em) auto;
-    gap: var(--space-1) var(--space-4);
-    align-items: end;
-    justify-content: space-between;
+    gap: 4px;
+    max-width: 40em;
     padding: var(--space-2) 0 var(--space-4);
-    @include sp {
-      grid-template-columns: 1fr;
-    }
   }
 
   &__caption {
-    font-size: 1.7rem;
-    line-height: 1.8;
-    @include sp {
-      font-size: 1.6rem;
-    }
+    font-size: 1.6rem;
   }
 
-  &__hint {
+  &__keys {
     font-size: 1.3rem;
     color: var(--color-text-muted);
-    .is_unsupported & {
-      display: none;
-    }
-  }
-
-  // 結晶の並び方の説明。結晶を描けないときは出さない
-  &__structure {
-    .is_unsupported & {
+    @include sp {
       display: none;
     }
   }
@@ -343,7 +426,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## #links
 使用箇所：トップページ「呼び出し方」
-内容：氷晶の真下に置く台座。ページの役目（連絡先への案内）なので最初の画面の直後に置く
+内容：連絡先。ページの役目なので最初の画面の直後に置く
 */
 
 .top_1 #links {
@@ -518,8 +601,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## .list_10
-使用箇所：トップページ「案内の記録」「clusterでの目撃」
-内容：通し番号つきの写真グリッド
+使用箇所：トップページ「clusterでの目撃」
+内容：写真グリッド
 */
 
 .list_10 {
@@ -529,25 +612,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   margin-top: var(--space-2);
   @include sp {
     grid-template-columns: repeat(4, 1fr);
-  }
-  li {
-    position: relative;
-    &::after {
-      content: var(--num);
-      position: absolute;
-      right: 4px;
-      bottom: 4px;
-      min-width: 2em;
-      padding: 0 4px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      letter-spacing: 0;
-      color: var(--color-badge-text);
-      text-align: center;
-      pointer-events: none;
-      background: var(--color-badge-bg);
-      border-radius: 3px;
-    }
   }
   a {
     display: block;
@@ -564,19 +628,69 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## .month_1
-使用箇所：トップページ「案内の記録（月ごと）」
-内容：月の見出しと、その月の写真
+使用箇所：トップページ「案内の記録」
+内容：月の見出し（スクロール中は上に貼り付く）と、その月の写真
 */
 
 .month_1 {
   margin-top: var(--space-4);
   &__h1 {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: var(--space-1) 0;
     font-size: 1.8rem;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    background: var(--color-bg);
   }
   &__count {
     margin-left: .5em;
     font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .list_12
+使用箇所：トップページ「案内の記録」
+内容：案内写真（16:9 のまま）と、その日付・何人目か
+*/
+
+.list_12 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3) var(--space-2);
+  margin-top: var(--space-1);
+  @include sp {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2) 10px;
+  }
+  a {
+    display: block;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--color-surface);
+    border-radius: 4px;
+  }
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 .6em;
+    margin-top: 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+  &__num {
     font-weight: 400;
     color: var(--color-text-muted);
   }

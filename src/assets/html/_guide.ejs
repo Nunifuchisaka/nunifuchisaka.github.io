@@ -2,8 +2,8 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const guideText = pageLocale === "en"
-  ? { heading: "Guide log by month", lead: `Every photo here is the day someone started VRChat with me. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
-  : { heading: "案内の記録（月ごと）", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}枚。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
+  ? { heading: "Guide log", lead: `Every photo here is the day someone started VRChat with me. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
+  : { heading: "案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}枚。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
 
 // guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
 const groups = [];
@@ -21,7 +21,12 @@ guides.forEach(function (value, key) {
   const dateLabel = m
     ? (pageLocale === "en" ? `${MONTH_NAMES_EN[+m[2] - 1]} ${+m[3]}, ${m[1]}` : `${+m[1]}年${+m[2]}月${+m[3]}日`)
     : "";
-  group.items.push({ file: value, num: guides.length - key, dateLabel: dateLabel });
+  const dayLabel = m
+    ? (pageLocale === "en" ? `${MONTH_NAMES_EN[+m[2] - 1].slice(0, 3)} ${+m[3]}` : `${+m[2]}月${+m[3]}日`)
+    : "";
+  const num = guides.length - key;
+  const numLabel = pageLocale === "en" ? `No. ${num}` : `${num}人目`;
+  group.items.push({ file: value, num: num, numLabel: numLabel, dateLabel: dateLabel, dayLabel: dayLabel });
 });
 const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "photos"}` : `${n}枚`;
 %><section id="guide" class="section_2" aria-labelledby="guide-heading">
@@ -30,20 +35,21 @@ const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "pho
   <% groups.forEach(function (group) { %>
     <div class="month_1">
       <h3 class="month_1__h1"><%= group.label %> <span class="month_1__count"><%= countLabel(group.items.length) %></span></h3>
-      <ul class="list_10">
+      <ul class="list_12">
         <% group.items.forEach(function (item) {
           const guideAlt = item.dateLabel
             ? (pageLocale === "en" ? `Guide photo from ${item.dateLabel}` : `${item.dateLabel}の案内写真`)
             : (pageLocale === "en" ? "Guide photo" : "案内写真");
           const guideAriaLabel = guideAlt + (pageLocale === "en" ? " (opens in a new tab)" : "(新しいタブで開きます)");
         %>
-          <li style="--num: '<%= item.num %>';">
+          <li>
             <a href="/assets/img/guide/<%= item.file %>" target="_blank" rel="noopener" class="glightbox" data-gallery="guide" data-type="image"<% if (item.dateLabel) { %> data-title="<%= item.dateLabel %>"<% } %> aria-label="<%= guideAriaLabel %>">
-              <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy">
+              <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy" width="960" height="540">
             </a>
+            <p class="list_12__meta"><span><%= item.dayLabel %></span> <span class="list_12__num"><%= item.numLabel %></span></p>
           </li>
         <% }); %>
-      </ul><!-- /.list_10 -->
+      </ul><!-- /.list_12 -->
     </div><!-- /.month_1 -->
   <% }); %>
 </section><!-- /#guide.section_2 -->
