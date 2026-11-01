@@ -3,17 +3,17 @@ const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 // 使っている VR 機材。用途ごとにまとめ、それぞれ「何のためのものか」を一文で添える。
 // note はぬにふちさか自身の使い方（元のページに書かれていたもの）。
-// 写真を出したいときは src/assets/img/equipment/ に置き、image にファイル名を書く。
+// 写真は各メーカーの公式サイトの画像を src/assets/img/equipment/ に置き、image にファイル名を書く（Amazon の画像は規約上使わない）。
 const groups = [
   {
     id: "headset",
     title: { ja: "ゴーグルとつけ心地", en: "Headset and comfort" },
     items: [
-      { icon: "fa-solid fa-vr-cardboard", name: { ja: "Meta Quest 3", en: "Meta Quest 3" }, what: { ja: "VRゴーグル（HMD）。単体でも、PCにつないでも使える。", en: "The VR headset. Works on its own or connected to a PC." }, url: "https://amzn.to/45kLb34" },
-      { icon: "fa-solid fa-battery-full", name: { ja: "BOBOVR M3 Pro", en: "BOBOVR M3 Pro" }, what: { ja: "バッテリー付きのヘッドストラップ。後ろの重さで前後のバランスがとれ、遊べる時間ものびる。", en: "A head strap with a battery. The weight at the back balances the headset and adds play time." }, url: "https://amzn.to/45VMXYA" },
-      { icon: "fa-solid fa-glasses", name: { ja: "視力補正レンズ", en: "Prescription lens inserts" }, what: { ja: "ゴーグルの内側に取り付けて、眼鏡なしでくっきり見るためのレンズ。", en: "Lenses that attach inside the headset so you can see clearly without glasses." }, url: "https://shop.roox.jp/product-category/stayhome/vr-ar/mop" },
+      { icon: "fa-solid fa-vr-cardboard", name: { ja: "Meta Quest 3", en: "Meta Quest 3" }, image: "quest3.webp", what: { ja: "VRゴーグル（HMD）。単体でも、PCにつないでも使える。", en: "The VR headset. Works on its own or connected to a PC." }, url: "https://amzn.to/45kLb34" },
+      { icon: "fa-solid fa-battery-full", name: { ja: "BOBOVR M3 Pro", en: "BOBOVR M3 Pro" }, image: "bobovr-m3-pro.webp", what: { ja: "バッテリー付きのヘッドストラップ。後ろの重さで前後のバランスがとれ、遊べる時間ものびる。", en: "A head strap with a battery. The weight at the back balances the headset and adds play time." }, url: "https://amzn.to/45VMXYA" },
+      { icon: "fa-solid fa-glasses", name: { ja: "視力補正レンズ", en: "Prescription lens inserts" }, image: "roox-lens.webp", what: { ja: "ゴーグルの内側に取り付けて、眼鏡なしでくっきり見るためのレンズ。", en: "Lenses that attach inside the headset so you can see clearly without glasses." }, url: "https://shop.roox.jp/product-category/stayhome/vr-ar/mop" },
       { icon: "fa-solid fa-face-smile", name: { ja: "フェイスクッション（アイスシルク）", en: "Face cushion (ice silk)" }, what: { ja: "顔に当たる部分のクッション。光漏れを減らす。", en: "The cushion that touches your face. Cuts down light leaking in." }, url: "https://amzn.to/3HDcjkI" },
-      { icon: "fa-solid fa-gamepad", name: { ja: "コントローラー グリップ", en: "Controller grips" }, what: { ja: "コントローラーを握りやすくし、手から落ちにくくする。", en: "Make the controllers easier to hold and harder to drop." }, url: "https://amzn.to/471NhGf" },
+      { icon: "fa-solid fa-gamepad", name: { ja: "KIWI design G4 Pro コントローラーグリップ", en: "KIWI design G4 Pro controller grips" }, image: "kiwi-g4-pro.webp", what: { ja: "コントローラーを握りやすくし、手から落ちにくくする。", en: "Make the controllers easier to hold and harder to drop." }, url: "https://amzn.to/471NhGf" },
       { icon: "fa-solid fa-weight-hanging", name: { ja: "釣具の板おもり", en: "Fishing lead sheet" }, what: { ja: "少しずつ切って貼れるおもり。ゴーグルの前後の重さの釣り合い（カウンターウエイト）の微調整に。", en: "A lead sheet you can cut and stick on, for fine-tuning the headset's counterweight." }, url: "https://amzn.to/45u8ZA8" },
     ],
   },
@@ -21,8 +21,8 @@ const groups = [
     id: "power",
     title: { ja: "電源とつなぎ方", en: "Power and connection" },
     items: [
-      { icon: "fa-solid fa-wifi", name: { ja: "TP-Link Wi-Fi 中継器", en: "TP-Link Wi-Fi range extender" }, what: { ja: "PCとゴーグルを無線でつなぐ（無線VR）ときの通信を安定させる。", en: "Steadies the connection when the headset streams from the PC wirelessly." }, url: "https://amzn.to/3JkFj1d" },
-      { icon: "fa-solid fa-plug", name: { ja: "KIWI design リンクケーブル", en: "KIWI design Link cable" }, what: { ja: "PCとゴーグルを有線でつなぐ（有線VR）ためのケーブル。", en: "A cable for playing PC VR over a wired connection." }, url: "https://amzn.to/3JCpKln" },
+      { icon: "fa-solid fa-wifi", name: { ja: "TP-Link Wi-Fi 中継器 RE600X", en: "TP-Link RE600X Wi-Fi range extender" }, image: "tplink-re600x.webp", what: { ja: "PCとゴーグルを無線でつなぐ（無線VR）ときの通信を安定させる。", en: "Steadies the connection when the headset streams from the PC wirelessly." }, url: "https://amzn.to/3JkFj1d" },
+      { icon: "fa-solid fa-plug", name: { ja: "KIWI design リンクケーブル", en: "KIWI design Link cable" }, image: "kiwi-link-cable.webp", what: { ja: "PCとゴーグルを有線でつなぐ（有線VR）ためのケーブル。", en: "A cable for playing PC VR over a wired connection." }, url: "https://amzn.to/3JCpKln" },
       { icon: "fa-solid fa-bolt", name: { ja: "UGREEN Linkケーブル", en: "UGREEN Link cable" }, what: { ja: "Linkケーブル。", en: "A Link cable." }, note: { ja: "ぬにふちさかは、コンセントからの給電のためだけに使っています。", en: "I use it only to power the headset from a wall outlet." }, url: "https://amzn.to/45FaATZ" },
       { icon: "fa-solid fa-battery-half", name: { ja: "単3 リチウムイオン充電池 2550mWh", en: "AA lithium-ion rechargeable batteries (2550 mWh)" }, what: { ja: "繰り返し使える単3形の充電池。", en: "Reusable AA batteries." }, url: "https://amzn.to/45TpOWF" },
     ],
@@ -31,7 +31,7 @@ const groups = [
     id: "rest",
     title: { ja: "眠る・くつろぐ", en: "Sleeping and resting" },
     items: [
-      { icon: "fa-solid fa-bed", name: { ja: "VR睡眠用まくら・ケーブルの吊り下げワイヤ", en: "VR sleep pillow and ceiling cable wire" }, what: { ja: "ゴーグルを着けたまま横になれるまくらと、ケーブルを天井から吊るして体に絡まないようにするランニングワイヤ。", en: "A pillow you can lie on with the headset on, and a wire that hangs the cable from the ceiling so it doesn't tangle." }, url: "https://shop.roox.jp/product-tag/vrs" },
+      { icon: "fa-solid fa-bed", name: { ja: "VR睡眠用まくら・ケーブルの吊り下げワイヤ", en: "VR sleep pillow and ceiling cable wire" }, image: "roox-running-wire.webp", what: { ja: "ゴーグルを着けたまま横になれるまくらと、ケーブルを天井から吊るして体に絡まないようにするランニングワイヤ。", en: "A pillow you can lie on with the headset on, and a wire that hangs the cable from the ceiling so it doesn't tangle." }, url: "https://shop.roox.jp/product-tag/vrs" },
       { icon: "fa-solid fa-moon", name: { ja: "アイマスク（4枚入り）", en: "Eye masks (pack of 4)" }, what: { ja: "光をさえぎるアイマスク。", en: "Eye masks that block out light." }, url: "https://amzn.to/45IBydu" },
     ],
   },
@@ -41,22 +41,22 @@ const groups = [
     items: [
       { icon: "fa-solid fa-fan", name: { ja: "レンズ用ブロアー", en: "Lens blower" }, what: { ja: "レンズのほこりを、触らずに吹き飛ばす。", en: "Blows dust off the lenses without touching them." }, url: "https://amzn.to/41cvOqW" },
       { icon: "fa-solid fa-wind", name: { ja: "電動エアダスター", en: "Electric air duster" }, what: { ja: "機材のすき間のほこりを強い風で飛ばす。", en: "Clears dust out of gaps in the gear with a strong blast of air." }, url: "https://amzn.to/4mO5g7L" },
-      { icon: "fa-solid fa-spray-can", name: { ja: "エレクトロニッククリーナー", en: "Electronics cleaner" }, what: { ja: "コントローラーのスティックの洗浄に。", en: "For cleaning the controller thumbsticks." }, url: "https://amzn.to/45kTtYI" },
+      { icon: "fa-solid fa-spray-can", name: { ja: "KURE エレクトロニッククリーナー", en: "KURE Electronic Cleaner" }, image: "kure-3012.webp", what: { ja: "コントローラーのスティックの洗浄に。", en: "For cleaning the controller thumbsticks." }, url: "https://amzn.to/45kTtYI" },
     ],
   },
   {
     id: "fbt",
     title: { ja: "フルトラ機材", en: "Full-body tracking" },
     items: [
-      { icon: "fa-solid fa-person-running", name: { ja: "HaritoraX 2", en: "HaritoraX 2" }, what: { ja: "体に着けて全身の動きをアバターに反映するトラッカー。内蔵バッテリー式。", en: "Trackers you wear to bring your whole body's movement into your avatar. Built-in battery." }, url: "https://ja.shiftall.net/products/haritorax2" },
-      { icon: "fa-solid fa-shoe-prints", name: { ja: "Uni-motion", en: "Uni-motion" }, what: { ja: "全身の動きを取るトラッカー。単3電池式。", en: "Full-body trackers that run on AA batteries." }, url: "https://uni-motion.com/" },
+      { icon: "fa-solid fa-person-running", name: { ja: "HaritoraX 2", en: "HaritoraX 2" }, image: "haritorax2.webp", what: { ja: "体に着けて全身の動きをアバターに反映するトラッカー。内蔵バッテリー式。", en: "Trackers you wear to bring your whole body's movement into your avatar. Built-in battery." }, url: "https://ja.shiftall.net/products/haritorax2" },
+      { icon: "fa-solid fa-shoe-prints", name: { ja: "Uni-motion", en: "Uni-motion" }, image: "uni-motion.webp", what: { ja: "全身の動きを取るトラッカー。単3電池式。", en: "Full-body trackers that run on AA batteries." }, url: "https://uni-motion.com/" },
     ],
   },
 ];
 const shopName = (url) => /amzn\.to|amazon\./.test(url) ? "Amazon" : (url.match(/^https?:\/\/(?:www\.)?([^/]+)/) || [, ""])[1];
 const l = isEn
-  ? { title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop) => `View on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group" }
-  : { title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop) => `${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す" };
+  ? { credit: "Product photos are from each maker's official website.", disclosure: "As an Amazon Associate, Nunifuchisaka earns from qualifying purchases.", title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop) => `View on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group" }
+  : { credit: "機材の写真は、各メーカーの公式サイトのものです。", disclosure: "Amazonのアソシエイトとして、ぬにふちさかは適格販売により収入を得ています。", title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop) => `${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す" };
 const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
 %><section class="section_2 page_1" aria-labelledby="equipment-heading">
   <h1 class="page_1__h1" id="equipment-heading"><%= l.title %></h1>
@@ -94,3 +94,8 @@ const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
   </ul>
 </section>
 <% }); %>
+
+<section class="section_2">
+  <p class="section_2__note"><%= l.credit %></p>
+  <p class="section_2__note"><%= l.disclosure %></p>
+</section>
