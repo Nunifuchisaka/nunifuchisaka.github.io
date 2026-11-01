@@ -1,36 +1,18 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+// モンスター図鑑のフレーバーテキストとして書いた自己紹介（旧ヘッダーの文言そのまま）
 const t = {
   ja: {
     heading: "生態",
-    data: [
-      ["分類", "ENTP-A“召喚獣”"],
-      ["生まれ", "冬・雪国"],
-      ["属性", "氷"],
-      ["習性", "親しくなった人間の召喚に応じることがあるらしい"],
-      ["出没地", "Public（目撃報告多数）"],
-    ],
+    lines: ["ENTP-A＂召喚獣＂", "冬生まれ雪国育ち 氷属性", "親しくなった人間の召喚に応じることがあるらしい。", "Publicに出没する報告が多数ある。"],
   },
   en: {
     heading: "Field notes",
-    data: [
-      ["Type", "ENTP-A “Summon Beast”"],
-      ["Born", "Winter, snow country"],
-      ["Element", "Ice"],
-      ["Habit", "Reportedly answers summons from humans it has grown close to"],
-      ["Habitat", "Public instances (many sightings)"],
-    ],
+    lines: ["ENTP-A “Summon Beast”", "Born in winter, raised in snow country. Ice element.", "Reportedly responds to summons from humans it has grown close to.", "Frequently spotted roaming Public instances."],
   },
 };
 const l = t[pageLocale];
 %><section id="about" class="section_2" aria-labelledby="about-heading">
   <h2 class="section_2__h1" id="about-heading"><%= l.heading %></h2>
-  <dl class="list_11">
-    <% l.data.forEach(function (row) { %>
-      <div class="list_11__row">
-        <dt><%= row[0] %></dt>
-        <dd><%= row[1] %></dd>
-      </div>
-    <% }); %>
-  </dl><!-- /.list_11 -->
+  <p class="flavor_1"><%- l.lines.map(function (line) { return line.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }).join("<br>") %></p>
 </section><!-- /#about.section_2 -->

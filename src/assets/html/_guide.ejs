@@ -2,8 +2,8 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const guideText = pageLocale === "en"
-  ? { heading: "Guide log", lead: `Every photo here is the day someone started VRChat with me. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
-  : { heading: "案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}枚。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
+  ? { heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
+  : { heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}回。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
 
 // guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
 const groups = [];
@@ -25,7 +25,7 @@ guides.forEach(function (value, key) {
     ? (pageLocale === "en" ? `${MONTH_NAMES_EN[+m[2] - 1].slice(0, 3)} ${+m[3]}` : `${+m[2]}月${+m[3]}日`)
     : "";
   const num = guides.length - key;
-  const numLabel = pageLocale === "en" ? `No. ${num}` : `${num}人目`;
+  const numLabel = pageLocale === "en" ? `No. ${num}` : `${num}回目`;
   group.items.push({ file: value, num: num, numLabel: numLabel, dateLabel: dateLabel, dayLabel: dayLabel });
 });
 const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "photos"}` : `${n}枚`;

@@ -80,19 +80,6 @@ try {
   console.error('案内実績の集計に失敗しました:', e);
 }
 
-// トップページの時間軸（案内写真をなぞって見る）用。案内写真を古い順に並べ、縮小版を1枚の画像（アトラス）にまとめる。
-// なぞっている間はこの縮小版を描き、手を止めたら元の写真に差し替える。
-// アトラスは production のビルド開始時に sharp で docs/ へ直接書き出す（GuideAtlasPlugin）。
-// i 枚目の写真は、アトラスの (i % cols, floor(i / cols)) のマスに入る。
-const guidesChronological = [...guides].sort();
-const guideAtlas = {
-  file: '/assets/img/guide-atlas.webp',
-  tileWidth: 160,
-  tileHeight: 90,
-  cols: 16,
-  files: guidesChronological,
-};
-
 /**
  * Webpack設定を生成する関数
  */
@@ -251,8 +238,7 @@ const createConfig_development = ({ outputPath }) => {
           data: {
             ...SITE_DATA,
             guides: guides,
-            guideStats: guideStats,
-            guideAtlas: guideAtlas
+            guideStats: guideStats
           }
         }
       }
@@ -300,35 +286,6 @@ const createConfig_production = ({ outputPath }) => {
       ],
     },
   };
-
-  // 案内写真のアトラス（トップページの時間軸用）
-  config.plugins.push({
-    apply: (compiler) => {
-      let builtKey = null;
-      const buildAtlas = async () => {
-        const key = guideAtlas.files.join('|');
-        const outFile = path.join(outputPath, guideAtlas.file);
-        if (key === builtKey && fs.existsSync(outFile)) return;
-        const { tileWidth, tileHeight, cols, files } = guideAtlas;
-        if (!files.length) return;
-        const rows = Math.ceil(files.length / cols);
-        const tiles = await Promise.all(files.map(async (file, i) => ({
-          input: await sharp(path.resolve(outputPath, 'assets/img/guide', file))
-            .resize(tileWidth, tileHeight, { fit: 'cover' })
-            .toBuffer(),
-          left: (i % cols) * tileWidth,
-          top: Math.floor(i / cols) * tileHeight,
-        })));
-        await sharp({ create: { width: cols * tileWidth, height: rows * tileHeight, channels: 3, background: '#808080' } })
-          .composite(tiles)
-          .webp({ quality: 72 })
-          .toFile(outFile);
-        builtKey = key;
-      };
-      compiler.hooks.beforeRun.tapPromise('GuideAtlasPlugin', buildAtlas);
-      compiler.hooks.watchRun.tapPromise('GuideAtlasPlugin', buildAtlas);
-    },
-  });
 
   // JS
   glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js' }).forEach(key => {

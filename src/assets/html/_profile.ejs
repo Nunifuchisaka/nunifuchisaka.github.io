@@ -1,52 +1,6 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
-const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const MONTHS_EN_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-// 案内写真（古い順）を日付つきで並べ、時間軸上の位置（0〜100%）を出す
-const photos = guideAtlas.files
-  .map((file) => {
-    const m = file.match(/(\d{4})-(\d{2})-(\d{2})/);
-    if (!m) return null;
-    const y = +m[1], mo = +m[2], d = +m[3];
-    return {
-      file: file,
-      time: Date.UTC(y, mo - 1, d),
-      date: isEn ? `${MONTHS_EN[mo - 1]} ${d}, ${y}` : `${y}年${mo}月${d}日`,
-    };
-  })
-  .filter(Boolean);
-const count = photos.length;
-const first = count ? photos[0].time : 0;
-const last = count ? photos[count - 1].time : 0;
-const span = Math.max(last - first, 86400000);
-photos.forEach((photo, i) => {
-  photo.x = +(((photo.time - first) / span) * 100).toFixed(3);
-  photo.label = isEn ? `No. ${i + 1} of ${count}` : `${i + 1}人目 / ${count}`;
-});
-const latest = count ? photos[count - 1] : null;
-
-// 目盛り：1月は年、4・7・10月は月を出す（スマホでは年だけ）
-const labels = [];
-if (count) {
-  const start = new Date(first);
-  let y = start.getUTCFullYear(), mo = start.getUTCMonth() + 1;
-  for (;;) {
-    mo += 1;
-    if (mo > 12) { mo = 1; y += 1; }
-    const t = Date.UTC(y, mo - 1, 1);
-    if (t > last) break;
-    if (mo === 1 || mo % 3 === 1) {
-      labels.push({
-        x: +(((t - first) / span) * 100).toFixed(3),
-        text: mo === 1 ? String(y) : (isEn ? MONTHS_EN_SHORT[mo - 1] : `${mo}月`),
-        major: mo === 1,
-      });
-    }
-  }
-}
-
 const t = {
   ja: {
     name: "ぬにふちさか",
@@ -58,12 +12,6 @@ const t = {
     langLabel: "言語切替",
     toDark: "ダークにする",
     toLight: "ライトにする",
-    trackLabel: "案内した日",
-    open: "この写真を開く",
-    caption: `VRChatを始めた人を案内した日の写真、${count}枚。線は1本が1枚で、日付の位置に並んでいます。なぞると、その日の写真に替わります。`,
-    keys: "キーボードでは ← → で1枚ずつ、PageUp・PageDown で1か月ずつ動きます。",
-    more: "月ごとの一覧を見る",
-    alt: (date) => `${date}の案内写真`,
   },
   en: {
     name: "Nunifuchisaka",
@@ -75,24 +23,10 @@ const t = {
     langLabel: "Language",
     toDark: "Switch to dark",
     toLight: "Switch to light",
-    trackLabel: "Day of the guide",
-    open: "Open this photo",
-    caption: `${count} photos from days I helped someone get started in VRChat. Each line is one photo, placed on its date. Run along the lines to change the photo.`,
-    keys: "With a keyboard, ← → move one photo and Page Up / Page Down move one month.",
-    more: "Browse them by month",
-    alt: (date) => `Guide photo from ${date}`,
   },
 };
 const l = t[pageLocale];
 const prefix = isEn ? "/en" : "";
-const scrubData = {
-  locale: pageLocale,
-  atlas: guideAtlas.file,
-  tileWidth: guideAtlas.tileWidth,
-  tileHeight: guideAtlas.tileHeight,
-  cols: guideAtlas.cols,
-  photos: photos.map((p) => ({ file: p.file, date: p.date, label: p.label, x: p.x, alt: l.alt(p.date) })),
-};
 %><header class="header_4">
   <div class="header_4__inner">
     <h1 class="header_4__title"><a class="header_4__home" href="<%= prefix %>/" aria-current="page"><%= l.name %></a></h1>
@@ -114,37 +48,3 @@ const scrubData = {
     </div>
   </div>
 </header><!-- /.header_4 -->
-
-<% if (latest) { %>
-<div class="stage_3 js_scrub">
-  <figure class="stage_3__figure">
-    <div class="stage_3__frame">
-      <img class="stage_3__img js_scrub_img" src="/assets/img/guide/<%= latest.file %>" alt="<%= l.alt(latest.date) %>" width="960" height="540">
-      <canvas class="stage_3__canvas js_scrub_canvas" aria-hidden="true"></canvas>
-    </div>
-    <figcaption class="stage_3__meta">
-      <span class="stage_3__date js_scrub_date"><%= latest.date %></span>
-      <span class="stage_3__count js_scrub_count"><%= latest.label %></span>
-      <a class="stage_3__open js_scrub_open" href="/assets/img/guide/<%= latest.file %>" target="_blank" rel="noopener"><%= l.open %></a>
-    </figcaption>
-  </figure>
-
-  <div class="stage_3__track js_scrub_track" role="slider" tabindex="0" aria-label="<%= l.trackLabel %>" aria-valuemin="1" aria-valuemax="<%= count %>" aria-valuenow="<%= count %>" aria-valuetext="<%= latest.date %><%= isEn ? ', ' : '、' %><%= latest.label %>">
-    <span class="stage_3__ticks" aria-hidden="true">
-      <% photos.forEach(function (photo) { %><span class="stage_3__tick" style="left: <%= photo.x %>%;"></span><% }); %>
-    </span>
-    <span class="stage_3__thumb js_scrub_thumb" style="left: 100%;" aria-hidden="true"></span>
-  </div>
-  <div class="stage_3__axis" aria-hidden="true">
-    <% labels.forEach(function (label) { %>
-      <span class="stage_3__label<% if (!label.major) { %> stage_3__label--minor<% } %><% if (label.x > 94) { %> stage_3__label--end<% } %>" style="left: <%= label.x %>%;"><%= label.text %></span>
-    <% }); %>
-  </div>
-
-  <div class="stage_3__text">
-    <p class="stage_3__caption"><%= l.caption %> <a href="#guide"><%= l.more %></a></p>
-    <p class="stage_3__keys"><%= l.keys %></p>
-  </div>
-  <script type="application/json" class="js_scrub_data"><%- JSON.stringify(scrubData) %></script>
-</div><!-- /.stage_3 -->
-<% } %>
