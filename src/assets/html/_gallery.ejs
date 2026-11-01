@@ -13,7 +13,7 @@ const t = {
   },
 };
 const l = t[pageLocale];
-%><section id="gallery" class="section_2 section_2--photos" aria-labelledby="gallery-heading">
+%><section id="gallery" class="section_2" aria-labelledby="gallery-heading">
   <h2 class="section_2__h1" id="gallery-heading"><%= l.heading %></h2>
   <ul class="list_8">
     <%
@@ -33,7 +33,7 @@ const l = t[pageLocale];
       'GWAN_u2WMAAvwdY',
     ];
     photos.forEach(function (value, key) { %>
-      <li>
+      <li class="js_aspect">
         <a href="https://pbs.twimg.com/media/<%= value %>?format=webp&name=4096x4096" target="_blank" rel="noopener" class="js_viewer" data-gallery="gallery" aria-label="<%= l.ariaLabel(key, photos.length) %>">
           <img src="https://pbs.twimg.com/media/<%= value %>?format=webp" alt="<%= l.alt %>" draggable="false">
         </a>

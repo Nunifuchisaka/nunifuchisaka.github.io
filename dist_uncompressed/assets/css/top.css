@@ -234,9 +234,6 @@
 .section_2 {
   margin-top: var(--space-5);
 }
-.section_2--photos {
-  container-type: inline-size;
-}
 .section_2:first-child {
   margin-top: var(--space-4);
 }
@@ -256,29 +253,38 @@
   max-width: 40em;
   margin-top: var(--space-1);
 }
+.section_2__more {
+  margin-top: var(--space-2);
+  font-weight: 700;
+}
 
 /*
 ## .list_7
 使用箇所：トップページ「リンク集」
-内容：外部リンクのボタン（アイコン＋名前）。どれも新しいタブで開く
+内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める。
+     名前は折り返さない
 */
 .list_7 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: var(--space-2);
+}
+.list_7 li {
+  flex: 1 1 auto;
 }
 .list_7 a {
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  height: 100%;
   min-height: 52px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.3;
+  white-space: nowrap;
   text-decoration: none;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
@@ -301,103 +307,181 @@
 
 /*
 ## .list_8
-使用箇所：トップページ「写真」
-内容：Xの投稿写真を大小のタイルで組む（横スクロールにはしない）。押すと viewer_1 で開く。
-     4列（スマホは2列）の正方形のマスに、大きい1枚（2×2）と横長の数枚（2×1）を混ぜ、隙間は dense で詰める。
-     行の高さは、親（.section_2--photos）の幅から container query 単位で列幅と同じにする
+使用箇所：トップページ「写真」、cluster ページ
+内容：写真をトリミングせずに、行ごとに高さを揃えて左右いっぱいに並べる（ジャスティファイド）。
+     各写真の縦横比を --ar に入れ、幅の伸び（flex-grow）も縦横比に比例させると、同じ行の写真の高さが揃う。
+     最後の行は ::after が余りを受け取り、写真が引き伸ばされないようにする。押すと viewer_1 で開く
 */
 .list_8 {
-  --cols: 4;
-  --gap: 8px;
-  display: grid;
-  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
-  grid-auto-rows: calc((100cqi - var(--gap) * (var(--cols) - 1)) / var(--cols));
-  grid-auto-flow: dense;
-  gap: var(--gap);
+  --row: 240px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: var(--space-2);
 }
-.list_8 li:nth-child(1) {
-  grid-row: span 2;
-  grid-column: span 2;
+.list_8::after {
+  content: "";
+  flex-grow: 1000;
 }
-.list_8 li:nth-child(3n+4) {
-  grid-column: span 2;
+.list_8--small {
+  --row: 170px;
+}
+.list_8 li {
+  flex: var(--ar, 1.5) 1 calc(var(--row) * var(--ar, 1.5));
+  min-width: 0;
 }
 .list_8 a {
   display: block;
-  height: 100%;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .list_8 img {
   display: block;
   width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  height: auto;
+  aspect-ratio: var(--ar, 1.5);
   background: var(--color-surface);
 }
 
 /*
 ## .list_9
-使用箇所：トップページ「つくったもの」
-内容：制作物の一覧（画像＋名前）
+使用箇所：トップページ「Products」
+内容：作品の一覧。画像（トリミングしない）・種類・名前・何ができるかの一文
 */
 .list_9 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4) var(--space-3);
-  margin-top: var(--space-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
 }
 .list_9 a {
-  display: block;
+  display: grid;
+  grid-template-columns: 44% 1fr;
+  gap: var(--space-2);
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 12px;
   text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  transition: border-color 0.15s;
 }
-.list_9 a:hover .list_9__title {
-  text-decoration: underline;
+.top_1 .list_9 a {
+  color: var(--color-text);
 }
-.list_9 img {
+.list_9 a:hover {
+  border-color: var(--color-text-muted);
+}
+.list_9__image {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: var(--color-bg);
+  border-radius: 6px;
+}
+.list_9__image img {
   display: block;
   width: 100%;
-  aspect-ratio: 1.7777777778;
-  -o-object-fit: cover;
-     object-fit: cover;
-  background: var(--color-surface);
-  border-radius: 4px;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.list_9__body {
+  display: grid;
+  gap: 4px;
+}
+.list_9__kind {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
 }
 .list_9__title {
-  display: block;
-  margin-top: 10px;
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1.4;
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1.3;
   overflow-wrap: anywhere;
 }
-.top_1 .list_9__title {
-  color: var(--color-text);
+.list_9__desc {
+  font-size: 1.4rem;
+  line-height: 1.6;
 }
 
 /*
-## .list_10
-使用箇所：トップページ「clusterでの目撃」
-内容：写真グリッド
+## .list_13
+使用箇所：トップページ「YouTube」
+内容：新しい順の動画。押すとその場で再生する（assets/js/top.js）
 */
-.list_10 {
+.list_13 {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-2);
   margin-top: var(--space-2);
 }
-.list_10 a {
-  display: block;
+.list_13__player {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 6px;
 }
-.list_10 img {
+.list_13__player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.list_13__poster {
+  display: block;
+  height: 100%;
+}
+.list_13__poster img {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  background: var(--color-surface);
+}
+.list_13__poster:hover .list_13__play {
+  background: rgba(0, 0, 0, 0.85);
+}
+.list_13__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 56px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+}
+.list_13__play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  transform: translate(-35%, -50%);
+}
+.list_13__title {
+  display: -webkit-box;
+  margin-top: 8px;
+  overflow: hidden;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.list_13__date {
+  margin-top: 2px;
+  font-size: 1.3rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /*
@@ -444,8 +528,8 @@
   width: 100%;
   height: auto;
   aspect-ratio: 16/9;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
   background: var(--color-surface);
   border-radius: 4px;
 }
@@ -611,24 +695,38 @@
     font-size: 2.2rem;
   }
   .list_7 {
-    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
   .list_7 a {
     min-height: 48px;
-    padding: 8px 14px;
+    padding: 8px 16px;
     font-size: 1.4rem;
   }
   .list_8 {
-    --cols: 2;
-    --gap: 6px;
+    --row: 140px;
+    gap: 6px;
+  }
+  .list_8--small {
+    --row: 96px;
   }
   .list_9 {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3) var(--space-2);
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
-  .list_10 {
-    grid-template-columns: repeat(4, 1fr);
+  .list_9 a {
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+    padding: 10px;
+  }
+  .list_9__title {
+    font-size: 1.6rem;
+  }
+  .list_9__desc {
+    font-size: 1.3rem;
+  }
+  .list_13 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) 10px;
   }
   .list_12 {
     grid-template-columns: 1fr 1fr;

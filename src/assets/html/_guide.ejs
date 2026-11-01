@@ -40,11 +40,12 @@ const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "pho
           const guideAlt = item.dateLabel
             ? (pageLocale === "en" ? `Guide photo from ${item.dateLabel}` : `${item.dateLabel}の案内写真`)
             : (pageLocale === "en" ? "Guide photo" : "案内写真");
+          const size = imageSizes[`guide/${item.file}`] || { width: 960, height: 540 };
           const guideAriaLabel = pageLocale === "en" ? `Open the ${guideAlt.charAt(0).toLowerCase() + guideAlt.slice(1)}` : `${guideAlt}を大きく表示`;
         %>
           <li>
             <a href="/assets/img/guide/<%= item.file %>" target="_blank" rel="noopener" class="js_viewer" data-gallery="guide"<% if (item.dateLabel) { %> data-title="<%= item.dateLabel %>"<% } %> data-note="<%= item.numLabel %>" aria-label="<%= guideAriaLabel %>">
-              <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy" width="960" height="540">
+              <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy" width="<%= size.width %>" height="<%= size.height %>">
             </a>
             <p class="list_12__meta"><span><%= item.dayLabel %></span> <span class="list_12__num"><%= item.numLabel %></span></p>
           </li>

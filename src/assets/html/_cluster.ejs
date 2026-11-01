@@ -612,12 +612,14 @@ const t = {
   },
 };
 const l = t[pageLocale];
-%><ul class="list_10">
-  <% photos.forEach(function (value, key) { %>
-    <li>
+%><ul class="list_8 list_8--small">
+  <% photos.forEach(function (value, key) {
+    const size = imageSizes[`cluster/${value}.webp`];
+  %>
+    <li<% if (size) { %> style="--ar: <%= (size.width / size.height).toFixed(4) %>;"<% } %>>
       <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="js_viewer" data-gallery="cluster" aria-label="<%= l.ariaLabel(key, photos.length) %>">
-        <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy">
+        <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy"<% if (size) { %> width="<%= size.width %>" height="<%= size.height %>"<% } %>>
       </a>
     </li>
   <% }); %>
-</ul><!-- /.list_10 -->
+</ul><!-- /.list_8 -->
