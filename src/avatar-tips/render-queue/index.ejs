@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "Render Queue（描画の順番）",
+  description: "半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。",
+  url: "avatar-tips/render-queue/",
+  altUrl: "en/avatar-tips/render-queue/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/queue-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-render-queue") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

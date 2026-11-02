@@ -1,0 +1,15 @@
+{
+  "_note": "アバター改変の解説の一覧（/avatar-tips/）。新しい回を足すときは、ここに1件足して、src/avatar-tips/<slug>/ と src/en/avatar-tips/<slug>/ を作る",
+  "articles": [
+    {
+      "no": 1,
+      "slug": "render-queue",
+      "published": "2026-11-02",
+      "title": { "ja": "Render Queue（描画の順番）", "en": "Render Queue (draw order)" },
+      "desc": {
+        "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。",
+        "en": "See-through hair or clothes vanishing at some angles, or hiding behind water? Most of it is fixed with one number: the draw order."
+      }
+    }
+  ]
+}

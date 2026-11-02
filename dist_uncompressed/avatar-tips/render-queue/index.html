@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Render Queue（描画の順番） | ぬにふちさか</title>
+<meta name="description" content="半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/render-queue/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Render Queue（描画の順番）">
+<meta property="og:description" content="半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。">
+<meta property="og:url" content="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Render Queue（描画の順番）">
+<meta name="twitter:description" content="半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Render Queue（描画の順番） | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/avatar-tips/render-queue/",
+  "description": "半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/queue-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/">ぬにふちさか</a>
+    <nav class="header_4__nav" aria-label="サイト内">
+      <ul>
+        
+          <li><a href="/start/">はじめての方</a></li>
+        
+          <li><a href="/timeline/">案内実績</a></li>
+        
+          <li><a href="/equipment/">VR機材</a></li>
+        
+          <li><a href="/products/">作品</a></li>
+        
+          <li><a href="/avatar-tips/" aria-current="true">改変解説</a></li>
+        
+          <li><a href="/videos/">回想</a></li>
+        
+          <li><a href="/dice/">話題サイコロ</a></li>
+        
+          <li><a href="/cluster/">cluster</a></li>
+        
+          <li><a href="/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">言語切替</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja" selected>日本語</option>
+        <option value="en">English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="ダークにする" data-label-light="ライトにする">ダークにする</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第1回</a></p>
+    <h1 class="page_1__h1" id="article-heading">Render Queue（描画の順番）</h1>
+    <p class="article_1__lead">半透明の髪やレース、メガネのレンズが、見る角度で消えたり、ほかの物の後ろに隠れたりする。その多くは、Render Queue（レンダーキュー）という「描く順番」の数字で直せます。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-02">2026年11月2日</time> · 対象は Unity の Built-in Render Pipeline（VRChat のアバター）です。2026年11月時点の内容です。</p>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        
+          <li><a href="#when">こんなときに読んでください</a></li>
+        
+          <li><a href="#what">Render Queue とは</a></li>
+        
+          <li><a href="#sort">2500 を境に、並べ方が変わる</a></li>
+        
+          <li><a href="#demo">動かして確かめる</a></li>
+        
+          <li><a href="#cases">よくある困りごとと直し方</a></li>
+        
+          <li><a href="#how">数字の変え方</a></li>
+        
+          <li><a href="#care">気をつけること</a></li>
+        
+          <li><a href="#summary">まとめ</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
+    <ul class="rules_1">
+      <li>半透明のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。</li><li>水のあるワールドで、アバターの半透明の部分が水面に隠れる。</li><li>半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。</li><li>パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading">Render Queue とは</h2>
+    <p class="article_1__p">Unity は画面を描くとき、マテリアルごとに決まった数字の小さい順に描いていきます。この数字が <strong>Render Queue</strong> です。あとから描いた物が、先に描いた物の上に重なります。</p><p class="article_1__p">不透明な物は、奥行き（深度）を見て前後が決まるので、順番を変えても見た目はほとんど変わりません。順番が見た目に効くのは<strong>半透明</strong>の物です。半透明の物は奥行きを記録せず、すでに描かれている色の上に、自分の色を混ぜるだけだからです。</p>
+    <figure class="scale_1">
+      <figcaption class="scale_1__caption">おもな Render Queue の数字</figcaption>
+      <ol class="scale_1__list">
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">1000</span>
+            <span class="scale_1__name" lang="en">Background</span>
+            <span class="scale_1__note">背景（スカイボックスなど）</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">2000</span>
+            <span class="scale_1__name" lang="en">Geometry</span>
+            <span class="scale_1__note">不透明な物。ほとんどのマテリアル</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">2450</span>
+            <span class="scale_1__name" lang="en">AlphaTest</span>
+            <span class="scale_1__note">切り抜き（Cutout）。穴の開いた不透明な物</span>
+          </li>
+        
+          <li class="scale_1__step scale_1__step--border">
+            <span class="scale_1__value">2500</span>
+            
+            <span class="scale_1__note">ここまでが「不透明」の扱い</span>
+          </li>
+        
+          <li class="scale_1__step scale_1__step--transparent">
+            <span class="scale_1__value">3000</span>
+            <span class="scale_1__name" lang="en">Transparent</span>
+            <span class="scale_1__note">半透明な物</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">4000</span>
+            <span class="scale_1__name" lang="en">Overlay</span>
+            <span class="scale_1__note">いちばん最後。すべての上に重ねる物</span>
+          </li>
+        
+      </ol>
+    </figure>
+  </section>
+
+  <section class="section_2 article_1__section" id="sort" aria-labelledby="sort-heading">
+    <h2 class="section_2__h1" id="sort-heading">2500 を境に、並べ方が変わる</h2>
+    <dl class="examples_1">
+      
+        <div class="examples_1__item">
+          <dt>2500 以下（不透明の扱い）</dt>
+          <dd>おおよそカメラに近い物から描きます。前後は奥行きで決まるので、順番がどうでも見た目は正しくなります。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>2501 以上（半透明の扱い）</dt>
+          <dd>同じ数字の中では、カメラから遠い物から描きます。距離は、見えている面までではなく、<strong>メッシュの範囲（Bounds）の中心</strong>までで測ります。大きなスカートと小さなリボンのように中心の位置が違う物は、カメラを動かすと「どちらが近いか」が入れ替わり、ちらつきます。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>1つのメッシュに半透明のマテリアルがいくつかあるとき</dt>
+          <dd>同じメッシュの中で同じ数字なら、距離ではなく、マテリアルの並び順（Element 0, 1, …）で描かれます。</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
+    <p class="article_1__p">アバターの半透明パーツは、水面より手前にあります。水面が先に描かれれば、正しく見えます。数字と距離を変えて、どうなるか見てみてください。</p>
+    <div class="demo_1 js_queue_demo"
+      data-ok="正しく見える：水面を先に描き、その上にパーツが重なっています。" data-ng="おかしく見える：パーツを先に描き、その上に水面が塗られるので、パーツが水の中にあるように見えます。" data-tie="数字が同じなので、距離で順番が決まります。" data-by-number="数字が違うので、小さい方から描きます。"
+      data-part="アバターの半透明パーツ" data-water="ワールドの水面" data-first="先" data-then="後">
+      <div class="demo_1__stage" aria-hidden="true">
+        <span class="demo_1__water js_queue_water"><span>ワールドの水面</span></span>
+        <span class="demo_1__part js_queue_part"><span>アバターの半透明パーツ</span></span>
+      </div>
+      <div class="demo_1__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-part">アバターの半透明パーツ</label> <output class="demo_1__value" for="queue-part">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-part" class="js_queue_input" data-target="part">
+        </div>
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-water">ワールドの水面</label> <output class="demo_1__value" for="queue-water">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-water" class="js_queue_input" data-target="water">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">カメラから中心が近いのは？</legend>
+          <label><input type="radio" name="queue-near" value="part" class="js_queue_near" checked> パーツ</label>
+          <label><input type="radio" name="queue-near" value="water" class="js_queue_near"> 水面（大きな水面は、中心が近いと判定されやすい）</label>
+        </fieldset>
+      </div>
+      <div class="demo_1__output" aria-live="polite">
+        <p class="demo_1__label">描く順番</p>
+        <ol class="demo_1__order js_queue_order">
+          <li>ワールドの水面（3000）</li>
+          <li>アバターの半透明パーツ（3000）</li>
+        </ol>
+        <p class="demo_1__why js_queue_why">数字が同じなので、距離で順番が決まります。</p>
+        <p class="demo_1__result is_ok js_queue_result">正しく見える：水面を先に描き、その上にパーツが重なっています。</p>
+      </div>
+      <noscript><p class="section_2__note">数字を動かすには、JavaScript を有効にしてください。</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">よくある困りごとと直し方</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">角度で消えたり出たりする</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>半透明のパーツ2つが、見る角度によって前に出たり後ろに隠れたりする。</dd></div>
+            <div><dt>原因</dt><dd>数字が同じなので距離で順番が決まり、その判定が角度で入れ替わっています。</dd></div>
+            <div><dt>直し方</dt><dd>手前に見せたい方の数字を、少しだけ（+1〜+10）大きくします。距離ではなく数字で順番が決まるので、入れ替わらなくなります。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">水面に隠れる</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>水のあるワールドで、アバターの半透明の部分が水の中にあるように見える。</dd></div>
+            <div><dt>原因</dt><dd>ワールドの水面は、半透明の範囲の数字を使っていることが多いです。パーツが水面より先に描かれると、上から水面の色を塗られてしまいます。</dd></div>
+            <div><dt>直し方</dt><dd>パーツの数字を、水面より大きくします。私の SpiderWeb では、糸を 3100、衝撃波を 3110 にしています。水面が 3100 以上のワールドでは、糸のマテリアルを水面より大きく、衝撃波をさらに後にするよう、説明書に書いています。 <a href="/spiderweb/">SpiderWeb の説明書</a></dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">1つのメッシュの中で重なる</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>同じメッシュにある半透明のマテリアル2つが、逆の順番で重なる。</dd></div>
+            <div><dt>原因</dt><dd>数字が同じなので、マテリアルの並び順で描かれています。</dd></div>
+            <div><dt>直し方</dt><dd>手前に見せたい方の数字を大きくするか、奥に見せたい方を前の Element に並べ替えます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">縁がくっきりでよいなら Cutout に</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>髪の毛先やレースの穴など、形を抜くためだけに半透明を使っている。</dd></div>
+            <div><dt>原因</dt><dd>半透明は順番の調整が要ります。Cutout（2450）は不透明の扱いで、奥行きも記録します。</dd></div>
+            <div><dt>直し方</dt><dd>縁がくっきりしていてよいなら、Cutout にします。順番の問題が起きなくなります。</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="how" aria-labelledby="how-heading">
+    <h2 class="section_2__h1" id="how-heading">数字の変え方</h2>
+    <ol class="steps_1">
+      <li>元に戻せるように、先にマテリアルを複製しておきます。</li><li>Project ウィンドウで、変えたいマテリアルを選びます。</li><li>Inspector で <strong>Render Queue</strong> の欄を探します。多くのシェーダーでは下のほうにあります。<code>From Shader</code> のままだと、シェーダーの既定の数字になります。</li><li>数字を入れます。</li><li>順番を確かめるには、Unity の Frame Debugger（<code>Window → Analysis → Frame Debugger</code>）を開き、描かれる物を1つずつ送って見ます。</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
+    <ul class="rules_1">
+      <li>2500 を超えると、半透明の扱いになります。Built-in Render Pipeline では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。</li><li>シェーダーの描画モードを変えると、Render Queue が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。</li><li>大きく動かさないでください。数字が大きいほど、ワールドの半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。</li><li>Render Queue はマテリアルの設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
+    <ul class="rules_1">
+      <li>Render Queue は描く順番の数字で、効くのは半透明のマテリアルです。</li><li>数字が同じだと、メッシュの中心までの距離で順番が決まり、それがちらつきの原因になります。</li><li>決めたい順番だけを小さな差で決め、できるところは Cutout にします。</li>
+    </ul>
+    <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
+  </section>
+</article>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

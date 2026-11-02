@@ -31,6 +31,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nunifuchisaka.github.io/avatar-tips/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/avatar-tips/render-queue/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://nunifuchisaka.github.io/deepfrostice/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -164,6 +174,16 @@
     <loc>https://nunifuchisaka.github.io/en/faq/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/en/avatar-tips/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/en/avatar-tips/render-queue/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nunifuchisaka.github.io/en/dice/</loc>

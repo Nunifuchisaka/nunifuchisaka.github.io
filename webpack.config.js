@@ -397,7 +397,9 @@ const createConfig_development = ({ outputPath }) => {
             youtube: youtube,
             note: note,
             // 作品の一覧（作品一覧・トップの Products・よくある質問で共通）
-            products: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8'))
+            products: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8')),
+            // アバター改変の解説の一覧（一覧ページ・各回の前後リンクで共通）
+            avatarTips: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/avatar-tips.json'), 'utf8'))
           }
         }
       }

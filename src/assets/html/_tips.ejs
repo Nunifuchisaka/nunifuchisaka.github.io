@@ -1,0 +1,45 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説の一覧。中身は src/assets/data/avatar-tips.json（新しい回が上）
+const articles = [...avatarTips.articles].sort((a, b) => b.no - a.no);
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dateLabel = (iso) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  return isEn ? `${MONTHS_EN[m - 1]} ${d}, ${y}` : `${y}年${m}月${d}日`;
+};
+const l = isEn ? {
+  title: "Avatar Tips",
+  lead: "A series on the parts of avatar editing that trip people up, one topic at a time: how it works, and how to fix it.",
+  scope: "Written for VRChat avatars made in Unity (Built-in Render Pipeline).",
+  no: (n) => `Part ${n}`,
+  more: "More parts are on the way.",
+} : {
+  title: "アバター改変の解説",
+  lead: "アバター改変でつまずきやすいところを、1回に1つずつ、仕組みと直し方まで解説する連載です。",
+  scope: "Unity（Built-in Render Pipeline）で作る VRChat のアバターを前提に書いています。",
+  no: (n) => `第${n}回`,
+  more: "これから回を増やしていきます。",
+};
+%><section class="section_2 page_1" aria-labelledby="tips-heading">
+  <h1 class="page_1__h1" id="tips-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__note"><%= l.scope %></p>
+</section>
+
+<div class="section_2">
+  <ol class="series_1" reversed>
+    <% articles.forEach(function (a) { %>
+      <li class="series_1__item">
+        <a href="<%= prefix %>/avatar-tips/<%= a.slug %>/">
+          <span class="series_1__no"><%= l.no(a.no) %></span>
+          <span class="series_1__title"><%= a.title[pageLocale] %></span>
+          <span class="series_1__desc"><%= a.desc[pageLocale] %></span>
+          <time class="series_1__date" datetime="<%= a.published %>"><%= dateLabel(a.published) %></time>
+        </a>
+      </li>
+    <% }); %>
+  </ol>
+  <p class="section_2__note"><%= l.more %></p>
+</div>

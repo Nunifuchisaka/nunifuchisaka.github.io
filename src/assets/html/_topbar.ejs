@@ -1,9 +1,9 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-// current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds"）。aria-current を付ける
+// current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds" / "avatar-tips"）。aria-current を付ける
 const currentPage = typeof current !== "undefined" ? current : "home";
 // よくある質問は「作品」の、お気に入りワールドは「はじめての方」の下のページとして、ナビではその親に印を付ける
-const navPage = { faq: "products", worlds: "start" }[currentPage] || currentPage;
+const navPage = { faq: "products", worlds: "start", "avatar-tips-article": "avatar-tips" }[currentPage] || currentPage;
 const isEn = pageLocale === "en";
 const t = {
   ja: {
@@ -11,6 +11,7 @@ const t = {
     navLabel: "サイト内",
     start: "はじめての方",
     products: "作品",
+    avatarTips: "改変解説",
     timeline: "案内実績",
     equipment: "VR機材",
     videos: "回想",
@@ -26,6 +27,7 @@ const t = {
     navLabel: "Site",
     start: "Getting started",
     products: "Products",
+    avatarTips: "Avatar Tips",
     timeline: "Guide Log",
     equipment: "VR Gear",
     videos: "Memories",
@@ -44,7 +46,7 @@ const prefix = isEn ? "/en" : "";
     <a class="header_4__home" href="<%= prefix %>/"<% if (currentPage === "home") { %> aria-current="page"<% } %>><%= l.name %></a>
     <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
       <ul>
-        <% [["start", l.start], ["timeline", l.timeline], ["equipment", l.equipment], ["products", l.products], ["videos", l.videos], ["dice", l.dice], ["cluster", l.cluster], ["claude-code", l.claudeCode]].forEach(function (item) { %>
+        <% [["start", l.start], ["timeline", l.timeline], ["equipment", l.equipment], ["products", l.products], ["avatar-tips", l.avatarTips], ["videos", l.videos], ["dice", l.dice], ["cluster", l.cluster], ["claude-code", l.claudeCode]].forEach(function (item) { %>
           <li><a href="<%= prefix %>/<%= item[0] %>/"<% if (currentPage === item[0]) { %> aria-current="page"<% } else if (navPage === item[0]) { %> aria-current="true"<% } %>><%= item[1] %></a></li>
         <% }); %>
       </ul>
