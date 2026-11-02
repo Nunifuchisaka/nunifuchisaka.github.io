@@ -56,7 +56,7 @@ const t = isEn ? {
   firstLabel: "The first one",
   open: (n, date) => `Open the photo from guide No. ${n} (${date})`,
   more: "See every guide photo by month",
-  moreHref: "/en/#guide",
+  moreHref: "#all-guides",
 } : {
   title: "案内実績",
   headline: total ? `<span>${fullDate(first)}から</span><span>${fullDate(last)}まで、</span><span>${total}回の初心者案内。</span>` : "",
@@ -72,7 +72,7 @@ const t = isEn ? {
   firstLabel: "はじめての案内",
   open: (n, date) => `${n}回目（${date}）の写真を大きく表示`,
   more: "すべての案内写真を月ごとに見る",
-  moreHref: "/#guide",
+  moreHref: "#all-guides",
 };
 %><section class="section_2 page_1" aria-labelledby="timeline-heading">
   <h1 class="page_1__h1" id="timeline-heading"><%= t.title %></h1>
@@ -139,3 +139,5 @@ const t = isEn ? {
   <p class="section_2__more"><a href="<%= t.moreHref %>"><%= t.more %></a></p>
 </section>
 <% } %>
+
+<%- include("_guide", { guideScope: "all", locale: pageLocale }) %>

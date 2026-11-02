@@ -1,9 +1,17 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+// guideScope："recent"（トップページ。写真のある新しい2か月分だけ）／"all"（案内実績ページ。すべて）
+const scope = typeof guideScope !== "undefined" ? guideScope : "recent";
+const RECENT_MONTHS = 2;
+const total = guides.length;
 const guideText = pageLocale === "en"
-  ? { heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${guides.length} so far.`, more: "See milestones on the guide log page", href: "/en/timeline/" }
-  : { heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${guides.length}回。`, more: "節目の日付を案内実績ページで見る", href: "/timeline/" };
+  ? (scope === "all"
+    ? { id: "all-guides", heading: "Every guide photo", lead: `All ${total} photos, newest first, by month.` }
+    : { id: "guide", heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${total} so far; here are the latest ${RECENT_MONTHS} months.`, more: `See all ${total} photos and milestones on the guide log page`, href: "/en/timeline/#all-guides" })
+  : (scope === "all"
+    ? { id: "all-guides", heading: "すべての案内記録", lead: `${total}枚すべてを、月ごとに新しい順で並べています。` }
+    : { id: "guide", heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${total}回。ここには新しい${RECENT_MONTHS}か月分を載せています。`, more: `すべての記録（${total}枚）と節目は、案内実績で見る`, href: "/timeline/#all-guides" });
 
 // guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
 const groups = [];
@@ -28,11 +36,13 @@ guides.forEach(function (value, key) {
   const numLabel = pageLocale === "en" ? `No. ${num}` : `${num}回目`;
   group.items.push({ file: value, num: num, numLabel: numLabel, dateLabel: dateLabel, dayLabel: dayLabel });
 });
+// トップページでは、写真のある新しい月から2か月分だけにする
+const shownGroups = scope === "all" ? groups : groups.filter((group) => group.key !== "other").slice(0, RECENT_MONTHS);
 const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "photos"}` : `${n}枚`;
-%><section id="guide" class="section_2" aria-labelledby="guide-heading">
-  <h2 class="section_2__h1" id="guide-heading"><%= guideText.heading %></h2>
-  <p class="section_2__lead"><%= guideText.lead %> <a href="<%= guideText.href %>"><%= guideText.more %></a></p>
-  <% groups.forEach(function (group) { %>
+%><section id="<%= guideText.id %>" class="section_2" aria-labelledby="<%= guideText.id %>-heading">
+  <h2 class="section_2__h1" id="<%= guideText.id %>-heading"><%= guideText.heading %></h2>
+  <p class="section_2__lead"><%= guideText.lead %></p>
+  <% shownGroups.forEach(function (group) { %>
     <div class="month_1">
       <h3 class="month_1__h1"><%= group.label %> <span class="month_1__count"><%= countLabel(group.items.length) %></span></h3>
       <ul class="list_12">
@@ -53,4 +63,5 @@ const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "pho
       </ul><!-- /.list_12 -->
     </div><!-- /.month_1 -->
   <% }); %>
-</section><!-- /#guide.section_2 -->
+  <% if (guideText.more) { %><p class="section_2__more"><a href="<%= guideText.href %>"><%= guideText.more %></a></p><% } %>
+</section><!-- /#<%= guideText.id %>.section_2 -->

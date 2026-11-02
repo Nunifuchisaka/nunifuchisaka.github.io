@@ -31,6 +31,14 @@ const YOUTUBE_CONFIG = {
   CACHE_FILE: 'src/assets/data/youtube.json',
 };
 
+// トップページの note 欄。ビルドのたびに新しい順の記事を note の公開 API から取り、src/assets/data/note.json に保存する。
+// 取れなかったときは、保存済みの json をそのまま使う。
+const NOTE_CONFIG = {
+  USER: 'nunifuchisaka',
+  COUNT: 6,
+  CACHE_FILE: 'src/assets/data/note.json',
+};
+
 
 // --- 以下、webpackの動作設定（通常は編集不要）---
 const path = require('path'),
@@ -178,6 +186,46 @@ const updateYoutube = async () => {
   }
 };
 
+// note の新しい記事（NOTE_CONFIG 参照）。EJS には note.articles を渡し、ビルド開始時に中身を更新する
+const note = { profileUrl: `https://note.com/${NOTE_CONFIG.USER}`, articles: [] };
+const noteCachePath = path.resolve(__dirname, NOTE_CONFIG.CACHE_FILE);
+try {
+  if (fs.existsSync(noteCachePath)) {
+    note.articles.push(...(JSON.parse(fs.readFileSync(noteCachePath, 'utf8')).articles || []));
+  }
+} catch (e) {
+  console.error('note の保存データを読めませんでした:', e.message);
+}
+let noteFetched = false;
+const updateNote = async () => {
+  if (noteFetched) return;
+  noteFetched = true;
+  try {
+    const body = JSON.parse(await fetchText(`https://note.com/api/v2/creators/${NOTE_CONFIG.USER}/contents?kind=note&page=1`));
+    const articles = ((body.data && body.data.contents) || [])
+      .filter((item) => item.noteUrl && item.name)
+      .map((item) => ({
+        title: item.name,
+        url: item.noteUrl,
+        published: item.publishAt,
+        // アイキャッチ画像が無い記事は null（欄の側で、画像の代わりに題名を出す）
+        eyecatch: item.eyecatch || null,
+      }))
+      .sort((a, b) => (b.published || '').localeCompare(a.published || ''))
+      .slice(0, NOTE_CONFIG.COUNT);
+    if (!articles.length) throw new Error('記事が見つかりません');
+    note.articles.splice(0, note.articles.length, ...articles);
+    const json = JSON.stringify({ articles }, null, 2) + '\n';
+    const before = fs.existsSync(noteCachePath) ? fs.readFileSync(noteCachePath, 'utf8') : '';
+    if (json !== before) {
+      fs.mkdirSync(path.dirname(noteCachePath), { recursive: true });
+      fs.writeFileSync(noteCachePath, json);
+    }
+  } catch (e) {
+    console.warn(`note の新しい記事を取れませんでした（保存済みの${note.articles.length}件を使います）:`, e.message);
+  }
+};
+
 /**
  * Webpack設定を生成する関数
  */
@@ -211,6 +259,8 @@ const createConfig_development = ({ outputPath }) => {
         apply: (compiler) => {
           compiler.hooks.beforeRun.tapPromise('YoutubePlugin', updateYoutube);
           compiler.hooks.watchRun.tapPromise('YoutubePlugin', updateYoutube);
+          compiler.hooks.beforeRun.tapPromise('NotePlugin', updateNote);
+          compiler.hooks.watchRun.tapPromise('NotePlugin', updateNote);
         },
       },
     ],
@@ -345,6 +395,7 @@ const createConfig_development = ({ outputPath }) => {
             guideStats: guideStats,
             imageSizes: imageSizes,
             youtube: youtube,
+            note: note,
             // 作品の一覧（作品一覧・トップの Products・よくある質問で共通）
             products: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8'))
           }

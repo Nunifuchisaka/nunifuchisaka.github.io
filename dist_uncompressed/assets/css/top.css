@@ -1767,6 +1767,80 @@
   position: absolute;
   left: 0;
 }
+
+/*
+## .list_17
+使用箇所：トップページ「note」
+内容：note の記事。アイキャッチ画像（無い記事は題名を大きく出す）・題名・公開日。カード全体が記事へのリンク
+*/
+.list_17 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.list_17 a {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  transition: border-color 0.15s;
+}
+.top_1 .list_17 a {
+  color: var(--color-text);
+}
+.list_17 a:hover {
+  border-color: var(--color-text-muted);
+}
+.list_17 a:hover .list_17__title {
+  text-decoration: underline;
+}
+.list_17__image {
+  display: block;
+  aspect-ratio: 1280/670;
+  background: var(--color-bg);
+}
+.list_17__image img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.list_17__image--text {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding: var(--space-2) var(--space-3);
+  font-size: 1.7rem;
+  font-weight: 900;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+  border-bottom: 1px solid var(--color-line);
+}
+.list_17__body {
+  display: grid;
+  gap: 4px;
+  align-content: space-between;
+  padding: 12px var(--space-2) var(--space-2);
+}
+.list_17__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.list_17__date {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
 @media (max-width: 767px){
   .top_1 {
     font-size: 1.6rem;
@@ -1900,6 +1974,10 @@
   }
   .list_16 {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .list_17 {
+    grid-template-columns: minmax(0, 1fr);
     gap: 10px;
   }
 }

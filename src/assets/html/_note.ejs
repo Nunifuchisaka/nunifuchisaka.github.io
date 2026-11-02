@@ -1,0 +1,39 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+// webpack がビルド時に取ってくる note の新しい順の記事（src/assets/data/note.json）。1件も無いときは欄ごと出さない
+const articles = (note && note.articles) || [];
+const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const formatDate = (iso) => {
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  // 公開日は日本時間で表す
+  const jst = new Date(d.getTime() + 9 * 3600000);
+  const y = jst.getUTCFullYear(), m = jst.getUTCMonth() + 1, day = jst.getUTCDate();
+  return isEn ? `${MONTHS_EN[m - 1]} ${day}, ${y}` : `${y}年${m}月${day}日`;
+};
+const l = isEn
+  ? { lead: "Articles I write on note (in Japanese).", more: "See all articles on note", newTab: "(opens in a new tab)" }
+  : { lead: "noteに書いている記事です。", more: "noteですべての記事を見る", newTab: "（新しいタブで開きます）" };
+%><% if (articles.length) { %><section id="note" class="section_2" aria-labelledby="note-heading">
+  <h2 class="section_2__h1" id="note-heading">note</h2>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <ul class="list_17">
+    <% articles.forEach(function (article) { %>
+      <li>
+        <a href="<%= article.url %>" target="_blank" rel="noopener">
+          <% if (article.eyecatch) { %>
+            <span class="list_17__image"><img src="<%= article.eyecatch %>" alt="" loading="lazy" width="1280" height="670"></span>
+          <% } else { %>
+            <span class="list_17__image list_17__image--text" aria-hidden="true" lang="ja"><%= article.title %></span>
+          <% } %>
+          <span class="list_17__body">
+            <span class="list_17__title" lang="ja"><%= article.title %><span class="visually-hidden"><%= l.newTab %></span></span>
+            <time class="list_17__date" datetime="<%= article.published %>"><%= formatDate(article.published) %></time>
+          </span>
+        </a>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_17 -->
+  <p class="section_2__more"><a href="<%= note.profileUrl %>" target="_blank" rel="noopener"><%= l.more %><span class="visually-hidden"><%= l.newTab %></span></a></p>
+</section><!-- /#note.section_2 --><% } %>
