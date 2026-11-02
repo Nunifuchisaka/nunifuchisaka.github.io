@@ -20,6 +20,13 @@ npm run validate:html # dist_uncompressed/htdocs/**/*.html をhtml-validateで�
   - `eslint-webpack-plugin` は依存関係にあるが webpack.config.js には登録されていない。手動チェックする場合は `npx eslint src` を使う。
 - テストフレームワークは存在しない。
 
+## デプロイ
+
+- サイトを更新したら、確認を待たずに毎回デプロイ（`main` へ反映して push）まで行う。GitHub Pages は `main` の `docs/` を公開しているので、push すると1分ほどで公開される。
+- push の前に `src/` からビルドし直し、生成物（`dist_uncompressed/`, `docs/`）も一緒にコミットする。
+- force push はしない。
+- push のあと、公開ページに変更が出ているかを確かめて報告する。
+
 ## ビルドパイプラインの構造
 
 `webpack.config.js` は2つの設定（配列）をエクスポートする。**両方が毎回同時に走る**。
