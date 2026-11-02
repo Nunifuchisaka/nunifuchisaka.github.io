@@ -1,0 +1,208 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// 作品に共通する、よくある質問と更新履歴。答えは各説明書に書かれていることだけ（出典：src/<作品>/index.html、version.json）
+// 作品の名前と説明書へのリンクは src/assets/data/products.json から引く
+const byDir = {};
+products.items.forEach((item) => { byDir[item.dir] = item; });
+const manualHref = (dir) => isEn && byDir[dir].hasEn ? `/${dir}/en/` : `/${dir}/`;
+const l = isEn ? {
+  title: "Product FAQ",
+  lead: "Questions that come up across my shaders, gimmicks and tools. For the details of each product, see its manual.",
+  jump: "Jump to",
+  related: "Products",
+  groups: [
+    { id: "before", title: "Before you buy" },
+    { id: "setup", title: "Setting up" },
+    { id: "ingame", title: "In VRChat" },
+    { id: "tools", title: "Tools" },
+    { id: "support", title: "Updates and support" },
+  ],
+  paramsTitle: "Synced parameters and Performance Rank",
+  paramsLead: "What each avatar gimmick adds, as written in its manual.",
+  paramsTable: "Table of synced parameters and Performance Rank (scrolls sideways)",
+  versionsTable: "Table of latest versions (scrolls sideways)",
+  thProduct: "Product",
+  thParams: "Synced parameters",
+  thRank: "Performance Rank",
+  versionsTitle: "Update history",
+  versionsLead: "The latest version of each product, where it is known. The other manuals don't give a version number; new releases will be added here.",
+  thVersion: "Latest",
+  thNotes: "What changed",
+  products: "All products",
+} : {
+  title: "作品のよくある質問",
+  lead: "シェーダー・ギミック・ツールに共通する質問をまとめました。作品ごとの詳しいことは、それぞれの説明書を見てください。",
+  jump: "目次",
+  related: "関係する作品",
+  groups: [
+    { id: "before", title: "買う前に" },
+    { id: "setup", title: "入れるとき" },
+    { id: "ingame", title: "VRChat の中で" },
+    { id: "tools", title: "ツール" },
+    { id: "support", title: "更新と問い合わせ" },
+  ],
+  paramsTitle: "同期パラメータとパフォーマンスランク",
+  paramsLead: "アバターギミックを入れると増えるもの。各説明書に書かれている値です。",
+  paramsTable: "同期パラメータとパフォーマンスランクの表（横に動かせます）",
+  versionsTable: "最新版の表（横に動かせます）",
+  thProduct: "作品",
+  thParams: "同期パラメータ",
+  thRank: "パフォーマンスランク",
+  versionsTitle: "更新履歴",
+  versionsLead: "分かっている最新版です。ほかの作品は、説明書に版の番号が書かれていません。新しい版を出したら、ここに書き足します。",
+  thVersion: "最新版",
+  thNotes: "変わったこと",
+  products: "作品一覧",
+};
+const t = (ja, en) => isEn ? en : ja;
+// 質問と答え。products は関係する作品（説明書へのリンクを出す）
+const faq = [
+  { group: "before", q: t("Quest で使えますか？", "Do they work on Quest?"),
+    a: t("DeepFrostIce・SpiderWeb・餓者髑髏・Regret は PC 専用で、Quest では使えません（DeepFrostIce と SpiderWeb は画面の歪み〈GrabPass〉を、餓者髑髏は Final IK を使うため）。ほかの作品は、説明書の動作環境を見てください。",
+         "DeepFrostIce, SpiderWeb, Gashadokuro and Regret are PC only and don't work on Quest (DeepFrostIce and SpiderWeb use screen distortion, GrabPass; Gashadokuro uses Final IK). For the others, check the requirements in each manual."),
+    products: ["deepfrostice", "spiderweb", "gashadokuro", "regret"] },
+  { group: "before", q: t("アバターや衣装は付いてきますか？", "Does it come with an avatar or outfit?"),
+    a: t("付いてきません。商品の紹介に使っているアバターや衣装は含まれません。GlossySkin も、マスク画像とおまけのギミックだけで、凪 本体やマテリアルは含まれません。",
+         "No. The avatars and outfits shown in the product images are not included. GlossySkin is just the mask images and a bonus gimmick, without Nagi or its materials."),
+    products: ["gashadokuro", "regret", "glossyskin"] },
+  { group: "before", q: t("ほかのアバターでも使えますか？", "Will it work on other avatars?"),
+    a: t("GlossySkin は 凪 -Nagi- の肌の UV に合わせて描いているので、凪 専用です。HeartBeat は Chest ボーンのあるアバターが前提です。Regret は、付けたい部位の骨が Humanoid に割り当てられている必要があります。",
+         "GlossySkin is painted for the skin UVs of Nagi, so it only works on Nagi. HeartBeat needs an avatar with a Chest bone. Regret needs the bone you attach it to be assigned in the Humanoid rig."),
+    products: ["glossyskin", "heartbeat", "regret"] },
+  { group: "setup", q: t("Modular Avatar は必要ですか？", "Do I need Modular Avatar?"),
+    a: t("HeartBeat・SpiderWeb（1.15 以降）・餓者髑髏・Regret には必要です。入れないままアップロードすると動きません。GlossySkin は、おまけのスライダーを使うときだけ必要です。",
+         "Yes for HeartBeat, SpiderWeb (1.15 or later), Gashadokuro and Regret: without it, they won't work after upload. GlossySkin needs it only for the bonus slider."),
+    products: ["heartbeat", "spiderweb", "gashadokuro", "regret", "glossyskin"] },
+  { group: "setup", q: t("lilToon は必要ですか？", "Do I need lilToon?"),
+    a: t("餓者髑髏（2.3 以降）と Regret には必要です。マテリアルに使っています。GlossySkin は 凪 に付いている lilToon を使うので、別に入れなくて大丈夫です。",
+         "Yes for Gashadokuro (2.3 or later) and Regret, whose materials use it. GlossySkin uses the lilToon that comes with Nagi, so you don't need to add it."),
+    products: ["gashadokuro", "regret", "glossyskin"] },
+  { group: "setup", q: t("プレハブはどこに置けばいいですか？", "Where do I put the prefab?"),
+    a: t("SpiderWeb・餓者髑髏・Regret・GlossySkin のおまけのスライダーは、アバターのいちばん上（ルート）の直下に置きます。餓者髑髏は、ルートの直下にないと「Fit To Avatar」が押せません。HeartBeat は、どこに置いても動きます。",
+         "Put SpiderWeb, Gashadokuro, Regret and the GlossySkin bonus slider directly under the avatar's root. Gashadokuro's Fit To Avatar button only works there. HeartBeat works wherever you put it."),
+    products: ["spiderweb", "gashadokuro", "regret", "glossyskin", "heartbeat"] },
+  { group: "setup", q: t("どの Unity で確かめていますか？", "Which Unity version is it tested with?"),
+    a: t("GlossySkin・餓者髑髏・Regret は Unity 2022.3.22f1 で確かめています。餓者髑髏と Regret は、VRChat SDK 3.10.5、Modular Avatar 1.18.7、lilToon 2.4.1 でも確かめています。",
+         "GlossySkin, Gashadokuro and Regret are tested with Unity 2022.3.22f1. Gashadokuro and Regret are also tested with VRChat SDK 3.10.5, Modular Avatar 1.18.7 and lilToon 2.4.1."),
+    products: ["glossyskin", "gashadokuro", "regret"] },
+  { group: "ingame", q: t("ほかの人に見えない・聞こえないことがあります", "Someone can't see or hear it"),
+    a: t("相手のセーフティ設定によります。HeartBeat は、相手が Contact を切っていると鳴りません。餓者髑髏の炎は、シェーダーを非表示にしている人には見えません。",
+         "It depends on the other person's Safety settings. HeartBeat won't play if they have Contacts turned off. Gashadokuro's flames don't show for people who hide shaders."),
+    products: ["heartbeat", "gashadokuro"] },
+  { group: "ingame", q: t("ワールドによって見え方が変わります", "It looks different in some worlds"),
+    a: t("ワールドの作りに左右されます。DeepFrostIce は、リフレクションプローブの無い場所では反射が暗くなります。SpiderWeb の花びらや Regret の骨は、当たり判定の無い床を通り抜けます。餓者髑髏は、狭いワールドでは壁や天井にめり込みます。",
+         "It depends on how the world is built. DeepFrostIce reflections get dark where there is no reflection probe. SpiderWeb's petals and Regret's bones fall through floors without colliders. Gashadokuro sinks into walls and ceilings in small worlds."),
+    products: ["deepfrostice", "spiderweb", "regret", "gashadokuro"] },
+  { group: "ingame", q: t("思っていないときに動いてしまいます", "It goes off when I don't mean it to"),
+    a: t("手の形やジェスチャーで動くものは、物を掴んだときにも動くことがあります。餓者髑髏は、両手で物を1.5秒以上掴むとブレスが出ます。SpiderWeb は、体格によっては腕組みや拍手で胸の前のセンサーが反応します。",
+         "Gimmicks that use hand gestures can go off when you hold things. Gashadokuro breathes if you hold something with both hands for 1.5 seconds or more. SpiderWeb's chest sensors can react to folded arms or clapping, depending on your body shape."),
+    products: ["gashadokuro", "spiderweb"] },
+  { group: "ingame", q: t("Regret の骨が拾えなくなりました", "I can't pick Regret's bone back up"),
+    a: t("メニューで「Show」をオフにしてからオンにすると、元の部位に戻ります。",
+         "Turn Show off and on again in the menu, and it goes back to where it was attached."),
+    products: ["regret"] },
+  { group: "tools", q: t("Mac で使えますか？", "Do the tools work on a Mac?"),
+    a: t("KeyDisplay は Windows と macOS で使えます。ImageGetter・PublicWalker・DeskCinema は Windows 専用です。NuniAvatarToolkit は Blender のアドオンです（Blender 4.2 以降）。",
+         "KeyDisplay works on Windows and macOS. ImageGetter, PublicWalker and DeskCinema are Windows only. NuniAvatarToolkit is a Blender add-on (Blender 4.2 or later)."),
+    products: ["keydisplay", "imagegetter", "publicwalker", "deskcinema", "nuniavatartoolkit"] },
+  { group: "tools", q: t("「Windows によって PC が保護されました」と出ました", "Windows says it protected my PC"),
+    a: t("署名していない個人制作のソフトに出る SmartScreen の警告で、異常ではありません。「詳細情報」→「実行」で進めます（PublicWalker の説明書より）。",
+         "This is the SmartScreen warning shown for unsigned software made by individuals; nothing is wrong. Choose More info, then Run anyway (from the PublicWalker manual)."),
+    products: ["publicwalker"] },
+  { group: "tools", q: t("macOS で KeyDisplay にキーが出ません", "KeyDisplay doesn't show keys on macOS"),
+    a: t("「システム設定」→「プライバシーとセキュリティ」→「アクセシビリティ」で、KeyDisplay を許可してください。Blender や Unity の判定には「画面収録」の許可も要ることがあります。",
+         "Allow KeyDisplay in System Settings → Privacy & Security → Accessibility. Detecting Blender or Unity may also need Screen Recording permission."),
+    products: ["keydisplay"] },
+  { group: "support", q: t("新しい版はどう入れますか？", "How do I update?"),
+    a: t("BOOTH の購入履歴から、新しい版をダウンロードし直します。PublicWalker は、アプリの「更新を確認」から BOOTH を開けます。NuniAvatarToolkit は、アドオンを無効にしてから新しい ZIP をインストールし、もう一度有効にします。",
+         "Download the new version again from your BOOTH purchase history. PublicWalker can open BOOTH from Check for updates in the app. For NuniAvatarToolkit, disable the add-on, install the new ZIP, then enable it again."),
+    products: ["publicwalker", "nuniavatartoolkit"] },
+  { group: "support", q: t("困ったときは、どこに聞けばいいですか？", "Where do I ask for help?"),
+    a: t("それぞれの説明書に書かれた窓口へお願いします。PublicWalker は、diagnostics.log を添えて BOOTH のメッセージから送ってください。GlossySkin のことを、凪 の作者の rio3d 様へ送るのはおやめください。",
+         "Please use the contact given in each manual. For PublicWalker, send a BOOTH message with diagnostics.log attached. Please don't send questions about GlossySkin to rio3d, the creator of Nagi."),
+    products: ["publicwalker", "nuniavatartoolkit", "glossyskin"] },
+];
+const params = [
+  { dir: "heartbeat", params: t("2bit（Bool 2つ）", "2 bits (2 Bools)"), rank: t("記載なし", "Not stated") },
+  { dir: "glossyskin", params: t("8bit（おまけのスライダー）", "8 bits (bonus slider)"), rank: t("記載なし", "Not stated") },
+  { dir: "spiderweb", params: "11bit", rank: t("Medium 以下", "Medium or lower") },
+  { dir: "gashadokuro", params: "1bit", rank: t("これだけで Very Poor", "Very Poor on its own") },
+  { dir: "regret", params: t("1個につき 2bit", "2 bits each"), rank: t("Rigidbody の項目が Medium", "Medium for Rigidbodies") },
+  { dir: "deepfrostice", params: t("なし（シェーダー）", "None (shader)"), rank: t("Poor 以下（GrabPass）", "Poor or lower (GrabPass)") },
+];
+const versions = [
+  { dir: "nuniavatartoolkit", version: "1.0.0", notes: null },
+  { dir: "publicwalker", version: "1.1.0", notes: null },
+  { dir: "deskcinema", version: "0.2.1 (β)", notes: t(
+    "Windows 11 の新しいシェル構成で、壁紙が消えても気づけないことがある不具合を直しました。\nディスプレイを切り替えるときに、壁紙が一瞬途切れたり重なったりする不具合を直しました。\n壁紙が戻ったときに、続きから再生するようにしました。\n表示言語を増やし、全9言語に対応しました。\nバージョンの表示と「更新を確認」をフッターに足しました。\n自動起動と動作ログの設定を、ヘッダーからフッターへ移しました。",
+    "Fixed an issue on newer Windows 11 shell layouts where a lost wallpaper could go unnoticed.\nFixed a brief flicker or overlap when the wallpaper switches between monitors.\nThe wallpaper now resumes from where it was after it recovers.\nAdded more display languages (9 in total).\nAdded the app version and Check for Updates to the footer.\nMoved the autostart and logging settings from the header to the footer.") },
+];
+%><section class="section_2 page_1" aria-labelledby="faq-heading">
+  <h1 class="page_1__h1" id="faq-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <nav class="jump_1" aria-label="<%= l.jump %>">
+    <ul>
+      <% l.groups.forEach(function (group) { %>
+        <li><a href="#<%= group.id %>"><%= group.title %></a></li>
+      <% }); %>
+      <li><a href="#params"><%= l.paramsTitle %></a></li>
+      <li><a href="#versions"><%= l.versionsTitle %></a></li>
+    </ul>
+  </nav>
+</section>
+
+<% l.groups.forEach(function (group) { %>
+<section class="section_2" id="<%= group.id %>" aria-labelledby="<%= group.id %>-heading">
+  <h2 class="section_2__h1" id="<%= group.id %>-heading"><%= group.title %></h2>
+  <div class="faq_1">
+    <% faq.filter((item) => item.group === group.id).forEach(function (item) { %>
+      <details class="faq_1__item">
+        <summary class="faq_1__q"><%= item.q %></summary>
+        <div class="faq_1__a">
+          <p><%= item.a %></p>
+          <p class="faq_1__related"><span class="faq_1__label"><%= l.related %></span>
+            <% item.products.forEach(function (dir) { %><a href="<%= manualHref(dir) %>"><%= byDir[dir].name %></a><% }); %>
+          </p>
+        </div>
+      </details>
+    <% }); %>
+  </div>
+</section>
+<% }); %>
+
+<section class="section_2" id="params" aria-labelledby="params-heading">
+  <h2 class="section_2__h1" id="params-heading"><%= l.paramsTitle %></h2>
+  <p class="section_2__lead"><%= l.paramsLead %></p>
+  <section class="table_3" tabindex="0" aria-label="<%= l.paramsTable %>">
+    <table>
+      <thead><tr><th scope="col"><%= l.thProduct %></th><th scope="col"><%= l.thParams %></th><th scope="col"><%= l.thRank %></th></tr></thead>
+      <tbody>
+        <% params.forEach(function (row) { %>
+          <tr><th scope="row"><a href="<%= manualHref(row.dir) %>"><%= byDir[row.dir].name %></a></th><td><%= row.params %></td><td><%= row.rank %></td></tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </section>
+</section>
+
+<section class="section_2" id="versions" aria-labelledby="versions-heading">
+  <h2 class="section_2__h1" id="versions-heading"><%= l.versionsTitle %></h2>
+  <p class="section_2__lead"><%= l.versionsLead %></p>
+  <section class="table_3" tabindex="0" aria-label="<%= l.versionsTable %>">
+    <table>
+      <thead><tr><th scope="col"><%= l.thProduct %></th><th scope="col"><%= l.thVersion %></th><th scope="col"><%= l.thNotes %></th></tr></thead>
+      <tbody>
+        <% versions.forEach(function (row) { %>
+          <tr>
+            <th scope="row"><a href="<%= manualHref(row.dir) %>"><%= byDir[row.dir].name %></a></th>
+            <td class="table_3__nowrap"><%= row.version %></td>
+            <td><% if (row.notes) { %><ul class="table_3__list"><% row.notes.split("\n").forEach(function (note) { %><li><%= note %></li><% }); %></ul><% } else { %>—<% } %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </section>
+  <p class="section_2__more"><a href="<%= prefix %>/products/"><%= l.products %></a></p>
+</section>

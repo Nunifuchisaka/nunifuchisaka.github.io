@@ -344,7 +344,9 @@ const createConfig_development = ({ outputPath }) => {
             guides: guides,
             guideStats: guideStats,
             imageSizes: imageSizes,
-            youtube: youtube
+            youtube: youtube,
+            // 作品の一覧（作品一覧・トップの Products・よくある質問で共通）
+            products: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8'))
           }
         }
       }

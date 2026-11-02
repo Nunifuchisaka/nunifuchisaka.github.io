@@ -164,7 +164,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
       &:hover {
         text-decoration: underline;
       }
-      &[aria-current="page"] {
+      &[aria-current] {
         font-weight: 700;
         text-decoration: underline;
         text-decoration-thickness: 2px;
@@ -1680,4 +1680,511 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 .word_1 {
   white-space: nowrap;
+}
+
+
+/*
+## .device_1
+使用箇所：はじめてのVRChat「遊べる機器」
+内容：機器ごとのカード（アイコン・名前・説明・関係するページへのリンク）
+*/
+
+.device_1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    box-sizing: border-box;
+    padding: var(--space-2) var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    color: var(--color-link);
+    background: var(--color-bg);
+    border-radius: 50%;
+  }
+
+  &__name {
+    margin-top: 12px;
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  &__note {
+    margin-top: 4px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  &__link {
+    margin-top: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+}
+
+
+/*
+## .examples_1--grid
+使用箇所：はじめてのVRChat「知っておくと楽なこと」
+内容：examples_1 を2列に並べる
+*/
+
+.examples_1--grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  max-width: none;
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/*
+## .next_1
+使用箇所：はじめてのVRChat「次に読む」、作品一覧・よくある質問の行き来
+内容：ほかのページへの案内（名前と、そこに何があるかの一文）
+*/
+
+.next_1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  a {
+    display: grid;
+    gap: 4px;
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--space-2);
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .next_1__text {
+      text-decoration: underline;
+    }
+  }
+  &__text {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--color-link);
+    &::after {
+      content: " →";
+    }
+  }
+  &__note {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .world_1
+使用箇所：お気に入りワールド
+内容：ワールドのカード（写真・名前・作者と対応機器・案内で行く理由・公式サイトへのリンク）。
+     まだ載せていないところは .is_placeholder で、点線の枠と「準備中」を出す
+*/
+
+.world_1 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &.is_placeholder {
+      background: transparent;
+      border-style: dashed;
+    }
+  }
+
+  &__photo {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    font-size: 3.2rem;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .is_placeholder & {
+      border-bottom: 1px dashed var(--color-line);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 4px;
+    padding: var(--space-2);
+  }
+
+  &__badge {
+    justify-self: start;
+    padding: 2px 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+  }
+
+  &__name {
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  &__meta {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+  }
+
+  &__note {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  &__link {
+    justify-self: start;
+    margin-top: 4px;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+}
+
+
+/*
+## .filter_1
+使用箇所：作品一覧（種類で絞り込む）
+内容：ラジオボタンを丸いボタンの形にする。選んだ種類は .products_1 の :has() で読む
+*/
+
+.filter_1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  &__legend {
+    padding: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  &__option {
+    position: relative;
+    input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    > span {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 40px;
+      padding: 4px 16px;
+      font-weight: 700;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 100vw;
+      transition: border-color .15s;
+    }
+    &:hover > span {
+      border-color: var(--color-text-muted);
+    }
+    input:checked + span {
+      color: var(--color-bg);
+      background: var(--color-text);
+      border-color: var(--color-text);
+    }
+    input:checked + span .filter_1__count {
+      color: inherit;
+    }
+    input:focus-visible + span {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  &__count {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// 選んだ種類だけを残す
+@each $kind in shader, gimmick, tool {
+  .products_1:has(#filter-#{$kind}:checked) .list_16__item:not([data-kind="#{$kind}"]) {
+    display: none;
+  }
+}
+
+
+/*
+## .list_16
+使用箇所：作品一覧
+内容：作品のカード（画像・種類・名前・何ができるか・対応や必要なもの・説明書と BOOTH へのリンク）
+*/
+
+.list_16 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  &__image {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--color-bg);
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    gap: 6px;
+    padding: var(--space-2);
+  }
+
+  &__kind {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  &__desc {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  &__spec {
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    margin-top: 6px;
+    padding-top: 10px;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    border-top: 1px solid var(--color-line);
+    > div {
+      display: grid;
+      grid-template-columns: 6.5em 1fr;
+      gap: 8px;
+    }
+    dt {
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 8px;
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      font-weight: 700;
+    }
+  }
+}
+
+
+/*
+## .faq_1
+使用箇所：作品のよくある質問
+内容：質問を押すと答えが開く（details）。答えの下に、関係する作品の説明書へのリンク
+*/
+
+.faq_1 {
+  display: grid;
+  gap: 8px;
+  max-width: 48em;
+  margin-top: var(--space-2);
+
+  &__item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &[open] {
+      border-color: var(--color-text-muted);
+    }
+  }
+
+  &__q {
+    position: relative;
+    display: block;
+    padding: 14px 48px 14px var(--space-2);
+    font-weight: 700;
+    line-height: 1.6;
+    list-style: none;
+    cursor: pointer;
+    border-radius: 10px;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid currentcolor;
+      border-bottom: 2px solid currentcolor;
+      transform: translateY(-75%) rotate(45deg);
+      .faq_1__item[open] & {
+        transform: translateY(-25%) rotate(-135deg);
+      }
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__a {
+    padding: 0 var(--space-2) var(--space-2);
+    line-height: 1.8;
+  }
+
+  &__related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: baseline;
+    margin-top: 10px;
+    font-size: 1.3rem;
+  }
+
+  &__label {
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .table_3
+使用箇所：作品のよくある質問（同期パラメータ・更新履歴）
+内容：文字の多い表。狭い画面では表だけを横に動かせるようにする
+*/
+
+.table_3 {
+  overflow-x: auto;
+  margin-top: var(--space-2);
+  table {
+    min-width: 36em;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 10px 16px 10px 0;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-line);
+  }
+  thead th {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+  }
+  tbody th {
+    font-weight: 700;
+  }
+  &__nowrap {
+    white-space: nowrap;
+  }
+  &__list {
+    display: grid;
+    gap: 4px;
+    li {
+      position: relative;
+      padding-left: 1em;
+      &::before {
+        content: "・";
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
 }

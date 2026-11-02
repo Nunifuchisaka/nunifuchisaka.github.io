@@ -1,0 +1,72 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// 案内でよく行くワールド。いまは仮の内容（準備中）。
+// 実際のワールドを載せるときは、groups の items に { name, author, url, photo, platforms, note } を足し、placeholder を外す
+//   url：https://vrchat.com/home/world/wrld_... / photo：/assets/img/worlds/ に置いたファイル名 / platforms：["PC", "Quest", "Mobile"]
+const l = isEn ? {
+  title: "Favorite worlds",
+  lead: "Worlds I often take newcomers to, with photos. This page is still being made: the cards below are placeholders.",
+  soon: "Coming soon",
+  placeholderName: "World name (coming soon)",
+  placeholderNote: "What the world is like, and why I take people there.",
+  platforms: "Works on",
+  author: "By",
+  open: "Open on the VRChat website",
+  newTab: "(opens in a new tab)",
+  back: "New to VRChat? Start here",
+} : {
+  title: "お気に入りワールド",
+  lead: "案内でよく行くワールドを、写真つきで紹介します。いまは準備中で、下のカードは仮の内容です。",
+  soon: "準備中",
+  placeholderName: "ワールド名（準備中）",
+  placeholderNote: "どんなワールドか、案内でここへ行く理由を書きます。",
+  platforms: "対応",
+  author: "作者",
+  open: "VRChat の公式サイトで見る",
+  newTab: "（新しいタブで開きます）",
+  back: "はじめての方は、はじめてのVRChat へ",
+};
+const groups = [
+  { id: "practice", title: { ja: "はじめての練習に", en: "For your first practice" }, items: [] },
+  { id: "talk", title: { ja: "みんなで話すなら", en: "For hanging out and talking" }, items: [] },
+  { id: "photo", title: { ja: "写真を撮るなら", en: "For taking photos" }, items: [] },
+  { id: "play", title: { ja: "遊ぶなら", en: "For playing games" }, items: [] },
+];
+%><section class="section_2 page_1" aria-labelledby="worlds-heading">
+  <h1 class="page_1__h1" id="worlds-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__more"><a href="<%= prefix %>/start/"><%= l.back %></a></p>
+</section>
+
+<% groups.forEach(function (group) { %>
+<section class="section_2" id="<%= group.id %>" aria-labelledby="<%= group.id %>-heading">
+  <h2 class="section_2__h1" id="<%= group.id %>-heading"><%= group.title[pageLocale] %></h2>
+  <ul class="world_1">
+    <% if (group.items.length) { %>
+      <% group.items.forEach(function (world) { %>
+        <li class="world_1__item">
+          <span class="world_1__photo"><img src="/assets/img/worlds/<%= world.photo %>" alt="" loading="lazy"></span>
+          <div class="world_1__body">
+            <h3 class="world_1__name"><%= world.name %></h3>
+            <p class="world_1__meta"><%= l.author %>: <%= world.author %> / <%= l.platforms %>: <%= world.platforms.join(" · ") %></p>
+            <p class="world_1__note"><%= world.note[pageLocale] %></p>
+            <a class="world_1__link" href="<%= world.url %>" target="_blank" rel="noopener"><%= l.open %><span class="visually-hidden"><%= l.newTab %></span></a>
+          </div>
+        </li>
+      <% }); %>
+    <% } else { %>
+      <li class="world_1__item is_placeholder">
+        <span class="world_1__photo" aria-hidden="true"><i class="fa-solid fa-image"></i></span>
+        <div class="world_1__body">
+          <p class="world_1__badge"><%= l.soon %></p>
+          <h3 class="world_1__name"><%= l.placeholderName %></h3>
+          <p class="world_1__meta"><%= l.platforms %>: PC · Quest</p>
+          <p class="world_1__note"><%= l.placeholderNote %></p>
+        </div>
+      </li>
+    <% } %>
+  </ul>
+</section>
+<% }); %>

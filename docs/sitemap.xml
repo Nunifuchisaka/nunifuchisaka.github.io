@@ -16,6 +16,21 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://nunifuchisaka.github.io/start/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/products/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/faq/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://nunifuchisaka.github.io/deepfrostice/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -132,6 +147,21 @@
   </url>
   <url>
     <loc>https://nunifuchisaka.github.io/en/equipment/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/en/start/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/en/products/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nunifuchisaka.github.io/en/faq/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

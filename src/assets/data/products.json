@@ -1,0 +1,142 @@
+{
+  "_note": "作品の一覧。作品一覧（/products/）・トップの Products・よくある質問（/faq/）で使う。中身は各説明書に書かれていることだけ。kind は shader / gimmick / tool",
+  "kinds": [
+    { "key": "shader", "label": { "ja": "シェーダー・テクスチャ", "en": "Shaders & textures" } },
+    { "key": "gimmick", "label": { "ja": "アバターギミック", "en": "Avatar gimmicks" } },
+    { "key": "tool", "label": { "ja": "ツール", "en": "Tools" } }
+  ],
+  "items": [
+    {
+      "dir": "deepfrostice",
+      "name": "DeepFrostIce",
+      "kind": "shader",
+      "kindName": { "ja": "シェーダー", "en": "Shader" },
+      "hasEn": true,
+      "image": "/assets/img/deepfrostice.webp",
+      "booth": "https://nunifuchisaka.booth.pm/items/8636004",
+      "desc": { "ja": "VRChat PCアバター用の氷シェーダー。屈折・フロスト・凍結と融解まで表現。", "en": "An ice shader for VRChat PC avatars, with refraction, frost, freezing and melting." },
+      "works": { "ja": "VRChat PCアバター（Quest 非対応）", "en": "VRChat PC avatars (not Quest)" },
+      "needs": { "ja": "VRChat Avatar SDK を入れた Unity プロジェクト（Built-in RP・Forward）", "en": "A Unity project with the VRChat Avatar SDK (Built-in RP, Forward)" },
+      "price": { "ja": "β版・先行販売中", "en": "Beta, early-bird sale" }
+    },
+    {
+      "dir": "glossyskin",
+      "name": "GlossySkin",
+      "kind": "shader",
+      "kindName": { "ja": "テクスチャ", "en": "Texture" },
+      "hasEn": true,
+      "image": "/assets/img/glossyskin.webp",
+      "booth": "https://nunifuchisaka.booth.pm/items/8652217",
+      "desc": { "ja": "凪 -Nagi- 専用のツヤ肌マスク。lilToonのMatCapのマスクを差し替えるだけ。", "en": "A glossy-skin mask for Nagi. Just swap the lilToon MatCap mask." },
+      "works": { "ja": "凪 -Nagi-（VRChat PCアバター）", "en": "Nagi (VRChat PC avatar)" },
+      "needs": { "ja": "lilToon（凪に付属）。おまけのスライダーには Modular Avatar も", "en": "lilToon (comes with Nagi). The bonus slider also needs Modular Avatar" }
+    },
+    {
+      "dir": "heartbeat",
+      "name": "HeartBeat",
+      "kind": "gimmick",
+      "hasEn": true,
+      "image": "/assets/img/heartbeat.jpg",
+      "booth": null,
+      "desc": { "ja": "相手の頭が胸に触れたときだけ、すぐそばで心音が鳴る。", "en": "A heartbeat that plays only when someone rests their head on your chest." },
+      "works": { "ja": "VRChat アバター（Chest ボーンがあるもの）", "en": "VRChat avatars with a Chest bone" },
+      "needs": { "ja": "Modular Avatar", "en": "Modular Avatar" }
+    },
+    {
+      "dir": "spiderweb",
+      "name": "SpiderWeb",
+      "kind": "gimmick",
+      "hasEn": true,
+      "image": "/assets/img/spiderweb.webp",
+      "booth": "https://nunifuchisaka.booth.pm/",
+      "boothShop": true,
+      "desc": { "ja": "指先から糸が伸び、腕を振ると糸と薔薇の花びらが降る。", "en": "Threads stretch from your fingertips; swing your arm and threads and rose petals fall." },
+      "works": { "ja": "VRChat PCアバター（Quest 非対応）", "en": "VRChat PC avatars (not Quest)" },
+      "needs": { "ja": "VRChat SDK3（Avatars）、Modular Avatar 1.15 以降", "en": "VRChat SDK3 (Avatars), Modular Avatar 1.15 or later" }
+    },
+    {
+      "dir": "gashadokuro",
+      "name": "餓者髑髏 -Gashadokuro-",
+      "kind": "gimmick",
+      "hasEn": true,
+      "image": "/gashadokuro/img/gashadokuro-thumbnail.webp",
+      "booth": "https://nunifuchisaka.booth.pm/items/9034355",
+      "desc": { "ja": "背後の地面から4倍の大きさの骸骨が燃えながら迫り上がり、自分の動きに合わせて動く。", "en": "A burning skeleton four times your size rises from the ground behind you and moves with you." },
+      "works": { "ja": "VRChat PCアバター（Quest 非対応）", "en": "VRChat PC avatars (not Quest)" },
+      "needs": { "ja": "Modular Avatar、lilToon 2.3 以降、Final IK か Final IK Stub", "en": "Modular Avatar, lilToon 2.3 or later, Final IK or Final IK Stub" }
+    },
+    {
+      "dir": "regret",
+      "name": "Regret",
+      "kind": "gimmick",
+      "kindName": { "ja": "アバターギミック（アクセサリー）", "en": "Avatar gimmick (accessory)" },
+      "hasEn": true,
+      "image": "/regret/img/regret-thumbnail.webp",
+      "booth": "https://nunifuchisaka.booth.pm/items/9042692",
+      "desc": { "ja": "腕や足に付けた骨を振ると飛んでいき、床に残る。元の場所で触れると、また付く。", "en": "Flick the bone on your arm or leg and it flies off and stays on the floor. Touch it with the same spot to put it back." },
+      "works": { "ja": "VRChat PCアバター（Quest 非対応）", "en": "VRChat PC avatars (not Quest)" },
+      "needs": { "ja": "Modular Avatar、lilToon", "en": "Modular Avatar, lilToon" }
+    },
+    {
+      "dir": "nuniavatartoolkit",
+      "name": "NuniAvatarToolkit",
+      "kind": "tool",
+      "kindName": { "ja": "Blenderアドオン", "en": "Blender add-on" },
+      "hasEn": true,
+      "image": "/assets/img/nuniavatartoolkit.svg",
+      "booth": "https://nunifuchisaka.booth.pm/items/8987113",
+      "desc": { "ja": "隠れメッシュの削除や服のフィットなど、アバター制作のメッシュ最適化をひとまとめに。無料。", "en": "All-in-one mesh tools for avatar making: remove hidden faces, fit clothes, and more. Free." },
+      "works": { "ja": "Blender 4.2 以降", "en": "Blender 4.2 or later (the add-on UI is in Japanese)" },
+      "price": { "ja": "無料", "en": "Free" },
+      "version": "1.0.0"
+    },
+    {
+      "dir": "publicwalker",
+      "name": "PublicWalker",
+      "kind": "tool",
+      "kindName": { "ja": "Windowsツール", "en": "Windows tool" },
+      "hasEn": true,
+      "image": "/assets/img/publicwalker.svg",
+      "booth": "https://nunifuchisaka.booth.pm/items/8702740",
+      "desc": { "ja": "前に行ったVRChatのpublicインスタンスに戻ってきたら知らせてくれる常駐ツール。", "en": "Lets you know when you are back in a VRChat Public instance you visited before." },
+      "works": { "ja": "Windows（VRChat は Steam 版）", "en": "Windows (VRChat on Steam)" },
+      "needs": { "ja": "WebView2（Windows 11 と更新済みの Windows 10 には入っています）。XSOverlay は任意", "en": "WebView2 (already on Windows 11 and updated Windows 10). XSOverlay is optional" },
+      "version": "1.1.0"
+    },
+    {
+      "dir": "deskcinema",
+      "name": "DeskCinema",
+      "kind": "tool",
+      "kindName": { "ja": "Windowsアプリ（β版）", "en": "Windows app (beta)" },
+      "hasEn": true,
+      "image": "/assets/img/deskcinema.png",
+      "booth": "https://nunifuchisaka.booth.pm/items/8654410",
+      "desc": { "ja": "ローカル動画やYouTubeを、モニターごとに動画壁紙として再生。", "en": "Plays local videos or YouTube as a video wallpaper on each monitor." },
+      "works": { "ja": "Windows", "en": "Windows" },
+      "version": "0.2.1"
+    },
+    {
+      "dir": "keydisplay",
+      "name": "KeyDisplay",
+      "kind": "tool",
+      "kindName": { "ja": "オーバーレイアプリ（β版）", "en": "Overlay app (beta)" },
+      "hasEn": true,
+      "image": "/keydisplay/img/hero-mockup.svg",
+      "booth": "https://nunifuchisaka.booth.pm/",
+      "boothShop": true,
+      "desc": { "ja": "押しているキーやマウスの操作を画面に出すオーバーレイ。Unity・Blenderの解説動画向け。", "en": "An overlay that shows the keys and mouse actions you use, for Unity and Blender tutorials." },
+      "works": { "ja": "Windows・macOS（表示はメインのモニターだけ）", "en": "Windows and macOS (shows on the primary display only)" }
+    },
+    {
+      "dir": "imagegetter",
+      "name": "ImageGetter",
+      "kind": "tool",
+      "kindName": { "ja": "Windowsツール", "en": "Windows tool" },
+      "hasEn": false,
+      "image": "/assets/img/imagegetter.webp",
+      "booth": "https://nunifuchisaka.booth.pm/items/8651376",
+      "desc": { "ja": "複数のURLから、シェア画像（og:image）をまとめて取得・保存。", "en": "Fetches and saves the share images (og:image) of many URLs at once." },
+      "works": { "ja": "Windows（exe 版は Python 不要）", "en": "Windows (the exe needs no Python)" }
+    }
+  ]
+}

@@ -37,6 +37,7 @@ const enUrl = pageLocale === "en" ? canonicalUrl : altUrl;
 
 <title><%= meta.title %><%= meta.titleAfter %></title>
 <meta name="description" content="<%= meta.description %>">
+<% if (meta.noindex) { %><meta name="robots" content="noindex"><% } %>
 <!-- <meta name="keywords" content="<%= meta.keywords %>"> -->
 <link rel="canonical" href="<%= canonicalUrl %>">
 <% if (jaUrl && enUrl) { %>
