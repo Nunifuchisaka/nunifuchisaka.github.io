@@ -1021,7 +1021,7 @@
 /*
 ## .team_1
 使用箇所：Claude Code の使い方「構成」
-内容：自分 → Claude Code → エージェント・スキル・覚え書き、を縦の線でつないだ図
+内容：自分 → Claude Code → エージェント・スキル・覚え書き・MCP、を縦の線でつないだ図
 */
 .team_1 {
   display: grid;
@@ -1073,8 +1073,8 @@
 }
 .team_1__groups {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-2);
   width: 100%;
   padding-top: var(--space-2);
   border-top: 2px solid var(--color-line);
@@ -1091,6 +1091,15 @@
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-text-muted);
+}
+.team_1__groupnote {
+  margin: -4px 0 10px;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+.team_1__name a {
+  color: var(--color-link);
 }
 
 /*

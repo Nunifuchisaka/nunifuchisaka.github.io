@@ -150,22 +150,23 @@
     <div class="team_1__link" aria-hidden="true"></div>
     <div class="team_1__node team_1__node--hub">
       <p class="team_1__name">Claude Code</p>
-      <p class="team_1__note">依頼を読み、作業を分けて任せ、結果を報告する</p>
+      <p class="team_1__note">依頼を読み、作業をサブエージェントに任せ、結果を報告する</p>
     </div>
     <div class="team_1__link" aria-hidden="true"></div>
     <div class="team_1__groups">
       <div class="team_1__group">
         <h3 class="team_1__h">エージェント</h3>
+        <p class="team_1__groupnote">どちらもClaude Codeのサブエージェント（.claude/agents）として定義している。</p>
         <ul>
           
             <li class="team_1__node">
               <p class="team_1__name">意匠家 <span class="team_1__role">デザイン</span></p>
-              <p class="team_1__note">コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。</p>
+              <p class="team_1__note">コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。案を出すだけで、コードは書かない。</p>
             </li>
           
             <li class="team_1__node">
               <p class="team_1__name">技師 <span class="team_1__role">実装</span></p>
-              <p class="team_1__note">コードを書いて確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。</p>
+              <p class="team_1__note">コードを書くのは技師だけ。書いたものは自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。</p>
             </li>
           
         </ul>
@@ -192,6 +193,15 @@
           <li class="team_1__node">
             <p class="team_1__name" lang="en">CLAUDE.md</p>
             <p class="team_1__note">リポジトリに置いている指示書。サイトの構成・ビルドの手順・クラス名の付け方を書き、「常に日本語で応答する」と決めている。</p>
+          </li>
+        </ul>
+      </div>
+      <div class="team_1__group">
+        <h3 class="team_1__h">MCP</h3>
+        <ul>
+          <li class="team_1__node">
+            <p class="team_1__name" lang="en"><a href="https://github.com/CoplayDev/unity-mcp" target="_blank" rel="noopener">MCP for Unity</a></p>
+            <p class="team_1__note">CoplayDevのMCPサーバー。Claude CodeとUnityエディターをつなぐ。技師はこれで、コンソールのエラーを読み、シーンやプレハブを操作し、メニューや自作のツールを実行し、画面を撮って確かめる。</p>
           </li>
         </ul>
       </div>
@@ -238,7 +248,7 @@
 
 <section class="section_2" aria-labelledby="asset-flow-heading">
   <h2 class="section_2__h1" id="asset-flow-heading">VRChat用アセットを作る流れ</h2>
-  <p class="section_2__lead">DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。</p>
+  <p class="section_2__lead">DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。Unityの中の作業は、技師がMCP for Unityを通じてUnityエディターを直接操作して進めます。</p>
   <ol class="flow_1">
     
       <li class="flow_1__step">
@@ -256,13 +266,13 @@
       <li class="flow_1__step">
         <p class="flow_1__who">技師</p>
         <p class="flow_1__title">作る</p>
-        <p class="flow_1__note">シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。</p>
+        <p class="flow_1__note">シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。</p>
       </li>
     
       <li class="flow_1__step">
-        <p class="flow_1__who">Claude Code → ぬにふちさか</p>
+        <p class="flow_1__who">技師 → ぬにふちさか</p>
         <p class="flow_1__title">確かめる</p>
-        <p class="flow_1__note">Claude Codeがコンパイルやテスト、スクリーンショットで確かめ、最後にぬにふちさかがUnityとVRChatで実際に試す。</p>
+        <p class="flow_1__note">技師がMCP for Unityで、コンソールのエラーを読んで直し、Fit To Avatarなどの自作ツールを実際に動かし、シーンの画面を撮って確かめる。最後にぬにふちさかがUnityとVRChatで実際に試す。</p>
       </li>
     
       <li class="flow_1__step">

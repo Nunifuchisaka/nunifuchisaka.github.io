@@ -9,12 +9,15 @@ const l = isEn ? {
   me: "Me",
   meNote: "Asks for things in plain Japanese and picks from the options offered",
   hub: "Claude Code",
-  hubNote: "Reads the request, splits the work and reports back",
+  hubNote: "Reads the request, hands the work to the subagents and reports back",
   agentsTitle: "Agents",
+  agentsNote: "Both are defined as Claude Code subagents (.claude/agents).",
   agents: [
-    { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code is written: for a page, the palette, type and wireframes; for an asset, how it should look." },
-    { name: "技師 (Gishi)", role: "Implementation", note: "Writes and checks the code: the site's HTML and CSS, shaders, Unity editor extensions and gimmick setups." },
+    { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code is written: for a page, the palette, type and wireframes; for an asset, how it should look. It only makes proposals and never writes code." },
+    { name: "技師 (Gishi)", role: "Implementation", note: "The only one who writes code, and it checks what it writes: the site's HTML and CSS, shaders, Unity editor extensions and gimmick setups. Through MCP for Unity it works in the Unity Editor directly." },
   ],
+  mcpTitle: "MCP",
+  mcp: { name: "MCP for Unity", url: "https://github.com/CoplayDev/unity-mcp", note: "An MCP server by CoplayDev that connects Claude Code to the Unity Editor. 技師 uses it to read console errors, edit scenes and prefabs, run menu items and my own tools, and take screenshots to check the result." },
   skillsTitle: "Skills",
   skills: [
     { name: "Frontend Design", note: "Anthropic's official skill for design that doesn't look templated. Added on October 31, 2026." },
@@ -31,12 +34,12 @@ const l = isEn ? {
     { who: "Me", title: "Read the report", note: "The report says plainly what could not be checked." },
   ],
   assetFlowTitle: "Making VRChat assets",
-  assetFlowLead: "Shaders like DeepFrostIce and avatar gimmicks are made with the same team.",
+  assetFlowLead: "Shaders like DeepFrostIce and avatar gimmicks are made with the same team. 技師 works inside the Unity Editor itself through MCP for Unity.",
   assetFlow: [
     { who: "Me", title: "Ask", note: "Describe the shader or gimmick I want to make." },
     { who: "意匠家 (Ishōka)", title: "Set the direction", note: "Proposes how it should look, and I pick from the options." },
-    { who: "技師 (Gishi)", title: "Build", note: "Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar." },
-    { who: "Claude Code → Me", title: "Check", note: "Claude Code checks with compiles, tests and screenshots first; then I try it myself in Unity and VRChat." },
+    { who: "技師 (Gishi)", title: "Build", note: "Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar, building it into scenes and prefabs through MCP for Unity." },
+    { who: "技師 (Gishi) → Me", title: "Check", note: "Through MCP for Unity, 技師 reads the console errors and fixes them, runs my tools such as Fit To Avatar for real, and checks screenshots of the scene. Then I try it myself in Unity and VRChat." },
     { who: "Claude Code", title: "Write the manual", note: "Writes the manual site (Japanese and English) and the BOOTH product page, and corrects figures such as polygon counts to the measured values." },
   ],
   rulesTitle: "Rules I keep",
@@ -59,12 +62,15 @@ const l = isEn ? {
   me: "ぬにふちさか",
   meNote: "やりたいことを日本語で伝え、出てきた選択肢から選ぶ",
   hub: "Claude Code",
-  hubNote: "依頼を読み、作業を分けて任せ、結果を報告する",
+  hubNote: "依頼を読み、作業をサブエージェントに任せ、結果を報告する",
   agentsTitle: "エージェント",
+  agentsNote: "どちらもClaude Codeのサブエージェント（.claude/agents）として定義している。",
   agents: [
-    { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。" },
-    { name: "技師", role: "実装", note: "コードを書いて確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。" },
+    { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。案を出すだけで、コードは書かない。" },
+    { name: "技師", role: "実装", note: "コードを書くのは技師だけ。書いたものは自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。" },
   ],
+  mcpTitle: "MCP",
+  mcp: { name: "MCP for Unity", url: "https://github.com/CoplayDev/unity-mcp", note: "CoplayDevのMCPサーバー。Claude CodeとUnityエディターをつなぐ。技師はこれで、コンソールのエラーを読み、シーンやプレハブを操作し、メニューや自作のツールを実行し、画面を撮って確かめる。" },
   skillsTitle: "スキル",
   skills: [
     { name: "Frontend Design", note: "テンプレート感のないデザインのための、Anthropic公式のスキル。2026年10月31日に導入。" },
@@ -81,12 +87,12 @@ const l = isEn ? {
     { who: "ぬにふちさか", title: "報告を読む", note: "確認できなかったことも、はっきり書いてもらう。" },
   ],
   assetFlowTitle: "VRChat用アセットを作る流れ",
-  assetFlowLead: "DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。",
+  assetFlowLead: "DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。Unityの中の作業は、技師がMCP for Unityを通じてUnityエディターを直接操作して進めます。",
   assetFlow: [
     { who: "ぬにふちさか", title: "依頼する", note: "作りたいシェーダーやギミックを日本語で伝える。" },
     { who: "意匠家", title: "方向を決める", note: "見た目の方向性の案を出してもらい、選択式で選ぶ。" },
-    { who: "技師", title: "作る", note: "シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。" },
-    { who: "Claude Code → ぬにふちさか", title: "確かめる", note: "Claude Codeがコンパイルやテスト、スクリーンショットで確かめ、最後にぬにふちさかがUnityとVRChatで実際に試す。" },
+    { who: "技師", title: "作る", note: "シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。" },
+    { who: "技師 → ぬにふちさか", title: "確かめる", note: "技師がMCP for Unityで、コンソールのエラーを読んで直し、Fit To Avatarなどの自作ツールを実際に動かし、シーンの画面を撮って確かめる。最後にぬにふちさかがUnityとVRChatで実際に試す。" },
     { who: "Claude Code", title: "説明書を書く", note: "説明書サイト（日本語と英語）とBOOTHの商品ページを書く。ポリゴン数などは実測値に合わせて直す。" },
   ],
   rulesTitle: "決めているルール",
@@ -124,6 +130,7 @@ const l = isEn ? {
     <div class="team_1__groups">
       <div class="team_1__group">
         <h3 class="team_1__h"><%= l.agentsTitle %></h3>
+        <p class="team_1__groupnote"><%= l.agentsNote %></p>
         <ul>
           <% l.agents.forEach(function (agent) { %>
             <li class="team_1__node">
@@ -150,6 +157,15 @@ const l = isEn ? {
           <li class="team_1__node">
             <p class="team_1__name" lang="en"><%= l.memory.name %></p>
             <p class="team_1__note"><%= l.memory.note %></p>
+          </li>
+        </ul>
+      </div>
+      <div class="team_1__group">
+        <h3 class="team_1__h"><%= l.mcpTitle %></h3>
+        <ul>
+          <li class="team_1__node">
+            <p class="team_1__name" lang="en"><a href="<%= l.mcp.url %>" target="_blank" rel="noopener"><%= l.mcp.name %></a></p>
+            <p class="team_1__note"><%= l.mcp.note %></p>
           </li>
         </ul>
       </div>
