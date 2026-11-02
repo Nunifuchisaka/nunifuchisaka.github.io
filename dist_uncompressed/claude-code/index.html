@@ -137,7 +137,7 @@
 <main id="main">
 <section class="section_2 page_1" aria-labelledby="claude-heading">
   <h1 class="page_1__h1" id="claude-heading">Claude Code の使い方</h1>
-  <p class="section_2__lead">このサイトやBOOTHの説明書サイトは、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、依頼から公開までの進め方を紹介します。</p>
+  <p class="section_2__lead">VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、それぞれの作り方を紹介します。</p>
 </section>
 
 <section class="section_2" aria-labelledby="setup-heading">
@@ -160,12 +160,12 @@
           
             <li class="team_1__node">
               <p class="team_1__name">意匠家 <span class="team_1__role">デザイン</span></p>
-              <p class="team_1__note">コードより先に方向性の案を出す。配色・書体・ワイヤーフレームと、ページの決め手になる要素。</p>
+              <p class="team_1__note">コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。</p>
             </li>
           
             <li class="team_1__node">
               <p class="team_1__name">技師 <span class="team_1__role">実装</span></p>
-              <p class="team_1__note">コードを書き、ビルドし、HTMLの検証やスクリーンショットで確かめる。</p>
+              <p class="team_1__note">コードを書いて確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。</p>
             </li>
           
         </ul>
@@ -200,32 +200,75 @@
 </section>
 
 <section class="section_2" aria-labelledby="flow-heading">
-  <h2 class="section_2__h1" id="flow-heading">依頼から公開まで</h2>
+  <h2 class="section_2__h1" id="flow-heading">サイトを作る流れ</h2>
   <ol class="flow_1">
     
       <li class="flow_1__step">
+        <p class="flow_1__who">ぬにふちさか</p>
         <p class="flow_1__title">依頼する</p>
         <p class="flow_1__note">やりたいことを日本語で伝える。</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">意匠家</p>
         <p class="flow_1__title">案を見る</p>
         <p class="flow_1__note">コードを書く前に、配色・書体・ワイヤーフレームなどの方向性の案を出してもらう。</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">ぬにふちさか</p>
         <p class="flow_1__title">選んで承認する</p>
         <p class="flow_1__note">確認はいつも選択式。おすすめが先頭に来る。</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">技師</p>
         <p class="flow_1__title">作って確かめる</p>
         <p class="flow_1__note">ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">ぬにふちさか</p>
         <p class="flow_1__title">報告を読む</p>
         <p class="flow_1__note">確認できなかったことも、はっきり書いてもらう。</p>
+      </li>
+    
+  </ol>
+</section>
+
+<section class="section_2" aria-labelledby="asset-flow-heading">
+  <h2 class="section_2__h1" id="asset-flow-heading">VRChat用アセットを作る流れ</h2>
+  <p class="section_2__lead">DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。</p>
+  <ol class="flow_1">
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">ぬにふちさか</p>
+        <p class="flow_1__title">依頼する</p>
+        <p class="flow_1__note">作りたいシェーダーやギミックを日本語で伝える。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">意匠家</p>
+        <p class="flow_1__title">方向を決める</p>
+        <p class="flow_1__note">見た目の方向性の案を出してもらい、選択式で選ぶ。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">技師</p>
+        <p class="flow_1__title">作る</p>
+        <p class="flow_1__note">シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Claude Code → ぬにふちさか</p>
+        <p class="flow_1__title">確かめる</p>
+        <p class="flow_1__note">Claude Codeがコンパイルやテスト、スクリーンショットで確かめ、最後にぬにふちさかがUnityとVRChatで実際に試す。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Claude Code</p>
+        <p class="flow_1__title">説明書を書く</p>
+        <p class="flow_1__note">説明書サイト（日本語と英語）とBOOTHの商品ページを書く。ポリゴン数などは実測値に合わせて直す。</p>
       </li>
     
   </ol>
@@ -254,8 +297,13 @@
       </div>
     
       <div class="examples_1__item">
-        <dt>BOOTHの商品の説明書サイト</dt>
-        <dd>DeepFrostIce、HeartBeat、SpiderWebなど。多くは日本語と英語の2言語。</dd>
+        <dt>BOOTHの商品と説明書サイト</dt>
+        <dd>シェーダーのDeepFrostIce、ギミックのHeartBeat・SpiderWeb・餓者髑髏・Regretなど。説明書の多くは日本語と英語の2言語。</dd>
+      </div>
+    
+      <div class="examples_1__item">
+        <dt>AIエージェントから使えるツール</dt>
+        <dd>ImageGetterは結果をJSONで返せるので、Claude Codeから直接呼び出せる。NuniAvatarToolkitにはPython API、DeskCinemaにはエージェント向けのAPIと専用のスキルがある。</dd>
       </div>
     
       <div class="examples_1__item">

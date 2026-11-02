@@ -137,7 +137,7 @@
 <main id="main">
 <section class="section_2 page_1" aria-labelledby="claude-heading">
   <h1 class="page_1__h1" id="claude-heading">How I use Claude Code</h1>
-  <p class="section_2__lead">This site and my BOOTH manual sites are built together with Anthropic&#39;s Claude Code. Here is how my agents are set up and how a request moves from idea to release.</p>
+  <p class="section_2__lead">My VRChat assets — shaders and avatar gimmicks — their manual sites, and this site are all made together with Anthropic&#39;s Claude Code. Here is how my agents are set up and how each kind of work moves from idea to release.</p>
 </section>
 
 <section class="section_2" aria-labelledby="setup-heading">
@@ -160,12 +160,12 @@
           
             <li class="team_1__node">
               <p class="team_1__name">意匠家 (Ishōka) <span class="team_1__role">Design</span></p>
-              <p class="team_1__note">Proposes the direction before any code: palette, type, wireframes, and the one element that makes the page memorable.</p>
+              <p class="team_1__note">Proposes the direction before any code is written: for a page, the palette, type and wireframes; for an asset, how it should look.</p>
             </li>
           
             <li class="team_1__node">
               <p class="team_1__name">技師 (Gishi) <span class="team_1__role">Implementation</span></p>
-              <p class="team_1__note">Writes the code, builds it, and checks it with validators and screenshots.</p>
+              <p class="team_1__note">Writes and checks the code: the site&#39;s HTML and CSS, shaders, Unity editor extensions and gimmick setups.</p>
             </li>
           
         </ul>
@@ -200,32 +200,75 @@
 </section>
 
 <section class="section_2" aria-labelledby="flow-heading">
-  <h2 class="section_2__h1" id="flow-heading">How a request moves</h2>
+  <h2 class="section_2__h1" id="flow-heading">Building this site</h2>
   <ol class="flow_1">
     
       <li class="flow_1__step">
+        <p class="flow_1__who">Me</p>
         <p class="flow_1__title">Ask</p>
         <p class="flow_1__note">Say what I want in Japanese.</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">意匠家 (Ishōka)</p>
         <p class="flow_1__title">See the proposal</p>
-        <p class="flow_1__note">Before any code, Claude shows a design direction: colors, type and wireframes.</p>
+        <p class="flow_1__note">Before any code, a design direction: colors, type and wireframes.</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">Me</p>
         <p class="flow_1__title">Pick and approve</p>
         <p class="flow_1__note">Confirmations always come as choices, with the recommended one first.</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">技師 (Gishi)</p>
         <p class="flow_1__title">Build and check</p>
         <p class="flow_1__note">Build, validate the HTML, and look at screenshots in light and dark, desktop and phone.</p>
       </li>
     
       <li class="flow_1__step">
+        <p class="flow_1__who">Me</p>
         <p class="flow_1__title">Read the report</p>
         <p class="flow_1__note">The report says plainly what could not be checked.</p>
+      </li>
+    
+  </ol>
+</section>
+
+<section class="section_2" aria-labelledby="asset-flow-heading">
+  <h2 class="section_2__h1" id="asset-flow-heading">Making VRChat assets</h2>
+  <p class="section_2__lead">Shaders like DeepFrostIce and avatar gimmicks are made with the same team.</p>
+  <ol class="flow_1">
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Me</p>
+        <p class="flow_1__title">Ask</p>
+        <p class="flow_1__note">Describe the shader or gimmick I want to make.</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">意匠家 (Ishōka)</p>
+        <p class="flow_1__title">Set the direction</p>
+        <p class="flow_1__note">Proposes how it should look, and I pick from the options.</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">技師 (Gishi)</p>
+        <p class="flow_1__title">Build</p>
+        <p class="flow_1__note">Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar.</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Claude Code → Me</p>
+        <p class="flow_1__title">Check</p>
+        <p class="flow_1__note">Claude Code checks with compiles, tests and screenshots first; then I try it myself in Unity and VRChat.</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Claude Code</p>
+        <p class="flow_1__title">Write the manual</p>
+        <p class="flow_1__note">Writes the manual site (Japanese and English) and the BOOTH product page, and corrects figures such as polygon counts to the measured values.</p>
       </li>
     
   </ol>
@@ -254,8 +297,13 @@
       </div>
     
       <div class="examples_1__item">
-        <dt>BOOTH product manuals</dt>
-        <dd>Manual sites for DeepFrostIce, HeartBeat, SpiderWeb and more, many in both Japanese and English.</dd>
+        <dt>BOOTH products and their manuals</dt>
+        <dd>The DeepFrostIce shader and gimmicks such as HeartBeat, SpiderWeb, Gashadokuro and Regret. Most manuals are in both Japanese and English.</dd>
+      </div>
+    
+      <div class="examples_1__item">
+        <dt>Tools that AI agents can use</dt>
+        <dd>ImageGetter can return its results as JSON so Claude Code can call it directly; NuniAvatarToolkit has a Python API; DeskCinema has an agent API and its own skill.</dd>
       </div>
     
       <div class="examples_1__item">

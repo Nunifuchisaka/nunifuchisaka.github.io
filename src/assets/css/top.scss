@@ -1381,6 +1381,13 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     }
   }
 
+  // その手順を誰がするか（ぬにふちさか・意匠家・技師・Claude Code）
+  &__who {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
   &__title {
     font-size: 1.7rem;
     font-weight: 900;
