@@ -4,7 +4,7 @@ const isEn = pageLocale === "en";
 // ぬにふちさかの Claude Code の使い方。事実だけを書く（出典：CLAUDE.md、.claude/settings.json、git の履歴、管理人の取り決め）
 const l = isEn ? {
   title: "How I use Claude Code",
-  lead: "This site and my BOOTH manual sites are built together with Anthropic's Claude Code. Here is how my agents are set up and how a request moves from idea to release.",
+  lead: "My VRChat assets — shaders and avatar gimmicks — their manual sites, and this site are all made together with Anthropic's Claude Code. Here is how my agents are set up and how each kind of work moves from idea to release.",
   setupTitle: "Setup",
   me: "Me",
   meNote: "Asks for things in plain Japanese and picks from the options offered",
@@ -12,8 +12,8 @@ const l = isEn ? {
   hubNote: "Reads the request, splits the work and reports back",
   agentsTitle: "Agents",
   agents: [
-    { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code: palette, type, wireframes, and the one element that makes the page memorable." },
-    { name: "技師 (Gishi)", role: "Implementation", note: "Writes the code, builds it, and checks it with validators and screenshots." },
+    { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code is written: for a page, the palette, type and wireframes; for an asset, how it should look." },
+    { name: "技師 (Gishi)", role: "Implementation", note: "Writes and checks the code: the site's HTML and CSS, shaders, Unity editor extensions and gimmick setups." },
   ],
   skillsTitle: "Skills",
   skills: [
@@ -22,13 +22,22 @@ const l = isEn ? {
   ],
   memoryTitle: "Project notes",
   memory: { name: "CLAUDE.md", note: "Kept in the repository: how the site is structured, the build commands, and the class naming rules. It also says to always reply in Japanese." },
-  flowTitle: "How a request moves",
+  flowTitle: "Building this site",
   flow: [
-    { title: "Ask", note: "Say what I want in Japanese." },
-    { title: "See the proposal", note: "Before any code, Claude shows a design direction: colors, type and wireframes." },
-    { title: "Pick and approve", note: "Confirmations always come as choices, with the recommended one first." },
-    { title: "Build and check", note: "Build, validate the HTML, and look at screenshots in light and dark, desktop and phone." },
-    { title: "Read the report", note: "The report says plainly what could not be checked." },
+    { who: "Me", title: "Ask", note: "Say what I want in Japanese." },
+    { who: "意匠家 (Ishōka)", title: "See the proposal", note: "Before any code, a design direction: colors, type and wireframes." },
+    { who: "Me", title: "Pick and approve", note: "Confirmations always come as choices, with the recommended one first." },
+    { who: "技師 (Gishi)", title: "Build and check", note: "Build, validate the HTML, and look at screenshots in light and dark, desktop and phone." },
+    { who: "Me", title: "Read the report", note: "The report says plainly what could not be checked." },
+  ],
+  assetFlowTitle: "Making VRChat assets",
+  assetFlowLead: "Shaders like DeepFrostIce and avatar gimmicks are made with the same team.",
+  assetFlow: [
+    { who: "Me", title: "Ask", note: "Describe the shader or gimmick I want to make." },
+    { who: "意匠家 (Ishōka)", title: "Set the direction", note: "Proposes how it should look, and I pick from the options." },
+    { who: "技師 (Gishi)", title: "Build", note: "Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar." },
+    { who: "Claude Code → Me", title: "Check", note: "Claude Code checks with compiles, tests and screenshots first; then I try it myself in Unity and VRChat." },
+    { who: "Claude Code", title: "Write the manual", note: "Writes the manual site (Japanese and English) and the BOOTH product page, and corrects figures such as polygon counts to the measured values." },
   ],
   rulesTitle: "Rules I keep",
   rules: [
@@ -39,12 +48,13 @@ const l = isEn ? {
   examplesTitle: "Examples",
   examples: [
     { title: "This top page (November 2026)", note: "Redesigned with the Frontend Design skill in a Claude Code cloud session. It went through several directions — a field-guide page, an ice crystal in three.js, a snowflake of guide photos, a photo timeline — before settling on this one." },
-    { title: "BOOTH product manuals", note: "Manual sites for DeepFrostIce, HeartBeat, SpiderWeb and more, many in both Japanese and English." },
+    { title: "BOOTH products and their manuals", note: "The DeepFrostIce shader and gimmicks such as HeartBeat, SpiderWeb, Gashadokuro and Regret. Most manuals are in both Japanese and English." },
+    { title: "Tools that AI agents can use", note: "ImageGetter can return its results as JSON so Claude Code can call it directly; NuniAvatarToolkit has a Python API; DeskCinema has an agent API and its own skill." },
     { title: "Commit history", note: "As of November 2, 2026, 33 of the 51 commits on main record Claude as a co-author — across Opus, Sonnet, Haiku and Fable models." },
   ],
 } : {
   title: "Claude Code の使い方",
-  lead: "このサイトやBOOTHの説明書サイトは、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、依頼から公開までの進め方を紹介します。",
+  lead: "VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、それぞれの作り方を紹介します。",
   setupTitle: "構成",
   me: "ぬにふちさか",
   meNote: "やりたいことを日本語で伝え、出てきた選択肢から選ぶ",
@@ -52,8 +62,8 @@ const l = isEn ? {
   hubNote: "依頼を読み、作業を分けて任せ、結果を報告する",
   agentsTitle: "エージェント",
   agents: [
-    { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。配色・書体・ワイヤーフレームと、ページの決め手になる要素。" },
-    { name: "技師", role: "実装", note: "コードを書き、ビルドし、HTMLの検証やスクリーンショットで確かめる。" },
+    { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。" },
+    { name: "技師", role: "実装", note: "コードを書いて確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。" },
   ],
   skillsTitle: "スキル",
   skills: [
@@ -62,13 +72,22 @@ const l = isEn ? {
   ],
   memoryTitle: "プロジェクトの覚え書き",
   memory: { name: "CLAUDE.md", note: "リポジトリに置いている指示書。サイトの構成・ビルドの手順・クラス名の付け方を書き、「常に日本語で応答する」と決めている。" },
-  flowTitle: "依頼から公開まで",
+  flowTitle: "サイトを作る流れ",
   flow: [
-    { title: "依頼する", note: "やりたいことを日本語で伝える。" },
-    { title: "案を見る", note: "コードを書く前に、配色・書体・ワイヤーフレームなどの方向性の案を出してもらう。" },
-    { title: "選んで承認する", note: "確認はいつも選択式。おすすめが先頭に来る。" },
-    { title: "作って確かめる", note: "ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。" },
-    { title: "報告を読む", note: "確認できなかったことも、はっきり書いてもらう。" },
+    { who: "ぬにふちさか", title: "依頼する", note: "やりたいことを日本語で伝える。" },
+    { who: "意匠家", title: "案を見る", note: "コードを書く前に、配色・書体・ワイヤーフレームなどの方向性の案を出してもらう。" },
+    { who: "ぬにふちさか", title: "選んで承認する", note: "確認はいつも選択式。おすすめが先頭に来る。" },
+    { who: "技師", title: "作って確かめる", note: "ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。" },
+    { who: "ぬにふちさか", title: "報告を読む", note: "確認できなかったことも、はっきり書いてもらう。" },
+  ],
+  assetFlowTitle: "VRChat用アセットを作る流れ",
+  assetFlowLead: "DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。",
+  assetFlow: [
+    { who: "ぬにふちさか", title: "依頼する", note: "作りたいシェーダーやギミックを日本語で伝える。" },
+    { who: "意匠家", title: "方向を決める", note: "見た目の方向性の案を出してもらい、選択式で選ぶ。" },
+    { who: "技師", title: "作る", note: "シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。" },
+    { who: "Claude Code → ぬにふちさか", title: "確かめる", note: "Claude Codeがコンパイルやテスト、スクリーンショットで確かめ、最後にぬにふちさかがUnityとVRChatで実際に試す。" },
+    { who: "Claude Code", title: "説明書を書く", note: "説明書サイト（日本語と英語）とBOOTHの商品ページを書く。ポリゴン数などは実測値に合わせて直す。" },
   ],
   rulesTitle: "決めているルール",
   rules: [
@@ -79,7 +98,8 @@ const l = isEn ? {
   examplesTitle: "作ったもの",
   examples: [
     { title: "このサイトのトップページ（2026年11月）", note: "Frontend Designスキルを使い、Claude Codeのクラウドのセッションで作り直した。図鑑風、three.jsの氷晶、案内写真の雪の結晶、写真の時間軸と、何度も方向を変えて今の形に。" },
-    { title: "BOOTHの商品の説明書サイト", note: "DeepFrostIce、HeartBeat、SpiderWebなど。多くは日本語と英語の2言語。" },
+    { title: "BOOTHの商品と説明書サイト", note: "シェーダーのDeepFrostIce、ギミックのHeartBeat・SpiderWeb・餓者髑髏・Regretなど。説明書の多くは日本語と英語の2言語。" },
+    { title: "AIエージェントから使えるツール", note: "ImageGetterは結果をJSONで返せるので、Claude Codeから直接呼び出せる。NuniAvatarToolkitにはPython API、DeskCinemaにはエージェント向けのAPIと専用のスキルがある。" },
     { title: "コミットの記録", note: "2026年11月2日時点で、mainの51件のコミットのうち33件に、Claudeが共同作業者として記録されている。モデルはOpus・Sonnet・Haiku・Fable。" },
   ],
 };
@@ -142,6 +162,21 @@ const l = isEn ? {
   <ol class="flow_1">
     <% l.flow.forEach(function (step) { %>
       <li class="flow_1__step">
+        <p class="flow_1__who"><%= step.who %></p>
+        <p class="flow_1__title"><%= step.title %></p>
+        <p class="flow_1__note"><%= step.note %></p>
+      </li>
+    <% }); %>
+  </ol>
+</section>
+
+<section class="section_2" aria-labelledby="asset-flow-heading">
+  <h2 class="section_2__h1" id="asset-flow-heading"><%= l.assetFlowTitle %></h2>
+  <p class="section_2__lead"><%= l.assetFlowLead %></p>
+  <ol class="flow_1">
+    <% l.assetFlow.forEach(function (step) { %>
+      <li class="flow_1__step">
+        <p class="flow_1__who"><%= step.who %></p>
         <p class="flow_1__title"><%= step.title %></p>
         <p class="flow_1__note"><%= step.note %></p>
       </li>

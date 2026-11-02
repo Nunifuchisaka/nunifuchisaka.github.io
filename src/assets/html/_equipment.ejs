@@ -55,8 +55,8 @@ const groups = [
 ];
 const shopName = (url) => /amzn\.to|amazon\./.test(url) ? "Amazon" : (url.match(/^https?:\/\/(?:www\.)?([^/]+)/) || [, ""])[1];
 const l = isEn
-  ? { title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop) => `View on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group" }
-  : { title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop) => `${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す" };
+  ? { disclosure: "As an Amazon Associate, Nunifuchisaka earns from qualifying purchases.", title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop) => `View on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group" }
+  : { disclosure: "Amazonのアソシエイトとして、ぬにふちさかは適格販売により収入を得ています。", title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop) => `${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す" };
 const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
 %><section class="section_2 page_1" aria-labelledby="equipment-heading">
   <h1 class="page_1__h1" id="equipment-heading"><%= l.title %></h1>
@@ -94,3 +94,7 @@ const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
   </ul>
 </section>
 <% }); %>
+
+<section class="section_2">
+  <p class="section_2__note"><%= l.disclosure %></p>
+</section>
