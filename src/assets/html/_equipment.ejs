@@ -9,20 +9,20 @@ const groups = [
     id: "headset",
     title: { ja: "ゴーグルとつけ心地", en: "Headset and comfort" },
     items: [
-      { icon: "fa-solid fa-vr-cardboard", name: { ja: "Meta Quest 3", en: "Meta Quest 3" }, what: { ja: "VRゴーグル（HMD）。単体でも、PCにつないでも使える。", en: "The VR headset. Works on its own or connected to a PC." }, url: "https://amzn.to/45kLb34" },
+      { icon: "fa-solid fa-vr-cardboard", name: { ja: "Meta Quest 3", en: "Meta Quest 3" }, what: { ja: "VRゴーグル（[[hmd|HMD]]）。単体でも、PCにつないでも使える。", en: "The VR headset ([[hmd|HMD]]). Works on its own or connected to a PC." }, url: "https://amzn.to/45kLb34" },
       { icon: "fa-solid fa-battery-full", name: { ja: "BOBOVR M3 Pro", en: "BOBOVR M3 Pro" }, what: { ja: "バッテリー付きのヘッドストラップ。後ろの重さで前後のバランスがとれ、遊べる時間ものびる。", en: "A head strap with a battery. The weight at the back balances the headset and adds play time." }, url: "https://amzn.to/45VMXYA" },
       { icon: "fa-solid fa-glasses", name: { ja: "視力補正レンズ", en: "Prescription lens inserts" }, what: { ja: "ゴーグルの内側に取り付けて、眼鏡なしでくっきり見るためのレンズ。", en: "Lenses that attach inside the headset so you can see clearly without glasses." }, url: "https://shop.roox.jp/product-category/stayhome/vr-ar/mop" },
       { icon: "fa-solid fa-face-smile", name: { ja: "フェイスクッション（アイスシルク）", en: "Face cushion (ice silk)" }, what: { ja: "顔に当たる部分のクッション。光漏れを減らす。", en: "The cushion that touches your face. Cuts down light leaking in." }, url: "https://amzn.to/3HDcjkI" },
       { icon: "fa-solid fa-gamepad", name: { ja: "コントローラー グリップ", en: "Controller grips" }, what: { ja: "コントローラーを握りやすくし、手から落ちにくくする。", en: "Make the controllers easier to hold and harder to drop." }, url: "https://amzn.to/471NhGf" },
-      { icon: "fa-solid fa-weight-hanging", name: { ja: "釣具の板おもり", en: "Fishing lead sheet" }, what: { ja: "少しずつ切って貼れるおもり。ゴーグルの前後の重さの釣り合い（カウンターウエイト）の微調整に。", en: "A lead sheet you can cut and stick on, for fine-tuning the headset's counterweight." }, url: "https://amzn.to/45u8ZA8" },
+      { icon: "fa-solid fa-weight-hanging", name: { ja: "釣具の板おもり", en: "Fishing lead sheet" }, what: { ja: "少しずつ切って貼れるおもり。ゴーグルの前後の重さの釣り合い（[[counterweight|カウンターウエイト]]）の微調整に。", en: "A lead sheet you can cut and stick on, for fine-tuning the headset's [[counterweight|counterweight]]." }, url: "https://amzn.to/45u8ZA8" },
     ],
   },
   {
     id: "power",
     title: { ja: "電源とつなぎ方", en: "Power and connection" },
     items: [
-      { icon: "fa-solid fa-wifi", name: { ja: "TP-Link Wi-Fi 中継器", en: "TP-Link Wi-Fi range extender" }, what: { ja: "PCとゴーグルを無線でつなぐ（無線VR）ときの通信を安定させる。", en: "Steadies the connection when the headset streams from the PC wirelessly." }, url: "https://amzn.to/3JkFj1d" },
-      { icon: "fa-solid fa-plug", name: { ja: "KIWI design リンクケーブル", en: "KIWI design Link cable" }, what: { ja: "PCとゴーグルを有線でつなぐ（有線VR）ためのケーブル。", en: "A cable for playing PC VR over a wired connection." }, url: "https://amzn.to/3JCpKln" },
+      { icon: "fa-solid fa-wifi", name: { ja: "TP-Link Wi-Fi 中継器", en: "TP-Link Wi-Fi range extender" }, what: { ja: "PCとゴーグルを無線でつなぐ（[[wireless|無線VR]]）ときの通信を安定させる。", en: "Steadies the connection when the headset streams from the PC wirelessly ([[wireless|wireless PC VR]])." }, url: "https://amzn.to/3JkFj1d" },
+      { icon: "fa-solid fa-plug", name: { ja: "KIWI design リンクケーブル", en: "KIWI design Link cable" }, what: { ja: "PCとゴーグルを有線でつなぐ（[[wired|有線VR]]）ためのケーブル。", en: "A cable for playing PC VR over a wired connection ([[wired|wired PC VR]])." }, url: "https://amzn.to/3JCpKln" },
       { icon: "fa-solid fa-bolt", name: { ja: "UGREEN Linkケーブル", en: "UGREEN Link cable" }, what: { ja: "Linkケーブル。", en: "A Link cable." }, note: { ja: "ぬにふちさかは、コンセントからの給電のためだけに使っています。", en: "I use it only to power the headset from a wall outlet." }, url: "https://amzn.to/45FaATZ" },
       { icon: "fa-solid fa-battery-half", name: { ja: "単3 リチウムイオン充電池 2550mWh", en: "AA lithium-ion rechargeable batteries (2550 mWh)" }, what: { ja: "繰り返し使える単3形の充電池。", en: "Reusable AA batteries." }, url: "https://amzn.to/45TpOWF" },
     ],
@@ -48,19 +48,48 @@ const groups = [
     id: "fbt",
     title: { ja: "フルトラ機材", en: "Full-body tracking" },
     items: [
-      { icon: "fa-solid fa-person-running", name: { ja: "HaritoraX 2", en: "HaritoraX 2" }, what: { ja: "体に着けて全身の動きをアバターに反映するトラッカー。内蔵バッテリー式。", en: "Trackers you wear to bring your whole body's movement into your avatar. Built-in battery." }, url: "https://ja.shiftall.net/products/haritorax2" },
+      { icon: "fa-solid fa-person-running", name: { ja: "HaritoraX 2", en: "HaritoraX 2" }, what: { ja: "体に着けて全身の動きをアバターに反映する（[[fbt|フルトラ]]）トラッカー。内蔵バッテリー式。", en: "Trackers you wear to bring your whole body's movement into your avatar ([[fbt|full-body tracking]]). Built-in battery." }, url: "https://ja.shiftall.net/products/haritorax2" },
       { icon: "fa-solid fa-shoe-prints", name: { ja: "Uni-motion", en: "Uni-motion" }, what: { ja: "全身の動きを取るトラッカー。単3電池式。", en: "Full-body trackers that run on AA batteries." }, url: "https://uni-motion.com/" },
     ],
   },
 ];
+// 初めての人には分かりにくい言葉。説明文の中の [[キー|表示する言葉]] が、押すと説明が開くボタン（popover）になる。
+// popover は HTML だけで開閉でき（JS なし）、外を押すか Esc で閉じる。
+const terms = {
+  hmd: {
+    title: { ja: "HMD（ヘッドマウントディスプレイ）", en: "HMD (head-mounted display)" },
+    body: { ja: "頭に着けるディスプレイのこと。VRゴーグルとも呼ぶ。目の前の画面に映像を映し、頭の向きや位置を読み取って、見ている景色を動かす。", en: "A display you wear on your head, also called a VR headset. It shows the picture right in front of your eyes and follows where your head turns and moves." },
+  },
+  counterweight: {
+    title: { ja: "カウンターウエイト", en: "Counterweight" },
+    body: { ja: "ゴーグルの後ろ側に付けるおもり。ゴーグルは前が重いので、後ろにも重さを足して前後を釣り合わせる。顔への押しつけや、首の疲れが減る。", en: "A weight you add to the back of the headset. Headsets are heavy at the front, so weight at the back balances them. It eases the pressure on your face and the strain on your neck." },
+  },
+  wireless: {
+    title: { ja: "無線VR", en: "Wireless PC VR" },
+    body: { ja: "PCで描いた映像を、Wi-Fiでゴーグルに送って遊ぶ方法。ケーブルが無いので動きやすい。電波が混むと、映像が乱れたり遅れたりする。Questでは、Air LinkやSteam Link、Virtual Desktopなどのアプリを使う。", en: "Playing PC VR with the picture sent from the PC to the headset over Wi-Fi. With no cable you can move freely, but a busy network can make the picture stutter or lag. On Quest you use apps such as Air Link, Steam Link or Virtual Desktop." },
+  },
+  wired: {
+    title: { ja: "有線VR", en: "Wired PC VR" },
+    body: { ja: "PCとゴーグルをUSBケーブルでつなぎ、PCで描いた映像を送って遊ぶ方法。映像が安定しやすい。Questでは、Quest Link（Meta Quest Link）を使う。", en: "Playing PC VR with the headset connected to the PC by a USB cable. The picture tends to be steadier. On Quest this is Quest Link (Meta Quest Link)." },
+  },
+  fbt: {
+    title: { ja: "フルトラ（フルボディトラッキング）", en: "Full-body tracking" },
+    body: { ja: "頭と手だけでなく、腰や足などの動きも読み取って、アバターに映すこと。体にトラッカーという小さな機械を着けて使う。座る・寝転ぶ・足を組むといった動きも、アバターでできるようになる。", en: "Bringing not just your head and hands but also your hips, legs and feet into your avatar. You wear small devices called trackers. It lets your avatar sit, lie down or cross its legs as you do." },
+  },
+};
+// 説明文を、HTML として安全な形にしてから [[キー|言葉]] をボタンに置き換える
+const esc = (text) => String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const withTerms = (text) => esc(text)
+  .replace(/\[\[([a-z]+)\|([^\]]+)\]\]/g, (m, key, label) => `<button type="button" class="term_1" popovertarget="term-${key}">${label}</button>`);
 const shopName = (url) => /amzn\.to|amazon\./.test(url) ? "Amazon" : (url.match(/^https?:\/\/(?:www\.)?([^/]+)/) || [, ""])[1];
 const l = isEn
-  ? { disclosure: "As an Amazon Associate, Nunifuchisaka earns from qualifying purchases.", title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop) => `View on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group" }
-  : { disclosure: "Amazonのアソシエイトとして、ぬにふちさかは適格販売により収入を得ています。", title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop) => `${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す" };
+  ? { disclosure: "As an Amazon Associate, Nunifuchisaka earns from qualifying purchases.", title: "VR Gear", lead: (n) => `The gear I use for VRChat, grouped by what it is for (${n} items).`, see: (shop, name) => `View <span class="visually-hidden">${name} </span>on ${shop}`, newTab: "(opens in a new tab)", jump: "Jump to a group", termsHint: "Tap a word with a dotted underline for a short explanation.", close: "Close" }
+  : { disclosure: "Amazonのアソシエイトとして、ぬにふちさかは適格販売により収入を得ています。", title: "VR機材", lead: (n) => `VRChatで使っている機材${n}点を、用途ごとにまとめました。`, see: (shop, name) => `<span class="visually-hidden">${name}を</span>${shop}で見る`, newTab: "（新しいタブで開きます）", jump: "用途から探す", termsHint: "点線の下線がある言葉は、押すと説明が出ます。", close: "閉じる" };
 const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
 %><section class="section_2 page_1" aria-labelledby="equipment-heading">
   <h1 class="page_1__h1" id="equipment-heading"><%= l.title %></h1>
   <p class="section_2__lead"><%= l.lead(totalItems) %></p>
+  <p class="section_2__note"><%= l.termsHint %></p>
   <nav class="jump_1" aria-label="<%= l.jump %>">
     <ul>
       <% groups.forEach(function (group) { %>
@@ -75,20 +104,18 @@ const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
   <h2 class="section_2__h1" id="<%= group.id %>-heading"><%= group.title[pageLocale] %></h2>
   <ul class="list_14">
     <% group.items.forEach(function (item) { %>
-      <li>
-        <a href="<%= item.url %>" target="_blank" rel="noopener">
-          <% if (item.image) { %>
-            <span class="list_14__image"><img src="/assets/img/equipment/<%= item.image %>" alt="" loading="lazy"></span>
-          <% } else { %>
-            <span class="list_14__icon" aria-hidden="true"><i class="<%= item.icon %>"></i></span>
-          <% } %>
-          <span class="list_14__body">
-            <span class="list_14__name"><%= item.name[pageLocale] %></span>
-            <span class="list_14__what"><%= item.what[pageLocale] %></span>
-            <% if (item.note) { %><span class="list_14__note"><%= item.note[pageLocale] %></span><% } %>
-            <span class="list_14__shop"><%= l.see(shopName(item.url)) %><span class="visually-hidden"><%= l.newTab %></span></span>
-          </span>
-        </a>
+      <li class="list_14__item">
+        <% if (item.image) { %>
+          <span class="list_14__image"><img src="/assets/img/equipment/<%= item.image %>" alt="" loading="lazy"></span>
+        <% } else { %>
+          <span class="list_14__icon" aria-hidden="true"><i class="<%= item.icon %>"></i></span>
+        <% } %>
+        <div class="list_14__body">
+          <h3 class="list_14__name"><%= item.name[pageLocale] %></h3>
+          <p class="list_14__what"><%- withTerms(item.what[pageLocale]) %></p>
+          <% if (item.note) { %><p class="list_14__note"><%= item.note[pageLocale] %></p><% } %>
+          <a class="list_14__shop" href="<%= item.url %>" target="_blank" rel="noopener"><%- l.see(shopName(item.url), esc(item.name[pageLocale])) %><span class="visually-hidden"><%= l.newTab %></span></a>
+        </div>
       </li>
     <% }); %>
   </ul>
@@ -98,3 +125,11 @@ const totalItems = groups.reduce((sum, g) => sum + g.items.length, 0);
 <section class="section_2">
   <p class="section_2__note"><%= l.disclosure %></p>
 </section>
+
+<% Object.keys(terms).forEach(function (key) { %>
+<div class="term_1__pop" id="term-<%= key %>" popover role="dialog" aria-labelledby="term-<%= key %>-title">
+  <p class="term_1__title" id="term-<%= key %>-title"><%= terms[key].title[pageLocale] %></p>
+  <p class="term_1__body"><%= terms[key].body[pageLocale] %></p>
+  <button type="button" class="term_1__close" popovertarget="term-<%= key %>" popovertargetaction="hide"><%= l.close %></button>
+</div>
+<% }); %>

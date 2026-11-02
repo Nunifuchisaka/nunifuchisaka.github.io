@@ -656,13 +656,33 @@
 
 /*
 ## View Transitions
-内容：写真が広がる動きの速さ（上部のバーは .header_4 に名前を付け、ページ移動の間も動かさない）
+内容：写真が広がる動きの速さと、ページ移動のときの切り替え。
+     ページ移動（cross-document view transitions）は、対応ブラウザだけで動く。動きを減らす設定のときは使わない。
+     上部のバーは .header_4 に名前を付けてあるので、ページを移っても動かさず、中身だけを入れ替える。
+     写真ビューアの動き（JS の startViewTransition）と混ざらないよう、ページ移動には種類 page を付けて分ける。
 */
 ::view-transition-group(viewer-photo) {
   animation-duration: 0.38s;
   animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
 }
+:root:active-view-transition-type(page)::view-transition-old(root) {
+  animation: page_1_out 0.18s ease-in both;
+}
+:root:active-view-transition-type(page)::view-transition-new(root) {
+  animation: page_1_in 0.32s cubic-bezier(0.2, 0.7, 0.3, 1) 0.06s both;
+}
 
+@keyframes page_1_out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page_1_in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
 /*
 ## .chart_1
 使用箇所：案内実績「月ごとの案内回数」
@@ -883,6 +903,27 @@
   background: var(--color-surface);
 }
 
+@supports (animation-timeline: view()) {
+}
+@keyframes milestone_1_line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes milestone_1_dot {
+  to {
+    background: var(--color-text);
+  }
+}
+@keyframes reveal_1 {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
 /*
 ## .jump_1
 使用箇所：VR機材（用途への移動）
@@ -923,7 +964,8 @@
 /*
 ## .list_14
 使用箇所：VR機材
-内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）
+内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）。
+     リンクは「○○で見る」だけにして、カード全体へ広げる（::after）。説明文の中の用語ボタン（term_1）はリンクより上に置いて押せるようにする
 */
 .list_14 {
   display: grid;
@@ -931,7 +973,8 @@
   gap: var(--space-2);
   margin-top: var(--space-2);
 }
-.list_14 a {
+.list_14__item {
+  position: relative;
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: var(--space-2);
@@ -939,20 +982,20 @@
   box-sizing: border-box;
   height: 100%;
   padding: var(--space-2);
-  text-decoration: none;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: 10px;
   transition: border-color 0.15s;
 }
-.top_1 .list_14 a {
-  color: var(--color-text);
-}
-.list_14 a:hover {
+.list_14__item:hover {
   border-color: var(--color-text-muted);
 }
-.list_14 a:hover .list_14__shop {
+.list_14__item:hover .list_14__shop {
   text-decoration: underline;
+}
+.list_14__item:has(.list_14__shop:focus-visible) {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
 }
 .list_14__icon {
   display: grid;
@@ -993,12 +1036,88 @@
   border-left: 3px solid var(--color-line);
 }
 .list_14__shop {
+  justify-self: start;
   margin-top: 2px;
   font-size: 1.3rem;
   font-weight: 700;
+  text-decoration: none;
+}
+.top_1 .list_14__shop {
   color: var(--color-link);
 }
+.list_14__shop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+.top_1 .list_14__shop:focus-visible {
+  outline: 0;
+}
 
+@supports (animation-timeline: view()) {
+}
+/*
+## .term_1
+使用箇所：VR機材（説明文の中の用語）
+内容：押すと用語の説明が開くボタンと、その説明（popover。HTML だけで開閉し、外を押すか Esc で閉じる）
+*/
+.term_1 {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+  cursor: help;
+  background: none;
+  border: 0;
+}
+.term_1:hover {
+  color: var(--color-link);
+}
+.term_1__pop {
+  box-sizing: border-box;
+  width: min(100% - 32px, 28em);
+  margin: auto;
+  padding: var(--space-3);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+.term_1__pop::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+.term_1__title {
+  font-size: 1.7rem;
+  font-weight: 900;
+  line-height: 1.4;
+}
+.term_1__body {
+  margin-top: var(--space-1);
+  font-size: 1.5rem;
+  line-height: 1.8;
+}
+.term_1__close {
+  min-height: 44px;
+  margin-top: var(--space-2);
+  padding: 0 var(--space-3);
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-text);
+  cursor: pointer;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: 100vw;
+}
+.term_1__close:hover {
+  border-color: var(--color-text-muted);
+}
 /*
 ## .list_15
 使用箇所：回想（Vimeo の動画）
@@ -1332,9 +1451,65 @@
   }
 }
 @media (prefers-reduced-motion: no-preference){
+  @view-transition {
+    navigation: auto;
+    types: page;
+  }
     .chart_1__fill {
       animation: chart_1_grow linear both;
       animation-range: entry 0% cover 35%;
       animation-timeline: view();
     }
+    .milestone_1::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 7px;
+      width: 2px;
+      background: var(--color-text);
+      transform-origin: top;
+      animation: milestone_1_line linear both;
+      animation-range: cover 50vh cover calc(100% - 50vh);
+      animation-timeline: view();
+    }
+    .milestone_1__item::before {
+      z-index: 1;
+      animation: milestone_1_dot linear both;
+      animation-range: cover calc(50vh - 1px) cover 50vh;
+      animation-timeline: view();
+    }
+    .milestone_1__head, .milestone_1__photo {
+      animation: reveal_1 linear both;
+      animation-range: entry 0% entry 80%;
+      animation-timeline: view();
+    }
+    .list_14__item {
+      animation: reveal_1 linear both;
+      animation-range: entry 0% entry 90%;
+      animation-timeline: view();
+    }
+  .term_1__pop {
+    transition: opacity 0.18s, transform 0.18s, overlay 0.18s allow-discrete, display 0.18s allow-discrete;
+  }
+  @starting-style {
+    .term_1__pop:popover-open {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  .term_1__pop:not(:popover-open) {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  @view-transition {
+    navigation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

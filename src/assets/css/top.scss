@@ -831,12 +831,57 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## View Transitions
-内容：写真が広がる動きの速さ（上部のバーは .header_4 に名前を付け、ページ移動の間も動かさない）
+内容：写真が広がる動きの速さと、ページ移動のときの切り替え。
+     ページ移動（cross-document view transitions）は、対応ブラウザだけで動く。動きを減らす設定のときは使わない。
+     上部のバーは .header_4 に名前を付けてあるので、ページを移っても動かさず、中身だけを入れ替える。
+     写真ビューアの動き（JS の startViewTransition）と混ざらないよう、ページ移動には種類 page を付けて分ける。
 */
 
 ::view-transition-group(viewer-photo) {
   animation-duration: .38s;
   animation-timing-function: cubic-bezier(.2, .7, .3, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+    types: page;
+  }
+}
+
+// 動きを減らす設定のときは、ページ移動の切り替えを止める。
+// （@media の中の @view-transition だけでは止まらないブラウザがあったので、はっきり none を書き、動きも消す）
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+:root:active-view-transition-type(page) {
+  &::view-transition-old(root) {
+    animation: page_1_out .18s ease-in both;
+  }
+  &::view-transition-new(root) {
+    animation: page_1_in .32s cubic-bezier(.2, .7, .3, 1) .06s both;
+  }
+}
+
+@keyframes page_1_out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page_1_in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 
@@ -1106,6 +1151,63 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 }
 
+// 対応ブラウザでは、スクロールに合わせて縦の線が上から塗られ、画面の真ん中を過ぎた節目の丸が塗りつぶされる。
+// 節目は、画面に入るとき下から浮かび上がる。対応していないブラウザでは、線も丸もそのまま表示する
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .milestone_1 {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        bottom: 8px;
+        left: 7px;
+        width: 2px;
+        background: var(--color-text);
+        transform-origin: top;
+        animation: milestone_1_line linear both;
+        animation-range: cover 50vh cover calc(100% - 50vh);
+        animation-timeline: view();
+      }
+      &__item::before {
+        z-index: 1;
+        animation: milestone_1_dot linear both;
+        animation-range: cover calc(50vh - 1px) cover 50vh;
+        animation-timeline: view();
+      }
+      &__head,
+      &__photo {
+        animation: reveal_1 linear both;
+        animation-range: entry 0% entry 80%;
+        animation-timeline: view();
+      }
+    }
+  }
+}
+
+@keyframes milestone_1_line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes milestone_1_dot {
+  to {
+    background: var(--color-text);
+  }
+}
+
+// 画面に入るとき、少し下から浮かび上がる（scroll-driven animations 用。名前は共通で使う）
+@keyframes reveal_1 {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
 
 /*
 ## .jump_1
@@ -1149,7 +1251,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .list_14
 使用箇所：VR機材
-内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）
+内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）。
+     リンクは「○○で見る」だけにして、カード全体へ広げる（::after）。説明文の中の用語ボタン（term_1）はリンクより上に置いて押せるようにする
 */
 
 .list_14 {
@@ -1161,7 +1264,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  a {
+  &__item {
+    position: relative;
     display: grid;
     grid-template-columns: 56px 1fr;
     gap: var(--space-2);
@@ -1169,19 +1273,21 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     box-sizing: border-box;
     height: 100%;
     padding: var(--space-2);
-    text-decoration: none;
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 10px;
     transition: border-color .15s;
-    .top_1 & {
-      color: var(--color-text);
-    }
     &:hover {
       border-color: var(--color-text-muted);
     }
     &:hover .list_14__shop {
       text-decoration: underline;
+    }
+
+    // キーボードで選んだときは、カード全体に枠を出す
+    &:has(.list_14__shop:focus-visible) {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 3px;
     }
   }
   &__icon {
@@ -1222,10 +1328,117 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     border-left: 3px solid var(--color-line);
   }
   &__shop {
+    justify-self: start;
     margin-top: 2px;
     font-size: 1.3rem;
     font-weight: 700;
+    text-decoration: none;
+    .top_1 & {
+      color: var(--color-link);
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+    }
+    .top_1 &:focus-visible {
+      outline: 0;
+    }
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .list_14__item {
+      animation: reveal_1 linear both;
+      animation-range: entry 0% entry 90%;
+      animation-timeline: view();
+    }
+  }
+}
+
+
+/*
+## .term_1
+使用箇所：VR機材（説明文の中の用語）
+内容：押すと用語の説明が開くボタンと、その説明（popover。HTML だけで開閉し、外を押すか Esc で閉じる）
+*/
+
+.term_1 {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+  cursor: help;
+  background: none;
+  border: 0;
+  &:hover {
     color: var(--color-link);
+  }
+
+  &__pop {
+    box-sizing: border-box;
+    width: min(100% - 32px, 28em);
+    margin: auto;
+    padding: var(--space-3);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgb(0 0 0 / 25%);
+    &::backdrop {
+      background: rgb(0 0 0 / 35%);
+    }
+  }
+
+  &__title {
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 1.4;
+  }
+
+  &__body {
+    margin-top: var(--space-1);
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  &__close {
+    min-height: 44px;
+    margin-top: var(--space-2);
+    padding: 0 var(--space-3);
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+  }
+}
+
+// 開くとき、ふわっと現れる（動きを減らす設定のときは、すぐ出す）
+@media (prefers-reduced-motion: no-preference) {
+  .term_1__pop {
+    transition: opacity .18s, transform .18s, overlay .18s allow-discrete, display .18s allow-discrete;
+    &:popover-open {
+      @starting-style {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+    }
+    &:not(:popover-open) {
+      opacity: 0;
+      transform: translateY(8px);
+    }
   }
 }
 
