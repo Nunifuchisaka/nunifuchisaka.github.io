@@ -9,13 +9,8 @@ const dateLabel = (iso) => {
   const [y, m, d] = iso.split("-").map(Number);
   return isEn ? `${MONTHS_EN[m - 1]} ${d}, ${y}` : `${y}年${m}月${d}日`;
 };
-const l = isEn ? {
-  title: "Avatar Tips",
-  lead: "A series on the parts of avatar editing that trip people up, one topic at a time: how it works, and how to fix it.",
-  scope: "Written for VRChat avatars made in Unity (Built-in Render Pipeline).",
-  no: (n) => `Part ${n}`,
-  more: "More parts are on the way.",
-} : {
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const l = {
   title: "アバター改変の解説",
   lead: "アバター改変でつまずきやすいところを、1回に1つずつ、仕組みと直し方まで解説する連載です。",
   scope: "Unity（Built-in Render Pipeline）で作る VRChat のアバターを前提に書いています。",

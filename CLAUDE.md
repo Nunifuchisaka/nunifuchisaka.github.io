@@ -27,6 +27,11 @@ npm run validate:html # dist_uncompressed/htdocs/**/*.html をhtml-validateで�
 - force push はしない。
 - push のあと、公開ページに変更が出ているかを確かめて報告する。
 
+## 日英の作り方
+
+- 新しいページや記事は、まず日本語版だけを作って公開する。英語版は、管理人が日本語版の内容を固めたと言ってから作る（それまでは修正指示が入るため）。
+- 英語版がまだ無いページは、`_topbar` に `enReady:false` を渡して言語切替の English を選べないようにし、`meta.altUrl` も書かない。英語のメニューに出さない項目は `_topbar.ejs` の `EN_PENDING` に入れる。
+
 ## ビルドパイプラインの構造
 
 `webpack.config.js` は2つの設定（配列）をエクスポートする。**両方が毎回同時に走る**。
