@@ -137,7 +137,7 @@
 <main id="main">
 <section class="section_2 page_1" aria-labelledby="claude-heading">
   <h1 class="page_1__h1" id="claude-heading">Claude Code の使い方</h1>
-  <p class="section_2__lead">VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、それぞれの作り方を紹介します。</p>
+  <p class="section_2__lead">VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeを中心に、OpenAIのCodexとも分担しながら作っています。エージェントの構成と、それぞれの作り方を紹介します。</p>
 </section>
 
 <section class="section_2" aria-labelledby="setup-heading">
@@ -150,13 +150,13 @@
     <div class="team_1__link" aria-hidden="true"></div>
     <div class="team_1__node team_1__node--hub">
       <p class="team_1__name">Claude Code</p>
-      <p class="team_1__note">依頼を読み、作業をサブエージェントに任せ、結果を報告する</p>
+      <p class="team_1__note">依頼を読み、作業をサブエージェントやCodexに任せ、結果を報告する</p>
     </div>
     <div class="team_1__link" aria-hidden="true"></div>
     <div class="team_1__groups">
       <div class="team_1__group">
         <h3 class="team_1__h">エージェント</h3>
-        <p class="team_1__groupnote">どちらもClaude Codeのサブエージェント（.claude/agents）として定義している。</p>
+        <p class="team_1__groupnote">意匠家と技師は、Claude Codeのサブエージェント（.claude/agents）として定義している。CodexはClaude Codeの中から呼び出す。</p>
         <ul>
           
             <li class="team_1__node">
@@ -166,7 +166,12 @@
           
             <li class="team_1__node">
               <p class="team_1__name">技師 <span class="team_1__role">実装</span></p>
-              <p class="team_1__note">コードを書くのは技師だけ。書いたものは自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。</p>
+              <p class="team_1__note">コードを書き、自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。</p>
+            </li>
+          
+            <li class="team_1__node">
+              <p class="team_1__name">Codex <span class="team_1__role">レビュー・並行作業</span></p>
+              <p class="team_1__note">OpenAIのコーディングエージェント。Claude Codeの中から呼び出し、Claude Codeが書いたコードや計画のレビューと、別々の作業の並行を任せる。</p>
             </li>
           
         </ul>
@@ -183,6 +188,11 @@
             <li class="team_1__node">
               <p class="team_1__name" lang="en">booth-product-site</p>
               <p class="team_1__note">BOOTHの商品の説明書サイトを作るための、自分用のスキル。</p>
+            </li>
+          
+            <li class="team_1__node">
+              <p class="team_1__name" lang="en"><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">Superpowers</a></p>
+              <p class="team_1__note">Jesse VincentとPrime Radiantによる、作り方の手順をまとめたスキル集。よく使うのは、brainstorming（質問に答えながら、やりたいことを固める）、<span class="word_1" lang="en">writing-plans</span>と<span class="word_1" lang="en">executing-plans</span>（実装計画を書き、それに沿って進める）、<span class="word_1" lang="en">test-driven-development</span>（テストを先に書いてから作る）。</p>
             </li>
           
         </ul>
@@ -216,7 +226,7 @@
       <li class="flow_1__step">
         <p class="flow_1__who">ぬにふちさか</p>
         <p class="flow_1__title">依頼する</p>
-        <p class="flow_1__note">やりたいことを日本語で伝える。</p>
+        <p class="flow_1__note">やりたいことを日本語で伝え、brainstormingのスキルの質問に答えながら固める。</p>
       </li>
     
       <li class="flow_1__step">
@@ -233,8 +243,20 @@
     
       <li class="flow_1__step">
         <p class="flow_1__who">技師</p>
+        <p class="flow_1__title">計画を書く</p>
+        <p class="flow_1__note"><span class="word_1" lang="en">writing-plans</span>で実装計画を書き、<span class="word_1" lang="en">executing-plans</span>でそれに沿って進める。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">技師・Codex</p>
         <p class="flow_1__title">作って確かめる</p>
-        <p class="flow_1__note">ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。</p>
+        <p class="flow_1__note">別々の作業はCodexにも分けて、並行して進める。ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Codex</p>
+        <p class="flow_1__title">レビューする</p>
+        <p class="flow_1__note">技師が書いたコードを、Claude Codeから呼び出したCodexがレビューする。</p>
       </li>
     
       <li class="flow_1__step">
@@ -254,7 +276,7 @@
       <li class="flow_1__step">
         <p class="flow_1__who">ぬにふちさか</p>
         <p class="flow_1__title">依頼する</p>
-        <p class="flow_1__note">作りたいシェーダーやギミックを日本語で伝える。</p>
+        <p class="flow_1__note">作りたいシェーダーやギミックを日本語で伝え、brainstormingのスキルの質問に答えながら固める。</p>
       </li>
     
       <li class="flow_1__step">
@@ -265,8 +287,20 @@
     
       <li class="flow_1__step">
         <p class="flow_1__who">技師</p>
+        <p class="flow_1__title">計画を書く</p>
+        <p class="flow_1__note"><span class="word_1" lang="en">writing-plans</span>で実装計画を書き、<span class="word_1" lang="en">executing-plans</span>でそれに沿って進める。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">技師・Codex</p>
         <p class="flow_1__title">作る</p>
-        <p class="flow_1__note">シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。</p>
+        <p class="flow_1__note">シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。テストを書けるものは、<span class="word_1" lang="en">test-driven-development</span>でテストを先に書いてから作る。別々の作業はCodexにも分けて、並行して進める。</p>
+      </li>
+    
+      <li class="flow_1__step">
+        <p class="flow_1__who">Codex</p>
+        <p class="flow_1__title">レビューする</p>
+        <p class="flow_1__note">技師が書いたコードを、Claude Codeから呼び出したCodexがレビューする。</p>
       </li>
     
       <li class="flow_1__step">

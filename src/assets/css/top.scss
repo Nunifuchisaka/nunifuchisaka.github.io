@@ -1457,3 +1457,14 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     line-height: 1.8;
   }
 }
+
+
+/*
+## .word_1
+使用箇所：Claude Code の使い方（writing-plans などのスキル名）
+内容：ハイフンを含む語を、途中で折り返さない
+*/
+
+.word_1 {
+  white-space: nowrap;
+}

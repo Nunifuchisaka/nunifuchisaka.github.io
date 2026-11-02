@@ -4,17 +4,18 @@ const isEn = pageLocale === "en";
 // ぬにふちさかの Claude Code の使い方。事実だけを書く（出典：CLAUDE.md、.claude/settings.json、git の履歴、管理人の取り決め）
 const l = isEn ? {
   title: "How I use Claude Code",
-  lead: "My VRChat assets — shaders and avatar gimmicks — their manual sites, and this site are all made together with Anthropic's Claude Code. Here is how my agents are set up and how each kind of work moves from idea to release.",
+  lead: "My VRChat assets — shaders and avatar gimmicks — their manual sites, and this site are all made with Anthropic's Claude Code at the center, sharing the work with OpenAI's Codex. Here is how my agents are set up and how each kind of work moves from idea to release.",
   setupTitle: "Setup",
   me: "Me",
   meNote: "Asks for things in plain Japanese and picks from the options offered",
   hub: "Claude Code",
-  hubNote: "Reads the request, hands the work to the subagents and reports back",
+  hubNote: "Reads the request, hands the work to the subagents and Codex, and reports back",
   agentsTitle: "Agents",
-  agentsNote: "Both are defined as Claude Code subagents (.claude/agents).",
+  agentsNote: "意匠家 and 技師 are defined as Claude Code subagents (.claude/agents). Codex is called from inside Claude Code.",
   agents: [
     { name: "意匠家 (Ishōka)", role: "Design", note: "Proposes the direction before any code is written: for a page, the palette, type and wireframes; for an asset, how it should look. It only makes proposals and never writes code." },
-    { name: "技師 (Gishi)", role: "Implementation", note: "The only one who writes code, and it checks what it writes: the site's HTML and CSS, shaders, Unity editor extensions and gimmick setups. Through MCP for Unity it works in the Unity Editor directly." },
+    { name: "技師 (Gishi)", role: "Implementation", note: "Writes the code and checks it: the site's HTML and CSS, shaders, Unity editor extensions and gimmick setups. Through MCP for Unity it works in the Unity Editor directly." },
+    { name: "Codex", role: "Review and parallel work", note: "OpenAI's coding agent, called from inside Claude Code. It reviews the code and plans Claude Code writes, and takes on separate pieces of work in parallel." },
   ],
   mcpTitle: "MCP",
   mcp: { name: "MCP for Unity", url: "https://github.com/CoplayDev/unity-mcp", note: "An MCP server by CoplayDev that connects Claude Code to the Unity Editor. 技師 uses it to read console errors, edit scenes and prefabs, run menu items and my own tools, and take screenshots to check the result." },
@@ -22,23 +23,28 @@ const l = isEn ? {
   skills: [
     { name: "Frontend Design", note: "Anthropic's official skill for design that doesn't look templated. Added on October 31, 2026." },
     { name: "booth-product-site", note: "A skill of my own for making the manual sites for my BOOTH products." },
+    { name: "Superpowers", url: "https://github.com/obra/superpowers", note: "A set of skills for how to build, by Jesse Vincent and Prime Radiant. I use brainstorming (answer questions until what I want is clear), writing-plans and executing-plans (write an implementation plan and follow it), and test-driven-development (write the tests first, then the code)." },
   ],
   memoryTitle: "Project notes",
   memory: { name: "CLAUDE.md", note: "Kept in the repository: how the site is structured, the build commands, and the class naming rules. It also says to always reply in Japanese." },
   flowTitle: "Building this site",
   flow: [
-    { who: "Me", title: "Ask", note: "Say what I want in Japanese." },
+    { who: "Me", title: "Ask", note: "Say what I want in Japanese, then answer questions from the brainstorming skill until it is clear." },
     { who: "意匠家 (Ishōka)", title: "See the proposal", note: "Before any code, a design direction: colors, type and wireframes." },
     { who: "Me", title: "Pick and approve", note: "Confirmations always come as choices, with the recommended one first." },
-    { who: "技師 (Gishi)", title: "Build and check", note: "Build, validate the HTML, and look at screenshots in light and dark, desktop and phone." },
+    { who: "技師 (Gishi)", title: "Plan", note: "Write an implementation plan with writing-plans, then follow it with executing-plans." },
+    { who: "技師 (Gishi) and Codex", title: "Build and check", note: "Separate pieces of work are split with Codex and done in parallel. Build, validate the HTML, and look at screenshots in light and dark, desktop and phone." },
+    { who: "Codex", title: "Review", note: "Codex, called from Claude Code, reviews the code 技師 wrote." },
     { who: "Me", title: "Read the report", note: "The report says plainly what could not be checked." },
   ],
   assetFlowTitle: "Making VRChat assets",
   assetFlowLead: "Shaders like DeepFrostIce and avatar gimmicks are made with the same team. 技師 works inside the Unity Editor itself through MCP for Unity.",
   assetFlow: [
-    { who: "Me", title: "Ask", note: "Describe the shader or gimmick I want to make." },
+    { who: "Me", title: "Ask", note: "Describe the shader or gimmick I want to make, then answer questions from the brainstorming skill until it is clear." },
     { who: "意匠家 (Ishōka)", title: "Set the direction", note: "Proposes how it should look, and I pick from the options." },
-    { who: "技師 (Gishi)", title: "Build", note: "Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar, building it into scenes and prefabs through MCP for Unity." },
+    { who: "技師 (Gishi)", title: "Plan", note: "Write an implementation plan with writing-plans, then follow it with executing-plans." },
+    { who: "技師 (Gishi) and Codex", title: "Build", note: "Writes the shader, the Unity editor extensions that make setup easy (like the Fit To Avatar and Refit buttons), and the gimmick setup for Modular Avatar, building it into scenes and prefabs through MCP for Unity. Where tests can be written, they come first with test-driven-development. Separate pieces of work are split with Codex and done in parallel." },
+    { who: "Codex", title: "Review", note: "Codex, called from Claude Code, reviews the code 技師 wrote." },
     { who: "技師 (Gishi) → Me", title: "Check", note: "Through MCP for Unity, 技師 reads the console errors and fixes them, runs my tools such as Fit To Avatar for real, and checks screenshots of the scene. Then I try it myself in Unity and VRChat." },
     { who: "Claude Code", title: "Write the manual", note: "Writes the manual site (Japanese and English) and the BOOTH product page, and corrects figures such as polygon counts to the measured values." },
   ],
@@ -57,17 +63,18 @@ const l = isEn ? {
   ],
 } : {
   title: "Claude Code の使い方",
-  lead: "VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeと一緒に作っています。エージェントの構成と、それぞれの作り方を紹介します。",
+  lead: "VRChat用のアセット（シェーダーやアバターのギミック）とその説明書サイト、そしてこのサイトを、AnthropicのClaude Codeを中心に、OpenAIのCodexとも分担しながら作っています。エージェントの構成と、それぞれの作り方を紹介します。",
   setupTitle: "構成",
   me: "ぬにふちさか",
   meNote: "やりたいことを日本語で伝え、出てきた選択肢から選ぶ",
   hub: "Claude Code",
-  hubNote: "依頼を読み、作業をサブエージェントに任せ、結果を報告する",
+  hubNote: "依頼を読み、作業をサブエージェントやCodexに任せ、結果を報告する",
   agentsTitle: "エージェント",
-  agentsNote: "どちらもClaude Codeのサブエージェント（.claude/agents）として定義している。",
+  agentsNote: "意匠家と技師は、Claude Codeのサブエージェント（.claude/agents）として定義している。CodexはClaude Codeの中から呼び出す。",
   agents: [
     { name: "意匠家", role: "デザイン", note: "コードより先に方向性の案を出す。サイトなら配色・書体・ワイヤーフレーム、アセットなら見た目の方向性。案を出すだけで、コードは書かない。" },
-    { name: "技師", role: "実装", note: "コードを書くのは技師だけ。書いたものは自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。" },
+    { name: "技師", role: "実装", note: "コードを書き、自分で確かめる。サイトのHTMLやCSSも、シェーダーやUnityのエディター拡張、ギミックの構成も。MCP for Unityを通じて、Unityエディターを直接操作する。" },
+    { name: "Codex", role: "レビュー・並行作業", note: "OpenAIのコーディングエージェント。Claude Codeの中から呼び出し、Claude Codeが書いたコードや計画のレビューと、別々の作業の並行を任せる。" },
   ],
   mcpTitle: "MCP",
   mcp: { name: "MCP for Unity", url: "https://github.com/CoplayDev/unity-mcp", note: "CoplayDevのMCPサーバー。Claude CodeとUnityエディターをつなぐ。技師はこれで、コンソールのエラーを読み、シーンやプレハブを操作し、メニューや自作のツールを実行し、画面を撮って確かめる。" },
@@ -75,23 +82,28 @@ const l = isEn ? {
   skills: [
     { name: "Frontend Design", note: "テンプレート感のないデザインのための、Anthropic公式のスキル。2026年10月31日に導入。" },
     { name: "booth-product-site", note: "BOOTHの商品の説明書サイトを作るための、自分用のスキル。" },
+    { name: "Superpowers", url: "https://github.com/obra/superpowers", note: "Jesse VincentとPrime Radiantによる、作り方の手順をまとめたスキル集。よく使うのは、brainstorming（質問に答えながら、やりたいことを固める）、writing-plansとexecuting-plans（実装計画を書き、それに沿って進める）、test-driven-development（テストを先に書いてから作る）。" },
   ],
   memoryTitle: "プロジェクトの覚え書き",
   memory: { name: "CLAUDE.md", note: "リポジトリに置いている指示書。サイトの構成・ビルドの手順・クラス名の付け方を書き、「常に日本語で応答する」と決めている。" },
   flowTitle: "サイトを作る流れ",
   flow: [
-    { who: "ぬにふちさか", title: "依頼する", note: "やりたいことを日本語で伝える。" },
+    { who: "ぬにふちさか", title: "依頼する", note: "やりたいことを日本語で伝え、brainstormingのスキルの質問に答えながら固める。" },
     { who: "意匠家", title: "案を見る", note: "コードを書く前に、配色・書体・ワイヤーフレームなどの方向性の案を出してもらう。" },
     { who: "ぬにふちさか", title: "選んで承認する", note: "確認はいつも選択式。おすすめが先頭に来る。" },
-    { who: "技師", title: "作って確かめる", note: "ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。" },
+    { who: "技師", title: "計画を書く", note: "writing-plansで実装計画を書き、executing-plansでそれに沿って進める。" },
+    { who: "技師・Codex", title: "作って確かめる", note: "別々の作業はCodexにも分けて、並行して進める。ビルド・HTMLの検証・ライトとダーク、PCとスマホのスクリーンショットで確かめる。" },
+    { who: "Codex", title: "レビューする", note: "技師が書いたコードを、Claude Codeから呼び出したCodexがレビューする。" },
     { who: "ぬにふちさか", title: "報告を読む", note: "確認できなかったことも、はっきり書いてもらう。" },
   ],
   assetFlowTitle: "VRChat用アセットを作る流れ",
   assetFlowLead: "DeepFrostIceのようなシェーダーや、アバターのギミックも、同じ体制で作っています。Unityの中の作業は、技師がMCP for Unityを通じてUnityエディターを直接操作して進めます。",
   assetFlow: [
-    { who: "ぬにふちさか", title: "依頼する", note: "作りたいシェーダーやギミックを日本語で伝える。" },
+    { who: "ぬにふちさか", title: "依頼する", note: "作りたいシェーダーやギミックを日本語で伝え、brainstormingのスキルの質問に答えながら固める。" },
     { who: "意匠家", title: "方向を決める", note: "見た目の方向性の案を出してもらい、選択式で選ぶ。" },
-    { who: "技師", title: "作る", note: "シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。" },
+    { who: "技師", title: "計画を書く", note: "writing-plansで実装計画を書き、executing-plansでそれに沿って進める。" },
+    { who: "技師・Codex", title: "作る", note: "シェーダー、導入を助けるUnityのエディター拡張（Fit To AvatarやRefitのボタンなど）、Modular Avatar用のギミックの構成を作る。シーンやプレハブへの組み込みも、MCP for Unityで行う。テストを書けるものは、test-driven-developmentでテストを先に書いてから作る。別々の作業はCodexにも分けて、並行して進める。" },
+    { who: "Codex", title: "レビューする", note: "技師が書いたコードを、Claude Codeから呼び出したCodexがレビューする。" },
     { who: "技師 → ぬにふちさか", title: "確かめる", note: "技師がMCP for Unityで、コンソールのエラーを読んで直し、Fit To Avatarなどの自作ツールを実際に動かし、シーンの画面を撮って確かめる。最後にぬにふちさかがUnityとVRChatで実際に試す。" },
     { who: "Claude Code", title: "説明書を書く", note: "説明書サイト（日本語と英語）とBOOTHの商品ページを書く。ポリゴン数などは実測値に合わせて直す。" },
   ],
@@ -109,6 +121,8 @@ const l = isEn ? {
     { title: "コミットの記録", note: "2026年11月2日時点で、mainの51件のコミットのうち33件に、Claudeが共同作業者として記録されている。モデルはOpus・Sonnet・Haiku・Fable。" },
   ],
 };
+// writing-plans のようなハイフンを含むスキル名を、途中で折り返さないようにする
+const nw = (text) => String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\b[a-z]+(?:-[a-z]+)+\b/g, (m) => `<span class="word_1" lang="en">${m}</span>`);
 %><section class="section_2 page_1" aria-labelledby="claude-heading">
   <h1 class="page_1__h1" id="claude-heading"><%= l.title %></h1>
   <p class="section_2__lead"><%= l.lead %></p>
@@ -135,7 +149,7 @@ const l = isEn ? {
           <% l.agents.forEach(function (agent) { %>
             <li class="team_1__node">
               <p class="team_1__name"><%= agent.name %> <span class="team_1__role"><%= agent.role %></span></p>
-              <p class="team_1__note"><%= agent.note %></p>
+              <p class="team_1__note"><%- nw( agent.note) %></p>
             </li>
           <% }); %>
         </ul>
@@ -145,8 +159,8 @@ const l = isEn ? {
         <ul>
           <% l.skills.forEach(function (skill) { %>
             <li class="team_1__node">
-              <p class="team_1__name" lang="en"><%= skill.name %></p>
-              <p class="team_1__note"><%= skill.note %></p>
+              <p class="team_1__name" lang="en"><% if (skill.url) { %><a href="<%= skill.url %>" target="_blank" rel="noopener"><%= skill.name %></a><% } else { %><%= skill.name %><% } %></p>
+              <p class="team_1__note"><%- nw( skill.note) %></p>
             </li>
           <% }); %>
         </ul>
@@ -180,7 +194,7 @@ const l = isEn ? {
       <li class="flow_1__step">
         <p class="flow_1__who"><%= step.who %></p>
         <p class="flow_1__title"><%= step.title %></p>
-        <p class="flow_1__note"><%= step.note %></p>
+        <p class="flow_1__note"><%- nw(step.note) %></p>
       </li>
     <% }); %>
   </ol>
@@ -194,7 +208,7 @@ const l = isEn ? {
       <li class="flow_1__step">
         <p class="flow_1__who"><%= step.who %></p>
         <p class="flow_1__title"><%= step.title %></p>
-        <p class="flow_1__note"><%= step.note %></p>
+        <p class="flow_1__note"><%- nw(step.note) %></p>
       </li>
     <% }); %>
   </ol>
