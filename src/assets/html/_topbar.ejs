@@ -2,6 +2,7 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 // current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds" / "avatar-tips"）。aria-current を付ける
 const currentPage = typeof current !== "undefined" ? current : "home";
+// cluster のページはナビに出さず、トップページの「cluster」から行く
 // よくある質問は「制作物」の、お気に入りワールドは「はじめてのVRChat」の下のページとして、ナビではその親に印を付ける
 // enReady：false のページは英語版がまだ無い（日本語版の内容が固まってから作る）。言語切替の English を選べないようにする
 const hasEn = typeof enReady === "undefined" ? true : enReady;
@@ -20,7 +21,6 @@ const t = {
     equipment: "VR機材",
     videos: "回想",
     dice: "話題サイコロ",
-    cluster: "cluster",
     claudeCode: "Claude Code",
     langLabel: "言語切替",
     enPending: "（準備中）",
@@ -37,7 +37,6 @@ const t = {
     equipment: "VR Gear",
     videos: "Memories",
     dice: "Topic Dice",
-    cluster: "cluster",
     claudeCode: "Claude Code",
     langLabel: "Language",
     enPending: " (coming soon)",
@@ -52,7 +51,7 @@ const prefix = isEn ? "/en" : "";
     <a class="header_4__home" href="<%= prefix %>/"<% if (currentPage === "home") { %> aria-current="page"<% } %>><%= l.name %></a>
     <nav class="header_4__nav" aria-label="<%= l.navLabel %>">
       <ul>
-        <% [["start", l.start], ["timeline", l.timeline], ["equipment", l.equipment], ["products", l.products], ["avatar-tips", l.avatarTips], ["videos", l.videos], ["dice", l.dice], ["cluster", l.cluster], ["claude-code", l.claudeCode]].filter((item) => !isEn || !EN_PENDING.includes(item[0])).forEach(function (item) { %>
+        <% [["start", l.start], ["timeline", l.timeline], ["equipment", l.equipment], ["products", l.products], ["avatar-tips", l.avatarTips], ["videos", l.videos], ["dice", l.dice], ["claude-code", l.claudeCode]].filter((item) => !isEn || !EN_PENDING.includes(item[0])).forEach(function (item) { %>
           <li><a href="<%= prefix %>/<%= item[0] %>/"<% if (currentPage === item[0]) { %> aria-current="page"<% } else if (navPage === item[0]) { %> aria-current="true"<% } %>><%= item[1] %></a></li>
         <% }); %>
       </ul>

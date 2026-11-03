@@ -1,0 +1,13 @@
+<%
+// トップページの「cluster」。cluster ページの写真の先頭4枚だけを出し、ほかは cluster ページへ
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const l = isEn
+  ? { lead: "Photos I took on the metaverse platform cluster.", more: "See all cluster photos", href: "/en/cluster/" }
+  : { lead: "メタバースプラットフォーム cluster で撮った写真です。", more: "cluster の写真をすべて見る", href: "/cluster/" };
+%><section id="cluster" class="section_2" aria-labelledby="cluster-heading">
+  <h2 class="section_2__h1" id="cluster-heading">cluster</h2>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <%- include("_cluster", { locale: pageLocale, clusterLimit: 4 }) %>
+  <p class="section_2__more section_2__more--button"><a href="<%= l.href %>"><%= l.more %></a></p>
+</section><!-- /#cluster.section_2 -->

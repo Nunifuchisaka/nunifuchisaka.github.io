@@ -417,7 +417,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .list_7
 使用箇所：トップページ「リンク集」
-内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める。
+内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める（最後の行だけは広げない）。
      名前は折り返さない
 */
 
@@ -428,6 +428,12 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   margin-top: var(--space-2);
   @include sp {
     gap: 8px;
+  }
+
+  // 最後の行の余りはここが受け取り、最後の行のボタンは名前の長さのままにする
+  &::after {
+    content: "";
+    flex: 1000 1 0;
   }
   li {
     flex: 1 1 auto;
@@ -499,6 +505,23 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     --row: 170px;
     @include sp {
       --row: 96px;
+    }
+  }
+
+  // トップページの cluster（数枚だけ）。PC では折り返さず1行で左右いっぱいに、スマホでは2枚ずつ並べる
+  &--row {
+    flex-wrap: nowrap;
+    &::after {
+      display: none;
+    }
+    li {
+      flex-basis: 0;
+    }
+    @include sp {
+      flex-wrap: wrap;
+      li {
+        flex-basis: 40%;
+      }
     }
   }
   li {
@@ -723,6 +746,9 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   @include sp {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-2) 10px;
+  }
+  &--flat {
+    margin-top: var(--space-2);
   }
   a {
     display: block;
@@ -1923,9 +1949,12 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 .list_17 {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-2);
   margin-top: var(--space-2);
+  @media (width <= 1023px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   @include sp {
     // 画像の width 属性（1280）で列が広がらないよう、最小幅を 0 にする
     grid-template-columns: minmax(0, 1fr);

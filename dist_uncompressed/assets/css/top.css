@@ -308,7 +308,7 @@
 /*
 ## .list_7
 使用箇所：トップページ「リンク集」
-内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める。
+内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める（最後の行だけは広げない）。
      名前は折り返さない
 */
 .list_7 {
@@ -316,6 +316,10 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-top: var(--space-2);
+}
+.list_7::after {
+  content: "";
+  flex: 1000 1 0;
 }
 .list_7 li {
   flex: 1 1 auto;
@@ -372,6 +376,15 @@
 }
 .list_8--small {
   --row: 170px;
+}
+.list_8--row {
+  flex-wrap: nowrap;
+}
+.list_8--row::after {
+  display: none;
+}
+.list_8--row li {
+  flex-basis: 0;
 }
 .list_8 li {
   flex: var(--ar, 1.5) 1 calc(var(--row) * var(--ar, 1.5));
@@ -566,6 +579,9 @@
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-3) var(--space-2);
   margin-top: var(--space-1);
+}
+.list_12--flat {
+  margin-top: var(--space-2);
 }
 .list_12 a {
   display: block;
@@ -1572,7 +1588,7 @@
 */
 .list_17 {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-2);
   margin-top: var(--space-2);
 }
@@ -1985,6 +2001,11 @@
   font-size: 1.2rem;
   color: var(--color-text-muted);
 }
+@media (width <= 1023px){
+  .list_17 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 @media (max-width: 767px){
   .top_1 {
     font-size: 1.6rem;
@@ -2048,6 +2069,12 @@
   }
   .list_8--small {
     --row: 96px;
+  }
+  .list_8--row {
+    flex-wrap: wrap;
+  }
+  .list_8--row li {
+    flex-basis: 40%;
   }
   .list_9 {
     grid-template-columns: 1fr;

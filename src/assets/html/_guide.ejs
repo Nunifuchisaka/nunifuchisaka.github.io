@@ -1,17 +1,17 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const MONTH_NAMES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-// guideScope："recent"（トップページ。写真のある新しい2か月分だけ）／"all"（案内実績ページ。すべて）
+// guideScope："recent"（トップページ。月で分けずに新しい20件だけ）／"all"（案内実績ページ。すべてを月ごとに）
 const scope = typeof guideScope !== "undefined" ? guideScope : "recent";
-const RECENT_MONTHS = 2;
+const RECENT_COUNT = 20;
 const total = guides.length;
 const guideText = pageLocale === "en"
   ? (scope === "all"
     ? { id: "all-guides", heading: "Every guide photo", lead: `All ${total} photos, newest first, by month.` }
-    : { id: "guide", heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${total} so far; here are the latest ${RECENT_MONTHS} months.`, more: `See all ${total} photos on the guide log page`, href: "/en/timeline/#all-guides" })
+    : { id: "guide", heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${total} so far; here are the latest ${RECENT_COUNT}.`, more: `See all ${total} photos on the guide log page`, href: "/en/timeline/#all-guides" })
   : (scope === "all"
     ? { id: "all-guides", heading: "すべての案内記録", lead: `${total}枚すべてを、月ごとに新しい順で並べています。` }
-    : { id: "guide", heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${total}回。ここには新しい${RECENT_MONTHS}か月分を載せています。`, more: `すべての記録（${total}枚）は、案内実績で見る`, href: "/timeline/#all-guides" });
+    : { id: "guide", heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${total}回。ここには新しい${RECENT_COUNT}件を載せています。`, more: `すべての記録（${total}枚）は、案内実績で見る`, href: "/timeline/#all-guides" });
 
 // guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
 const groups = [];
@@ -36,16 +36,16 @@ guides.forEach(function (value, key) {
   const numLabel = pageLocale === "en" ? `No. ${num}` : `${num}回目`;
   group.items.push({ file: value, num: num, numLabel: numLabel, dateLabel: dateLabel, dayLabel: dayLabel });
 });
-// トップページでは、写真のある新しい月から2か月分だけにする
-const shownGroups = scope === "all" ? groups : groups.filter((group) => group.key !== "other").slice(0, RECENT_MONTHS);
+// トップページでは月で分けず、日付のある新しい写真を20件だけ並べる（見出しの無い1つのまとまりにする）
+const shownGroups = scope === "all" ? groups : [{ key: "recent", label: "", items: groups.filter((group) => group.key !== "other").reduce((list, group) => list.concat(group.items), []).slice(0, RECENT_COUNT) }];
 const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "photos"}` : `${n}枚`;
 %><section id="<%= guideText.id %>" class="section_2" aria-labelledby="<%= guideText.id %>-heading">
   <h2 class="section_2__h1" id="<%= guideText.id %>-heading"><%= guideText.heading %></h2>
   <p class="section_2__lead"><%= guideText.lead %></p>
   <% shownGroups.forEach(function (group) { %>
-    <div class="month_1">
-      <h3 class="month_1__h1"><%= group.label %> <span class="month_1__count"><%= countLabel(group.items.length) %></span></h3>
-      <ul class="list_12">
+    <% if (group.label) { %><div class="month_1">
+      <h3 class="month_1__h1"><%= group.label %> <span class="month_1__count"><%= countLabel(group.items.length) %></span></h3><% } %>
+      <ul class="list_12<% if (!group.label) { %> list_12--flat<% } %>">
         <% group.items.forEach(function (item) {
           const guideAlt = item.dateLabel
             ? (pageLocale === "en" ? `Guide photo from ${item.dateLabel}` : `${item.dateLabel}の案内写真`)
@@ -57,11 +57,11 @@ const countLabel = (n) => pageLocale === "en" ? `${n} ${n === 1 ? "photo" : "pho
             <a href="/assets/img/guide/<%= item.file %>" target="_blank" rel="noopener" class="js_viewer" data-gallery="guide"<% if (item.dateLabel) { %> data-title="<%= item.dateLabel %>"<% } %> data-note="<%= item.numLabel %>" aria-label="<%= guideAriaLabel %>">
               <img src="/assets/img/guide/<%= item.file %>" alt="<%= guideAlt %>" loading="lazy" width="<%= size.width %>" height="<%= size.height %>">
             </a>
-            <p class="list_12__meta"><span><%= item.dayLabel %></span> <span class="list_12__num"><%= item.numLabel %></span></p>
+            <p class="list_12__meta"><span><%= group.label ? item.dayLabel : item.dateLabel %></span> <span class="list_12__num"><%= item.numLabel %></span></p>
           </li>
         <% }); %>
       </ul><!-- /.list_12 -->
-    </div><!-- /.month_1 -->
+    <% if (group.label) { %></div><!-- /.month_1 --><% } %>
   <% }); %>
   <% if (guideText.more) { %><p class="section_2__more section_2__more--button"><a href="<%= guideText.href %>"><%= guideText.more %></a></p><% } %>
 </section><!-- /#<%= guideText.id %>.section_2 -->

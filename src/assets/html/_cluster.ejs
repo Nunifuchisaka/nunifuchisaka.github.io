@@ -601,6 +601,9 @@ const photos = [
   'c931d006-f2be-4b29-83ca-c3a36458e399',
 ];
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+// clusterLimit：数を渡すと、先頭からその枚数だけ並べる（トップページ用）。並びは1行にそろえる
+const limit = typeof clusterLimit !== "undefined" ? clusterLimit : 0;
+const shownPhotos = limit ? photos.slice(0, limit) : photos;
 const t = {
   ja: {
     ariaLabel: (key, total) => `cluster の写真 ${key + 1}/${total} を大きく表示`,
@@ -612,12 +615,12 @@ const t = {
   },
 };
 const l = t[pageLocale];
-%><ul class="list_8 list_8--small">
-  <% photos.forEach(function (value, key) {
+%><ul class="list_8 <%= limit ? "list_8--row" : "list_8--small" %>">
+  <% shownPhotos.forEach(function (value, key) {
     const size = imageSizes[`cluster/${value}.webp`];
   %>
     <li<% if (size) { %> style="--ar: <%= (size.width / size.height).toFixed(4) %>;"<% } %>>
-      <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="js_viewer" data-gallery="cluster" aria-label="<%= l.ariaLabel(key, photos.length) %>">
+      <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="js_viewer" data-gallery="cluster" aria-label="<%= l.ariaLabel(key, shownPhotos.length) %>">
         <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy"<% if (size) { %> width="<%= size.width %>" height="<%= size.height %>"<% } %>>
       </a>
     </li>
