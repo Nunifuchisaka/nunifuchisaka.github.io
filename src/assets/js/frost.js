@@ -56,7 +56,7 @@ float ridged(vec2 p) {
   return s;
 }`;
 
-// 結晶構造。r = 結晶の模様（0〜1。磨りガラスの粒 ＋ 雪の結晶）, g = 凍り始める核からの遠さ（0〜1）, b = きらめき用の乱数
+// 結晶構造。r = 結晶の模様（0〜1。磨りガラスの粒 ＋ 雪の結晶）, g = 凍り始める核からの遠さ（0〜1）, b = きらめき用の乱数, a = 縁の重み（縁 1〜中央 0）
 // 雪の結晶は六角対称。角度を 30 度の扇に折りたたみ、主脈・側枝（と隣の主脈から出る鏡像の枝）・中心の六角板への距離で線を引く
 const STRUCT_FRAG = `#version 300 es
 precision highp float;
@@ -108,13 +108,22 @@ float flake(vec2 q, float r, float seed) {
   float core = 1.0 - smoothstep(plateR * 0.35, plateR * 0.5, d);         // 中心の小さな芯
   return max(line, core * 0.8) * smoothstep(1.04, 0.96, d);
 }
-// 格子のマスごとに結晶を1つ置く層。マスからはみ出さない位置に置くので隣のマスは見なくてよい
-float flakeLayer(vec2 p, float cell, float r, float prob, float seedOff) {
-  vec2 g = floor(p / cell);
+// 縁に近いほど 1、中央ほど 0。境目はノイズで不揃いにする（窓は縁から凍る）
+float edgeWeight(vec2 pp) {
+  vec2 mid = vec2(uAspect * 0.5, 0.5);
+  vec2 q = abs(pp - mid) / mid;                         // 中央 0 〜 縁 1
+  float d = mix(max(q.x, q.y), length(q) * 0.72, 0.35); // 枠に沿いつつ角は丸く
+  d += (fbm(pp * 2.2 + 3.0) - 0.5) * 0.3;
+  return smoothstep(0.5, 0.95, d);
+}
+// 格子のマスごとに結晶を1つ置く層。マスからはみ出さない位置に置くので隣のマスは見なくてよい。縁ほど多く、中央はまばら
+// shift は格子の位置をずらす乱数（層ごとに違う配置にする）。縁の重みは本来の位置で見る
+float flakeLayer(vec2 p, vec2 shift, float cell, float r, float prob, float seedOff) {
+  vec2 g = floor((p + shift) / cell);
   float h = hash1(g + seedOff);
-  if (h > prob) return 0.0;
   float rr = r * (0.7 + 0.6 * hash1(g + seedOff + 5.0));
-  vec2 center = (g + 0.5 + (hash2(g + seedOff + 3.0) - 0.5) * (1.0 - 2.0 * rr / cell)) * cell;
+  vec2 center = (g + 0.5 + (hash2(g + seedOff + 3.0) - 0.5) * (1.0 - 2.0 * rr / cell)) * cell - shift;
+  if (h > prob * edgeWeight(center)) return 0.0; // 中央には置かない
   vec2 q = rot(hash1(g + seedOff + 9.0) * 6.2831) * (p - center);
   return flake(q, rr, h * 97.0 + seedOff);
 }
@@ -125,9 +134,9 @@ void main() {
   float micro = vnoise(p * 260.0) * 0.5 + vnoise(p * 520.0) * 0.5;
 
   // 雪の結晶。大・中・小
-  float large = flakeLayer(p + 0.37, 0.32, 0.115, 0.4, 1.0);
-  float medium = flakeLayer(p + 1.91, 0.16, 0.055, 0.4, 2.0);
-  float small = flakeLayer(p + 5.13, 0.09, 0.032, 0.35, 3.0);
+  float large = flakeLayer(p, vec2(0.37), 0.32, 0.115, 0.4, 1.0);
+  float medium = flakeLayer(p, vec2(1.91), 0.16, 0.055, 0.4, 2.0);
+  float small = flakeLayer(p, vec2(5.13), 0.09, 0.032, 0.35, 3.0);
   float flakes = max(large, max(medium * 0.85, small * 0.6));
 
   float s = clamp(0.3 + (micro - 0.5) * 0.14 + flakes * 0.8, 0.0, 1.0);
@@ -137,7 +146,7 @@ void main() {
   float far = clamp((0.7 - low) * 3.5, 0.0, 1.0);
 
   float glint = hash1(floor(p * 640.0));
-  outColor = vec4(s, far, glint, 1.0);
+  outColor = vec4(s, far, glint, edgeWeight(p));
 }`;
 
 // 溶け具合の更新。r = 溶け具合（0 = 凍っている, 1 = 溶けている）
@@ -186,14 +195,14 @@ out vec4 outColor;
 ${NOISE}
 
 // 凍っている割合（0〜1）。溶け具合と入場から決め、結晶の模様で前線をぎざぎざにする
-float coverage(vec2 uv, float s, float low) {
+float coverage(vec2 uv, float s, float low, float edgeW) {
   float melt = texture(uMask, uv).r;
   float edge = min(min(uv.x, 1.0 - uv.x) * uAspect, min(uv.y, 1.0 - uv.y));
   float fromEdge = uIntro * 1.7 - 0.2 - edge * 1.5;            // 縁から
   float fromSeed = uIntro * 1.7 - 0.45 - low * 1.9;             // 内側の核から放射状に
   float front = max(fromEdge, fromSeed) + (s - 0.5) * 0.4;
   float intro = smoothstep(-0.18, 0.18, front);
-  return (1.0 - melt) * intro;
+  return (1.0 - melt) * intro * mix(0.45, 1.0, edgeW); // 中央は凍り切らず、写真が透けて見える
 }
 
 // 霜の厚み（0〜1）
@@ -203,8 +212,8 @@ float thickness(float c, float s) {
 
 // 霜の高さ。法線を出すために近傍でも評価する
 float heightAt(vec2 uv) {
-  vec3 st = texture(uStruct, uv).rgb;
-  float c = coverage(uv, st.r, st.g);
+  vec4 st = texture(uStruct, uv);
+  float c = coverage(uv, st.r, st.g, st.a);
   float t = thickness(c, st.r);
   return t * (0.25 + 0.75 * st.r);
 }
@@ -232,9 +241,9 @@ vec3 droplets(vec2 p) {
 void main() {
   vec2 uv = vUv;
   vec2 sx = vec2(uAspect, 1.0);
-  vec3 st = texture(uStruct, uv).rgb;
+  vec4 st = texture(uStruct, uv);
   float s = st.r;
-  float c = coverage(uv, s, st.g);
+  float c = coverage(uv, s, st.g, st.a);
   float t = thickness(c, s);
   float h = t * (0.25 + 0.75 * s);
 
