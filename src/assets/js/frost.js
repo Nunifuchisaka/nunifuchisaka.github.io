@@ -1,13 +1,13 @@
 // トップページのキービジュアル用。バナー写真の上に「写実的な霜（凍結）」を WebGL2 で描く（ライブラリなし）。
 //
-// 見た目の方針：窓ガラスに張る本物の霜。
-// - 羽毛状・樹枝状に伸びる結晶の筋（方向性のあるリッジノイズ＋ドメインワープ）
+// 見た目の方針：磨りガラスのように曇ったガラスに、雪の結晶（六角の樹枝状結晶）が大小さまざまに付いている。
+// - 結晶は六角対称の線画を距離関数で描き、大・中・小の3層を格子に散らす。周りは細かい粒の磨りガラス
 // - 霜の高さから法線を求め、屈折（下の写真がゆがむ）・拡散（白濁して彩度が落ちる）・鏡面ハイライト・フレネルで陰影をつける
 // - 凍る前線の先には細い結晶の腕が伸び、溶けた直後の縁には水の膜と小さな水滴、厚い所には微細なきらめき
-// - 開いたときは縁と内側のいくつかの核から羽毛状に広がり、なぞった所が溶け、離すとゆっくり凍り直す。放置中は吐息のような溶け跡が漂う
+// - 開いたときは縁と内側のいくつかの核から雪の結晶が先に付いて周りが曇るように広がり、なぞった所が溶け、離すとゆっくり凍り直す。放置中は吐息のような溶け跡が漂う
 //
 // 仕組み：
-// - 結晶の構造（筋・低周波ノイズ・きらめき用の乱数）は変化しないので、最初に一度だけテクスチャに描いておく（structure パス）
+// - 結晶の構造（雪の結晶・磨りガラスの粒・凍り始める核・きらめき用の乱数）は変化しないので、最初に一度だけテクスチャに描いておく（structure パス）
 // - 「溶け具合」を低解像度のテクスチャ（ピンポン2枚）に持ち、毎フレーム「凍り直す／ポインタで溶かす」を更新する（mask パス）
 // - 本描画では、写真・溶け具合・結晶構造から霜の高さを求め、近傍との差で法線を出して陰影をつける（main パス）
 // - WebGL2 が無い／画像が読めないときは何もしない（下の <img> がそのまま見える）
@@ -56,8 +56,8 @@ float ridged(vec2 p) {
   return s;
 }`;
 
-// 結晶構造。r = 結晶の筋（0〜1）, g = 最寄りの核からの距離（0〜1。核から放射状に育つ）, b = きらめき用の乱数
-// 針状の筋は、ノイズを「結晶の伸びる向き」に沿って何点も平均する（線積分畳み込み）ことで作る。向きは核から放射状
+// 結晶構造。r = 結晶の模様（0〜1。磨りガラスの粒 ＋ 雪の結晶）, g = 凍り始める核からの遠さ（0〜1）, b = きらめき用の乱数
+// 雪の結晶は六角対称。角度を 30 度の扇に折りたたみ、主脈・側枝（と隣の主脈から出る鏡像の枝）・中心の六角板への距離で線を引く
 const STRUCT_FRAG = `#version 300 es
 precision highp float;
 uniform float uAspect;
@@ -71,52 +71,73 @@ vec2 hash2(vec2 p) {
 mat2 rot(float a) {
   return mat2(cos(a), -sin(a), sin(a), cos(a));
 }
-// 最寄りの核。x = 距離, yz = 核へ向かうベクトル
-vec3 seed(vec2 p) {
-  vec2 n = floor(p), f = fract(p);
-  float d = 8.0;
-  vec2 to = vec2(0.0);
-  for (int j = -1; j <= 1; j++) {
-    for (int i = -1; i <= 1; i++) {
-      vec2 g = vec2(float(i), float(j));
-      vec2 r = g + hash2(n + g) - f;
-      float dd = dot(r, r);
-      if (dd < d) { d = dd; to = r; }
-    }
-  }
-  return vec3(sqrt(d), to);
+float segDist(vec2 p, vec2 a, vec2 b) {
+  vec2 pa = p - a, ba = b - a;
+  float t = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-6), 0.0, 1.0);
+  return length(pa - ba * t);
 }
-// 向き dir に沿ってノイズを平均し、コントラストを戻して尾根にする → 細長い針
-float needles(vec2 p, vec2 dir, float freq, float stepLen, int count) {
-  float acc = 0.0;
-  for (int i = -10; i <= 10; i++) {
-    if (abs(i) > count) continue;
-    acc += vnoise((p + dir * float(i) * stepLen) * freq);
+// 雪の結晶ひとつ。q は結晶の中心からの座標、r は半径、seed で形が変わる
+float flake(vec2 q, float r, float seed) {
+  float d = length(q) / r;
+  if (d > 1.05) return 0.0;
+  float a = atan(q.y, q.x);
+  const float sec = 1.0471976; // 60 度
+  a = mod(a, sec);
+  a = abs(a - sec * 0.5);        // 0〜30 度の扇に折りたたむ
+  vec2 p = d * vec2(cos(a), sin(a));
+  vec2 dir60 = vec2(0.5, 0.8660254);
+
+  float best = segDist(p, vec2(0.0), vec2(1.0, 0.0)); // 主脈
+  float nb = 2.0 + floor(hash1(vec2(seed, 2.0)) * 3.0); // 側枝 2〜4 本
+  for (int i = 0; i < 4; i++) {
+    if (float(i) >= nb) break;
+    float fi = float(i);
+    float t0 = 0.28 + 0.66 * (fi + 0.2 + hash1(vec2(seed, 3.0 + fi)) * 0.6) / nb; // 付け根の位置
+    float len = (0.62 - 0.45 * t0) * (0.6 + 0.8 * hash1(vec2(seed, 7.0 + fi)));   // 外側ほど短い
+    vec2 a0 = vec2(t0, 0.0);
+    float db = segDist(p, a0, a0 + dir60 * len);
+    vec2 a1 = dir60 * t0;                                   // 隣の主脈から出る枝の鏡像
+    float dc = segDist(p, a1, a1 + vec2(len, 0.0));
+    best = min(best, min(db, dc));
   }
-  acc /= float(2 * count + 1);
-  float v = clamp((acc - 0.5) * 4.5 + 0.5, 0.0, 1.0);
-  v = 1.0 - abs(2.0 * v - 1.0);
-  return pow(v, 2.5);
+  float plateR = 0.1 + hash1(vec2(seed, 5.0)) * 0.22;        // 中心の六角板（輪郭）
+  best = min(best, segDist(p, vec2(plateR, 0.0), plateR * dir60));
+
+  float w = (0.028 + hash1(vec2(seed, 1.0)) * 0.03) * (1.25 - 0.6 * d); // 先に行くほど細い
+  float line = 1.0 - smoothstep(w, w + 0.025, best);
+  float core = 1.0 - smoothstep(plateR * 0.35, plateR * 0.5, d);         // 中心の小さな芯
+  return max(line, core * 0.8) * smoothstep(1.04, 0.96, d);
+}
+// 格子のマスごとに結晶を1つ置く層。マスからはみ出さない位置に置くので隣のマスは見なくてよい
+float flakeLayer(vec2 p, float cell, float r, float prob, float seedOff) {
+  vec2 g = floor(p / cell);
+  float h = hash1(g + seedOff);
+  if (h > prob) return 0.0;
+  float rr = r * (0.7 + 0.6 * hash1(g + seedOff + 5.0));
+  vec2 center = (g + 0.5 + (hash2(g + seedOff + 3.0) - 0.5) * (1.0 - 2.0 * rr / cell)) * cell;
+  vec2 q = rot(hash1(g + seedOff + 9.0) * 6.2831) * (p - center);
+  return flake(q, rr, h * 97.0 + seedOff);
 }
 void main() {
   vec2 p = vUv * vec2(uAspect, 1.0);
 
-  // 核から放射状に伸び、少し渦を巻く
-  vec3 sd = seed(p * 2.1 + 0.7);
-  vec2 dir = normalize(-sd.yz + vec2(1e-4, 0.0));
-  dir = rot((fbm(p * 2.0 + 5.0) - 0.5) * 1.8) * dir;
+  // 磨りガラスの粒
+  float micro = vnoise(p * 260.0) * 0.5 + vnoise(p * 520.0) * 0.5;
 
-  // 主脈と、±60度の側枝（側枝は主脈の近くで濃い）
-  float main1 = needles(p, dir, 52.0, 0.0055, 10);
-  float side = max(needles(p + 3.3, rot(1.0472) * dir, 95.0, 0.0035, 6), needles(p + 7.1, rot(-1.0472) * dir, 95.0, 0.0035, 6));
-  side *= 0.35 + 0.65 * main1;
-  // 粒状の細かい霜
-  float micro = vnoise(p * 230.0) * 0.5 + vnoise(p * 470.0) * 0.5;
+  // 雪の結晶。大・中・小
+  float large = flakeLayer(p + 0.37, 0.32, 0.115, 0.4, 1.0);
+  float medium = flakeLayer(p + 1.91, 0.16, 0.055, 0.4, 2.0);
+  float small = flakeLayer(p + 5.13, 0.09, 0.032, 0.35, 3.0);
+  float flakes = max(large, max(medium * 0.85, small * 0.6));
 
-  float s = clamp(main1 * 0.8 + side * 0.5 + micro * 0.12, 0.0, 1.0);
-  float dist = clamp(sd.x / 0.8, 0.0, 1.0);
+  float s = clamp(0.3 + (micro - 0.5) * 0.14 + flakes * 0.8, 0.0, 1.0);
+
+  // 凍り始める核。低周波ノイズの高い所から広がる
+  float low = fbm(p * 1.4 + 11.0);
+  float far = clamp((0.7 - low) * 3.5, 0.0, 1.0);
+
   float glint = hash1(floor(p * 640.0));
-  outColor = vec4(s, dist, glint, 1.0);
+  outColor = vec4(s, far, glint, 1.0);
 }`;
 
 // 溶け具合の更新。r = 溶け具合（0 = 凍っている, 1 = 溶けている）
@@ -164,7 +185,7 @@ in vec2 vUv;
 out vec4 outColor;
 ${NOISE}
 
-// 凍っている割合（0〜1）。溶け具合と入場から決め、結晶の筋で前線を羽毛状にする
+// 凍っている割合（0〜1）。溶け具合と入場から決め、結晶の模様で前線をぎざぎざにする
 float coverage(vec2 uv, float s, float low) {
   float melt = texture(uMask, uv).r;
   float edge = min(min(uv.x, 1.0 - uv.x) * uAspect, min(uv.y, 1.0 - uv.y));
@@ -221,7 +242,7 @@ void main() {
   vec2 e = 1.5 / uRes;
   float hx = heightAt(uv + vec2(e.x, 0.0));
   float hy = heightAt(uv + vec2(0.0, e.y));
-  float bump = 13.0;
+  float bump = 10.0;
   vec3 n = normalize(vec3((h - hx) * bump, (h - hy) * bump, 1.0));
 
   // 屈折と拡散。厚いほど下の写真はゆがんでぼやけ、白濁して彩度が落ちる
@@ -242,7 +263,7 @@ void main() {
   float fres = pow(1.0 - max(n.z, 0.0), 2.2) * t;
   col = col * diff + vec3(1.0) * spec * 0.6 + ice * fres * 0.45;
 
-  // 前線の先に伸びる結晶の腕（薄い所に白い細い筋）
+  // 曇る前に先に付く雪の結晶（薄い所に白く浮かぶ）
   float arms = pow(s, 5.0) * smoothstep(0.0, 0.3, c) * (1.0 - t) * 0.85;
   col = mix(col, vec3(0.97, 0.99, 1.0), arms);
 
