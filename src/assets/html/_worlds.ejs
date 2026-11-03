@@ -2,12 +2,14 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// 案内でよく行くワールド。ワールドを足すときは、groups の items に { name, author, url, photo, platforms, note } を足す
-//   url：https://vrchat.com/home/world/wrld_... / photo：/assets/img/worlds/ に置いたファイル名（いまは各ワールドの公式サムネイル、800×600）
-//   platforms：分かるときだけ ["PC", "Quest"] のように書く / note：紹介文。英語（en）は、日本語版の内容が固まってから足す
+// 好きなワールド・案内でよく行くワールド。中身は src/assets/data/worlds.json
+// ワールドを足すときは、groups の items に { id, name, author, photo, platforms, note } を1件足し、写真を src/assets/img/worlds/ に置く
+const groups = worlds.groups;
+const total = groups.reduce((sum, g) => sum + g.items.length, 0);
 const l = isEn ? {
   title: "Favorite worlds",
-  lead: "VRChat worlds I like and often take newcomers to. Descriptions in English are coming soon.",
+  lead: (n) => `${n} VRChat worlds I like and often take newcomers to. Descriptions in English are coming soon.`,
+  jump: "Jump to a group",
   platforms: "Works on",
   author: "By",
   open: "Open on the VRChat website",
@@ -15,82 +17,26 @@ const l = isEn ? {
   back: "New to VRChat? Start here",
 } : {
   title: "お気に入りワールド",
-  lead: "好きなワールドや、案内でよく行くワールドを紹介します。",
+  lead: (n) => `好きなワールドや、案内でよく行くワールド${n}件を紹介します。`,
+  jump: "種類へ移動",
   platforms: "対応",
   author: "作者",
   open: "VRChat の公式サイトで見る",
   newTab: "（新しいタブで開きます）",
   back: "はじめての方は、はじめてのVRChat へ",
 };
-const world = (id) => `https://vrchat.com/home/world/${id}/info`;
-const groups = [
-  {
-    id: "relax",
-    title: { ja: "のんびり過ごすなら", en: "For relaxing and talking" },
-    items: [
-      {
-        name: "Rainy Skyline - 雨の摩天楼",
-        author: "˖Vera˖",
-        url: world("wrld_ab46c720-b9a9-4b39-8ebc-1b93d7626af7"),
-        photo: "rainy-skyline.webp",
-        platforms: ["PC", "Quest"],
-        note: { ja: "雨の降る夜の街と摩天楼を見下ろす、居心地のよい部屋。映画やパーティーゲーム、カクテルバー、ペン、写真撮影まで、友だちとゆっくり過ごせます。" },
-      },
-      {
-        name: "[JP] NDC Library",
-        author: "nemurigi",
-        url: world("wrld_99924ad6-6bb9-479c-8835-282f0a634f60"),
-        photo: "ndc-library.webp",
-        note: { ja: "日本十進分類法（NDC）の分類番号が並ぶ、静かな図書館のワールド。落ち着いて話したいときに。" },
-      },
-    ],
-  },
-  {
-    id: "experience",
-    title: { ja: "物語や音楽を体験するなら", en: "For stories and music" },
-    items: [
-      {
-        name: "Project Lost Worlds",
-        author: "Fins",
-        url: world("wrld_cb43c149-c9cb-4b9a-b228-ac8833cb69ff"),
-        photo: "project-lost-worlds.webp",
-        note: { ja: "宇宙船アストリア号に乗って、遠い月エリオスへ旅する映像体験（2部作の1作目、約1時間）。日本語にも対応しています。定員は6人で、入る前にワールドを先に読み込んでおくよう案内されています。" },
-      },
-      {
-        name: "Undestined - yosumi（Music Experience World）",
-        author: "MIGIRI Inc",
-        url: world("wrld_2e999ffe-0565-4169-9445-a76345ea0a3a"),
-        photo: "undestined.webp",
-        note: { ja: "クリエイティブスタジオ MIGIRI と、バーチャルシンガー yosumi による体験型の音楽ワールド。ワールドの音量は 80% 以上がおすすめとされています。" },
-      },
-      {
-        name: "Half empty",
-        author: "yuri_ts",
-        url: world("wrld_5ac1eb74-1888-4552-9aab-6f2b6f19ac8e"),
-        photo: "half-empty.webp",
-        note: { ja: "「風をつかまえたんだ」。光の差す部屋で、粒子や流体のシミュレーションが風のように舞うワールド。" },
-      },
-      {
-        name: "_Let Go / 手放す",
-        author: "_you5248",
-        url: world("wrld_eda2b55e-9f7e-402c-b3ce-af7eac14bd4d"),
-        photo: "let-go.webp",
-        note: { ja: "目を覚ますと白い部屋にいて、散らばったかけらをひとつずつ拾い集めていく、物語のワールド。" },
-      },
-      {
-        name: "TITANIC: Beyond Reality - Sinking Experience",
-        author: "CabaBear",
-        url: world("wrld_577c4af3-1de7-40f4-88ad-7bf10ab3a1ee"),
-        photo: "titanic.webp",
-        note: { ja: "タイタニック号に乗り込み、華やかな船内と、沈没したあの夜を体験できるワールド。" },
-      },
-    ],
-  },
-];
+const worldUrl = (id) => `https://vrchat.com/home/world/${id}/info`;
 %><section class="section_2 page_1" aria-labelledby="worlds-heading">
   <h1 class="page_1__h1" id="worlds-heading"><%= l.title %></h1>
-  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__lead"><%= l.lead(total) %></p>
   <p class="section_2__more"><a href="<%= prefix %>/start/"><%= l.back %></a></p>
+  <nav class="jump_1" aria-label="<%= l.jump %>">
+    <ul>
+      <% groups.forEach(function (group) { %>
+        <li><a href="#<%= group.id %>"><%= group.title[pageLocale] %><span class="jump_1__count"><%= group.items.length %></span></a></li>
+      <% }); %>
+    </ul>
+  </nav>
 </section>
 
 <% groups.forEach(function (group) { %>
@@ -103,8 +49,8 @@ const groups = [
         <div class="world_1__body">
           <h3 class="world_1__name"><%= item.name %></h3>
           <p class="world_1__meta"><%= l.author %>: <%= item.author %><% if (item.platforms) { %> / <%= l.platforms %>: <%= item.platforms.join(" · ") %><% } %></p>
-          <% if (item.note[pageLocale]) { %><p class="world_1__note"><%= item.note[pageLocale] %></p><% } %>
-          <a class="world_1__link" href="<%= item.url %>" target="_blank" rel="noopener"><%= l.open %><span class="visually-hidden">: <%= item.name %> <%= l.newTab %></span></a>
+          <% if (item.note && item.note[pageLocale]) { %><p class="world_1__note"><%= item.note[pageLocale] %></p><% } %>
+          <a class="world_1__link" href="<%= worldUrl(item.id) %>" target="_blank" rel="noopener"><%= l.open %><span class="visually-hidden">: <%= item.name %> <%= l.newTab %></span></a>
         </div>
       </li>
     <% }); %>

@@ -1499,7 +1499,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 .world_1 {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: var(--space-2);
   margin-top: var(--space-2);
   @include sp {
