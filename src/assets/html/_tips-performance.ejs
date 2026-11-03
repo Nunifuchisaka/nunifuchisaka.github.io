@@ -1,0 +1,419 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説 第6回：パフォーマンスランクと軽量化
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// 上限の数は VRChat の「Performance Ranks」のページ（2026年10月21日更新）から。VRChat が変えたら pcLimits と demo.items を直す
+const article = avatarTips.articles.find((a) => a.slug === "performance");
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const ranks = ["Excellent", "Good", "Medium", "Poor", "Very Poor"];
+const fmt = (n) => n.toLocaleString("ja-JP");
+const rankOf = (value, limits) => {
+  const i = limits.findIndex((limit) => value <= limit);
+  return i === -1 ? limits.length : i;
+};
+const links = {
+  ranks: "https://creators.vrchat.com/avatars/avatar-performance-ranking-system/",
+  aao: "https://vpm.anatawa12.com/avatar-optimizer/ja/",
+};
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "パフォーマンスランクと軽量化",
+  lead: "アップロードしたら Very Poor になった。衣装を足したら、ランクが下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。",
+  meta: "パソコン版（PC）の VRChat の話です。上限の数は、VRChat の公式ページ（2026年10月21日更新）によります。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "アップロードしたら、ランクが Very Poor だった。",
+    "衣装やアクセサリーを足したら、ランクが下がった。",
+    "イベントで、Very Poor のアバターは控えてと言われた。",
+    "ほかの人から、自分のアバターが別の姿に見えていると言われた。",
+  ],
+  rankTitle: "パフォーマンスランクとは",
+  rankLead: "パフォーマンスランクは、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。ポリゴンの数やマテリアルの数など、項目ごとに上限が決まっています。",
+  rankItems: [
+    { head: "Excellent", body: "いちばん良いランクです。" },
+    { head: "Good", body: "十分に良いランクです。目指すならここです。" },
+    { head: "Medium", body: "名前のわりに、十分です。ここまで来ていれば、困ることはあまりありません。" },
+    { head: "Poor", body: "少し直したほうがよいランクです。" },
+    { head: "Very Poor", body: "重いアバターです。上限が無いので、とても重いこともあります。" },
+  ],
+  rankNotes: [
+    "アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。",
+    "VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。",
+    "ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。シェーダーやアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。",
+  ],
+  seenTitle: "ほかの人からどう見えるか",
+  seen: [
+    "見る人は、VRChat の「Safety」のタブの右上にある「Performance Options」で、<strong>どのランクまで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。",
+  ],
+  seenMock: {
+    variant: "vrchat",
+    caption: "再現図：VRChat の Performance Options（見る人の設定）。並びや見た目は簡単にしています",
+    screens: [{
+      bar: "Safety › Performance Options",
+      label: "Performance Options の再現図。1 Minimum Displayed Performance Rank で、Medium、Poor、Very Poor から選べ、Very Poor が選ばれている",
+      rows: [
+        { mark: 1, label: "Minimum Displayed Performance Rank", type: "seg", options: ["Medium", "Poor", "Very Poor"], active: 2, hot: true },
+      ],
+    }],
+    notes: [
+      "パソコン版の初めの設定は「Very Poor」です（どのアバターもそのまま見えます）。「Medium」にすると、Poor と Very Poor のアバターは、部品が外されたり、代わりの姿になったりします。",
+    ],
+  },
+  seenTableLabel: "表示するランクを超えたときの見え方",
+  seenHead: ["超えた項目", "見え方"],
+  seenRows: [
+    ["三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数", "アバターが、代わりの姿（Fallback）になる"],
+    ["PhysBone や Contact の数", "PhysBone と Contact がすべて外される（髪などが揺れなくなる）"],
+    ["パーティクル、ライト、音など", "その部品がすべて外される"],
+  ],
+  seen2: [
+    "スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは第7回で扱います。",
+    "人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。",
+  ],
+  seenLink: { href: `${prefix}/avatar-tips/quest/`, text: "第7回 Quest・スマホ対応" },
+  limitsTitle: "おもな項目と上限（パソコン版）",
+  limitsLead: "表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。",
+  limitsTableLabel: "パソコン版のパフォーマンスランクの上限",
+  limitsHead: ["項目", "Excellent", "Good", "Medium", "Poor"],
+  pcLimits: [
+    ["三角形の数（Triangles）", "32,000", "70,000", "70,000", "70,000"],
+    ["テクスチャのメモリ（Texture Memory）", "40 MB", "75 MB", "110 MB", "150 MB"],
+    ["スキンメッシュの数（Skinned Meshes）", "1", "2", "8", "16"],
+    ["ふつうのメッシュの数（Basic Meshes）", "4", "8", "16", "24"],
+    ["マテリアルの数（Material Slots）", "4", "8", "16", "32"],
+    ["ボーンの数（Bones）", "75", "150", "256", "400"],
+    ["PhysBone の数（PhysBones Components）", "4", "8", "16", "32"],
+    ["PhysBone で動くボーンの数（PhysBones Affected Transforms）", "16", "64", "128", "256"],
+    ["PhysBone のコライダーの数（PhysBones Colliders）", "4", "8", "16", "32"],
+    ["コライダーが当たるかを調べる数（PhysBones Collision Check Count）", "32", "128", "256", "512"],
+    ["Contact の数（Contacts）", "8", "16", "24", "32"],
+    ["ライトの数（Lights）", "0", "0", "0", "1"],
+    ["パーティクルの数（Particle Systems）", "0", "4", "8", "16"],
+    ["音を出す部品の数（Audio Sources）", "1", "4", "8", "8"],
+  ],
+  limitsNotes: [
+    `<strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、メッシュやマテリアル、PhysBone の数に入ります。`,
+    `ほかにも、大きさ（Bounds Size）、Constraint、Animator の数などの項目があります。すべての項目は、${ext(links.ranks, "VRChat の Performance Ranks のページ")}で見られます。`,
+  ],
+  whereTitle: "ランクを見る場所",
+  whereLead: "ランクは、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。",
+  whereUnity: [
+    "Unity の上のメニューの「VRChat SDK」→「Show Control Panel」を開きます。",
+    "「Builder」のタブで、アバターを選びます。",
+    "パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。",
+  ],
+  whereGame: [
+    "メインメニューの「Avatars」で自分のアバターを選び、左下の「Avatar Stats」を押します。",
+    "ほかの人のアバターは、クイックメニューを開いてその人を選び、「Show Avatar Stats」を押すと見られます。",
+    "文字の色は、その項目のランクを表しています。",
+  ],
+  whereUnityLabel: "Unity（アップロードする前）",
+  whereGameLabel: "VRChat の中（アップロードしたあと）",
+  sdkMock: {
+    variant: "unity",
+    caption: "再現図：VRChat SDK の Builder のパフォーマンスの欄。並びや見た目、文言は簡単にしています。数は例です",
+    screens: [{
+      bar: "VRChat SDK › Builder",
+      label: "VRChat SDK の Builder のパフォーマンスの欄の再現図。1 全体のランク Poor、2 Triangles 69,000 Good、3 PhysBones Components 20 Poor、ほかに Bones 300 Poor、Texture Memory 120 MB Poor など",
+      rows: [
+        { mark: 1, label: "Overall Performance", type: "value", text: "Poor", hot: true },
+        { type: "head", text: "Stats" },
+        { mark: 2, label: "Triangles", type: "value", text: "69,000 · Good" },
+        { label: "Material Slots", type: "value", text: "12 · Medium" },
+        { label: "Skinned Meshes", type: "value", text: "6 · Medium" },
+        { mark: 3, label: "PhysBones Components", type: "value", text: "20 · Poor", hot: true },
+        { label: "Bones", type: "value", text: "300 · Poor" },
+        { label: "Texture Memory", type: "value", text: "120 MB · Poor" },
+      ],
+    }],
+    notes: [
+      "アバター全体のランクです。いちばん低い項目のランクになります。",
+      "三角形の数は Good の範囲です。ここを減らしても、全体のランクは上がりません。",
+      "ランクを下げている項目です。ここを減らすと、ランクが上がります。",
+    ],
+  },
+  whyTitle: "なぜ軽くしたほうがよいか",
+  why: [
+    "アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。",
+    "とくに、マテリアルとメッシュの数が多いと、描くための命令（ドローコール）が増えます。三角形の数より、こちらが効いていることもよくあります。",
+    "テクスチャのメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。",
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "おもな項目の数を変えて、アバター全体のランクがどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。",
+  demo: {
+    controlsLabel: "項目の数",
+    listLabel: "項目ごとのランク",
+    ok: "このアバターのランクは {r} です。困ることはあまりありません。",
+    ng: "このアバターのランクは {r} です。太字の項目を減らすと、ランクが上がります。",
+    why: "いちばん低いのは {i}（{r}）です。ランクは、いちばん低い項目で決まります。",
+    allBest: "すべての項目が Excellent の範囲です。",
+    mark: "（いちばん低い）",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+    // limits は Excellent・Good・Medium・Poor の上限（パソコン版）
+    items: [
+      { id: "rank-tris", name: "三角形の数", min: 0, max: 150000, step: 1000, value: 69000, limits: [32000, 70000, 70000, 70000] },
+      { id: "rank-tex", name: "テクスチャのメモリ", unit: " MB", min: 0, max: 300, step: 5, value: 120, limits: [40, 75, 110, 150] },
+      { id: "rank-skinned", name: "スキンメッシュの数", min: 1, max: 24, step: 1, value: 6, limits: [1, 2, 8, 16] },
+      { id: "rank-mats", name: "マテリアルの数", min: 1, max: 48, step: 1, value: 12, limits: [4, 8, 16, 32] },
+      { id: "rank-bones", name: "ボーンの数", min: 0, max: 600, step: 5, value: 300, limits: [75, 150, 256, 400] },
+      { id: "rank-pb", name: "PhysBone の数", min: 0, max: 48, step: 1, value: 20, limits: [4, 8, 16, 32] },
+      { id: "rank-pbt", name: "PhysBone で動くボーンの数", min: 0, max: 400, step: 4, value: 180, limits: [16, 64, 128, 256] },
+    ],
+  },
+  lightTitle: "軽くする方法",
+  lightLead: "効きやすい順に並べています。元のアバターを直接けずる前に、まず 1 と 2 を試してみてください。",
+  light: [
+    { head: "1. Avatar Optimizer（AAO）を入れる", body: "アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、メッシュをまとめる、PhysBone をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「AAO で軽くする」を見てください。" },
+    { head: "2. 使わない衣装を消す", body: "オフにしている物も数えられます。着替えない衣装やアクセサリーは、オフにするだけでなく、アバターから消します（アップロード用のアバターを複製して、そちらで消すと安心です）。" },
+    { head: "3. メッシュとマテリアルをまとめる", body: "メッシュをまとめるツールや、テクスチャを1枚にまとめて（アトラス化して）マテリアルを減らすツールがあります。マテリアルとメッシュが減ると、ドローコールが減ります。" },
+    { head: "4. PhysBone を減らす", body: "揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動くボーンの数も減らせます。" },
+    { head: "5. テクスチャを小さくする", body: "テクスチャを選び、Inspector の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。" },
+    { head: "6. ポリゴンを減らす", body: "ポリゴンを減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。" },
+  ],
+  aaoTitle: "AAO で軽くする",
+  aaoLead: "AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。",
+  aao: [
+    `${ext(links.aao, "AAO のページ")}のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は第3回を見てください）。`,
+    "プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。",
+    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。",
+    "Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。",
+    "Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。",
+  ],
+  aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: "第3回 ツールやシェーダーを足す" },
+  casesTitle: "よくある困りごと",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "衣装を足したら Very Poor になった",
+      symptom: "衣装をいくつか入れて、メニューで切り替えられるようにしたら、Very Poor になった。",
+      cause: "オフの衣装も数えられるため、メッシュとマテリアル、PhysBone の数が増えています。",
+      fix: "着替えない衣装を消します。AAO の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。" },
+    { title: "PhysBone の項目だけ Poor",
+      symptom: "ほかは Good なのに、PhysBone の数や、動くボーンの数で Poor になる。",
+      cause: "衣装ごとに、髪や服の PhysBone が入っています。",
+      fix: "揺れなくてもよい PhysBone を外すか、AAO にまとめてもらいます。" },
+    { title: "テクスチャのメモリが多い",
+      symptom: "Texture Memory が 150 MB を超えて、Very Poor になる。",
+      cause: "4096 などの大きなテクスチャが、たくさん入っています。",
+      fix: "目立たない部分のテクスチャから、Max Size を 2048 や 1024 に下げます。" },
+    { title: "ほかの人には別の姿に見えている",
+      symptom: "自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。",
+      cause: "見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。",
+      fix: "ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（第7回）。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "けずる前に、アバターのフォルダを書き出すか、プロジェクトのバックアップを取ってください。けずった部分は戻せないことがあります。",
+    "直接けずるより、AAO のように元を書き換えないツールを先に使ってください。",
+    "ランクは目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。",
+    "ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "アバターのランクは、いちばん低い項目のランクで決まります。",
+    "オフにしている衣装も数えられます。使わない物は消します。",
+    "まず AAO の Trace And Optimize を入れ、次にマテリアル、PhysBone、テクスチャを見直します。",
+    "Good を目指し、むずかしければ Medium で十分です。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const demoItems = l.demo.items.map((item) => ({ ...item, rank: rankOf(item.value, item.limits), text: fmt(item.value) + (item.unit || "") }));
+const demoWorst = Math.max(...demoItems.map((item) => item.rank));
+const demoWorstNames = demoItems.filter((item) => item.rank === demoWorst).map((item) => item.name).join("、");
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "rank", title: l.rankTitle },
+  { id: "seen", title: l.seenTitle },
+  { id: "limits", title: l.limitsTitle },
+  { id: "where", title: l.whereTitle },
+  { id: "why", title: l.whyTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "light", title: l.lightTitle },
+  { id: "aao", title: l.aaoTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="rank" aria-labelledby="rank-heading">
+    <h2 class="section_2__h1" id="rank-heading"><%= l.rankTitle %></h2>
+    <p class="article_1__p"><%= l.rankLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.rankItems.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%= item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <% l.rankNotes.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="seen" aria-labelledby="seen-heading">
+    <h2 class="section_2__h1" id="seen-heading"><%= l.seenTitle %></h2>
+    <% l.seen.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.seenMock }) %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.seenTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.seenHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.seenRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.seen2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <p class="section_2__more"><a href="<%= l.seenLink.href %>"><%= l.seenLink.text %></a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
+    <h2 class="section_2__h1" id="limits-heading"><%= l.limitsTitle %></h2>
+    <p class="article_1__p"><%= l.limitsLead %></p>
+    <section class="table_3" tabindex="0" aria-label="<%= l.limitsTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.limitsHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.pcLimits.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><% row.slice(1).forEach(function (cell) { %><td class="table_3__nowrap"><%= cell %></td><% }); %></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.limitsNotes.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="where" aria-labelledby="where-heading">
+    <h2 class="section_2__h1" id="where-heading"><%= l.whereTitle %></h2>
+    <p class="article_1__p"><%= l.whereLead %></p>
+    <h3 class="section_2__h2"><%= l.whereUnityLabel %></h3>
+    <ol class="steps_1">
+      <% l.whereUnity.forEach(function (step) { %><li><%= step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.sdkMock }) %>
+    <h3 class="section_2__h2"><%= l.whereGameLabel %></h3>
+    <ol class="steps_1">
+      <% l.whereGame.forEach(function (step) { %><li><%= step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading"><%= l.whyTitle %></h2>
+    <% l.why.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_rank_demo"
+      data-ranks="<%= ranks.join(",") %>" data-ok="<%= l.demo.ok %>" data-ng="<%= l.demo.ng %>"
+      data-why="<%= l.demo.why %>" data-all-best="<%= l.demo.allBest %>" data-mark="<%= l.demo.mark %>">
+      <div class="demo_2__controls" role="group" aria-label="<%= l.demo.controlsLabel %>">
+        <% demoItems.forEach(function (item) { %>
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="<%= item.id %>"><%= item.name %></label> <output class="demo_1__value" for="<%= item.id %>"><%= item.text %></output></p>
+            <input type="range" id="<%= item.id %>" class="js_rank_input" min="<%= item.min %>" max="<%= item.max %>" step="<%= item.step %>" value="<%= item.value %>"
+              data-name="<%= item.name %>" data-limits="<%= item.limits.join(",") %>"<% if (item.unit) { %> data-unit="<%= item.unit %>"<% } %>>
+          </div>
+        <% }); %>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__result <%= demoWorst <= 2 ? "is_ok" : "is_ng" %> js_rank_result"><%= (demoWorst <= 2 ? l.demo.ok : l.demo.ng).replace("{r}", ranks[demoWorst]) %></p>
+        <p class="demo_1__why js_rank_why"><%= demoWorst === 0 ? l.demo.allBest : l.demo.why.replace("{i}", demoWorstNames).replace("{r}", ranks[demoWorst]) %></p>
+        <p class="demo_1__label"><%= l.demo.listLabel %></p>
+        <ul class="rules_1 js_rank_list">
+          <% demoItems.forEach(function (item) { const line = `${item.name}：${item.text} → ${ranks[item.rank]}`; %>
+            <li><% if (item.rank === demoWorst && demoWorst > 0) { %><strong><%= line %><%= l.demo.mark %></strong><% } else { %><%= line %><% } %></li>
+          <% }); %>
+        </ul>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="light" aria-labelledby="light-heading">
+    <h2 class="section_2__h1" id="light-heading"><%= l.lightTitle %></h2>
+    <p class="article_1__p"><%= l.lightLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.light.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%= item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="aao" aria-labelledby="aao-heading">
+    <h2 class="section_2__h1" id="aao-heading"><%= l.aaoTitle %></h2>
+    <p class="article_1__p"><%= l.aaoLead %></p>
+    <ol class="steps_1">
+      <% l.aao.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="section_2__more"><a href="<%= l.aaoLink.href %>"><%= l.aaoLink.text %></a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>
