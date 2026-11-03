@@ -1,0 +1,19 @@
+<%
+// トップページの「お気に入りワールド」。worlds.json の top に並べたワールドだけを出し、ほかはお気に入りワールドのページへ
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const allWorlds = worlds.groups.reduce((list, g) => list.concat(g.items), []);
+const picks = (worlds.top || []).map((id) => allWorlds.find((item) => item.id === id)).filter(Boolean);
+const l = isEn
+  ? { title: "Favorite worlds", lead: "A few of the VRChat worlds I like.", more: `See all ${allWorlds.length} favorite worlds`, href: "/en/worlds/" }
+  : { title: "お気に入りワールド", lead: "好きなVRChatのワールドから、いくつかを紹介します。", more: `お気に入りワールドをすべて見る（${allWorlds.length}件）`, href: "/worlds/" };
+%><% if (picks.length) { %><section id="worlds" class="section_2" aria-labelledby="worlds-heading">
+  <h2 class="section_2__h1" id="worlds-heading"><%= l.title %></h2>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <ul class="world_1">
+    <% picks.forEach(function (item) { %>
+      <%- include("_world_card", { item: item, locale: pageLocale }) %>
+    <% }); %>
+  </ul><!-- /.world_1 -->
+  <p class="section_2__more section_2__more--button"><a href="<%= l.href %>"><%= l.more %></a></p>
+</section><!-- /#worlds.section_2 --><% } %>

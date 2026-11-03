@@ -1,5 +1,11 @@
 {
   "_note": "お気に入りワールド（/worlds/）の一覧。name・author は VRChat の公式情報から（全角の記号は半角に直す）。photo は src/assets/img/worlds/ に置いた公式サムネイル（800×600 の WebP）。platforms は分かるときだけ。note の英語（en）は、日本語版の内容が固まってから足す",
+  "_top": "top に並べた id のワールドを、トップページの「お気に入りワールド」にも出す（並び順もこのとおり）",
+  "top": [
+    "wrld_5ac1eb74-1888-4552-9aab-6f2b6f19ac8e",
+    "wrld_ff3daa0e-0620-44a1-b15c-ce0f9b9bb7d4",
+    "wrld_a48e00a2-7a2e-45fd-ab52-0f4c8225fcbb"
+  ],
   "groups": [
     {
       "id": "relax",

@@ -270,6 +270,40 @@
   margin-top: var(--space-2);
   font-weight: 700;
 }
+.section_2__more--button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.section_2__more--button a {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 8px 24px;
+  line-height: 1.4;
+  text-decoration: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 100vw;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.top_1 .section_2__more--button a {
+  color: var(--color-text);
+}
+.section_2__more--button a::after {
+  flex: none;
+  color: var(--color-link);
+  content: "→";
+}
+.section_2__more--button a[target=_blank]::after {
+  content: "↗";
+}
+.section_2__more--button a:hover {
+  background: var(--color-bg);
+  border-color: var(--color-text-muted);
+}
 
 /*
 ## .list_7
@@ -1187,8 +1221,9 @@
 
 /*
 ## .world_1
-使用箇所：お気に入りワールド
-内容：ワールドのカード（写真・名前・作者と対応機器・紹介文・公式サイトへのリンク）。写真は公式サムネイルと同じ 4:3
+使用箇所：お気に入りワールド、トップページ「お気に入りワールド」
+内容：ワールドのカード（写真・名前・作者と対応機器・紹介文）。カード全体が VRChat 公式サイトのワールドのページへのリンク。
+     写真は公式サムネイルと同じ 4:3
 */
 .world_1 {
   display: grid;
@@ -1197,13 +1232,34 @@
   margin-top: var(--space-2);
 }
 .world_1__item {
+  display: flex;
+}
+.world_1__link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow: hidden;
+  text-decoration: none;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: 10px;
+  transition: border-color 0.15s;
+}
+.top_1 .world_1__link {
+  color: var(--color-text);
+}
+.world_1__link:hover {
+  border-color: var(--color-text-muted);
+}
+.world_1__link:hover .world_1__name {
+  text-decoration: underline;
+}
+.world_1__link:hover img {
+  transform: scale(1.04);
 }
 .world_1__photo {
   display: block;
+  overflow: hidden;
   aspect-ratio: 4/3;
   background: var(--color-bg);
 }
@@ -1213,6 +1269,7 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transition: transform 0.3s;
 }
 .world_1__body {
   display: grid;
@@ -1222,6 +1279,7 @@
 .world_1__name {
   font-size: 1.8rem;
   font-weight: 900;
+  color: var(--color-link);
 }
 .world_1__meta {
   font-size: 1.3rem;
@@ -1230,12 +1288,6 @@
 .world_1__note {
   font-size: 1.4rem;
   line-height: 1.7;
-}
-.world_1__link {
-  justify-self: start;
-  margin-top: 4px;
-  font-size: 1.4rem;
-  font-weight: 700;
 }
 
 /*
@@ -1978,6 +2030,10 @@
   .section_2__h1 {
     font-size: 2.2rem;
   }
+  .section_2__more--button a {
+    padding: 8px 20px;
+    font-size: 1.4rem;
+  }
   .list_7 {
     gap: 8px;
   }
@@ -2145,5 +2201,8 @@
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+  .world_1__photo img {
+    transition: none;
   }
 }

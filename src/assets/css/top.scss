@@ -371,6 +371,46 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     margin-top: var(--space-2);
     font-weight: 700;
   }
+
+  // トップページの「すべて見る」など。リンクを丸いボタンにする（外部サイトへのリンクには ↗ を付ける）
+  &__more--button {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    a {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 48px;
+      padding: 8px 24px;
+      line-height: 1.4;
+      text-decoration: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 100vw;
+      transition: border-color .15s, background-color .15s;
+      .top_1 & {
+        color: var(--color-text);
+      }
+      &::after {
+        flex: none;
+        color: var(--color-link);
+        content: "→";
+      }
+      &[target="_blank"]::after {
+        content: "↗";
+      }
+      &:hover {
+        background: var(--color-bg);
+        border-color: var(--color-text-muted);
+      }
+      @include sp {
+        padding: 8px 20px;
+        font-size: 1.4rem;
+      }
+    }
+  }
 }
 
 
@@ -1493,8 +1533,9 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## .world_1
-使用箇所：お気に入りワールド
-内容：ワールドのカード（写真・名前・作者と対応機器・紹介文・公式サイトへのリンク）。写真は公式サムネイルと同じ 4:3
+使用箇所：お気に入りワールド、トップページ「お気に入りワールド」
+内容：ワールドのカード（写真・名前・作者と対応機器・紹介文）。カード全体が VRChat 公式サイトのワールドのページへのリンク。
+     写真は公式サムネイルと同じ 4:3
 */
 
 .world_1 {
@@ -1508,14 +1549,36 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__item {
+    display: flex;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     overflow: hidden;
+    text-decoration: none;
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .world_1__name {
+      text-decoration: underline;
+    }
+    &:hover img {
+      transform: scale(1.04);
+    }
   }
 
   &__photo {
     display: block;
+    overflow: hidden;
     aspect-ratio: 4 / 3;
     background: var(--color-bg);
     img {
@@ -1523,6 +1586,10 @@ $font: "Zen Kaku Gothic Antique", $gothic;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform .3s;
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
     }
   }
 
@@ -1535,6 +1602,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__name {
     font-size: 1.8rem;
     font-weight: 900;
+    color: var(--color-link);
   }
 
   &__meta {
@@ -1545,13 +1613,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__note {
     font-size: 1.4rem;
     line-height: 1.7;
-  }
-
-  &__link {
-    justify-self: start;
-    margin-top: 4px;
-    font-size: 1.4rem;
-    font-weight: 700;
   }
 }
 
