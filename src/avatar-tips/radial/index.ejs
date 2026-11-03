@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "段階で切り替える・少しずつ変えるギミック",
+  description: "服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/radial/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/radial-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-radial") %>
+<%- include(path + "assets/html/_tips_pager",{slug:"unity-vs-vrchat"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

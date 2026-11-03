@@ -58,25 +58,11 @@ const l = {
     "作る前に、アバターのフォルダか Unity のプロジェクトを丸ごと書き出して、元に戻せるようにしておきます。",
     "作ったファイルは、アバターのフォルダとは別の、自分用のフォルダにまとめます。たとえば Project で <code>Assets</code> を右クリックして <code>Create → Folder</code> を選び、<code>MyGimmicks/Hat</code> を作ります。アバターを更新したときに、上書きされないためです。",
   ],
-  clipsTitle: "オンとオフのクリップを作る",
-  clipsLead: "帽子を出すクリップと、消すクリップを、2つとも作ります。作り方（録画のしかた）は、第7回で解説しています。",
-  clips: [
-    "Hierarchy で <code>Hat</code> を選び、Inspector のいちばん上の名前の左のチェックを外して、オフにしておきます。はじめは帽子を消しておく、という意味です（あとで決める Default と合わせます）。",
-    "Project の <code>MyGimmicks/Hat</code> を右クリックして <code>Create → Animation</code> を選び、<code>Hat_ON</code> という名前のクリップを作ります。同じように <code>Hat_OFF</code> も作ります。",
-    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor が付いているオブジェクト）を選び、Animation ウィンドウ（<code>Window → Animation → Animation</code>）を開きます。左上のクリップの名前の欄で <code>Hat_ON</code> を選びます。",
-    "赤い丸の録画ボタンを押してから、Hierarchy の <code>Hat</code> を選び、Inspector の名前の左のチェックを入れます。Animation ウィンドウに <code>Hat : Is Active</code> の行ができ、0 フレーム目にキー（ひし形）が打たれます。録画ボタンをもう一度押して止めます。",
-    "クリップの名前の欄で <code>Hat_OFF</code> に切り替え、同じように録画します。今度はチェックを入れてから外して、<code>Hat : Is Active</code> が 0（オフ）のキーを打ちます。",
-    "録画が終わったら、<code>Hat</code> のチェックを外した状態に戻します。",
-  ],
-  clipsWhy: [
-    "<strong>オフのクリップも作るのは、Write Defaults（クリップに無い値をどうするか）の設定に関係なく動くようにするためです。</strong>オフのステートに何も書かないクリップを置くと、Write Defaults が OFF のアバターでは、帽子がオンのまま残ります。オンとオフの両方で <code>Is Active</code> を書いておけば、どちらの設定でも動きます。",
-    "録画は、アバターのいちばん上を選んでから始めます。クリップには「アバターのいちばん上から見た Hat の場所」（パス）が書かれます。このパスは、あとで MA につなぐときに使います（第7回の「パス」）。",
-  ],
-  clipsLink: tipLink("animation-clip", "path"),
   controllerTitle: "コントローラーとレイヤーを作る",
   controllerLead: `帽子のためだけの Animator Controller（コントローラー）を作ります。アバターがもともと持っている FX のコントローラーには手を入れません。FX などのレイヤーの役目は ${tipLink("animator-basics", "layers")} を見てください。`,
   controller: [
-    "Project の <code>MyGimmicks/Hat</code> を右クリックして <code>Create → Animator Controller</code> を選び、<code>Hat_FX</code> という名前にします（Unity のバージョンによっては <code>Create → Animation</code> の中にあります）。",
+    "Project の <code>MyGimmicks/Hat</code> を右クリックして <code>Create → Animation</code> を選び、<code>Hat_ON</code> という名前のクリップを作ります。同じように <code>Hat_OFF</code> も作ります。中身は次の節で録画します。先に作るのは、ステートに入れるためです。",
+    "同じフォルダを右クリックして <code>Create → Animator Controller</code> を選び、<code>Hat_FX</code> という名前にします（Unity のバージョンによっては <code>Create → Animation</code> の中にあります）。",
     "<code>Hat_FX</code> をダブルクリックします。Animator ウィンドウ（<code>Window → Animation → Animator</code>）が開きます。",
     "左上の <code>Layers</code> タブを押します。<code>Base Layer</code> が1つあります。これは空のまま使いません。",
     "<code>Layers</code> の右の <code>+</code> を押して、レイヤーを足します。名前を <code>Hat</code> にします。",
@@ -119,6 +105,21 @@ const l = {
       "オレンジ色のステートから始まります。はじめは帽子を消しておくので、Hat_OFF をオレンジ色にします。",
     ],
   },
+  clipsTitle: "オンとオフのクリップを録画する",
+  clipsLead: `帽子を出すクリップと、消すクリップの中身を、録画で作ります。録画のしかたは ${tipLink("animation-clip", "record")} でくわしく解説しています。`,
+  clips: [
+    "Hierarchy で <code>Hat</code> を選び、Inspector のいちばん上の名前の左のチェックを外して、オフにしておきます。はじめは帽子を消しておく、という意味です（あとで決める Default と合わせます）。",
+    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor が付いているオブジェクト）を選びます。Inspector の <code>Animator</code> の <code>Controller</code> の欄に、Project から <code>Hat_FX</code> をドラッグします。<strong>録画のあいだだけ</strong>入れます。Animation ウィンドウは、選んだアバターの Animator に入っているコントローラーのクリップしか開けないためです。",
+    "Animation ウィンドウ（<code>Window → Animation → Animation</code>）を開きます。左上のクリップの名前の欄で <code>Hat_ON</code> を選びます。",
+    "赤い丸の録画ボタンを押してから、Hierarchy の <code>Hat</code> を選び、Inspector の名前の左のチェックを入れます。Animation ウィンドウに <code>Hat : Is Active</code> の行ができ、0 フレーム目にキー（ひし形）が打たれます。録画ボタンをもう一度押して止めます。",
+    "クリップの名前の欄で <code>Hat_OFF</code> に切り替え、同じように録画します。今度はチェックを入れてから外して、<code>Hat : Is Active</code> が 0（オフ）のキーを打ちます。",
+    "録画が終わったら、<code>Hat</code> のチェックが外れている（録画の前に戻っている）かを確かめます。アバターのいちばん上の <code>Animator</code> の <code>Controller</code> の欄も、もとに戻します。もとが空なら、欄の右の小さな丸を押して <code>None</code> を選びます。",
+  ],
+  clipsWhy: [
+    "<strong>オフのクリップも作るのは、Write Defaults（クリップに無い値をどうするか）の設定に関係なく動くようにするためです。</strong>オフのステートに何も書かないクリップを置くと、Write Defaults が OFF のアバターでは、帽子がオンのまま残ります。オンとオフの両方で <code>Is Active</code> を書いておけば、どちらの設定でも動きます。",
+    "録画は、アバターのいちばん上を選んでから始めます。クリップには「アバターのいちばん上から見た Hat の場所」（パス）が書かれます。このパスは、あとで MA につなぐときに使います。",
+  ],
+  clipsLink: tipLink("animation-clip", "path"),
   transitionsTitle: "トランジションを設定する",
   transitionsLead: "OFF から ON へ、ON から OFF へ、矢印（トランジション）を2本引きます。ここで、切り替わる条件と、切り替わり方を決めます。",
   transitions: [
@@ -206,7 +207,7 @@ const l = {
   connectRisks: "アバターを更新すると、FX やメニューのファイルが上書きされて、足したものが消えることがあります。そのたびに足し直すことになるので、MA でつなぐ方法をおすすめします。Write Defaults のくわしい話は、",
   wdLink: tipLink("unity-vs-vrchat", "write-defaults"),
   paramsTitle: "パラメーターを VRChat に知らせる（Expression Parameters）",
-  paramsLead: "Animator の中に <code>HatOn</code> を作っただけでは、VRChat はそのパラメーターを知りません。Expression Parameters に登録して、はじめてメニューから動かせ、ほかの人にも送られます。MA を使うときは、MA Parameters で登録します。",
+  paramsLead: `Animator の中に <code>HatOn</code> を作っただけでは、VRChat はそのパラメーターを知りません。Expression Parameters に登録して、はじめてメニューから動かせ、ほかの人にも送られます。MA を使うときは、MA Parameters で登録します。2つのパラメーターの関係は ${tipLink("animator-basics", "parameters")} で説明しています。`,
   params: [
     "<code>帽子</code> オブジェクトを選び、<code>Add Component</code> から <code>MA Parameters</code> を付けます。",
     "パラメーターを足すボタンを押し、名前に <code>HatOn</code> と入れます。Animator のパラメーターと、大文字小文字まで同じにします。",
@@ -377,8 +378,8 @@ const l = {
 const sections = [
   { id: "when", title: l.whenTitle },
   { id: "plan", title: l.planTitle },
-  { id: "clips", title: l.clipsTitle },
   { id: "controller", title: l.controllerTitle },
+  { id: "clips", title: l.clipsTitle },
   { id: "transitions", title: l.transitionsTitle },
   { id: "connect", title: l.connectTitle },
   { id: "params", title: l.paramsTitle },
@@ -424,6 +425,15 @@ const d = l.demo;
     <% l.plan2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
   </section>
 
+  <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
+    <h2 class="section_2__h1" id="controller-heading"><%= l.controllerTitle %></h2>
+    <p class="article_1__p"><%- l.controllerLead %></p>
+    <ol class="steps_1">
+      <% l.controller.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.controllerMock }) %>
+  </section>
+
   <section class="section_2 article_1__section" id="clips" aria-labelledby="clips-heading">
     <h2 class="section_2__h1" id="clips-heading"><%= l.clipsTitle %></h2>
     <p class="article_1__p"><%= l.clipsLead %></p>
@@ -432,15 +442,6 @@ const d = l.demo;
     </ol>
     <% l.clipsWhy.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
     <p class="section_2__more"><%- l.clipsLink %></p>
-  </section>
-
-  <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
-    <h2 class="section_2__h1" id="controller-heading"><%= l.controllerTitle %></h2>
-    <p class="article_1__p"><%- l.controllerLead %></p>
-    <ol class="steps_1">
-      <% l.controller.forEach(function (step) { %><li><%- step %></li><% }); %>
-    </ol>
-    <%- include("_mock", { mock: l.controllerMock }) %>
   </section>
 
   <section class="section_2 article_1__section" id="transitions" aria-labelledby="transitions-heading">
