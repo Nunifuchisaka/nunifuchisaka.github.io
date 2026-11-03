@@ -33,6 +33,50 @@
       "desc": {
         "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。"
       }
+    },
+    {
+      "no": 4,
+      "slug": "upload",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "アップロードのしかた"
+      },
+      "desc": {
+        "ja": "（あとで書く）"
+      }
+    },
+    {
+      "no": 5,
+      "slug": "outfit",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "衣装を着せる"
+      },
+      "desc": {
+        "ja": "（あとで書く）"
+      }
+    },
+    {
+      "no": 6,
+      "slug": "performance",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "パフォーマンスランクと軽量化"
+      },
+      "desc": {
+        "ja": "（あとで書く）"
+      }
+    },
+    {
+      "no": 7,
+      "slug": "quest",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "Quest・スマホ対応"
+      },
+      "desc": {
+        "ja": "（あとで書く）"
+      }
     }
   ]
 }
