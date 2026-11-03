@@ -367,6 +367,23 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     margin-top: var(--space-1);
   }
 
+  // 節の中の小見出しと段落（はじめてのVRChat のように、1つの節が長いとき）
+  &__h2 {
+    margin-top: var(--space-4);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    @include sp {
+      font-size: 1.8rem;
+    }
+  }
+
+  &__p {
+    max-width: 40em;
+    margin-top: var(--space-2);
+    line-height: 1.9;
+  }
+
   &__more {
     margin-top: var(--space-2);
     font-weight: 700;
@@ -2450,5 +2467,522 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__date {
     font-size: 1.2rem;
     color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .case_1__text
+使用箇所：はじめてのVRChat「マイクの設定」のよくある困りごと
+内容：case_1 のカードに、起きること・原因・直し方に分けずに一続きの文を置くとき
+*/
+
+.case_1__text {
+  margin-top: 8px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+
+
+/*
+## .route_1
+使用箇所：はじめてのVRChat「マイクの設定」（声が届く順番）、アバター改変の解説（値が上書きされる流れ）
+内容：左から右へ順に進むものを、矢印でつないだ箱で並べる。狭い画面では上から下へ。is_ng の箱は、おかしくなったところ
+*/
+
+.route_1 {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 28px;
+  margin-top: var(--space-3);
+  @include sp {
+    grid-auto-flow: row;
+    gap: 24px;
+  }
+
+  &__step {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    padding: 12px 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -22px;
+      font-weight: 900;
+      color: var(--color-text-muted);
+      transform: translateY(-50%);
+      @include sp {
+        content: "↓";
+        inset: auto auto -24px 50%;
+        transform: translateX(-50%);
+      }
+    }
+    &.is_ng {
+      border-color: light-dark(#b3261e, #f2b8b5);
+      border-width: 2px;
+    }
+  }
+
+  &__head {
+    font-weight: 900;
+  }
+
+  &__note {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .mock_1
+使用箇所：はじめてのVRChat「マイクの設定」、アバター改変の解説
+内容：再現図。ソフトの設定画面を、説明に要る項目だけ HTML で描き直したもの（本物の画面写真ではない）。中身は _mock.ejs
+     番号（__mark）と、下の説明（__notes）の番号がそろう。画面は絵なので、ライトでもダークでも同じ色にする
+     --vrchat：VRChat のメニュー / --windows：Windows 11 の設定 / --dialog：昔からある Windows の小さな画面 / --unity：Unity のエディター
+*/
+
+.mock_1 {
+  --m-bg: #f3f3f3;
+  --m-bar: #e9e9e9;
+  --m-panel: #fbfbfb;
+  --m-text: #1b1b1b;
+  --m-muted: #5f5f5f;
+  --m-line: #d6d6d6;
+  --m-accent: #005fb8;
+  --m-on-accent: #fff;
+  --m-mark: #f5a623;
+
+  margin-top: var(--space-3);
+
+  &__figure {
+    margin: 0;
+  }
+
+  &--vrchat {
+    --m-bg: #10222a;
+    --m-bar: #0b1a20;
+    --m-panel: #1a323c;
+    --m-text: #e6f3f5;
+    --m-muted: #9fbac2;
+    --m-line: #2f4d58;
+    --m-accent: #35c8bc;
+    --m-on-accent: #062a27;
+  }
+
+  &--dialog {
+    --m-bg: #f0f0f0;
+    --m-bar: #fff;
+    --m-panel: #f0f0f0;
+    --m-text: #000;
+    --m-muted: #444;
+    --m-line: #adadad;
+    --m-accent: #0067c0;
+  }
+
+  &--unity {
+    --m-bg: #383838;
+    --m-bar: #282828;
+    --m-panel: #3e3e3e;
+    --m-text: #d2d2d2;
+    --m-muted: #9a9a9a;
+    --m-line: #232323;
+    --m-accent: #4c7fbf;
+  }
+
+  &__screens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 12px;
+    max-width: 760px;
+  }
+
+  &__screen {
+    overflow: hidden;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--m-text);
+    background: var(--m-bg);
+    border: 1px solid var(--m-line);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+  }
+
+  &__bar {
+    padding: 8px 14px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--m-muted);
+    background: var(--m-bar);
+    border-bottom: 1px solid var(--m-line);
+  }
+
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 8px 10px 0;
+    border-bottom: 1px solid var(--m-line);
+    span {
+      padding: 3px 10px;
+      font-size: 1.2rem;
+      border: 1px solid transparent;
+      border-bottom: 0;
+    }
+    .is_on {
+      font-weight: 700;
+      background: var(--m-bar);
+      border-color: var(--m-line);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  &__head {
+    padding: 0 2px;
+    font-weight: 700;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--m-panel);
+    border: 1px solid var(--m-line);
+    border-radius: 6px;
+    &.is_hot {
+      outline: 2px solid var(--m-mark);
+      outline-offset: -1px;
+    }
+  }
+
+  &__mark,
+  &__notes li::before {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #1b1b1b;
+    background: var(--m-mark);
+    border-radius: 50%;
+  }
+
+  &__label {
+    flex: 1 1 11em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &__control {
+    display: flex;
+    flex: 1 1 14em;
+    gap: 10px;
+    align-items: center;
+    min-width: 0;
+  }
+
+  // ラジオボタン・チェックは、名前の文がそのまま項目になるので、行いっぱいに使う
+  &__row--radio &__control,
+  &__row--check &__control {
+    flex-basis: 100%;
+  }
+
+  &__select {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 10px;
+    overflow-wrap: anywhere;
+    border: 1px solid var(--m-line);
+    border-radius: 4px;
+    &::after {
+      content: " ▾";
+      color: var(--m-muted);
+    }
+  }
+
+  &__slider,
+  &__meter {
+    position: relative;
+    flex: 1;
+    height: 6px;
+    background: var(--m-line);
+    border-radius: 3px;
+    > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: var(--m-accent);
+      border-radius: 3px;
+    }
+  }
+
+  &__slider > span {
+    width: var(--v);
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -7px;
+      width: 14px;
+      height: 14px;
+      background: var(--m-accent);
+      border: 2px solid var(--m-panel);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__meter {
+    height: 10px;
+    > span {
+      width: var(--level);
+      background: #3cc36a;
+    }
+    &.has_threshold::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: var(--threshold);
+      width: 3px;
+      height: 20px;
+      background: var(--m-text);
+      border-radius: 1px;
+    }
+  }
+
+  &__num {
+    flex: none;
+    min-width: 3.2em;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__toggle {
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 20px;
+    background: var(--m-line);
+    border-radius: 10px;
+    > span {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: var(--m-panel);
+      border-radius: 50%;
+    }
+    &.is_on {
+      background: var(--m-accent);
+      > span {
+        left: 23px;
+      }
+    }
+    + .mock_1__num {
+      min-width: 0;
+      text-align: left;
+    }
+  }
+
+  &__seg {
+    display: inline-flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    border: 1px solid var(--m-accent);
+    border-radius: 6px;
+    span {
+      padding: 3px 12px;
+    }
+    .is_on {
+      font-weight: 700;
+      color: var(--m-on-accent);
+      background: var(--m-accent);
+    }
+  }
+
+  &__radio {
+    display: grid;
+    gap: 6px;
+    span {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      &::before {
+        content: "";
+        flex: none;
+        box-sizing: border-box;
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--m-muted);
+        border-radius: 50%;
+      }
+    }
+    .is_on::before {
+      border: 5px solid var(--m-accent);
+    }
+  }
+
+  &__check {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    &::before {
+      content: "";
+      display: grid;
+      flex: none;
+      place-items: center;
+      box-sizing: border-box;
+      width: 16px;
+      height: 16px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #fff;
+      border: 1px solid var(--m-muted);
+      border-radius: 2px;
+    }
+    &.is_on::before {
+      content: "✓";
+      background: var(--m-accent);
+      border-color: var(--m-accent);
+    }
+  }
+
+  &__value {
+    min-width: 4em;
+    margin-left: auto;
+    padding: 1px 8px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    background: #2a2a2a;
+    border: 1px solid var(--m-line);
+    border-radius: 3px;
+  }
+
+  &__caption {
+    margin-top: 8px;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  &__notes {
+    display: grid;
+    gap: 10px;
+    max-width: 40em;
+    margin-top: var(--space-2);
+    counter-reset: mock_1;
+    li {
+      position: relative;
+      padding-left: 34px;
+      line-height: 1.8;
+      counter-increment: mock_1;
+      &::before {
+        content: counter(mock_1);
+        position: absolute;
+        top: .2em;
+        left: 0;
+      }
+    }
+  }
+}
+
+
+/*
+## .demo_2
+使用箇所：アバター改変の解説「Unity と VRChat で見た目が変わる」（動かして確かめる図。動きは shape-demo.js）
+内容：Unity と VRChat の顔を並べ、値・Write Defaults・いまのステートを変えると、VRChat の顔が変わる。
+     スライダーや結果の文は demo_1 の部品を使う。顔は絵なので、ライトでもダークでも同じ色にする
+*/
+
+.demo_2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  @include sp {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  &__faces {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-row: span 2;
+    gap: 12px;
+    align-content: start;
+    @include sp {
+      grid-row: auto;
+    }
+  }
+
+  &__face {
+    display: grid;
+    gap: 6px;
+    justify-items: center;
+    padding: 12px 8px;
+    text-align: center;
+    background: linear-gradient(#e3f1fa, #f7fbfe);
+    border-radius: 8px;
+  }
+
+  &__who {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d1b2a;
+  }
+
+  &__svg {
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+  }
+
+  &__num {
+    font-size: 1.3rem;
+    color: #0d1b2a;
+    font-variant-numeric: tabular-nums;
+    span {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+  }
+
+  &__controls {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  &__output {
+    display: grid;
+    gap: 8px;
+    align-content: start;
   }
 }

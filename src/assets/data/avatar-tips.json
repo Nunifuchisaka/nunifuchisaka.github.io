@@ -11,6 +11,17 @@
       "desc": {
         "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。"
       }
+    },
+    {
+      "no": 2,
+      "slug": "unity-vs-vrchat",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "Unity と VRChat で見た目が変わる"
+      },
+      "desc": {
+        "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。"
+      }
     }
   ]
 }

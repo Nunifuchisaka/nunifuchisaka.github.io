@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "Unity と VRChat で見た目が変わる",
+  description: "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは FX の Animator が BlendShape を書き換えているためです。仕組みと探し方・直し方を、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/unity-vs-vrchat/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/shape-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-unity-vs-vrchat") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

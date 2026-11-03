@@ -51,7 +51,7 @@ const l = isEn ? {
   devicesTitle: "遊べる機器",
   devices: [
     { icon: "fa-solid fa-vr-cardboard", name: "VRゴーグル", note: "Meta Quest なら、ゴーグルだけで遊べます。ゲーム用のPCとつなぐと、PC向けのワールドやアバターも使えます。", link: { href: `${prefix}/equipment/`, text: "使っている機材を見る" } },
-    { icon: "fa-solid fa-desktop", name: "パソコン", note: "ゴーグルなしで、キーボードとマウスで遊べます（デスクトップモード）。Steam から入れます。" },
+    { icon: "fa-solid fa-desktop", name: "パソコン", note: "ゴーグルなしで、キーボードとマウスで遊べます（デスクトップモード）。Steam から入れます。性能が足りないときや Mac のときは、GeForce NOW などで遊べます。", link: { href: "#cloud", text: "性能の低いパソコンや Mac で遊ぶ" } },
     { icon: "fa-solid fa-mobile-screen", name: "スマホ", note: "Android と iPhone 向けのアプリもあります。スマホに対応していないワールドやアバターもあります。" },
   ],
   stepsTitle: "最初にすること",
@@ -89,9 +89,19 @@ const l = isEn ? {
   <h1 class="page_1__h1" id="start-heading"><%= l.title %></h1>
   <p class="section_2__lead"><%= l.lead %></p>
   <p class="section_2__note"><%= l.asOf %></p>
+  <% if (!isEn) { %>
+    <%# 日本語版だけにある節を含めた目次（英語版は、日本語版の内容が固まってから作る） %>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        <% [["devices", l.devicesTitle], ["cloud", "性能の低いパソコンや Mac で遊ぶ"], ["steps", l.stepsTitle], ["mic", "マイクの設定"], ["tips", l.tipsTitle], ["manners", l.mannersTitle], ["next", l.nextTitle]].forEach(function (item) { %>
+          <li><a href="#<%= item[0] %>"><%= item[1] %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  <% } %>
 </section>
 
-<section class="section_2" aria-labelledby="devices-heading">
+<section class="section_2" id="devices" aria-labelledby="devices-heading">
   <h2 class="section_2__h1" id="devices-heading"><%= l.devicesTitle %></h2>
   <ul class="device_1">
     <% l.devices.forEach(function (device) { %>
@@ -105,7 +115,9 @@ const l = isEn ? {
   </ul>
 </section>
 
-<section class="section_2" aria-labelledby="steps-heading">
+<% if (!isEn) { %><%- include("_start-cloud") %><% } %>
+
+<section class="section_2" id="steps" aria-labelledby="steps-heading">
   <h2 class="section_2__h1" id="steps-heading"><%= l.stepsTitle %></h2>
   <ol class="flow_1">
     <% l.steps.forEach(function (step) { %>
@@ -117,7 +129,9 @@ const l = isEn ? {
   </ol>
 </section>
 
-<section class="section_2" aria-labelledby="tips-heading">
+<% if (!isEn) { %><%- include("_start-mic") %><% } %>
+
+<section class="section_2" id="tips" aria-labelledby="tips-heading">
   <h2 class="section_2__h1" id="tips-heading"><%= l.tipsTitle %></h2>
   <dl class="examples_1 examples_1--grid">
     <% l.tips.forEach(function (tip) { %>
@@ -129,7 +143,7 @@ const l = isEn ? {
   </dl>
 </section>
 
-<section class="section_2" aria-labelledby="manners-heading">
+<section class="section_2" id="manners" aria-labelledby="manners-heading">
   <h2 class="section_2__h1" id="manners-heading"><%= l.mannersTitle %></h2>
   <ul class="rules_1">
     <% l.manners.forEach(function (rule) { %>
@@ -138,7 +152,7 @@ const l = isEn ? {
   </ul>
 </section>
 
-<section class="section_2" aria-labelledby="next-heading">
+<section class="section_2" id="next" aria-labelledby="next-heading">
   <h2 class="section_2__h1" id="next-heading"><%= l.nextTitle %></h2>
   <ul class="next_1">
     <% l.next.forEach(function (item) { %>
