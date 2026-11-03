@@ -2,10 +2,12 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第2回：Unity と VRChat で見た目が変わる（とくに FX の Animator が BlendShape を書き換えること）
+// アバター改変の解説：Unity と VRChat で見た目が変わる（とくに FX の Animator が BlendShape を書き換えること）
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
 // 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 const article = avatarTips.articles.find((a) => a.slug === "unity-vs-vrchat");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
 const published = `${py}年${pm}月${pd}日`;
 // 動く図の顔。v は eye_smile の値（0〜100）。0 で目を開き、100 で笑った目（への字）になる
@@ -42,7 +44,7 @@ const l = {
     { head: "3. 揺れもの（PhysBone）", body: "Unity の編集中は揺れものが動かないので、髪やスカートは作ったときの形のままです。VRChat では重力などで形が変わります。Unity で再生すると動きます。" },
     { head: "4. 明るさと色", body: "Unity のシーンのライトと、ワールドのライトは違います。ワールドによって、明るさや色、影の出方が変わります。" },
     { head: "5. 見る人の設定と機器", body: "見る人のセーフティ設定でシェーダーが止められると、別の見た目になります。Quest やスマホでは、対応版のアバターか、代わりの姿で見えます。" },
-    { head: "6. 描く順番", body: "半透明のパーツは、ワールドの半透明の物と重なると、描く順番で見え方が変わります。", link: { href: `${prefix}/avatar-tips/render-queue/`, text: "第1回 Render Queue" } },
+    { head: "6. 描く順番", body: "半透明のパーツは、ワールドの半透明の物と重なると、描く順番で見え方が変わります。", link: { href: `${prefix}/avatar-tips/render-queue/`, text: "" + tipNo("render-queue") + " Render Queue" } },
   ],
   editorTitle: "Unity の編集画面では、Animator が動いていない",
   editor: [

@@ -2473,6 +2473,198 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 
 /*
+## .series_1__part
+使用箇所：アバター改変の解説（一覧「順番に読む」）
+内容：連載を部に分けたときの、部の見出し（第◯部）と一文。部の中に series_1 を置く
+*/
+
+.series_1__part {
+  margin-top: var(--space-4);
+  .series_1 {
+    margin-top: var(--space-2);
+  }
+}
+
+.series_1__h {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  @include sp {
+    font-size: 1.8rem;
+  }
+}
+
+.series_1__partno {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.series_1__lead {
+  max-width: 40em;
+  margin-top: var(--space-1);
+  line-height: 1.8;
+}
+
+
+/*
+## .finder_1
+使用箇所：アバター改変の解説（一覧「困りごとから探す」。絞り込みは tips-finder.js）
+内容：困りごと（逆引き）の一覧。行全体が、記事の中の節へのリンク。
+     種類とことばで絞り込む部品は、JS が動くときだけ出す
+*/
+
+.finder_1 {
+  &__controls {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 48em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__search {
+    display: grid;
+    gap: 8px;
+  }
+
+  &__input {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 28em;
+    min-height: 44px;
+    padding: 8px 14px;
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  &__count {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__group {
+    max-width: 48em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__h {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  &__list {
+    display: grid;
+    gap: 8px;
+    margin-top: var(--space-1);
+    li[hidden] {
+      display: none;
+    }
+    a {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px var(--space-2);
+      align-items: center;
+      padding: 12px var(--space-2);
+      text-decoration: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 10px;
+      transition: border-color .15s;
+      .top_1 & {
+        color: var(--color-text);
+      }
+      &:hover {
+        border-color: var(--color-text-muted);
+      }
+      &:hover .finder_1__q {
+        text-decoration: underline;
+      }
+      @include sp {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__q {
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--color-link);
+  }
+
+  &__to {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    text-align: right;
+    &::after {
+      content: " →";
+    }
+    @include sp {
+      text-align: left;
+    }
+  }
+
+  &__none {
+    max-width: 40em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+
+/*
+## .next_1--pager
+使用箇所：アバター改変の解説（各回の下の、前の回・次の回）
+内容：next_1 を2列にし、前の回は左、次の回は右に置く。前の回の矢印は左向き
+*/
+
+.next_1--pager {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 52em;
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+  .next_1__next {
+    grid-column: 2;
+    text-align: right;
+    @include sp {
+      grid-column: auto;
+      text-align: left;
+    }
+  }
+  .next_1__prev .next_1__text {
+    &::before {
+      content: "← ";
+    }
+    &::after {
+      content: none;
+    }
+  }
+}
+
+
+/*
 ## .case_1__text
 使用箇所：はじめてのVRChat「マイクの設定」のよくある困りごと
 内容：case_1 のカードに、起きること・原因・直し方に分けずに一続きの文を置くとき

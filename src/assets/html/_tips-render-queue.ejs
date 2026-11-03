@@ -2,7 +2,7 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第1回：Render Queue。対象は Unity の Built-in Render Pipeline（VRChat のアバター）
+// アバター改変の解説：Render Queue。対象は Unity の Built-in Render Pipeline（VRChat のアバター）
 // 本文の文字列は管理人側で書いたもの（code や strong の HTML を含むので、エスケープせずに出す）
 const article = avatarTips.articles.find((a) => a.slug === "render-queue");
 const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
