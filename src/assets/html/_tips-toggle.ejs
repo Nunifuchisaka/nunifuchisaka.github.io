@@ -1,0 +1,597 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：メニューでオンオフするギミックを作る（帽子を出し入れする。クリップ・Animator・パラメーター・メニュー・Modular Avatar でつなぐ）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const article = avatarTips.articles.find((a) => a.slug === "toggle");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipLink = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/${hash ? "#" + hash : ""}">第${tip(slug).no}回 ${tip(slug).title.ja}</a>`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+const links = {
+  params: "https://creators.vrchat.com/avatars/animator-parameters/",
+  menu: "https://creators.vrchat.com/avatars/expression-menu-and-controls/",
+  ma: "https://modular-avatar.nadena.dev/ja/docs/intro",
+};
+// 動く図の顔と帽子。hat が false のとき、帽子は透明（opacity 0）にしておく
+const head = (hat) => `<svg class="demo_2__svg" viewBox="0 0 120 110" aria-hidden="true" focusable="false">`
+  + `<ellipse cx="60" cy="68" rx="40" ry="37" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<ellipse cx="46" cy="70" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="74" cy="70" rx="5" ry="7" fill="#3b2a24"/>`
+  + `<path d="M50 88 Q60 95 70 88" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+  + `<g class="js_toggle_hat" opacity="${hat ? 1 : 0}">`
+  + `<rect x="32" y="6" width="56" height="32" rx="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/>`
+  + `<rect x="16" y="34" width="88" height="9" rx="4.5" fill="#34508f"/>`
+  + `</g></svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "メニューでオンオフするギミックを作る",
+  lead: "帽子をメニューで出したり消したりするギミックを、Animator から自分で組みます。オンとオフのクリップ、コントローラーとレイヤー、トランジション、パラメーター、メニュー、アバターへのつなぎ方まで、1クリックずつ順に解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "帽子やメガネ、羽などの小物を、メニューから出したり消したりしたい。",
+    "Modular Avatar の Create Toggle で済ませていたが、中で何が起きているのか知りたい。自分で組めるようになりたい。",
+    "自分で組んだ Animator を、アバターをこわさずにつなぎたい。",
+    "オンオフが一拍遅れる、ワールドを移ると戻る、ほかの人には見えない。",
+  ],
+  before: `この回は、${tipLink("animator-basics", "controller")} と ${tipLink("animation-clip", "record")} を読んだ前提で進めます。レイヤー・ステート・トランジション・パラメーターの意味は、そちらで説明しています。`,
+  planTitle: "作るもの",
+  plan: [
+    "アバターの頭に付けた帽子（Hierarchy の名前は <code>Hat</code> とします）を、Expressions Menu（VRChat で開くメニュー）の「帽子」でオンオフします。名前は例です。自分のアバターの小物の名前に読みかえてください。",
+    "作るものは、次の5つです。クリップ2つ、コントローラー1つ、パラメーター1つ、メニューの項目1つ。最後に Modular Avatar（MA）で、これらをアバターにつなぎます。",
+  ],
+  route: [
+    { head: "メニューの「帽子」", note: "押すと HatOn を true にする" },
+    { head: "パラメーター HatOn", note: "Bool（true か false）" },
+    { head: "FX のレイヤー Hat", note: "OFF から ON へ移る" },
+    { head: "クリップ Hat_ON", note: "Hat の Is Active を 1 と書く" },
+    { head: "見た目", note: "帽子が出る" },
+  ],
+  plan2: [
+    "作る前に、アバターのフォルダか Unity のプロジェクトを丸ごと書き出して、元に戻せるようにしておきます。",
+    "作ったファイルは、アバターのフォルダとは別の、自分用のフォルダにまとめます。たとえば Project で <code>Assets</code> を右クリックして <code>Create → Folder</code> を選び、<code>MyGimmicks/Hat</code> を作ります。アバターを更新したときに、上書きされないためです。",
+  ],
+  clipsTitle: "オンとオフのクリップを作る",
+  clipsLead: "帽子を出すクリップと、消すクリップを、2つとも作ります。作り方（録画のしかた）は、第7回で解説しています。",
+  clips: [
+    "Hierarchy で <code>Hat</code> を選び、Inspector のいちばん上の名前の左のチェックを外して、オフにしておきます。はじめは帽子を消しておく、という意味です（あとで決める Default と合わせます）。",
+    "Project の <code>MyGimmicks/Hat</code> を右クリックして <code>Create → Animation</code> を選び、<code>Hat_ON</code> という名前のクリップを作ります。同じように <code>Hat_OFF</code> も作ります。",
+    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor が付いているオブジェクト）を選び、Animation ウィンドウ（<code>Window → Animation → Animation</code>）を開きます。左上のクリップの名前の欄で <code>Hat_ON</code> を選びます。",
+    "赤い丸の録画ボタンを押してから、Hierarchy の <code>Hat</code> を選び、Inspector の名前の左のチェックを入れます。Animation ウィンドウに <code>Hat : Is Active</code> の行ができ、0 フレーム目にキー（ひし形）が打たれます。録画ボタンをもう一度押して止めます。",
+    "クリップの名前の欄で <code>Hat_OFF</code> に切り替え、同じように録画します。今度はチェックを入れてから外して、<code>Hat : Is Active</code> が 0（オフ）のキーを打ちます。",
+    "録画が終わったら、<code>Hat</code> のチェックを外した状態に戻します。",
+  ],
+  clipsWhy: [
+    "<strong>オフのクリップも作るのは、Write Defaults（クリップに無い値をどうするか）の設定に関係なく動くようにするためです。</strong>オフのステートに何も書かないクリップを置くと、Write Defaults が OFF のアバターでは、帽子がオンのまま残ります。オンとオフの両方で <code>Is Active</code> を書いておけば、どちらの設定でも動きます。",
+    "録画は、アバターのいちばん上を選んでから始めます。クリップには「アバターのいちばん上から見た Hat の場所」（パス）が書かれます。このパスは、あとで MA につなぐときに使います（第7回の「パス」）。",
+  ],
+  clipsLink: tipLink("animation-clip", "path"),
+  controllerTitle: "コントローラーとレイヤーを作る",
+  controllerLead: `帽子のためだけの Animator Controller（コントローラー）を作ります。アバターがもともと持っている FX のコントローラーには手を入れません。FX などのレイヤーの役目は ${tipLink("animator-basics", "layers")} を見てください。`,
+  controller: [
+    "Project の <code>MyGimmicks/Hat</code> を右クリックして <code>Create → Animator Controller</code> を選び、<code>Hat_FX</code> という名前にします（Unity のバージョンによっては <code>Create → Animation</code> の中にあります）。",
+    "<code>Hat_FX</code> をダブルクリックします。Animator ウィンドウ（<code>Window → Animation → Animator</code>）が開きます。",
+    "左上の <code>Layers</code> タブを押します。<code>Base Layer</code> が1つあります。これは空のまま使いません。",
+    "<code>Layers</code> の右の <code>+</code> を押して、レイヤーを足します。名前を <code>Hat</code> にします。",
+    "<code>Hat</code> の右の歯車を押して、<code>Weight</code> を <strong>1</strong> にします。<strong>足したレイヤーは Weight が 0 で作られます。0 のままだと、このレイヤーは何も書きません。</strong>",
+    "左上の <code>Parameters</code> タブを押し、<code>+</code> から <code>Bool</code> を選びます。名前を <code>HatOn</code> にします。大文字と小文字まで、あとでメニューに入れる名前と同じにします。",
+    "<code>Layers</code> タブに戻り、<code>Hat</code> レイヤーを選びます。Project から <code>Hat_OFF</code> を Animator ウィンドウの何もないところへドラッグします。<code>Hat_OFF</code> というステートができます。最初に置いたステートはオレンジ色になり、このレイヤーで最初に入るステートになります。",
+    "続けて <code>Hat_ON</code> もドラッグして、ステートを作ります。こちらは灰色です。",
+    "もし <code>Hat_ON</code> がオレンジ色になったら、<code>Hat_OFF</code> を右クリックして <code>Set as Layer Default State</code> を選びます。",
+  ],
+  controllerMock: {
+    variant: "unity",
+    caption: "再現図：Animator ウィンドウ（Hat_FX）。並びや見た目は簡単にしています。名前は例です",
+    screens: [
+      {
+        bar: "Animator › Hat_FX",
+        tabs: ["Layers", "Parameters"],
+        activeTab: 0,
+        label: "Animator ウィンドウの Layers タブの再現図。Base Layer は空、1 Hat レイヤーの Weight が 1、3 Hat_OFF がオレンジ色の最初のステート、Hat_ON がもう1つのステート",
+        rows: [
+          { label: "Base Layer", type: "text", text: "空のまま" },
+          { mark: 1, label: "Hat · Weight", type: "slider", value: 100, text: "1", hot: true },
+          { type: "head", text: "Hat レイヤーの中" },
+          { mark: 3, label: "Hat_OFF", type: "value", text: "オレンジ色（最初に入る）" },
+          { label: "Hat_ON", type: "value", text: "灰色" },
+        ],
+      },
+      {
+        bar: "Animator › Hat_FX",
+        tabs: ["Layers", "Parameters"],
+        activeTab: 1,
+        label: "Animator ウィンドウの Parameters タブの再現図。2 Bool の HatOn がある",
+        rows: [
+          { mark: 2, label: "HatOn", type: "check", on: false, text: "Bool", hot: true },
+        ],
+      },
+    ],
+    notes: [
+      "歯車から Weight を 1 にします。0 のままだと、メニューを押しても何も変わりません。",
+      "Bool のパラメーターです。チェックの欄は、いまの値（false）を表しています。",
+      "オレンジ色のステートから始まります。はじめは帽子を消しておくので、Hat_OFF をオレンジ色にします。",
+    ],
+  },
+  transitionsTitle: "トランジションを設定する",
+  transitionsLead: "OFF から ON へ、ON から OFF へ、矢印（トランジション）を2本引きます。ここで、切り替わる条件と、切り替わり方を決めます。",
+  transitions: [
+    "<code>Hat_OFF</code> を右クリックして <code>Make Transition</code> を選び、そのまま <code>Hat_ON</code> をクリックします。白い矢印ができます。",
+    "矢印をクリックして選びます。Inspector に、トランジションの設定が出ます。",
+    "<code>Has Exit Time</code> のチェックを<strong>外します</strong>。",
+    "<code>Settings</code> の左の三角を押して開き、<code>Transition Duration</code> を <strong>0</strong> にします。",
+    "下の <code>Conditions</code> の <code>+</code> を押します。左の欄が <code>HatOn</code>、右の欄が <code>true</code> になっていることを確かめます。",
+    "同じように、<code>Hat_ON</code> から <code>Hat_OFF</code> へも矢印を引きます。<code>Has Exit Time</code> を外し、<code>Transition Duration</code> を 0 にし、<code>Conditions</code> は <code>HatOn</code> が <code>false</code> にします。",
+    "<code>Hat_OFF</code> と <code>Hat_ON</code> のステートを1つずつ選び、Inspector の <code>Write Defaults</code> のチェックを確かめます。2つとも同じにします。MA でつなぐときは、あとで MA がアバターに合わせてくれます。",
+  ],
+  transitionMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Hat_OFF から Hat_ON へのトランジション）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › Hat_OFF -> Hat_ON",
+      label: "トランジションの設定の再現図。1 Has Exit Time のチェックが外れている、Fixed Duration にチェック、2 Transition Duration が 0、Transition Offset が 0、3 Conditions に HatOn true",
+      rows: [
+        { mark: 1, type: "check", on: false, text: "Has Exit Time", hot: true },
+        { type: "head", text: "▼ Settings" },
+        { type: "check", on: true, text: "Fixed Duration" },
+        { mark: 2, label: "Transition Duration (s)", type: "value", text: "0", hot: true },
+        { label: "Transition Offset", type: "value", text: "0" },
+        { type: "head", text: "Conditions" },
+        { mark: 3, label: "HatOn", type: "select", text: "true", hot: true },
+      ],
+    }],
+    notes: [
+      "外すと、条件が合ったその時に切り替わります。",
+      "0 にすると、前のクリップと混ぜずに、すぐ次のクリップになります。",
+      "HatOn が true になったら、この矢印を通って Hat_ON に移ります。",
+    ],
+  },
+  whyTitle: "なぜ Has Exit Time を外し、Duration を 0 にするのか",
+  why: [
+    "<code>Has Exit Time</code> にチェックがあると、いまのクリップが決まった時間まで進むのを待ってから切り替わります。メニューを押してから、<strong>一拍遅れます</strong>。",
+    "<code>Transition Duration</code> は、前のクリップから次のクリップへ、何秒かけて混ぜながら移るかです。0 より大きいと、色や BlendShape は<strong>じわっと</strong>変わります。オブジェクトのオンオフには途中が無いので、混ぜる時間のどこかでパッと切り替わり、遅れて見えるだけです。",
+    "オンオフは「押したらすぐ変わる」のが自然なので、Has Exit Time を外し、Duration を 0 にします。<code>Has Exit Time</code> を外したときは、<code>Conditions</code> が1つも無いと Unity が警告を出します。条件を必ず入れます。",
+  ],
+  connectTitle: "アバターにつなぐ",
+  connectLead: "作ったコントローラーを、アバターの FX につなぎます。方法は2つあります。",
+  connectWays: [
+    { head: "Modular Avatar でつなぐ（おすすめ）", body: "アバターの中に置いたオブジェクトに MA の部品を付けると、アップロードするときに、MA がアバターの FX に Hat レイヤーを足してくれます。アバターのファイルを書きかえないので、アバターを更新しても消えません。いらなくなったら、オブジェクトを消すだけです。" },
+    { head: "アバターの FX に直接足す", body: "アバターの FX のコントローラーに、自分で Hat レイヤーを足します。MA を使わずに済みますが、アバターのファイルを書きかえます。アバターを更新すると消えることがあり、もとのギミックをこわすおそれもあります。" },
+  ],
+  connectMaTitle: "Modular Avatar でつなぐ手順",
+  connectMa: [
+    `MA が入っていなければ、VCC か ALCOM で入れます（${tipLink("outfit", "install")}）。`,
+    "Hierarchy でアバターのいちばん上を右クリックして <code>Create Empty</code> を選び、空のオブジェクトを作ります。名前を <code>帽子</code> にします。このあと、メニューに出る名前にもなります。",
+    "<code>帽子</code> を選んだまま、Inspector の <code>Add Component</code> を押して <code>MA Merge Animator</code> を探して付けます。",
+    "<code>Animator to merge</code> の欄に、Project から <code>Hat_FX</code> をドラッグします。",
+    "<code>Layer Type</code> を <code>FX</code> にします。",
+    "<code>Path Mode</code> を <code>Absolute</code> にします。クリップは、アバターのいちばん上から録画したからです。<code>Relative</code> にすると、この <code>帽子</code> オブジェクトから見たパスとして読まれ、帽子が見つからなくなります。",
+    "<code>Match Avatar Write Defaults</code> にチェックを入れます。ステートの Write Defaults を、アバターの FX に合わせてくれます。",
+  ],
+  connectMock: {
+    variant: "unity",
+    caption: "再現図：帽子オブジェクトに付けた MA Merge Animator（英語の表示）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › 帽子",
+      label: "MA Merge Animator の再現図。1 Animator to merge に Hat_FX、Layer Type は FX、2 Path Mode は Absolute、3 Match Avatar Write Defaults にチェック",
+      rows: [
+        { type: "head", text: "▼ MA Merge Animator" },
+        { mark: 1, label: "Animator to merge", type: "select", text: "Hat_FX", hot: true },
+        { label: "Layer Type", type: "select", text: "FX" },
+        { mark: 2, label: "Path Mode", type: "seg", options: ["Relative", "Absolute"], active: 1, hot: true },
+        { mark: 3, type: "check", on: true, text: "Match Avatar Write Defaults" },
+      ],
+    }],
+    notes: [
+      "つなぎたいコントローラーです。FX に、このコントローラーのレイヤーが足されます。",
+      "アバターのいちばん上から録画したクリップなら Absolute です。帽子オブジェクトの子を録画したときは Relative にします。",
+      "アバターの Write Defaults が ON か OFF かを見て、足すステートをそちらに合わせます。",
+    ],
+  },
+  connectMaNote: "MA は、表示を日本語にもできます。この記事では、英語の表示の名前で書きます。",
+  connectDirectTitle: "アバターの FX に直接足すとき",
+  connectDirect: [
+    "Hierarchy でアバターを選び、Inspector の VRC Avatar Descriptor の <code>Playable Layers</code> で、FX に入っているコントローラーを確かめます。",
+    "Project でそのコントローラーを選び、<code>Ctrl + D</code> で複製します。VRC Avatar Descriptor の FX の欄に、複製したほうを入れます。もとのファイルを残しておくためです。",
+    "複製したコントローラーを開き、この記事の手順どおりに <code>Hat</code> レイヤー（Weight 1）、<code>HatOn</code> パラメーター、2つのステートとトランジションを足します。",
+    "ステートの <code>Write Defaults</code> は、同じ FX のほかのステートとそろえます。ON と OFF が混ざると、どの値が残るか分かりにくくなります。",
+    "パラメーターとメニューは、VRC Avatar Descriptor の <code>Expressions</code> に入っている Parameters と Menu のファイルに足します（次の2つの節）。",
+  ],
+  connectRisks: "アバターを更新すると、FX やメニューのファイルが上書きされて、足したものが消えることがあります。そのたびに足し直すことになるので、MA でつなぐ方法をおすすめします。Write Defaults のくわしい話は、",
+  wdLink: tipLink("unity-vs-vrchat", "write-defaults"),
+  paramsTitle: "パラメーターを VRChat に知らせる（Expression Parameters）",
+  paramsLead: "Animator の中に <code>HatOn</code> を作っただけでは、VRChat はそのパラメーターを知りません。Expression Parameters に登録して、はじめてメニューから動かせ、ほかの人にも送られます。MA を使うときは、MA Parameters で登録します。",
+  params: [
+    "<code>帽子</code> オブジェクトを選び、<code>Add Component</code> から <code>MA Parameters</code> を付けます。",
+    "パラメーターを足すボタンを押し、名前に <code>HatOn</code> と入れます。Animator のパラメーターと、大文字小文字まで同じにします。",
+    "型を <code>Bool</code> にします。",
+    "<code>Default Value</code>（はじめの値）は、オフ（false、0）のままにします。",
+    "<code>Saved</code> と <code>Synced</code> にチェックを入れます。意味は下の表のとおりです。",
+  ],
+  paramsMock: {
+    variant: "unity",
+    caption: "再現図：帽子オブジェクトに付けた MA Parameters（英語の表示）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › 帽子",
+      label: "MA Parameters の再現図。1 HatOn は Bool、Default Value はオフ、2 Saved にチェック、3 Synced にチェック",
+      rows: [
+        { type: "head", text: "▼ MA Parameters" },
+        { mark: 1, label: "HatOn", type: "select", text: "Bool", hot: true },
+        { type: "check", on: false, text: "Default Value" },
+        { mark: 2, type: "check", on: true, text: "Saved" },
+        { mark: 3, type: "check", on: true, text: "Synced" },
+      ],
+    }],
+    notes: [
+      "Animator の HatOn と同じ名前・同じ型にします。",
+      "ワールドを移っても、アバターを着替えて戻っても、オンオフを覚えておきます。",
+      "ほかの人に値を送ります。外すと、帽子は自分にしか見えません。",
+    ],
+  },
+  paramsTableLabel: "Expression Parameters の3つの設定と、使う人から見て変わること",
+  paramsHead: ["設定", "入れたとき", "入れないとき"],
+  paramsRows: [
+    ["Saved（覚えておく）", "ワールドを移っても、アバターを着替えて戻っても、最後の値のまま", "ワールドを移ったり、アバターを着替えたりすると、Default に戻る"],
+    ["Synced（同期する）", "ほかの人にも値が送られ、同じ見た目になる。同期できる量（256 bit）を使う。Bool は 1 bit", "自分の画面だけで変わる。ほかの人には Default のまま見える。量は使わない"],
+    ["Default（はじめの値）", "はじめて着たときや、Saved を入れていないときに戻る値。帽子をはじめから出したいなら、オン（true、1）にする", "—"],
+  ],
+  paramsDirect: [
+    "アバターの FX に直接足すときは、VRC Avatar Descriptor の <code>Expressions</code> の <code>Parameters</code> に入っているファイルを選びます。Inspector で行を足し、名前 <code>HatOn</code>、型 <code>Bool</code>、<code>Default</code>、<code>Saved</code>、<code>Synced</code> を同じように決めます。",
+    `パラメーターのくわしい決まりは、${ext(links.params, "VRChat の Animator Parameters のページ")}（英語）にあります。`,
+  ],
+  sceneNote: "Default をオンにしたときは、Hierarchy の <code>Hat</code> もオンにしておきます。Unity の見た目と、はじめの値がそろいます。",
+  menuTitle: "メニューに項目を足す",
+  menuLead: `最後に、VRChat で開くメニュー（Expressions Menu）に「帽子」の項目を足します。メニューとパラメーターの関係は ${tipLink("animator-basics", "menu")} で説明しています。`,
+  menu: [
+    "<code>帽子</code> オブジェクトを選び、<code>Add Component</code> から <code>MA Menu Installer</code> を付けます。メニューのどこに入れるかを決める部品です。何も選ばなければ、いちばん上のメニューに入ります。",
+    "続けて <code>Add Component</code> から <code>MA Menu Item</code> を付けます。メニューの1つの項目になる部品です。",
+    "<code>Type</code> を <code>Toggle</code> にします。押すたびにオンとオフが入れかわる項目です。",
+    "<code>Parameter</code> に <code>HatOn</code> と入れます（一覧から選べるときは選びます）。",
+    "<code>Value</code> は 1 のままにします。Toggle は、オンにすると Parameter をこの値にし、オフにすると 0 に戻します。Bool では、1 が true、0 が false です。",
+  ],
+  menuMock: {
+    variant: "unity",
+    caption: "再現図：帽子オブジェクトに付けた MA Menu Installer と MA Menu Item（英語の表示）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › 帽子",
+      label: "MA Menu Installer と MA Menu Item の再現図。Menu Installer の Install To は空、1 Type は Toggle、2 Parameter は HatOn、Value は 1",
+      rows: [
+        { type: "head", text: "▼ MA Menu Installer" },
+        { label: "Install To", type: "select", text: "（空・いちばん上のメニュー）" },
+        { type: "head", text: "▼ MA Menu Item" },
+        { mark: 1, label: "Type", type: "select", text: "Toggle", hot: true },
+        { mark: 2, label: "Parameter", type: "select", text: "HatOn", hot: true },
+        { label: "Value", type: "value", text: "1" },
+      ],
+    }],
+    notes: [
+      "押すたびに、オンとオフが入れかわります。",
+      "Animator と MA Parameters と同じ名前にします。1文字でも違うと動きません。",
+    ],
+  },
+  menuNotes: [
+    "メニューに出る名前は、オブジェクトの名前（<code>帽子</code>）になります。アイコンも付けられます。",
+    "MA のバージョンによっては、MA Menu Item にも Saved などの欄があります。この記事では、MA Parameters で決めた設定を使います。",
+    "1つのメニューに置ける項目は 8 つまでです。いっぱいのときは、Sub Menu（中にもう1つメニューを開く項目）にまとめます。",
+    `アバターの FX に直接足すときは、VRC Avatar Descriptor の <code>Expressions</code> の <code>Menu</code> に入っているファイルを選び、Inspector の <code>Add Control</code> を押します。<code>Name</code> に「帽子」、<code>Type</code> に <code>Toggle</code>、<code>Parameter</code> に <code>HatOn</code> を入れます。くわしくは ${ext(links.menu, "VRChat の Expressions Menu のページ")}（英語）にあります。`,
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "メニューの「帽子」を押してから、作り方のチェックを外してみてください。自分から見た姿と、ほかの人から見た姿がどう変わるか、その理由が出ます。",
+  demo: {
+    self: "自分から見たあなた",
+    other: "ほかの人から見たあなた",
+    menu: "Expressions Menu",
+    menuItem: "「帽子」を押してオンにする",
+    make: "作り方",
+    weight: "レイヤーの Weight を 1 にした",
+    name: "メニューと Animator のパラメーター名が同じ",
+    exit: "トランジションの Has Exit Time を外した",
+    synced: "Expression Parameters で Synced にした",
+    idle: "メニューの「帽子」がオフなので、HatOn は false です。Hat_OFF のステートにいて、帽子は消えています。",
+    nameNg: "メニューが動かすパラメーターと、Animator のパラメーターの名前が違います。Animator の HatOn は false のままなので、だれにも帽子は出ません。",
+    weightNg: "HatOn は true になり、Hat_ON のステートに移っています。でもレイヤーの Weight が 0 なので、このレイヤーは何も書きません。帽子は出ません。",
+    syncedNg: "Synced にしていないので、HatOn の値はほかの人に送られません。ほかの人の画面では HatOn は Default（false）のままです。",
+    exitNg: "Has Exit Time が付いているので、いまのクリップが進むのを待ってから切り替わります。一拍遅れて帽子が出ます。",
+    ok: "HatOn が true になり、Weight 1 のレイヤーが Hat_ON に移りました。値はほかの人にも送られるので、みんなに帽子が見えます。",
+    result: "自分からは{s}。ほかの人からは{o}。",
+    shown: "帽子が見えます",
+    hidden: "帽子が見えません",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  testTitle: "Gesture Manager で試す",
+  testLead: "アップロードする前に、Unity の中で試します。Gesture Manager は、Unity で再生したときに VRChat のメニューやハンドサインをまねできる道具です。VCC か ALCOM で、プロジェクトに入れておきます。",
+  test: [
+    "Unity の上のメニューの <code>Tools → Gesture Manager Emulator</code> を選びます。シーンに <code>GestureManager</code> というオブジェクトができます（バージョンによって、メニューの場所や名前が違うことがあります）。",
+    "上の再生ボタン（▶）を押します。MA がこのときに Hat レイヤーを FX に足すので、再生中のアバターは、アップロードしたときと同じつながり方になります。",
+    "Hierarchy で <code>GestureManager</code> を選びます。Inspector に、VRChat と同じ丸いメニューが出ます。",
+    "<code>Expressions</code> を開き、<code>帽子</code> を押します。Scene か Game の画面で、帽子が出ることを確かめます。もう一度押して、消えることも確かめます。",
+    "動かないときは、Gesture Manager のパラメーターを見る画面（バージョンによって名前が違います）で、<code>HatOn</code> が変わっているかを見ます。変わっていなければメニューかパラメーター、変わっているのに帽子が出なければ、レイヤーの Weight かクリップのパスを疑います。",
+    "再生ボタンをもう一度押して止めます。再生中に変えた設定は、止めると元に戻ります。",
+  ],
+  uploadTitle: "アップロードして確かめる",
+  upload: [
+    `VRChat SDK の Builder からアップロードします。手順は ${tipLink("upload", "builder")} と同じです。`,
+    "VRChat でアバターを着て、Action Menu の <code>Expressions</code> を開き、<code>帽子</code> を押します。",
+    "ワールドを移ったり、アバターを着替えて戻ったりして、オンオフが残っているか（Saved）を確かめます。",
+    "ほかの人にも見えているか（Synced）は、友だちに見てもらうと確実です。",
+  ],
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "メニューを押しても何も起きない",
+      symptom: "メニューの「帽子」は押せるが、帽子が出ない。Gesture Manager で見ると、HatOn は変わっている。",
+      cause: "Hat レイヤーの Weight が 0 のままです。または、クリップのパスが帽子を指していません（MA の Path Mode が違うなど）。",
+      fix: "歯車から Weight を 1 にします。クリップを Animation ウィンドウで開き、行が黄色く Missing になっていないかを確かめ、Path Mode を録画のしかたに合わせます。" },
+    { title: "HatOn が変わらない",
+      symptom: "メニューを押しても、Gesture Manager の HatOn が false のまま。",
+      cause: "メニューの Parameter、MA Parameters、Animator のパラメーターの名前が、どこかで違います。大文字小文字や、前後の空白も違いになります。",
+      fix: "3か所の名前を、コピーして貼りつけてそろえます。型（Bool）もそろえます。" },
+    { title: "切り替わるのが一拍遅れる",
+      symptom: "押してから、少したって帽子が出る。消えるときも遅れる。",
+      cause: "トランジションの Has Exit Time にチェックが入っているか、Transition Duration が 0 より大きいです。",
+      fix: "2本の矢印の両方で、Has Exit Time を外し、Transition Duration を 0 にします。" },
+    { title: "勝手に出たり消えたりし続ける",
+      symptom: "メニューを押していないのに、帽子が点滅するように出たり消えたりする。",
+      cause: "トランジションに Conditions が無く、Has Exit Time だけで移っています。",
+      fix: "OFF から ON は HatOn が true、ON から OFF は HatOn が false の条件を入れます。" },
+    { title: "ワールドを移ると元に戻る",
+      symptom: "帽子をオンにしたのに、ワールドを移ったり、アバターを着替えて戻ったりすると消えている。",
+      cause: "パラメーターの Saved にチェックが入っていません。",
+      fix: "MA Parameters（直接足したときは Expression Parameters）で Saved にチェックを入れて、アップロードし直します。" },
+    { title: "自分にしか見えない",
+      symptom: "自分の画面では帽子が出ているのに、友だちからは見えない。",
+      cause: "パラメーターの Synced にチェックが入っていません。または、相手のセーフティ設定でアニメーションが止められています。",
+      fix: "Synced にチェックを入れて、アップロードし直します。相手の設定は、相手に確かめてもらいます。" },
+    { title: "オフにしても帽子が消えない",
+      symptom: "一度オンにすると、オフにしても帽子が出たまま。",
+      cause: "Hat_OFF のクリップに Is Active の行が無く、Write Defaults が OFF なので、オンのときの値が残っています。",
+      fix: "Hat_OFF のクリップに、Hat の Is Active を 0 と書くキーを打ちます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "アバターがもともと持っている FX やメニューのファイルは、なるべく書きかえないでください。MA でつなげば、アバターを更新しても自分のギミックが残ります。",
+    "パラメーターの名前は、アバターのほかのギミックと重ならないものにします。同じ名前があると、2つのギミックが一緒に動きます。",
+    "同じコントローラーの中で、Write Defaults の ON と OFF を混ぜないでください。MA の Match Avatar Write Defaults を使うと、アバターに合わせられます。",
+    "Synced にしたパラメーターは、同期できる量（合計 256 bit）を使います。自分にだけ見えればよいものは、Synced を外します。",
+    "1つのメニューに置ける項目は 8 つまでです。小物が多いときは、Sub Menu にまとめます。",
+    "Humanoid の骨（腕や首の曲がり）は、FX のクリップでは動かしません。オブジェクトのオンオフ、BlendShape、マテリアルなどの見た目を動かします。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "オンとオフのクリップを2つとも作ります。Write Defaults の設定に関係なく動きます。",
+    "自分用のコントローラーにレイヤーを足し、Weight を 1 にします。Bool のパラメーターと、2つのステートを置きます。",
+    "トランジションは、Has Exit Time を外し、Transition Duration を 0 にして、条件を入れます。",
+    "パラメーターは Expression Parameters（MA Parameters）に登録します。Saved は覚えておく、Synced はほかの人に送る、Default ははじめの値です。",
+    "MA Merge Animator・MA Parameters・MA Menu Installer・MA Menu Item で、アバターのファイルを書きかえずにつなぎます。",
+    "Gesture Manager で試してから、アップロードします。",
+  ],
+  next: `続きの ${tipLink("radial")} では、何着かから1つ選ぶギミックと、回して少しずつ変えるギミックを作ります。`,
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "plan", title: l.planTitle },
+  { id: "clips", title: l.clipsTitle },
+  { id: "controller", title: l.controllerTitle },
+  { id: "transitions", title: l.transitionsTitle },
+  { id: "connect", title: l.connectTitle },
+  { id: "params", title: l.paramsTitle },
+  { id: "menu", title: l.menuTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "test", title: l.testTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+const d = l.demo;
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="article_1__p"><%- l.before %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="plan" aria-labelledby="plan-heading">
+    <h2 class="section_2__h1" id="plan-heading"><%= l.planTitle %></h2>
+    <% l.plan.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+    <% l.plan2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="clips" aria-labelledby="clips-heading">
+    <h2 class="section_2__h1" id="clips-heading"><%= l.clipsTitle %></h2>
+    <p class="article_1__p"><%= l.clipsLead %></p>
+    <ol class="steps_1">
+      <% l.clips.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <% l.clipsWhy.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <p class="section_2__more"><%- l.clipsLink %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
+    <h2 class="section_2__h1" id="controller-heading"><%= l.controllerTitle %></h2>
+    <p class="article_1__p"><%- l.controllerLead %></p>
+    <ol class="steps_1">
+      <% l.controller.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.controllerMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="transitions" aria-labelledby="transitions-heading">
+    <h2 class="section_2__h1" id="transitions-heading"><%= l.transitionsTitle %></h2>
+    <p class="article_1__p"><%= l.transitionsLead %></p>
+    <ol class="steps_1">
+      <% l.transitions.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.transitionMock }) %>
+    <h3 class="section_2__h2"><%= l.whyTitle %></h3>
+    <% l.why.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="connect" aria-labelledby="connect-heading">
+    <h2 class="section_2__h1" id="connect-heading"><%= l.connectTitle %></h2>
+    <p class="article_1__p"><%= l.connectLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.connectWays.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <h3 class="section_2__h2"><%= l.connectMaTitle %></h3>
+    <ol class="steps_1">
+      <% l.connectMa.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.connectMock }) %>
+    <p class="section_2__note"><%= l.connectMaNote %></p>
+    <h3 class="section_2__h2"><%= l.connectDirectTitle %></h3>
+    <ol class="steps_1">
+      <% l.connectDirect.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%= l.connectRisks %><%- l.wdLink %> を見てください。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="params" aria-labelledby="params-heading">
+    <h2 class="section_2__h1" id="params-heading"><%= l.paramsTitle %></h2>
+    <p class="article_1__p"><%- l.paramsLead %></p>
+    <ol class="steps_1">
+      <% l.params.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.paramsMock }) %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.paramsTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.paramsHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.paramsRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p"><%- l.sceneNote %></p>
+    <% l.paramsDirect.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
+    <h2 class="section_2__h1" id="menu-heading"><%= l.menuTitle %></h2>
+    <p class="article_1__p"><%- l.menuLead %></p>
+    <ol class="steps_1">
+      <% l.menu.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.menuMock }) %>
+    <ul class="rules_1">
+      <% l.menuNotes.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_toggle_demo"
+      data-idle="<%= d.idle %>" data-name-ng="<%= d.nameNg %>" data-weight-ng="<%= d.weightNg %>"
+      data-synced-ng="<%= d.syncedNg %>" data-exit-ng="<%= d.exitNg %>" data-ok="<%= d.ok %>"
+      data-result="<%= d.result %>" data-shown="<%= d.shown %>" data-hidden="<%= d.hidden %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= d.self %></p>
+          <div class="js_toggle_face" data-face="self"><%- head(false) %></div>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= d.other %></p>
+          <div class="js_toggle_face" data-face="other"><%- head(false) %></div>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= d.menu %></legend>
+          <label><input type="checkbox" class="js_toggle_menu"> <%= d.menuItem %></label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= d.make %></legend>
+          <label><input type="checkbox" class="js_toggle_check" data-check="weight" checked> <%= d.weight %></label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="name" checked> <%= d.name %></label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="exit" checked> <%= d.exit %></label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="synced" checked> <%= d.synced %></label>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_toggle_why"><%= d.idle %></p>
+        <p class="demo_1__result js_toggle_result"><%= d.result.replace("{s}", d.hidden).replace("{o}", d.hidden) %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= d.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
+    <h2 class="section_2__h1" id="test-heading"><%= l.testTitle %></h2>
+    <p class="article_1__p"><%= l.testLead %></p>
+    <ol class="steps_1">
+      <% l.test.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.uploadTitle %></h3>
+    <ol class="steps_1">
+      <% l.upload.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="article_1__p"><%- l.next %></p>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

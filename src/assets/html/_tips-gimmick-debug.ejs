@@ -1,0 +1,398 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：ギミックが動かないとき（確かめる順番・道具・よくある原因の一覧）
+// 「Animator でギミックを自分で作る」の最後の回。ほかの回の節へのリンクを集めた、困ったときの入口にする
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// 原因の一覧（checklist）は、JS があれば困りごとで絞れる（gimmick-debug-demo.js）。JS が無いときは、すべての行を出したまま
+const article = avatarTips.articles.find((a) => a.slug === "gimmick-debug");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const part = avatarTips.parts.find((p) => p.id === article.part);
+// ほかの回の節へのリンク。文言は「第◯回 題名」（番号は data から出す）
+const to = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/#${hash}">${tipNo(slug)} ${tip(slug).title.ja}</a>`;
+const links = {
+  gestureManager: "https://github.com/BlackStartx/VRC-Gesture-Manager",
+};
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "ギミックが動かないとき",
+  lead: "メニューを押しても動かない。自分にしか見えない。ワールドを移ると元に戻る。ギミックが思ったとおりに動かないときに、どこから、どの順番で確かめればよいかと、よくある原因の一覧をまとめました。困ったときは、まずこのページに来てください。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "自分で組んだギミックが、メニューを押しても動かない。",
+    "自分には見えるのに、ほかの人には見えないと言われた。",
+    "ワールドを移ったり、アバターを着替えたりすると、オンオフが元に戻る。",
+    "Unity では動いたのに、VRChat では動かない。",
+    "どこが悪いのか分からず、何から見ればよいか分からない。",
+  ],
+  orderTitle: "確かめる順番",
+  orderLead: [
+    "ギミックは、<strong>メニュー → パラメーター → ステート → クリップ → 見た目</strong> の順に、値が受け渡されて動きます（くわしくは" + to("animator-basics", "picture") + "）。どこかで受け渡しが止まると、その先は動きません。",
+    "そこで、<strong>前から順に、どこまで届いているかを1つずつ確かめます</strong>。止まったところのすぐ手前に、原因があります。思いつくところを手当たりしだいに直すより、ずっと早く見つかります。",
+    "そして、<strong>まず Unity で確かめます</strong>。VRChat で試すには、毎回アップロードして待つ必要があります。Unity なら、直して再生するだけで、すぐ確かめられます。",
+  ],
+  route: [
+    { head: "1. Unity で再生", note: "Gesture Manager でメニューを押す" },
+    { head: "2. パラメーター", note: "値が変わるか" },
+    { head: "3. ステート", note: "入るステートが変わるか" },
+    { head: "4. クリップ", note: "正しいものを書いているか" },
+    { head: "5. VRChat で自分", note: "アップロードして試す" },
+    { head: "6. 友だちと", note: "ほかの人にも見えるか" },
+  ],
+  orderStepsTitle: "それぞれで見るところと、止まったときに見る場所",
+  orderSteps: [
+    { head: "1. Unity で、Gesture Manager を使って再生する",
+      body: "次の節の手順で、Unity の再生ボタンを押し、Gesture Manager のメニューから、そのギミックの項目を押します。Unity で動けば、Animator やクリップの組み方は合っています。5 へ進みます。Unity でも動かなければ、2 から順に見ます。" },
+    { head: "2. パラメーターの値は変わっているか",
+      body: "メニューを押したときに、Gesture Manager の Debug の欄で、そのパラメーターの値が変わるかを見ます。<strong>変わらないなら、メニューと Expression Parameters</strong> が原因です。名前が合っているか、Expression Parameters にそのパラメーターがあるかを見ます。" },
+    { head: "3. 入るステートは変わっているか",
+      body: "パラメーターは変わるのに、ステートが変わらないなら、<strong>Animator のパラメーターの名前か、トランジションの条件</strong>が原因です。Animator ウィンドウで、そのレイヤーの動いているステートを見ます（見方は次の節）。" },
+    { head: "4. クリップは正しいものを書いているか",
+      body: "ステートは変わるのに、見た目が変わらないなら、<strong>クリップの中身か、レイヤーの設定</strong>が原因です。クリップのパスが切れていないか（Missing）、レイヤーの Weight が 0 でないか、下のレイヤーが同じものを書いていないかを見ます。" },
+    { head: "5. VRChat で、自分で確かめる",
+      body: "Unity で動いたら、アップロードして VRChat で試します。Unity で動くのに VRChat で動かないなら、<strong>アップロードのときに外されたもの</strong>（EditorOnly のオブジェクトなど）や、アップロード先のアバターを見ます。" },
+    { head: "6. 友だちに、ほかの人からの見え方を見てもらう",
+      body: "自分で動いたら、友だちに見てもらいます。Gesture Manager も自分の画面も、<strong>自分から見た姿</strong>しか確かめられません。ほかの人に見えないなら、パラメーターの Synced（ほかの人に送る）や、Quest 版を見ます。" },
+  ],
+  orderNote: "どの段で止まったかが分かったら、下の「よくある原因の一覧」で、その困りごとを選ぶと、見る場所が絞れます。",
+  toolsTitle: "確かめる道具",
+  toolsLead: "確かめるのに使う道具は、おもに3つです。Unity の Gesture Manager、Unity の Animator ウィンドウ、VRChat の中の表示です。",
+  gmTitle: "Gesture Manager（Unity で、VRChat のように動かす）",
+  gmLead: [
+    `Gesture Manager は、Unity で再生したときに、アバターの Animator を VRChat と同じように動かす道具です。メニュー（Expressions Menu）やハンドサインを、Unity の中で試せます。作者は BlackStartx さんです（${ext(links.gestureManager, "Gesture Manager の配布ページ")}）。`,
+    `VCC か ALCOM で、プロジェクトの一覧から Gesture Manager を足して入れます。足し方は${to("setup", "packages")}を見てください。`,
+  ],
+  gmSteps: [
+    "Unity の上のメニューで <code>Tools → Gesture Manager Emulator</code> を押します。シーンに <code>GestureManager</code> というオブジェクトが入ります。これは確かめるためだけのもので、アップロードには入りません。",
+    "Unity の上の真ん中にある再生ボタン（▶）を押します。Unity が再生の状態になり、Animator が動き出します。",
+    "Hierarchy で <code>GestureManager</code> を選びます。Inspector に、VRChat と同じ形の丸いメニューが出ます。アバターが2体以上あるときは、試すアバターを選びます。",
+    "丸いメニューで、試したいギミックの項目を押します。見た目が変わるかを、Scene か Game の画面で見ます。",
+    "Inspector の上のほうにある <code>Debug</code> の欄を開きます。パラメーターの値、レイヤーの Weight、いま入っているステートが並びます。メニューを押して、どの値が変わるかを見ます。",
+    "確かめ終わったら、もう一度再生ボタンを押して、再生を止めます。<strong>再生中に変えた設定は、止めると元に戻ります。</strong>直すのは、止めてからにします。",
+  ],
+  gmNote: "Gesture Manager の画面の名前や並びは、版によって違うことがあります。欄が見つからないときは、Inspector の中のボタンを1つずつ押してみてください。",
+  gmMock: {
+    variant: "unity",
+    caption: "再現図：Gesture Manager の Debug（Unity で再生中）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › GestureManager › Debug",
+      label: "Gesture Manager の Debug の再現図。Parameters に 1 Hat が true、GestureLeft が 0。Layer Weights に 2 FX の Hat レイヤーが 0。Animator States に 3 FX の Hat レイヤーが Hat_On",
+      rows: [
+        { type: "head", text: "Parameters" },
+        { mark: 1, label: "Hat", type: "value", text: "true", hot: true },
+        { label: "GestureLeft", type: "value", text: "0" },
+        { type: "head", text: "Layer Weights" },
+        { mark: 2, label: "FX / Hat", type: "value", text: "0", hot: true },
+        { type: "head", text: "Animator States" },
+        { mark: 3, label: "FX / Hat", type: "value", text: "Hat_On" },
+      ],
+    }],
+    notes: [
+      "メニューで帽子をオンにすると、Hat が true になりました。メニューと Expression Parameters は合っています。",
+      "Hat のレイヤーの Weight が 0 です。これでは、ステートが変わっても見た目は変わりません。Weight を 1 にします。",
+      "ステートは Hat_On に入っています。トランジションも合っています。",
+    ],
+  },
+  animTitle: "Animator ウィンドウ（いま動いているステートを見る）",
+  animSteps: [
+    "Gesture Manager で再生している間に、Hierarchy でアバター（いちばん上の、VRC Avatar Descriptor が付いたオブジェクト）を選びます。",
+    "<code>Window → Animation → Animator</code> で、Animator ウィンドウを開きます。Gesture Manager の Debug から、見たいレイヤー（FX など）を開けることもあります。",
+    "左の <code>Layers</code> のタブで、見たいレイヤーを選びます。",
+    "いま入っているステートは、<strong>青い進み具合のバー</strong>が下に出て、動いて見えます。メニューを押すと、バーが別のステートへ移るかを見ます。移らなければ、トランジションの条件か、パラメーターの名前が違います。",
+    "トランジションの矢印を選ぶと、Inspector に、その条件（Conditions）が出ます。パラメーターの名前と値が合っているかを見ます。",
+  ],
+  animNote: "再生中に Animator ウィンドウで変えた設定も、再生を止めると元に戻ることがあります。何をどう変えれば直るかが分かったら、止めてから、同じように直してください。",
+  vrcTitle: "VRChat の中の表示",
+  vrc: [
+    "VRChat の中でも、アバターのパラメーターの値を見られる表示があります。Expressions メニュー（Action Menu）の中の設定（Options）のあたりに、デバッグ用の表示（Debug）を出す項目があります。名前や場所は VRChat の更新で変わることがあるので、見つからないときは、VRChat の公式のドキュメントで最新の場所を確かめてください。",
+    "VRChat SDK の Builder には、アップロードせずに、自分のパソコンの VRChat だけで試す方法（Build &amp; Test）もあります。毎回アップロードするより早く試せます。",
+    "<strong>ほかの人からの見え方は、ほかの人にしか確かめられません。</strong>同期（Synced）や Quest 版を確かめるときは、友だちに頼んで、同じワールドで見てもらいます。Quest やスマホの友だちがいれば、その人にも見てもらうと安心です。",
+  ],
+  checklistTitle: "よくある原因の一覧",
+  checklistLead: "起きることと、考えられる原因、確かめて直す場所の一覧です。上の確かめる順番で止まったところと合わせて見てください。リンク先には、くわしい直し方があります。",
+  picker: {
+    legend: "困りごとで絞る",
+    all: "すべて",
+    countAll: "すべての原因（{n} 件）を並べています。",
+    countSome: "この困りごとで考えられる原因を {n} 件に絞っています。",
+    noJs: "JavaScript が無効なので、絞り込みは使えません。下の表に、すべての原因を並べています。",
+  },
+  symptoms: [
+    { id: "menu", text: "メニューを押しても動かない" },
+    { id: "unity", text: "Unity では動くのに、VRChat では動かない" },
+    { id: "others", text: "自分には見えるのに、ほかの人には見えない" },
+    { id: "reset", text: "ワールドを移る・着替えると元に戻る" },
+    { id: "timing", text: "遅れる・じわっと変わる・点滅する" },
+    { id: "wrong", text: "戻らない・関係ないところまで変わる" },
+    { id: "touch", text: "触っても反応しない" },
+    { id: "menuitem", text: "メニューに項目が出ない・足せない" },
+    { id: "upload", text: "アップロードできない" },
+    { id: "update", text: "名前を変えた・更新したら動かなくなった" },
+  ],
+  tableLabel: "ギミックが動かないときの、よくある原因の一覧",
+  tableHead: ["起きること", "考えられる原因", "確かめて直す場所"],
+  rows: [
+    { s: "menu", symptom: "メニューを押しても、見た目が変わらない（Unity でも）",
+      cause: "自分で足したレイヤーの <strong>Weight が 0</strong> のまま。Unity で Animator にレイヤーを足すと、Weight は 0 で作られます。",
+      fix: "Animator ウィンドウの <code>Layers</code> で、そのレイヤーの歯車を押し、<code>Weight</code> を 1 にします。", see: [to("toggle", "controller")] },
+    { s: "menu", symptom: "メニューを押しても、パラメーターもステートも変わらない",
+      cause: "メニュー、Expression Parameters、Animator の3か所で、<strong>パラメーターの名前が違う</strong>。大文字と小文字、前後の空白も、別の名前になります。",
+      fix: "3か所の名前を、1文字ずつ見比べてそろえます。名前はコピーして貼ると間違えません。", see: [to("animator-basics", "parameters")] },
+    { s: "menu", symptom: "メニューを押しても何も起きない",
+      cause: "<strong>Expression Parameters にそのパラメーターが無い</strong>。Animator のパラメーターにあるだけでは、メニューから値を変えられません。",
+      fix: "Expression Parameters に足します。Modular Avatar（MA）でつなぐときは、MA Parameters に入っているかを見ます。", see: [to("toggle", "params")] },
+    { s: "menu wrong", symptom: "オンにしても動かない・途中の値になる",
+      cause: "Expression Parameters と Animator で、<strong>型（Bool・Int・Float）が違う</strong>。VRChat は型を変えて渡すことがありますが、トランジションの条件が合わなくなることがあります。",
+      fix: "両方の型を見比べて、そろえます。わざと型を変える組み方もありますが、まずはそろえます。", see: [to("animator-basics", "parameters")] },
+    { s: "menu wrong", symptom: "オンにはなるが、オフに戻らない",
+      cause: "戻るほうのトランジションが無いか、<strong>条件がオンのときと同じ</strong>になっている。",
+      fix: "オフのステートへ戻る矢印を選び、Inspector の <code>Conditions</code> を見ます。Bool なら、戻るほうは <code>false</code> にします。", see: [to("toggle", "transitions")] },
+    { s: "timing", symptom: "切り替わるのが一拍遅れる・じわっと変わる",
+      cause: "トランジションの <strong>Has Exit Time</strong> にチェックが入っている。または <strong>Transition Duration</strong> が 0 でない。",
+      fix: "矢印を選び、<code>Has Exit Time</code> のチェックを外し、<code>Settings</code> の <code>Transition Duration</code> を 0 にします。", see: [to("toggle", "transitions")] },
+    { s: "timing", symptom: "ぱたぱた点滅する・動きが何度も最初から始まる",
+      cause: "<strong>Any State</strong> からのトランジションで、<strong>Can Transition To Self</strong> にチェックが入っている。条件が合っている間、同じステートに入り直し続けます。",
+      fix: "Any State からの矢印を選び、<code>Settings</code> の <code>Can Transition To Self</code> のチェックを外します。", see: [to("toggle", "transitions")] },
+    { s: "menu update", symptom: "ステートは変わるのに、見た目が変わらない。Animation ウィンドウで項目が黄色く「Missing!」と出る",
+      cause: "オブジェクトの名前を変えた、別の場所へ動かした、別のアバターに移した。<strong>クリップのパス</strong>（どのオブジェクトを動かすか）が合わなくなっています。",
+      fix: "名前と場所を元に戻すか、クリップのパスを直します。", see: [to("animation-clip", "path")] },
+    { s: "menu wrong", symptom: "ステートは変わるのに、見た目が変わらない・別の値になる",
+      cause: "<strong>下にあるレイヤー</strong>が、同じもの（同じ BlendShape や、同じオブジェクトのオンオフ）を書いている。同じものを書くと、下のレイヤーが勝ちます。",
+      fix: "下のレイヤーのクリップを見て、同じ行を消すか、レイヤーの順番を変えます。", see: [to("animator-basics", "controller"), to("gesture", "layers")] },
+    { s: "menu", symptom: "クリップは合っているのに、動かない",
+      cause: "見た目を変えるクリップを、<strong>FX 以外のレイヤー</strong>（Gesture など）に入れている。または、FX で Humanoid の骨を動かそうとしている。",
+      fix: "オブジェクトのオンオフ、BlendShape、マテリアルは FX で動かします。", see: [to("animator-basics", "layers"), to("animation-clip", "can")] },
+    { s: "wrong", symptom: "メニューやハンドサインを戻しても、元に戻らない。関係ないところまで変わる",
+      cause: "<strong>Write Defaults の ON と OFF が混ざっている</strong>。または、OFF なのに、オフのときのクリップを作っていない。",
+      fix: "コントローラーの中で ON か OFF にそろえ、オンとオフのクリップを両方作ります。", see: [to("unity-vs-vrchat", "write-defaults"), to("unity-vs-vrchat", "find"), to("toggle", "clips")] },
+    { s: "wrong", symptom: "表情のときに、まばたきや口の動きが重なって崩れる",
+      cause: "VRChat が動かすまばたき・口と、表情のクリップが、同じ BlendShape を動かしている。",
+      fix: "VRC Animator Tracking Control で、表情の間だけ、まばたきや口を Animation の側にします。", see: [to("gesture", "tracking")] },
+    { s: "menu wrong", symptom: "Radial Puppet を回しても、少しずつ変わらない",
+      cause: "ステートの <strong>Motion Time</strong> にパラメーターが入っていない。または、パラメーターが Float でない。",
+      fix: "ステートの <code>Motion Time</code> の <code>Parameter</code> にチェックを入れ、Float のパラメーターを選びます。", see: [to("radial", "float")] },
+    { s: "others", symptom: "自分には見えるのに、ほかの人には見えない",
+      cause: "Expression Parameters の <strong>Synced</strong>（ほかの人に送る）のチェックが外れている。",
+      fix: "Synced にチェックを入れます。Synced を外したパラメーターは、自分の画面でしか変わりません。", see: [to("toggle", "params"), to("radial", "sync")] },
+    { s: "touch others", symptom: "触っても反応しない・自分のときだけ反応する",
+      cause: "VRC Contact Receiver の <strong>Collision Tags</strong> が、触る側（Sender）と合っていない。<strong>Allow Self</strong> か <strong>Allow Others</strong> が外れている。<strong>Local Only</strong> の Receiver の値を、同期するつもりで使っている。",
+      fix: "Receiver の設定を見直します。", see: [to("contact", "what"), to("contact", "sync")] },
+    { s: "others", symptom: "Quest やスマホの人にだけ、ギミックが見えない",
+      cause: "<strong>Android 版（Quest・スマホ向け）</strong>に、そのギミックが入っていない。または、Android 版で使えない部品を使っている。",
+      fix: "Android 版にも同じギミックを入れて、アップロードし直します。", see: [to("quest", "steps")] },
+    { s: "others touch", symptom: "ほかの人から、揺れものや触るギミックが動いていないと言われる",
+      cause: "アバターが、見る人の設定したランクより重い。PhysBone や Contact の数が多すぎると、その人の画面では、PhysBone と Contact がすべて外されます。",
+      fix: "パフォーマンスランクの、PhysBone と Contact の項目を見て、数を減らします。", see: [to("performance", "limits"), to("performance", "seen")] },
+    { s: "reset", symptom: "ワールドを移ったり、アバターを着替えたりすると、元に戻る",
+      cause: "Expression Parameters の <strong>Saved</strong>（覚えておく）のチェックが外れている。または、<strong>Default</strong> の値が思ったものと違う。",
+      fix: "Saved にチェックを入れ、Default を見直します。", see: [to("toggle", "params")] },
+    { s: "menuitem", symptom: "メニューに項目を足せない・足した項目が出ない",
+      cause: "1つのメニューに置ける項目は <strong>8 つまで</strong>。いっぱいのメニューには足せません。MA でつなぐときは、<strong>MA Menu Installer</strong> が無いか、オフになっている。",
+      fix: "Sub Menu で、メニューを分けます。MA なら、Menu Installer を付けたオブジェクトがオンかを見ます。", see: [to("toggle", "menu"), to("animator-basics", "menu")] },
+    { s: "upload", symptom: "アップロードできない。パラメーターが多すぎると出る",
+      cause: "同期するパラメーターの合計が <strong>256 bit</strong> を超えた。Bool は 1 bit、Int と Float は 8 bit です。衣装やツールが足したパラメーターも数に入ります。",
+      fix: "Builder の Validations で量を見ます。使っていないものを消すか、ほかの人に見せなくてよいものの Synced を外します。いくつかのオンオフを Int 1つにまとめる方法もあります。", see: [to("upload", "validations"), to("radial", "int")] },
+    { s: "menu", symptom: "MA でつないだら、見た目が変わらない",
+      cause: "<strong>MA Merge Animator</strong> の <strong>Path Mode</strong> が、録画したときと合っていない。Relative なら、パスは Merge Animator を付けたオブジェクト（Relative Path Root）から数えます。Layer Type が FX でないこともあります。",
+      fix: "Path Mode と Layer Type を見直します。", see: [to("toggle", "connect")] },
+    { s: "unity", symptom: "Unity では出ているのに、VRChat では出ない",
+      cause: "オブジェクトのタグが <strong>EditorOnly</strong> で、アップロードのときに外されている。または、<strong>親のオブジェクトがオフ</strong>で、クリップがそこをオンにしていない。",
+      fix: "Inspector のいちばん上の <code>Tag</code> を <code>Untagged</code> にします。Hierarchy で親から順に、オンになっているかを見ます。", see: [to("toggle", "test")] },
+    { s: "unity update", symptom: "直したはずなのに、VRChat では変わらない",
+      cause: "<strong>別のアバター</strong>（別の Blueprint ID）にアップロードした。または、古いほうのアバターを着ている。",
+      fix: "Builder で、アップロード先のアバターを見ます。VRChat で、アップロードしたアバターを着直します。", see: [to("upload", "update")] },
+    { s: "update", symptom: "アバターの更新を入れたら、作ったギミックが消えた・動かなくなった",
+      cause: "更新で、元のアバターの FX やメニューが上書きされた。アバターの FX に直接足したものは消えます。",
+      fix: "作ったものは、MA でつなぐ形にしておくと、元のアバターの FX と別になるので、更新で消えにくくなります。", see: [to("toggle", "connect")] },
+  ],
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "Unity でも、メニューを押して何も起きない",
+      symptom: "Gesture Manager でメニューを押すと、パラメーターもステートも変わる。でも、見た目が変わらない。",
+      cause: "いちばん多いのは、自分で足したレイヤーの Weight が 0 のままのことです。Unity でレイヤーを足すと、Weight は 0 で作られます。",
+      fix: "Animator ウィンドウの Layers で、そのレイヤーの歯車を押し、Weight を 1 にします。それでも変わらなければ、クリップのパスと、下のレイヤーを見ます。" },
+    { title: "自分にしか見えない",
+      symptom: "自分の画面では帽子が出ている。友だちからは、帽子が無いと言われる。",
+      cause: "Expression Parameters で、そのパラメーターの Synced のチェックが外れています。値がほかの人に送られていません。",
+      fix: "Synced にチェックを入れて、アップロードし直します。友だちが Quest やスマホなら、Android 版にもギミックが入っているかを見ます。" },
+    { title: "ワールドを移ると、オフに戻る",
+      symptom: "帽子をオンにしても、ワールドを移ると、帽子が消えている。",
+      cause: "Expression Parameters で、そのパラメーターの Saved のチェックが外れています。ワールドを移ると、Default の値に戻ります。",
+      fix: "Saved にチェックを入れて、アップロードし直します。" },
+    { title: "オンにすると、ぱたぱた点滅する",
+      symptom: "オンにすると、帽子が出たり消えたりを、細かく繰り返す。",
+      cause: "Any State からのトランジションで、Can Transition To Self にチェックが入っています。条件が合っている間、同じステートに入り直し続けています。",
+      fix: "Any State からの矢印を選び、Can Transition To Self のチェックを外します。" },
+    { title: "Unity では動くのに、VRChat では出ない",
+      symptom: "Gesture Manager では帽子が出る。アップロードして VRChat で押すと、出ない。",
+      cause: "帽子のオブジェクトのタグが EditorOnly になっていて、アップロードのときに外されています。別のアバターにアップロードしていることもあります。",
+      fix: "Tag を Untagged にして、アップロードし直します。Builder で、アップロード先のアバターも見ます。" },
+    { title: "パラメーターが多すぎて、アップロードできない",
+      symptom: "ギミックを足したら、Builder に、パラメーターが多すぎるという注意が出て、アップロードできない。",
+      cause: "同期するパラメーターの合計が、256 bit を超えています。衣装やツールが足したパラメーターも数に入ります。",
+      fix: "使っていないパラメーターを消すか、ほかの人に見せなくてよいものの Synced を外します。服の切り替えのように、いくつかのオンオフは Int 1つ（8 bit）にまとめられます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "<strong>一度に直すのは1か所だけ</strong>にします。いくつも同時に変えると、どれで直ったのか、どれで壊れたのかが分からなくなります。",
+    "直す前に、元に戻せるようにしておきます。コントローラーやクリップを複製しておくか、アバターのフォルダを書き出しておきます。",
+    "Unity で再生している間に変えた設定は、再生を止めると元に戻ります。直すのは、再生を止めてからにします。",
+    "Gesture Manager で動いても、ほかの人からの見え方（同期）は確かめられません。最後は、VRChat で友だちに見てもらいます。",
+    "買ったアバターの FX やメニューに直接足すと、アバターの更新で消えることがあります。自分で作ったものは、MA でつなぐ形にしておくと安心です。",
+    "VRChat の中のデバッグ表示や、Gesture Manager の画面は、更新で名前や場所が変わることがあります。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "ギミックは、メニュー → パラメーター → ステート → クリップ → 見た目 の順に動きます。前から順に、どこまで届いているかを確かめます。",
+    "まず Unity の Gesture Manager で確かめます。アップロードを待たずに、すぐ試せます。",
+    "パラメーターが変わらないならメニューと Expression Parameters、ステートが変わらないならトランジション、見た目が変わらないならクリップとレイヤーを見ます。",
+    "Unity で動いたら VRChat で自分で、最後に友だちに見てもらって、同期を確かめます。",
+    `これで「${part.title.ja}」の回はおしまいです。困ったら、上の一覧から、それぞれの回に戻ってください。`,
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "order", title: l.orderTitle },
+  { id: "tools", title: l.toolsTitle },
+  { id: "checklist", title: l.checklistTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="order" aria-labelledby="order-heading">
+    <h2 class="section_2__h1" id="order-heading"><%= l.orderTitle %></h2>
+    <% l.orderLead.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.orderStepsTitle %></h3>
+    <dl class="examples_1">
+      <% l.orderSteps.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <p class="section_2__note"><%= l.orderNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="tools" aria-labelledby="tools-heading">
+    <h2 class="section_2__h1" id="tools-heading"><%= l.toolsTitle %></h2>
+    <p class="article_1__p"><%= l.toolsLead %></p>
+
+    <h3 class="section_2__h2"><%= l.gmTitle %></h3>
+    <% l.gmLead.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="steps_1">
+      <% l.gmSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.gmMock }) %>
+    <p class="section_2__note"><%= l.gmNote %></p>
+
+    <h3 class="section_2__h2"><%= l.animTitle %></h3>
+    <ol class="steps_1">
+      <% l.animSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="section_2__note"><%= l.animNote %></p>
+
+    <h3 class="section_2__h2"><%= l.vrcTitle %></h3>
+    <% l.vrc.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="checklist" aria-labelledby="checklist-heading">
+    <h2 class="section_2__h1" id="checklist-heading"><%= l.checklistTitle %></h2>
+    <p class="article_1__p"><%= l.checklistLead %></p>
+    <div class="demo_2__controls js_debug_picker" data-target="debug-checklist"
+      data-all="<%= l.picker.countAll %>" data-some="<%= l.picker.countSome %>" hidden>
+      <fieldset class="demo_1__distance">
+        <legend class="demo_1__label"><%= l.picker.legend %></legend>
+        <label><input type="radio" name="debug-symptom" value="all" class="js_debug_symptom" checked> <%= l.picker.all %></label>
+        <% l.symptoms.forEach(function (s) { %>
+          <label><input type="radio" name="debug-symptom" value="<%= s.id %>" class="js_debug_symptom"> <%= s.text %></label>
+        <% }); %>
+      </fieldset>
+      <p class="demo_1__why js_debug_count" aria-live="polite"><%= l.picker.countAll.replace("{n}", String(l.rows.length)) %></p>
+    </div>
+    <noscript><p class="section_2__note"><%= l.picker.noJs %></p></noscript>
+    <section class="table_3" id="debug-checklist" tabindex="0" aria-label="<%= l.tableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.tableHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.rows.forEach(function (row) { %>
+            <tr data-symptoms="<%= row.s %>"><th scope="row"><%= row.symptom %></th><td><%- row.cause %></td><td><%- row.fix %><ul class="table_3__list"><% row.see.forEach(function (a) { %><li><%- a %></li><% }); %></ul></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>
