@@ -1213,7 +1213,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 /*
 ## .list_15
-使用箇所：回想（Vimeo の動画）
+使用箇所：回想（Vimeo と Cloudflare R2 の動画）
 */
 
 .list_15 {
@@ -1224,7 +1224,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   @include sp {
     grid-template-columns: 1fr;
   }
-  iframe {
+  iframe,
+  video {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;

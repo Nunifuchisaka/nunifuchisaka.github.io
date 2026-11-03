@@ -401,7 +401,9 @@ const createConfig_development = ({ outputPath }) => {
             // アバター改変の解説の一覧（一覧ページ・各回の前後リンクで共通）
             avatarTips: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/avatar-tips.json'), 'utf8')),
             // お気に入りワールドの一覧
-            worlds: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/worlds.json'), 'utf8'))
+            worlds: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/worlds.json'), 'utf8')),
+            // 回想の動画（Vimeo と Cloudflare R2 の両方）
+            memories: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/memories.json'), 'utf8'))
           }
         }
       }

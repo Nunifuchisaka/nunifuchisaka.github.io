@@ -946,7 +946,7 @@
 }
 /*
 ## .list_15
-使用箇所：回想（Vimeo の動画）
+使用箇所：回想（Vimeo と Cloudflare R2 の動画）
 */
 .list_15 {
   display: grid;
@@ -954,7 +954,8 @@
   gap: var(--space-3);
   margin-top: var(--space-3);
 }
-.list_15 iframe {
+.list_15 iframe,
+.list_15 video {
   display: block;
   width: 100%;
   aspect-ratio: 16/9;
