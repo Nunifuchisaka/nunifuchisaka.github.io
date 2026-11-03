@@ -6,6 +6,7 @@
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
 色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
 灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+氷（--color-ice）はキービジュアルのアイコンを巡る光にだけ使う（「氷属性」の演出。ライトでは少し濃い水色）。
 */
 
 $font: "Zen Kaku Gothic Antique", $gothic;
@@ -20,6 +21,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   --color-link: #1e5a80;
   --color-accent: #9a5a0e;
   --color-line: #cfd3d7;
+  --color-ice: #7fb0cf;
 }
 
 @mixin theme-dark {
@@ -32,6 +34,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   --color-link: #9ccbe6;
   --color-accent: #f2b35e;
   --color-line: #383e47;
+  --color-ice: #d6ecf8;
 }
 
 :root {
@@ -216,7 +219,34 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 使用箇所：トップページの最初の画面
 内容：もとのヘッダー（X のバナー・アイコン・名前・紹介文）を整えたもの。
      アイコンはバナーの下端に半分かけ、名前と紹介文はその右（スマホでは下）に置く
+演出：JS を使わず、新しい CSS だけで「氷の光」を付ける。どれも対応していないブラウザでは何も起きず、
+     「視差効果を減らす」設定では止まる（光の輪だけは止まった状態で残る）。
+     1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
+     2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
+     3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
 */
+
+// アイコンを巡る光の角度。@property で <angle> として登録すると、グラデーションの角度をそのままアニメーションできる
+@property --profile-glint {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes profile_2-glint {
+  to {
+    --profile-glint: 360deg;
+  }
+}
+
+// スクロールでバナーが奥へ沈む。進み具合は時間ではなくバナーが画面上端から出ていく量（animation-range: exit）
+@keyframes profile_2-sink {
+  to {
+    scale: 1.12;
+    translate: 0 16%;
+    opacity: .4;
+  }
+}
 
 .profile_2 {
   max-width: var(--width-page);
@@ -224,6 +254,15 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   padding: 0 var(--space-4);
   @include sp {
     padding: 0;
+  }
+
+  &__banner {
+    // hidden だとこの枠がスクロールコンテナ扱いになり、下の view() がページではなく枠を基準にしてしまうので clip にする
+    overflow: clip;
+    border-radius: 8px;
+    @include sp {
+      border-radius: 0;
+    }
   }
 
   &__banner img {
@@ -251,12 +290,30 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__icon {
+    position: relative;
+    align-self: start; // グリッドのセル（文の高さ）いっぱいに伸びないようにし、光の輪がアイコンと同じ円になるようにする
     margin-top: -88px;
     @include sp {
       width: 112px;
       margin-top: -56px;
     }
+
+    // 氷の光の輪。アイコンの縁（背景色の枠）のすぐ外側に細く見え、透明な部分が多い扇形がゆっくり回る
+    &::before {
+      position: absolute;
+      inset: -3px -3px auto;
+      aspect-ratio: 1;
+      content: "";
+      background: conic-gradient(from var(--profile-glint), transparent 0deg 200deg, var(--color-ice) 290deg, transparent 350deg 360deg);
+      border-radius: 50%;
+      animation: profile_2-glint 14s linear infinite;
+      @include sp {
+        inset: -2px;
+      }
+    }
+
     img {
+      position: relative;
       display: block;
       box-sizing: border-box;
       width: 100%;
@@ -297,6 +354,60 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     margin-top: var(--space-2);
     font-size: 1.6rem;
     line-height: 1.9;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .profile_2 {
+    // 開いたときの入場。@starting-style に「最初の一瞬の見た目」を書くと、通常の見た目へ transition で移る
+    &__banner,
+    &__icon,
+    &__name,
+    &__reading,
+    &__lead {
+      transition: opacity .9s ease-out, translate .9s cubic-bezier(.2, .7, .2, 1);
+      @starting-style {
+        opacity: 0;
+        translate: 0 12px;
+      }
+    }
+
+    &__banner {
+      @starting-style {
+        translate: 0;
+      }
+    }
+
+    &__icon {
+      transition-delay: .15s;
+    }
+
+    &__name {
+      transition-delay: .3s;
+    }
+
+    &__reading {
+      transition-delay: .4s;
+    }
+
+    &__lead {
+      transition-delay: .5s;
+    }
+  }
+
+  // スクロール連動。バナーが画面上端から出ていく間（exit）だけ、沈む動きが進む
+  @supports (animation-timeline: view()) {
+    .profile_2__banner img {
+      animation: profile_2-sink linear both;
+      animation-timeline: view(block);
+      animation-range: exit;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile_2__icon::before {
+    animation: none;
   }
 }
 
