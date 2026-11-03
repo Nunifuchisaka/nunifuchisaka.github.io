@@ -1,0 +1,362 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説 第7回：Quest・スマホ対応
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// 数字は VRChat の Avatar Performance Ranking System（2026年11月時点）から。変わったら表を直す
+const article = avatarTips.articles.find((a) => a.slug === "quest");
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const links = {
+  limits: "https://creators.vrchat.com/platforms/android/quest-content-limitations/",
+  ranks: "https://creators.vrchat.com/avatars/avatar-performance-ranking-system/",
+  impostors: "https://creators.vrchat.com/avatars/avatar-impostors/",
+};
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "Quest・スマホ対応",
+  lead: "Quest やスマホの人には、パソコン用のアバターは見えません。見てもらうには、軽くした別の版（Android 版・iOS 版）を、同じアバターにアップロードします。なぜ別の版が要るのか、何が使えないのか、どう作るのかを解説します。",
+  meta: "数字は VRChat の公式の資料（2026年11月時点）からです。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "Quest の友だちから、自分のアバターがぼやけた姿やロボットに見えると言われた。",
+    "パソコン用に改変したアバターを、Quest やスマホの人にも見てもらいたい。",
+    "Quest 版をアップロードしたのに、見えないと言われる。",
+  ],
+  whyTitle: "なぜ別の版が要るのか",
+  why: [
+    "VRChat は、パソコン（Windows）と、Android（Quest やスマホ）、iOS（iPhone や iPad）で動きます。アバターは<strong>それぞれ別の形で作ってアップロード</strong>します。Quest やスマホは、パソコンよりずっと性能が低いので、重いものや一部の部品は使えません。",
+    "アップロードするときは、同じアバター（同じ Blueprint ID）に、パソコン版と Android 版を並べて入れます。見る人の機器に合う版が、自動で選ばれます。",
+  ],
+  seeTitle: "Quest の人からは、どう見えるか",
+  see: [
+    { head: "Android 版がある", body: "Android 版のアバターが見えます。ただし、ランクが低いと見えないことがあります（下の「ランクの厳しさ」）。" },
+    { head: "パソコン版しかない", body: "VRChat が自動で作った<strong>インポスター</strong>（板を組み合わせた、ぼやけた身代わり）が見えます。インポスターを切っていると、その人が選んだ<strong>フォールバック</strong>のアバター（ロボットなど）になります。" },
+    { head: "インポスターについて", body: "インポスターは、VRChat のサイトの自分のアバターのページで、作り直すこともできます。人型のアバターだけに対応しています。あくまで身代わりなので、表情や服のオンオフは伝わりません。" },
+  ],
+  limitsTitle: "Quest・スマホで使えないもの",
+  limitsLead: "Quest・スマホのアバターでは、次のものが使えません。入っていると、消されたり、動かなかったりします。",
+  limits: [
+    "<strong>シェーダーは、VRChat が用意した「VRChat/Mobile」のものだけ</strong>です。lilToon などのシェーダーは使えません。",
+    "ライト（Light）、カメラ、Cloth、音（Audio Source）、Rigidbody や Collider などの物理の部品は、まったく動きません。",
+    "Unity の Constraint は動きません。VRChat Constraint を使います。Dynamic Bone も動かないので、PhysBone を使います。",
+    "パーティクルは、きびしく制限されます。",
+    "Android 版のアバターは、圧縮したあとで 10MB を超えるとアップロードできません。5〜8MB を目安にします。",
+  ],
+  shadersTitle: "使えるシェーダー",
+  shadersTableLabel: "Quest・スマホのアバターで使えるおもなシェーダー",
+  shadersHead: ["シェーダー（VRChat/Mobile/…）", "向いているもの"],
+  shadersRows: [
+    ["Toon Standard", "トゥーン調のアバターに。影の色やリムライト、マットキャップなどを設定できます。迷ったらこれ。"],
+    ["Toon Lit", "平らな色の、アニメ調のアバターに。設定が少なく、とても軽いです。"],
+    ["Standard Lite", "Unity の Standard に近い、写実的な見た目に。"],
+    ["Matcap Lit", "金属のような光るところに。"],
+    ["Diffuse など", "色だけを出す、いちばん簡単なものです。"],
+  ],
+  shadersNote: "半透明（髪の毛先のぼかしなど）は使えないので、不透明か、くっきり切り抜く形にします。マテリアルの「Enable GPU Instancing」は、オンにしておきます。",
+  ranksTitle: "ランクの厳しさ",
+  ranks: [
+    "Quest・スマホでは、パフォーマンスランクの基準が、パソコンよりずっと厳しくなります。そのうえ、Quest・スマホの人は、<strong>はじめの設定では Medium までしか見えません</strong>。Poor と Very Poor のアバターは、インポスターかフォールバックになります。",
+    "見る人は、設定で Poor まで見えるようにはできますが、Very Poor は見えるようにできません（相手を選んで「Show Avatar」を押せば、1人ずつは見えます）。<strong>Quest 版は Medium 以上</strong>を目指します。",
+  ],
+  ranksTableLabel: "パソコンと Quest・スマホのランクの上限（おもなもの）",
+  ranksHead: ["項目", "パソコン（Poor まで）", "Quest・スマホ（Poor まで）", "Quest・スマホ（Medium まで）"],
+  ranksRows: [
+    ["ポリゴン（三角形）", "70,000", "20,000", "15,000"],
+    ["マテリアル", "32", "4", "2"],
+    ["Skinned Mesh", "16", "2", "2"],
+    ["テクスチャのメモリ", "150 MB", "40 MB", "25 MB"],
+    ["PhysBone の数", "32", "8", "6"],
+  ],
+  ranksNote: `Quest・スマホでは、PhysBone は 8 個まで、Contact は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは`,
+  ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: "第6回 パフォーマンスランクと軽量化" },
+  ranksNote2: "で詳しく解説しています。",
+  firstTitle: "まず、販売ページを確かめる",
+  first: [
+    "多くのアバターや衣装は、販売ページに「Quest 対応」と書かれていて、<strong>Quest 用のデータが入っています</strong>。入っていれば、それを使うのがいちばんの近道です。Quest 用のプレハブを置いて、同じように改変します。",
+    "Quest 用のデータが無いときは、自分で軽くします。衣装やアクセサリーを足すほど重くなるので、Quest 版はシンプルな姿にするのがおすすめです。",
+  ],
+  stepsTitle: "Quest 版を作る手順",
+  steps: [
+    { html: "Unity に「Android Build Support」が入っているかを確かめます。入っていなければ、Unity Hub で足します（" },
+    "パソコン版のアバターを複製して、Quest 用にします。元のアバターに手を入れないので、パソコン版はそのまま残せます。",
+    "VRChat SDK のコントロールパネル（<code>VRChat SDK → Show Control Panel</code>）の「Builder」タブで、Platform を「Android」に切り替えます。確認が出たら進めます。",
+    "Quest 用のアバターのマテリアルを、すべて「VRChat/Mobile」のシェーダーに変えます。マテリアルを分けておくと、パソコン版の見た目を壊しません。",
+    "使えない部品（ライト、Cloth、音、Unity の Constraint など）を消します。SDK のコントロールパネルに出る警告やエラーも見ます。",
+    "ポリゴン、マテリアル、PhysBone を減らして、ランクを Medium 以上にします。",
+    "パソコン版と<strong>同じ Blueprint ID</strong> にアップロードします。同じプロジェクトでアバターを複製したなら、Pipeline Manager の ID もそのまま入っています。",
+    "Quest の人に見てもらうか、自分の Quest で確かめます。",
+  ],
+  stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: "第3回 Unity Hub で Unity を入れる" },
+  stepsHubAfter: "）。",
+  sdkMock: {
+    variant: "unity",
+    caption: "再現図：VRChat SDK のコントロールパネル（Builder タブ）。並びや見た目は簡単にしています",
+    screens: [{
+      bar: "VRChat SDK › Builder",
+      tabs: ["Authentication", "Builder", "Content Manager", "Settings"],
+      activeTab: 1,
+      label: "VRChat SDK の Builder タブの再現図。1 Platform で Windows と Android に印、iOS に印なし、2 Build and Publish のボタン",
+      rows: [
+        { type: "head", text: "Build" },
+        { mark: 1, label: "Platform", type: "select", text: "Windows, Android" },
+        { type: "check", on: true, text: "Windows" },
+        { type: "check", on: true, text: "Android", hot: true },
+        { type: "check", on: false, text: "iOS" },
+        { mark: 2, type: "button", text: "Build and Publish" },
+      ],
+    }],
+    notes: [
+      "アップロードする先を選びます。印を付けたものを、まとめてアップロードできます。いま開いている先と違うものを選ぶと、切り替えの確認が出ます。",
+      "押すと、選んだ先ごとにビルドしてアップロードします。Android に切り替えると、はじめは全部を読み込み直すので、時間がかかります。",
+    ],
+  },
+  shaderMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Quest 用のマテリアル）。名前は例です",
+    screens: [{
+      bar: "Inspector › Body_Quest（Material）",
+      label: "Quest 用のマテリアルの再現図。1 Shader が VRChat/Mobile/Toon Lit、2 Enable GPU Instancing に印",
+      rows: [
+        { mark: 1, label: "Shader", type: "select", text: "VRChat/Mobile/Toon Lit", hot: true },
+        { mark: 2, type: "check", on: true, text: "Enable GPU Instancing" },
+      ],
+    }],
+    notes: [
+      "Shader の一覧から「VRChat/Mobile」を選び、その中のシェーダーにします。ほかのシェーダーのままだと、Quest ではピンク色や、見えない姿になります。",
+      "軽くするために、オンにしておきます。",
+    ],
+  },
+  toolsTitle: "手間を減らすツール",
+  tools: [
+    "VRChat の資料では、パソコン版と Quest 版で設定を切り替える「EasyQuestSwitch」が紹介されています。VCC から入れられます。",
+    "パソコン版のアバターを複製して、Quest 用のマテリアルやテクスチャを作り、使えない部品を消すツール「VRCQuestTools」もあります。ただし、ランクまでは軽くしてくれないので、そのままでは Very Poor になりがちです。",
+    "パソコン版と Quest 版で別々のアバターを用意したときは、SDK の「Per-Platform Override」で、1つのアバターにまとめてアップロードできます。",
+  ],
+  sameTitle: "パソコン版と Quest 版でそろえること",
+  same: [
+    "<strong>ボーンの組み立て（Armature）</strong>はそろえます。頭、手、足などの大事なボーンの名前や並び、Hips の大きさと向きを変えると、ほかの機器から見たときに、おかしな動きになります。髪やスカートのボーンを減らすのはかまいません。",
+    "Expression のメニューとパラメーターも、そろえておくと安心です。片方だけにある服のオンオフなどは、もう片方の人からは変わって見えません。",
+  ],
+  iosTitle: "iOS（iPhone・iPad）",
+  ios: [
+    "iOS 版の VRChat もあります。作り方は Android 版とほぼ同じで、使えないものや基準も同じです。iOS 版を作るには、Unity Hub で「iOS Build Support」を足して、Platform で「iOS」を選んでアップロードします。",
+    "iOS 版が無いアバターは、iOS の人からはインポスターに見えます。",
+  ],
+  casesTitle: "よくある困りごと",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "ピンク色になる",
+      symptom: "Quest の人から、アバターの一部や全部がピンク色に見えると言われる。",
+      cause: "Quest 版に、VRChat/Mobile 以外のシェーダーのマテリアルが残っています。",
+      fix: "Quest 用のアバターのマテリアルを、1つずつ VRChat/Mobile のシェーダーに変えます。衣装やアクセサリーのマテリアルも見落とさないようにします。" },
+    { title: "ぼやけた姿・ロボットに見える",
+      symptom: "Quest の人から、ぼやけた姿（インポスター）やロボットに見えると言われる。",
+      cause: "Android 版がアップロードされていないか、パソコン版と別のアバター（別の Blueprint ID）にアップロードしています。",
+      fix: "Platform を Android にして、パソコン版と同じ Blueprint ID にアップロードします。VRChat のアバターの詳細で、Android 版があるかを確かめます。" },
+    { title: "Quest 版があるのに見えない",
+      symptom: "Android 版をアップロードしたのに、Quest の人からは見えない。",
+      cause: "ランクが Poor か Very Poor です。Quest・スマホの人は、はじめの設定では Medium までしか見えません。",
+      fix: "ポリゴン、マテリアル、PhysBone などを減らして、Medium 以上にします。SDK のコントロールパネルで、Android のときのランクを確かめます。" },
+    { title: "切り替えにとても時間がかかる",
+      symptom: "Platform を Android に切り替えると、何十分も待たされる。",
+      cause: "はじめて切り替えるときは、テクスチャなどを全部読み込み直すためです。",
+      fix: "はじめの1回は待ちます。2回目からは速くなります。切り替えの途中で Unity を閉じないでください。" },
+    { title: "片方だけ更新してしまった",
+      symptom: "パソコン版だけ改変してアップロードしたら、Quest の人からは前の姿のまま見える。",
+      cause: "Android 版を、アップロードし直していません。版ごとに別々に入っています。",
+      fix: "Quest 版にも同じ改変をして、アップロードし直します。Platform で Windows と Android の両方に印を付けると、まとめてアップロードできます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "VRChat は、Very Poor の Quest・スマホのアバターを、これから先は使えなくするかもしれないと案内しています。Quest 版は Very Poor にしないでください。",
+    "Quest 版は、自分の Quest か、Quest の友だちに見てもらって確かめます。パソコンの Unity では、Quest での見た目はわかりません。",
+    "改変したものを Quest 版にするときも、アバターや衣装の利用規約を守ります。Quest 版の改変やアップロードを認めているかも確かめます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "Quest やスマホの人に見てもらうには、Android 版（iOS 版）を、パソコン版と同じ Blueprint ID にアップロードします。",
+    "シェーダーは VRChat/Mobile だけ。ライトや Cloth、音などは使えません。",
+    "Quest・スマホの人は、はじめは Medium までしか見えないので、Medium 以上を目指します。",
+    "まずは販売ページで、Quest 用のデータがあるかを確かめます。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "why", title: l.whyTitle },
+  { id: "see", title: l.seeTitle },
+  { id: "limits", title: l.limitsTitle },
+  { id: "shaders", title: l.shadersTitle },
+  { id: "ranks", title: l.ranksTitle },
+  { id: "first", title: l.firstTitle },
+  { id: "steps", title: l.stepsTitle },
+  { id: "tools", title: l.toolsTitle },
+  { id: "same", title: l.sameTitle },
+  { id: "ios", title: l.iosTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading"><%= l.whyTitle %></h2>
+    <% l.why.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="see" aria-labelledby="see-heading">
+    <h2 class="section_2__h1" id="see-heading"><%= l.seeTitle %></h2>
+    <dl class="examples_1 examples_1--grid">
+      <% l.see.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <p class="section_2__note"><%- ext(links.impostors, "VRChat の資料：Impostors") %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
+    <h2 class="section_2__h1" id="limits-heading"><%= l.limitsTitle %></h2>
+    <p class="article_1__p"><%= l.limitsLead %></p>
+    <ul class="rules_1">
+      <% l.limits.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+    <p class="section_2__note"><%- ext(links.limits, "VRChat の資料：Android Content Limitations") %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="shaders" aria-labelledby="shaders-heading">
+    <h2 class="section_2__h1" id="shaders-heading"><%= l.shadersTitle %></h2>
+    <section class="table_3" tabindex="0" aria-label="<%= l.shadersTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.shadersHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.shadersRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p"><%= l.shadersNote %></p>
+    <%- include("_mock", { mock: l.shaderMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="ranks" aria-labelledby="ranks-heading">
+    <h2 class="section_2__h1" id="ranks-heading"><%= l.ranksTitle %></h2>
+    <% l.ranks.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.ranksTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.ranksHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.ranksRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p"><%= l.ranksNote %><a href="<%= l.ranksLink.href %>"><%= l.ranksLink.text %></a><%= l.ranksNote2 %></p>
+    <p class="section_2__note"><%- ext(links.ranks, "VRChat の資料：Avatar Performance Ranking System") %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="first" aria-labelledby="first-heading">
+    <h2 class="section_2__h1" id="first-heading"><%= l.firstTitle %></h2>
+    <% l.first.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="steps" aria-labelledby="steps-heading">
+    <h2 class="section_2__h1" id="steps-heading"><%= l.stepsTitle %></h2>
+    <ol class="steps_1">
+      <% l.steps.forEach(function (step) { %>
+        <% if (typeof step === "object") { %>
+          <li><%- step.html %><a href="<%= l.stepsHubLink.href %>"><%= l.stepsHubLink.text %></a><%= l.stepsHubAfter %></li>
+        <% } else { %>
+          <li><%- step %></li>
+        <% } %>
+      <% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.sdkMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="tools" aria-labelledby="tools-heading">
+    <h2 class="section_2__h1" id="tools-heading"><%= l.toolsTitle %></h2>
+    <ul class="rules_1">
+      <% l.tools.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="same" aria-labelledby="same-heading">
+    <h2 class="section_2__h1" id="same-heading"><%= l.sameTitle %></h2>
+    <ul class="rules_1">
+      <% l.same.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="ios" aria-labelledby="ios-heading">
+    <h2 class="section_2__h1" id="ios-heading"><%= l.iosTitle %></h2>
+    <% l.ios.forEach(function (text) { %><p class="article_1__p"><%= text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>
