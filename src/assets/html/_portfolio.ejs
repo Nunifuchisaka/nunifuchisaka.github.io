@@ -2,10 +2,10 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const newTab = isEn ? "(opens in a new tab)" : "（新しいタブで開きます）";
-// 各作品：種類（kind）と、何ができるかの一文（desc）。BOOTH の作品は src/assets/data/products.json から引く（作品一覧と共通）
+// 各制作物：種類（kind）と、何ができるかの一文（desc）。BOOTH の制作物は src/assets/data/products.json から引く（制作物一覧と共通）
 const productLinks = isEn
   ? { text: "See all products, with what each works with", href: "/en/products/", faq: "Product FAQ", faqHref: "/en/faq/" }
-  : { text: "すべての作品と、対応している環境を見る", href: "/products/", faq: "作品のよくある質問", faqHref: "/faq/" };
+  : { text: "すべての制作物と、対応している環境を見る", href: "/products/", faq: "制作物のよくある質問", faqHref: "/faq/" };
 const portfolio = [
   {
     title: "桜兎フルガ 公式サイト",

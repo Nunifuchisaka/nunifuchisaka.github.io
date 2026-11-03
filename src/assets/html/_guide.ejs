@@ -8,10 +8,10 @@ const total = guides.length;
 const guideText = pageLocale === "en"
   ? (scope === "all"
     ? { id: "all-guides", heading: "Every guide photo", lead: `All ${total} photos, newest first, by month.` }
-    : { id: "guide", heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${total} so far; here are the latest ${RECENT_MONTHS} months.`, more: `See all ${total} photos and milestones on the guide log page`, href: "/en/timeline/#all-guides" })
+    : { id: "guide", heading: "Newcomer guide log", lead: `Every photo here is a day I helped someone get started in VRChat. ${total} so far; here are the latest ${RECENT_MONTHS} months.`, more: `See all ${total} photos on the guide log page`, href: "/en/timeline/#all-guides" })
   : (scope === "all"
     ? { id: "all-guides", heading: "すべての案内記録", lead: `${total}枚すべてを、月ごとに新しい順で並べています。` }
-    : { id: "guide", heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${total}回。ここには新しい${RECENT_MONTHS}か月分を載せています。`, more: `すべての記録（${total}枚）と節目は、案内実績で見る`, href: "/timeline/#all-guides" });
+    : { id: "guide", heading: "初心者案内の記録", lead: `どの写真も、誰かがVRChatを始めた日の一枚です。これまでに${total}回。ここには新しい${RECENT_MONTHS}か月分を載せています。`, more: `すべての記録（${total}枚）は、案内実績で見る`, href: "/timeline/#all-guides" });
 
 // guides は新しい順。月ごとにまとめる（日付の無いファイルは最後にまとめる）
 const groups = [];

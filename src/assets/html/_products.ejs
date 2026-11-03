@@ -2,8 +2,8 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// 作品の一覧。中身は src/assets/data/products.json（トップの Products・よくある質問と共通）
-// 種類で絞り込む：ラジオボタンの選択を CSS の :has() で読み、合わない作品を隠す（JS なし）
+// 制作物の一覧。中身は src/assets/data/products.json（トップの Products・よくある質問と共通）
+// 種類で絞り込む：ラジオボタンの選択を CSS の :has() で読み、合わない制作物を隠す（JS なし）
 const items = products.items;
 const kinds = products.kinds;
 const count = (key) => key === "all" ? items.length : items.filter((item) => item.kind === key).length;
@@ -25,7 +25,7 @@ const l = isEn ? {
   faq: { href: `${prefix}/faq/`, text: "Product FAQ", note: "Common questions and the update history for every product" },
   unknown: "See the manual",
 } : {
-  title: "作品一覧",
+  title: "制作物一覧",
   lead: (n) => `これまでに作ったシェーダー・アバターギミック・ツール${n}点です。対応している環境を見てから、説明書を読んだり BOOTH で手に入れたりできます。`,
   filter: "種類で絞り込む",
   all: "すべて",
@@ -38,7 +38,7 @@ const l = isEn ? {
   booth: "BOOTH で見る",
   boothShop: "BOOTH のショップへ",
   newTab: "（新しいタブで開きます）",
-  faq: { href: `${prefix}/faq/`, text: "作品のよくある質問", note: "どの作品にも共通する質問と、更新履歴" },
+  faq: { href: `${prefix}/faq/`, text: "制作物のよくある質問", note: "どの制作物にも共通する質問と、更新履歴" },
   unknown: "説明書を参照",
 };
 %><section class="section_2 page_1" aria-labelledby="products-heading">

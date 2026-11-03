@@ -2,7 +2,7 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 // current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds" / "avatar-tips"）。aria-current を付ける
 const currentPage = typeof current !== "undefined" ? current : "home";
-// よくある質問は「作品」の、お気に入りワールドは「はじめての方」の下のページとして、ナビではその親に印を付ける
+// よくある質問は「制作物」の、お気に入りワールドは「はじめてのVRChat」の下のページとして、ナビではその親に印を付ける
 // enReady：false のページは英語版がまだ無い（日本語版の内容が固まってから作る）。言語切替の English を選べないようにする
 const hasEn = typeof enReady === "undefined" ? true : enReady;
 // 英語版がまだ無い項目は、英語のメニューに出さない
@@ -13,8 +13,8 @@ const t = {
   ja: {
     name: "ぬにふちさか",
     navLabel: "サイト内",
-    start: "はじめての方",
-    products: "作品",
+    start: "はじめてのVRChat",
+    products: "制作物",
     avatarTips: "改変解説",
     timeline: "案内実績",
     equipment: "VR機材",

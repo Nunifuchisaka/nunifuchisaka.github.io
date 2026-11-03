@@ -31,6 +31,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nunifuchisaka.github.io/worlds/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://nunifuchisaka.github.io/avatar-tips/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

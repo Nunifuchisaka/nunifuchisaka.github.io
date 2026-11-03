@@ -885,321 +885,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 }
 
 
-/*
-## .chart_1
-使用箇所：案内実績「月ごとの案内回数」
-内容：月ごとの棒グラフ（1系列なので凡例なし。いちばん多い月だけ数値を出し、ほかは触れると出る）。
-     同じ数値は下の表（table_2）でも読める。対応ブラウザでは、画面に入るとき棒が伸びる（scroll-driven animations）
-*/
-
-.chart_1 {
-  --bar: #2f6fb0;
-
-  overflow-x: clip;
-  margin-top: var(--space-3);
-  @at-root :root[data-theme="dark"] & {
-    --bar: #4a8ad0;
-  }
-  @media (prefers-color-scheme: dark) {
-    @at-root :root:not([data-theme="light"]) & {
-      --bar: #4a8ad0;
-    }
-  }
-
-  &__bars,
-  &__axis {
-    display: grid;
-    grid-auto-columns: minmax(0, 1fr);
-    grid-auto-flow: column;
-    gap: 2px;
-  }
-
-  &__bars {
-    align-items: end;
-    height: 220px;
-    padding-top: 28px;
-    border-bottom: 1px solid var(--color-line);
-    @include sp {
-      height: 160px;
-    }
-  }
-
-  &__bar {
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    &:hover .chart_1__tip {
-      visibility: visible;
-    }
-    &:hover .chart_1__fill {
-      filter: brightness(1.15);
-    }
-  }
-
-  &__fill {
-    display: block;
-    width: 100%;
-    max-width: 28px;
-    height: calc(var(--v) / var(--max) * 100%);
-    margin: 0 auto;
-    background: var(--bar);
-    border-radius: 4px 4px 0 0;
-    transform-origin: bottom;
-  }
-
-  &__value {
-    position: absolute;
-    bottom: calc(var(--v) / var(--max) * 100% + 4px);
-    left: 50%;
-    font-size: 1.3rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    transform: translateX(-50%);
-  }
-
-  &__tip {
-    position: absolute;
-    bottom: calc(var(--v) / var(--max) * 100% + 8px);
-    left: 50%;
-    z-index: 1;
-    padding: 4px 10px;
-    font-size: 1.3rem;
-    white-space: nowrap;
-    visibility: hidden;
-    color: var(--color-bg);
-    pointer-events: none;
-    background: var(--color-text);
-    border-radius: 4px;
-    transform: translateX(-50%);
-    strong {
-      font-weight: 700;
-    }
-  }
-
-  // 端の3本は、吹き出しを内側に寄せて画面からはみ出さないようにする
-  &__bar:nth-child(-n + 3) &__tip {
-    left: 0;
-    transform: none;
-  }
-
-  &__bar:nth-last-child(-n + 3) &__tip {
-    right: 0;
-    left: auto;
-    transform: none;
-  }
-
-  &__axis {
-    margin-top: 6px;
-    font-size: 1.2rem;
-    color: var(--color-text-muted);
-    font-variant-numeric: tabular-nums;
-    li {
-      overflow: visible;
-      white-space: nowrap;
-    }
-  }
-
-  &__year {
-    font-weight: 700;
-    color: var(--color-text);
-  }
-
-  &__details {
-    margin-top: var(--space-2);
-    summary {
-      display: inline-block;
-      min-height: 44px;
-      line-height: 44px;
-      font-weight: 700;
-      color: var(--color-link);
-      cursor: pointer;
-    }
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .chart_1__fill {
-      animation: chart_1_grow linear both;
-      animation-range: entry 0% cover 35%;
-      animation-timeline: view();
-    }
-  }
-}
-
-@keyframes chart_1_grow {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
-
-/*
-## .table_2
-使用箇所：案内実績（グラフと同じ数値の表）
-*/
-
-.table_2 {
-  min-width: 16em;
-  margin-top: var(--space-1);
-  font-variant-numeric: tabular-nums;
-  border-collapse: collapse;
-  th,
-  td {
-    padding: 6px 16px 6px 0;
-    text-align: left;
-    border-bottom: 1px solid var(--color-line);
-  }
-  thead th {
-    font-size: 1.3rem;
-    color: var(--color-text-muted);
-  }
-  tbody th {
-    font-weight: 400;
-  }
-  td {
-    text-align: right;
-  }
-}
-
-
-/*
-## .milestone_1
-使用箇所：案内実績「節目」
-内容：1回目・50回ごと・最新の写真を、縦の線でつないだ年表。写真はトリミングしない。押すと viewer_1 で開く
-*/
-
-.milestone_1 {
-  position: relative;
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
-  padding-left: 32px;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 7px;
-    width: 2px;
-    background: var(--color-line);
-  }
-
-  &__item {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 14em) minmax(0, 1fr);
-    gap: var(--space-1) var(--space-4);
-    align-items: start;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 6px;
-      left: -32px;
-      width: 12px;
-      height: 12px;
-      background: var(--color-bg);
-      border: 3px solid var(--color-text);
-      border-radius: 50%;
-    }
-    @include sp {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__head {
-    display: grid;
-    gap: 2px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__nth {
-    font-size: 2.6rem;
-    font-weight: 900;
-    line-height: 1.2;
-  }
-
-  &__date {
-    font-size: 1.5rem;
-  }
-
-  &__note {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-  }
-
-  // 縦長の写真が大きくなりすぎないよう、高さにも上限をつける（トリミングはしない）
-  &__photo {
-    display: block;
-    justify-self: start;
-    max-width: min(100%, 640px);
-    overflow: hidden;
-    border-radius: 6px;
-    img {
-      display: block;
-      width: auto;
-      max-width: 100%;
-      height: auto;
-      max-height: 420px;
-      background: var(--color-surface);
-    }
-  }
-}
-
-// 対応ブラウザでは、スクロールに合わせて縦の線が上から塗られ、画面の真ん中を過ぎた節目の丸が塗りつぶされる。
-// 節目は、画面に入るとき下から浮かび上がる。対応していないブラウザでは、線も丸もそのまま表示する
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .milestone_1 {
-      &::after {
-        content: "";
-        position: absolute;
-        top: 8px;
-        bottom: 8px;
-        left: 7px;
-        width: 2px;
-        background: var(--color-text);
-        transform-origin: top;
-        animation: milestone_1_line linear both;
-        animation-range: cover 50vh cover calc(100% - 50vh);
-        animation-timeline: view();
-      }
-      &__item::before {
-        z-index: 1;
-        animation: milestone_1_dot linear both;
-        animation-range: cover calc(50vh - 1px) cover 50vh;
-        animation-timeline: view();
-      }
-      &__head,
-      &__photo {
-        animation: reveal_1 linear both;
-        animation-range: entry 0% entry 80%;
-        animation-timeline: view();
-      }
-    }
-  }
-}
-
-@keyframes milestone_1_line {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes milestone_1_dot {
-  to {
-    background: var(--color-text);
-  }
-}
-
 // 画面に入るとき、少し下から浮かび上がる（scroll-driven animations 用。名前は共通で使う）
 @keyframes reveal_1 {
   from {
@@ -1809,8 +1494,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .world_1
 使用箇所：お気に入りワールド
-内容：ワールドのカード（写真・名前・作者と対応機器・案内で行く理由・公式サイトへのリンク）。
-     まだ載せていないところは .is_placeholder で、点線の枠と「準備中」を出す
+内容：ワールドのカード（写真・名前・作者と対応機器・紹介文・公式サイトへのリンク）。写真は公式サムネイルと同じ 4:3
 */
 
 .world_1 {
@@ -1828,18 +1512,11 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 10px;
-    &.is_placeholder {
-      background: transparent;
-      border-style: dashed;
-    }
   }
 
   &__photo {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 16 / 9;
-    font-size: 3.2rem;
-    color: var(--color-text-muted);
+    display: block;
+    aspect-ratio: 4 / 3;
     background: var(--color-bg);
     img {
       display: block;
@@ -1847,25 +1524,12 @@ $font: "Zen Kaku Gothic Antique", $gothic;
       height: 100%;
       object-fit: cover;
     }
-    .is_placeholder & {
-      border-bottom: 1px dashed var(--color-line);
-    }
   }
 
   &__body {
     display: grid;
     gap: 4px;
     padding: var(--space-2);
-  }
-
-  &__badge {
-    justify-self: start;
-    padding: 2px 10px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-line);
-    border-radius: 100vw;
   }
 
   &__name {

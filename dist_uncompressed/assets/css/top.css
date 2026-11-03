@@ -683,241 +683,6 @@
     transform: translateY(12px);
   }
 }
-/*
-## .chart_1
-使用箇所：案内実績「月ごとの案内回数」
-内容：月ごとの棒グラフ（1系列なので凡例なし。いちばん多い月だけ数値を出し、ほかは触れると出る）。
-     同じ数値は下の表（table_2）でも読める。対応ブラウザでは、画面に入るとき棒が伸びる（scroll-driven animations）
-*/
-.chart_1 {
-  --bar: #2f6fb0;
-  overflow-x: clip;
-  margin-top: var(--space-3);
-}
-:root[data-theme=dark] .chart_1 {
-  --bar: #4a8ad0;
-}
-.chart_1__bars, .chart_1__axis {
-  display: grid;
-  grid-auto-columns: minmax(0, 1fr);
-  grid-auto-flow: column;
-  gap: 2px;
-}
-.chart_1__bars {
-  align-items: end;
-  height: 220px;
-  padding-top: 28px;
-  border-bottom: 1px solid var(--color-line);
-}
-.chart_1__bar {
-  position: relative;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-}
-.chart_1__bar:hover .chart_1__tip {
-  visibility: visible;
-}
-.chart_1__bar:hover .chart_1__fill {
-  filter: brightness(1.15);
-}
-.chart_1__fill {
-  display: block;
-  width: 100%;
-  max-width: 28px;
-  height: calc(var(--v) / var(--max) * 100%);
-  margin: 0 auto;
-  background: var(--bar);
-  border-radius: 4px 4px 0 0;
-  transform-origin: bottom;
-}
-.chart_1__value {
-  position: absolute;
-  bottom: calc(var(--v) / var(--max) * 100% + 4px);
-  left: 50%;
-  font-size: 1.3rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  transform: translateX(-50%);
-}
-.chart_1__tip {
-  position: absolute;
-  bottom: calc(var(--v) / var(--max) * 100% + 8px);
-  left: 50%;
-  z-index: 1;
-  padding: 4px 10px;
-  font-size: 1.3rem;
-  white-space: nowrap;
-  visibility: hidden;
-  color: var(--color-bg);
-  pointer-events: none;
-  background: var(--color-text);
-  border-radius: 4px;
-  transform: translateX(-50%);
-}
-.chart_1__tip strong {
-  font-weight: 700;
-}
-.chart_1__bar:nth-child(-n+3) .chart_1__tip {
-  left: 0;
-  transform: none;
-}
-.chart_1__bar:nth-last-child(-n+3) .chart_1__tip {
-  right: 0;
-  left: auto;
-  transform: none;
-}
-.chart_1__axis {
-  margin-top: 6px;
-  font-size: 1.2rem;
-  color: var(--color-text-muted);
-  font-variant-numeric: tabular-nums;
-}
-.chart_1__axis li {
-  overflow: visible;
-  white-space: nowrap;
-}
-.chart_1__year {
-  font-weight: 700;
-  color: var(--color-text);
-}
-.chart_1__details {
-  margin-top: var(--space-2);
-}
-.chart_1__details summary {
-  display: inline-block;
-  min-height: 44px;
-  line-height: 44px;
-  font-weight: 700;
-  color: var(--color-link);
-  cursor: pointer;
-}
-
-@supports (animation-timeline: view()) {
-}
-@keyframes chart_1_grow {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-/*
-## .table_2
-使用箇所：案内実績（グラフと同じ数値の表）
-*/
-.table_2 {
-  min-width: 16em;
-  margin-top: var(--space-1);
-  font-variant-numeric: tabular-nums;
-  border-collapse: collapse;
-}
-.table_2 th,
-.table_2 td {
-  padding: 6px 16px 6px 0;
-  text-align: left;
-  border-bottom: 1px solid var(--color-line);
-}
-.table_2 thead th {
-  font-size: 1.3rem;
-  color: var(--color-text-muted);
-}
-.table_2 tbody th {
-  font-weight: 400;
-}
-.table_2 td {
-  text-align: right;
-}
-
-/*
-## .milestone_1
-使用箇所：案内実績「節目」
-内容：1回目・50回ごと・最新の写真を、縦の線でつないだ年表。写真はトリミングしない。押すと viewer_1 で開く
-*/
-.milestone_1 {
-  position: relative;
-  display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
-  padding-left: 32px;
-}
-.milestone_1::before {
-  content: "";
-  position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 7px;
-  width: 2px;
-  background: var(--color-line);
-}
-.milestone_1__item {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 14em) minmax(0, 1fr);
-  gap: var(--space-1) var(--space-4);
-  align-items: start;
-}
-.milestone_1__item::before {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: -32px;
-  width: 12px;
-  height: 12px;
-  background: var(--color-bg);
-  border: 3px solid var(--color-text);
-  border-radius: 50%;
-}
-.milestone_1__head {
-  display: grid;
-  gap: 2px;
-  font-variant-numeric: tabular-nums;
-}
-.milestone_1__nth {
-  font-size: 2.6rem;
-  font-weight: 900;
-  line-height: 1.2;
-}
-.milestone_1__date {
-  font-size: 1.5rem;
-}
-.milestone_1__note {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
-}
-.milestone_1__photo {
-  display: block;
-  justify-self: start;
-  max-width: min(100%, 640px);
-  overflow: hidden;
-  border-radius: 6px;
-}
-.milestone_1__photo img {
-  display: block;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: 420px;
-  background: var(--color-surface);
-}
-
-@supports (animation-timeline: view()) {
-}
-@keyframes milestone_1_line {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-@keyframes milestone_1_dot {
-  to {
-    background: var(--color-text);
-  }
-}
 @keyframes reveal_1 {
   from {
     opacity: 0;
@@ -1423,8 +1188,7 @@
 /*
 ## .world_1
 使用箇所：お気に入りワールド
-内容：ワールドのカード（写真・名前・作者と対応機器・案内で行く理由・公式サイトへのリンク）。
-     まだ載せていないところは .is_placeholder で、点線の枠と「準備中」を出す
+内容：ワールドのカード（写真・名前・作者と対応機器・紹介文・公式サイトへのリンク）。写真は公式サムネイルと同じ 4:3
 */
 .world_1 {
   display: grid;
@@ -1438,16 +1202,9 @@
   border: 1px solid var(--color-line);
   border-radius: 10px;
 }
-.world_1__item.is_placeholder {
-  background: transparent;
-  border-style: dashed;
-}
 .world_1__photo {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16/9;
-  font-size: 3.2rem;
-  color: var(--color-text-muted);
+  display: block;
+  aspect-ratio: 4/3;
   background: var(--color-bg);
 }
 .world_1__photo img {
@@ -1457,22 +1214,10 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-.is_placeholder .world_1__photo {
-  border-bottom: 1px dashed var(--color-line);
-}
 .world_1__body {
   display: grid;
   gap: 4px;
   padding: var(--space-2);
-}
-.world_1__badge {
-  justify-self: start;
-  padding: 2px 10px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-line);
-  border-radius: 100vw;
 }
 .world_1__name {
   font-size: 1.8rem;
@@ -2282,12 +2027,6 @@
     bottom: 12px;
     transform: none;
   }
-  .chart_1__bars {
-    height: 160px;
-  }
-  .milestone_1__item {
-    grid-template-columns: 1fr;
-  }
   .list_14 {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -2373,44 +2112,12 @@
     --color-accent: #f2b35e;
     --color-line: #383e47;
   }
-  :root:not([data-theme=light]) .chart_1 {
-    --bar: #4a8ad0;
-  }
 }
 @media (prefers-reduced-motion: no-preference){
   @view-transition {
     navigation: auto;
     types: page;
   }
-    .chart_1__fill {
-      animation: chart_1_grow linear both;
-      animation-range: entry 0% cover 35%;
-      animation-timeline: view();
-    }
-    .milestone_1::after {
-      content: "";
-      position: absolute;
-      top: 8px;
-      bottom: 8px;
-      left: 7px;
-      width: 2px;
-      background: var(--color-text);
-      transform-origin: top;
-      animation: milestone_1_line linear both;
-      animation-range: cover 50vh cover calc(100% - 50vh);
-      animation-timeline: view();
-    }
-    .milestone_1__item::before {
-      z-index: 1;
-      animation: milestone_1_dot linear both;
-      animation-range: cover calc(50vh - 1px) cover 50vh;
-      animation-timeline: view();
-    }
-    .milestone_1__head, .milestone_1__photo {
-      animation: reveal_1 linear both;
-      animation-range: entry 0% entry 80%;
-      animation-timeline: view();
-    }
     .list_14__item {
       animation: reveal_1 linear both;
       animation-range: entry 0% entry 90%;

@@ -2,8 +2,8 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// 作品に共通する、よくある質問と更新履歴。答えは各説明書に書かれていることだけ（出典：src/<作品>/index.html、version.json）
-// 作品の名前と説明書へのリンクは src/assets/data/products.json から引く
+// 制作物に共通する、よくある質問と更新履歴。答えは各説明書に書かれていることだけ（出典：src/<制作物>/index.html、version.json）
+// 制作物の名前と説明書へのリンクは src/assets/data/products.json から引く
 const byDir = {};
 products.items.forEach((item) => { byDir[item.dir] = item; });
 const manualHref = (dir) => isEn && byDir[dir].hasEn ? `/${dir}/en/` : `/${dir}/`;
@@ -32,10 +32,10 @@ const l = isEn ? {
   thNotes: "What changed",
   products: "All products",
 } : {
-  title: "作品のよくある質問",
-  lead: "シェーダー・ギミック・ツールに共通する質問をまとめました。作品ごとの詳しいことは、それぞれの説明書を見てください。",
+  title: "制作物のよくある質問",
+  lead: "シェーダー・ギミック・ツールに共通する質問をまとめました。制作物ごとの詳しいことは、それぞれの説明書を見てください。",
   jump: "目次",
-  related: "関係する作品",
+  related: "関係する制作物",
   groups: [
     { id: "before", title: "買う前に" },
     { id: "setup", title: "入れるとき" },
@@ -47,20 +47,20 @@ const l = isEn ? {
   paramsLead: "アバターギミックを入れると増えるもの。各説明書に書かれている値です。",
   paramsTable: "同期パラメータとパフォーマンスランクの表（横に動かせます）",
   versionsTable: "最新版の表（横に動かせます）",
-  thProduct: "作品",
+  thProduct: "制作物",
   thParams: "同期パラメータ",
   thRank: "パフォーマンスランク",
   versionsTitle: "更新履歴",
-  versionsLead: "分かっている最新版です。ほかの作品は、説明書に版の番号が書かれていません。新しい版を出したら、ここに書き足します。",
+  versionsLead: "分かっている最新版です。ほかの制作物は、説明書に版の番号が書かれていません。新しい版を出したら、ここに書き足します。",
   thVersion: "最新版",
   thNotes: "変わったこと",
-  products: "作品一覧",
+  products: "制作物一覧",
 };
 const t = (ja, en) => isEn ? en : ja;
-// 質問と答え。products は関係する作品（説明書へのリンクを出す）
+// 質問と答え。products は関係する制作物（説明書へのリンクを出す）
 const faq = [
   { group: "before", q: t("Quest で使えますか？", "Do they work on Quest?"),
-    a: t("DeepFrostIce・SpiderWeb・餓者髑髏・Regret は PC 専用で、Quest では使えません（DeepFrostIce と SpiderWeb は画面の歪み〈GrabPass〉を、餓者髑髏は Final IK を使うため）。ほかの作品は、説明書の動作環境を見てください。",
+    a: t("DeepFrostIce・SpiderWeb・餓者髑髏・Regret は PC 専用で、Quest では使えません（DeepFrostIce と SpiderWeb は画面の歪み〈GrabPass〉を、餓者髑髏は Final IK を使うため）。ほかの制作物は、説明書の動作環境を見てください。",
          "DeepFrostIce, SpiderWeb, Gashadokuro and Regret are PC only and don't work on Quest (DeepFrostIce and SpiderWeb use screen distortion, GrabPass; Gashadokuro uses Final IK). For the others, check the requirements in each manual."),
     products: ["deepfrostice", "spiderweb", "gashadokuro", "regret"] },
   { group: "before", q: t("アバターや衣装は付いてきますか？", "Does it come with an avatar or outfit?"),

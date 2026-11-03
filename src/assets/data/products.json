@@ -1,5 +1,5 @@
 {
-  "_note": "作品の一覧。作品一覧（/products/）・トップの Products・よくある質問（/faq/）で使う。中身は各説明書に書かれていることだけ。kind は shader / gimmick / tool",
+  "_note": "制作物の一覧。制作物一覧（/products/）・トップの Products・よくある質問（/faq/）で使う。中身は各説明書に書かれていることだけ。kind は shader / gimmick / tool",
   "kinds": [
     { "key": "shader", "label": { "ja": "シェーダー・テクスチャ", "en": "Shaders & textures" } },
     { "key": "gimmick", "label": { "ja": "アバターギミック", "en": "Avatar gimmicks" } },
