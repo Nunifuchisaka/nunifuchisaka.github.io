@@ -1,0 +1,367 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説 第4回：アップロードのしかた
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const article = avatarTips.articles.find((a) => a.slug === "upload");
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const links = {
+  setup: `${prefix}/avatar-tips/setup/`,
+  unityVsVrchat: `${prefix}/avatar-tips/unity-vs-vrchat/`,
+  performance: `${prefix}/avatar-tips/performance/`,
+  firstAvatar: "https://creators.vrchat.com/avatars/creating-your-first-avatar/",
+};
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "アップロードのしかた",
+  lead: "買ったアバターを Unity に入れて、VRChat にアップロードするまでの流れです。シェーダーを入れる順番、VRChat SDK の Builder の見方、更新するときの注意、よくあるつまずきを、再現図つきで解説します。",
+  meta: "対象は VRChat SDK 3（Avatars）です。2026年11月時点の内容で、SDK が新しくなると画面が変わることがあります。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "アバターを買ったけれど、どうやって VRChat で使えばいいか分からない。",
+    "Builder の画面に赤や黄色のメッセージが出て、何をすればいいか分からない。",
+    "改変したアバターをアップロードし直したい。別のアバターとして分けたい。",
+    "アップロードしたのに、VRChat で見つからない。",
+  ],
+  flowTitle: "アップロードまでの流れ",
+  flowLead: `Unity と VCC（か ALCOM）を入れて、アバター用のプロジェクトを作ってあるところから始めます。まだのときは、<a href="${links.setup}">第3回 VCC・ALCOM・Unity の入れ方</a>を先に読んでください。`,
+  route: [
+    { head: "シェーダーやツールを入れる", note: "lilToon など。アバターより先に" },
+    { head: "アバターを入れる", note: ".unitypackage を読み込む" },
+    { head: "シーンに置く", note: "Prefab を Hierarchy へ" },
+    { head: "SDK でログイン", note: "VRChat のアカウント" },
+    { head: "Builder で確かめる", note: "エラーを直して公開" },
+    { head: "VRChat で確かめる", note: "アバターの一覧から着る" },
+  ],
+  needTitle: "アップロードに要るもの",
+  need: [
+    { head: "VRChat のアカウント", body: "VRChat のサイトで作ったアカウントでログインします。Steam や Meta のアカウントで遊んでいるときは、先に VRChat のアカウントとつないでおきます。" },
+    { head: "ランク「New User」以上", body: "アップロードできるのは、ランク（Trust Rank）が「New User」以上のアカウントです。「Visitor」のあいだは、自分だけが見られるテスト（Build &amp; Test）しかできません。アップロードできるようになると、メールで知らせが届きます。" },
+    { head: "アバターの利用規約", body: "アバターや衣装ごとに、使ってよい範囲が決まっています。とくに「公開（Public）にしてよいか」は、配布ページや同梱の規約で確かめます。" },
+  ],
+  importTitle: "シェーダーとアバターを入れる",
+  importLead: "アバターの説明書（README）に、先に入れるもの（シェーダーやツール）と、その順番が書いてあります。まずそれを読みます。",
+  importSteps: [
+    "説明書に書いてあるシェーダー（lilToon、Poiyomi など）やツール（Modular Avatar など）を、<strong>アバターより先に</strong>入れます。VCC や ALCOM で入れられるものは、プロジェクトの管理画面から入れます。.unitypackage で配られているものは、次の手順と同じように読み込みます。",
+    "アバターの .unitypackage を、Unity の Project ウィンドウにドラッグします。<code>Assets → Import Package → Custom Package...</code> から選んでも同じです。",
+    "Import Unity Package の画面が出たら、そのまま「Import」を押します。",
+    "読み込みが終わったら、Console ウィンドウに赤いエラーが出ていないかを見ます。",
+  ],
+  importNote: "先にアバターを入れてしまうと、シェーダーが無いため、アバターがピンク色になります。あとからシェーダーを入れれば、多くは直ります。",
+  placeTitle: "シーンに置く",
+  placeSteps: [
+    "Project ウィンドウで、アバターのフォルダを開きます。アバターの名前の Prefab（青い箱のアイコン）を探します。",
+    "Prefab を Hierarchy にドラッグして、シーンに置きます。アバターによっては、すぐ使えるシーンが入っていて、それを開くだけのものもあります。",
+    "Hierarchy でアバターを選び、Inspector に「VRC Avatar Descriptor」があるかを見ます。売られているアバターは、ほとんど設定済みです。",
+    "シーンに置くアバターは、アップロードするものだけにしておくと迷いません。いらないものは、選んで左上の印を外すと、隠せます。",
+  ],
+  loginTitle: "VRChat SDK でログインする",
+  loginSteps: [
+    "上のメニューの <code>VRChat SDK → Show Control Panel</code> を押します。VRChat SDK の画面が開きます。",
+    "「Authentication」のタブで、VRChat のアカウントのユーザー名（かメールアドレス）とパスワードを入れて、ログインします。二段階認証を使っているときは、コードも入れます。",
+    "「Builder」のタブを開くと、シーンに置いたアバターが出ます。",
+  ],
+  builderTitle: "Builder で確かめて、アップロードする",
+  builderLead: "Builder のタブには、アバターの名前や公開の設定、確かめた結果（Validations）、アップロードのボタンが並んでいます。",
+  builderMock: {
+    variant: "unity",
+    caption: "再現図：VRChat SDK の Builder のタブ。並びや見た目は簡単にしています",
+    screens: [{
+      bar: "VRChat SDK › Builder",
+      tabs: ["Authentication", "Builder", "Content Manager", "Settings"],
+      activeTab: 1,
+      label: "VRChat SDK の Builder の再現図。1 Name、2 Visibility（Private と Public）、3 Content Warnings、4 Thumbnail、5 Platforms（Windows、Android、iOS）、6 権利を確かめる印、7 Build and Publish のボタン",
+      rows: [
+        { mark: 1, label: "Name", type: "value", text: "MyAvatar" },
+        { mark: 2, label: "Visibility", type: "seg", options: ["Private", "Public"], active: 0, hot: true },
+        { mark: 3, label: "Content Warnings", type: "select", text: "None" },
+        { mark: 4, label: "Thumbnail", type: "button", text: "Capture" },
+        { mark: 5, label: "Platforms", type: "seg", options: ["Windows", "Android", "iOS"], active: 0 },
+        { mark: 6, type: "check", on: true, text: "I have the rights to upload this content" },
+        { mark: 7, type: "button", text: "Build and Publish", hot: true },
+      ],
+    }],
+    notes: [
+      "VRChat のアバターの一覧に出る名前です。あとから変えられます。",
+      "<strong>Private</strong> は自分だけが使えます。<strong>Public</strong> にすると、ワールドの展示などから、ほかの人もそのアバターに着替えられます。売られているアバターは、規約で Public を禁止していることが多いので、ふだんは Private にします。",
+      "肌の出るところが多い、怖い表現があるなど、当てはまる注意の種類を選びます。見る人が、設定で隠せるようになります。",
+      "一覧に出る画像です。シーンの今の見た目を撮るか、画像のファイルを選びます。",
+      "どの機器向けに作るかです。パソコン版だけなら Windows です。Quest やスマホでも見えるようにするには、その機器向けにも作ります（作れる条件があります）。",
+      "書いた情報が正しく、アップロードする権利を持っていることを確かめる印です。付けないとアップロードできません。",
+      "押すとビルドが始まり、終わると VRChat に送られます。下の Validations に赤いエラーがあると押せません。",
+    ],
+  },
+  builderSteps: [
+    "名前を入れ、Visibility を選びます。迷ったら Private にします。",
+    "当てはまる Content Warnings を選び、Thumbnail（サムネイル）を撮ります。",
+    "下の Validations に出ているメッセージを、上から見ていきます（次の図）。",
+    "作る機器（Platforms）を選び、権利を確かめる印を付けて、「Build and Publish」を押します。",
+    "ビルドとアップロードが終わるのを待ちます。アバターが大きいと、数分かかります。",
+  ],
+  testNote: "アップロードの前に試したいときは、「Build &amp; Test」を使います。自分だけが着られるテスト用のアバターとして、VRChat のアバターの一覧に出ます。ランクが「Visitor」でも使えます。",
+  validTitle: "Validations（確かめた結果）の見方",
+  valid: [
+    "Builder の下には、SDK がアバターを確かめた結果が並びます。メッセージには3つの種類があります。",
+  ],
+  validTableLabel: "Validations のメッセージの種類",
+  validHead: ["色", "意味", "どうするか"],
+  validRows: [
+    ["赤（エラー）", "このままではアップロードできない問題", "直さないと「Build and Publish」が押せません。かならず直します。"],
+    ["黄（警告）", "アップロードはできるが、気をつけたいこと", "多くは、そのままでもアップロードできます。中身を読んで、直せるものは直します。"],
+    ["青・白（お知らせ）", "パフォーマンスランクなどの情報", "読むだけで大丈夫です。"],
+  ],
+  validMock: {
+    variant: "unity",
+    caption: "再現図：Builder の Validations。メッセージは例で、実際の画面では英語で出ます",
+    screens: [{
+      bar: "VRChat SDK › Builder › Validations",
+      label: "Validations の再現図。1 赤いエラーと Auto Fix のボタン、2 黄色い警告と Select のボタン、3 パフォーマンスランクのお知らせ",
+      rows: [
+        { type: "head", text: "Validations" },
+        { mark: 1, label: "✕ エラー：直さないとアップロードできない", type: "button", text: "Auto Fix", hot: true },
+        { mark: 2, label: "! 警告：ポリゴンが多い", type: "button", text: "Select" },
+        { mark: 3, label: "i お知らせ：パフォーマンスランク", type: "value", text: "Poor" },
+      ],
+    }],
+    notes: [
+      "「Auto Fix」のボタンがあるものは、押すと SDK が直してくれます。押す前に、何が変わるかをメッセージで読んでおきます。",
+      "「Select」を押すと、原因になっている物が Hierarchy で選ばれます。どこを直せばいいかが分かります。",
+      `アバターの重さの目安です。ランクが低いと、見る人の設定によっては、ほかの人から見えないことがあります。詳しくは<a href="${links.performance}">第6回 パフォーマンスランクと軽量化</a>で解説しています。`,
+    ],
+  },
+  updateTitle: "更新するとき・別のアバターとして分けるとき",
+  update: [
+    "一度アップロードすると、アバターの一番上の物に「Pipeline Manager」というコンポーネントが付き、<strong>Blueprint ID</strong>（<code>avtr_</code> で始まる番号）が書き込まれます。この番号が、VRChat の上のどのアバターかを表します。",
+    "同じ Blueprint ID のままアップロードすると、<strong>前のアバターが上書き</strong>されます。改変を直して入れ直すときは、このままで大丈夫です。",
+    "改変したものを<strong>別のアバターとして</strong>残したいときは、Pipeline Manager の「Detach」を押して番号を外してから、アップロードします。新しい番号が付きます。",
+  ],
+  pipelineMock: {
+    variant: "unity",
+    caption: "再現図：Inspector の Pipeline Manager。番号は例です",
+    screens: [{
+      bar: "Inspector › MyAvatar（Pipeline Manager）",
+      label: "Pipeline Manager の再現図。1 Blueprint ID、2 Detach のボタン、3 Attach のボタン",
+      rows: [
+        { mark: 1, label: "Blueprint ID", type: "value", text: "avtr_1a2b3c4d-…", hot: true },
+        { mark: 2, type: "button", text: "Detach (Optional)" },
+        { mark: 3, type: "button", text: "Attach (Optional)" },
+      ],
+    }],
+    notes: [
+      "VRChat の上のどのアバターに入れるかを表す番号です。この番号のアバターが上書きされます。",
+      "番号を外します。このあとアップロードすると、新しいアバターとして入ります。",
+      "番号を新しく作ったり、決まった番号に入れ直したりするときに使います。ふだんは使いません。",
+    ],
+  },
+  updateCare: "アバターを Hierarchy で複製（Ctrl + D）すると、Blueprint ID もいっしょに写ります。そのままアップロードすると、もとのアバターが上書きされます。複製したほうは、先に Detach しておきます。",
+  checkTitle: "VRChat で確かめる",
+  checkSteps: [
+    "VRChat を開き、メニューのアバターの一覧から、自分がアップロードしたアバターの欄を開きます。",
+    "アップロードしたアバターを選び、着替えます。出ないときは、一覧を読み込み直すか、VRChat を開き直します。",
+    "鏡の前で、表情、ハンドサイン、揺れもの、メニューで動くものを一通り試します。",
+    "ほかの人からどう見えるかも、ランクやセーフティの設定で変わります。気になるときは、フレンドに見てもらいます。",
+  ],
+  checkNote: "Unity の VRChat SDK の「Content Manager」のタブでも、アップロードしたアバターの一覧を見られます。",
+  casesTitle: "よくある困りごと",
+  caseLabels: { symptom: "起きること", fix: "直し方" },
+  cases: [
+    { title: "VRChat SDK のメニューや Builder が出ない",
+      symptom: "上のメニューに VRChat SDK が無い。Control Panel を開いても Builder が出ない。",
+      fix: "Console に赤いエラー（コンパイルエラー）が出ていないかを見ます。入れたツールのエラーで、SDK が動かないことがあります。Unity のバージョンが VRChat の決めたものかも確かめます。" },
+    { title: "アップロードできない（ランク）",
+      symptom: "ログインはできたのに、アップロードできないと出る。",
+      fix: "アカウントのランクが「New User」以上かを確かめます。「Visitor」のあいだは、Build &amp; Test で自分だけ試せます。ランクは、VRChat で遊ぶうちに上がります。" },
+    { title: "「Build and Publish」が押せない",
+      symptom: "ボタンが灰色で押せない。",
+      fix: "Validations に赤いエラーが無いか、権利を確かめる印を付けたかを見ます。押しても何も起きないときは、Unity を開き直します。" },
+    { title: "アバターがピンク色になる",
+      symptom: "Unity や VRChat で、アバターや服がピンク一色になる。",
+      fix: "使っているシェーダーが入っていません。説明書にあるシェーダーを入れます。入れても直らないときは、マテリアルを選んで、シェーダーを選び直します。" },
+    { title: "別のアバターが上書きされた",
+      symptom: "新しいアバターをアップロードしたら、前のアバターが入れ替わった。",
+      fix: "複製などで、同じ Blueprint ID のままアップロードしています。Pipeline Manager で Detach して、アップロードし直します。上書きされたほうは、もとのプロジェクトからもう一度アップロードします。" },
+    { title: "アップロードしたのに見つからない",
+      symptom: "アップロードが終わったのに、VRChat のアバターの一覧に出ない。",
+      fix: "SDK でログインしたアカウントと、VRChat で遊んでいるアカウントが同じかを確かめます。SDK の Content Manager に出ているか、Console にエラーが出ていないかも見ます。SDK が古いときは、VCC や ALCOM で新しくします。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "アバターや衣装の利用規約を守ります。Public にしてよいか、改変してよい範囲、ほかの人に配ってよいかは、モデルごとに違います。",
+    "Public のアバターは、ワールドの展示などから、ほかの人も着られるようになります。自分だけで使うものは Private にします。",
+    "Fallback（代わりの姿）は、ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿です。VRChat のアバターの一覧から設定できます。軽いアバターでないと設定できません。",
+    "大きく改変する前に、プロジェクトのバックアップを取っておくと安心です。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "シェーダーやツールを先に入れ、そのあとアバターの .unitypackage を入れます。",
+    "VRChat SDK でログインし、Builder の Validations の赤いエラーを直してから、Build and Publish を押します。",
+    "迷ったら Private にします。利用規約を確かめてから Public にします。",
+    "同じ Blueprint ID のままだと上書きになります。別のアバターにするときは Detach します。",
+  ],
+  sourceNote: `VRChat の公式の手順は、${ext(links.firstAvatar, "Creating Your First Avatar（英語）")}にあります。`,
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "flow", title: l.flowTitle },
+  { id: "need", title: l.needTitle },
+  { id: "import", title: l.importTitle },
+  { id: "place", title: l.placeTitle },
+  { id: "login", title: l.loginTitle },
+  { id: "builder", title: l.builderTitle },
+  { id: "validations", title: l.validTitle },
+  { id: "update", title: l.updateTitle },
+  { id: "check", title: l.checkTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="flow" aria-labelledby="flow-heading">
+    <h2 class="section_2__h1" id="flow-heading"><%= l.flowTitle %></h2>
+    <p class="article_1__p"><%- l.flowLead %></p>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="need" aria-labelledby="need-heading">
+    <h2 class="section_2__h1" id="need-heading"><%= l.needTitle %></h2>
+    <dl class="examples_1 examples_1--grid">
+      <% l.need.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="import" aria-labelledby="import-heading">
+    <h2 class="section_2__h1" id="import-heading"><%= l.importTitle %></h2>
+    <p class="article_1__p"><%= l.importLead %></p>
+    <ol class="steps_1">
+      <% l.importSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%= l.importNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="place" aria-labelledby="place-heading">
+    <h2 class="section_2__h1" id="place-heading"><%= l.placeTitle %></h2>
+    <ol class="steps_1">
+      <% l.placeSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="login" aria-labelledby="login-heading">
+    <h2 class="section_2__h1" id="login-heading"><%= l.loginTitle %></h2>
+    <ol class="steps_1">
+      <% l.loginSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="builder" aria-labelledby="builder-heading">
+    <h2 class="section_2__h1" id="builder-heading"><%= l.builderTitle %></h2>
+    <p class="article_1__p"><%= l.builderLead %></p>
+    <%- include("_mock", { mock: l.builderMock }) %>
+    <ol class="steps_1">
+      <% l.builderSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%- l.testNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="validations" aria-labelledby="validations-heading">
+    <h2 class="section_2__h1" id="validations-heading"><%= l.validTitle %></h2>
+    <% l.valid.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.validTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.validHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.validRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <%- include("_mock", { mock: l.validMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="update" aria-labelledby="update-heading">
+    <h2 class="section_2__h1" id="update-heading"><%= l.updateTitle %></h2>
+    <% l.update.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.pipelineMock }) %>
+    <p class="article_1__p"><%= l.updateCare %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="check" aria-labelledby="check-heading">
+    <h2 class="section_2__h1" id="check-heading"><%= l.checkTitle %></h2>
+    <ol class="steps_1">
+      <% l.checkSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%= l.checkNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%- c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%- c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="article_1__p"><%- l.sourceNote %></p>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>
