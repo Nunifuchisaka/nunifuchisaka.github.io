@@ -5,6 +5,7 @@
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
 色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
 灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+氷（--color-ice）はキービジュアルのアイコンを巡る光にだけ使う（「氷属性」の演出。ライトでは少し濃い水色）。
 */
 :root {
   color-scheme: light;
@@ -15,6 +16,7 @@
   --color-link: #1e5a80;
   --color-accent: #9a5a0e;
   --color-line: #cfd3d7;
+  --color-ice: #7fb0cf;
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -31,6 +33,7 @@
   --color-link: #9ccbe6;
   --color-accent: #f2b35e;
   --color-line: #383e47;
+  --color-ice: #d6ecf8;
 }
 
 /*
@@ -154,11 +157,37 @@
 使用箇所：トップページの最初の画面
 内容：もとのヘッダー（X のバナー・アイコン・名前・紹介文）を整えたもの。
      アイコンはバナーの下端に半分かけ、名前と紹介文はその右（スマホでは下）に置く
+演出：JS を使わず、新しい CSS だけで「氷の光」を付ける。どれも対応していないブラウザでは何も起きず、
+     「視差効果を減らす」設定では止まる（光の輪だけは止まった状態で残る）。
+     1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
+     2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
+     3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
 */
+@property --profile-glint {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes profile_2-glint {
+  to {
+    --profile-glint: 360deg;
+  }
+}
+@keyframes profile_2-sink {
+  to {
+    scale: 1.12;
+    translate: 0 16%;
+    opacity: 0.4;
+  }
+}
 .profile_2 {
   max-width: var(--width-page);
   margin: 0 auto;
   padding: 0 var(--space-4);
+}
+.profile_2__banner {
+  overflow: clip;
+  border-radius: 8px;
 }
 .profile_2__banner img {
   display: block;
@@ -177,9 +206,21 @@
   padding: 0 var(--space-3);
 }
 .profile_2__icon {
+  position: relative;
+  align-self: start;
   margin-top: -88px;
 }
+.profile_2__icon::before {
+  position: absolute;
+  inset: -3px -3px auto;
+  aspect-ratio: 1;
+  content: "";
+  background: conic-gradient(from var(--profile-glint), transparent 0deg 200deg, var(--color-ice) 290deg, transparent 350deg 360deg);
+  border-radius: 50%;
+  animation: profile_2-glint 14s linear infinite;
+}
 .profile_2__icon img {
+  position: relative;
   display: block;
   box-sizing: border-box;
   width: 100%;
@@ -211,7 +252,6 @@
   font-size: 1.6rem;
   line-height: 1.9;
 }
-
 /*
 ## .page_1
 使用箇所：トップページ以外の新デザインのページ（cluster）
@@ -2537,6 +2577,9 @@
   .profile_2 {
     padding: 0;
   }
+  .profile_2__banner {
+    border-radius: 0;
+  }
   .profile_2__banner img {
     border-radius: 0;
   }
@@ -2547,6 +2590,9 @@
   .profile_2__icon {
     width: 112px;
     margin-top: -56px;
+  }
+  .profile_2__icon::before {
+    inset: -2px;
   }
   .profile_2__icon img {
     border-width: 4px;
@@ -2720,9 +2766,43 @@
     --color-link: #9ccbe6;
     --color-accent: #f2b35e;
     --color-line: #383e47;
+    --color-ice: #d6ecf8;
   }
 }
 @media (prefers-reduced-motion: no-preference){
+  .profile_2__banner, .profile_2__icon, .profile_2__name, .profile_2__reading, .profile_2__lead {
+    transition: opacity 0.9s ease-out, translate 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @starting-style {
+    .profile_2__banner, .profile_2__icon, .profile_2__name, .profile_2__reading, .profile_2__lead {
+      opacity: 0;
+      translate: 0 12px;
+    }
+  }
+  @starting-style {
+    .profile_2__banner {
+      translate: 0;
+    }
+  }
+  .profile_2__icon {
+    transition-delay: 0.15s;
+  }
+  .profile_2__name {
+    transition-delay: 0.3s;
+  }
+  .profile_2__reading {
+    transition-delay: 0.4s;
+  }
+  .profile_2__lead {
+    transition-delay: 0.5s;
+  }
+  @supports (animation-timeline: view()) {
+    .profile_2__banner img {
+      animation: profile_2-sink linear both;
+      animation-timeline: view(block);
+      animation-range: exit;
+    }
+  }
   @view-transition {
     navigation: auto;
     types: page;
@@ -2747,6 +2827,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce){
+  .profile_2__icon::before {
+    animation: none;
+  }
   @view-transition {
     navigation: none;
   }
