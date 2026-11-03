@@ -1,0 +1,412 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説 第5回：衣装を着せる（Modular Avatar の Setup Outfit と、体の縮小・メニューでのオンオフ）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const article = avatarTips.articles.find((a) => a.slug === "outfit");
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+const maDocs = "https://modular-avatar.nadena.dev/ja/docs/intro";
+
+// 動く図の絵。s は体の縮小（Shrink）の値（0〜100）。0 で体がいちばん太く、100 で細くなる
+// 服の幅（半分）は 46。体の幅（半分）は 52 から 38 まで変わり、46 を超えると服から突き抜ける
+const bodyRx = (s) => (52 - 14 * (s / 100)).toFixed(2);
+const figure = (s, wear) => `<svg class="demo_2__svg" viewBox="0 0 200 150" aria-hidden="true" focusable="false">`
+  + `<circle cx="100" cy="26" r="16" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<ellipse class="js_outfit_body" cx="100" cy="92" rx="${bodyRx(s)}" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + (wear ? `<rect x="54" y="46" width="92" height="94" rx="18" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/>`
+    + `<path d="M84 46 L100 64 L116 46" fill="none" stroke="#34508f" stroke-width="2"/>` : "")
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "衣装を着せる",
+  lead: "買った衣装をアバターに着せる手順を解説します。いまは Modular Avatar（モジュラーアバター）を使うと、ほとんどの衣装が数クリックで着せられます。体が服から突き抜けるときの直し方や、メニューで服をオンオフする方法も、再現図と動かして確かめられる図つきで説明します。",
+  meta: "対象は VRChat のアバター（Avatars 3.0）と Modular Avatar です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "BOOTH などで買った衣装を、自分のアバターに着せたい。",
+    "衣装を着せたのに、動くと服がついてこない。体が服から突き抜ける。",
+    "服をメニューで着たり脱いだりできるようにしたい。",
+  ],
+  beforeTitle: "着せる前に確かめること",
+  beforeLead: "衣装には、どのアバター向けに作られたかが決まっています。説明書や販売ページで確かめてください。",
+  before: [
+    { head: "対応アバター", body: "販売ページに「対応アバター」として名前があれば、そのアバターに合わせて作られています。このページの手順で、ほぼそのまま着せられます。" },
+    { head: "非対応のアバター", body: "名前が無いアバターにも着せられることはありますが、大きさや形を自分で合わせる必要があります。難しいので、はじめは対応アバターの衣装から試してください。" },
+    { head: "必要なシェーダー", body: "多くの衣装は lilToon などのシェーダーを使います。説明書に書かれたシェーダーを、先にプロジェクトに入れておきます。" },
+    { head: "利用規約", body: "改変してよい範囲や、アップロードの条件は衣装ごとに違います。使う前に読んでおきます。" },
+  ],
+  whyTitle: "Modular Avatar を使う理由",
+  why: [
+    "昔は、衣装のボーン（骨）をアバターのボーンの中に1本ずつ入れ直して着せていました。手間がかかるうえ、まちがえると元に戻すのが大変で、アバターや衣装を更新するとやり直しになりました。",
+    "Modular Avatar は、<strong>アップロードするときや Unity で再生したときだけ</strong>、衣装のボーンをアバターのボーンに自動でまとめます（Merge Armature）。編集中のアバターや衣装はそのままなので、こわしません。衣装を外したいときは、Hierarchy から衣装を消すだけです。",
+  ],
+  route: [
+    { head: "衣装をアバターの中に置く", note: "Hierarchy でドラッグ" },
+    { head: "Setup Outfit", note: "Merge Armature が付く" },
+    { head: "再生・アップロード", note: "ボーンが自動でまとまる" },
+    { head: "体に沿って動く", note: "元のデータはそのまま" },
+  ],
+  installTitle: "Modular Avatar を入れる",
+  installLead: `Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="${prefix}/avatar-tips/setup/">第3回</a>で解説しています。`,
+  install: [
+    `${ext(maDocs, "Modular Avatar の公式サイト")}の「インストール」で、VCC なら「Modular AvatarをVCCに追加」を押します。ALCOM なら「VPMリポジトリを追加」に <code>https://vpm.nadena.dev/vpm.json</code> を入れます。`,
+    "VCC は「Manage Project」、ALCOM は「管理」でプロジェクトを開き、Modular Avatar の + を押して入れます。",
+  ],
+  stepsTitle: "衣装を着せる手順",
+  steps: [
+    "衣装の unitypackage を、Unity の Project ウィンドウにドラッグして、「Import」を押します。",
+    "衣装のフォルダから、アバター名の付いたプレハブ（Prefab）を探します。対応アバターごとにプレハブが分かれていることが多いです。",
+    "そのプレハブを、Hierarchy のアバター（VRC Avatar Descriptor が付いたもの）の上にドラッグして、アバターの子にします。",
+    "衣装を右クリックして、<code>[ModularAvatar] Setup Outfit</code> を選びます。",
+    "元から着ていた服をオフにします（Inspector の左上のチェックを外します）。",
+    "Unity の再生ボタンを押して、アバターを動かしても服がついてくるかを確かめます。",
+  ],
+  hierarchyMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Hierarchy と、衣装を右クリックしたメニュー。名前は例です",
+    screens: [
+      {
+        bar: "Hierarchy",
+        label: "Hierarchy の再現図。アバター Avatar_A の子に、Armature、Body、元の服 Default_Outfit、1 新しい衣装 Dress_for_Avatar_A がある",
+        rows: [
+          { label: "▼ Avatar_A", type: "text" },
+          { label: "　▶ Armature", type: "text" },
+          { label: "　Body", type: "text" },
+          { label: "　Default_Outfit", type: "text" },
+          { mark: 1, label: "　▶ Dress_for_Avatar_A", type: "text", hot: true },
+        ],
+      },
+      {
+        bar: "右クリックのメニュー",
+        label: "衣装を右クリックしたメニューの再現図。2 [ModularAvatar] Setup Outfit がある",
+        rows: [
+          { label: "Copy", type: "text" },
+          { label: "Paste", type: "text" },
+          { label: "Rename", type: "text" },
+          { label: "Duplicate", type: "text" },
+          { mark: 2, label: "[ModularAvatar] Setup Outfit", type: "text", hot: true },
+        ],
+      },
+    ],
+    notes: [
+      "衣装のプレハブを、アバターのすぐ下（子）に置きます。アバターの外や、Armature の中に置かないでください。",
+      "衣装を右クリックして選びます。衣装の中の Armature を見つけて、Merge Armature を付けてくれます。",
+    ],
+  },
+  mergeTitle: "Setup Outfit がしていること",
+  merge: [
+    "Setup Outfit を選ぶと、衣装の中の Armature に <strong>MA Merge Armature</strong> が付き、衣装のいちばん上に <strong>MA Outfit Root</strong> が付きます。",
+    "Merge Armature は、衣装のボーンを名前で探して、アバターの同じ名前のボーンにまとめます。アバターに無いボーン（スカートの骨など）は、アバターのボーンの子として足されます。衣装の揺れもの（PhysBone）も、まとめた先のボーンを動かすように直されます。",
+    "まとめるのは、再生したときとアップロードするときだけです。再生をやめると、Hierarchy は元の形に戻ります。",
+  ],
+  mergeMock: {
+    variant: "unity",
+    caption: "再現図：衣装の Armature に付いた MA Merge Armature（Modular Avatar の表示を日本語にしたとき）。並びは簡単にしています",
+    screens: [{
+      bar: "Inspector › Armature（Dress_for_Avatar_A の中）",
+      label: "MA Merge Armature の再現図。1 統合先 Armature、前置詞と後置詞、2 位置追従モード アバターからターゲットへ一方向、3 名前かぶりを回避 にチェック",
+      rows: [
+        { type: "head", text: "▼ MA Merge Armature" },
+        { mark: 1, label: "統合先", type: "select", text: "Armature (Transform)", hot: true },
+        { label: "前置詞", type: "value", text: "" },
+        { label: "後置詞", type: "value", text: "" },
+        { mark: 2, label: "位置追従モード", type: "select", text: "アバター =====&gt; ターゲット（一方向）" },
+        { mark: 3, type: "check", on: true, text: "名前かぶりを回避" },
+      ],
+    }],
+    notes: [
+      "衣装のボーンをまとめる先です。アバターの Armature が入ります。Setup Outfit が自動で入れるので、ふつうは変えません。",
+      "編集中に、アバターのポーズに合わせて衣装も動かす設定です。Setup Outfit では、この一方向の設定になります。",
+      "アバターに無いボーンの名前を変えて、ほかのアイテムのボーンとぶつからないようにします。",
+    ],
+  },
+  shrinkTitle: "体が服から突き抜けるとき",
+  shrink: [
+    "体の形が服より大きいと、動いたときに肌が服から突き抜けます。多くのアバターには、服の下の体を縮めたり消したりする BlendShape（シェイプキー）があります。名前は <code>Shrink_〜</code> や <code>Hide_〜</code> などで、アバターの説明書に書かれています。",
+    "Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href=\"" + prefix + "/avatar-tips/unity-vs-vrchat/\">第2回</a>）。",
+    "おすすめは、衣装の中に <strong>MA Shape Changer</strong> を付ける方法です。衣装がオンのときだけ、体の BlendShape を決めた値にします。衣装をオフにすると、体は元に戻ります。Delete にすると、服の下の体のポリゴンを消して、軽くすることもできます。",
+  ],
+  shapeMock: {
+    variant: "unity",
+    caption: "再現図：衣装の中に付けた MA Shape Changer。BlendShape の名前は例です",
+    screens: [{
+      bar: "Inspector › Dress（Dress_for_Avatar_A の中）",
+      label: "MA Shape Changer の再現図。1 Target Renderer は Body、2 Shrink_Chest を Set で 100、3 Hide_Belly を Delete",
+      rows: [
+        { type: "head", text: "▼ MA Shape Changer" },
+        { mark: 1, label: "Target Renderer", type: "select", text: "Body (Skinned Mesh Renderer)", hot: true },
+        { mark: 2, label: "Shrink_Chest", type: "seg", options: ["Set", "Delete"], active: 0 },
+        { label: "値", type: "slider", value: 100, text: "100" },
+        { mark: 3, label: "Hide_Belly", type: "seg", options: ["Set", "Delete"], active: 1 },
+      ],
+    }],
+    notes: [
+      "縮めたい体のメッシュ（ふつうは Body）を入れます。",
+      "Set は、衣装がオンのときに、この値にします。縮める BlendShape に使います。",
+      "Delete は、衣装がオンのときに、この BlendShape がかかる部分を消します。服で完全に隠れる部分に使います。",
+    ],
+  },
+  demoTitle: "動かして確かめる",
+  demoLead: "体の縮小の値と縮め方を変えて、服を着たとき、脱いだときの見た目を比べてみてください。FX の Animator はこの BlendShape を書いていないものとします。",
+  demo: {
+    wear: "服を着ているとき",
+    nude: "服を脱いだとき",
+    slider: "体の縮小（Shrink）",
+    mode: "縮め方",
+    modes: [
+      { value: "unity", text: "Body の BlendShape に値を入れる" },
+      { value: "changer", text: "衣装に MA Shape Changer を付ける" },
+    ],
+    whyUnity: "Body に入れた値は、服を着ていても脱いでいても同じです。",
+    whyChanger: "Shape Changer は、衣装がオンのときだけ値を入れます。脱ぐと 0 に戻ります。",
+    poke: "服を着ているとき：体が服から突き抜けています。値を上げてください。",
+    fit: "服を着ているとき：体が服の中に収まっています。",
+    stay: "服を脱いだとき：体が縮んだまま（{v}）です。",
+    back: "服を脱いだとき：体が元の形に戻ります。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  menuTitle: "メニューで服を着たり脱いだりする",
+  menuLead: "Modular Avatar を使うと、Animator を自分で作らなくても、Expressions Menu（Action Menu）に服のオンオフを足せます。",
+  menu: [
+    "Hierarchy でアバターを右クリックして、<code>Modular Avatar → Create Toggle</code> を選びます。アバターの子に、Menu Item、Menu Installer、Object Toggle が付いたオブジェクトができます。",
+    "オブジェクトの名前を、メニューに出したい名前（たとえば「ドレス」）にします。この名前がメニューの項目名になります。",
+    "Object Toggle の + を押して、衣装のオブジェクトをドラッグします。右のチェックを入れると「選んだときにオン」、外すと「選んだときにオフ」です。",
+    "最初から着ている服なら、Menu Item で「初期設定にする」を押して、はじめはオンにしておきます。",
+    "衣装の中の Shape Changer は、衣装のオンオフに合わせて動きます。脱ぐと、体が元に戻ります。",
+  ],
+  testTitle: "再生して確かめる",
+  test: [
+    "Unity の再生ボタンを押すと、Modular Avatar が衣装をまとめた状態になります。Scene でアバターのポーズを動かして、服がついてくるか、突き抜けないかを見ます。",
+    "Gesture Manager を入れておくと、再生中に Expressions Menu を開いて、服のオンオフも試せます。",
+    "大丈夫なら、アップロードして VRChat でも確かめます。鏡の前で、しゃがむ、腕を上げるなど、大きく動いてみてください。",
+  ],
+  casesTitle: "よくある困りごと",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "服がついてこない",
+      symptom: "再生したり VRChat で動いたりすると、服がその場に残る。",
+      cause: "Setup Outfit をしていないか、衣装がアバターの子になっていません。",
+      fix: "衣装をアバターのすぐ下に置き、右クリックから Setup Outfit をし直します。衣装の Armature に MA Merge Armature が付いているかも確かめます。" },
+    { title: "体が服から突き抜ける",
+      symptom: "動いたときに、胸やおなか、太ももの肌が服の外に出る。",
+      cause: "服の下の体が大きいままです。",
+      fix: "体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（第2回）。" },
+    { title: "服が浮く・大きさが合わない",
+      symptom: "服が体から離れて浮いている。袖や裾の長さが合わない。",
+      cause: "対応していないアバター用のプレハブを使っているか、アバターの体型を変えています。",
+      fix: "自分のアバター用のプレハブかを確かめます。体型を BlendShape で変えているときは、衣装側の同じ BlendShape を合わせるか、MA Blendshape Sync で同じ値にします。" },
+    { title: "揺れものが二重にかかる",
+      symptom: "胸や髪の揺れ方がおかしい。跳ねたり、震えたりする。",
+      cause: "衣装とアバターの両方に、同じボーンを動かす PhysBone が入っていることがあります。",
+      fix: "衣装の説明書を見て、どちらの PhysBone を使うかを決め、要らないほうを消すかオフにします。" },
+    { title: "メニューが出ない",
+      symptom: "Expressions Menu に、作ったトグルが出てこない。",
+      cause: "Menu Installer が無いか、トグルのオブジェクトがアバターの外にあります。メニューの項目数がいっぱいのこともあります。",
+      fix: "トグルをアバターの子に置き、Menu Installer が付いているかを確かめます。再生して Gesture Manager でも確かめます。" },
+    { title: "服がピンク色になる",
+      symptom: "衣装の服が、ピンク一色で表示される。",
+      cause: "衣装が使っているシェーダーが、プロジェクトに入っていません。",
+      fix: "説明書に書かれたシェーダー（lilToon など）を入れます。入れたあとも直らないときは、マテリアルのシェーダーを選び直します。" },
+    { title: "対応していないアバターに着せたい",
+      symptom: "好きな衣装が、自分のアバターに対応していない。",
+      cause: "体の形やボーンの位置がちがうため、そのままでは合いません。",
+      fix: "Outfit Root の「位置を元アバターに合わせてリセット」で大まかに合わせてから、ボーンの位置や大きさを少しずつ直します。合わせるためのツールもあります。手間がかかるので、改変に慣れてからがおすすめです。利用規約で非対応のアバターへの改変が認められているかも確かめます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "衣装やアバターのプレハブは、Unpack しなくて大丈夫です。Unpack しないほうが、更新を入れたときに楽です。",
+    "元の服を消すのではなく、オフにしておくと、あとで戻せます。",
+    "衣装を足すと、ポリゴン数やマテリアル数が増えて、パフォーマンスランクが下がることがあります。アップロードの前に確かめます。",
+    "改変の前に、プロジェクトのバックアップを取っておくと安心です。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "衣装は、対応アバター用のプレハブを、アバターの子に置きます。",
+    "右クリックの Setup Outfit で、Modular Avatar がボーンを自動でまとめます。元のデータはこわれません。",
+    "体の突き抜けは、MA Shape Changer で、衣装がオンのときだけ体を縮めます。",
+    "Create Toggle で、メニューから服を着たり脱いだりできます。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "before", title: l.beforeTitle },
+  { id: "why", title: l.whyTitle },
+  { id: "install", title: l.installTitle },
+  { id: "steps", title: l.stepsTitle },
+  { id: "merge", title: l.mergeTitle },
+  { id: "shrink", title: l.shrinkTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "menu", title: l.menuTitle },
+  { id: "test", title: l.testTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="before" aria-labelledby="before-heading">
+    <h2 class="section_2__h1" id="before-heading"><%= l.beforeTitle %></h2>
+    <p class="article_1__p"><%= l.beforeLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.before.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading"><%= l.whyTitle %></h2>
+    <% l.why.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="install" aria-labelledby="install-heading">
+    <h2 class="section_2__h1" id="install-heading"><%= l.installTitle %></h2>
+    <p class="article_1__p"><%- l.installLead %></p>
+    <ol class="steps_1">
+      <% l.install.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="steps" aria-labelledby="steps-heading">
+    <h2 class="section_2__h1" id="steps-heading"><%= l.stepsTitle %></h2>
+    <ol class="steps_1">
+      <% l.steps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.hierarchyMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="merge" aria-labelledby="merge-heading">
+    <h2 class="section_2__h1" id="merge-heading"><%= l.mergeTitle %></h2>
+    <% l.merge.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.mergeMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="shrink" aria-labelledby="shrink-heading">
+    <h2 class="section_2__h1" id="shrink-heading"><%= l.shrinkTitle %></h2>
+    <% l.shrink.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.shapeMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_outfit_demo"
+      data-why-unity="<%= l.demo.whyUnity %>" data-why-changer="<%= l.demo.whyChanger %>"
+      data-poke="<%= l.demo.poke %>" data-fit="<%= l.demo.fit %>"
+      data-stay="<%= l.demo.stay %>" data-back="<%= l.demo.back %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.wear %></p>
+          <div class="js_outfit_figure" data-wear="1"><%- figure(0, true) %></div>
+          <p class="demo_2__num">Shrink <span class="js_outfit_num" data-wear="1">0</span></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.nude %></p>
+          <div class="js_outfit_figure" data-wear="0"><%- figure(0, false) %></div>
+          <p class="demo_2__num">Shrink <span class="js_outfit_num" data-wear="0">0</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="outfit-shrink"><%= l.demo.slider %></label> <output class="demo_1__value" for="outfit-shrink">0</output></p>
+          <input type="range" min="0" max="100" step="10" value="0" id="outfit-shrink" class="js_outfit_shrink">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.mode %></legend>
+          <% l.demo.modes.forEach(function (m, i) { %>
+            <label><input type="radio" name="outfit-mode" value="<%= m.value %>" class="js_outfit_mode"<% if (i === 0) { %> checked<% } %>> <%= m.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_outfit_why"><%= l.demo.whyUnity %></p>
+        <p class="demo_1__result is_ng js_outfit_result" data-wear="1"><%= l.demo.poke %></p>
+        <p class="demo_1__result is_ok js_outfit_result" data-wear="0"><%= l.demo.back %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
+    <h2 class="section_2__h1" id="menu-heading"><%= l.menuTitle %></h2>
+    <p class="article_1__p"><%= l.menuLead %></p>
+    <ol class="steps_1">
+      <% l.menu.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
+    <h2 class="section_2__h1" id="test-heading"><%= l.testTitle %></h2>
+    <ul class="rules_1">
+      <% l.test.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>
