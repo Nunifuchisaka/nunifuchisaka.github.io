@@ -1,0 +1,433 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：アニメーションを作る（アニメーションクリップとは、FX で動かせるもの、録画で作る手順、キーフレーム、パスと Missing の直し方）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// FX で動かすもの・動かさないものは VRChat の Playable Layers のページ、相対パスでの録画は Modular Avatar の Merge Animator のページ（2026年11月時点）による
+const article = avatarTips.articles.find((a) => a.slug === "animation-clip");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
+// ほかの回へのリンク。hash は記事の中の節の id
+const tipLink = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/${hash ? `#${hash}` : ""}">${tipNo(slug)} ${tip(slug).title.ja}</a>`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+const maMergeAnimator = "https://modular-avatar.nadena.dev/ja/docs/reference/merge-animator";
+
+// 動く図の絵。Animation ウィンドウの1行（クリップのパスが合わないと黄色で Missing! と出る）と、帽子をかぶった顔
+// 絵なので、ライトでもダークでも同じ色にする。色は animation-clip-demo.js と同じ
+const clipRow = `<svg class="demo_2__svg" viewBox="0 0 200 100" aria-hidden="true" focusable="false">`
+  + `<rect x="2" y="2" width="196" height="96" rx="6" fill="#383838" stroke="#232323" stroke-width="2"/>`
+  + `<rect x="2" y="2" width="196" height="22" rx="6" fill="#282828"/>`
+  + `<text x="10" y="17" font-size="10" font-family="sans-serif" fill="#9a9a9a">Animation › Hat_ON</text>`
+  + `<rect x="10" y="38" width="180" height="26" rx="3" fill="#3e3e3e" stroke="#232323"/>`
+  + `<text class="js_clip_row" x="18" y="55" font-size="11" font-weight="700" font-family="sans-serif" fill="#d2d2d2">Hat : Is Active</text>`
+  + `<text x="18" y="84" font-size="10" font-family="monospace" fill="#9a9a9a">path: Accessories/Hat</text>`
+  + `</svg>`;
+const hatFace = (show) => `<svg class="demo_2__svg" viewBox="0 0 120 104" aria-hidden="true" focusable="false">`
+  + `<ellipse cx="60" cy="62" rx="40" ry="38" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<ellipse cx="45" cy="62" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="75" cy="62" rx="5" ry="7" fill="#3b2a24"/>`
+  + `<path d="M50 82 Q60 89 70 82" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+  + `<g class="js_clip_hat" opacity="${show ? 1 : 0}"><rect x="36" y="4" width="48" height="30" rx="6" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/>`
+  + `<ellipse cx="60" cy="34" rx="48" ry="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/></g>`
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "アニメーションを作る",
+  lead: "ギミックで見た目を変えるとき、何をどう変えるかは、アニメーションクリップに書きます。クリップの中身、FX で動かせるもの、Unity の録画で作る手順、キーフレームの打ち方、パスが切れて「Missing!」と出たときの直し方を解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "ギミックを作りたいが、アニメーションクリップの作り方が分からない。",
+    "アニメーションで、何を動かせるのか知りたい。",
+    "Animation ウィンドウの項目が黄色くなり、「Missing!」と出る。",
+    "録画したら、関係ないところまで動くクリップになった。",
+  ],
+  whatTitle: "アニメーションクリップとは",
+  what: [
+    `アニメーションクリップ（クリップ）は、<strong>どのオブジェクトの、何を、どの時間に、いくつにするか</strong>を書いたファイルです。拡張子は <code>.anim</code> です。Animator のステートに入れて使います。ステートとクリップの関係は${tipLink("animator-basics", "controller")}で解説しています。`,
+    "Animator は、いまのステートのクリップに書かれた値を、<strong>毎フレーム</strong>アバターに書き込みます。そのステートにいる間は、ずっと同じ値を書き続けます。",
+    "たとえば、帽子を出すクリップ <code>Hat_ON</code> の中身は、次の1行だけです。",
+  ],
+  clipTableLabel: "Hat_ON のクリップの中身（例）",
+  clipHead: ["パス（どのオブジェクト）", "種類", "プロパティ（何を）", "0 フレーム目", "1 フレーム目"],
+  clipRows: [
+    ["Accessories/Hat", "GameObject", "Is Active", "1（オン）", "1（オン）"],
+  ],
+  what2: [
+    "1つの行（プロパティ）は、<strong>パス</strong>（アバターの中のどのオブジェクトか）と、<strong>プロパティ</strong>（そのオブジェクトの何を変えるか）でできています。行の中の、ある時間の値の印を<strong>キーフレーム</strong>（キー）と呼びます。",
+    "Animation ウィンドウでは、この行は <code>Hat : Is Active</code> と出ます。パスのいちばん下の名前と、プロパティの名前です。",
+    `オンオフのギミックでは、帽子を出すクリップ（Hat_ON）と、消すクリップ（Hat_OFF）を両方作ります。オフのクリップを作らずに済ませる方法もありますが、Write Defaults の設定によって動き方が変わります。両方作っておくと、Write Defaults が ON でも OFF でも同じように動きます（${tipLink("unity-vs-vrchat", "write-defaults")}）。`,
+  ],
+  canTitle: "FX で動かせるもの・動かさないもの",
+  can: [
+    `ギミックのクリップは、ほとんど FX のコントローラーに入れます。FX では、Humanoid の骨（筋肉）以外のほぼすべてを動かせます。FX 以外の枠で BlendShape やマテリアルを動かすと、鏡の中のアバターに写されません（${tipLink("animator-basics", "layers")}）。`,
+  ],
+  canTableLabel: "FX のクリップで動かせるもの",
+  canHead: ["動かすもの", "Animation ウィンドウの行の例", "使いみち", "FX で"],
+  canRows: [
+    ["オブジェクトのオンオフ", "<code>Hat : Is Active</code>", "小物や服を出したり消したりする", "◯ いちばんよく使います"],
+    ["コンポーネントのオンオフ", "<code>Hat : Enabled</code>（Mesh Renderer など）", "見た目だけ消す。パーティクル、ライト、音、PhysBone、Contact を止める", "◯"],
+    ["BlendShape", "<code>Body : Blend Shape.cheek</code>", "頬染め、表情、体の形", "◯"],
+    ["マテリアルの値", "<code>Body : Material._Color</code>", "色、明るさ、光り方。名前はシェーダーごとに違います", "◯"],
+    ["マテリアルの入れ替え", "Materials の欄", "服の色違いに差し替える", "◯"],
+    ["Transform（位置・回転・大きさ）", "<code>Hat : Scale</code>", "大きさを変える、場所を動かす", "△ 動きますが、VRChat の公式はすすめていません。出し入れなら Is Active を使います"],
+    ["Humanoid の骨（腕・脚・頭・指）", "<code>Animator.〜</code> のような筋肉の行", "ポーズ、手の形", "✕ FX では動きません。Gesture や Action で動かします"],
+    ["アバターの外のもの", "—", "ワールドの物", "✕ アバターの中のものだけを動かせます"],
+  ],
+  can2: [
+    "マテリアルの値を動かすときは、アバターが使っているシェーダー（lilToon など）の値を動かします。シェーダーを変えると、同じ名前の値が無くなり、動かなくなることがあります。",
+    `少しずつ変わるもの（色や大きさ）を、メニューを回して変えるには、Radial Puppet と Motion Time を使います（${tipLink("radial", "float")}）。`,
+  ],
+  recordTitle: "録画で作る手順",
+  recordLead: "クリップは、Unity の Animation ウィンドウの<strong>録画</strong>（Record）で作るのがいちばん簡単です。録画中に Inspector で値を変えると、その変化がクリップに書き込まれます。ここでは、帽子を出すクリップ <code>Hat_ON</code> と、消すクリップ <code>Hat_OFF</code> を作ります。帽子（Hat）は、アバターの中の Accessories の子に置いてあり、ふだんはオフにしてあるものとします。",
+  prepTitle: "準備：クリップとコントローラーを作る",
+  prep: [
+    "Project ウィンドウで、ギミック用のフォルダを作ります。<code>Assets</code> の中で右クリックして <code>Create → Folder</code> を選び、名前を付けます（例：<code>MyGimmicks</code> の中に <code>Hat</code>）。ギミックごとにまとめておくと、あとで探しやすくなります。",
+    "そのフォルダの中で右クリックして <code>Create → Animation</code> を選び、名前を <code>Hat_ON</code> にします。同じようにして <code>Hat_OFF</code> も作ります。Unity のバージョンによっては、<code>Create → Animation → Animation Clip</code> の場所にあります。",
+    "同じフォルダで右クリックして <code>Create → Animator Controller</code> を選び、名前を <code>Hat_FX</code> にします。",
+    "<code>Hat_FX</code> をダブルクリックして、Animator ウィンドウで開きます。<code>Hat_OFF</code> と <code>Hat_ON</code> のファイルを、グラフにドラッグします。クリップの入ったステートが2つできます。Animation ウィンドウで選べるのは、選んだ Animator のコントローラーに入っているクリップだけなので、先にステートにしておきます。",
+    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor が付いたもの）を選びます。Inspector の Animator コンポーネントの <code>Controller</code> の欄に、<code>Hat_FX</code> をドラッグします。<strong>録画のためだけに、一時的に入れます。</strong>",
+  ],
+  stepsTitle: "録画する",
+  steps: [
+    "<code>Window → Animation → Animation</code> で Animation ウィンドウを開きます（Ctrl + 6 でも開けます）。Hierarchy では、アバターのいちばん上を選んだままにします。",
+    "Animation ウィンドウの左上のプルダウンで、<code>Hat_ON</code> を選びます。",
+    "左上の赤い丸（録画ボタン）を押します。時間の線（タイムライン）が赤くなり、録画中になります。",
+    "白い縦線（いまの時間）が 0 フレーム目にあることを確かめます。時間の欄に <code>0</code> と入れても動かせます。",
+    "Hierarchy で帽子（Hat）を選び、Inspector の左上のチェックを入れて、オンにします。Animation ウィンドウに <code>Hat : Is Active</code> の行ができ、0 フレーム目にキーが打たれます。",
+    "時間の欄に <code>1</code> と入れて、1 フレーム目に動かします。Animation ウィンドウで <code>Hat : Is Active</code> の行を選び、<code>Add Keyframe</code> のボタン（ひし形に + の印）を押します。1 フレーム目にも、同じ値（オン）のキーが打たれます。",
+    "赤い丸をもう一度押して、録画を止めます。",
+    "プルダウンで <code>Hat_OFF</code> を選び、もう一度録画を始めます。0 フレーム目で、帽子のチェックを<strong>一度入れてから、外します</strong>。録画は、値を変えたときにだけキーを打つので、もともとオフのものをオフで記録するには、一度変えてから戻します。1 フレーム目にもキーを打ち、録画を止めます。",
+    "Hierarchy で帽子が、録画する前の状態（オフ）に戻っているかを確かめます。違っていたら、Inspector のチェックで戻します。",
+    "アバターのいちばん上の Animator コンポーネントの <code>Controller</code> を、元の状態（ふつうは None）に戻します。VRChat はこの欄ではなく、Playable Layers の枠のコントローラーを使います。入れたままにすると、どれが本番のコントローラーか分かりにくくなります。",
+  ],
+  recordMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Animation ウィンドウ（録画中）。名前は例です。並びは簡単にしています",
+    screens: [{
+      bar: "Animation › Hat_ON",
+      label: "録画中の Animation ウィンドウの再現図。1 赤い録画ボタンが押されている、2 クリップのプルダウンは Hat_ON、時間は 1、3 Hat : Is Active の行、0 と 1 フレーム目にキー、4 Add Property のボタン",
+      rows: [
+        { mark: 1, label: "Record", type: "button", text: "●", hot: true },
+        { mark: 2, label: "Clip", type: "select", text: "Hat_ON" },
+        { label: "Frame", type: "value", text: "1" },
+        { type: "head", text: "Properties" },
+        { mark: 3, type: "check", on: true, text: "Hat : Is Active" },
+        { label: "Keys", type: "text", text: "◆ 0　◆ 1" },
+        { mark: 4, type: "button", text: "Add Property" },
+      ],
+    }],
+    notes: [
+      "録画ボタンです。押している間は、時間の線と、Inspector で変えた値が赤く色づきます。",
+      "どのクリップに書き込むかを選びます。選んだ Animator のコントローラーに入っているクリップが出ます。",
+      "録画中に帽子のチェックを変えると、この行ができます。チェックが入っているのは、オン（1）の意味です。",
+      "録画しないで行を足すこともできます。Add Property を押し、オブジェクトとプロパティを選んで + を押します。",
+    ],
+  },
+  record2: [
+    "BlendShape やマテリアルの値も、同じように録画中に Inspector で値を変えると記録されます。BlendShape なら、Skinned Mesh Renderer の <code>BlendShapes</code> の欄の値を変えます。",
+    "<strong>録画中に触ったものは、すべてクリップに入ります。</strong>録画中にほかのオブジェクトを動かしたり、値を試しに変えたりしないでください。入ってしまった行は、Animation ウィンドウで行を右クリックして <code>Remove Properties</code> で消せます。",
+    `Modular Avatar の MA Merge Animator でつなぐときは、ギミックのオブジェクトに Animator コンポーネントを付けて録画する方法もあります。くわしくは、下の「パス」の節で説明します。アバターへのつなぎ方は${tipLink("toggle", "connect")}で解説します。`,
+  ],
+  keysTitle: "キーフレームと、クリップの長さ",
+  keys: [
+    "キーフレームは、ある時間の値の印です。キーとキーの間の時間は、Unity が値をなめらかにつないでくれます。0 フレーム目に 0、60 フレーム目に 100 のキーを打つと、1秒かけて 0 から 100 に変わるクリップになります（1秒が 60 フレームのとき）。",
+    "<strong>オンオフのクリップでは、値は変わりません。</strong>帽子は、出ている間ずっと出ています。なので、0 フレーム目と 1 フレーム目に、同じ値のキーを2つ打つだけで足ります。長さはほとんど 0 ですが、ステートにいる間、Animator はこの値を書き続けます。",
+    "キーが1つだけでも、たいていは動きます。ただ、長さが 0 のクリップは、Motion Time を使うときなどに扱いにくいことがあります。2つ打っておくと安心です。",
+    `段階で変わるもの（色を回して変える、大きさを少しずつ変える）は、最初と最後に違う値のキーを打ち、Animator の Motion Time でクリップのどこを見せるかを決めます。作り方は${tipLink("radial", "float")}で解説します。`,
+  ],
+  pathTitle: "パスと「Missing!」の直し方",
+  path: [
+    "クリップの行には、どのオブジェクトを動かすかが、<strong>パス</strong>で書かれています。パスは、録画したときに選んでいた Animator のオブジェクトから、動かすオブジェクトまでの名前を <code>/</code> でつないだものです。アバターのいちばん上で録画したなら、帽子のパスは <code>Accessories/Hat</code> です。",
+    "パスは、名前と場所だけで決まります。<strong>録画したあとで、帽子の名前を変えたり、別のオブジェクトの中に動かしたりすると、クリップは帽子を見つけられなくなります。</strong>このとき、Animation ウィンドウの行が黄色くなり、<code>Hat : Is Active (Missing!)</code> のように出ます。VRChat でも、その行は何も動かしません。",
+    "名前は、大文字と小文字も区別されます。<code>Hat</code> を <code>hat</code> にしただけでも、パスは合わなくなります。",
+  ],
+  missingMock: {
+    variant: "unity",
+    caption: "再現図：録画したあとで帽子の名前を変えたときの、Animation ウィンドウと Hierarchy。名前は例です",
+    screens: [
+      {
+        bar: "Animation › Hat_ON",
+        label: "Animation ウィンドウの再現図。1 Hat : Is Active (Missing!) の行が黄色になっている",
+        rows: [
+          { type: "head", text: "Properties" },
+          { mark: 1, label: "Hat : Is Active (Missing!)", type: "value", text: "1", hot: true },
+        ],
+      },
+      {
+        bar: "Hierarchy",
+        label: "Hierarchy の再現図。Avatar_A の中の Accessories の子が、2 Hat2 という名前になっている",
+        rows: [
+          { label: "▼ Avatar_A", type: "text" },
+          { label: "　▼ Accessories", type: "text" },
+          { mark: 2, label: "　　Hat2", type: "text", hot: true },
+          { label: "　▶ Armature", type: "text" },
+          { label: "　Body", type: "text" },
+        ],
+      },
+    ],
+    notes: [
+      "クリップには <code>Accessories/Hat</code> と書かれていますが、その場所に Hat という名前のオブジェクトがありません。行が黄色になります。",
+      "帽子の名前を Hat2 に変えたため、パスが合わなくなっています。",
+    ],
+  },
+  fixTitle: "直し方",
+  fix: [
+    "<strong>いちばん確かなのは、名前と場所を、録画したときに戻すことです。</strong>帽子の名前を <code>Hat</code> に戻し、<code>Accessories</code> の子に戻せば、黄色い表示は消えます。",
+    "名前や場所を変えたままにしたいときは、クリップのパスを書き換えます。Animation ウィンドウで黄色い行を選び、<code>F2</code> を押す（またはゆっくり2回クリックする）と、パスを書き換えられます。いまの名前と場所（例：<code>Accessories/Hat2</code>）を入れます。",
+    "書き換えたら、黄色い表示が消えたかを確かめます。キーの値はそのまま残ります。",
+    "同じオブジェクトを動かすクリップが、ほかにもあるかを確かめます。Hat_ON を直したら、Hat_OFF も同じように直します。",
+  ],
+  relTitle: "Modular Avatar でつなぐときのパス",
+  rel: [
+    `Modular Avatar の MA Merge Animator でコントローラーをアバターにつなぐときは、<code>Path Mode</code> の設定でパスの数え方が変わります。<code>Relative</code>（はじめの設定）では、MA Merge Animator を付けたオブジェクトからのパスとして読まれます。<code>Absolute</code> では、アバターのいちばん上からのパスとして読まれます（${ext(maMergeAnimator, "Modular Avatar の Merge Animator のページ")}）。`,
+    "Relative で使うときは、ギミックのオブジェクト（MA Merge Animator を付けるオブジェクト）に Animator コンポーネントを付けて、そのオブジェクトを選んで録画します。パスがそのオブジェクトから数えられるので、ギミックを別のアバターに移しても、パスが切れにくくなります。録画に使った Animator は、MA Merge Animator の「付属アニメーターを削除」にチェックを入れておくと、アップロードのときに自動で取り除かれます。",
+    "アバターに元からある帽子など、ギミックのオブジェクトの外にあるものを動かすときは、アバターのいちばん上で録画して、Path Mode を Absolute にします。",
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "Hat_ON のクリップには、帽子のパスが Accessories/Hat と書かれています。録画したあとで帽子の名前や場所を変えると、クリップが帽子を見つけられるかを見てみてください。",
+  demo: {
+    window: "Animation ウィンドウ",
+    look: "見た目（Hat_ON を再生中）",
+    now: "いまの帽子",
+    nameLabel: "帽子の名前",
+    parentLegend: "帽子を置いた場所",
+    parents: [
+      { value: "Accessories/", text: "Accessories の子（録画したとき）" },
+      { value: "", text: "アバターのすぐ下" },
+      { value: "Armature/Hips/Spine/Chest/Neck/Head/", text: "Head の骨の子" },
+    ],
+    clipPath: "Accessories/Hat",
+    none: "書かれない",
+    why: "クリップに書かれたパスは {c}、いまの帽子の場所は {p} です。",
+    empty: "名前が空です。名前を入れてください。",
+    ok: "パスが合っています。クリップが帽子の Is Active を 1 と書くので、帽子が出ます。",
+    ng: "パスが合いません。行が黄色くなり Missing! と出ます。クリップは帽子を見つけられないので、帽子は出ません。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "行が黄色くなり「Missing!」と出る",
+      symptom: "Animation ウィンドウで、クリップの行が黄色になり、名前の後ろに (Missing!) と出る。VRChat でもその部分が動かない。",
+      cause: "録画したあとで、動かすオブジェクトの名前か場所を変えました。または、録画したときと違う Animator のオブジェクトを選んでいます。",
+      fix: "名前と場所を録画したときに戻すか、行を選んで F2 でパスを書き換えます。MA Merge Animator の Path Mode も確かめます。" },
+    { title: "録画ボタンが押せない・クリップが出ない",
+      symptom: "Animation ウィンドウに、録画ボタンやクリップのプルダウンが出ない。「Create」というボタンだけが出る。",
+      cause: "Hierarchy で、Animator コンポーネントが付いたオブジェクトを選んでいないか、その Animator の Controller が空です。",
+      fix: "アバターのいちばん上を選び、Animator の Controller にクリップの入ったコントローラーを入れます。ここで Create を押すと、新しいコントローラーが作られて入るので、押さないでおきます。" },
+    { title: "関係ないものまで動く",
+      symptom: "帽子を出すクリップなのに、再生すると表情や服まで変わる。",
+      cause: "録画中に、ほかのオブジェクトや値を触ったため、その行もクリップに入っています。",
+      fix: "Animation ウィンドウで要らない行を右クリックして、Remove Properties で消します。" },
+    { title: "録画を止めたら、シーンの物まで変わっていた",
+      symptom: "クリップには何も入らず、Hierarchy の帽子がオンのままになった。",
+      cause: "録画ボタンを押す前に（録画していないときに）値を変えました。録画していないときの変更は、クリップではなく、シーンの物そのものを変えます。",
+      fix: "Inspector で元の値に戻します。録画ボタンが赤くなっていることを確かめてから、値を変えます。" },
+    { title: "腕や指を動かしたのに、VRChat では動かない",
+      symptom: "クリップで腕や指のポーズを作ったが、FX に入れると動かない。",
+      cause: "Humanoid の骨（筋肉）は、FX では動きません。",
+      fix: `手の形は Gesture、体全体の動きは Action のコントローラーで動かします（${tipLink("animator-basics", "layers")}）。` },
+    { title: "色を変えるクリップが効かない",
+      symptom: "マテリアルの色を変えるクリップを作ったが、VRChat で色が変わらない。",
+      cause: "クリップを作ったあとで、マテリアルのシェーダーを変えたため、同じ名前の値が無くなっています。別のマテリアル（スロット）の値を動かしていることもあります。",
+      fix: "いまのシェーダーで、録画し直します。Animation ウィンドウの行が黄色くなっていないかも確かめます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "録画が終わったら、必ず録画ボタンを押して止めます。録画したままほかの作業をすると、触ったものがすべてクリップに入ります。",
+    "クリップで使っているオブジェクトの名前や場所は、変えないでおきます。変えるときは、クリップのパスも直します。",
+    "録画のためにアバターの Animator に入れたコントローラーは、終わったら元に戻します。",
+    "出し入れは Is Active で作ります。大きさを 0 にして隠す方法は、FX で Transform を動かすことになり、VRChat の公式がすすめていません。",
+    `オンのクリップとオフのクリップを両方作っておきます。Write Defaults の設定に関係なく、同じように動きます（${tipLink("unity-vs-vrchat", "write-defaults")}）。`,
+    "買ったアバターや衣装に付いているクリップを書き換えるときは、先に複製を取っておきます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "クリップには、どのオブジェクト（パス）の何（プロパティ）を、いつ（キー）いくつにするかを書きます。",
+    "FX では、オンオフ、BlendShape、マテリアルを動かします。Humanoid の骨は動きません。",
+    "Animation ウィンドウの録画で作ります。録画中に触ったものは、すべてクリップに入ります。",
+    "オンオフのクリップは、0 と 1 フレーム目に同じ値のキーを打つだけで足ります。",
+    "名前や場所を変えるとパスが切れて Missing! と出ます。元に戻すか、F2 でパスを書き換えます。",
+    `次は、ここで作ったクリップを使って、メニューでオンオフするギミックを組みます（${tipLink("toggle")}）。`,
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "what", title: l.whatTitle },
+  { id: "can", title: l.canTitle },
+  { id: "record", title: l.recordTitle },
+  { id: "keys", title: l.keysTitle },
+  { id: "path", title: l.pathTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading"><%= l.whatTitle %></h2>
+    <% l.what.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.clipTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.clipHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.clipRows.forEach(function (row) { %>
+            <tr><th scope="row"><code><%= row[0] %></code></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td><td><%= row[4] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.what2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="can" aria-labelledby="can-heading">
+    <h2 class="section_2__h1" id="can-heading"><%= l.canTitle %></h2>
+    <% l.can.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.canTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.canHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.canRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%- row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.can2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="record" aria-labelledby="record-heading">
+    <h2 class="section_2__h1" id="record-heading"><%= l.recordTitle %></h2>
+    <p class="article_1__p"><%- l.recordLead %></p>
+    <h3 class="section_2__h2"><%= l.prepTitle %></h3>
+    <ol class="steps_1">
+      <% l.prep.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.stepsTitle %></h3>
+    <ol class="steps_1">
+      <% l.steps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.recordMock }) %>
+    <% l.record2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="keys" aria-labelledby="keys-heading">
+    <h2 class="section_2__h1" id="keys-heading"><%= l.keysTitle %></h2>
+    <% l.keys.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="path" aria-labelledby="path-heading">
+    <h2 class="section_2__h1" id="path-heading"><%= l.pathTitle %></h2>
+    <% l.path.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.missingMock }) %>
+    <h3 class="section_2__h2"><%= l.fixTitle %></h3>
+    <ol class="steps_1">
+      <% l.fix.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.relTitle %></h3>
+    <% l.rel.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_clip_demo" data-clip="<%= l.demo.clipPath %>"
+      data-why="<%= l.demo.why %>" data-empty="<%= l.demo.empty %>"
+      data-ok="<%= l.demo.ok %>" data-ng="<%= l.demo.ng %>" data-none="<%= l.demo.none %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.window %></p>
+          <%- clipRow %>
+          <p class="demo_2__num"><%= l.demo.now %> <code class="js_clip_now">Accessories/Hat</code></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.look %></p>
+          <%- hatFace(true) %>
+          <p class="demo_2__num">Is Active <span class="js_clip_active">1</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="clip-name"><%= l.demo.nameLabel %></label></p>
+          <input type="text" id="clip-name" class="js_clip_name" value="Hat" autocomplete="off" spellcheck="false">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.parentLegend %></legend>
+          <% l.demo.parents.forEach(function (p, i) { %>
+            <label><input type="radio" name="clip-parent" value="<%= p.value %>" class="js_clip_parent"<% if (i === 0) { %> checked<% } %>> <%= p.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_clip_why"><%= l.demo.why.replace("{c}", l.demo.clipPath).replace("{p}", l.demo.clipPath) %></p>
+        <p class="demo_1__result is_ok js_clip_result"><%= l.demo.ok %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%- c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

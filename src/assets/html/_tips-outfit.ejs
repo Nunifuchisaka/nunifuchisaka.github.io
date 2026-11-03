@@ -2,10 +2,12 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第5回：衣装を着せる（Modular Avatar の Setup Outfit と、体の縮小・メニューでのオンオフ）
+// アバター改変の解説：衣装を着せる（Modular Avatar の Setup Outfit と、体の縮小・メニューでのオンオフ）
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
 // 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 const article = avatarTips.articles.find((a) => a.slug === "outfit");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
 const published = `${py}年${pm}月${pd}日`;
 const newTab = "（新しいタブで開きます）";
@@ -55,7 +57,7 @@ const l = {
     { head: "体に沿って動く", note: "元のデータはそのまま" },
   ],
   installTitle: "Modular Avatar を入れる",
-  installLead: `Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="${prefix}/avatar-tips/setup/">第3回</a>で解説しています。`,
+  installLead: `Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="${prefix}/avatar-tips/setup/">${tipNo("setup")}</a>で解説しています。`,
   install: [
     `${ext(maDocs, "Modular Avatar の公式サイト")}の「インストール」で、VCC なら「Modular AvatarをVCCに追加」を押します。ALCOM なら「VPMリポジトリを追加」に <code>https://vpm.nadena.dev/vpm.json</code> を入れます。`,
     "VCC は「Manage Project」、ALCOM は「管理」でプロジェクトを開き、Modular Avatar の + を押して入れます。",
@@ -131,7 +133,7 @@ const l = {
   shrinkTitle: "体が服から突き抜けるとき",
   shrink: [
     "体の形が服より大きいと、動いたときに肌が服から突き抜けます。多くのアバターには、服の下の体を縮めたり消したりする BlendShape（シェイプキー）があります。名前は <code>Shrink_〜</code> や <code>Hide_〜</code> などで、アバターの説明書に書かれています。",
-    "Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href=\"" + prefix + "/avatar-tips/unity-vs-vrchat/\">第2回</a>）。",
+    "Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href=\"" + prefix + "/avatar-tips/unity-vs-vrchat/\">" + tipNo("unity-vs-vrchat") + "</a>）。",
     "おすすめは、衣装の中に <strong>MA Shape Changer</strong> を付ける方法です。衣装がオンのときだけ、体の BlendShape を決めた値にします。衣装をオフにすると、体は元に戻ります。Delete にすると、服の下の体のポリゴンを消して、軽くすることもできます。",
   ],
   shapeMock: {
@@ -175,6 +177,7 @@ const l = {
   },
   menuTitle: "メニューで服を着たり脱いだりする",
   menuLead: "Modular Avatar を使うと、Animator を自分で作らなくても、Expressions Menu（Action Menu）に服のオンオフを足せます。",
+  menuMore: `Animator を自分で組んで、オンオフのしくみから作る方法は、<a href="${prefix}/avatar-tips/toggle/">${tipNo("toggle")} ${tip("toggle").title.ja}</a>で解説しています。`,
   menu: [
     "Hierarchy でアバターを右クリックして、<code>Modular Avatar → Create Toggle</code> を選びます。アバターの子に、Menu Item、Menu Installer、Object Toggle が付いたオブジェクトができます。",
     "オブジェクトの名前を、メニューに出したい名前（たとえば「ドレス」）にします。この名前がメニューの項目名になります。",
@@ -198,7 +201,7 @@ const l = {
     { title: "体が服から突き抜ける",
       symptom: "動いたときに、胸やおなか、太ももの肌が服の外に出る。",
       cause: "服の下の体が大きいままです。",
-      fix: "体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（第2回）。" },
+      fix: "体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（" + tipNo("unity-vs-vrchat") + "）。" },
     { title: "服が浮く・大きさが合わない",
       symptom: "服が体から離れて浮いている。袖や裾の長さが合わない。",
       cause: "対応していないアバター用のプレハブを使っているか、アバターの体型を変えています。",
@@ -370,6 +373,7 @@ const sections = [
     <ol class="steps_1">
       <% l.menu.forEach(function (step) { %><li><%- step %></li><% }); %>
     </ol>
+    <p class="article_1__p"><%- l.menuMore %></p>
   </section>
 
   <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">

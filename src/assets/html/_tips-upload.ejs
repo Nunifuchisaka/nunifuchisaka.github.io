@@ -2,10 +2,12 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第4回：アップロードのしかた
+// アバター改変の解説：アップロードのしかた
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
 // 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 const article = avatarTips.articles.find((a) => a.slug === "upload");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
 const published = `${py}年${pm}月${pd}日`;
 const links = {
@@ -32,7 +34,7 @@ const l = {
     "アップロードしたのに、VRChat で見つからない。",
   ],
   flowTitle: "アップロードまでの流れ",
-  flowLead: `Unity と VCC（か ALCOM）を入れて、アバター用のプロジェクトを作ってあるところから始めます。まだのときは、<a href="${links.setup}">第3回 VCC・ALCOM・Unity の入れ方</a>を先に読んでください。`,
+  flowLead: `Unity と VCC（か ALCOM）を入れて、アバター用のプロジェクトを作ってあるところから始めます。まだのときは、<a href="${links.setup}">${tipNo("setup")} VCC・ALCOM・Unity の入れ方</a>を先に読んでください。`,
   route: [
     { head: "シェーダーやツールを入れる", note: "lilToon など。アバターより先に" },
     { head: "アバターを入れる", note: ".unitypackage を読み込む" },
@@ -134,7 +136,7 @@ const l = {
     notes: [
       "「Auto Fix」のボタンがあるものは、押すと SDK が直してくれます。押す前に、何が変わるかをメッセージで読んでおきます。",
       "「Select」を押すと、原因になっている物が Hierarchy で選ばれます。どこを直せばいいかが分かります。",
-      `アバターの重さの目安です。ランクが低いと、見る人の設定によっては、ほかの人から見えないことがあります。詳しくは<a href="${links.performance}">第6回 パフォーマンスランクと軽量化</a>で解説しています。`,
+      `アバターの重さの目安です。ランクが低いと、見る人の設定によっては、ほかの人から見えないことがあります。詳しくは<a href="${links.performance}">${tipNo("performance")} パフォーマンスランクと軽量化</a>で解説しています。`,
     ],
   },
   updateTitle: "更新するとき・別のアバターとして分けるとき",

@@ -2,11 +2,13 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第7回：Quest・スマホ対応
+// アバター改変の解説：Quest・スマホ対応
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
 // 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 // 数字は VRChat の Avatar Performance Ranking System（2026年11月時点）から。変わったら表を直す
 const article = avatarTips.articles.find((a) => a.slug === "quest");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
 const published = `${py}年${pm}月${pd}日`;
 const links = {
@@ -76,7 +78,7 @@ const l = {
     ["PhysBone の数", "32", "8", "6"],
   ],
   ranksNote: `Quest・スマホでは、PhysBone は 8 個まで、Contact は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは`,
-  ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: "第6回 パフォーマンスランクと軽量化" },
+  ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: "" + tipNo("performance") + " パフォーマンスランクと軽量化" },
   ranksNote2: "で詳しく解説しています。",
   firstTitle: "まず、販売ページを確かめる",
   first: [
@@ -94,7 +96,7 @@ const l = {
     "パソコン版と<strong>同じ Blueprint ID</strong> にアップロードします。同じプロジェクトでアバターを複製したなら、Pipeline Manager の ID もそのまま入っています。",
     "Quest の人に見てもらうか、自分の Quest で確かめます。",
   ],
-  stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: "第3回 Unity Hub で Unity を入れる" },
+  stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: "" + tipNo("setup") + " Unity Hub で Unity を入れる" },
   stepsHubAfter: "）。",
   sdkMock: {
     variant: "unity",

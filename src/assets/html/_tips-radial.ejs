@@ -1,0 +1,546 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：段階で切り替える・少しずつ変えるギミック（Int で服を選ぶ、Float と Radial Puppet と Motion Time、Blend Tree、同期の精度）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const article = avatarTips.articles.find((a) => a.slug === "radial");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipLink = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/${hash ? "#" + hash : ""}">第${tip(slug).no}回 ${tip(slug).title.ja}</a>`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+const links = {
+  params: "https://creators.vrchat.com/avatars/animator-parameters/",
+  menu: "https://creators.vrchat.com/avatars/expression-menu-and-controls/",
+};
+// 動く図。v は Radial Puppet の値（0〜1）。クリップは 60 フレームで、0 フレーム目と 60 フレーム目にキーがある
+// 大きさは Scale 0.5（0 フレーム目）から 1.5（60 フレーム目）。色は青から赤。図では、キーの間を一定の割合で変わるものとして描く
+const FRAMES = 60;
+const blue = [111, 143, 214];
+const red = [214, 95, 95];
+const mix = (v) => `rgb(${blue.map((b, i) => Math.round(b + (red[i] - b) * v)).join(" ")})`;
+const remote = (v) => Math.round(v * 127) / 127;
+const hat = (v, mode) => {
+  const s = mode === "size" ? 0.5 + v : 1;
+  const c = mode === "color" ? mix(v) : mix(0);
+  return `<svg class="demo_2__svg" viewBox="-10 -20 140 130" aria-hidden="true" focusable="false">`
+    + `<ellipse cx="60" cy="68" rx="40" ry="37" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+    + `<ellipse cx="46" cy="70" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="74" cy="70" rx="5" ry="7" fill="#3b2a24"/>`
+    + `<path d="M50 88 Q60 95 70 88" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+    + `<g class="js_radial_hat" transform="translate(60 40) scale(${s.toFixed(2)}) translate(-60 -40)">`
+    + `<rect class="js_radial_fill" x="32" y="6" width="56" height="32" rx="8" fill="${c}" stroke="#34508f" stroke-width="2"/>`
+    + `<rect class="js_radial_fill" x="16" y="34" width="88" height="9" rx="4.5" fill="${c}" stroke="#34508f" stroke-width="2"/>`
+    + `</g></svg>`;
+};
+const headX = (v) => (16 + 128 * v).toFixed(1);
+const timeline = (v) => `<svg class="demo_2__svg" viewBox="0 0 160 90" aria-hidden="true" focusable="false">`
+  + `<line x1="16" y1="48" x2="144" y2="48" stroke="#5f5f5f" stroke-width="3" stroke-linecap="round"/>`
+  + `<rect x="-6" y="-6" width="12" height="12" fill="#34508f" transform="translate(16 48) rotate(45)"/>`
+  + `<rect x="-6" y="-6" width="12" height="12" fill="#34508f" transform="translate(144 48) rotate(45)"/>`
+  + `<text x="16" y="80" font-size="11" text-anchor="middle" fill="#0d1b2a">0</text>`
+  + `<text x="144" y="80" font-size="11" text-anchor="middle" fill="#0d1b2a">${FRAMES}</text>`
+  + `<line class="js_radial_head" x1="${headX(v)}" y1="24" x2="${headX(v)}" y2="66" stroke="#b3261e" stroke-width="2.5"/>`
+  + `<text class="js_radial_frame" x="${headX(v)}" y="17" font-size="12" font-weight="700" text-anchor="middle" fill="#b3261e">${Math.round(v * FRAMES)}</text>`
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "段階で切り替える・少しずつ変えるギミック",
+  lead: "服を何着かから1つ選ぶ、帽子の大きさや色をメニューを回して少しずつ変える。オンオフの次は、Int と Float のパラメーターを使うギミックを作ります。Any State からの切り替え、Radial Puppet と Motion Time、Blend Tree、ほかの人からの見え方まで、1クリックずつ解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "服を何着か用意して、メニューで1つを選んで着替えたい。2着が同時に出ないようにしたい。",
+    "帽子やしっぽの大きさ、髪の色などを、メニューを回して少しずつ変えたい。",
+    "Bool・Int・Float のどれを使えばよいか分からない。",
+    "回して変えたのに、ほかの人からは少し遅れて見える、段々に見える。",
+  ],
+  before: `この回は、${tipLink("toggle")} で帽子のオンオフを作った前提で進めます。コントローラーの作り方、Weight を 1 にすること、Modular Avatar（MA）でつなぐ手順は、そちらと同じです。`,
+  chooseTitle: "Bool・Int・Float の選び方",
+  chooseLead: `パラメーターには3つの型があります。何をしたいかで選びます。パラメーターそのものの説明は ${tipLink("animator-basics", "parameters")} にあります。`,
+  chooseTableLabel: "パラメーターの型と、向いているギミック",
+  chooseHead: ["型", "入る値", "同期の量", "向いているもの", "メニューの項目"],
+  chooseRows: [
+    ["Bool", "true か false", "1 bit", "1つのものを出す・消す", "Toggle"],
+    ["Int", "0〜255 の整数", "8 bit", "何個かから1つを選ぶ", "値ごとに Toggle か Button"],
+    ["Float", "-1〜1 の小数（Radial Puppet では 0〜1）", "8 bit", "大きさや色を少しずつ変える", "Radial Puppet"],
+  ],
+  choose: [
+    "<strong>出すか消すかの2つだけなら Bool</strong> です。いちばん量を使いません。",
+    "<strong>何着かから1つだけ選ぶなら Int</strong> です。値は1つしか入らないので、2着が同時に出ることがありません。3着なら Bool を3つ使うほうが量は少なく済みます（3 bit）。ただし、2つ同時にオンにできてしまいます。選ぶものが多いほど、Int のほうが得になります。",
+    "<strong>途中の値がほしいなら Float</strong> です。Radial Puppet（丸いダイヤルを回すメニューの項目）と組み合わせます。",
+    "同期できる量は、アバター全体で合計 256 bit までです。",
+  ],
+  intTitle: "Int で、服を3着から1つ選ぶ",
+  intLead: "アバターの中に、3着の服 <code>Outfit_A</code>、<code>Outfit_B</code>、<code>Outfit_C</code> があるとします。名前は例です。Int のパラメーター <code>OutfitNo</code> の値で、どれを出すかを決めます。0 のときは、3着とも消します。",
+  intTableLabel: "OutfitNo の値と、入るステートと、クリップの中身",
+  intHead: ["OutfitNo", "ステート（クリップ）", "Outfit_A", "Outfit_B", "Outfit_C"],
+  intRows: [
+    ["0", "Outfit_0", "0（オフ）", "0（オフ）", "0（オフ）"],
+    ["1", "Outfit_1", "1（オン）", "0（オフ）", "0（オフ）"],
+    ["2", "Outfit_2", "0（オフ）", "1（オン）", "0（オフ）"],
+    ["3", "Outfit_3", "0（オフ）", "0（オフ）", "1（オン）"],
+  ],
+  intClipsTitle: "クリップとコントローラーを作る",
+  intClips: [
+    "Project の自分用のフォルダ（たとえば <code>MyGimmicks/Outfit</code>）を右クリックして <code>Create → Animation</code> を選び、<code>Outfit_0</code>〜<code>Outfit_3</code> の4つのクリップを作ります。中身はあとで録画します。",
+    "同じフォルダで <code>Create → Animator Controller</code> を選び、<code>Outfit_FX</code> を作ってダブルクリックで開きます。",
+    "<code>Layers</code> の <code>+</code> でレイヤー <code>Outfit</code> を足し、歯車から <code>Weight</code> を 1 にします。",
+    "<code>Parameters</code> の <code>+</code> から <code>Int</code> を選び、名前を <code>OutfitNo</code> にします。",
+    "<code>Outfit</code> レイヤーを選び、<code>Outfit_0</code> を最初にドラッグして、オレンジ色の最初のステートにします。続けて <code>Outfit_1</code>〜<code>Outfit_3</code> もドラッグします。",
+  ],
+  intRecTitle: "クリップを録画する",
+  intRec: [
+    "アバターのいちばん上を選び、Inspector の <code>Animator</code> の <code>Controller</code> の欄に、録画のあいだだけ <code>Outfit_FX</code> を入れます（前の回と同じです）。",
+    "Animation ウィンドウ（<code>Window → Animation → Animation</code>）で、クリップの名前の欄から <code>Outfit_1</code> を選びます。",
+    "録画ボタンを押し、<code>Outfit_A</code> をオン、<code>Outfit_B</code> と <code>Outfit_C</code> をオフにします（一度チェックを切り替えて戻すと、いまと同じ値でもキーが打たれます）。<strong>3つの行がそろっているか</strong>を確かめてから、録画を止めます。",
+    "<code>Outfit_0</code>、<code>Outfit_2</code>、<code>Outfit_3</code> も、上の表のとおりに録画します。",
+    "終わったら、服のオンオフと、<code>Animator</code> の <code>Controller</code> の欄を、もとに戻します。",
+  ],
+  intClipsWhy: "どのクリップにも、3着すべての行を入れます。<code>Outfit_2</code> に <code>Outfit_A</code> の行が無いと、Write Defaults が OFF のアバターでは、前に出ていた Outfit_A が消えずに残り、2着が重なります。",
+  intControllerTitle: "Any State からのトランジション",
+  intController: [
+    "Animator ウィンドウで、水色の <code>Any State</code> を右クリックして <code>Make Transition</code> を選び、<code>Outfit_1</code> をクリックします。",
+    "矢印を選び、Inspector で <code>Has Exit Time</code> を外します。<code>Settings</code> を開き、<code>Transition Duration</code> を 0 にし、<code>Can Transition To Self</code> のチェックを<strong>外します</strong>。",
+    "<code>Conditions</code> の <code>+</code> を押し、<code>OutfitNo</code>、<code>Equals</code>、<code>1</code> にします。",
+    "同じように、<code>Any State</code> から <code>Outfit_0</code>、<code>Outfit_2</code>、<code>Outfit_3</code> へも矢印を引き、<code>Equals</code> の数をそれぞれ 0、2、3 にします。",
+  ],
+  intMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Any State から Outfit_1 へのトランジション）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › AnyState -> Outfit_1",
+      label: "トランジションの設定の再現図。Has Exit Time のチェックが外れている、Transition Duration が 0、1 Can Transition To Self のチェックが外れている、2 Conditions に OutfitNo Equals 1",
+      rows: [
+        { type: "check", on: false, text: "Has Exit Time" },
+        { type: "head", text: "▼ Settings" },
+        { label: "Transition Duration (s)", type: "value", text: "0" },
+        { mark: 1, type: "check", on: false, text: "Can Transition To Self", hot: true },
+        { type: "head", text: "Conditions" },
+        { mark: 2, label: "OutfitNo", type: "select", text: "Equals 1", hot: true },
+      ],
+    }],
+    notes: [
+      "外しておかないと、OutfitNo が 1 の間、Outfit_1 に毎フレーム入り直します。",
+      "Int では Equals（等しい）で、値ごとに行き先を分けます。",
+    ],
+  },
+  anyWhy: [
+    "<code>Any State</code> は「いまどのステートにいても」という意味の入り口です。ここから矢印を引くと、どこにいても条件が合えばそのステートに移ります。4つのステートを互いに矢印でつなぐと 12 本要りますが、Any State からなら 4 本で済みます。",
+    "<code>Can Transition To Self</code> が付いたままだと、条件が合っている間ずっと、同じステートに入り直し続けます。オンオフだけのクリップでは見た目は変わらないこともありますが、動きのあるクリップは最初に戻り続けます。外しておきます。",
+  ],
+  intMenuTitle: "メニューで1つを選ぶ",
+  intMenuLead: "MA でつなぐ手順は、前の回と同じです。アバターの中に <code>着替え</code> というオブジェクトを作り、MA Merge Animator（<code>Outfit_FX</code>、FX、Absolute、Match Avatar Write Defaults）と、MA Parameters を付けます。",
+  intMenu: [
+    "MA Parameters に <code>OutfitNo</code> を足し、型を <code>Int</code> にします。<code>Default Value</code> は、はじめに着ている服の番号にします（何も着ないなら 0）。<code>Saved</code> と <code>Synced</code> にチェックを入れます。",
+    "<code>着替え</code> に <code>MA Menu Installer</code> と <code>MA Menu Item</code> を付け、Menu Item の <code>Type</code> を <code>Sub Menu</code> にします。中のメニューを、このオブジェクトの子から作るように選びます（<code>Children</code> などと書かれた選択肢）。",
+    "<code>着替え</code> を右クリックして <code>Create Empty Child</code> を選び、子を3つ作ります。名前を <code>制服</code>、<code>パーカー</code>、<code>ワンピース</code> にします。メニューに出る名前です。",
+    "3つの子それぞれに <code>MA Menu Item</code> を付け、<code>Type</code> を <code>Toggle</code>、<code>Parameter</code> を <code>OutfitNo</code> にします。<code>Value</code> を、<code>制服</code> は 1、<code>パーカー</code> は 2、<code>ワンピース</code> は 3 にします。",
+  ],
+  intMenuMock: {
+    variant: "unity",
+    caption: "再現図：MA Menu Item（英語の表示）。左が親の着替え、右が子のパーカー。並びや見た目は簡単にしています。名前は例です",
+    screens: [
+      {
+        bar: "Inspector › 着替え",
+        label: "親の着替えの MA Menu Item の再現図。1 Type は Sub Menu で、中身は子から作る",
+        rows: [
+          { type: "head", text: "▼ MA Menu Item" },
+          { mark: 1, label: "Type", type: "select", text: "Sub Menu", hot: true },
+          { label: "Submenu Source", type: "select", text: "Children" },
+        ],
+      },
+      {
+        bar: "Inspector › パーカー",
+        label: "子のパーカーの MA Menu Item の再現図。Type は Toggle、Parameter は OutfitNo、2 Value は 2",
+        rows: [
+          { type: "head", text: "▼ MA Menu Item" },
+          { label: "Type", type: "select", text: "Toggle" },
+          { label: "Parameter", type: "select", text: "OutfitNo" },
+          { mark: 2, label: "Value", type: "value", text: "2", hot: true },
+        ],
+      },
+    ],
+    notes: [
+      "押すと、中にもう1つのメニューが開きます。子の3つが、そこに並びます。",
+      "押すと OutfitNo が 2 になります。項目ごとに数を変えます。",
+    ],
+  },
+  intMenuHow: [
+    "Toggle は、オンにすると Parameter を Value の数にし、オフにすると 0 に戻します。「パーカー」を押すと OutfitNo は 2 になり、Outfit_2 に移ります。",
+    "続けて「ワンピース」を押すと 3 になります。OutfitNo はもう 2 ではないので、「パーカー」の項目は自然にオフの表示になります。1つしか選べないのは、このためです。",
+    "選んでいる「ワンピース」をもう一度押すと 0 に戻り、3着とも消えます。",
+    `アバターの FX に直接足すときは、Expression Parameters に Int の行を足し、Expressions Menu で <code>Add Control</code> を押して Type を <code>Sub Menu</code> にし、中のメニューのファイルに Toggle を3つ並べます。くわしくは ${ext(links.menu, "VRChat の Expressions Menu のページ")}（英語）にあります。`,
+  ],
+  floatTitle: "Float と Radial Puppet で、少しずつ変える",
+  floatLead: "帽子の大きさを、メニューのダイヤルを回して変えます。Float のパラメーター <code>HatSize</code>（0〜1）を、1つのクリップの「どこを再生するか」に使います。これが <strong>Motion Time</strong> です。",
+  floatRoute: [
+    { head: "Radial Puppet を回す", note: "HatSize = 0〜1" },
+    { head: "ステートの Motion Time", note: "HatSize をクリップの位置にする" },
+    { head: "クリップの 0〜60 フレーム", note: "0.5 なら 30 フレーム目" },
+    { head: "見た目", note: "その位置の大きさになる" },
+  ],
+  floatStateTitle: "クリップとステートを作り、Motion Time を付ける",
+  floatState: [
+    "Project で <code>Create → Animation</code> を選び、<code>Hat_Size</code> を作ります。中身はあとで録画します。",
+    "<code>Create → Animator Controller</code> で <code>HatSize_FX</code> を作って開き、レイヤー <code>HatSize</code> を足して <code>Weight</code> を 1 にします。",
+    "<code>Parameters</code> の <code>+</code> から <code>Float</code> を選び、名前を <code>HatSize</code> にします。",
+    "<code>Hat_Size</code> を Animator ウィンドウにドラッグして、ステートを作ります。オレンジ色の最初のステートになります。トランジションは要りません。",
+    "ステートを選び、Inspector の <code>Motion Time</code> の行の <code>Parameter</code> にチェックを入れ、右の欄で <code>HatSize</code> を選びます。",
+    "<code>Write Defaults</code> は、ほかのステートとそろえます（MA の Match Avatar Write Defaults を使うなら、合わせてくれます）。",
+  ],
+  floatMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Hat_Size のステート）。並びや見た目は簡単にしています。名前は例です",
+    screens: [{
+      bar: "Inspector › Hat_Size",
+      label: "ステートの設定の再現図。Motion は Hat_Size、Speed は 1、1 Motion Time の Parameter にチェックがあり HatSize を選んでいる",
+      rows: [
+        { label: "Motion", type: "select", text: "Hat_Size" },
+        { label: "Speed", type: "value", text: "1" },
+        { mark: 1, label: "Motion Time", type: "check", on: true, text: "Parameter · HatSize", hot: true },
+      ],
+    }],
+    notes: [
+      "クリップを時間で再生するかわりに、HatSize の値の位置で止めます。0 ならはじめ、1 なら終わりです。",
+    ],
+  },
+  floatClipsTitle: "はじめと終わりにキーを打つ",
+  floatClips: [
+    "アバターのいちばん上の <code>Animator</code> の <code>Controller</code> の欄に、録画のあいだだけ <code>HatSize_FX</code> を入れます。Animation ウィンドウで <code>Hat_Size</code> を選び、録画ボタンを押します。",
+    "フレームの欄（再生ボタンの右の数）が 0 なのを確かめ、Hierarchy で <code>Hat</code> を選び、Inspector の Transform の <code>Scale</code> を X・Y・Z とも 0.5 にします。",
+    "フレームの欄に 60 と入れて、60 フレーム目に移ります。<code>Scale</code> を X・Y・Z とも 1.5 にします。録画を止めます。",
+    "Animation ウィンドウ下の <code>Curves</code> を押し、キーをすべて選んで右クリックし、<code>Both Tangents → Linear</code> を選びます。キーの間が一定の割合で変わるようになります（はじめのままだと、端の近くがゆっくり変わる曲線になることがあります）。",
+    "Project で <code>Hat_Size</code> を選び、Inspector の <code>Loop Time</code> のチェックを外します。付いたままだと、いちばん端（1）で最初の形に戻って見えることがあります。",
+    "<code>Hat</code> の Scale が録画の前に戻っているかを確かめ、<code>Animator</code> の <code>Controller</code> の欄をもとに戻します。",
+  ],
+  floatColor: "色を変えるときも同じです。0 フレーム目と 60 フレーム目に、マテリアルの色の行（<code>Mesh Renderer : Material._Color</code> のような行。名前はシェーダーによって違います）のキーを打ちます。",
+  floatMenuTitle: "アバターにつなぎ、メニューに足す",
+  floatMenu: [
+    "MA でつなぐときは、オブジェクト <code>帽子の大きさ</code> を作り、MA Merge Animator（<code>HatSize_FX</code>）と MA Parameters を付けます。<code>HatSize</code> を <code>Float</code> で足し、<code>Default Value</code> を 0.5（Scale 1.0 にあたる）にし、<code>Saved</code> と <code>Synced</code> にチェックを入れます。",
+    "MA Menu Installer と MA Menu Item を付け、<code>Type</code> を <code>Radial Puppet</code> にします。回す値を入れる欄（Rotation と書かれた欄）に <code>HatSize</code> を入れます。",
+    "VRChat でこの項目を押すとダイヤルが開き、回すと HatSize が 0〜1 で変わります。",
+  ],
+  btTitle: "もう1つの方法：Blend Tree（1D）",
+  btLead: "Blend Tree は、パラメーターの値に合わせて、いくつかのクリップを混ぜる部品です。Motion Time のかわりに使えます。",
+  bt: [
+    "Project で、空のクリップ <code>Hat_Small</code> と <code>Hat_Big</code> を作ります。",
+    "<code>HatSize</code> レイヤーの何もないところを右クリックして <code>Create State → From New Blend Tree</code> を選びます。Motion Time のステートのかわりに使うので、こちらを右クリックして <code>Set as Layer Default State</code> にします。",
+    "できたステートをダブルクリックすると、中の <code>Blend Tree</code> が見えます。それをクリックします。",
+    "Inspector で <code>Blend Type</code> を <code>1D</code>、<code>Parameter</code> を <code>HatSize</code> にします。",
+    "<code>Motion</code> の <code>+</code> から <code>Add Motion Field</code> を2回選び、<code>Hat_Small</code> と <code>Hat_Big</code> を入れます。",
+    "<code>Automate Thresholds</code> のチェックを外し、<code>Hat_Small</code> の Threshold を 0、<code>Hat_Big</code> を 1 にします。",
+    "上と同じように録画して、<code>Hat_Small</code> には Scale 0.5、<code>Hat_Big</code> には Scale 1.5 のキーを、0 フレーム目にだけ打ちます。キーの間は Blend Tree が混ぜるので、Linear にする手間はありません。",
+  ],
+  btWhen: [
+    "<strong>どちらを使うか</strong>：クリップ1つで済む Motion Time のほうが手早く作れます。真ん中にも形を決めたいとき（0 で小さく、0.5 でふつう、1 で大きく、の3つ）や、クリップを分けて管理したいときは、Blend Tree が向いています。",
+    "Blend Tree は、パラメーターが Float のときに使えます。VRChat は、Expression Parameters と Animator で型が違うとき、値を変換して渡すことがあります。たとえば Expression Parameters では Bool にしておき、Animator では同じ名前を Float にして Blend Tree に使う、という組み方があります。",
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "Radial Puppet を回したつもりで、値を動かしてみてください。Motion Time で、60 フレームのクリップのどこが使われるかと、その見た目が変わります。",
+  demo: {
+    look: "見た目",
+    clip: "クリップの中の位置",
+    slider: "Radial Puppet の値（HatSize）",
+    mode: "クリップで変えるもの",
+    modes: [
+      { value: "size", text: "大きさ（Scale 0.5 → 1.5）" },
+      { value: "color", text: "色（青 → 赤）" },
+    ],
+    frame: "HatSize が {v} なので、60 フレームのクリップの {f} フレーム目の値が使われます。",
+    size: "帽子の Scale は {x} です。",
+    color: "帽子の色は、青から赤へ {p}% 進んだところです。",
+    remote: "ほかの人に届く値は、目安で {r} です（8 bit に丸められるため）。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  syncTitle: "同期と精度、ほかの人からの見え方",
+  sync: [
+    "<strong>Bool と Int は、ほかの人にも同じ値が届きます。</strong>OutfitNo が 2 なら、ほかの人の画面でも 2 です。",
+    "<strong>Float は、ほかの人に送るときに 8 bit に丸められます。</strong>-1〜1 を 255 段ほどに分けるので、細かさはおよそ 1/127 ずつです。自分の画面の 0.503 が、ほかの人には 0.504 になる、というくらいの差です。大きさや色なら、まず気づきません。",
+    "値は、少し遅れて届きます。ダイヤルを速く回すと、ほかの人からは、遅れて追いかけるように見えたり、段々に変わって見えたりすることがあります。",
+    "公式の説明では、ダイヤル（Radial Puppet など）を開いて回している間は、値をこまめに送り、ほかの人の側でなめらかにつなぐ、とされています。ただし、どれくらいなめらかに見えるかは、通信の状態などで変わります。<strong>回し終えたあとの値は、ほかの人にも届きます</strong>。途中の動きまでぴったり同じには見えない、と考えておくと安心です。",
+    `くわしい決まりは、${ext(links.params, "VRChat の Animator Parameters のページ")}（英語）にあります。`,
+  ],
+  bitsTableLabel: "この回と前の回で使った、同期の量の例",
+  bitsHead: ["パラメーター", "型", "同期の量"],
+  bitsRows: [
+    ["HatOn", "Bool", "1 bit"],
+    ["OutfitNo", "Int", "8 bit"],
+    ["HatSize", "Float", "8 bit"],
+    ["合計", "", "17 bit（256 bit まで使える）"],
+  ],
+  bits: [
+    "Synced を外したパラメーターは、量を使いません。そのかわり、ほかの人には Default のままに見えます。自分だけが見られればよいものに使います。",
+    "量が 256 bit を超えると、アップロードできません。Expression Parameters の Inspector などに、いま使っている量が出ます。",
+  ],
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "2着が同時に出る",
+      symptom: "別の服を選んだのに、前の服が消えずに重なる。",
+      cause: "クリップに、ほかの服の行（Is Active が 0）が入っていません。Write Defaults が OFF なので、前の値が残っています。",
+      fix: "Outfit_0〜Outfit_3 のどのクリップにも、3着すべての Is Active の行を入れます。" },
+    { title: "選んでも切り替わらない",
+      symptom: "メニューで服を押しても、何も変わらない。",
+      cause: "Animator のパラメーターの名前か型（Int）が違うか、Any State からの矢印の Equals の数が違います。レイヤーの Weight が 0 のこともあります。",
+      fix: "名前と型を、MA Parameters と Animator でそろえます。矢印の数と、メニューの Value が合っているかを確かめます。" },
+    { title: "動きのあるクリップが最初から再生され続ける",
+      symptom: "選んだ服に揺れなどのアニメーションを付けたら、ずっと最初の形で止まって見える。",
+      cause: "Any State からの矢印で、Can Transition To Self にチェックが入っています。毎フレーム入り直しています。",
+      fix: "Any State から出る矢印のすべてで、Can Transition To Self を外します。" },
+    { title: "回しても大きさが変わらない",
+      symptom: "Radial Puppet を回しても、帽子の大きさが変わらない。",
+      cause: "ステートの Motion Time の Parameter にチェックが入っていないか、クリップに 0 フレーム目のキーしか無いです。",
+      fix: "Motion Time にチェックを入れて HatSize を選びます。クリップの 0 フレーム目と終わりの両方にキーを打ちます。" },
+    { title: "いちばん大きくすると、小さく戻る",
+      symptom: "ダイヤルを最後まで回すと、いちばん小さい形になる。",
+      cause: "クリップの Loop Time にチェックが入っていて、終わりが最初とつながっています。",
+      fix: "Project でクリップを選び、Inspector の Loop Time を外します。" },
+    { title: "真ん中が速く、両端がゆっくり変わる",
+      symptom: "回したぶんだけ変わらず、端の近くではあまり変わらない。",
+      cause: "キーの間の曲線が、端でゆるやかになっています。",
+      fix: "Animation ウィンドウの Curves でキーを選び、右クリックから Both Tangents → Linear にします。" },
+    { title: "ほかの人には遅れて見える",
+      symptom: "自分ではなめらかに変わるのに、友だちからは遅れて、段々に変わって見えると言われた。",
+      cause: "Float の値はネットワークで少し遅れて届き、8 bit に丸められます。",
+      fix: "ふつうのことなので、回し終えたあとの値が合っていれば問題ありません。速い動きを見せたいときは、Float を回すのではなく、クリップ自体を再生する組み方にします。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "Int で切り替えるときは、どのクリップにも、切り替えるものすべての行を入れます。",
+    "Any State から出る矢印は、Can Transition To Self を外します。",
+    "Motion Time に使うクリップは、Loop Time を外し、はじめと終わりにキーを打ちます。",
+    "Float は 8 bit に丸められて、少し遅れてほかの人に届きます。ぴったり同じ値が要るものは、Int で段階に分けます。",
+    "同期の量は、アバター全体で 256 bit までです。服のギミックなど、ほかのツールが足すパラメーターも数に入ります。",
+    "大きさを変えるときは、Humanoid の骨ではなく、小物のオブジェクトの Scale を動かします。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "オンオフは Bool、何個かから1つ選ぶなら Int、少しずつ変えるなら Float です。",
+    "Int は、Any State から Equals の条件で各ステートへ移ります。Can Transition To Self は外します。",
+    "メニューの Toggle は、オンでその Value、オフで 0 にします。値ごとに項目を作ると、1つだけ選べます。",
+    "Float は Radial Puppet で回し、ステートの Motion Time でクリップの位置にします。Blend Tree でも作れます。",
+    "Float は 8 bit に丸められ、少し遅れてほかの人に届きます。",
+  ],
+  next: `次の ${tipLink("gesture")} では、ハンドサインの番号で表情を切り替えます。`,
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "choose", title: l.chooseTitle },
+  { id: "int", title: l.intTitle },
+  { id: "float", title: l.floatTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "sync", title: l.syncTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+const d = l.demo;
+const v0 = 0.5;
+const fill = (text, values) => text.replace(/\{(\w)\}/g, (m, key) => (key in values ? String(values[key]) : m));
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="article_1__p"><%- l.before %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="choose" aria-labelledby="choose-heading">
+    <h2 class="section_2__h1" id="choose-heading"><%= l.chooseTitle %></h2>
+    <p class="article_1__p"><%- l.chooseLead %></p>
+    <section class="table_3" tabindex="0" aria-label="<%= l.chooseTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.chooseHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.chooseRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><% row.slice(1).forEach(function (cell) { %><td><%= cell %></td><% }); %></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <ul class="rules_1">
+      <% l.choose.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="int" aria-labelledby="int-heading">
+    <h2 class="section_2__h1" id="int-heading"><%= l.intTitle %></h2>
+    <p class="article_1__p"><%- l.intLead %></p>
+    <section class="table_3" tabindex="0" aria-label="<%= l.intTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.intHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.intRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><% row.slice(1).forEach(function (cell) { %><td><%= cell %></td><% }); %></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <h3 class="section_2__h2"><%= l.intClipsTitle %></h3>
+    <ol class="steps_1">
+      <% l.intClips.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.intRecTitle %></h3>
+    <ol class="steps_1">
+      <% l.intRec.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%- l.intClipsWhy %></p>
+    <h3 class="section_2__h2"><%= l.intControllerTitle %></h3>
+    <ol class="steps_1">
+      <% l.intController.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.intMock }) %>
+    <% l.anyWhy.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <h3 class="section_2__h2"><%= l.intMenuTitle %></h3>
+    <p class="article_1__p"><%- l.intMenuLead %></p>
+    <ol class="steps_1">
+      <% l.intMenu.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.intMenuMock }) %>
+    <% l.intMenuHow.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="float" aria-labelledby="float-heading">
+    <h2 class="section_2__h1" id="float-heading"><%= l.floatTitle %></h2>
+    <p class="article_1__p"><%- l.floatLead %></p>
+    <ol class="route_1">
+      <% l.floatRoute.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.floatStateTitle %></h3>
+    <ol class="steps_1">
+      <% l.floatState.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.floatMock }) %>
+    <h3 class="section_2__h2"><%= l.floatClipsTitle %></h3>
+    <ol class="steps_1">
+      <% l.floatClips.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%- l.floatColor %></p>
+    <h3 class="section_2__h2"><%= l.floatMenuTitle %></h3>
+    <ol class="steps_1">
+      <% l.floatMenu.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.btTitle %></h3>
+    <p class="article_1__p"><%= l.btLead %></p>
+    <ol class="steps_1">
+      <% l.bt.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <% l.btWhen.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_radial_demo" data-frames="60"
+      data-frame="<%= d.frame %>" data-size="<%= d.size %>" data-color="<%= d.color %>" data-remote="<%= d.remote %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= d.look %></p>
+          <div class="js_radial_look"><%- hat(v0, "size") %></div>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= d.clip %></p>
+          <div class="js_radial_clip"><%- timeline(v0) %></div>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="radial-value"><%= d.slider %></label> <output class="demo_1__value" for="radial-value"><%= v0.toFixed(2) %></output></p>
+          <input type="range" min="0" max="100" step="1" value="<%= v0 * 100 %>" id="radial-value" class="js_radial_value">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= d.mode %></legend>
+          <% d.modes.forEach(function (m, i) { %>
+            <label><input type="radio" name="radial-mode" value="<%= m.value %>" class="js_radial_mode"<% if (i === 0) { %> checked<% } %>> <%= m.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_radial_why"><%= fill(d.frame, { v: v0.toFixed(2), f: Math.round(v0 * FRAMES) }) %></p>
+        <p class="demo_1__result js_radial_result"><%= fill(d.size, { x: (0.5 + v0).toFixed(2) }) %></p>
+        <p class="demo_1__why js_radial_remote"><%= fill(d.remote, { r: remote(v0).toFixed(3) }) %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= d.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="sync" aria-labelledby="sync-heading">
+    <h2 class="section_2__h1" id="sync-heading"><%= l.syncTitle %></h2>
+    <% l.sync.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.bitsTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.bitsHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.bitsRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <ul class="rules_1">
+      <% l.bits.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="article_1__p"><%- l.next %></p>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

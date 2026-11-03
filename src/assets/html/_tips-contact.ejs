@@ -1,0 +1,487 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：触ると反応するギミック（VRC Contact Sender・Receiver と、PhysBone のパラメーター）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// Contact と PhysBone の項目名・タグ・パラメーターは VRChat の「Contacts」「PhysBones」のページから。数の上限は「Performance Ranks」のページから
+const article = avatarTips.articles.find((a) => a.slug === "contact");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipLink = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/${hash ? `#${hash}` : ""}">第${tip(slug).no}回 ${tip(slug).title.ja}</a>`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+const links = {
+  contacts: "https://creators.vrchat.com/common-components/contacts/",
+  tags: "https://creators.vrchat.com/common-components/contacts/built-in-contact-tags",
+  physbones: "https://creators.vrchat.com/common-components/physbones",
+};
+
+// 動く図。Receiver の球の半径は 15 cm。手（Sender）の表面から球の中心までの距離を d cm とする。1 cm を 3 にして描く
+const R = 15;
+const first = { d: 25 };
+const side = (d) => `<svg class="demo_2__svg" viewBox="0 0 200 120" aria-hidden="true" focusable="false">`
+  + `<circle cx="60" cy="84" r="34" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<circle class="js_contact_zone" cx="60" cy="50" r="${R * 3}" fill="#3a7bd5" fill-opacity="0.12" stroke="#3a7bd5" stroke-width="2" stroke-dasharray="5 4"/>`
+  + `<circle cx="60" cy="50" r="2.5" fill="#3a7bd5"/>`
+  + `<circle class="js_contact_hand" cx="${60 + d * 3 + 8}" cy="50" r="8" fill="#e7a77f" stroke="#8a5a44" stroke-width="2"/>`
+  + `</svg>`;
+const blushFace = (b) => `<svg class="demo_2__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">`
+  + `<ellipse cx="60" cy="52" rx="44" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><ellipse cx="78" cy="48" rx="6" ry="8" fill="#3b2a24"/>`
+  + `<g class="js_contact_blush" opacity="${(b / 100).toFixed(2)}"><ellipse cx="32" cy="64" rx="9" ry="5" fill="#ef6f86"/><ellipse cx="88" cy="64" rx="9" ry="5" fill="#ef6f86"/></g>`
+  + `<path d="M50 73 Q60 79 70 73" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "触ると反応するギミック",
+  lead: "頭をなでられると頬が赤くなる。しっぽをつかまれると驚いた顔になる。触れたことを Animator に伝えるのが、VRChat の Contact と、PhysBone のパラメーターです。しくみと、自分で組む手順、ほかの人からの見え方を解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "頭をなでられたら、表情や頬染めで反応させたい。",
+    "髪やしっぽをつかまれたら、表情を変えたい。",
+    "触っても反応しない。自分の手でも反応してしまう。",
+    "反応が、自分には見えるのに、ほかの人には見えているか分からない。",
+  ],
+  whatTitle: "Contact のしくみ",
+  whatLead: `Contact は、「触れた」ことを調べるための VRChat の部品です。Unity のふつうの当たり判定（Collider）とは別のものです。${tipLink("animator-basics", "parameters")}で見たパラメーターに、触れているかどうかを入れてくれます。`,
+  what: [
+    { head: "VRC Contact Sender（送る側）", body: "「ここにある」と知らせるだけの部品です。VRChat は、人型のアバターの頭・体・手・足・指に、Sender を自動で付けています。" },
+    { head: "VRC Contact Receiver（受ける側）", body: "Sender が入ってきたら、Animator のパラメーターに値を入れる部品です。反応させたい場所に、自分で置きます。" },
+    { head: "Collision Tags（タグ）", body: "Sender と Receiver の両方に、同じタグが1つでもあるときだけ反応します。大文字と小文字は区別されます。" },
+    { head: "Allow Self・Allow Others", body: "Receiver が、自分のアバターの Sender（Allow Self）と、ほかの人の Sender（Allow Others）のどちらに反応するかを決めます。" },
+    { head: "Local Only", body: "自分の VRChat の中だけで動かします。ほかの人の画面では動きません。そのかわり、パフォーマンスランクに数えられません。" },
+  ],
+  what2: [
+    `VRChat が自動で付けている Sender には、${ext(links.tags, "Built-In Contact Tags のページ")}にあるタグが付いています。よく使うのは <code>Head</code>（頭）、<code>Torso</code>（体）、<code>Hand</code>（どちらかの手）、<code>HandL</code>・<code>HandR</code>（左手・右手）、<code>Finger</code>（どれかの指）、<code>Foot</code>（足）です。Receiver にこのタグを入れると、ほかの人のアバターの手や指にも反応します。`,
+    "自動の Sender の位置や大きさは、VRC Avatar Descriptor の <code>Colliders</code> の欄で調整できます。ここの Sender は、パフォーマンスランクには数えられません。",
+  ],
+  typesTitle: "Receiver Type の選び方",
+  typesLead: "Receiver が Animator のパラメーターに何を入れるかは、<code>Receiver Type</code> で選びます。",
+  typesTableLabel: "Receiver Type と、入る値・向いている使い方",
+  typesHead: ["Receiver Type", "パラメーターの型", "入る値", "向いている使い方"],
+  typesRows: [
+    ["Constant", "Bool（Float・Int も可）", "触れている間ずっと true（1）。離れると false（0）", "触れている間だけ表情を変える、頬を赤くする"],
+    ["OnEnter", "Bool（Float・Int も可）", "触れた瞬間の1フレームだけ true（1）。次のフレームで戻る", "触れたら1回だけ何かを始める（音を鳴らす、アニメーションを1回流す）"],
+    ["Proximity", "Float だけ", "0〜1。Receiver の中心に近いほど 1 に近づく", "近づくほど強く変える（頬染めの濃さ、目を細める度合い）"],
+  ],
+  types2: [
+    "Proximity の値は、Sender の表面から Receiver の中心までの近さです。Receiver の縁に触れたところで 0 を少し超え、Sender が中心まで来ると 1 になります。いくつも Sender が入っているときは、いちばん近いものの値になります。",
+    "OnEnter には <code>Min Velocity</code> を入れられます。ある速さより速く入ってきたときだけ反応させる値で、「軽く触れたときは反応せず、ぽんと叩いたときだけ反応する」ような使い方ができます。",
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "頭の上に、半径 15 cm の球の Receiver（Collision Tags は Hand と Finger）を置いたとします。手の距離、だれの手か、Allow Self・Allow Others を変えて、Receiver Type ごとの値と、頬染めの結果を見てください。",
+  demo: {
+    side: "横から見た図",
+    faceLabel: "顔",
+    distance: "手から Receiver の中心までの距離（cm）",
+    who: "なでている手",
+    whos: [
+      { value: "others", text: "ほかの人の手" },
+      { value: "self", text: "自分の手" },
+    ],
+    filter: "Receiver の Filtering",
+    type: "頬染めにつなぐ Receiver Type",
+    types: [
+      { value: "constant", text: "Constant（Bool。触れていれば 100）" },
+      { value: "onenter", text: "OnEnter（Bool）" },
+      { value: "proximity", text: "Proximity（Float。Motion Time で 0〜100）" },
+    ],
+    valuesLabel: "Receiver が入れる値",
+    enter: "1（入った瞬間の1フレームだけ）",
+    whyOut: "手が Receiver の球（半径 {r} cm）の外にあります。どの Receiver Type でも 0 です。",
+    whyIn: "手が球の中にあります。Proximity は、中心に近いほど 1 に近づき、いまは {p} です。",
+    whySelf: "手は球の中にありますが、自分の手で、Allow Self が外れているので、Receiver は反応しません。",
+    whyOthers: "手は球の中にありますが、ほかの人の手で、Allow Others が外れているので、Receiver は反応しません。",
+    resultOn: "頬染め（blush）：{b}。頬が赤くなります。",
+    resultOff: "頬染め（blush）：0。頬は赤くなりません。",
+    resultEnter: "頬染め（blush）：0。OnEnter は入った瞬間の1フレームだけ 1 になり、すぐ 0 に戻ります。触れている間ずっと続けたいものには向きません。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  exampleTitle: "頭をなでると頬が赤くなるギミックを作る",
+  exampleLead: `頭の上に Receiver を置き、手や指が近づくほど頬が赤くなるようにします。Receiver Type は Proximity にして、近さを Motion Time で頬染めの濃さにします。Animator の組み方は${tipLink("toggle")}、Motion Time は${tipLink("radial", "float")}で解説しています。`,
+  receiverLabel: "1. Receiver を置く",
+  receiver: [
+    "Hierarchy でアバターの中を開き、Armature の中の頭の骨（Head）を探します。名前や並びはアバターで違います（例：<code>Armature → Hips → Spine → Chest → Neck → Head</code>）。",
+    "Head を右クリックし、<code>Create Empty</code> を押します。できた GameObject の名前を <code>HeadPat</code> にします。頭の骨の子にするのは、頭が動いても Receiver がついてくるようにするためです。",
+    "<code>HeadPat</code> を選んだまま、Inspector の下の <code>Add Component</code> を押し、<code>VRC Contact Receiver</code> と入力して足します。",
+    "<code>Shape Type</code> を <code>Sphere</code> にし、<code>Radius</code> を 0.1〜0.15 くらいにします。Scene ビューに球の線が出ます。<code>Position</code> の Y を少し上げて、球が頭のてっぺんにかぶるようにします。値はアバターの大きさで変わるので、Scene ビューで見ながら決めます。",
+    "<code>Allow Others</code> にチェックを入れます。自分の手でなでても反応させたいときは、<code>Allow Self</code> にもチェックを入れます。<code>Local Only</code> は外したままにします（理由は下の「ほかの人にも同じに見えるか」で説明します）。",
+    "<code>Collision Tags</code> の <code>Add</code> を押し、出てくる一覧から <code>Hand</code> を選びます。もう一度押して <code>Finger</code> も足します。手で入力するときは、大文字と小文字まで同じにします。",
+    "<code>Receiver Type</code> を <code>Proximity</code> にし、<code>Parameter</code> に <code>HeadPat</code> と入力します。",
+  ],
+  receiverMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（VRC Contact Receiver）。名前は例です",
+    screens: [{
+      bar: "Inspector › HeadPat（VRC Contact Receiver）",
+      label: "VRC Contact Receiver の再現図。1 Shape Type Sphere、Radius 0.12、2 Allow Self オフ、Allow Others オン、Local Only オフ、3 Collision Tags は Hand と Finger、4 Receiver Type Proximity、Parameter HeadPat",
+      rows: [
+        { type: "head", text: "Shape" },
+        { mark: 1, label: "Shape Type", type: "select", text: "Sphere" },
+        { label: "Radius", type: "value", text: "0.12" },
+        { label: "Position", type: "value", text: "X 0 · Y 0.1 · Z 0" },
+        { type: "head", text: "Filtering" },
+        { mark: 2, type: "check", on: false, text: "Allow Self" },
+        { type: "check", on: true, text: "Allow Others" },
+        { type: "check", on: false, text: "Local Only" },
+        { mark: 3, label: "Collision Tags", type: "value", text: "Hand, Finger", hot: true },
+        { type: "head", text: "Receiver" },
+        { mark: 4, label: "Receiver Type", type: "select", text: "Proximity", hot: true },
+        { label: "Parameter", type: "value", text: "HeadPat" },
+      ],
+    }],
+    notes: [
+      "頭のてっぺんを包む大きさの球にします。",
+      "ほかの人の手に反応させます。自分の手でも反応させるなら Allow Self も入れます。",
+      "VRChat が手と指に自動で付けている Sender のタグです。",
+      "近いほど 1 に近づく Float を、HeadPat というパラメーターに入れます。",
+    ],
+  },
+  clipLabel: "2. 頬染めのクリップを作る",
+  clip: [
+    `Project ウィンドウで右クリック → <code>Create → Animation</code> で、<code>Blush</code> というクリップを作ります。録画のしかたは${tipLink("animation-clip", "record")}を見てください。`,
+    "Animation ウィンドウでクリップを <code>Blush</code> にし、録画ボタンを押します。時間のバーを 0 にして、顔のメッシュの頬染めの BlendShape（例：<code>cheek_blush</code>）を 0 にします。",
+    "時間のバーを 1:00（1秒）に動かし、頬染めの BlendShape を 100 にします。録画を止めます。Motion Time では、クリップのはじめが 0、終わりが 1 に当たるので、HeadPat が 0.5 なら頬染めは 50 になります。",
+    "頬染めの BlendShape 以外は書きません。",
+  ],
+  layerLabel: "3. FX にレイヤーを作る",
+  layer: [
+    "自分の Animator Controller を Animator ウィンドウで開き、<code>Parameters</code> タブの <code>+</code> から <code>Float</code> を選んで、<code>HeadPat</code> と名前を付けます。Receiver に入れた名前と、大文字小文字まで同じにします。",
+    "<code>HeadPat</code> は、Expression Parameters には足しません。Receiver が値を入れるので、メニューから動かす必要がないためです。",
+    "<code>Layers</code> タブの <code>+</code> で <code>HeadPat</code> レイヤーを作り、歯車を押して <code>Weight</code> を 1 にします。",
+    "Project ウィンドウから <code>Blush</code> のクリップを、Animator ウィンドウへドラッグします。ステートが1つできて、オレンジ色（デフォルト）になります。",
+    "そのステートを選び、Inspector の <code>Motion Time</code> の横の <code>Parameter</code> にチェックを入れ、<code>HeadPat</code> を選びます。<code>Write Defaults</code> は、ほかのレイヤーとそろえます。トランジションは要りません。",
+  ],
+  layerNote: "Proximity でなく Constant にするときは、パラメーターを Bool にし、頬染め 0 のクリップと 100 のクリップのステートを2つ作って、<code>HeadPat</code> の true・false でトランジションさせます。Transition Duration を 0.3 くらいにすると、じわっと赤くなります。",
+  testLabel: "4. つないで試す",
+  test: [
+    `Animator Controller を MA Merge Animator で FX につなぎます（${tipLink("toggle", "connect")}）。<code>HeadPat</code> の GameObject はアバターの中にあるので、そのままアップロードに含まれます。`,
+    "Unity で再生し、Hierarchy に空の GameObject を作って <code>VRC Contact Sender</code> を足し、<code>Collision Tags</code> に <code>Hand</code> を入れます。Scene ビューでそれを頭に近づけ、Animator ウィンドウの Parameters で <code>HeadPat</code> の値が変わるかを見ます。",
+    "Unity での試し方は、道具やバージョンで反応が違うことがあります。いちばん確かなのは、アップロードして、フレンドになでてもらうことです。Allow Self を一時的に入れて、自分の手で試すこともできます（試したら戻します）。",
+  ],
+  physboneTitle: "PhysBone のパラメーター（つかむと反応する）",
+  physbone: [
+    `髪やしっぽを揺らす <code>VRC Phys Bone</code> にも、Animator に値を渡すしくみがあります。PhysBone の <code>Options</code> にある <code>Parameter</code> に名前（例：<code>Tail</code>）を入れると、次のパラメーターが使えるようになります（${ext(links.physbones, "VRChat の PhysBones のページ")}）。`,
+  ],
+  pbTableLabel: "PhysBone の Parameter に Tail と入れたときのパラメーター",
+  pbHead: ["パラメーター", "型", "中身"],
+  pbRows: [
+    ["Tail_IsGrabbed", "Bool", "だれかにつかまれている間 true"],
+    ["Tail_IsPosed", "Bool", "つかんだあと、その形で止められている（ポーズ）間 true"],
+    ["Tail_Angle", "Float", "0〜1。元の向きからどれだけ曲がったか。真反対（180°）で 1"],
+    ["Tail_Stretch", "Float", "0〜1。どれだけ伸びたか。いちばん伸びたとき（Max Stretch）で 1"],
+    ["Tail_Squish", "Float", "0〜1。どれだけ縮んだか。いちばん縮んだとき（Max Squish）で 1"],
+  ],
+  pbLabel: "しっぽをつかむと驚いた顔になる",
+  pbSteps: [
+    "Hierarchy でしっぽの PhysBone が付いた GameObject を選びます。Inspector の <code>VRC Phys Bone</code> の <code>Options</code> を開き、<code>Parameter</code> に <code>Tail</code> と入力します。",
+    "同じ PhysBone の <code>Grab &amp; Pose</code> で、<code>Allow Grabbing</code> がつかめる設定になっているかを確かめます。つかめないと、IsGrabbed は true になりません。",
+    "Animator の <code>Parameters</code> に、<code>Bool</code> で <code>Tail_IsGrabbed</code> を足します。",
+    "<code>Tail Face</code> レイヤーを作り、Weight を 1 にします。ステートを2つ作り、<code>Idle</code> には表情を書かないクリップ（<code>Face_None</code>）、<code>Grabbed</code> には驚いた顔のクリップを入れます。<code>Idle</code> をデフォルトにします。",
+    "<code>Idle</code> から <code>Grabbed</code> へのトランジションの条件を <code>Tail_IsGrabbed</code> が <code>true</code>、戻りを <code>false</code> にします。どちらも Has Exit Time を外し、Transition Duration は 0.1 くらいにします。",
+    "<code>Tail Face</code> レイヤーを、ハンドサインの表情のレイヤーより下に置きます。同じ顔の BlendShape を書くレイヤーは、下のほうが勝つので、つかまれている間はハンドサインより驚いた顔が優先されます。",
+  ],
+  pbMore: `表情のクリップの作り方と、下のレイヤーで「表情を書かないクリップ」を使う理由は、${tipLink("gesture", "layers")}で解説しています。`,
+  pbNote: "つかむ・ポーズを付けるのを、自分だけ・ほかの人だけに許すこともできます。また、ほかの人の設定によっては、その人がつかめないことがあります。",
+  syncTitle: "ほかの人にも同じに見えるか",
+  sync: [
+    "メニューで変えるパラメーターは、Expression Parameters で Synced にして、ほかの人に送ります。Contact や PhysBone のパラメーターは、これとしくみが違います。",
+    `VRChat の説明では、Receiver の Parameter は、Expression Parameters の同期の一覧に入れなくてよいとされています（${ext(links.contacts, "VRChat の Contacts のページ")}）。PhysBone のパラメーターも同じで、自分の VRChat とほかの人の VRChat の両方で PhysBone が動き、それぞれで値が計算されます。Local Only でない Contact も、見ている人それぞれの VRChat で、あなたのアバターの Contact が調べられると考えてください。`,
+    "そのため、ふつうは、ほかの人にもだいたい同じ反応が見えます。ただし、手の位置はネットワークで少し遅れて届くので、見る人によって、反応する瞬間や濃さが少しずれることがあります。OnEnter で回数を数えるような作りでは、人によって数が合わないこともあります。",
+  ],
+  syncTableLabel: "パラメーターの種類と、ほかの人からの見え方",
+  syncHead: ["パラメーターの出どころ", "ほかの人の画面", "Expression Parameters"],
+  syncRows: [
+    ["Contact Receiver（Local Only なし）", "それぞれの VRChat で調べられ、だいたい同じに見える", "入れなくてよい"],
+    ["Contact Receiver（Local Only）", "動かない。反応は自分の画面だけ", "入れなくてよい"],
+    ["PhysBone の Parameter", "それぞれの VRChat で計算され、だいたい同じに見える", "入れなくてよい"],
+    ["メニューで変えるパラメーター（比べるため）", "Synced なら送られて、同じに見える", "入れる"],
+  ],
+  sync2: [
+    "Local Only は、ほかの人に見せなくてよい反応（自分だけに聞こえる音など）に使います。頬染めのように見せたい反応には使いません。",
+    `同じ名前のパラメーターを Expression Parameters にも入れて同期すると、ほかの人の画面で、送られてきた値と、その人の VRChat が Contact で出した値のどちらが使われるかが分かりにくくなります。はじめは入れないでください。どうしても全員に同じ値を見せたいときは、Local Only の Receiver の値を、VRC Avatar Parameter Driver で同期するパラメーターに写す方法がありますが、上級者向けです。同期のしくみは${tipLink("radial", "sync")}も見てください。`,
+  ],
+  costTitle: "重さと数の上限",
+  cost: [
+    "Contact の Sender と Receiver は、パフォーマンスランクの「Contacts」の項目で数えられます。PC では、8 個までなら Excellent、16 個までなら Good、24 個までなら Medium、32 個までなら Poor です（VRChat の Performance Ranks のページ、2026年10月21日更新による）。Local Only の Contact は数えられません。",
+    "Quest やスマホでは上限がずっと少なく、Very Poor の上限を超えると、アバターの Contact と PhysBone がすべて外されます。反応するギミックが、Quest やスマホの人には動かないことがあります。",
+  ],
+  costMore: `ランクの決まり方と上限の表は${tipLink("performance", "limits")}、Quest・スマホでの扱いは${tipLink("quest")}で解説しています。`,
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "触っても何も起きない",
+      symptom: "ほかの人に頭をなでてもらっても、頬が赤くならない。",
+      cause: "Collision Tags の綴りや大文字小文字が違う（hand と Hand など）、Allow Others が外れている、Receiver の Parameter と Animator のパラメーターの名前か型が違う、レイヤーの Weight が 0、のどれかです。",
+      fix: "上から順に確かめます。Unity で再生して、Animator の Parameters の値が変わるかを見ると、Receiver と Animator のどちらが悪いかが分かります。" },
+    { title: "自分の手でも反応してしまう",
+      symptom: "自分で髪を触ったり、頭の近くで手を動かしたりすると、頬が赤くなる。",
+      cause: "Receiver の Allow Self にチェックが入っています。",
+      fix: "Allow Self を外します。ほかの人の手にだけ反応するようになります。" },
+    { title: "一瞬だけ反応してすぐ消える",
+      symptom: "触れた瞬間に何かが起きるが、触れ続けても続かない。",
+      cause: "Receiver Type が OnEnter です。OnEnter は、入った1フレームだけ値が入ります。",
+      fix: "触れている間続けたいときは、Constant（Bool）か Proximity（Float）にします。" },
+    { title: "頬染めが付いたまま戻らない",
+      symptom: "手を離しても、頬が赤いまま残る。",
+      cause: "Write Defaults が OFF で、頬染めを 0 に戻すクリップが無いか、元のステートへ戻るトランジションがありません。",
+      fix: "Constant なら、false で頬染め 0 のステートへ戻るトランジションを作ります。Proximity と Motion Time なら、クリップのはじめに頬染め 0 のキーを打ちます。" },
+    { title: "ほかの人には反応が見えない",
+      symptom: "自分の画面では頬が赤くなるのに、ほかの人には見えていないと言われる。",
+      cause: "Receiver の Local Only にチェックが入っています。または、見ている人が Quest やスマホで、Contact が外されています。",
+      fix: "Local Only を外します。Quest やスマホの人には、ランクの上限を見直します。" },
+    { title: "しっぽをつかんでも変わらない",
+      symptom: "しっぽをつかまれても、表情が変わらない。",
+      cause: "PhysBone の Parameter が空か、Animator のパラメーター名が Tail_IsGrabbed と違います。または Allow Grabbing でつかめない設定です。表情のレイヤーより上にあり、上書きされていることもあります。",
+      fix: "Parameter の名前と、Animator のパラメーター名（大文字小文字まで）を合わせます。Tail Face レイヤーを表情のレイヤーより下に置きます。" },
+  ],
+  casesMore: `ギミックが動かないときの確かめ方は、${tipLink("gimmick-debug", "checklist")}にまとめています。`,
+  careTitle: "気をつけること",
+  care: [
+    "Receiver は、反応させたい骨の子に置きます。アバターの直下に置くと、頭が動いても Receiver がついてきません。",
+    "Receiver を大きくしすぎると、近くを通っただけで反応します。Scene ビューで球の大きさを見ながら決めてください。",
+    "タグは、Sender と Receiver で1つでも同じものがあれば反応します。Hand と Finger を両方入れると、手のひらでも指先でも反応します。",
+    "Contact の数はランクに数えられます。同じ場所に Receiver をいくつも重ねず、1つの Receiver の値を、いくつものレイヤーで使い回します。",
+    "反応させたい表情が、ハンドサインの表情とぶつかるときは、どちらを優先するかをレイヤーの並びで決めます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "Contact は、Sender が Receiver に入ると、Receiver が Animator のパラメーターに値を入れるしくみです。",
+    "触れている間は Constant、触れた瞬間は OnEnter、近さで変えたいときは Proximity を使います。",
+    "Collision Tags は両方に同じものが要り、大文字小文字まで合わせます。Allow Self・Allow Others で、だれに反応するかを決めます。",
+    "PhysBone の Parameter に名前を入れると、_IsGrabbed などでつかまれたことが分かります。",
+    "Contact と PhysBone のパラメーターは同期しなくても、ふつうはほかの人にもだいたい同じに見えます。Local Only は自分の画面だけです。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "what", title: l.whatTitle },
+  { id: "types", title: l.typesTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "example", title: l.exampleTitle },
+  { id: "physbone", title: l.physboneTitle },
+  { id: "sync", title: l.syncTitle },
+  { id: "cost", title: l.costTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading"><%= l.whatTitle %></h2>
+    <p class="article_1__p"><%- l.whatLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.what.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%= item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <% l.what2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="types" aria-labelledby="types-heading">
+    <h2 class="section_2__h1" id="types-heading"><%= l.typesTitle %></h2>
+    <p class="article_1__p"><%- l.typesLead %></p>
+    <section class="table_3" tabindex="0" aria-label="<%= l.typesTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.typesHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.typesRows.forEach(function (row) { %>
+            <tr><th scope="row" class="table_3__nowrap"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td><td><%= row[3] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.types2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_contact_demo" data-radius="<%= R %>" data-enter="<%= l.demo.enter %>"
+      data-why-out="<%= l.demo.whyOut %>" data-why-in="<%= l.demo.whyIn %>"
+      data-why-self="<%= l.demo.whySelf %>" data-why-others="<%= l.demo.whyOthers %>"
+      data-result-on="<%= l.demo.resultOn %>" data-result-off="<%= l.demo.resultOff %>" data-result-enter="<%= l.demo.resultEnter %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.side %></p>
+          <%- side(first.d) %>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.faceLabel %></p>
+          <%- blushFace(0) %>
+          <p class="demo_2__num">blush <span class="js_contact_num">0</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="contact-distance"><%= l.demo.distance %></label> <output class="demo_1__value" for="contact-distance"><%= first.d %></output></p>
+          <input type="range" min="0" max="30" step="1" value="<%= first.d %>" id="contact-distance" class="js_contact_distance">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.who %></legend>
+          <% l.demo.whos.forEach(function (w, i) { %>
+            <label><input type="radio" name="contact-who" value="<%= w.value %>" class="js_contact_who"<% if (i === 0) { %> checked<% } %>> <%= w.text %></label>
+          <% }); %>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.filter %></legend>
+          <label><input type="checkbox" class="js_contact_self"> Allow Self</label>
+          <label><input type="checkbox" class="js_contact_others" checked> Allow Others</label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.type %></legend>
+          <% l.demo.types.forEach(function (t) { %>
+            <label><input type="radio" name="contact-type" value="<%= t.value %>" class="js_contact_type"<% if (t.value === "proximity") { %> checked<% } %>> <%= t.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__label"><%= l.demo.valuesLabel %></p>
+        <ul class="rules_1">
+          <li>Constant：<span class="js_contact_value" data-type="constant">0</span></li>
+          <li>OnEnter：<span class="js_contact_value" data-type="onenter">0</span></li>
+          <li>Proximity：<span class="js_contact_value" data-type="proximity">0</span></li>
+        </ul>
+        <p class="demo_1__why js_contact_why"><%= l.demo.whyOut.replace("{r}", R) %></p>
+        <p class="demo_1__result is_ng js_contact_result"><%= l.demo.resultOff %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="example" aria-labelledby="example-heading">
+    <h2 class="section_2__h1" id="example-heading"><%= l.exampleTitle %></h2>
+    <p class="article_1__p"><%- l.exampleLead %></p>
+    <h3 class="section_2__h2"><%= l.receiverLabel %></h3>
+    <ol class="steps_1">
+      <% l.receiver.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.receiverMock }) %>
+    <h3 class="section_2__h2"><%= l.clipLabel %></h3>
+    <ol class="steps_1">
+      <% l.clip.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.layerLabel %></h3>
+    <ol class="steps_1">
+      <% l.layer.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%- l.layerNote %></p>
+    <h3 class="section_2__h2"><%= l.testLabel %></h3>
+    <ol class="steps_1">
+      <% l.test.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="physbone" aria-labelledby="physbone-heading">
+    <h2 class="section_2__h1" id="physbone-heading"><%= l.physboneTitle %></h2>
+    <% l.physbone.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.pbTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.pbHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.pbRows.forEach(function (row) { %>
+            <tr><th scope="row" class="table_3__nowrap"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <h3 class="section_2__h2"><%= l.pbLabel %></h3>
+    <ol class="steps_1">
+      <% l.pbSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%- l.pbMore %></p>
+    <p class="article_1__p"><%= l.pbNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="sync" aria-labelledby="sync-heading">
+    <h2 class="section_2__h1" id="sync-heading"><%= l.syncTitle %></h2>
+    <% l.sync.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.syncTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.syncHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.syncRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.sync2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="cost" aria-labelledby="cost-heading">
+    <h2 class="section_2__h1" id="cost-heading"><%= l.costTitle %></h2>
+    <% l.cost.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <p class="article_1__p"><%- l.costMore %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+    <p class="article_1__p"><%- l.casesMore %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

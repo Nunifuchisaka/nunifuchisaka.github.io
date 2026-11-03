@@ -1,82 +1,211 @@
 {
-  "_note": "アバター改変の解説の一覧（/avatar-tips/）。新しい回を足すときは、ここに1件足して、src/avatar-tips/<slug>/ と src/en/avatar-tips/<slug>/ を作る。英語（en）は、日本語版の内容が固まってから足す",
+  "_note": "アバター改変の解説の一覧（/avatar-tips/）。no は読む順番（第◯回）。新しい回を足すときは、ここに1件足して part と no を決め、src/avatar-tips/<slug>/ を作る。英語（en）は、日本語版の内容が固まってから足す。problems は一覧の「困りごとから探す」（逆引き）。slug と hash（記事の中の見出しの id）で記事の場所を指す",
+  "parts": [
+    { "id": "start", "title": { "ja": "はじめる" }, "lead": { "ja": "道具を入れて、アバターをアップロードし、服を着せるまで。" } },
+    { "id": "light", "title": { "ja": "軽くして、多くの人に見てもらう" }, "lead": { "ja": "パフォーマンスランクと、Quest・スマホ対応。" } },
+    { "id": "gimmick", "title": { "ja": "Animator でギミックを自分で作る" }, "lead": { "ja": "Animator のしくみから、オンオフ・段階・表情・触れて反応するギミック、動かないときの確かめ方まで。この順に読むと、自分でギミックを組めるようになります。" } },
+    { "id": "look", "title": { "ja": "見た目が思ったとおりにならない" }, "lead": { "ja": "Unity と VRChat での見た目の違いと、半透明の描く順番。" } }
+  ],
   "articles": [
     {
       "no": 1,
-      "slug": "render-queue",
-      "published": "2026-11-02",
-      "title": {
-        "ja": "Render Queue（描画の順番）"
-      },
-      "desc": {
-        "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。"
-      }
+      "part": "start",
+      "slug": "setup",
+      "published": "2026-11-03",
+      "title": { "ja": "VCC・ALCOM・Unity の入れ方" },
+      "desc": { "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。" }
     },
     {
       "no": 2,
-      "slug": "unity-vs-vrchat",
+      "part": "start",
+      "slug": "upload",
       "published": "2026-11-03",
-      "title": {
-        "ja": "Unity と VRChat で見た目が変わる"
-      },
-      "desc": {
-        "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。"
-      }
+      "title": { "ja": "アップロードのしかた" },
+      "desc": { "ja": "買ったアバターを VRChat にアップロードするまで。シェーダーの順番、Builder の見方、更新と Blueprint ID をまとめました。" }
     },
     {
       "no": 3,
-      "slug": "setup",
+      "part": "start",
+      "slug": "outfit",
       "published": "2026-11-03",
-      "title": {
-        "ja": "VCC・ALCOM・Unity の入れ方"
-      },
-      "desc": {
-        "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。"
-      }
+      "title": { "ja": "衣装を着せる" },
+      "desc": { "ja": "買った衣装を Modular Avatar で着せる手順と、体の突き抜けの直し方、メニューで服をオンオフする方法をまとめました。" }
     },
     {
       "no": 4,
-      "slug": "upload",
+      "part": "light",
+      "slug": "performance",
       "published": "2026-11-03",
-      "title": {
-        "ja": "アップロードのしかた"
-      },
-      "desc": {
-        "ja": "買ったアバターを VRChat にアップロードするまで。シェーダーの順番、Builder の見方、更新と Blueprint ID をまとめました。"
-      }
+      "title": { "ja": "パフォーマンスランクと軽量化" },
+      "desc": { "ja": "アバターのランクは、いちばん低い項目で決まります。上限の表と、AAO などで軽くする方法をまとめました。" }
     },
     {
       "no": 5,
-      "slug": "outfit",
+      "part": "light",
+      "slug": "quest",
       "published": "2026-11-03",
-      "title": {
-        "ja": "衣装を着せる"
-      },
-      "desc": {
-        "ja": "買った衣装を Modular Avatar で着せる手順と、体の突き抜けの直し方、メニューで服をオンオフする方法をまとめました。"
-      }
+      "title": { "ja": "Quest・スマホ対応" },
+      "desc": { "ja": "Quest やスマホの人に見てもらうには、軽くした Android 版が要ります。使えないもの、ランクの基準、作り方をまとめました。" }
     },
     {
       "no": 6,
-      "slug": "performance",
+      "part": "gimmick",
+      "slug": "animator-basics",
       "published": "2026-11-03",
-      "title": {
-        "ja": "パフォーマンスランクと軽量化"
-      },
-      "desc": {
-        "ja": "アバターのランクは、いちばん低い項目で決まります。上限の表と、AAO などで軽くする方法をまとめました。"
-      }
+      "title": { "ja": "Animator のしくみ" },
+      "desc": { "ja": "メニューを押してから見た目が変わるまでに、何が動いているのか。FX などのレイヤー、ステート、トランジション、パラメーターの役目をまとめました。" }
     },
     {
       "no": 7,
-      "slug": "quest",
+      "part": "gimmick",
+      "slug": "animation-clip",
       "published": "2026-11-03",
-      "title": {
-        "ja": "Quest・スマホ対応"
-      },
-      "desc": {
-        "ja": "Quest やスマホの人に見てもらうには、軽くした Android 版が要ります。使えないもの、ランクの基準、作り方をまとめました。"
-      }
+      "title": { "ja": "アニメーションを作る" },
+      "desc": { "ja": "ギミックの見た目の変化は、アニメーションクリップに書きます。録画で作る手順、動かせるもの、パスが切れたときの直し方をまとめました。" }
+    },
+    {
+      "no": 8,
+      "part": "gimmick",
+      "slug": "toggle",
+      "published": "2026-11-03",
+      "title": { "ja": "メニューでオンオフするギミックを作る" },
+      "desc": { "ja": "小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。パラメーター、メニュー、アバターへのつなぎ方まで一通り。" }
+    },
+    {
+      "no": 9,
+      "part": "gimmick",
+      "slug": "radial",
+      "published": "2026-11-03",
+      "title": { "ja": "段階で切り替える・少しずつ変えるギミック" },
+      "desc": { "ja": "服を何着かから選ぶ（Int）、色や大きさを回して変える（Float と Radial Puppet）。Motion Time と Blend Tree の使い方をまとめました。" }
+    },
+    {
+      "no": 10,
+      "part": "gimmick",
+      "slug": "gesture",
+      "published": "2026-11-03",
+      "title": { "ja": "ハンドサインで表情を変える" },
+      "desc": { "ja": "GestureLeft・GestureRight の番号で表情を切り替えます。左右の手の優先、まばたきや口との重なり、握りの強さの使い方まで。" }
+    },
+    {
+      "no": 11,
+      "part": "gimmick",
+      "slug": "contact",
+      "published": "2026-11-03",
+      "title": { "ja": "触ると反応するギミック" },
+      "desc": { "ja": "頭をなでると頬が赤くなる、髪をつかむと表情が変わる。Contact と PhysBone のパラメーターで、触れたことを Animator に伝えます。" }
+    },
+    {
+      "no": 12,
+      "part": "gimmick",
+      "slug": "gimmick-debug",
+      "published": "2026-11-03",
+      "title": { "ja": "ギミックが動かないとき" },
+      "desc": { "ja": "メニューを押しても動かない、自分にしか見えない、ワールドを移ると戻る。確かめる順番と、よくある原因の一覧です。" }
+    },
+    {
+      "no": 13,
+      "part": "look",
+      "slug": "unity-vs-vrchat",
+      "published": "2026-11-03",
+      "title": { "ja": "Unity と VRChat で見た目が変わる" },
+      "desc": { "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。" }
+    },
+    {
+      "no": 14,
+      "part": "look",
+      "slug": "render-queue",
+      "published": "2026-11-02",
+      "title": { "ja": "Render Queue（描画の順番）" },
+      "desc": { "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。" }
+    }
+  ],
+  "problems": [
+    {
+      "id": "install",
+      "title": { "ja": "入れる・アップロードする" },
+      "items": [
+        { "q": { "ja": "改変を始めたいが、何を入れればよいか分からない" }, "slug": "setup", "hash": "parts" },
+        { "q": { "ja": "VCC と ALCOM のどちらを使えばよいか迷う" }, "slug": "setup", "hash": "choose" },
+        { "q": { "ja": "Mac で改変したい" }, "slug": "setup", "hash": "mac" },
+        { "q": { "ja": "Unity がライセンスのエラーで開かない" }, "slug": "setup", "hash": "cases" },
+        { "q": { "ja": "ツールやシェーダーをプロジェクトに足したい" }, "slug": "setup", "hash": "packages" },
+        { "q": { "ja": "VRChat SDK のメニューや Builder が出ない" }, "slug": "upload", "hash": "cases" },
+        { "q": { "ja": "「Build and Publish」が押せない" }, "slug": "upload", "hash": "cases" },
+        { "q": { "ja": "Validations に出たメッセージの意味が分からない" }, "slug": "upload", "hash": "validations" },
+        { "q": { "ja": "アップロードしたら、別のアバターが上書きされた" }, "slug": "upload", "hash": "update" },
+        { "q": { "ja": "改変したアバターを、上書きせずに別のアバターとして分けたい" }, "slug": "upload", "hash": "update" }
+      ]
+    },
+    {
+      "id": "outfit",
+      "title": { "ja": "服を着せる" },
+      "items": [
+        { "q": { "ja": "買った衣装を着せたい" }, "slug": "outfit", "hash": "steps" },
+        { "q": { "ja": "動くと服がついてこない" }, "slug": "outfit", "hash": "cases" },
+        { "q": { "ja": "体が服から突き抜ける" }, "slug": "outfit", "hash": "shrink" },
+        { "q": { "ja": "髪やスカートの揺れが二重にかかる" }, "slug": "outfit", "hash": "cases" },
+        { "q": { "ja": "服をメニューで着たり脱いだりしたい（いちばん手早い方法）" }, "slug": "outfit", "hash": "menu" }
+      ]
+    },
+    {
+      "id": "light",
+      "title": { "ja": "重さ・Quest・スマホ" },
+      "items": [
+        { "q": { "ja": "衣装を足したら Very Poor になった" }, "slug": "performance", "hash": "cases" },
+        { "q": { "ja": "ランクがどの項目で決まっているか見たい" }, "slug": "performance", "hash": "where" },
+        { "q": { "ja": "見た目を変えずにアバターを軽くしたい" }, "slug": "performance", "hash": "aao" },
+        { "q": { "ja": "ほかの人から別の姿に見えている" }, "slug": "performance", "hash": "seen" },
+        { "q": { "ja": "Quest やスマホの人にも見てもらいたい" }, "slug": "quest", "hash": "steps" },
+        { "q": { "ja": "Quest の人から、ぼやけた姿やロボットに見える" }, "slug": "quest", "hash": "cases" },
+        { "q": { "ja": "Quest 版で使えるシェーダーが知りたい" }, "slug": "quest", "hash": "shaders" }
+      ]
+    },
+    {
+      "id": "make",
+      "title": { "ja": "ギミックを作りたい" },
+      "items": [
+        { "q": { "ja": "Animator が何をしているのか分からない" }, "slug": "animator-basics", "hash": "picture" },
+        { "q": { "ja": "FX・Gesture などのレイヤーの違いが分からない" }, "slug": "animator-basics", "hash": "layers" },
+        { "q": { "ja": "パラメーターとメニューの関係が分からない" }, "slug": "animator-basics", "hash": "parameters" },
+        { "q": { "ja": "アニメーションクリップの作り方が分からない" }, "slug": "animation-clip", "hash": "record" },
+        { "q": { "ja": "アニメーションで何を動かせるのか知りたい" }, "slug": "animation-clip", "hash": "can" },
+        { "q": { "ja": "小物をメニューで出したり消したりしたい" }, "slug": "toggle", "hash": "plan" },
+        { "q": { "ja": "Modular Avatar を使って、自分で組んだ Animator をアバターにつなぎたい" }, "slug": "toggle", "hash": "connect" },
+        { "q": { "ja": "服を何着かから1つ選んで切り替えたい" }, "slug": "radial", "hash": "int" },
+        { "q": { "ja": "色や大きさを、メニューを回して少しずつ変えたい" }, "slug": "radial", "hash": "float" },
+        { "q": { "ja": "ハンドサインで表情を変えたい" }, "slug": "gesture", "hash": "plan" },
+        { "q": { "ja": "左右の手で違うハンドサインをしたとき、どちらの表情になるか決めたい" }, "slug": "gesture", "hash": "layers" },
+        { "q": { "ja": "頭をなでられたら反応させたい" }, "slug": "contact", "hash": "example" },
+        { "q": { "ja": "髪やしっぽをつかまれたら反応させたい" }, "slug": "contact", "hash": "physbone" }
+      ]
+    },
+    {
+      "id": "broken",
+      "title": { "ja": "ギミックが動かない・おかしい" },
+      "items": [
+        { "q": { "ja": "メニューを押しても何も起きない" }, "slug": "gimmick-debug", "hash": "checklist" },
+        { "q": { "ja": "どこが悪いのか、確かめる順番が知りたい" }, "slug": "gimmick-debug", "hash": "order" },
+        { "q": { "ja": "自分には見えるのに、ほかの人には見えない" }, "slug": "gimmick-debug", "hash": "checklist" },
+        { "q": { "ja": "ワールドを移ったり、アバターを着替えたりすると、オンオフが元に戻る" }, "slug": "toggle", "hash": "params" },
+        { "q": { "ja": "切り替わるのが一拍遅れる・じわっと変わる" }, "slug": "toggle", "hash": "transitions" },
+        { "q": { "ja": "Animation ウィンドウの項目が黄色くなり「Missing!」と出る" }, "slug": "animation-clip", "hash": "path" },
+        { "q": { "ja": "パラメーターが多すぎてアップロードできない" }, "slug": "gimmick-debug", "hash": "checklist" },
+        { "q": { "ja": "表情のときに、まばたきや口の動きが重なって崩れる" }, "slug": "gesture", "hash": "tracking" },
+        { "q": { "ja": "ハンドサインを戻しても、表情が戻らない" }, "slug": "unity-vs-vrchat", "hash": "cases" }
+      ]
+    },
+    {
+      "id": "look",
+      "title": { "ja": "見た目がおかしい" },
+      "items": [
+        { "q": { "ja": "アバターや服がピンク色になる" }, "slug": "upload", "hash": "cases" },
+        { "q": { "ja": "Unity で変えた表情が、VRChat では元に戻る" }, "slug": "unity-vs-vrchat", "hash": "cases" },
+        { "q": { "ja": "服に合わせて縮めた体が、VRChat では元に戻る" }, "slug": "unity-vs-vrchat", "hash": "cases" },
+        { "q": { "ja": "Write Defaults の ON と OFF の違いが分からない" }, "slug": "unity-vs-vrchat", "hash": "write-defaults" },
+        { "q": { "ja": "半透明の髪や服が、角度で消えたり出たりする" }, "slug": "render-queue", "hash": "cases" },
+        { "q": { "ja": "髪や服が水面に隠れる" }, "slug": "render-queue", "hash": "cases" }
+      ]
     }
   ]
 }

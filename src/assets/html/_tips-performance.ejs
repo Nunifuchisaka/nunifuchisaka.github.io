@@ -2,11 +2,13 @@
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
 const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
-// アバター改変の解説 第6回：パフォーマンスランクと軽量化
+// アバター改変の解説：パフォーマンスランクと軽量化
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
 // 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 // 上限の数は VRChat の「Performance Ranks」のページ（2026年10月21日更新）から。VRChat が変えたら pcLimits と demo.items を直す
 const article = avatarTips.articles.find((a) => a.slug === "performance");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
 const published = `${py}年${pm}月${pd}日`;
 const ranks = ["Excellent", "Good", "Medium", "Poor", "Very Poor"];
@@ -76,10 +78,10 @@ const l = {
     ["パーティクル、ライト、音など", "その部品がすべて外される"],
   ],
   seen2: [
-    "スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは第7回で扱います。",
+    "スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは" + tipNo("quest") + "で扱います。",
     "人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。",
   ],
-  seenLink: { href: `${prefix}/avatar-tips/quest/`, text: "第7回 Quest・スマホ対応" },
+  seenLink: { href: `${prefix}/avatar-tips/quest/`, text: "" + tipNo("quest") + " Quest・スマホ対応" },
   limitsTitle: "おもな項目と上限（パソコン版）",
   limitsLead: "表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。",
   limitsTableLabel: "パソコン版のパフォーマンスランクの上限",
@@ -182,13 +184,13 @@ const l = {
   aaoTitle: "AAO で軽くする",
   aaoLead: "AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。",
   aao: [
-    `${ext(links.aao, "AAO のページ")}のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は第3回を見てください）。`,
+    `${ext(links.aao, "AAO のページ")}のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は${tipNo("setup")}を見てください）。`,
     "プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。",
     "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。",
     "Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。",
     "Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。",
   ],
-  aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: "第3回 ツールやシェーダーを足す" },
+  aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: "" + tipNo("setup") + " ツールやシェーダーを足す" },
   casesTitle: "よくある困りごと",
   caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
   cases: [
@@ -207,7 +209,7 @@ const l = {
     { title: "ほかの人には別の姿に見えている",
       symptom: "自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。",
       cause: "見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。",
-      fix: "ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（第7回）。" },
+      fix: "ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（" + tipNo("quest") + "）。" },
   ],
   careTitle: "気をつけること",
   care: [

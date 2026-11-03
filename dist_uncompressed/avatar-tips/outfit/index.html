@@ -139,7 +139,7 @@
 <main id="main">
 <article class="article_1" aria-labelledby="article-heading">
   <header class="section_2 page_1 article_1__header">
-    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第5回</a></p>
+    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第3回</a></p>
     <h1 class="page_1__h1" id="article-heading">衣装を着せる</h1>
     <p class="article_1__lead">買った衣装をアバターに着せる手順を解説します。いまは Modular Avatar（モジュラーアバター）を使うと、ほとんどの衣装が数クリックで着せられます。体が服から突き抜けるときの直し方や、メニューで服をオンオフする方法も、再現図と動かして確かめられる図つきで説明します。</p>
     <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は VRChat のアバター（Avatars 3.0）と Modular Avatar です。2026年11月時点の内容です。</p>
@@ -229,7 +229,7 @@
 
   <section class="section_2 article_1__section" id="install" aria-labelledby="install-heading">
     <h2 class="section_2__h1" id="install-heading">Modular Avatar を入れる</h2>
-    <p class="article_1__p">Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="/avatar-tips/setup/">第3回</a>で解説しています。</p>
+    <p class="article_1__p">Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="/avatar-tips/setup/">第1回</a>で解説しています。</p>
     <ol class="steps_1">
       <li><a href="https://modular-avatar.nadena.dev/ja/docs/intro" target="_blank" rel="noopener">Modular Avatar の公式サイト<span class="visually-hidden">（新しいタブで開きます）</span></a>の「インストール」で、VCC なら「Modular AvatarをVCCに追加」を押します。ALCOM なら「VPMリポジトリを追加」に <code>https://vpm.nadena.dev/vpm.json</code> を入れます。</li><li>VCC は「Manage Project」、ALCOM は「管理」でプロジェクトを開き、Modular Avatar の + を押して入れます。</li>
     </ol>
@@ -425,7 +425,7 @@
 
   <section class="section_2 article_1__section" id="shrink" aria-labelledby="shrink-heading">
     <h2 class="section_2__h1" id="shrink-heading">体が服から突き抜けるとき</h2>
-    <p class="article_1__p">体の形が服より大きいと、動いたときに肌が服から突き抜けます。多くのアバターには、服の下の体を縮めたり消したりする BlendShape（シェイプキー）があります。名前は <code>Shrink_〜</code> や <code>Hide_〜</code> などで、アバターの説明書に書かれています。</p><p class="article_1__p">Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href="/avatar-tips/unity-vs-vrchat/">第2回</a>）。</p><p class="article_1__p">おすすめは、衣装の中に <strong>MA Shape Changer</strong> を付ける方法です。衣装がオンのときだけ、体の BlendShape を決めた値にします。衣装をオフにすると、体は元に戻ります。Delete にすると、服の下の体のポリゴンを消して、軽くすることもできます。</p>
+    <p class="article_1__p">体の形が服より大きいと、動いたときに肌が服から突き抜けます。多くのアバターには、服の下の体を縮めたり消したりする BlendShape（シェイプキー）があります。名前は <code>Shrink_〜</code> や <code>Hide_〜</code> などで、アバターの説明書に書かれています。</p><p class="article_1__p">Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href="/avatar-tips/unity-vs-vrchat/">第13回</a>）。</p><p class="article_1__p">おすすめは、衣装の中に <strong>MA Shape Changer</strong> を付ける方法です。衣装がオンのときだけ、体の BlendShape を決めた値にします。衣装をオフにすると、体は元に戻ります。Delete にすると、服の下の体のポリゴンを消して、軽くすることもできます。</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -534,6 +534,7 @@
     <ol class="steps_1">
       <li>Hierarchy でアバターを右クリックして、<code>Modular Avatar → Create Toggle</code> を選びます。アバターの子に、Menu Item、Menu Installer、Object Toggle が付いたオブジェクトができます。</li><li>オブジェクトの名前を、メニューに出したい名前（たとえば「ドレス」）にします。この名前がメニューの項目名になります。</li><li>Object Toggle の + を押して、衣装のオブジェクトをドラッグします。右のチェックを入れると「選んだときにオン」、外すと「選んだときにオフ」です。</li><li>最初から着ている服なら、Menu Item で「初期設定にする」を押して、はじめはオンにしておきます。</li><li>衣装の中の Shape Changer は、衣装のオンオフに合わせて動きます。脱ぐと、体が元に戻ります。</li>
     </ol>
+    <p class="article_1__p">Animator を自分で組んで、オンオフのしくみから作る方法は、<a href="/avatar-tips/toggle/">第8回 メニューでオンオフするギミックを作る</a>で解説しています。</p>
   </section>
 
   <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
@@ -561,7 +562,7 @@
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>動いたときに、胸やおなか、太ももの肌が服の外に出る。</dd></div>
             <div><dt>原因</dt><dd>服の下の体が大きいままです。</dd></div>
-            <div><dt>直し方</dt><dd>体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（第2回）。</dd></div>
+            <div><dt>直し方</dt><dd>体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（第13回）。</dd></div>
           </dl>
         </section>
       
@@ -628,6 +629,17 @@
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
+
+<nav class="section_2 article_1__pager" aria-label="前後の回">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/avatar-tips/upload/" rel="prev"><span class="next_1__note">前の回（第2回）</span><span class="next_1__text">アップロードのしかた</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/avatar-tips/performance/" rel="next"><span class="next_1__note">次の回（第4回）</span><span class="next_1__text">パフォーマンスランクと軽量化</span></a></li>
+    
+  </ul>
+</nav>
 
 </main><!-- /#main -->
 

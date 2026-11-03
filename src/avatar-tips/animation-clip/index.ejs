@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "アニメーションを作る",
+  description: "ギミックの見た目の変化は、アニメーションクリップに書きます。FX で動かせるもの、Animation ウィンドウの録画で作る手順、キーフレーム、パスが切れて Missing! と出たときの直し方を、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/animation-clip/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/animation-clip-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-animation-clip") %>
+<%- include(path + "assets/html/_tips_pager",{slug:"animation-clip"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

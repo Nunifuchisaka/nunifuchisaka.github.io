@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "ハンドサインで表情を変える",
+  description: "ピースで笑顔、グーで怒り。ハンドサインで表情を変えるしくみを、FX の Animator に自分で組みます。GestureLeft・GestureRight の番号、左右の手の優先、まばたきや口との重なり（Tracking Control）、握りの強さの使い方を、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/gesture/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/gesture-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-gesture") %>
+<%- include(path + "assets/html/_tips_pager",{slug:"gesture"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>
