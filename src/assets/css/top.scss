@@ -224,7 +224,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
      1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
      2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
      3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
-     4. 霜（assets/js/frost.js）… 写真の上に WebGL2 の canvas を重ね、アニメ調の霜を描く。なぞると溶けて凍り直す
+     4. 霜（assets/js/frost.js）… 写真の上に WebGL2 の canvas を重ね、写実的な霜を描く。なぞると溶けて凍り直す
 */
 
 // アイコンを巡る光の角度。@property で <angle> として登録すると、グラデーションの角度をそのままアニメーションできる
