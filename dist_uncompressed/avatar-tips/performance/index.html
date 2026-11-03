@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>パフォーマンスランクと軽量化 | ぬにふちさか</title>
+<meta name="description" content="Very Poor になった、衣装を足したらランクが下がった。パフォーマンスランクの決まり方とパソコン版の上限、ほかの人からの見え方、AAO などで軽くする方法を、再現図と動かして確かめられる図つきで解説。">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/avatar-tips/performance/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="パフォーマンスランクと軽量化">
+<meta property="og:description" content="Very Poor になった、衣装を足したらランクが下がった。パフォーマンスランクの決まり方とパソコン版の上限、ほかの人からの見え方、AAO などで軽くする方法を、再現図と動かして確かめられる図つきで解説。">
+<meta property="og:url" content="https://nunifuchisaka.github.io/avatar-tips/performance/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="パフォーマンスランクと軽量化">
+<meta name="twitter:description" content="Very Poor になった、衣装を足したらランクが下がった。パフォーマンスランクの決まり方とパソコン版の上限、ほかの人からの見え方、AAO などで軽くする方法を、再現図と動かして確かめられる図つきで解説。">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "パフォーマンスランクと軽量化 | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/avatar-tips/performance/",
+  "description": "Very Poor になった、衣装を足したらランクが下がった。パフォーマンスランクの決まり方とパソコン版の上限、ほかの人からの見え方、AAO などで軽くする方法を、再現図と動かして確かめられる図つきで解説。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/rank-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/">ぬにふちさか</a>
+    <nav class="header_4__nav" aria-label="サイト内">
+      <ul>
+        
+          <li><a href="/start/">はじめてのVRChat</a></li>
+        
+          <li><a href="/timeline/">案内実績</a></li>
+        
+          <li><a href="/equipment/">VR機材</a></li>
+        
+          <li><a href="/products/">制作物</a></li>
+        
+          <li><a href="/avatar-tips/" aria-current="true">改変解説</a></li>
+        
+          <li><a href="/videos/">回想</a></li>
+        
+          <li><a href="/dice/">話題サイコロ</a></li>
+        
+          <li><a href="/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">言語切替</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja" selected>日本語</option>
+        <option value="en" disabled>English（準備中）</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="ダークにする" data-label-light="ライトにする">ダークにする</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第6回</a></p>
+    <h1 class="page_1__h1" id="article-heading">パフォーマンスランクと軽量化</h1>
+    <p class="article_1__lead">アップロードしたら Very Poor になった。衣装を足したら、ランクが下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · パソコン版（PC）の VRChat の話です。上限の数は、VRChat の公式ページ（2026年10月21日更新）によります。</p>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        
+          <li><a href="#when">こんなときに読んでください</a></li>
+        
+          <li><a href="#rank">パフォーマンスランクとは</a></li>
+        
+          <li><a href="#seen">ほかの人からどう見えるか</a></li>
+        
+          <li><a href="#limits">おもな項目と上限（パソコン版）</a></li>
+        
+          <li><a href="#where">ランクを見る場所</a></li>
+        
+          <li><a href="#why">なぜ軽くしたほうがよいか</a></li>
+        
+          <li><a href="#demo">動かして確かめる</a></li>
+        
+          <li><a href="#light">軽くする方法</a></li>
+        
+          <li><a href="#aao">AAO で軽くする</a></li>
+        
+          <li><a href="#cases">よくある困りごと</a></li>
+        
+          <li><a href="#care">気をつけること</a></li>
+        
+          <li><a href="#summary">まとめ</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
+    <ul class="rules_1">
+      <li>アップロードしたら、ランクが Very Poor だった。</li><li>衣装やアクセサリーを足したら、ランクが下がった。</li><li>イベントで、Very Poor のアバターは控えてと言われた。</li><li>ほかの人から、自分のアバターが別の姿に見えていると言われた。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="rank" aria-labelledby="rank-heading">
+    <h2 class="section_2__h1" id="rank-heading">パフォーマンスランクとは</h2>
+    <p class="article_1__p">パフォーマンスランクは、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。ポリゴンの数やマテリアルの数など、項目ごとに上限が決まっています。</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Excellent</dt>
+          <dd>いちばん良いランクです。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Good</dt>
+          <dd>十分に良いランクです。目指すならここです。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Medium</dt>
+          <dd>名前のわりに、十分です。ここまで来ていれば、困ることはあまりありません。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Poor</dt>
+          <dd>少し直したほうがよいランクです。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Very Poor</dt>
+          <dd>重いアバターです。上限が無いので、とても重いこともあります。</dd>
+        </div>
+      
+    </dl>
+    <p class="article_1__p">アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。</p><p class="article_1__p">VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。</p><p class="article_1__p">ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。シェーダーやアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="seen" aria-labelledby="seen-heading">
+    <h2 class="section_2__h1" id="seen-heading">ほかの人からどう見えるか</h2>
+    <p class="article_1__p">見る人は、VRChat の「Safety」のタブの右上にある「Performance Options」で、<strong>どのランクまで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。</p>
+    <div class="mock_1 mock_1--vrchat">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Performance Options の再現図。1 Minimum Displayed Performance Rank で、Medium、Poor、Very Poor から選べ、Very Poor が選ばれている">
+        <p class="mock_1__bar">Safety › Performance Options</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--seg is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Minimum Displayed Performance Rank</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span>Medium</span><span>Poor</span><span class="is_on">Very Poor</span></span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：VRChat の Performance Options（見る人の設定）。並びや見た目は簡単にしています</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>パソコン版の初めの設定は「Very Poor」です（どのアバターもそのまま見えます）。「Medium」にすると、Poor と Very Poor のアバターは、部品が外されたり、代わりの姿になったりします。</li>
+    </ol>
+  
+</div>
+
+    <section class="table_3" tabindex="0" aria-label="表示するランクを超えたときの見え方">
+      <table>
+        <thead>
+          <tr><th scope="col">超えた項目</th><th scope="col">見え方</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数</th><td>アバターが、代わりの姿（Fallback）になる</td></tr>
+          
+            <tr><th scope="row">PhysBone や Contact の数</th><td>PhysBone と Contact がすべて外される（髪などが揺れなくなる）</td></tr>
+          
+            <tr><th scope="row">パーティクル、ライト、音など</th><td>その部品がすべて外される</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは第7回で扱います。</p><p class="article_1__p">人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。</p>
+    <p class="section_2__more"><a href="/avatar-tips/quest/">第7回 Quest・スマホ対応</a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
+    <h2 class="section_2__h1" id="limits-heading">おもな項目と上限（パソコン版）</h2>
+    <p class="article_1__p">表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。</p>
+    <section class="table_3" tabindex="0" aria-label="パソコン版のパフォーマンスランクの上限">
+      <table>
+        <thead>
+          <tr><th scope="col">項目</th><th scope="col">Excellent</th><th scope="col">Good</th><th scope="col">Medium</th><th scope="col">Poor</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">三角形の数（Triangles）</th><td class="table_3__nowrap">32,000</td><td class="table_3__nowrap">70,000</td><td class="table_3__nowrap">70,000</td><td class="table_3__nowrap">70,000</td></tr>
+          
+            <tr><th scope="row">テクスチャのメモリ（Texture Memory）</th><td class="table_3__nowrap">40 MB</td><td class="table_3__nowrap">75 MB</td><td class="table_3__nowrap">110 MB</td><td class="table_3__nowrap">150 MB</td></tr>
+          
+            <tr><th scope="row">スキンメッシュの数（Skinned Meshes）</th><td class="table_3__nowrap">1</td><td class="table_3__nowrap">2</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td></tr>
+          
+            <tr><th scope="row">ふつうのメッシュの数（Basic Meshes）</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">24</td></tr>
+          
+            <tr><th scope="row">マテリアルの数（Material Slots）</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">ボーンの数（Bones）</th><td class="table_3__nowrap">75</td><td class="table_3__nowrap">150</td><td class="table_3__nowrap">256</td><td class="table_3__nowrap">400</td></tr>
+          
+            <tr><th scope="row">PhysBone の数（PhysBones Components）</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">PhysBone で動くボーンの数（PhysBones Affected Transforms）</th><td class="table_3__nowrap">16</td><td class="table_3__nowrap">64</td><td class="table_3__nowrap">128</td><td class="table_3__nowrap">256</td></tr>
+          
+            <tr><th scope="row">PhysBone のコライダーの数（PhysBones Colliders）</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">コライダーが当たるかを調べる数（PhysBones Collision Check Count）</th><td class="table_3__nowrap">32</td><td class="table_3__nowrap">128</td><td class="table_3__nowrap">256</td><td class="table_3__nowrap">512</td></tr>
+          
+            <tr><th scope="row">Contact の数（Contacts）</th><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">24</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">ライトの数（Lights）</th><td class="table_3__nowrap">0</td><td class="table_3__nowrap">0</td><td class="table_3__nowrap">0</td><td class="table_3__nowrap">1</td></tr>
+          
+            <tr><th scope="row">パーティクルの数（Particle Systems）</th><td class="table_3__nowrap">0</td><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td></tr>
+          
+            <tr><th scope="row">音を出す部品の数（Audio Sources）</th><td class="table_3__nowrap">1</td><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">8</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p"><strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、メッシュやマテリアル、PhysBone の数に入ります。</p><p class="article_1__p">ほかにも、大きさ（Bounds Size）、Constraint、Animator の数などの項目があります。すべての項目は、<a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat の Performance Ranks のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>で見られます。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="where" aria-labelledby="where-heading">
+    <h2 class="section_2__h1" id="where-heading">ランクを見る場所</h2>
+    <p class="article_1__p">ランクは、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。</p>
+    <h3 class="section_2__h2">Unity（アップロードする前）</h3>
+    <ol class="steps_1">
+      <li>Unity の上のメニューの「VRChat SDK」→「Show Control Panel」を開きます。</li><li>「Builder」のタブで、アバターを選びます。</li><li>パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="VRChat SDK の Builder のパフォーマンスの欄の再現図。1 全体のランク Poor、2 Triangles 69,000 Good、3 PhysBones Components 20 Poor、ほかに Bones 300 Poor、Texture Memory 120 MB Poor など">
+        <p class="mock_1__bar">VRChat SDK › Builder</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Overall Performance</span>
+                <span class="mock_1__control"><span class="mock_1__value">Poor</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Stats</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Triangles</span>
+                <span class="mock_1__control"><span class="mock_1__value">69,000 · Good</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Material Slots</span>
+                <span class="mock_1__control"><span class="mock_1__value">12 · Medium</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Skinned Meshes</span>
+                <span class="mock_1__control"><span class="mock_1__value">6 · Medium</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">PhysBones Components</span>
+                <span class="mock_1__control"><span class="mock_1__value">20 · Poor</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Bones</span>
+                <span class="mock_1__control"><span class="mock_1__value">300 · Poor</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Texture Memory</span>
+                <span class="mock_1__control"><span class="mock_1__value">120 MB · Poor</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：VRChat SDK の Builder のパフォーマンスの欄。並びや見た目、文言は簡単にしています。数は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>アバター全体のランクです。いちばん低い項目のランクになります。</li><li>三角形の数は Good の範囲です。ここを減らしても、全体のランクは上がりません。</li><li>ランクを下げている項目です。ここを減らすと、ランクが上がります。</li>
+    </ol>
+  
+</div>
+
+    <h3 class="section_2__h2">VRChat の中（アップロードしたあと）</h3>
+    <ol class="steps_1">
+      <li>メインメニューの「Avatars」で自分のアバターを選び、左下の「Avatar Stats」を押します。</li><li>ほかの人のアバターは、クイックメニューを開いてその人を選び、「Show Avatar Stats」を押すと見られます。</li><li>文字の色は、その項目のランクを表しています。</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading">なぜ軽くしたほうがよいか</h2>
+    <p class="article_1__p">アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。</p><p class="article_1__p">とくに、マテリアルとメッシュの数が多いと、描くための命令（ドローコール）が増えます。三角形の数より、こちらが効いていることもよくあります。</p><p class="article_1__p">テクスチャのメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
+    <p class="article_1__p">おもな項目の数を変えて、アバター全体のランクがどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。</p>
+    <div class="demo_2 js_rank_demo"
+      data-ranks="Excellent,Good,Medium,Poor,Very Poor" data-ok="このアバターのランクは {r} です。困ることはあまりありません。" data-ng="このアバターのランクは {r} です。太字の項目を減らすと、ランクが上がります。"
+      data-why="いちばん低いのは {i}（{r}）です。ランクは、いちばん低い項目で決まります。" data-all-best="すべての項目が Excellent の範囲です。" data-mark="（いちばん低い）">
+      <div class="demo_2__controls" role="group" aria-label="項目の数">
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-tris">三角形の数</label> <output class="demo_1__value" for="rank-tris">69,000</output></p>
+            <input type="range" id="rank-tris" class="js_rank_input" min="0" max="150000" step="1000" value="69000"
+              data-name="三角形の数" data-limits="32000,70000,70000,70000">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-tex">テクスチャのメモリ</label> <output class="demo_1__value" for="rank-tex">120 MB</output></p>
+            <input type="range" id="rank-tex" class="js_rank_input" min="0" max="300" step="5" value="120"
+              data-name="テクスチャのメモリ" data-limits="40,75,110,150" data-unit=" MB">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-skinned">スキンメッシュの数</label> <output class="demo_1__value" for="rank-skinned">6</output></p>
+            <input type="range" id="rank-skinned" class="js_rank_input" min="1" max="24" step="1" value="6"
+              data-name="スキンメッシュの数" data-limits="1,2,8,16">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-mats">マテリアルの数</label> <output class="demo_1__value" for="rank-mats">12</output></p>
+            <input type="range" id="rank-mats" class="js_rank_input" min="1" max="48" step="1" value="12"
+              data-name="マテリアルの数" data-limits="4,8,16,32">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-bones">ボーンの数</label> <output class="demo_1__value" for="rank-bones">300</output></p>
+            <input type="range" id="rank-bones" class="js_rank_input" min="0" max="600" step="5" value="300"
+              data-name="ボーンの数" data-limits="75,150,256,400">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-pb">PhysBone の数</label> <output class="demo_1__value" for="rank-pb">20</output></p>
+            <input type="range" id="rank-pb" class="js_rank_input" min="0" max="48" step="1" value="20"
+              data-name="PhysBone の数" data-limits="4,8,16,32">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-pbt">PhysBone で動くボーンの数</label> <output class="demo_1__value" for="rank-pbt">180</output></p>
+            <input type="range" id="rank-pbt" class="js_rank_input" min="0" max="400" step="4" value="180"
+              data-name="PhysBone で動くボーンの数" data-limits="16,64,128,256">
+          </div>
+        
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__result is_ng js_rank_result">このアバターのランクは Poor です。太字の項目を減らすと、ランクが上がります。</p>
+        <p class="demo_1__why js_rank_why">いちばん低いのは テクスチャのメモリ、ボーンの数、PhysBone の数、PhysBone で動くボーンの数（Poor）です。ランクは、いちばん低い項目で決まります。</p>
+        <p class="demo_1__label">項目ごとのランク</p>
+        <ul class="rules_1 js_rank_list">
+          
+            <li>三角形の数：69,000 → Good</li>
+          
+            <li><strong>テクスチャのメモリ：120 MB → Poor（いちばん低い）</strong></li>
+          
+            <li>スキンメッシュの数：6 → Medium</li>
+          
+            <li>マテリアルの数：12 → Medium</li>
+          
+            <li><strong>ボーンの数：300 → Poor（いちばん低い）</strong></li>
+          
+            <li><strong>PhysBone の数：20 → Poor（いちばん低い）</strong></li>
+          
+            <li><strong>PhysBone で動くボーンの数：180 → Poor（いちばん低い）</strong></li>
+          
+        </ul>
+      </div>
+      <noscript><p class="section_2__note">図を動かすには、JavaScript を有効にしてください。</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="light" aria-labelledby="light-heading">
+    <h2 class="section_2__h1" id="light-heading">軽くする方法</h2>
+    <p class="article_1__p">効きやすい順に並べています。元のアバターを直接けずる前に、まず 1 と 2 を試してみてください。</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>1. Avatar Optimizer（AAO）を入れる</dt>
+          <dd>アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、メッシュをまとめる、PhysBone をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「AAO で軽くする」を見てください。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>2. 使わない衣装を消す</dt>
+          <dd>オフにしている物も数えられます。着替えない衣装やアクセサリーは、オフにするだけでなく、アバターから消します（アップロード用のアバターを複製して、そちらで消すと安心です）。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>3. メッシュとマテリアルをまとめる</dt>
+          <dd>メッシュをまとめるツールや、テクスチャを1枚にまとめて（アトラス化して）マテリアルを減らすツールがあります。マテリアルとメッシュが減ると、ドローコールが減ります。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>4. PhysBone を減らす</dt>
+          <dd>揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動くボーンの数も減らせます。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>5. テクスチャを小さくする</dt>
+          <dd>テクスチャを選び、Inspector の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>6. ポリゴンを減らす</dt>
+          <dd>ポリゴンを減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="aao" aria-labelledby="aao-heading">
+    <h2 class="section_2__h1" id="aao-heading">AAO で軽くする</h2>
+    <p class="article_1__p">AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。</p>
+    <ol class="steps_1">
+      <li><a href="https://vpm.anatawa12.com/avatar-optimizer/ja/" target="_blank" rel="noopener">AAO のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は第3回を見てください）。</li><li>プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。</li><li>Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。</li><li>Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。</li><li>Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。</li>
+    </ol>
+    <p class="section_2__more"><a href="/avatar-tips/setup/#packages">第3回 ツールやシェーダーを足す</a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">よくある困りごと</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">衣装を足したら Very Poor になった</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>衣装をいくつか入れて、メニューで切り替えられるようにしたら、Very Poor になった。</dd></div>
+            <div><dt>原因</dt><dd>オフの衣装も数えられるため、メッシュとマテリアル、PhysBone の数が増えています。</dd></div>
+            <div><dt>直し方</dt><dd>着替えない衣装を消します。AAO の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">PhysBone の項目だけ Poor</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>ほかは Good なのに、PhysBone の数や、動くボーンの数で Poor になる。</dd></div>
+            <div><dt>原因</dt><dd>衣装ごとに、髪や服の PhysBone が入っています。</dd></div>
+            <div><dt>直し方</dt><dd>揺れなくてもよい PhysBone を外すか、AAO にまとめてもらいます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">テクスチャのメモリが多い</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>Texture Memory が 150 MB を超えて、Very Poor になる。</dd></div>
+            <div><dt>原因</dt><dd>4096 などの大きなテクスチャが、たくさん入っています。</dd></div>
+            <div><dt>直し方</dt><dd>目立たない部分のテクスチャから、Max Size を 2048 や 1024 に下げます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">ほかの人には別の姿に見えている</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。</dd></div>
+            <div><dt>原因</dt><dd>見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。</dd></div>
+            <div><dt>直し方</dt><dd>ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（第7回）。</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
+    <ul class="rules_1">
+      <li>けずる前に、アバターのフォルダを書き出すか、プロジェクトのバックアップを取ってください。けずった部分は戻せないことがあります。</li><li>直接けずるより、AAO のように元を書き換えないツールを先に使ってください。</li><li>ランクは目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。</li><li>ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
+    <ul class="rules_1">
+      <li>アバターのランクは、いちばん低い項目のランクで決まります。</li><li>オフにしている衣装も数えられます。使わない物は消します。</li><li>まず AAO の Trace And Optimize を入れ、次にマテリアル、PhysBone、テクスチャを見直します。</li><li>Good を目指し、むずかしければ Medium で十分です。</li>
+    </ul>
+    <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
+  </section>
+</article>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

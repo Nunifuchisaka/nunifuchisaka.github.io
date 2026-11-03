@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>衣装を着せる | ぬにふちさか</title>
+<meta name="description" content="買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/avatar-tips/outfit/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="衣装を着せる">
+<meta property="og:description" content="買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。">
+<meta property="og:url" content="https://nunifuchisaka.github.io/avatar-tips/outfit/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="衣装を着せる">
+<meta name="twitter:description" content="買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "衣装を着せる | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/avatar-tips/outfit/",
+  "description": "買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/outfit-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/">ぬにふちさか</a>
+    <nav class="header_4__nav" aria-label="サイト内">
+      <ul>
+        
+          <li><a href="/start/">はじめてのVRChat</a></li>
+        
+          <li><a href="/timeline/">案内実績</a></li>
+        
+          <li><a href="/equipment/">VR機材</a></li>
+        
+          <li><a href="/products/">制作物</a></li>
+        
+          <li><a href="/avatar-tips/" aria-current="true">改変解説</a></li>
+        
+          <li><a href="/videos/">回想</a></li>
+        
+          <li><a href="/dice/">話題サイコロ</a></li>
+        
+          <li><a href="/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">言語切替</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja" selected>日本語</option>
+        <option value="en" disabled>English（準備中）</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="ダークにする" data-label-light="ライトにする">ダークにする</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第5回</a></p>
+    <h1 class="page_1__h1" id="article-heading">衣装を着せる</h1>
+    <p class="article_1__lead">買った衣装をアバターに着せる手順を解説します。いまは Modular Avatar（モジュラーアバター）を使うと、ほとんどの衣装が数クリックで着せられます。体が服から突き抜けるときの直し方や、メニューで服をオンオフする方法も、再現図と動かして確かめられる図つきで説明します。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は VRChat のアバター（Avatars 3.0）と Modular Avatar です。2026年11月時点の内容です。</p>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        
+          <li><a href="#when">こんなときに読んでください</a></li>
+        
+          <li><a href="#before">着せる前に確かめること</a></li>
+        
+          <li><a href="#why">Modular Avatar を使う理由</a></li>
+        
+          <li><a href="#install">Modular Avatar を入れる</a></li>
+        
+          <li><a href="#steps">衣装を着せる手順</a></li>
+        
+          <li><a href="#merge">Setup Outfit がしていること</a></li>
+        
+          <li><a href="#shrink">体が服から突き抜けるとき</a></li>
+        
+          <li><a href="#demo">動かして確かめる</a></li>
+        
+          <li><a href="#menu">メニューで服を着たり脱いだりする</a></li>
+        
+          <li><a href="#test">再生して確かめる</a></li>
+        
+          <li><a href="#cases">よくある困りごと</a></li>
+        
+          <li><a href="#care">気をつけること</a></li>
+        
+          <li><a href="#summary">まとめ</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
+    <ul class="rules_1">
+      <li>BOOTH などで買った衣装を、自分のアバターに着せたい。</li><li>衣装を着せたのに、動くと服がついてこない。体が服から突き抜ける。</li><li>服をメニューで着たり脱いだりできるようにしたい。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="before" aria-labelledby="before-heading">
+    <h2 class="section_2__h1" id="before-heading">着せる前に確かめること</h2>
+    <p class="article_1__p">衣装には、どのアバター向けに作られたかが決まっています。説明書や販売ページで確かめてください。</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>対応アバター</dt>
+          <dd>販売ページに「対応アバター」として名前があれば、そのアバターに合わせて作られています。このページの手順で、ほぼそのまま着せられます。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>非対応のアバター</dt>
+          <dd>名前が無いアバターにも着せられることはありますが、大きさや形を自分で合わせる必要があります。難しいので、はじめは対応アバターの衣装から試してください。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>必要なシェーダー</dt>
+          <dd>多くの衣装は lilToon などのシェーダーを使います。説明書に書かれたシェーダーを、先にプロジェクトに入れておきます。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>利用規約</dt>
+          <dd>改変してよい範囲や、アップロードの条件は衣装ごとに違います。使う前に読んでおきます。</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading">Modular Avatar を使う理由</h2>
+    <p class="article_1__p">昔は、衣装のボーン（骨）をアバターのボーンの中に1本ずつ入れ直して着せていました。手間がかかるうえ、まちがえると元に戻すのが大変で、アバターや衣装を更新するとやり直しになりました。</p><p class="article_1__p">Modular Avatar は、<strong>アップロードするときや Unity で再生したときだけ</strong>、衣装のボーンをアバターのボーンに自動でまとめます（Merge Armature）。編集中のアバターや衣装はそのままなので、こわしません。衣装を外したいときは、Hierarchy から衣装を消すだけです。</p>
+    <ol class="route_1">
+      
+        <li class="route_1__step"><span class="route_1__head">衣装をアバターの中に置く</span><span class="route_1__note">Hierarchy でドラッグ</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Setup Outfit</span><span class="route_1__note">Merge Armature が付く</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">再生・アップロード</span><span class="route_1__note">ボーンが自動でまとまる</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">体に沿って動く</span><span class="route_1__note">元のデータはそのまま</span></li>
+      
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="install" aria-labelledby="install-heading">
+    <h2 class="section_2__h1" id="install-heading">Modular Avatar を入れる</h2>
+    <p class="article_1__p">Modular Avatar は、VCC か ALCOM でプロジェクトに入れます。VCC と ALCOM の入れ方は、<a href="/avatar-tips/setup/">第3回</a>で解説しています。</p>
+    <ol class="steps_1">
+      <li><a href="https://modular-avatar.nadena.dev/ja/docs/intro" target="_blank" rel="noopener">Modular Avatar の公式サイト<span class="visually-hidden">（新しいタブで開きます）</span></a>の「インストール」で、VCC なら「Modular AvatarをVCCに追加」を押します。ALCOM なら「VPMリポジトリを追加」に <code>https://vpm.nadena.dev/vpm.json</code> を入れます。</li><li>VCC は「Manage Project」、ALCOM は「管理」でプロジェクトを開き、Modular Avatar の + を押して入れます。</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="steps" aria-labelledby="steps-heading">
+    <h2 class="section_2__h1" id="steps-heading">衣装を着せる手順</h2>
+    <ol class="steps_1">
+      <li>衣装の unitypackage を、Unity の Project ウィンドウにドラッグして、「Import」を押します。</li><li>衣装のフォルダから、アバター名の付いたプレハブ（Prefab）を探します。対応アバターごとにプレハブが分かれていることが多いです。</li><li>そのプレハブを、Hierarchy のアバター（VRC Avatar Descriptor が付いたもの）の上にドラッグして、アバターの子にします。</li><li>衣装を右クリックして、<code>[ModularAvatar] Setup Outfit</code> を選びます。</li><li>元から着ていた服をオフにします（Inspector の左上のチェックを外します）。</li><li>Unity の再生ボタンを押して、アバターを動かしても服がついてくるかを確かめます。</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Hierarchy の再現図。アバター Avatar_A の子に、Armature、Body、元の服 Default_Outfit、1 新しい衣装 Dress_for_Avatar_A がある">
+        <p class="mock_1__bar">Hierarchy</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">▼ Avatar_A</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　▶ Armature</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　Body</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　Default_Outfit</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">　▶ Dress_for_Avatar_A</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+      <div class="mock_1__screen" role="img" aria-label="衣装を右クリックしたメニューの再現図。2 [ModularAvatar] Setup Outfit がある">
+        <p class="mock_1__bar">右クリックのメニュー</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Copy</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Paste</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Rename</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Duplicate</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">[ModularAvatar] Setup Outfit</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：Unity の Hierarchy と、衣装を右クリックしたメニュー。名前は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>衣装のプレハブを、アバターのすぐ下（子）に置きます。アバターの外や、Armature の中に置かないでください。</li><li>衣装を右クリックして選びます。衣装の中の Armature を見つけて、Merge Armature を付けてくれます。</li>
+    </ol>
+  
+</div>
+
+  </section>
+
+  <section class="section_2 article_1__section" id="merge" aria-labelledby="merge-heading">
+    <h2 class="section_2__h1" id="merge-heading">Setup Outfit がしていること</h2>
+    <p class="article_1__p">Setup Outfit を選ぶと、衣装の中の Armature に <strong>MA Merge Armature</strong> が付き、衣装のいちばん上に <strong>MA Outfit Root</strong> が付きます。</p><p class="article_1__p">Merge Armature は、衣装のボーンを名前で探して、アバターの同じ名前のボーンにまとめます。アバターに無いボーン（スカートの骨など）は、アバターのボーンの子として足されます。衣装の揺れもの（PhysBone）も、まとめた先のボーンを動かすように直されます。</p><p class="article_1__p">まとめるのは、再生したときとアップロードするときだけです。再生をやめると、Hierarchy は元の形に戻ります。</p>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="MA Merge Armature の再現図。1 統合先 Armature、前置詞と後置詞、2 位置追従モード アバターからターゲットへ一方向、3 名前かぶりを回避 にチェック">
+        <p class="mock_1__bar">Inspector › Armature（Dress_for_Avatar_A の中）</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Merge Armature</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">統合先</span>
+                <span class="mock_1__control"><span class="mock_1__select">Armature (Transform)</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">前置詞</span>
+                <span class="mock_1__control"><span class="mock_1__value"></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">後置詞</span>
+                <span class="mock_1__control"><span class="mock_1__value"></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">位置追従モード</span>
+                <span class="mock_1__control"><span class="mock_1__select">アバター =====&gt; ターゲット（一方向）</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">名前かぶりを回避</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：衣装の Armature に付いた MA Merge Armature（Modular Avatar の表示を日本語にしたとき）。並びは簡単にしています</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>衣装のボーンをまとめる先です。アバターの Armature が入ります。Setup Outfit が自動で入れるので、ふつうは変えません。</li><li>編集中に、アバターのポーズに合わせて衣装も動かす設定です。Setup Outfit では、この一方向の設定になります。</li><li>アバターに無いボーンの名前を変えて、ほかのアイテムのボーンとぶつからないようにします。</li>
+    </ol>
+  
+</div>
+
+  </section>
+
+  <section class="section_2 article_1__section" id="shrink" aria-labelledby="shrink-heading">
+    <h2 class="section_2__h1" id="shrink-heading">体が服から突き抜けるとき</h2>
+    <p class="article_1__p">体の形が服より大きいと、動いたときに肌が服から突き抜けます。多くのアバターには、服の下の体を縮めたり消したりする BlendShape（シェイプキー）があります。名前は <code>Shrink_〜</code> や <code>Hide_〜</code> などで、アバターの説明書に書かれています。</p><p class="article_1__p">Body の Skinned Mesh Renderer で、この BlendShape の値を上げれば縮みます。ただし、この値は服を脱いでも縮んだままです。また、アバターの FX の Animator がこの BlendShape を書いていると、VRChat では Unity で入れた値に戻ってしまいます（<a href="/avatar-tips/unity-vs-vrchat/">第2回</a>）。</p><p class="article_1__p">おすすめは、衣装の中に <strong>MA Shape Changer</strong> を付ける方法です。衣装がオンのときだけ、体の BlendShape を決めた値にします。衣装をオフにすると、体は元に戻ります。Delete にすると、服の下の体のポリゴンを消して、軽くすることもできます。</p>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="MA Shape Changer の再現図。1 Target Renderer は Body、2 Shrink_Chest を Set で 100、3 Hide_Belly を Delete">
+        <p class="mock_1__bar">Inspector › Dress（Dress_for_Avatar_A の中）</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Shape Changer</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Target Renderer</span>
+                <span class="mock_1__control"><span class="mock_1__select">Body (Skinned Mesh Renderer)</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--seg">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Shrink_Chest</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span class="is_on">Set</span><span>Delete</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--slider">
+                
+                <span class="mock_1__label">値</span>
+                <span class="mock_1__control"><span class="mock_1__slider" style="--v: 100%;"><span></span></span><span class="mock_1__num">100</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--seg">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">Hide_Belly</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span>Set</span><span class="is_on">Delete</span></span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：衣装の中に付けた MA Shape Changer。BlendShape の名前は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>縮めたい体のメッシュ（ふつうは Body）を入れます。</li><li>Set は、衣装がオンのときに、この値にします。縮める BlendShape に使います。</li><li>Delete は、衣装がオンのときに、この BlendShape がかかる部分を消します。服で完全に隠れる部分に使います。</li>
+    </ol>
+  
+</div>
+
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
+    <p class="article_1__p">体の縮小の値と縮め方を変えて、服を着たとき、脱いだときの見た目を比べてみてください。FX の Animator はこの BlendShape を書いていないものとします。</p>
+    <div class="demo_2 js_outfit_demo"
+      data-why-unity="Body に入れた値は、服を着ていても脱いでいても同じです。" data-why-changer="Shape Changer は、衣装がオンのときだけ値を入れます。脱ぐと 0 に戻ります。"
+      data-poke="服を着ているとき：体が服から突き抜けています。値を上げてください。" data-fit="服を着ているとき：体が服の中に収まっています。"
+      data-stay="服を脱いだとき：体が縮んだまま（{v}）です。" data-back="服を脱いだとき：体が元の形に戻ります。">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who">服を着ているとき</p>
+          <div class="js_outfit_figure" data-wear="1"><svg class="demo_2__svg" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><circle cx="100" cy="26" r="16" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse class="js_outfit_body" cx="100" cy="92" rx="52.00" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><rect x="54" y="46" width="92" height="94" rx="18" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/><path d="M84 46 L100 64 L116 46" fill="none" stroke="#34508f" stroke-width="2"/></svg></div>
+          <p class="demo_2__num">Shrink <span class="js_outfit_num" data-wear="1">0</span></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who">服を脱いだとき</p>
+          <div class="js_outfit_figure" data-wear="0"><svg class="demo_2__svg" viewBox="0 0 200 150" aria-hidden="true" focusable="false"><circle cx="100" cy="26" r="16" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse class="js_outfit_body" cx="100" cy="92" rx="52.00" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/></svg></div>
+          <p class="demo_2__num">Shrink <span class="js_outfit_num" data-wear="0">0</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="outfit-shrink">体の縮小（Shrink）</label> <output class="demo_1__value" for="outfit-shrink">0</output></p>
+          <input type="range" min="0" max="100" step="10" value="0" id="outfit-shrink" class="js_outfit_shrink">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">縮め方</legend>
+          
+            <label><input type="radio" name="outfit-mode" value="unity" class="js_outfit_mode" checked> Body の BlendShape に値を入れる</label>
+          
+            <label><input type="radio" name="outfit-mode" value="changer" class="js_outfit_mode"> 衣装に MA Shape Changer を付ける</label>
+          
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_outfit_why">Body に入れた値は、服を着ていても脱いでいても同じです。</p>
+        <p class="demo_1__result is_ng js_outfit_result" data-wear="1">服を着ているとき：体が服から突き抜けています。値を上げてください。</p>
+        <p class="demo_1__result is_ok js_outfit_result" data-wear="0">服を脱いだとき：体が元の形に戻ります。</p>
+      </div>
+      <noscript><p class="section_2__note">図を動かすには、JavaScript を有効にしてください。</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
+    <h2 class="section_2__h1" id="menu-heading">メニューで服を着たり脱いだりする</h2>
+    <p class="article_1__p">Modular Avatar を使うと、Animator を自分で作らなくても、Expressions Menu（Action Menu）に服のオンオフを足せます。</p>
+    <ol class="steps_1">
+      <li>Hierarchy でアバターを右クリックして、<code>Modular Avatar → Create Toggle</code> を選びます。アバターの子に、Menu Item、Menu Installer、Object Toggle が付いたオブジェクトができます。</li><li>オブジェクトの名前を、メニューに出したい名前（たとえば「ドレス」）にします。この名前がメニューの項目名になります。</li><li>Object Toggle の + を押して、衣装のオブジェクトをドラッグします。右のチェックを入れると「選んだときにオン」、外すと「選んだときにオフ」です。</li><li>最初から着ている服なら、Menu Item で「初期設定にする」を押して、はじめはオンにしておきます。</li><li>衣装の中の Shape Changer は、衣装のオンオフに合わせて動きます。脱ぐと、体が元に戻ります。</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
+    <h2 class="section_2__h1" id="test-heading">再生して確かめる</h2>
+    <ul class="rules_1">
+      <li>Unity の再生ボタンを押すと、Modular Avatar が衣装をまとめた状態になります。Scene でアバターのポーズを動かして、服がついてくるか、突き抜けないかを見ます。</li><li>Gesture Manager を入れておくと、再生中に Expressions Menu を開いて、服のオンオフも試せます。</li><li>大丈夫なら、アップロードして VRChat でも確かめます。鏡の前で、しゃがむ、腕を上げるなど、大きく動いてみてください。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">よくある困りごと</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">服がついてこない</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>再生したり VRChat で動いたりすると、服がその場に残る。</dd></div>
+            <div><dt>原因</dt><dd>Setup Outfit をしていないか、衣装がアバターの子になっていません。</dd></div>
+            <div><dt>直し方</dt><dd>衣装をアバターのすぐ下に置き、右クリックから Setup Outfit をし直します。衣装の Armature に MA Merge Armature が付いているかも確かめます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">体が服から突き抜ける</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>動いたときに、胸やおなか、太ももの肌が服の外に出る。</dd></div>
+            <div><dt>原因</dt><dd>服の下の体が大きいままです。</dd></div>
+            <div><dt>直し方</dt><dd>体を縮める BlendShape を、MA Shape Changer で衣装に付けます。Body に直接値を入れた場合は、FX の Animator が値を書いていないかも確かめます（第2回）。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">服が浮く・大きさが合わない</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>服が体から離れて浮いている。袖や裾の長さが合わない。</dd></div>
+            <div><dt>原因</dt><dd>対応していないアバター用のプレハブを使っているか、アバターの体型を変えています。</dd></div>
+            <div><dt>直し方</dt><dd>自分のアバター用のプレハブかを確かめます。体型を BlendShape で変えているときは、衣装側の同じ BlendShape を合わせるか、MA Blendshape Sync で同じ値にします。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">揺れものが二重にかかる</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>胸や髪の揺れ方がおかしい。跳ねたり、震えたりする。</dd></div>
+            <div><dt>原因</dt><dd>衣装とアバターの両方に、同じボーンを動かす PhysBone が入っていることがあります。</dd></div>
+            <div><dt>直し方</dt><dd>衣装の説明書を見て、どちらの PhysBone を使うかを決め、要らないほうを消すかオフにします。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">メニューが出ない</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>Expressions Menu に、作ったトグルが出てこない。</dd></div>
+            <div><dt>原因</dt><dd>Menu Installer が無いか、トグルのオブジェクトがアバターの外にあります。メニューの項目数がいっぱいのこともあります。</dd></div>
+            <div><dt>直し方</dt><dd>トグルをアバターの子に置き、Menu Installer が付いているかを確かめます。再生して Gesture Manager でも確かめます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">服がピンク色になる</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>衣装の服が、ピンク一色で表示される。</dd></div>
+            <div><dt>原因</dt><dd>衣装が使っているシェーダーが、プロジェクトに入っていません。</dd></div>
+            <div><dt>直し方</dt><dd>説明書に書かれたシェーダー（lilToon など）を入れます。入れたあとも直らないときは、マテリアルのシェーダーを選び直します。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">対応していないアバターに着せたい</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>好きな衣装が、自分のアバターに対応していない。</dd></div>
+            <div><dt>原因</dt><dd>体の形やボーンの位置がちがうため、そのままでは合いません。</dd></div>
+            <div><dt>直し方</dt><dd>Outfit Root の「位置を元アバターに合わせてリセット」で大まかに合わせてから、ボーンの位置や大きさを少しずつ直します。合わせるためのツールもあります。手間がかかるので、改変に慣れてからがおすすめです。利用規約で非対応のアバターへの改変が認められているかも確かめます。</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
+    <ul class="rules_1">
+      <li>衣装やアバターのプレハブは、Unpack しなくて大丈夫です。Unpack しないほうが、更新を入れたときに楽です。</li><li>元の服を消すのではなく、オフにしておくと、あとで戻せます。</li><li>衣装を足すと、ポリゴン数やマテリアル数が増えて、パフォーマンスランクが下がることがあります。アップロードの前に確かめます。</li><li>改変の前に、プロジェクトのバックアップを取っておくと安心です。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
+    <ul class="rules_1">
+      <li>衣装は、対応アバター用のプレハブを、アバターの子に置きます。</li><li>右クリックの Setup Outfit で、Modular Avatar がボーンを自動でまとめます。元のデータはこわれません。</li><li>体の突き抜けは、MA Shape Changer で、衣装がオンのときだけ体を縮めます。</li><li>Create Toggle で、メニューから服を着たり脱いだりできます。</li>
+    </ul>
+    <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
+  </section>
+</article>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>
