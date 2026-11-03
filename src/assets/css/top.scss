@@ -224,6 +224,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
      1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
      2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
      3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
+     4. 霜（assets/js/frost.js）… 写真の上に WebGL2 の canvas を重ね、アニメ調の霜を描く。なぞると溶けて凍り直す
 */
 
 // アイコンを巡る光の角度。@property で <angle> として登録すると、グラデーションの角度をそのままアニメーションできる
@@ -265,6 +266,12 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     }
   }
 
+  // 写真と、その上に重なる霜の canvas。スクロールで沈む視差はこの箱ごと動かす
+  &__picture {
+    position: relative;
+    aspect-ratio: 3 / 1;
+  }
+
   &__banner img {
     display: block;
     width: 100%;
@@ -276,6 +283,16 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     @include sp {
       border-radius: 0;
     }
+  }
+
+  &__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: pan-y; // 指でなぞって溶かせるが、縦スクロールは邪魔しない
   }
 
   &__body {
@@ -397,7 +414,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
   // スクロール連動。バナーが画面上端から出ていく間（exit）だけ、沈む動きが進む
   @supports (animation-timeline: view()) {
-    .profile_2__banner img {
+    .profile_2__picture {
       animation: profile_2-sink linear both;
       animation-timeline: view(block);
       animation-range: exit;
