@@ -1,0 +1,414 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説 第3回：VCC・ALCOM・Unity の入れ方
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// Unity のバージョンは VRChat が決めるので、変わったら unityVersion を直す
+const article = avatarTips.articles.find((a) => a.slug === "setup");
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+const unityVersion = "2022.3.22f1";
+const links = {
+  vcc: "https://vrchat.com/home/download",
+  alcom: "https://vrc-get.anatawa12.com/ja/alcom/",
+  hub: "https://unity.com/ja/download",
+  unityVersion: "https://creators.vrchat.com/sdk/upgrade/current-unity-version/",
+};
+const newTab = "（新しいタブで開きます）";
+const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "VCC・ALCOM・Unity の入れ方",
+  lead: `アバターを改変してアップロードするには、Unity と、プロジェクトを用意するためのツール（VCC か ALCOM）が要ります。それぞれの役目と、どちらを選ぶか、入れる手順を、再現図つきで解説します。`,
+  meta: `VRChat が使う Unity は ${unityVersion} です（2026年11月時点）。`,
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "はじめてアバターを改変する。",
+    "パソコンを買い替えて、改変できるように入れ直す。",
+    "VCC が重い、Mac で改変したいなど、ALCOM が気になっている。",
+  ],
+  partsTitle: "入れるもの",
+  partsLead: "入れるものは3つです。Unity Hub と Unity は必ず要ります。VCC と ALCOM は、どちらか1つあれば足ります。",
+  parts: [
+    { head: "Unity Hub", body: "Unity を入れたり、管理したりするソフトです。Unity のアカウントでサインインして、無料のライセンスを有効にするのも、ここで行います。" },
+    { head: `Unity ${unityVersion}`, body: "アバターを改変するソフトです。<strong>VRChat が決めたバージョン</strong>を入れます。新しいバージョンを入れても、VRChat にはアップロードできません。" },
+    { head: "VCC（VRChat Creator Companion）", body: "VRChat 公式のツールです。プロジェクトを作り、VRChat SDK などのパッケージを入れたり更新したりします。" },
+    { head: "ALCOM", body: "VCC と同じことができる、非公式のツールです。動きが速く、Mac や Linux でも使えます。VCC と設定を共有しているので、両方入れても大丈夫です。" },
+  ],
+  route: [
+    { head: "Unity Hub", note: "サインインとライセンス" },
+    { head: `Unity ${unityVersion}`, note: "Unity Hub で入れる" },
+    { head: "VCC か ALCOM", note: "プロジェクトを作る" },
+    { head: "Unity で開く", note: "アバターを入れて改変" },
+  ],
+  chooseTitle: "VCC と ALCOM、どちらを使うか",
+  chooseTableLabel: "VCC と ALCOM のちがい",
+  chooseHead: ["", "VCC", "ALCOM"],
+  chooseRows: [
+    ["作っているところ", "VRChat（公式）", "有志（非公式・オープンソース）"],
+    ["使えるパソコン", "Windows（Mac と Linux は、文字だけで操作する版が一部）", "Windows・Mac・Linux"],
+    ["速さ", "パッケージを入れるのに待つことがある", "速い。まとめて入れたり更新したりできる"],
+    ["Unity を入れる", "画面の案内に沿って、自動で入れられる", "Unity Hub で自分で入れる（入れたものは自動で見つける）"],
+    ["日本語", "英語", "日本語で表示できる"],
+  ],
+  choose: [
+    "<strong>Windows で、はじめてなら VCC</strong> がおすすめです。公式なので、配布ページや解説の多くが VCC を前提にしています。Unity も案内どおりに入れられます。",
+    "<strong>Mac や Linux なら ALCOM</strong> を使います。Windows でも、VCC が重いと感じたら ALCOM を試してみてください。プロジェクトやリポジトリの設定は共有されるので、あとから乗り換えても作り直しは要りません。",
+  ],
+  prepTitle: "入れる前に",
+  prep: [
+    "Windows 10 か 11 のパソコン。Unity が動く性能が要ります。",
+    "空き容量。Unity だけで数GB、プロジェクトも1つで数GBになります。余裕をもって空けておきます。",
+    "Unity のアカウント（無料）。Unity Hub を入れたあとにサインインします。持っていなければ、Unity のサイトで作ります。",
+    "<strong>パソコンの名前、ユーザー名、フォルダの名前に、日本語などの全角文字を使わない</strong>。Unity でエラーが出ることがあります。プロジェクトの名前も、半角の英数字にします。",
+  ],
+  vccTitle: "VCC で入れる（Windows）",
+  vccLead: "VCC を先に入れて、その案内に沿って Unity Hub と Unity を入れます。",
+  vccSteps: [
+    `VRChat の${ext(links.vcc, "ダウンロードページ")}から、Creator Companion をダウンロードします。`,
+    "ダウンロードしたインストーラーを開きます。「Select Setup Install Mode」では「Install for me only (recommended)」を選び、案内に沿って進めます。",
+    "VCC を開き、左下の「Settings」を押します。Unity Hub と Unity が入っていないと、「Unity Editors」に印が出ています。「Install Now」を押します。",
+    "「Install Unity」を押すと、Unity Hub を入れる案内が出ます。リンクから Unity のサイトへ行き、Unity Hub をダウンロードして入れます。",
+    "Unity Hub が開いたら、Unity のアカウントでサインインします。Unity Hub が Unity を入れるか聞いてきたら、ここでは入れません（VCC が入れます）。",
+    `VCC に戻り、「I have installed the Unity Hub」を押します。続けて「Install Unity ${unityVersion}」を押します。「このアプリがデバイスに変更を加えることを許可しますか？」と出たら「はい」を押します。`,
+    "入れ終わったら「Continue」を押します。",
+  ],
+  vccMock: {
+    variant: "vcc",
+    caption: "再現図：VCC の設定画面と、Unity を入れる画面。並びや見た目は簡単にしています",
+    screens: [
+      {
+        bar: "Creator Companion › Settings",
+        tabs: ["General", "Packages", "Projects"],
+        activeTab: 0,
+        label: "VCC の設定画面の再現図。General タブの Unity Editors の欄に、1 Install Now のボタンがある",
+        rows: [
+          { type: "head", text: "Unity Editors" },
+          { mark: 1, label: "Unity が見つかりません", type: "button", text: "Install Now", hot: true },
+        ],
+      },
+      {
+        bar: "Creator Companion › Unity Installation",
+        label: `VCC の Unity を入れる画面の再現図。2 I have installed the Unity Hub、3 Install Unity ${unityVersion} のボタンがある`,
+        rows: [
+          { mark: 2, label: "Unity Hub", type: "button", text: "I have installed the Unity Hub" },
+          { mark: 3, label: "Unity", type: "button", text: `Install Unity ${unityVersion}`, hot: true },
+        ],
+      },
+    ],
+    notes: [
+      "Unity Hub と Unity が入っていないときに出ます。押すと、Unity を入れる画面に進みます。",
+      "Unity Hub を入れて、サインインしてから押します。",
+      `VRChat が使うバージョン（${unityVersion}）の Unity を、Unity Hub を通して入れます。Android 用の部品もいっしょに入ります。`,
+    ],
+  },
+  licenseTitle: "Unity のライセンスを有効にする",
+  license: [
+    "Unity を使うには、Unity Hub でサインインして、ライセンスを有効にしておく必要があります。個人で使うなら、無料の Personal ライセンスで足ります。",
+    "Unity を開いたときにライセンスのエラーが出たら、Unity Hub の設定（歯車）の「Licenses」で、ライセンスを追加します。うまくいかないときは、ライセンスの申請ファイルを作って、Unity のサイトで手動で有効にする方法もあります。",
+  ],
+  alcomTitle: "ALCOM で入れる（Windows・Mac・Linux）",
+  alcomLead: "ALCOM は Unity を自分では入れないので、Unity Hub で入れます。ALCOM は、入れた Unity を自動で見つけます。",
+  alcomSteps: [
+    `${ext(links.alcom, "ALCOM のサイト")}から、使っているパソコンに合うものをダウンロードします。Windows はインストーラー（.zip）、Mac はディスクイメージ（.dmg）です。`,
+    "ALCOM を開くと、初期設定が始まります。「UI設定」で言語と見た目を決めて、「進む」を押します。",
+    `「Unity Hubの設定」で Unity Hub が見つからないときは、「unity.comでUnity Hubをダウンロードする」から ${ext(links.hub, "Unity Hub")} を入れて、サインインします。入れたら「Unity Hubの有無を再確認する」を押します。`,
+    "「保存先の設定」でプロジェクトを作る場所を、「バックアップ設定」でバックアップの場所を決めます。どちらも、全角文字の入らない場所にします。",
+    "Windows では「システム設定」で、ブラウザの「Add to VCC」などのボタンから ALCOM が開くようにできます。「初期設定が完了しました！」と出たら、「ALCOMを使い始める」を押します。",
+    `Unity Hub で Unity ${unityVersion} を入れます（次の「Unity Hub で Unity を入れる」）。入れたら、ALCOM を開き直します。`,
+  ],
+  alcomMock: {
+    variant: "alcom",
+    caption: "再現図：ALCOM の初期設定の画面（日本語表示）。並びや見た目は簡単にしています",
+    screens: [{
+      bar: "ALCOM › 初期設定",
+      tabs: ["UI設定", "Unity Hubの設定", "保存先の設定", "バックアップ設定", "システム設定"],
+      activeTab: 1,
+      label: "ALCOM の初期設定の再現図。Unity Hubの設定の画面に、1 使用するUnity Hub、2 unity.comでUnity Hubをダウンロードする、3 Unity Hubの有無を再確認する、4 進む がある",
+      rows: [
+        { type: "head", text: "Unity Hubのインストール" },
+        { mark: 1, label: "使用するUnity Hub", type: "value", text: "Unity Hubが見つかりませんでした。" },
+        { mark: 2, type: "button", text: "unity.comでUnity Hubをダウンロードする" },
+        { mark: 3, type: "button", text: "Unity Hubの有無を再確認する", hot: true },
+        { mark: 4, type: "button", text: "進む" },
+      ],
+    }],
+    notes: [
+      "見つかった Unity Hub の場所が出ます。入っていないときは「見つかりませんでした」と出ます。",
+      "Unity のサイトが開きます。Unity Hub をダウンロードして入れ、サインインします。",
+      "Unity Hub を入れたら押します。それでも見つからないときは、Unity Hub の場所を手で指定します。",
+      "Unity Hub が見つかったら、次の設定に進みます。",
+    ],
+  },
+  hubTitle: "Unity Hub で Unity を入れる",
+  hubLead: `ALCOM を使うとき、VCC で Unity をうまく入れられなかったときは、Unity Hub で ${unityVersion} を入れます。最新のバージョンではなく、<strong>このバージョンを選ぶ</strong>のが大事です。`,
+  hubSteps: [
+    "Unity Hub を入れて、サインインしておきます。",
+    `VRChat の${ext(links.unityVersion, "「Current Unity Version」のページ")}を開き、Unity Hub で入れるリンクを押します。Unity Hub が開き、${unityVersion} を入れる画面になります。`,
+    "入れる部品（モジュール）を選びます。Quest やスマホ向けのアバターも作るなら「Android Build Support」に印を付けます。",
+    "「Install」を押して、入れ終わるのを待ちます。",
+    `リンクが開けないときは、Unity Hub の「Installs」→「Install Editor」で、古いバージョンの一覧（Archive）から ${unityVersion} を探します。`,
+  ],
+  hubMock: {
+    variant: "hub",
+    caption: `再現図：Unity Hub で ${unityVersion} に足す部品を選ぶ画面。名前や並びは簡単にしています`,
+    screens: [{
+      bar: `Unity Hub › Install Unity ${unityVersion} › Add modules`,
+      label: `Unity Hub の部品を選ぶ画面の再現図。1 Android Build Support に印、2 iOS Build Support、3 Windows Build Support (Mono)、4 Install のボタン`,
+      rows: [
+        { type: "head", text: "Platforms" },
+        { mark: 1, type: "check", on: true, text: "Android Build Support", hot: true },
+        { type: "check", on: true, text: "　OpenJDK" },
+        { type: "check", on: true, text: "　Android SDK &amp; NDK Tools" },
+        { mark: 2, type: "check", on: false, text: "iOS Build Support" },
+        { mark: 3, type: "check", on: false, text: "Windows Build Support (Mono)" },
+        { mark: 4, type: "button", text: "Install" },
+      ],
+    }],
+    notes: [
+      "Quest・Android 向けのアバターを作るときに要ります。中の OpenJDK と Android SDK &amp; NDK Tools にも印を付けます。",
+      "iPhone などの iOS 向けを作るときに要ります。",
+      "Mac で、Windows（パソコン版）向けのアバターを作るときに要ります。Windows では要りません。",
+      "選んだら押します。入れ終わるまで、しばらくかかります。",
+    ],
+  },
+  macTitle: "Mac で改変するとき",
+  mac: [
+    "VCC の画面つきの版は Windows 用なので、Mac では ALCOM を使います。",
+    "Unity Hub と Unity は Mac 版を入れます。パソコン版（Windows）向けのアバターを作るには、「Windows Build Support (Mono)」を足します。",
+    "Mac での改変やアップロードは、VRChat の正式な対応ではありません。うまくいかないときは、Windows のパソコンでの作業も考えてください。",
+  ],
+  projectTitle: "プロジェクトを作る",
+  projectLead: "入れ終わったら、アバター用のプロジェクトを作って、Unity で開いてみます。",
+  projectVcc: [
+    "左の「Projects」で「Create New Project」を押します。",
+    "テンプレートの「Avatars」を選びます。",
+    "プロジェクトの名前（半角の英数字）と、保存する場所を決めて、「Create Project」を押します。",
+    "一覧に出たプロジェクトの「Open Project」を押すと、Unity で開きます。",
+  ],
+  projectAlcom: [
+    "「プロジェクト」で「プロジェクトを作成」を押します。",
+    `テンプレートの「VRChat Avatars」を選び、Unity のバージョンが ${unityVersion} になっているか確かめます。`,
+    "名前（半角の英数字）を入れ、「プロジェクトが作成可能です！」と出たら「作成する」を押します。",
+    "一覧に出たプロジェクトの「Unityを開く」を押すと、Unity で開きます。",
+  ],
+  projectVccLabel: "VCC のとき",
+  projectAlcomLabel: "ALCOM のとき",
+  projectNote: "はじめて開くときは、時間がかかります。開いたら、上のメニューに「VRChat SDK」があるかを確かめます。アバターや衣装を入れるのは、そのあとです。",
+  packagesTitle: "ツールやシェーダーを足す",
+  packages: [
+    "改変でよく使うツールやシェーダーには、VCC や ALCOM で入れるもの（パッケージ）があります。配布ページの「Add to VCC」のボタンを押すと、配布元（リポジトリ）が足されます。ALCOM でも同じボタンから足せます。",
+    "ボタンが無いときは、配布ページにある URL を、VCC なら「Settings」→「Packages」→「Add Repository」、ALCOM なら「VPMリポジトリを追加」に入れます。",
+    "足したら、プロジェクトの「Manage Project」（ALCOM は「管理」）を開き、使いたいパッケージを入れます。",
+  ],
+  casesTitle: "よくある困りごと",
+  caseLabels: { symptom: "起きること", fix: "直し方" },
+  cases: [
+    { title: "Unity Hub が新しいバージョンを勧めてくる",
+      symptom: "Unity Hub が、新しいバージョンを入れるように勧めてくる。古いバージョンだとセキュリティの警告が出る。",
+      fix: `入れずに閉じます。VRChat 用のプロジェクトは ${unityVersion} のままにします。VRChat も、この警告は VRChat のアバターやワールドには当てはまらないと案内しています。` },
+    { title: "Unity が見つからないと出る",
+      symptom: "VCC や ALCOM で、Unity が見つからないと出る。プロジェクトが開けない。",
+      fix: `Unity Hub で ${unityVersion} が入っているかを確かめます。入っていれば、VCC は「Settings」の Unity Editors で、ALCOM は「設定」の「Unityを追加」で、Unity の場所を指定します。ALCOM は開き直すと見つかることもあります。` },
+    { title: "ライセンスのエラーで Unity が開かない",
+      symptom: "Unity を開こうとすると、ライセンスがないと出る。",
+      fix: "Unity Hub でサインインしているかを確かめ、「Licenses」で無料のライセンスを追加します。" },
+    { title: "Unity Hub が入らない",
+      symptom: "Unity Hub や Unity を入れる途中で止まる、失敗する。",
+      fix: "許可を求められたら「はい」を押します。それでもだめなら、インストーラーを右クリックして「管理者として実行」で開きます。" },
+    { title: "プロジェクトでエラーが出る",
+      symptom: "プロジェクトを作ったり開いたりすると、エラーがたくさん出る。",
+      fix: "プロジェクトの名前や、保存した場所のフォルダ名に全角文字が無いかを確かめます。パソコンの名前やユーザー名が日本語のときも起きることがあります（ALCOM では「PC名に問題あり」と出ます）。" },
+    { title: "VCC が重い・パッケージが入らない",
+      symptom: "VCC の起動や、パッケージを入れるのに時間がかかる。",
+      fix: "ALCOM を試してみてください。設定を共有しているので、同じプロジェクトをそのまま開けます。" },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    `Unity は ${unityVersion} から上げないでください。VRChat は 2026年6月から Unity 6 版の公開テストをしていますが、Unity 6 で作ったものは、まだアップロードできません。VRChat がバージョンを変えるときは、公式のお知らせに従います。`,
+    "VCC、ALCOM、Unity Hub は、それぞれの公式の配布ページから入れます。",
+    "ALCOM は VRChat の公式のツールではありません。ALCOM で困ったことは、VRChat ではなく ALCOM の配布元に問い合わせます。",
+    "改変の前に、プロジェクトのバックアップを取っておくと安心です。VCC も ALCOM も、プロジェクトのバックアップを作れます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    `Unity Hub と Unity ${unityVersion} は必ず入れます。新しいバージョンは入れません。`,
+    "Windows ではじめてなら VCC、Mac や Linux、VCC が重いときは ALCOM を使います。",
+    "パソコンの名前、フォルダ、プロジェクトの名前には全角文字を使いません。",
+    "プロジェクトを作って Unity で開き、「VRChat SDK」のメニューがあれば準備完了です。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "parts", title: l.partsTitle },
+  { id: "choose", title: l.chooseTitle },
+  { id: "prep", title: l.prepTitle },
+  { id: "vcc", title: l.vccTitle },
+  { id: "license", title: l.licenseTitle },
+  { id: "alcom", title: l.alcomTitle },
+  { id: "hub", title: l.hubTitle },
+  { id: "mac", title: l.macTitle },
+  { id: "project", title: l.projectTitle },
+  { id: "packages", title: l.packagesTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="parts" aria-labelledby="parts-heading">
+    <h2 class="section_2__h1" id="parts-heading"><%= l.partsTitle %></h2>
+    <p class="article_1__p"><%= l.partsLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.parts.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="choose" aria-labelledby="choose-heading">
+    <h2 class="section_2__h1" id="choose-heading"><%= l.chooseTitle %></h2>
+    <section class="table_3" tabindex="0" aria-label="<%= l.chooseTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.chooseHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.chooseRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.choose.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="prep" aria-labelledby="prep-heading">
+    <h2 class="section_2__h1" id="prep-heading"><%= l.prepTitle %></h2>
+    <ul class="rules_1">
+      <% l.prep.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="vcc" aria-labelledby="vcc-heading">
+    <h2 class="section_2__h1" id="vcc-heading"><%= l.vccTitle %></h2>
+    <p class="article_1__p"><%= l.vccLead %></p>
+    <ol class="steps_1">
+      <% l.vccSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.vccMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="license" aria-labelledby="license-heading">
+    <h2 class="section_2__h1" id="license-heading"><%= l.licenseTitle %></h2>
+    <% l.license.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="alcom" aria-labelledby="alcom-heading">
+    <h2 class="section_2__h1" id="alcom-heading"><%= l.alcomTitle %></h2>
+    <p class="article_1__p"><%= l.alcomLead %></p>
+    <ol class="steps_1">
+      <% l.alcomSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.alcomMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="hub" aria-labelledby="hub-heading">
+    <h2 class="section_2__h1" id="hub-heading"><%= l.hubTitle %></h2>
+    <p class="article_1__p"><%- l.hubLead %></p>
+    <ol class="steps_1">
+      <% l.hubSteps.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.hubMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="mac" aria-labelledby="mac-heading">
+    <h2 class="section_2__h1" id="mac-heading"><%= l.macTitle %></h2>
+    <ul class="rules_1">
+      <% l.mac.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="project" aria-labelledby="project-heading">
+    <h2 class="section_2__h1" id="project-heading"><%= l.projectTitle %></h2>
+    <p class="article_1__p"><%= l.projectLead %></p>
+    <h3 class="section_2__h2"><%= l.projectVccLabel %></h3>
+    <ol class="steps_1">
+      <% l.projectVcc.forEach(function (step) { %><li><%= step %></li><% }); %>
+    </ol>
+    <h3 class="section_2__h2"><%= l.projectAlcomLabel %></h3>
+    <ol class="steps_1">
+      <% l.projectAlcom.forEach(function (step) { %><li><%= step %></li><% }); %>
+    </ol>
+    <p class="article_1__p"><%= l.projectNote %></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="packages" aria-labelledby="packages-heading">
+    <h2 class="section_2__h1" id="packages-heading"><%= l.packagesTitle %></h2>
+    <% l.packages.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

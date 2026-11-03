@@ -22,6 +22,17 @@
       "desc": {
         "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。"
       }
+    },
+    {
+      "no": 3,
+      "slug": "setup",
+      "published": "2026-11-03",
+      "title": {
+        "ja": "VCC・ALCOM・Unity の入れ方"
+      },
+      "desc": {
+        "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。"
+      }
     }
   ]
 }

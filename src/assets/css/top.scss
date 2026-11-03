@@ -2588,6 +2588,39 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     --m-accent: #0067c0;
   }
 
+  &--vcc {
+    --m-bg: #1c1f26;
+    --m-bar: #14161b;
+    --m-panel: #252a33;
+    --m-text: #e8eaf0;
+    --m-muted: #a3a9b8;
+    --m-line: #353b47;
+    --m-accent: #3b82f6;
+    --m-on-accent: #fff;
+  }
+
+  &--hub {
+    --m-bg: #222;
+    --m-bar: #191919;
+    --m-panel: #2b2b2b;
+    --m-text: #e4e4e4;
+    --m-muted: #a8a8a8;
+    --m-line: #3a3a3a;
+    --m-accent: #2196f3;
+    --m-on-accent: #fff;
+  }
+
+  &--alcom {
+    --m-bg: #fff;
+    --m-bar: #f4f4f5;
+    --m-panel: #fff;
+    --m-text: #18181b;
+    --m-muted: #52525b;
+    --m-line: #e4e4e7;
+    --m-accent: #18181b;
+    --m-on-accent: #fff;
+  }
+
   &--unity {
     --m-bg: #383838;
     --m-bar: #282828;
@@ -2878,6 +2911,24 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     background: #2a2a2a;
     border: 1px solid var(--m-line);
     border-radius: 3px;
+  }
+
+  &--vcc &__value,
+  &--hub &__value,
+  &--alcom &__value {
+    min-width: 0;
+    margin-left: 0;
+    text-align: left;
+    background: var(--m-bar);
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 3px 12px;
+    font-weight: 700;
+    color: var(--m-on-accent);
+    background: var(--m-accent);
+    border-radius: 4px;
   }
 
   &__caption {
