@@ -4,232 +4,441 @@ const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
 // アバター改変の解説：パフォーマンスランクと軽量化
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
-// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
-// 上限の数は VRChat の「Performance Ranks」のページ（2026年10月21日更新）から。VRChat が変えたら pcLimits と demo.items を直す
+// 上限の数は VRChat の「Performance Ranks」のページ（2026年10月21日更新）から。VRChat が変えたら pcLimits と demo.items を日英とも直す
 const article = avatarTips.articles.find((a) => a.slug === "performance");
 const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
-const tipNo = (slug) => `第${tip(slug).no}回`;
+const tipNo = (slug) => isEn ? `#${tip(slug).no}` : `第${tip(slug).no}回`;
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const [py, pm, pd] = article.published.split("-").map(Number);
-const published = `${py}年${pm}月${pd}日`;
+const published = isEn ? `${MONTHS_EN[pm - 1]} ${pd}, ${py}` : `${py}年${pm}月${pd}日`;
 const ranks = ["Excellent", "Good", "Medium", "Poor", "Very Poor"];
-const fmt = (n) => n.toLocaleString("ja-JP");
+const numLocale = isEn ? "en-US" : "ja-JP";
+const fmt = (n) => n.toLocaleString(numLocale);
+// 動く図の「項目名：数 → ランク」の区切りと、いちばん低い項目が複数あるときのつなぎ。rank-demo.js にも data 属性で渡す
+const listSep = isEn ? ": " : "：";
+const nameJoin = isEn ? ", " : "、";
 const rankOf = (value, limits) => {
   const i = limits.findIndex((limit) => value <= limit);
   return i === -1 ? limits.length : i;
 };
 const links = {
   ranks: "https://creators.vrchat.com/avatars/avatar-performance-ranking-system/",
-  aao: "https://vpm.anatawa12.com/avatar-optimizer/ja/",
+  aao: isEn ? "https://vpm.anatawa12.com/avatar-optimizer/en/" : "https://vpm.anatawa12.com/avatar-optimizer/ja/",
 };
-const newTab = "（新しいタブで開きます）";
+const newTab = isEn ? " (opens in a new tab)" : "（新しいタブで開きます）";
 const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
 
 const l = {
-  series: `アバター改変の解説 第${article.no}回`,
-  title: "パフォーマンスランクと軽量化",
-  lead: "アップロードしたら Very Poor になった。衣装を足したら、ランクが下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。",
-  meta: "パソコン版（PC）の VRChat の話です。上限の数は、VRChat の公式ページ（2026年10月21日更新）によります。",
-  publishedLabel: "公開",
-  tocLabel: "目次",
-  whenTitle: "こんなときに読んでください",
-  when: [
-    "アップロードしたら、ランクが Very Poor だった。",
-    "衣装やアクセサリーを足したら、ランクが下がった。",
-    "イベントで、Very Poor のアバターは控えてと言われた。",
-    "ほかの人から、自分のアバターが別の姿に見えていると言われた。",
-  ],
-  rankTitle: "パフォーマンスランクとは",
-  rankLead: "パフォーマンスランクは、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。ポリゴンの数やマテリアルの数など、項目ごとに上限が決まっています。",
-  rankItems: [
-    { head: "Excellent", body: "いちばん良いランクです。" },
-    { head: "Good", body: "十分に良いランクです。目指すならここです。" },
-    { head: "Medium", body: "名前のわりに、十分です。ここまで来ていれば、困ることはあまりありません。" },
-    { head: "Poor", body: "少し直したほうがよいランクです。" },
-    { head: "Very Poor", body: "重いアバターです。上限が無いので、とても重いこともあります。" },
-  ],
-  rankNotes: [
-    "アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。",
-    "VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。",
-    "ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。シェーダーやアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。",
-  ],
-  seenTitle: "ほかの人からどう見えるか",
-  seen: [
-    "見る人は、VRChat の「Safety」のタブの右上にある「Performance Options」で、<strong>どのランクまで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。",
-  ],
-  seenMock: {
-    variant: "vrchat",
-    caption: "再現図：VRChat の Performance Options（見る人の設定）。並びや見た目は簡単にしています",
-    screens: [{
-      bar: "Safety › Performance Options",
-      label: "Performance Options の再現図。1 Minimum Displayed Performance Rank で、Medium、Poor、Very Poor から選べ、Very Poor が選ばれている",
-      rows: [
-        { mark: 1, label: "Minimum Displayed Performance Rank", type: "seg", options: ["Medium", "Poor", "Very Poor"], active: 2, hot: true },
+  ja: {
+    series: `アバター改変の解説 第${article.no}回`,
+    title: "パフォーマンスランクと軽量化",
+    lead: "アップロードしたら Very Poor になった。衣装を足したら、ランクが下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。",
+    meta: "パソコン版（PC）の VRChat の話です。上限の数は、VRChat の公式ページ（2026年10月21日更新）によります。",
+    publishedLabel: "公開",
+    tocLabel: "目次",
+    whenTitle: "こんなときに読んでください",
+    when: [
+      "アップロードしたら、ランクが Very Poor だった。",
+      "衣装やアクセサリーを足したら、ランクが下がった。",
+      "イベントで、Very Poor のアバターは控えてと言われた。",
+      "ほかの人から、自分のアバターが別の姿に見えていると言われた。",
+    ],
+    rankTitle: "パフォーマンスランクとは",
+    rankLead: "パフォーマンスランクは、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。ポリゴンの数やマテリアルの数など、項目ごとに上限が決まっています。",
+    rankItems: [
+      { head: "Excellent", body: "いちばん良いランクです。" },
+      { head: "Good", body: "十分に良いランクです。目指すならここです。" },
+      { head: "Medium", body: "名前のわりに、十分です。ここまで来ていれば、困ることはあまりありません。" },
+      { head: "Poor", body: "少し直したほうがよいランクです。" },
+      { head: "Very Poor", body: "重いアバターです。上限が無いので、とても重いこともあります。" },
+    ],
+    rankNotes: [
+      "アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。",
+      "VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。",
+      "ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。シェーダーやアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。",
+    ],
+    seenTitle: "ほかの人からどう見えるか",
+    seen: [
+      "見る人は、VRChat の「Safety」のタブの右上にある「Performance Options」で、<strong>どのランクまで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。",
+    ],
+    seenMock: {
+      variant: "vrchat",
+      caption: "再現図：VRChat の Performance Options（見る人の設定）。並びや見た目は簡単にしています",
+      screens: [{
+        bar: "Safety › Performance Options",
+        label: "Performance Options の再現図。1 Minimum Displayed Performance Rank で、Medium、Poor、Very Poor から選べ、Very Poor が選ばれている",
+        rows: [
+          { mark: 1, label: "Minimum Displayed Performance Rank", type: "seg", options: ["Medium", "Poor", "Very Poor"], active: 2, hot: true },
+        ],
+      }],
+      notes: [
+        "パソコン版の初めの設定は「Very Poor」です（どのアバターもそのまま見えます）。「Medium」にすると、Poor と Very Poor のアバターは、部品が外されたり、代わりの姿になったりします。",
       ],
-    }],
-    notes: [
-      "パソコン版の初めの設定は「Very Poor」です（どのアバターもそのまま見えます）。「Medium」にすると、Poor と Very Poor のアバターは、部品が外されたり、代わりの姿になったりします。",
+    },
+    seenTableLabel: "表示するランクを超えたときの見え方",
+    seenHead: ["超えた項目", "見え方"],
+    seenRows: [
+      ["三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数", "アバターが、代わりの姿（Fallback）になる"],
+      ["PhysBone や Contact の数", "PhysBone と Contact がすべて外される（髪などが揺れなくなる）"],
+      ["パーティクル、ライト、音など", "その部品がすべて外される"],
     ],
-  },
-  seenTableLabel: "表示するランクを超えたときの見え方",
-  seenHead: ["超えた項目", "見え方"],
-  seenRows: [
-    ["三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数", "アバターが、代わりの姿（Fallback）になる"],
-    ["PhysBone や Contact の数", "PhysBone と Contact がすべて外される（髪などが揺れなくなる）"],
-    ["パーティクル、ライト、音など", "その部品がすべて外される"],
-  ],
-  seen2: [
-    "スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは" + tipNo("quest") + "で扱います。",
-    "人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。",
-  ],
-  seenLink: { href: `${prefix}/avatar-tips/quest/`, text: "" + tipNo("quest") + " Quest・スマホ対応" },
-  limitsTitle: "おもな項目と上限（パソコン版）",
-  limitsLead: "表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。",
-  limitsTableLabel: "パソコン版のパフォーマンスランクの上限",
-  limitsHead: ["項目", "Excellent", "Good", "Medium", "Poor"],
-  pcLimits: [
-    ["三角形の数（Triangles）", "32,000", "70,000", "70,000", "70,000"],
-    ["テクスチャのメモリ（Texture Memory）", "40 MB", "75 MB", "110 MB", "150 MB"],
-    ["スキンメッシュの数（Skinned Meshes）", "1", "2", "8", "16"],
-    ["ふつうのメッシュの数（Basic Meshes）", "4", "8", "16", "24"],
-    ["マテリアルの数（Material Slots）", "4", "8", "16", "32"],
-    ["ボーンの数（Bones）", "75", "150", "256", "400"],
-    ["PhysBone の数（PhysBones Components）", "4", "8", "16", "32"],
-    ["PhysBone で動くボーンの数（PhysBones Affected Transforms）", "16", "64", "128", "256"],
-    ["PhysBone のコライダーの数（PhysBones Colliders）", "4", "8", "16", "32"],
-    ["コライダーが当たるかを調べる数（PhysBones Collision Check Count）", "32", "128", "256", "512"],
-    ["Contact の数（Contacts）", "8", "16", "24", "32"],
-    ["ライトの数（Lights）", "0", "0", "0", "1"],
-    ["パーティクルの数（Particle Systems）", "0", "4", "8", "16"],
-    ["音を出す部品の数（Audio Sources）", "1", "4", "8", "8"],
-  ],
-  limitsNotes: [
-    `<strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、メッシュやマテリアル、PhysBone の数に入ります。`,
-    `ほかにも、大きさ（Bounds Size）、Constraint、Animator の数などの項目があります。すべての項目は、${ext(links.ranks, "VRChat の Performance Ranks のページ")}で見られます。`,
-  ],
-  whereTitle: "ランクを見る場所",
-  whereLead: "ランクは、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。",
-  whereUnity: [
-    "Unity の上のメニューの「VRChat SDK」→「Show Control Panel」を開きます。",
-    "「Builder」のタブで、アバターを選びます。",
-    "パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。",
-  ],
-  whereGame: [
-    "メインメニューの「Avatars」で自分のアバターを選び、左下の「Avatar Stats」を押します。",
-    "ほかの人のアバターは、クイックメニューを開いてその人を選び、「Show Avatar Stats」を押すと見られます。",
-    "文字の色は、その項目のランクを表しています。",
-  ],
-  whereUnityLabel: "Unity（アップロードする前）",
-  whereGameLabel: "VRChat の中（アップロードしたあと）",
-  sdkMock: {
-    variant: "unity",
-    caption: "再現図：VRChat SDK の Builder のパフォーマンスの欄。並びや見た目、文言は簡単にしています。数は例です",
-    screens: [{
-      bar: "VRChat SDK › Builder",
-      label: "VRChat SDK の Builder のパフォーマンスの欄の再現図。1 全体のランク Poor、2 Triangles 69,000 Good、3 PhysBones Components 20 Poor、ほかに Bones 300 Poor、Texture Memory 120 MB Poor など",
-      rows: [
-        { mark: 1, label: "Overall Performance", type: "value", text: "Poor", hot: true },
-        { type: "head", text: "Stats" },
-        { mark: 2, label: "Triangles", type: "value", text: "69,000 · Good" },
-        { label: "Material Slots", type: "value", text: "12 · Medium" },
-        { label: "Skinned Meshes", type: "value", text: "6 · Medium" },
-        { mark: 3, label: "PhysBones Components", type: "value", text: "20 · Poor", hot: true },
-        { label: "Bones", type: "value", text: "300 · Poor" },
-        { label: "Texture Memory", type: "value", text: "120 MB · Poor" },
+    seen2: [
+      "スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは" + tipNo("quest") + "で扱います。",
+      "人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。",
+    ],
+    seenLink: { href: `${prefix}/avatar-tips/quest/`, text: "" + tipNo("quest") + " Quest・スマホ対応" },
+    limitsTitle: "おもな項目と上限（パソコン版）",
+    limitsLead: "表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。",
+    limitsTableLabel: "パソコン版のパフォーマンスランクの上限",
+    limitsHead: ["項目", "Excellent", "Good", "Medium", "Poor"],
+    pcLimits: [
+      ["三角形の数（Triangles）", "32,000", "70,000", "70,000", "70,000"],
+      ["テクスチャのメモリ（Texture Memory）", "40 MB", "75 MB", "110 MB", "150 MB"],
+      ["スキンメッシュの数（Skinned Meshes）", "1", "2", "8", "16"],
+      ["ふつうのメッシュの数（Basic Meshes）", "4", "8", "16", "24"],
+      ["マテリアルの数（Material Slots）", "4", "8", "16", "32"],
+      ["ボーンの数（Bones）", "75", "150", "256", "400"],
+      ["PhysBone の数（PhysBones Components）", "4", "8", "16", "32"],
+      ["PhysBone で動くボーンの数（PhysBones Affected Transforms）", "16", "64", "128", "256"],
+      ["PhysBone のコライダーの数（PhysBones Colliders）", "4", "8", "16", "32"],
+      ["コライダーが当たるかを調べる数（PhysBones Collision Check Count）", "32", "128", "256", "512"],
+      ["Contact の数（Contacts）", "8", "16", "24", "32"],
+      ["ライトの数（Lights）", "0", "0", "0", "1"],
+      ["パーティクルの数（Particle Systems）", "0", "4", "8", "16"],
+      ["音を出す部品の数（Audio Sources）", "1", "4", "8", "8"],
+    ],
+    limitsNotes: [
+      `<strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、メッシュやマテリアル、PhysBone の数に入ります。`,
+      `ほかにも、大きさ（Bounds Size）、Constraint、Animator の数などの項目があります。すべての項目は、${ext(links.ranks, "VRChat の Performance Ranks のページ")}で見られます。`,
+    ],
+    whereTitle: "ランクを見る場所",
+    whereLead: "ランクは、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。",
+    whereUnity: [
+      "Unity の上のメニューの「VRChat SDK」→「Show Control Panel」を開きます。",
+      "「Builder」のタブで、アバターを選びます。",
+      "パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。",
+    ],
+    whereGame: [
+      "メインメニューの「Avatars」で自分のアバターを選び、左下の「Avatar Stats」を押します。",
+      "ほかの人のアバターは、クイックメニューを開いてその人を選び、「Show Avatar Stats」を押すと見られます。",
+      "文字の色は、その項目のランクを表しています。",
+    ],
+    whereUnityLabel: "Unity（アップロードする前）",
+    whereGameLabel: "VRChat の中（アップロードしたあと）",
+    sdkMock: {
+      variant: "unity",
+      caption: "再現図：VRChat SDK の Builder のパフォーマンスの欄。並びや見た目、文言は簡単にしています。数は例です",
+      screens: [{
+        bar: "VRChat SDK › Builder",
+        label: "VRChat SDK の Builder のパフォーマンスの欄の再現図。1 全体のランク Poor、2 Triangles 69,000 Good、3 PhysBones Components 20 Poor、ほかに Bones 300 Poor、Texture Memory 120 MB Poor など",
+        rows: [
+          { mark: 1, label: "Overall Performance", type: "value", text: "Poor", hot: true },
+          { type: "head", text: "Stats" },
+          { mark: 2, label: "Triangles", type: "value", text: "69,000 · Good" },
+          { label: "Material Slots", type: "value", text: "12 · Medium" },
+          { label: "Skinned Meshes", type: "value", text: "6 · Medium" },
+          { mark: 3, label: "PhysBones Components", type: "value", text: "20 · Poor", hot: true },
+          { label: "Bones", type: "value", text: "300 · Poor" },
+          { label: "Texture Memory", type: "value", text: "120 MB · Poor" },
+        ],
+      }],
+      notes: [
+        "アバター全体のランクです。いちばん低い項目のランクになります。",
+        "三角形の数は Good の範囲です。ここを減らしても、全体のランクは上がりません。",
+        "ランクを下げている項目です。ここを減らすと、ランクが上がります。",
       ],
-    }],
-    notes: [
-      "アバター全体のランクです。いちばん低い項目のランクになります。",
-      "三角形の数は Good の範囲です。ここを減らしても、全体のランクは上がりません。",
-      "ランクを下げている項目です。ここを減らすと、ランクが上がります。",
+    },
+    whyTitle: "なぜ軽くしたほうがよいか",
+    why: [
+      "アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。",
+      "とくに、マテリアルとメッシュの数が多いと、描くための命令（ドローコール）が増えます。三角形の数より、こちらが効いていることもよくあります。",
+      "テクスチャのメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。",
     ],
-  },
-  whyTitle: "なぜ軽くしたほうがよいか",
-  why: [
-    "アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。",
-    "とくに、マテリアルとメッシュの数が多いと、描くための命令（ドローコール）が増えます。三角形の数より、こちらが効いていることもよくあります。",
-    "テクスチャのメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。",
-  ],
-  demoTitle: "動かして確かめる",
-  demoLead: "おもな項目の数を変えて、アバター全体のランクがどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。",
-  demo: {
-    controlsLabel: "項目の数",
-    listLabel: "項目ごとのランク",
-    ok: "このアバターのランクは {r} です。困ることはあまりありません。",
-    ng: "このアバターのランクは {r} です。太字の項目を減らすと、ランクが上がります。",
-    why: "いちばん低いのは {i}（{r}）です。ランクは、いちばん低い項目で決まります。",
-    allBest: "すべての項目が Excellent の範囲です。",
-    mark: "（いちばん低い）",
-    noJs: "図を動かすには、JavaScript を有効にしてください。",
-    // limits は Excellent・Good・Medium・Poor の上限（パソコン版）
-    items: [
-      { id: "rank-tris", name: "三角形の数", min: 0, max: 150000, step: 1000, value: 69000, limits: [32000, 70000, 70000, 70000] },
-      { id: "rank-tex", name: "テクスチャのメモリ", unit: " MB", min: 0, max: 300, step: 5, value: 120, limits: [40, 75, 110, 150] },
-      { id: "rank-skinned", name: "スキンメッシュの数", min: 1, max: 24, step: 1, value: 6, limits: [1, 2, 8, 16] },
-      { id: "rank-mats", name: "マテリアルの数", min: 1, max: 48, step: 1, value: 12, limits: [4, 8, 16, 32] },
-      { id: "rank-bones", name: "ボーンの数", min: 0, max: 600, step: 5, value: 300, limits: [75, 150, 256, 400] },
-      { id: "rank-pb", name: "PhysBone の数", min: 0, max: 48, step: 1, value: 20, limits: [4, 8, 16, 32] },
-      { id: "rank-pbt", name: "PhysBone で動くボーンの数", min: 0, max: 400, step: 4, value: 180, limits: [16, 64, 128, 256] },
+    demoTitle: "動かして確かめる",
+    demoLead: "おもな項目の数を変えて、アバター全体のランクがどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。",
+    demo: {
+      controlsLabel: "項目の数",
+      listLabel: "項目ごとのランク",
+      ok: "このアバターのランクは {r} です。困ることはあまりありません。",
+      ng: "このアバターのランクは {r} です。太字の項目を減らすと、ランクが上がります。",
+      why: "いちばん低いのは {i}（{r}）です。ランクは、いちばん低い項目で決まります。",
+      allBest: "すべての項目が Excellent の範囲です。",
+      mark: "（いちばん低い）",
+      noJs: "図を動かすには、JavaScript を有効にしてください。",
+      // limits は Excellent・Good・Medium・Poor の上限（パソコン版）
+      items: [
+        { id: "rank-tris", name: "三角形の数", min: 0, max: 150000, step: 1000, value: 69000, limits: [32000, 70000, 70000, 70000] },
+        { id: "rank-tex", name: "テクスチャのメモリ", unit: " MB", min: 0, max: 300, step: 5, value: 120, limits: [40, 75, 110, 150] },
+        { id: "rank-skinned", name: "スキンメッシュの数", min: 1, max: 24, step: 1, value: 6, limits: [1, 2, 8, 16] },
+        { id: "rank-mats", name: "マテリアルの数", min: 1, max: 48, step: 1, value: 12, limits: [4, 8, 16, 32] },
+        { id: "rank-bones", name: "ボーンの数", min: 0, max: 600, step: 5, value: 300, limits: [75, 150, 256, 400] },
+        { id: "rank-pb", name: "PhysBone の数", min: 0, max: 48, step: 1, value: 20, limits: [4, 8, 16, 32] },
+        { id: "rank-pbt", name: "PhysBone で動くボーンの数", min: 0, max: 400, step: 4, value: 180, limits: [16, 64, 128, 256] },
+      ],
+    },
+    lightTitle: "軽くする方法",
+    lightLead: "効きやすい順に並べています。元のアバターを直接けずる前に、まず 1 と 2 を試してみてください。",
+    light: [
+      { head: "1. Avatar Optimizer（AAO）を入れる", body: "アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、メッシュをまとめる、PhysBone をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「AAO で軽くする」を見てください。" },
+      { head: "2. 使わない衣装を消す", body: "オフにしている物も数えられます。着替えない衣装やアクセサリーは、オフにするだけでなく、アバターから消します（アップロード用のアバターを複製して、そちらで消すと安心です）。" },
+      { head: "3. メッシュとマテリアルをまとめる", body: "メッシュをまとめるツールや、テクスチャを1枚にまとめて（アトラス化して）マテリアルを減らすツールがあります。マテリアルとメッシュが減ると、ドローコールが減ります。" },
+      { head: "4. PhysBone を減らす", body: "揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動くボーンの数も減らせます。" },
+      { head: "5. テクスチャを小さくする", body: "テクスチャを選び、Inspector の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。" },
+      { head: "6. ポリゴンを減らす", body: "ポリゴンを減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。" },
     ],
+    aaoTitle: "AAO で軽くする",
+    aaoLead: "AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。",
+    aao: [
+      `${ext(links.aao, "AAO のページ")}のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は${tipNo("setup")}を見てください）。`,
+      "プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。",
+      "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。",
+      "Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。",
+      "Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。",
+    ],
+    aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: "" + tipNo("setup") + " ツールやシェーダーを足す" },
+    casesTitle: "よくある困りごと",
+    caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+    cases: [
+      { title: "衣装を足したら Very Poor になった",
+        symptom: "衣装をいくつか入れて、メニューで切り替えられるようにしたら、Very Poor になった。",
+        cause: "オフの衣装も数えられるため、メッシュとマテリアル、PhysBone の数が増えています。",
+        fix: "着替えない衣装を消します。AAO の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。" },
+      { title: "PhysBone の項目だけ Poor",
+        symptom: "ほかは Good なのに、PhysBone の数や、動くボーンの数で Poor になる。",
+        cause: "衣装ごとに、髪や服の PhysBone が入っています。",
+        fix: "揺れなくてもよい PhysBone を外すか、AAO にまとめてもらいます。" },
+      { title: "テクスチャのメモリが多い",
+        symptom: "Texture Memory が 150 MB を超えて、Very Poor になる。",
+        cause: "4096 などの大きなテクスチャが、たくさん入っています。",
+        fix: "目立たない部分のテクスチャから、Max Size を 2048 や 1024 に下げます。" },
+      { title: "ほかの人には別の姿に見えている",
+        symptom: "自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。",
+        cause: "見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。",
+        fix: "ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（" + tipNo("quest") + "）。" },
+    ],
+    careTitle: "気をつけること",
+    care: [
+      "けずる前に、アバターのフォルダを書き出すか、プロジェクトのバックアップを取ってください。けずった部分は戻せないことがあります。",
+      "直接けずるより、AAO のように元を書き換えないツールを先に使ってください。",
+      "ランクは目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。",
+      "ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。",
+    ],
+    sumTitle: "まとめ",
+    sum: [
+      "アバターのランクは、いちばん低い項目のランクで決まります。",
+      "オフにしている衣装も数えられます。使わない物は消します。",
+      "まず AAO の Trace And Optimize を入れ、次にマテリアル、PhysBone、テクスチャを見直します。",
+      "Good を目指し、むずかしければ Medium で十分です。",
+    ],
+    back: "アバター改変の解説の一覧",
   },
-  lightTitle: "軽くする方法",
-  lightLead: "効きやすい順に並べています。元のアバターを直接けずる前に、まず 1 と 2 を試してみてください。",
-  light: [
-    { head: "1. Avatar Optimizer（AAO）を入れる", body: "アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、メッシュをまとめる、PhysBone をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「AAO で軽くする」を見てください。" },
-    { head: "2. 使わない衣装を消す", body: "オフにしている物も数えられます。着替えない衣装やアクセサリーは、オフにするだけでなく、アバターから消します（アップロード用のアバターを複製して、そちらで消すと安心です）。" },
-    { head: "3. メッシュとマテリアルをまとめる", body: "メッシュをまとめるツールや、テクスチャを1枚にまとめて（アトラス化して）マテリアルを減らすツールがあります。マテリアルとメッシュが減ると、ドローコールが減ります。" },
-    { head: "4. PhysBone を減らす", body: "揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動くボーンの数も減らせます。" },
-    { head: "5. テクスチャを小さくする", body: "テクスチャを選び、Inspector の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。" },
-    { head: "6. ポリゴンを減らす", body: "ポリゴンを減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。" },
-  ],
-  aaoTitle: "AAO で軽くする",
-  aaoLead: "AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。",
-  aao: [
-    `${ext(links.aao, "AAO のページ")}のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は${tipNo("setup")}を見てください）。`,
-    "プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。",
-    "Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。",
-    "Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。",
-    "Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。",
-  ],
-  aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: "" + tipNo("setup") + " ツールやシェーダーを足す" },
-  casesTitle: "よくある困りごと",
-  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
-  cases: [
-    { title: "衣装を足したら Very Poor になった",
-      symptom: "衣装をいくつか入れて、メニューで切り替えられるようにしたら、Very Poor になった。",
-      cause: "オフの衣装も数えられるため、メッシュとマテリアル、PhysBone の数が増えています。",
-      fix: "着替えない衣装を消します。AAO の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。" },
-    { title: "PhysBone の項目だけ Poor",
-      symptom: "ほかは Good なのに、PhysBone の数や、動くボーンの数で Poor になる。",
-      cause: "衣装ごとに、髪や服の PhysBone が入っています。",
-      fix: "揺れなくてもよい PhysBone を外すか、AAO にまとめてもらいます。" },
-    { title: "テクスチャのメモリが多い",
-      symptom: "Texture Memory が 150 MB を超えて、Very Poor になる。",
-      cause: "4096 などの大きなテクスチャが、たくさん入っています。",
-      fix: "目立たない部分のテクスチャから、Max Size を 2048 や 1024 に下げます。" },
-    { title: "ほかの人には別の姿に見えている",
-      symptom: "自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。",
-      cause: "見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。",
-      fix: "ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（" + tipNo("quest") + "）。" },
-  ],
-  careTitle: "気をつけること",
-  care: [
-    "けずる前に、アバターのフォルダを書き出すか、プロジェクトのバックアップを取ってください。けずった部分は戻せないことがあります。",
-    "直接けずるより、AAO のように元を書き換えないツールを先に使ってください。",
-    "ランクは目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。",
-    "ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。",
-  ],
-  sumTitle: "まとめ",
-  sum: [
-    "アバターのランクは、いちばん低い項目のランクで決まります。",
-    "オフにしている衣装も数えられます。使わない物は消します。",
-    "まず AAO の Trace And Optimize を入れ、次にマテリアル、PhysBone、テクスチャを見直します。",
-    "Good を目指し、むずかしければ Medium で十分です。",
-  ],
-  back: "アバター改変の解説の一覧",
-};
+  en: {
+    series: `Avatar Tips #${article.no}`,
+    title: "Performance ranks and optimization",
+    lead: "You uploaded your avatar and it was Very Poor. You added an outfit and the rank went down. This tip explains how the performance rank is decided, how your avatar looks to other people, and how to raise the rank (make the avatar lighter).",
+    meta: "This is about the PC version of VRChat. The limits come from VRChat's official page (updated October 21, 2026).",
+    publishedLabel: "Published",
+    tocLabel: "Contents",
+    whenTitle: "Read this when",
+    when: [
+      "You uploaded your avatar and its rank was Very Poor.",
+      "You added an outfit or accessories and the rank went down.",
+      "An event asked people to avoid Very Poor avatars.",
+      "Someone told you your avatar looks like something else to them.",
+    ],
+    rankTitle: "What the performance rank is",
+    rankLead: "The performance rank shows how heavy an avatar is (how much load it puts on a PC) in five levels. Each item, such as the number of polygons or materials, has its own limits.",
+    rankItems: [
+      { head: "Excellent", body: "The best rank." },
+      { head: "Good", body: "A good rank. Aim for this one." },
+      { head: "Medium", body: "Despite the name, this is good enough. If you reach this, you rarely run into trouble." },
+      { head: "Poor", body: "A rank worth improving a little." },
+      { head: "Very Poor", body: "A heavy avatar. There is no upper limit, so it can be very heavy." },
+    ],
+    rankNotes: [
+      "Your avatar's rank is <strong>the rank of its lowest item</strong>. Even if every other item is Excellent, a single Very Poor item makes the whole avatar Very Poor.",
+      "VRChat advises you to <strong>aim for Good, and if that is hard, Medium is enough</strong>.",
+      "The rank is only a guide based on counting the parts in your avatar. It doesn't look at how heavy the shaders or animations are. The rank isn't everything, but it helps you spot heavy avatars.",
+    ],
+    seenTitle: "How other people see your avatar",
+    seen: [
+      "In VRChat, viewers can choose <strong>the lowest rank they want to show</strong> (Minimum Displayed Performance Rank) in \"Performance Options\" at the top right of the \"Safety\" tab. On PC, the default is \"Very Poor\", so avatars of every rank show as they are. If a viewer sets it to \"Medium\" or \"Poor\", avatars below that rank look different, as shown below.",
+    ],
+    seenMock: {
+      variant: "vrchat",
+      caption: "Recreated view: VRChat's Performance Options (the viewer's setting). The layout and look are simplified.",
+      screens: [{
+        bar: "Safety › Performance Options",
+        label: "Recreated view of Performance Options. 1 Minimum Displayed Performance Rank, with Medium, Poor and Very Poor to choose from. Very Poor is selected",
+        rows: [
+          { mark: 1, label: "Minimum Displayed Performance Rank", type: "seg", options: ["Medium", "Poor", "Very Poor"], active: 2, hot: true },
+        ],
+      }],
+      notes: [
+        "On PC, the default is \"Very Poor\" (every avatar shows as it is). If you set it to \"Medium\", Poor and Very Poor avatars have parts removed or are replaced by a stand-in.",
+      ],
+    },
+    seenTableLabel: "How an avatar looks when it is below the displayed rank",
+    seenHead: ["Item over the limit", "How it looks"],
+    seenRows: [
+      ["Triangles, texture memory, meshes, material slots, bones", "The avatar is replaced by a stand-in (Fallback)"],
+      ["PhysBones or Contacts", "All PhysBones and Contacts are removed (hair and other parts stop swaying)"],
+      ["Particles, lights, audio and similar", "All of those parts are removed"],
+    ],
+    seen2: [
+      "On mobile and Quest, only avatars up to \"Medium\" are shown from the start, and you can't choose to show Very Poor. This is covered in " + tipNo("quest") + ".",
+      "Busy events and groups may ask you to avoid Very Poor avatars. Even if you use a Very Poor avatar with close friends, it's good to have a light avatar ready for crowded places.",
+    ],
+    seenLink: { href: `${prefix}/avatar-tips/quest/`, text: `${tipNo("quest")} ${tip("quest").title.en}` },
+    limitsTitle: "Main items and limits (PC)",
+    limitsLead: "If an item goes over the number in the table, it drops to the next rank. If it goes over the Poor number too, it is Very Poor.",
+    limitsTableLabel: "Performance rank limits on PC",
+    limitsHead: ["Item", "Excellent", "Good", "Medium", "Poor"],
+    pcLimits: [
+      ["Triangles", "32,000", "70,000", "70,000", "70,000"],
+      ["Texture Memory", "40 MB", "75 MB", "110 MB", "150 MB"],
+      ["Skinned Meshes", "1", "2", "8", "16"],
+      ["Basic Meshes (meshes without skinning)", "4", "8", "16", "24"],
+      ["Material Slots", "4", "8", "16", "32"],
+      ["Bones", "75", "150", "256", "400"],
+      ["PhysBones Components", "4", "8", "16", "32"],
+      ["PhysBones Affected Transforms (bones moved by PhysBones)", "16", "64", "128", "256"],
+      ["PhysBones Colliders", "4", "8", "16", "32"],
+      ["PhysBones Collision Check Count (how many collider checks are made)", "32", "128", "256", "512"],
+      ["Contacts", "8", "16", "24", "32"],
+      ["Lights", "0", "0", "0", "1"],
+      ["Particle Systems", "0", "4", "8", "16"],
+      ["Audio Sources", "1", "4", "8", "8"],
+    ],
+    limitsNotes: [
+      `<strong>Things you have turned off are counted too</strong>. Outfits and accessories you switch from the menu still count toward meshes, materials and PhysBones while they are in the avatar, even when off.`,
+      `There are other items too, such as size (Bounds Size), Constraints and the number of Animators. You can see every item on ${ext(links.ranks, "VRChat's Performance Ranks page")}.`,
+    ],
+    whereTitle: "Where to see the rank",
+    whereLead: "You can see the rank in Unity before you upload, and in VRChat after you upload.",
+    whereUnity: [
+      "In Unity's top menu, open \"VRChat SDK\" > \"Show Control Panel\".",
+      "In the \"Builder\" tab, select your avatar.",
+      "The performance section shows the overall rank and the items that lower it.",
+    ],
+    whereGame: [
+      "In the main menu, go to \"Avatars\", select your avatar, and press \"Avatar Stats\" at the bottom left.",
+      "For someone else's avatar, open the Quick Menu, select that person, and press \"Show Avatar Stats\".",
+      "The text color shows the rank of each item.",
+    ],
+    whereUnityLabel: "In Unity (before you upload)",
+    whereGameLabel: "In VRChat (after you upload)",
+    sdkMock: {
+      variant: "unity",
+      caption: "Recreated view: the performance section of the VRChat SDK Builder. The layout, look and wording are simplified. The numbers are examples.",
+      screens: [{
+        bar: "VRChat SDK › Builder",
+        label: "Recreated view of the performance section of the VRChat SDK Builder. 1 overall rank Poor, 2 Triangles 69,000 Good, 3 PhysBones Components 20 Poor, plus Bones 300 Poor, Texture Memory 120 MB Poor and more",
+        rows: [
+          { mark: 1, label: "Overall Performance", type: "value", text: "Poor", hot: true },
+          { type: "head", text: "Stats" },
+          { mark: 2, label: "Triangles", type: "value", text: "69,000 · Good" },
+          { label: "Material Slots", type: "value", text: "12 · Medium" },
+          { label: "Skinned Meshes", type: "value", text: "6 · Medium" },
+          { mark: 3, label: "PhysBones Components", type: "value", text: "20 · Poor", hot: true },
+          { label: "Bones", type: "value", text: "300 · Poor" },
+          { label: "Texture Memory", type: "value", text: "120 MB · Poor" },
+        ],
+      }],
+      notes: [
+        "The rank of the whole avatar. It is the rank of the lowest item.",
+        "The triangle count is in the Good range. Lowering it won't raise the overall rank.",
+        "An item that lowers the rank. Reduce it to raise the rank.",
+      ],
+    },
+    whyTitle: "Why you should make your avatar lighter",
+    why: [
+      "Your avatar is drawn on other people's PCs too. A heavy avatar <strong>puts load on the PCs of everyone around you</strong> and lowers their frame rate (smoothness). In crowded places, this adds up.",
+      "In particular, many materials and meshes mean more draw commands (draw calls). This often matters more than the triangle count.",
+      "A lot of texture memory can use up the graphics card's memory (VRAM), which causes stutters or crashes.",
+    ],
+    demoTitle: "Try it yourself",
+    demoLead: "Change the numbers for the main items and see what happens to the avatar's overall rank. The lowest item decides the overall rank.",
+    demo: {
+      controlsLabel: "Item counts",
+      listLabel: "Rank of each item",
+      ok: "This avatar's rank is {r}. You rarely run into trouble with it.",
+      ng: "This avatar's rank is {r}. Reduce the items in bold to raise the rank.",
+      why: "Lowest: {i} ({r}). The rank is decided by the lowest item.",
+      allBest: "Every item is in the Excellent range.",
+      mark: " (lowest)",
+      noJs: "Turn on JavaScript to use this figure.",
+      // limits は Excellent・Good・Medium・Poor の上限（パソコン版）
+      items: [
+        { id: "rank-tris", name: "Triangles", min: 0, max: 150000, step: 1000, value: 69000, limits: [32000, 70000, 70000, 70000] },
+        { id: "rank-tex", name: "Texture Memory", unit: " MB", min: 0, max: 300, step: 5, value: 120, limits: [40, 75, 110, 150] },
+        { id: "rank-skinned", name: "Skinned Meshes", min: 1, max: 24, step: 1, value: 6, limits: [1, 2, 8, 16] },
+        { id: "rank-mats", name: "Material Slots", min: 1, max: 48, step: 1, value: 12, limits: [4, 8, 16, 32] },
+        { id: "rank-bones", name: "Bones", min: 0, max: 600, step: 5, value: 300, limits: [75, 150, 256, 400] },
+        { id: "rank-pb", name: "PhysBones", min: 0, max: 48, step: 1, value: 20, limits: [4, 8, 16, 32] },
+        { id: "rank-pbt", name: "Bones moved by PhysBones", min: 0, max: 400, step: 4, value: 180, limits: [16, 64, 128, 256] },
+      ],
+    },
+    lightTitle: "How to make your avatar lighter",
+    lightLead: "These are listed from most to least effective. Before you cut anything from the original avatar, try 1 and 2 first.",
+    light: [
+      { head: "1. Add Avatar Optimizer (AAO)", body: "A tool that makes your avatar lighter automatically when you upload, without changing how it looks. It removes unused parts, merges meshes, merges PhysBones and more. It doesn't change your original avatar. To install it, see \"Optimize with AAO\" below." },
+      { head: "2. Delete outfits you don't use", body: "Things you have turned off are counted too. For outfits and accessories you never switch to, don't just turn them off. Delete them from the avatar (it's safer to duplicate the avatar for uploading and delete them from the copy)." },
+      { head: "3. Merge meshes and materials", body: "There are tools that merge meshes, and tools that combine textures into one (make an atlas) to reduce materials. Fewer materials and meshes mean fewer draw calls." },
+      { head: "4. Reduce PhysBones", body: "Remove PhysBones from parts that don't need to sway, or combine ones with the same settings into one. You can also reduce the number of bones they move." },
+      { head: "5. Make textures smaller", body: "Select a texture and lower \"Max Size\" in the Inspector (going from 2048 to 1024 cuts memory to about a quarter). Keep the size for textures that need fine detail, such as the eyes. \"Use Crunch Compression\" makes the download smaller, but it doesn't reduce texture memory." },
+      { head: "6. Reduce polygons", body: "There are tools that reduce polygons, but they easily break the look, so use them as a last resort. If your triangle count is in the Good range, fix the other items first." },
+    ],
+    aaoTitle: "Optimize with AAO",
+    aaoLead: "AAO doesn't change your original avatar. It makes the avatar lighter when you press Play and when you upload. If you no longer need it, just remove the component to go back.",
+    aao: [
+      `From the link on the ${ext(links.aao, "AAO page")}, add anatawa12's repository to VCC or ALCOM (see ${tipNo("setup")} for how to add one).`,
+      "Add \"AAO: Avatar Optimizer\" on your project's management screen.",
+      "In the Hierarchy, select the top of your avatar (the object with the VRC Avatar Descriptor).",
+      "In the Inspector, use \"Add Component\" to find and add \"AAO Trace And Optimize\". The default settings are fine.",
+      "Press Play and check that the look and gimmicks haven't changed, then upload. The Builder's rank may not show the numbers after AAO's optimization, so check \"Avatar Stats\" in VRChat after you upload.",
+    ],
+    aaoLink: { href: `${prefix}/avatar-tips/setup/#packages`, text: `${tipNo("setup")} Adding tools and shaders` },
+    casesTitle: "Common problems",
+    caseLabels: { symptom: "What happens", cause: "Cause", fix: "Fix" },
+    cases: [
+      { title: "Adding outfits made it Very Poor",
+        symptom: "You added a few outfits and made them switchable from the menu, and the avatar became Very Poor.",
+        cause: "Outfits that are off are counted too, so the number of meshes, materials and PhysBones went up.",
+        fix: "Delete outfits you don't switch to. Adding AAO's Trace And Optimize may also merge meshes and reduce the count." },
+      { title: "Only the PhysBone items are Poor",
+        symptom: "Everything else is Good, but the PhysBones count or the bones they move make it Poor.",
+        cause: "Each outfit comes with its own PhysBones for hair and clothes.",
+        fix: "Remove PhysBones from parts that don't need to sway, or let AAO merge them." },
+      { title: "Texture memory is too high",
+        symptom: "Texture Memory goes over 150 MB and the avatar becomes Very Poor.",
+        cause: "There are many large textures, such as 4096.",
+        fix: "Starting with textures on parts that don't stand out, lower Max Size to 2048 or 1024." },
+      { title: "Other people see a different avatar",
+        symptom: "You can see your avatar, but others see a stand-in (Fallback) or a robot.",
+        cause: "The viewer has set the displayed rank to Medium or similar, or is on mobile or Quest.",
+        fix: "Raising your rank lets more people see your avatar. For people on mobile or Quest, prepare a version of your avatar that supports them (" + tipNo("quest") + ")." },
+    ],
+    careTitle: "Things to watch out for",
+    care: [
+      "Before you cut anything, export your avatar's folder or back up your project. Some cuts can't be undone.",
+      "Before cutting things directly, try tools like AAO that don't change the original.",
+      "The rank is a guide. Medium is enough. You don't need to ruin a look you like just to raise the rank.",
+      "VRChat may change the rank limits. Check VRChat's official page for the latest numbers.",
+    ],
+    sumTitle: "Summary",
+    sum: [
+      "Your avatar's rank is decided by its lowest item.",
+      "Outfits you have turned off are counted too. Delete things you don't use.",
+      "First add AAO's Trace And Optimize, then review materials, PhysBones and textures.",
+      "Aim for Good, and if that is hard, Medium is enough.",
+    ],
+    back: "All Avatar Tips",
+  },
+}[pageLocale];
 const demoItems = l.demo.items.map((item) => ({ ...item, rank: rankOf(item.value, item.limits), text: fmt(item.value) + (item.unit || "") }));
 const demoWorst = Math.max(...demoItems.map((item) => item.rank));
-const demoWorstNames = demoItems.filter((item) => item.rank === demoWorst).map((item) => item.name).join("、");
+const demoWorstNames = demoItems.filter((item) => item.rank === demoWorst).map((item) => item.name).join(nameJoin);
 const sections = [
   { id: "when", title: l.whenTitle },
   { id: "rank", title: l.rankTitle },
@@ -342,7 +551,8 @@ const sections = [
     <p class="article_1__p"><%= l.demoLead %></p>
     <div class="demo_2 js_rank_demo"
       data-ranks="<%= ranks.join(",") %>" data-ok="<%= l.demo.ok %>" data-ng="<%= l.demo.ng %>"
-      data-why="<%= l.demo.why %>" data-all-best="<%= l.demo.allBest %>" data-mark="<%= l.demo.mark %>">
+      data-why="<%= l.demo.why %>" data-all-best="<%= l.demo.allBest %>" data-mark="<%= l.demo.mark %>"
+      data-sep="<%= listSep %>" data-join="<%= nameJoin %>" data-num-locale="<%= numLocale %>">
       <div class="demo_2__controls" role="group" aria-label="<%= l.demo.controlsLabel %>">
         <% demoItems.forEach(function (item) { %>
           <div class="demo_1__range">
@@ -357,7 +567,7 @@ const sections = [
         <p class="demo_1__why js_rank_why"><%= demoWorst === 0 ? l.demo.allBest : l.demo.why.replace("{i}", demoWorstNames).replace("{r}", ranks[demoWorst]) %></p>
         <p class="demo_1__label"><%= l.demo.listLabel %></p>
         <ul class="rules_1 js_rank_list">
-          <% demoItems.forEach(function (item) { const line = `${item.name}：${item.text} → ${ranks[item.rank]}`; %>
+          <% demoItems.forEach(function (item) { const line = `${item.name}${listSep}${item.text} → ${ranks[item.rank]}`; %>
             <li><% if (item.rank === demoWorst && demoWorst > 0) { %><strong><%= line %><%= l.demo.mark %></strong><% } else { %><%= line %><% } %></li>
           <% }); %>
         </ul>

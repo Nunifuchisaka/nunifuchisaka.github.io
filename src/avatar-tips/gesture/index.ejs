@@ -7,6 +7,7 @@ const meta = {
   title: "ハンドサインで表情を変える",
   description: "ピースで笑顔、グーで怒り。ハンドサインで表情を変えるしくみを、FX の Animator に自分で組みます。GestureLeft・GestureRight の番号、左右の手の優先、まばたきや口との重なり（Tracking Control）、握りの強さの使い方を、再現図と動かして確かめられる図つきで解説。",
   url: "avatar-tips/gesture/",
+  altUrl: "en/avatar-tips/gesture/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_tips-gesture") %>

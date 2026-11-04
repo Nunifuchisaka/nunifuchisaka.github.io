@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../../";
+const meta = {
+  type: "article",
+  title: "Performance ranks and optimization",
+  description: "Your avatar is Very Poor, or the rank dropped after adding an outfit. How the performance rank is decided, the PC limits, how others see your avatar, and how to make it lighter with tools like AAO, with recreated views and a figure you can play with.",
+  url: "en/avatar-tips/performance/",
+  altUrl: "avatar-tips/performance/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/rank-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-performance",{locale:"en"}) %>
+<%- include(path + "assets/html/_tips_pager",{slug:"performance",locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../../";
+const meta = {
+  type: "article",
+  title: "Changing expressions with hand gestures",
+  description: "A peace sign for a smile, a fist for an angry face. Build the system that changes your expression with hand gestures yourself in the FX Animator. Covers GestureLeft and GestureRight numbers, which hand wins, overlap with blinking and the mouth (Tracking Control), and using grip strength, with recreated views and an interactive demo.",
+  url: "en/avatar-tips/gesture/",
+  altUrl: "avatar-tips/gesture/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/gesture-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-gesture",{locale:"en"}) %>
+<%- include(path + "assets/html/_tips_pager",{slug:"gesture",locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

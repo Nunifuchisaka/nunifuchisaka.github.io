@@ -7,6 +7,7 @@ const meta = {
   title: "衣装を着せる",
   description: "買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。",
   url: "avatar-tips/outfit/",
+  altUrl: "en/avatar-tips/outfit/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_tips-outfit") %>
