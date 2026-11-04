@@ -46,6 +46,15 @@ npm run validate:html # dist_uncompressed/htdocs/**/*.html をhtml-validateで�
 - **通常ページ**（`src/index.ejs`, `src/dice/`, `src/equipment/`, `src/timeline/`, `src/videos/` 等）: EJS + SCSS + ES6 JSをwebpack経由でビルド。共通パーツは `src/assets/html/_*.ejs`（`_head`, `_header`, `_footer` 等）をincludeして使う。
 - **独立ページ（BOOTH商品説明書サイト）**（`deepfrostice`, `heartbeat`, `imagegetter`, `glossyskin`）: webpack.config.js内の `STANDALONE_PAGES` 配列に列挙されたディレクトリで、EJS/SCSSビルドを通さず生の `index.html` / `style.css` / `script.js` をそのままコピーする。新しい商品ページを追加する場合はディレクトリを作り、この配列に追記する。日英2言語対応する場合はサブディレクトリ `en/` に英語版一式を置く（`src/deepfrostice/en/`, `src/heartbeat/en/`, `src/glossyskin/en/` を参照）。
 
+### 検索エンジン・AI向けのファイル（AIO）
+
+- `sitemap.xml` と `llms.txt` は手で書かない。development 側の `AioFilesPlugin`（webpack.config.js の `AIO_CONFIG`）が、出力した全 HTML から毎回作る。`<meta name="robots" content="noindex">` のページは載らない。
+  - `lastmod` は、ページの HTML が前回と変わった日。ハッシュと日付は `src/assets/data/sitemap-lastmod.json` に保存されるので、これも一緒にコミットする。
+  - `llms.txt` の前半（サイトの紹介・外部リンク）は `src/assets/data/llms-intro.md` に書く。後半のページ一覧は、各ページの `<title>` と description から作られる。
+- `robots.txt` は `src/robots.txt` を編集する。
+- 独立ページ（商品の説明書）の `<dir>/index.html` と `<dir>/en/index.html` には、コピー時に `products.json` から作った構造化データ（`SoftwareApplication`）が自動で入る。商品の情報を変えるときは `products.json` を直す。
+- よくある質問（`_faq.ejs`）は、質問と答えから `FAQPage` の構造化データも出す。
+
 ### 画像最適化パイプライン（production側のみ）
 
 - `img2webp/` → リサイズなしでWebP変換するだけ（品質50固定、`IMAGE_OPTIMIZATION_CONFIG`で調整）。

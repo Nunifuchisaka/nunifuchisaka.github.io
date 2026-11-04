@@ -63,7 +63,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
   "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
   "url": "https://nunifuchisaka.github.io/",
   "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
   "sameAs": [
@@ -413,6 +415,144 @@
   </section>
   <p class="section_2__more"><a href="/en/products/">All products</a></p>
 </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "en",
+  "url": "https://nunifuchisaka.github.io/en/faq/",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do they work on Quest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DeepFrostIce, SpiderWeb, Gashadokuro and Regret are PC only and don't work on Quest (DeepFrostIce and SpiderWeb use screen distortion, GrabPass; Gashadokuro uses Final IK). For the others, check the requirements in each manual."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it come with an avatar or outfit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The avatars and outfits shown in the product images are not included. GlossySkin is just the mask images and a bonus gimmick, without Nagi or its materials."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will it work on other avatars?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GlossySkin is painted for the skin UVs of Nagi, so it only works on Nagi. HeartBeat needs an avatar with a Chest bone. Regret needs the bone you attach it to be assigned in the Humanoid rig."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need Modular Avatar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes for HeartBeat, SpiderWeb (1.15 or later), Gashadokuro and Regret: without it, they won't work after upload. GlossySkin needs it only for the bonus slider."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need lilToon?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes for Gashadokuro (2.3 or later) and Regret, whose materials use it. GlossySkin uses the lilToon that comes with Nagi, so you don't need to add it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I put the prefab?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Put SpiderWeb, Gashadokuro, Regret and the GlossySkin bonus slider directly under the avatar's root. Gashadokuro's Fit To Avatar button only works there. HeartBeat works wherever you put it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which Unity version is it tested with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GlossySkin, Gashadokuro and Regret are tested with Unity 2022.3.22f1. Gashadokuro and Regret are also tested with VRChat SDK 3.10.5, Modular Avatar 1.18.7 and lilToon 2.4.1."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Someone can't see or hear it",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on the other person's Safety settings. HeartBeat won't play if they have Contacts turned off. Gashadokuro's flames don't show for people who hide shaders."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "It looks different in some worlds",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on how the world is built. DeepFrostIce reflections get dark where there is no reflection probe. SpiderWeb's petals and Regret's bones fall through floors without colliders. Gashadokuro sinks into walls and ceilings in small worlds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "It goes off when I don't mean it to",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gimmicks that use hand gestures can go off when you hold things. Gashadokuro breathes if you hold something with both hands for 1.5 seconds or more. SpiderWeb's chest sensors can react to folded arms or clapping, depending on your body shape."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I can't pick Regret's bone back up",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Turn Show off and on again in the menu, and it goes back to where it was attached."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do the tools work on a Mac?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KeyDisplay works on Windows and macOS. ImageGetter, PublicWalker and DeskCinema are Windows only. NuniAvatarToolkit is a Blender add-on (Blender 4.2 or later)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Windows says it protected my PC",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This is the SmartScreen warning shown for unsigned software made by individuals; nothing is wrong. Choose More info, then Run anyway (from the PublicWalker manual)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "KeyDisplay doesn't show keys on macOS",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Allow KeyDisplay in System Settings → Privacy & Security → Accessibility. Detecting Blender or Unity may also need Screen Recording permission."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I update?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Download the new version again from your BOOTH purchase history. PublicWalker can open BOOTH from Check for updates in the app. For NuniAvatarToolkit, disable the add-on, install the new ZIP, then enable it again."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I ask for help?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Please use the contact given in each manual. For PublicWalker, send a BOOTH message with diagnostics.log attached. Please don't send questions about GlossySkin to rio3d, the creator of Nagi."
+      }
+    }
+  ]
+}
+</script>
 
 </main><!-- /#main -->
 

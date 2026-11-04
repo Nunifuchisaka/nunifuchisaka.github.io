@@ -40,6 +40,16 @@ const NOTE_CONFIG = {
 };
 
 
+// AI検索・検索エンジン向けのファイル（sitemap.xml・llms.txt）。どちらもビルドのたびに、出力した HTML から作り直す。
+// ・sitemap.xml … noindex のページを除いた全ページ。lastmod は、ページの中身（HTML）が変わった日。
+//   変わったかどうかは LASTMOD_FILE に保存したハッシュと比べて決める（はじめて載るページは git の最終コミット日）。
+// ・llms.txt … AI 向けのサイト案内。INTRO_FILE の文章のあとに、各ページの題名と説明（<title> と description）を並べる。
+const AIO_CONFIG = {
+  LASTMOD_FILE: 'src/assets/data/sitemap-lastmod.json',
+  INTRO_FILE: 'src/assets/data/llms-intro.md',
+};
+
+
 // --- 以下、webpackの動作設定（通常は編集不要）---
 const path = require('path'),
       glob = require('glob'),
@@ -226,6 +236,192 @@ const updateNote = async () => {
   }
 };
 
+// --- AI検索・検索エンジン向け（AIO_CONFIG 参照）---
+const products = JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8'));
+const avatarTips = JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/avatar-tips.json'), 'utf8'));
+const productsByDir = {};
+products.items.forEach((item) => { productsByDir[item.dir] = item; });
+
+const decodeHtml = (text) => text
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&amp;/g, '&');
+const escapeXml = (text) => text
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// <script type="application/ld+json"> の中に入れる JSON（</script> で途切れないよう < を逃がす）
+const toJsonLd = (data) => `<script type="application/ld+json">\n${JSON.stringify(data, null, 2).replace(/</g, '\\u003c')}\n</script>`;
+const readPageInfo = (html) => ({
+  title: decodeHtml(((html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '').trim()),
+  description: decodeHtml((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || ''),
+  noindex: /<meta name="robots" content="[^"]*noindex/.test(html),
+});
+const PERSON_ID = `${SITE_DATA.SITE_URL}#person`;
+
+// 独立ページ（商品の説明書）に、products.json から作った構造化データ（SoftwareApplication）を足す。
+// 対象は <dir>/index.html と <dir>/en/index.html だけ。すでに ld+json があるページはそのまま。
+const addProductJsonLd = (html, dir, isEn) => {
+  const item = productsByDir[dir];
+  if (!item || html.includes('application/ld+json')) return html;
+  const lang = isEn ? 'en' : 'ja';
+  const pick = (value) => (value ? value[lang] || value.ja : undefined);
+  const info = readPageInfo(html);
+  const url = `${SITE_DATA.SITE_URL}${dir}/${isEn ? 'en/' : ''}`;
+  const kind = products.kinds.find((k) => k.key === item.kind);
+  const isFree = item.price && item.price.ja === '無料';
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: item.name,
+    alternateName: info.title && info.title !== item.name ? info.title : undefined,
+    description: info.description || pick(item.desc),
+    url,
+    inLanguage: lang,
+    image: item.image ? SITE_DATA.SITE_URL + item.image.replace(/^\//, '') : undefined,
+    applicationCategory: kind ? pick(kind.label) : undefined,
+    applicationSubCategory: pick(item.kindName),
+    softwareRequirements: [pick(item.works), pick(item.needs)].filter(Boolean).join(isEn ? '; ' : '／'),
+    softwareVersion: item.version,
+    isAccessibleForFree: isFree || undefined,
+    author: { '@type': 'Person', '@id': PERSON_ID, name: SITE_DATA.SITE_NAME, url: SITE_DATA.SITE_URL },
+    // BOOTH の商品ページが決まっているものだけ（ショップのトップしか無いものは載せない）
+    offers: item.booth && !item.boothShop ? {
+      '@type': 'Offer',
+      url: item.booth,
+      ...(isFree ? { price: '0', priceCurrency: 'JPY' } : {}),
+      seller: { '@id': PERSON_ID },
+    } : undefined,
+    isPartOf: { '@type': 'WebSite', name: SITE_DATA.SITE_NAME, url: SITE_DATA.SITE_URL },
+  };
+  return html.replace('</head>', `${toJsonLd(data)}\n</head>`);
+};
+
+// sitemap.xml の lastmod。ページの HTML のハッシュが変わったら、その日の日付にする
+const lastmodPath = path.resolve(__dirname, AIO_CONFIG.LASTMOD_FILE);
+let lastmodCache = {};
+try {
+  if (fs.existsSync(lastmodPath)) lastmodCache = JSON.parse(fs.readFileSync(lastmodPath, 'utf8'));
+} catch (e) {
+  console.error('sitemap の更新日データを読めませんでした:', e.message);
+}
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
+// はじめて載るページの更新日。ページの元ファイルの最終コミット日。
+// EJS なら、そのページ（と英語版）だけが include している部品も見る（_head など全ページ共通の部品は見ない）
+const gitDate = (files) => {
+  try {
+    const out = require('child_process').execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { cwd: __dirname, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return out || null;
+  } catch (e) {
+    return null;
+  }
+};
+// include(path + "assets/html/_xxx") の path はページから src/ への相対パスなので、名前は src/ から引く
+const includesOf = (ejs) => [...fs.readFileSync(ejs, 'utf8').matchAll(/include\(\s*(?:path\s*\+\s*)?["']([^"']+)["']/g)]
+  .map(([, name]) => path.join(SRC_DIR, name.endsWith('.ejs') ? name : `${name}.ejs`))
+  .filter((file) => fs.existsSync(file));
+let includeCounts = null;
+const sourceFilesOf = (assetName) => {
+  const ejs = path.join(SRC_DIR, assetName.replace(/\.html$/, '.ejs'));
+  if (fs.existsSync(ejs)) {
+    if (!includeCounts) {
+      includeCounts = {};
+      glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs' }).forEach((key) => {
+        includesOf(path.join(SRC_DIR, key)).forEach((file) => { includeCounts[file] = (includeCounts[file] || 0) + 1; });
+      });
+    }
+    return [ejs, ...includesOf(ejs).filter((file) => includeCounts[file] <= 2)];
+  }
+  return [path.join(SRC_DIR, assetName)];
+};
+
+const pageUrlOf = (assetName) => SITE_DATA.SITE_URL + assetName.replace(/index\.html$/, '');
+const isEnPage = (assetName) => /^en\//.test(assetName) || /(^|\/)en\/index\.html$/.test(assetName);
+
+const buildSitemap = (pages) => {
+  const lines = pages.map((page) => `  <url>\n    <loc>${escapeXml(page.url)}</loc>\n    <lastmod>${page.lastmod}</lastmod>\n  </url>`);
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${lines.join('\n')}\n</urlset>\n`;
+};
+
+const buildLlmsTxt = (pages) => {
+  // INTRO_FILE の <!-- --> は書き手へのメモなので、llms.txt には出さない
+  const intro = fs.readFileSync(path.resolve(__dirname, AIO_CONFIG.INTRO_FILE), 'utf8').replace(/<!--[\s\S]*?-->\n*/g, '').trim();
+  const byName = {};
+  pages.forEach((page) => { byName[page.name] = page; });
+  const used = new Set();
+  const entry = (name) => {
+    const page = byName[name];
+    if (!page || used.has(name)) return null;
+    used.add(name);
+    const title = page.title.replace(/ \| ぬにふちさか$/, '');
+    return `- [${title}](${page.url})${page.description ? `: ${page.description}` : ''}`;
+  };
+  const section = (heading, names) => {
+    const items = names.map(entry).filter(Boolean);
+    return items.length ? `## ${heading}\n\n${items.join('\n')}` : null;
+  };
+  // 制作物ごとに、説明書のトップ → そのほかのページ（例：deepfrostice/animation/）の順。並びは products.json と同じ
+  const productNamesOf = (en) => products.items.flatMap((item) => pages
+    .filter((page) => page.name.startsWith(`${item.dir}/`) && isEnPage(page.name) === en)
+    .map((page) => page.name)
+    .sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)));
+  const sections = [
+    section('このサイトの主なページ', ['index.html', 'products/index.html', 'faq/index.html', 'avatar-tips/index.html', 'start/index.html']),
+    section('制作物の説明書', productNamesOf(false)),
+    section('アバター改変の解説（連載。読む順）', [...avatarTips.articles].sort((a, b) => a.no - b.no).map((a) => `avatar-tips/${a.slug}/index.html`)),
+    section('そのほかのページ', pages.filter((page) => !isEnPage(page.name)).map((page) => page.name)),
+    section('English', [
+      'en/index.html', 'en/products/index.html', 'en/faq/index.html', 'en/start/index.html',
+      ...productNamesOf(true),
+      ...pages.filter((page) => isEnPage(page.name)).map((page) => page.name),
+    ]),
+  ].filter(Boolean);
+  return `${intro}\n\n${sections.join('\n\n')}\n`;
+};
+
+// development 側で、出力した HTML から sitemap.xml と llms.txt を作る（docs へは後段のコピーで入る）
+const AioFilesPlugin = {
+  apply: (compiler) => {
+    compiler.hooks.thisCompilation.tap('AioFilesPlugin', (compilation) => {
+      compilation.hooks.processAssets.tap({
+        name: 'AioFilesPlugin',
+        stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+      }, (assets) => {
+        const pages = Object.keys(assets)
+          .filter((name) => name.endsWith('index.html'))
+          .map((name) => {
+            const html = assets[name].source().toString();
+            return { name, url: pageUrlOf(name), html, ...readPageInfo(html) };
+          })
+          .filter((page) => !page.noindex)
+          .sort((a, b) => (a.name === 'index.html' ? -1 : b.name === 'index.html' ? 1 : a.name.localeCompare(b.name)));
+        if (!pages.length) return;
+
+        let cacheChanged = false;
+        pages.forEach((page) => {
+          const hash = require('crypto').createHash('sha1').update(page.html).digest('hex');
+          const cached = lastmodCache[page.url];
+          if (!cached || cached.hash !== hash) {
+            const lastmod = cached ? today() : (gitDate(sourceFilesOf(page.name)) || today());
+            lastmodCache[page.url] = { hash, lastmod };
+            cacheChanged = true;
+          }
+          page.lastmod = lastmodCache[page.url].lastmod;
+        });
+        if (cacheChanged) {
+          const sorted = {};
+          Object.keys(lastmodCache).sort().forEach((key) => { sorted[key] = lastmodCache[key]; });
+          fs.mkdirSync(path.dirname(lastmodPath), { recursive: true });
+          fs.writeFileSync(lastmodPath, JSON.stringify(sorted, null, 2) + '\n');
+        }
+
+        const { RawSource } = compiler.webpack.sources;
+        compilation.emitAsset('sitemap.xml', new RawSource(buildSitemap(pages)));
+        compilation.emitAsset('llms.txt', new RawSource(buildLlmsTxt(pages)));
+      });
+    });
+  },
+};
+
 /**
  * Webpack設定を生成する関数
  */
@@ -255,6 +451,7 @@ const createConfig_development = ({ outputPath }) => {
     },
     plugins: [
       new RemoveEmptyScriptsPlugin(),
+      AioFilesPlugin,
       {
         apply: (compiler) => {
           compiler.hooks.beforeRun.tapPromise('YoutubePlugin', updateYoutube);
@@ -353,7 +550,17 @@ const createConfig_development = ({ outputPath }) => {
           globOptions: {
             ignore: ['**/.DS_Store', '**/Thumbs.db'],
           },
+          // 説明書のトップ（日本語・英語）にだけ、products.json から作った構造化データを足す
+          transform: (content, absoluteFrom) => {
+            const relative = path.relative(path.resolve(SRC_PATH, dir), absoluteFrom).split(path.sep).join('/');
+            if (relative !== 'index.html' && relative !== 'en/index.html') return content;
+            return addProductJsonLd(content.toString(), dir, relative === 'en/index.html');
+          },
         })),
+        {
+          from: path.resolve(SRC_PATH, 'robots.txt'),
+          to: path.resolve(outputPath, 'robots.txt'),
+        },
         {
           from: path.resolve(SRC_PATH, 'assets/img'),
           to: path.resolve(outputPath, 'assets/img'),
@@ -397,9 +604,9 @@ const createConfig_development = ({ outputPath }) => {
             youtube: youtube,
             note: note,
             // 作品の一覧（作品一覧・トップの Products・よくある質問で共通）
-            products: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/products.json'), 'utf8')),
+            products: products,
             // アバター改変の解説の一覧（一覧ページ・各回の前後リンクで共通）
-            avatarTips: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/avatar-tips.json'), 'utf8')),
+            avatarTips: avatarTips,
             // お気に入りワールドの一覧
             worlds: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/worlds.json'), 'utf8')),
             // 回想の動画（Vimeo と Cloudflare R2 の両方）
