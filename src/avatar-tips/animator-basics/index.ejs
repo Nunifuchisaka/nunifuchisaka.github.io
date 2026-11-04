@@ -7,6 +7,7 @@ const meta = {
   title: "Animator のしくみ",
   description: "メニューを押してから見た目が変わるまでに、何が動いているのか。FX などの Playable Layers、レイヤー・ステート・トランジション、パラメーターと Expressions Menu の役目を、再現図と動かして確かめられる図つきで解説。",
   url: "avatar-tips/animator-basics/",
+  altUrl: "en/avatar-tips/animator-basics/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_tips-animator-basics") %>

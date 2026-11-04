@@ -7,6 +7,7 @@ const meta = {
   title: "アニメーションを作る",
   description: "ギミックの見た目の変化は、アニメーションクリップに書きます。FX で動かせるもの、Animation ウィンドウの録画で作る手順、キーフレーム、パスが切れて Missing! と出たときの直し方を、再現図と動かして確かめられる図つきで解説。",
   url: "avatar-tips/animation-clip/",
+  altUrl: "en/avatar-tips/animation-clip/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_tips-animation-clip") %>

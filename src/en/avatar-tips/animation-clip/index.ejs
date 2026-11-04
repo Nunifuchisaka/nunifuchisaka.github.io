@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../../";
+const meta = {
+  type: "article",
+  title: "Making animations",
+  description: "A gimmick's visual changes live in animation clips. Learn what you can move from FX, how to make clips by recording in the Animation window, how keyframes work, and how to fix broken paths that show Missing!, with recreated screens and an interactive demo.",
+  url: "en/avatar-tips/animation-clip/",
+  altUrl: "avatar-tips/animation-clip/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/animation-clip-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-animation-clip",{locale:"en"}) %>
+<%- include(path + "assets/html/_tips_pager",{slug:"animation-clip",locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>
