@@ -116,13 +116,13 @@ const l = {
       caption: "再現図：衣装の Armature に付いた MA Merge Armature（Modular Avatar の表示を日本語にしたとき）。並びは簡単にしています",
       screens: [{
         bar: "Inspector › Armature（Dress_for_Avatar_A の中）",
-        label: "MA Merge Armature の再現図。1 統合先 Armature、前置詞と後置詞、2 位置追従モード アバターからターゲットへ一方向、3 名前かぶりを回避 にチェック",
+        label: "MA Merge Armature の再現図。1 統合先 Armature、接頭辞と接尾辞、2 位置追従モード アバターからオブジェクトへ片方向、3 名前かぶりを回避 にチェック",
         rows: [
           { type: "head", text: "▼ MA Merge Armature" },
           { mark: 1, label: "統合先", type: "select", text: "Armature (Transform)", hot: true },
-          { label: "前置詞", type: "value", text: "" },
-          { label: "後置詞", type: "value", text: "" },
-          { mark: 2, label: "位置追従モード", type: "select", text: "アバター =====&gt; ターゲット（一方向）" },
+          { label: "接頭辞", type: "value", text: "" },
+          { label: "接尾辞", type: "value", text: "" },
+          { mark: 2, label: "位置追従モード", type: "select", text: "アバター =====&gt; オブジェクト (片方向)" },
           { mark: 3, type: "check", on: true, text: "名前かぶりを回避" },
         ],
       }],
