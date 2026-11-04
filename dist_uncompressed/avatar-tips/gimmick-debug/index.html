@@ -148,7 +148,7 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第12回</a></p>
     <h1 class="page_1__h1" id="article-heading">ギミックが動かないとき</h1>
-    <p class="article_1__lead">メニューを押しても動かない。自分にしか見えない。ワールドを移ると元に戻る。<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が思ったとおりに動かないときに、どこから、どの順番で確かめればよいかと、よくある原因の一覧をまとめました。困ったときは、まずこのページに来てください。</p>
+    <p class="article_1__lead">メニューを押しても動かない。自分にしか見えない。<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ると元に戻る。<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が思ったとおりに動かないときに、どこから、どの順番で確かめればよいかと、よくある原因の一覧をまとめました。困ったときは、まずこのページに来てください。</p>
     <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の <a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> と VRChat のアバター（<a class="term_2" href="/glossary/#avatars3" data-name="Avatars 3.0" data-tip="いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。">Avatars 3.0</a>）です。2026年11月時点の内容です。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
@@ -174,7 +174,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>自分で組んだ<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が、メニューを押しても動かない。</li><li>自分には見えるのに、ほかの人には見えないと言われた。</li><li>ワールドを移ったり、アバターを着替えたりすると、オンオフが元に戻る。</li><li>Unity では動いたのに、VRChat では動かない。</li><li>どこが悪いのか分からず、何から見ればよいか分からない。</li>
+      <li>自分で組んだ<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が、メニューを押しても動かない。</li><li>自分には見えるのに、ほかの人には見えないと言われた。</li><li><a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ったり、アバターを着替えたりすると、オンオフが元に戻る。</li><li>Unity では動いたのに、VRChat では動かない。</li><li>どこが悪いのか分からず、何から見ればよいか分からない。</li>
     </ul>
   </section>
 
@@ -317,7 +317,7 @@
     <p class="section_2__note">再生中に Animator ウィンドウで変えた設定も、再生を止めると元に戻ることがあります。何をどう変えれば直るかが分かったら、止めてから、同じように直してください。</p>
 
     <h3 class="section_2__h2">VRChat の中の表示</h3>
-    <p class="article_1__p">VRChat の中でも、アバターのパラメーターの値を見られる表示があります。Expressions メニュー（Action Menu）の中の設定（Options）のあたりに、デバッグ用の表示（Debug）を出す項目があります。名前や場所は VRChat の更新で変わることがあるので、見つからないときは、VRChat の公式のドキュメントで最新の場所を確かめてください。</p><p class="article_1__p"><a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a> の <a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a> には、アップロードせずに、自分のパソコンの VRChat だけで試す方法（Build &amp; Test）もあります。毎回アップロードするより早く試せます。</p><p class="article_1__p"><strong>ほかの人からの見え方は、ほかの人にしか確かめられません。</strong><a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">同期</a>（Synced）や <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> 版を確かめるときは、友だちに頼んで、同じワールドで見てもらいます。Quest やスマホの友だちがいれば、その人にも見てもらうと安心です。</p>
+    <p class="article_1__p">VRChat の中でも、アバターのパラメーターの値を見られる表示があります。Expressions メニュー（Action Menu）の中の設定（Options）のあたりに、デバッグ用の表示（Debug）を出す項目があります。名前や場所は VRChat の更新で変わることがあるので、見つからないときは、VRChat の公式のドキュメントで最新の場所を確かめてください。</p><p class="article_1__p"><a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a> の <a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a> には、アップロードせずに、自分のパソコンの VRChat だけで試す方法（Build &amp; Test）もあります。毎回アップロードするより早く試せます。</p><p class="article_1__p"><strong>ほかの人からの見え方は、ほかの人にしか確かめられません。</strong><a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">同期</a>（Synced）や <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> 版を確かめるときは、友だちに頼んで、同じ<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>で見てもらいます。Quest やスマホの友だちがいれば、その人にも見てもらうと安心です。</p>
   </section>
 
   <section class="section_2 article_1__section" id="checklist" aria-labelledby="checklist-heading">
@@ -438,7 +438,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ワールドを移ると、オフに戻る</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>帽子をオンにしても、ワールドを移ると、帽子が消えている。</dd></div>
+            <div><dt>起きること</dt><dd>帽子をオンにしても、<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ると、帽子が消えている。</dd></div>
             <div><dt>原因</dt><dd>Expression Parameters で、そのパラメーターの <a class="term_2" href="/glossary/#saved" data-name="Saved" data-tip="ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。">Saved</a> のチェックが外れています。ワールドを移ると、Default の値に戻ります。</dd></div>
             <div><dt>直し方</dt><dd>Saved にチェックを入れて、アップロードし直します。</dd></div>
           </dl>
@@ -492,7 +492,7 @@
 
 
 <nav class="section_2 article_1__pager" aria-label="前後の回">
-  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の色と点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <form class="search_1__form" action="/avatar-tips/search/" method="get" role="search" aria-label="改変解説を検索">
   <label class="filter_1__legend" for="tips-site-search">改変解説を検索（全回の本文・用語集・困りごと）</label>
   <div class="search_1__row">

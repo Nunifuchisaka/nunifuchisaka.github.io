@@ -12,7 +12,7 @@ const l = {
   en: { label: "Previous and next tips", prev: "Previous", next: "Next", no: (n) => `#${n}`, open: " (", close: ")" },
 }[pageLocale];
 %><nav class="section_2 article_1__pager" aria-label="<%= l.label %>">
-  <% if (pageLocale === "ja") { %><p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
+  <% if (pageLocale === "ja") { %><p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の色と点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <%- include("_tips_searchbox", {searchId: "tips-site-search"}) %><% } %>
   <ul class="next_1 next_1--pager">
     <% if (prev) { %>

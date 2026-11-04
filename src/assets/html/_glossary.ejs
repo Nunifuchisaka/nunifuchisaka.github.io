@@ -14,7 +14,7 @@ const jsonLd = {
   "@type": "DefinedTermSet",
   "@id": `${SITE}glossary/#set`,
   name: "VRChat 用語集",
-  description: "VRChat のアバター改変で出てくる専門用語を、はじめての人向けに短く説明した用語集。",
+  description: "VRChat の文化の言葉と、アバター改変で出てくる専門用語を、はじめての人向けに短く説明した用語集。",
   url: `${SITE}glossary/`,
   inLanguage: "ja",
   hasDefinedTerm: terms.map((t) => ({
@@ -28,8 +28,8 @@ const jsonLd = {
 };
 %><section class="section_2 page_1" aria-labelledby="glossary-heading">
   <h1 class="page_1__h1" id="glossary-heading">VRChat 用語集</h1>
-  <p class="section_2__lead">VRChat のアバター改変で出てくる言葉<%= total %>語を、はじめての人向けに1〜2文で説明します。Unity の画面、VRChat SDK、Animator とギミック、Modular Avatar、アップロードとパフォーマンスランクの言葉を集めました。</p>
-  <p class="section_2__note">「<a href="/avatar-tips/">アバター改変の解説</a>」の本文では、ここにある言葉に点線が付いています。マウスを乗せると短い説明が出て、押すとこのページの説明へ飛びます。</p>
+  <p class="section_2__lead">VRChat で遊ぶときと、アバターを改変するときに出てくる言葉<%= total %>語を、はじめての人向けに1〜2文で説明します。お砂糖や視界ジャックのような VRChat の文化の言葉から、Unity の画面、VRChat SDK、Animator とギミック、Modular Avatar、アップロードとパフォーマンスランクの言葉まで集めました。</p>
+  <p class="section_2__note">「<a href="/avatar-tips/">アバター改変の解説</a>」の本文では、ここにある言葉に色と点線が付いています。マウスを乗せると短い説明が出て、押すとこのページの説明へ飛びます。</p>
   <nav class="jump_1" aria-label="このページの中">
     <ul>
       <% glossary.categories.forEach(function (c) { %>
@@ -42,7 +42,7 @@ const jsonLd = {
 <div class="section_2 glossary_1 js_glossary" data-count="{n} 語">
   <div class="glossary_1__controls js_glossary_controls" hidden>
     <label class="filter_1__legend" for="glossary-search">ことばで絞り込む</label>
-    <input type="search" id="glossary-search" class="finder_1__input js_glossary_search" placeholder="例：Write Defaults、同期、ピンク" autocomplete="off">
+    <input type="search" id="glossary-search" class="finder_1__input js_glossary_search" placeholder="例：お砂糖、Write Defaults、同期" autocomplete="off">
     <p class="finder_1__count" aria-live="polite"><span class="js_glossary_count"><%= total %> 語</span></p>
   </div>
   <p class="finder_1__none js_glossary_none" hidden>当てはまる言葉がありません。ことばを短くするか、上の種類から探してください。</p>

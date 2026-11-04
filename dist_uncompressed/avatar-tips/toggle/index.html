@@ -186,7 +186,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>帽子やメガネ、羽などの小物を、メニューから出したり消したりしたい。</li><li><a class="term_2" href="/glossary/#modular-avatar" data-name="Modular Avatar（MA）" data-tip="衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。">Modular Avatar</a> の Create Toggle で済ませていたが、中で何が起きているのか知りたい。自分で組めるようになりたい。</li><li>自分で組んだ <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> を、アバターをこわさずにつなぎたい。</li><li>オンオフが一拍遅れる、ワールドを移ると戻る、ほかの人には見えない。</li>
+      <li>帽子やメガネ、羽などの小物を、メニューから出したり消したりしたい。</li><li><a class="term_2" href="/glossary/#modular-avatar" data-name="Modular Avatar（MA）" data-tip="衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。">Modular Avatar</a> の Create Toggle で済ませていたが、中で何が起きているのか知りたい。自分で組めるようになりたい。</li><li>自分で組んだ <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> を、アバターをこわさずにつなぎたい。</li><li>オンオフが一拍遅れる、<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ると戻る、ほかの人には見えない。</li>
     </ul>
     <p class="article_1__p">この回は、<a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a> と <a href="/avatar-tips/animation-clip/#record">第7回 アニメーションを作る</a> を読んだ前提で進めます。<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>・<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>・<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>・<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>の意味は、そちらで説明しています。</p>
   </section>
@@ -531,7 +531,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Animator の HatOn と同じ名前・同じ型にします。</li><li>ワールドを移っても、アバターを着替えて戻っても、オンオフを覚えておきます。</li><li>ほかの人に値を送ります。外すと、帽子は自分にしか見えません。</li>
+      <li>Animator の HatOn と同じ名前・同じ型にします。</li><li><a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移っても、アバターを着替えて戻っても、オンオフを覚えておきます。</li><li>ほかの人に値を送ります。外すと、帽子は自分にしか見えません。</li>
     </ol>
   
 </div>
@@ -675,7 +675,7 @@
     </ol>
     <h3 class="section_2__h2">アップロードして確かめる</h3>
     <ol class="steps_1">
-      <li><a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a> の <a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a> からアップロードします。手順は <a href="/avatar-tips/upload/#builder">第2回 アップロードのしかた</a> と同じです。</li><li>VRChat でアバターを着て、<a class="term_2" href="/glossary/#expressions-menu" data-name="Expressions Menu（Action Menu）" data-tip="VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。">Action Menu</a> の <code>Expressions</code> を開き、<code>帽子</code> を押します。</li><li>ワールドを移ったり、アバターを着替えて戻ったりして、オンオフが残っているか（<a class="term_2" href="/glossary/#saved" data-name="Saved" data-tip="ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。">Saved</a>）を確かめます。</li><li>ほかの人にも見えているか（<a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">Synced</a>）は、友だちに見てもらうと確実です。</li>
+      <li><a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a> の <a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a> からアップロードします。手順は <a href="/avatar-tips/upload/#builder">第2回 アップロードのしかた</a> と同じです。</li><li>VRChat でアバターを着て、<a class="term_2" href="/glossary/#expressions-menu" data-name="Expressions Menu（Action Menu）" data-tip="VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。">Action Menu</a> の <code>Expressions</code> を開き、<code>帽子</code> を押します。</li><li><a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ったり、アバターを着替えて戻ったりして、オンオフが残っているか（<a class="term_2" href="/glossary/#saved" data-name="Saved" data-tip="ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。">Saved</a>）を確かめます。</li><li>ほかの人にも見えているか（<a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">Synced</a>）は、友だちに見てもらうと確実です。</li>
     </ol>
   </section>
 
@@ -722,7 +722,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ワールドを移ると元に戻る</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>帽子をオンにしたのに、ワールドを移ったり、アバターを着替えて戻ったりすると消えている。</dd></div>
+            <div><dt>起きること</dt><dd>帽子をオンにしたのに、<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>を移ったり、アバターを着替えて戻ったりすると消えている。</dd></div>
             <div><dt>原因</dt><dd>パラメーターの <a class="term_2" href="/glossary/#saved" data-name="Saved" data-tip="ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。">Saved</a> にチェックが入っていません。</dd></div>
             <div><dt>直し方</dt><dd>MA Parameters（直接足したときは <a class="term_2" href="/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。">Expression Parameters</a>）で Saved にチェックを入れて、アップロードし直します。</dd></div>
           </dl>
@@ -768,7 +768,7 @@
 
 
 <nav class="section_2 article_1__pager" aria-label="前後の回">
-  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の色と点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <form class="search_1__form" action="/avatar-tips/search/" method="get" role="search" aria-label="改変解説を検索">
   <label class="filter_1__legend" for="tips-site-search">改変解説を検索（全回の本文・用語集・困りごと）</label>
   <div class="search_1__row">

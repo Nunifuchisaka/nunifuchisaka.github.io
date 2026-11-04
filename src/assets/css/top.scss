@@ -5,11 +5,14 @@
 # トップページ
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
 色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
-灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+灯（--color-accent）はフォーカスの枠、リンクの下線の hover、用語集の用語（.term_2・.tip_1__name・.glossary_1__term）にだけ使う。
 氷（--color-ice）はキービジュアルのアイコンを巡る光にだけ使う（「氷属性」の演出。ライトでは少し濃い水色）。
 */
 
 $font: "Zen Kaku Gothic Antique", $gothic;
+
+// 用語集の用語の名前（本文と見分けるため）。Web フォントは読まず、端末に入っている明朝体を使う
+$font-mincho: "Hiragino Mincho ProN", "ヒラギノ明朝 ProN", "Yu Mincho", yumincho, "游明朝", "Noto Serif JP", "Noto Serif CJK JP", serif;
 
 @mixin theme-light {
   color-scheme: light;
@@ -2776,7 +2779,8 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .term_2
 使用箇所：アバター改変の解説（本文の中の用語。_glossary_link.ejs が付ける）
-内容：VRChat 用語集へのリンク。文の色のまま点線の下線を付け、マウスを乗せると tip_1 の吹き出しが出る（glossary-tip.js）
+内容：VRChat 用語集へのリンク。本文と見分けられるよう、用語の色（--color-accent）にして点線の下線を付ける。
+     ふつうのリンク（--color-link）とも色を分ける。マウスを乗せると tip_1 の吹き出しが出る（glossary-tip.js）
 */
 
 .term_2 {
@@ -2784,13 +2788,10 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   text-decoration-thickness: 1.5px;
   text-underline-offset: .3em;
   .top_1 & {
-    color: inherit;
+    color: var(--color-accent);
   }
   &:hover {
     text-decoration-style: solid;
-    .top_1 & {
-      color: var(--color-link);
-    }
   }
 }
 
@@ -2822,8 +2823,10 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__name {
-    font-size: 1.5rem;
+    font-family: $font-mincho;
+    font-size: 1.7rem;
     font-weight: 700;
+    color: var(--color-accent);
   }
 }
 
@@ -2875,15 +2878,20 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     }
   }
 
+  // 用語の名前は、説明の文と見分けられるよう、明朝体・大きめ・用語の色にして、下に線を引く
   &__term {
-    font-size: 1.8rem;
+    padding-bottom: 8px;
+    font-family: $font-mincho;
+    font-size: 2.4rem;
     font-weight: 700;
     line-height: 1.4;
+    color: var(--color-accent);
     overflow-wrap: anywhere;
+    border-bottom: 1px solid var(--color-line);
   }
 
   &__short {
-    margin-top: 8px;
+    margin-top: 12px;
     font-weight: 700;
     line-height: 1.7;
   }

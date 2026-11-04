@@ -427,7 +427,7 @@
     <p class="article_1__p">Proximity でなく Constant にするときは、パラメーターを Bool にし、頬染め 0 のクリップと 100 のクリップのステートを2つ作って、<code>HeadPat</code> の true・false でトランジションさせます。<a class="term_2" href="/glossary/#transition-duration" data-name="Transition Duration" data-tip="トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。">Transition Duration</a> を 0.3 くらいにすると、じわっと赤くなります。</p>
     <h3 class="section_2__h2">4. つないで試す</h3>
     <ol class="steps_1">
-      <li>Animator Controller を <a class="term_2" href="/glossary/#merge-animator" data-name="MA Merge Animator" data-tip="自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。">MA Merge Animator</a> で <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> につなぎます（<a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>）。<code>HeadPat</code> の GameObject はアバターの中にあるので、そのままアップロードに含まれます。</li><li>Unity で再生し、Hierarchy に空の GameObject を作って <code>VRC Contact Sender</code> を足し、<code>Collision Tags</code> に <code>Hand</code> を入れます。Scene ビューでそれを頭に近づけ、Animator ウィンドウの Parameters で <code>HeadPat</code> の値が変わるかを見ます。</li><li>Unity での試し方は、道具やバージョンで反応が違うことがあります。いちばん確かなのは、アップロードして、フレンドになでてもらうことです。Allow Self を一時的に入れて、自分の手で試すこともできます（試したら戻します）。</li>
+      <li>Animator Controller を <a class="term_2" href="/glossary/#merge-animator" data-name="MA Merge Animator" data-tip="自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。">MA Merge Animator</a> で <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> につなぎます（<a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>）。<code>HeadPat</code> の GameObject はアバターの中にあるので、そのままアップロードに含まれます。</li><li>Unity で再生し、Hierarchy に空の GameObject を作って <code>VRC Contact Sender</code> を足し、<code>Collision Tags</code> に <code>Hand</code> を入れます。Scene ビューでそれを頭に近づけ、Animator ウィンドウの Parameters で <code>HeadPat</code> の値が変わるかを見ます。</li><li>Unity での試し方は、道具やバージョンで反応が違うことがあります。いちばん確かなのは、アップロードして、<a class="term_2" href="/glossary/#friend" data-name="フレンド" data-tip="VRChat の中で登録し合った相手。今どこにいるかが分かり、会いに行ける。">フレンド</a>になでてもらうことです。Allow Self を一時的に入れて、自分の手で試すこともできます（試したら戻します）。</li>
     </ol>
   </section>
 
@@ -572,7 +572,7 @@
 
 
 <nav class="section_2 article_1__pager" aria-label="前後の回">
-  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の色と点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <form class="search_1__form" action="/avatar-tips/search/" method="get" role="search" aria-label="改変解説を検索">
   <label class="filter_1__legend" for="tips-site-search">改変解説を検索（全回の本文・用語集・困りごと）</label>
   <div class="search_1__row">

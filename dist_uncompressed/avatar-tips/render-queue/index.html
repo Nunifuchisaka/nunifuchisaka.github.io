@@ -176,7 +176,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。</li><li>水のあるワールドで、アバターの半透明の部分が水面に隠れる。</li><li>半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。</li><li>パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。</li>
+      <li><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。</li><li>水のある<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>で、アバターの半透明の部分が水面に隠れる。</li><li>半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。</li><li>パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。</li>
     </ul>
   </section>
 
@@ -303,7 +303,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">水面に隠れる</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>水のあるワールドで、アバターの半透明の部分が水の中にあるように見える。</dd></div>
+            <div><dt>起きること</dt><dd>水のある<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>で、アバターの半透明の部分が水の中にあるように見える。</dd></div>
             <div><dt>原因</dt><dd>ワールドの水面は、半透明の範囲の数字を使っていることが多いです。パーツが水面より先に描かれると、上から水面の色を塗られてしまいます。</dd></div>
             <div><dt>直し方</dt><dd>パーツの数字を、水面より大きくします。私の SpiderWeb では、糸を 3100、衝撃波を 3110 にしています。水面が 3100 以上のワールドでは、糸の<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>を水面より大きく、衝撃波をさらに後にするよう、説明書に書いています。 <a href="/spiderweb/">SpiderWeb の説明書</a></dd></div>
           </dl>
@@ -340,7 +340,7 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>2500 を超えると、<a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>の扱いになります。<a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。</li><li><a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>の描画モードを変えると、<a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a> が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。</li><li>大きく動かさないでください。数字が大きいほど、ワールドの半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。</li><li>Render Queue は<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。</li>
+      <li>2500 を超えると、<a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>の扱いになります。<a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。</li><li><a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>の描画モードを変えると、<a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a> が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。</li><li>大きく動かさないでください。数字が大きいほど、<a class="term_2" href="/glossary/#world" data-name="ワールド" data-tip="VRChat の中で集まって過ごす場所。だれでも作って公開できる。">ワールド</a>の半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。</li><li>Render Queue は<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。</li>
     </ul>
   </section>
 
@@ -355,7 +355,7 @@
 
 
 <nav class="section_2 article_1__pager" aria-label="前後の回">
-  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の色と点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <form class="search_1__form" action="/avatar-tips/search/" method="get" role="search" aria-label="改変解説を検索">
   <label class="filter_1__legend" for="tips-site-search">改変解説を検索（全回の本文・用語集・困りごと）</label>
   <div class="search_1__row">

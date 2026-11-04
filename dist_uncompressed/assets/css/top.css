@@ -4,7 +4,7 @@
 # トップページ
 使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
 色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
-灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+灯（--color-accent）はフォーカスの枠、リンクの下線の hover、用語集の用語（.term_2・.tip_1__name・.glossary_1__term）にだけ使う。
 氷（--color-ice）はキービジュアルのアイコンを巡る光にだけ使う（「氷属性」の演出。ライトでは少し濃い水色）。
 */
 :root {
@@ -2211,7 +2211,8 @@
 /*
 ## .term_2
 使用箇所：アバター改変の解説（本文の中の用語。_glossary_link.ejs が付ける）
-内容：VRChat 用語集へのリンク。文の色のまま点線の下線を付け、マウスを乗せると tip_1 の吹き出しが出る（glossary-tip.js）
+内容：VRChat 用語集へのリンク。本文と見分けられるよう、用語の色（--color-accent）にして点線の下線を付ける。
+     ふつうのリンク（--color-link）とも色を分ける。マウスを乗せると tip_1 の吹き出しが出る（glossary-tip.js）
 */
 .term_2 {
   -webkit-text-decoration: underline dotted;
@@ -2220,13 +2221,10 @@
   text-underline-offset: 0.3em;
 }
 .top_1 .term_2 {
-  color: inherit;
+  color: var(--color-accent);
 }
 .term_2:hover {
   text-decoration-style: solid;
-}
-.top_1 .term_2:hover {
-  color: var(--color-link);
 }
 
 /*
@@ -2256,8 +2254,10 @@
   display: none;
 }
 .tip_1__name {
-  font-size: 1.5rem;
+  font-family: "Hiragino Mincho ProN", "ヒラギノ明朝 ProN", "Yu Mincho", yumincho, "游明朝", "Noto Serif JP", "Noto Serif CJK JP", serif;
+  font-size: 1.7rem;
   font-weight: 700;
+  color: var(--color-accent);
 }
 
 /*
@@ -2302,13 +2302,17 @@
   display: none;
 }
 .glossary_1__term {
-  font-size: 1.8rem;
+  padding-bottom: 8px;
+  font-family: "Hiragino Mincho ProN", "ヒラギノ明朝 ProN", "Yu Mincho", yumincho, "游明朝", "Noto Serif JP", "Noto Serif CJK JP", serif;
+  font-size: 2.4rem;
   font-weight: 700;
   line-height: 1.4;
+  color: var(--color-accent);
   overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--color-line);
 }
 .glossary_1__short {
-  margin-top: 8px;
+  margin-top: 12px;
   font-weight: 700;
   line-height: 1.7;
 }
