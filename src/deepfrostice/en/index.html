@@ -398,6 +398,29 @@
       <p class="param-note">Looks at the upward (Y) component of the world-space normal and adds a mask — deeper frost the more a surface faces upward — into the existing <code>frost</code> value. It layers cleanly with <code>Frost Coverage</code> and <code>Freeze Amount</code> since all three feed the same <code>frost</code> value, so matte shading and specular falloff stay consistent automatically.</p>
     </details>
 
+    <!-- Audio Reactive (AudioLink) -->
+    <details class="param-group reveal">
+      <summary>Audio Reactive <span class="grp-badge">Audio</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Property</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Audio Reactive (AudioLink)</td><td>Turns on driving the existing effects with the world's AudioLink audio. When OFF, the look and cost are unchanged (the shader variant is dropped entirely). Cannot be changed from an Animator</td></tr>
+            <tr><td>Audio Strength</td><td>Overall strength of the audio effects (0–1). To stop it from a menu, animate this value to 0 / 1 (this is how FrostHalo does it)</td></tr>
+            <tr><td>Audio Smoothing</td><td>Smoothness of the audio values. 0 uses the raw values (sharp response to beats), 1 uses AudioLink's filtered values (<code>ALPASS_FILTEREDAUDIOLINK</code>, x=10 stage; less flicker)</td></tr>
+            <tr><td>Bass → Inner Glow</td><td>How much the bass makes the ice glow from inside. The rim glows in Fresnel Color, the interior in SSS Color, and the glow weakens under frost</td></tr>
+            <tr><td>Bass → Pulse Scale</td><td>How much the bass scales the whole mesh around its origin (0.03 = 3%). The shadow follows the same shape</td></tr>
+            <tr><td>High Mids → Dispersion</td><td>How much light dispersion (prismatic color) the high mids add. Appears even when <code>Dispersion Intensity</code> is 0</td></tr>
+            <tr><td>Treble → Sparkle</td><td>How much the treble lights up the sparkle facets facing the viewer. Appears even when <code>Sparkle Intensity</code> is 0 (facet size and density follow the Sparkle settings)</td></tr>
+            <tr><td>Sparkle Chrono</td><td>How fast the sparkle twinkle advances with the treble level. <code>Sparkle Chrono × Audio Strength</code> multiplies the chrono-driven speed. 0 stops the chrono-driven advance (the regular <code>Sparkle Twinkle Speed</code> is separate)</td></tr>
+            <tr><td>Theme Color</td><td>How much the glow colors lean toward the world's theme colors: the rim toward theme color 0, the interior toward theme color 1. Has no effect when the world doesn't set theme colors</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note">The shader reads the world's <code>_AudioTexture</code> directly (no Animator or Expression parameters involved). The AudioLink package is not required: the reading code is bundled as <code>Shader/DeepFrostIceAudioLink.cginc</code> (MIT-licensed code from AudioLink; the license is in <code>AudioLink_LICENSE.md</code> in the same folder).<br>It only reacts in AudioLink-enabled worlds while audio is playing, and never to your own voice or microphone. In worlds without AudioLink, ON looks identical to OFF. Theme colors only apply when the world sets them. The light this feature adds (Inner Glow / Sparkle / Dispersion) is self-emissive and bypasses the darkness mask, so it glows even in dark places (the other effects stay dark there, as before). Turn it OFF on materials that shouldn't glow in the dark. <code>Bass → Pulse Scale</code> scales the whole mesh around its origin, so reduce it or set it to 0 on large meshes or meshes whose origin sits far from the geometry. PC only (Quest / Android not supported).</p>
+      <p class="param-note">The bundled accessory "FrostHalo" (<code>FrostHalo/FrostHalo.prefab</code>: place it directly under the avatar root and upload, and Modular Avatar attaches a ring of ice above the head) ships with this feature ON. Its <code>FrostHalo</code> submenu in the Expression Menu has three toggles, <code>Show</code>, <code>Frost</code> (frosts the whole ring white over 1.5 seconds; OFF returns it to clear ice) and <code>Audio Reactive</code> (glows, pulses and sparkles with the music in AudioLink worlds; OFF stops it immediately), using 3 bits of synced parameters in total. The menu's <code>Audio Reactive</code> only switches <code>Audio Strength</code> between 0 and 1, so to remove the cost as well, turn off <code>Audio Reactive (AudioLink)</code> on <code>FrostHalo.mat</code>.</p>
+    </details>
+
     <!-- Sparkle -->
     <details class="param-group reveal">
       <summary>Sparkle <span class="grp-badge">Sparkle</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
