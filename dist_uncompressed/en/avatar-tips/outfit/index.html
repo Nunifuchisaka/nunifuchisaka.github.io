@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/outfit-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #3</a></p>
     <h1 class="page_1__h1" id="article-heading">Dressing your avatar</h1>
-    <p class="article_1__lead">This tip shows you how to put an outfit you bought on your avatar. Today, with Modular Avatar, most outfits go on in a few clicks. It also covers what to do when your body pokes through the clothes, and how to turn the outfit on and off from a menu, with recreated views and a figure you can play with.</p>
-    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This is about VRChat avatars (Avatars 3.0) and Modular Avatar. Current as of November 2026.</p>
+    <p class="article_1__lead">This tip shows you how to put an outfit you bought on your avatar. Today, with <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a>, most outfits go on in a few clicks. It also covers what to do when your body pokes through the clothes, and how to turn the outfit on and off from a menu, with recreated views and a figure you can play with.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This is about VRChat avatars (<a class="term_2" href="/en/glossary/#avatars3" data-name="Avatars 3.0" data-tip="VRChat's current avatar system. Gimmicks are built with the Animator, Expression Parameters, and the Expressions Menu.">Avatars 3.0</a>) and Modular Avatar. Current as of November 2026.</p>
     <nav class="jump_1" aria-label="Contents">
       <ul>
         
@@ -185,7 +186,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">Read this when</h2>
     <ul class="rules_1">
-      <li>You want to put an outfit you bought on BOOTH or elsewhere on your own avatar.</li><li>You put on the outfit, but it doesn&#39;t follow your body when you move. Or your body pokes through the clothes.</li><li>You want to put the outfit on and take it off from a menu.</li>
+      <li>You want to put an outfit you bought on <a class="term_2" href="/en/glossary/#booth" data-name="BOOTH" data-tip="An online marketplace run by pixiv, where many avatars, outfits, and gimmicks are sold.">BOOTH</a> or elsewhere on your own avatar.</li><li>You put on the outfit, but it doesn&#39;t follow your body when you move. Or your body pokes through the clothes.</li><li>You want to put the outfit on and take it off from a menu.</li>
     </ul>
   </section>
 
@@ -206,7 +207,7 @@
       
         <div class="examples_1__item">
           <dt>Required shaders</dt>
-          <dd>Many outfits use a shader such as lilToon. Add the shader named in the manual to your project first.</dd>
+          <dd>Many outfits use a <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shader</a> such as <a class="term_2" href="/en/glossary/#liltoon" data-name="lilToon" data-tip="An anime-style shader widely used for Japanese avatars and outfits.">lilToon</a>. Add the shader named in the manual to your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a> first.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -219,7 +220,7 @@
 
   <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
     <h2 class="section_2__h1" id="why-heading">Why use Modular Avatar</h2>
-    <p class="article_1__p">In the past, you dressed an avatar by moving the outfit's bones into the avatar's bones one by one. It took time, mistakes were hard to undo, and you had to do it all again when the avatar or the outfit was updated.</p><p class="article_1__p">Modular Avatar merges the outfit's bones into the avatar's bones automatically, <strong>only when you upload or press Play in Unity</strong> (Merge Armature). The avatar and outfit you edit stay as they are, so nothing gets broken. To remove the outfit, just delete it from the Hierarchy.</p>
+    <p class="article_1__p">In the past, you dressed an avatar by moving the outfit's <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> into the avatar's bones one by one. It took time, mistakes were hard to undo, and you had to do it all again when the avatar or the outfit was updated.</p><p class="article_1__p"><a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a> merges the outfit's bones into the avatar's bones automatically, <strong>only when you upload or press Play in Unity</strong> (<a class="term_2" href="/en/glossary/#merge-armature" data-name="MA Merge Armature" data-tip="A component that merges an outfit's bones into the avatar's bones of the same names, so clothes follow the body.">Merge Armature</a>). The avatar and outfit you edit stay as they are, so nothing gets broken. To remove the outfit, just delete it from the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a>.</p>
     <ol class="route_1">
       
         <li class="route_1__step"><span class="route_1__head">Put the outfit inside the avatar</span><span class="route_1__note">Drag it in the Hierarchy</span></li>
@@ -235,7 +236,7 @@
 
   <section class="section_2 article_1__section" id="install" aria-labelledby="install-heading">
     <h2 class="section_2__h1" id="install-heading">Add Modular Avatar</h2>
-    <p class="article_1__p">Add Modular Avatar to your project with VCC or ALCOM. How to install VCC and ALCOM is covered in <a href="/en/avatar-tips/setup/">#1</a>.</p>
+    <p class="article_1__p">Add <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a> to your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a> with <a class="term_2" href="/en/glossary/#vcc" data-name="VCC (VRChat Creator Companion)" data-tip="VRChat's official app for creating projects and adding tools and shaders to them (Windows only).">VCC</a> or <a class="term_2" href="/en/glossary/#alcom" data-name="ALCOM" data-tip="A community-made app that does what VCC does, and runs on Windows, Mac, and Linux.">ALCOM</a>. How to install VCC and ALCOM is covered in <a href="/en/avatar-tips/setup/">#1</a>.</p>
     <ol class="steps_1">
       <li>On the <a href="https://modular-avatar.nadena.dev/docs/intro" target="_blank" rel="noopener">Modular Avatar website<span class="visually-hidden"> (opens in a new tab)</span></a>, go to "Installation". If you use VCC, press "Add Modular Avatar to VCC". If you use ALCOM, enter <code>https://vpm.nadena.dev/vpm.json</code> under "Add VPM Repository".</li><li>Open your project with "Manage Project" in VCC or "Manage" in ALCOM, and press the + next to Modular Avatar to add it.</li>
     </ol>
@@ -244,7 +245,7 @@
   <section class="section_2 article_1__section" id="steps" aria-labelledby="steps-heading">
     <h2 class="section_2__h1" id="steps-heading">Steps to dress your avatar</h2>
     <ol class="steps_1">
-      <li>Drag the outfit's unitypackage into Unity's Project window and press "Import".</li><li>In the outfit's folder, find the prefab with your avatar's name. Outfits often have a separate prefab for each supported avatar.</li><li>Drag that prefab onto your avatar in the Hierarchy (the object with the VRC Avatar Descriptor) to make it a child of the avatar.</li><li>Right-click the outfit and choose <code>[ModularAvatar] Setup Outfit</code>.</li><li>Turn off the clothes the avatar was wearing (uncheck the box at the top left of the Inspector).</li><li>Press Unity's Play button, and check that the clothes follow the avatar when it moves.</li>
+      <li>Drag the outfit's <a class="term_2" href="/en/glossary/#unitypackage" data-name="unitypackage" data-tip="A format for bundling and sharing Unity files (file extension .unitypackage).">unitypackage</a> into Unity's <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a> and press "Import".</li><li>In the outfit's folder, find the <a class="term_2" href="/en/glossary/#prefab" data-name="Prefab" data-tip="An object saved as a single file, contents and all. You drag it into a scene to use it.">prefab</a> with your avatar's name. Outfits often have a separate prefab for each supported avatar.</li><li>Drag that prefab onto your avatar in the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a> (the <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> with the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a>) to make it a child of the avatar.</li><li>Right-click the outfit and choose <code>[ModularAvatar] Setup Outfit</code>.</li><li>Turn off the clothes the avatar was wearing (uncheck the box at the top left of the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a>).</li><li>Press Unity's Play button, and check that the clothes follow the avatar when it moves.</li>
     </ol>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
@@ -351,7 +352,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Put the outfit's prefab directly under the avatar (as its child). Don't put it outside the avatar or inside the Armature.</li><li>Right-click the outfit and choose this. It finds the Armature inside the outfit and adds Merge Armature to it.</li>
+      <li>Put the outfit's prefab directly under the avatar (as its child). Don't put it outside the avatar or inside the <a class="term_2" href="/en/glossary/#armature" data-name="Armature" data-tip="The object that holds the avatar's bones. Bones line up as parents and children below Hips.">Armature</a>.</li><li>Right-click the outfit and choose this. It finds the Armature inside the outfit and adds <a class="term_2" href="/en/glossary/#merge-armature" data-name="MA Merge Armature" data-tip="A component that merges an outfit's bones into the avatar's bones of the same names, so clothes follow the body.">Merge Armature</a> to it.</li>
     </ol>
   
 </div>
@@ -360,7 +361,7 @@
 
   <section class="section_2 article_1__section" id="merge" aria-labelledby="merge-heading">
     <h2 class="section_2__h1" id="merge-heading">What Setup Outfit does</h2>
-    <p class="article_1__p">When you choose Setup Outfit, <strong>MA Merge Armature</strong> is added to the Armature inside the outfit, and <strong>MA Outfit Root</strong> is added to the top of the outfit.</p><p class="article_1__p">Merge Armature finds the outfit's bones by name and merges them into the avatar's bones with the same names. Bones the avatar doesn't have (such as skirt bones) are added as children of the avatar's bones. The outfit's swaying parts (PhysBones) are also fixed so they move the bones they were merged into.</p><p class="article_1__p">The merge happens only when you press Play and when you upload. When you stop playing, the Hierarchy goes back to how it was.</p>
+    <p class="article_1__p">When you choose <a class="term_2" href="/en/glossary/#setup-outfit" data-name="Setup Outfit" data-tip="A Modular Avatar feature you pick by right-clicking an outfit. It adds the parts that make clothes follow the body.">Setup Outfit</a>, <strong><a class="term_2" href="/en/glossary/#merge-armature" data-name="MA Merge Armature" data-tip="A component that merges an outfit's bones into the avatar's bones of the same names, so clothes follow the body.">MA Merge Armature</a></strong> is added to the <a class="term_2" href="/en/glossary/#armature" data-name="Armature" data-tip="The object that holds the avatar's bones. Bones line up as parents and children below Hips.">Armature</a> inside the outfit, and <strong><a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">MA</a> Outfit Root</strong> is added to the top of the outfit.</p><p class="article_1__p">Merge Armature finds the outfit's <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> by name and merges them into the avatar's bones with the same names. Bones the avatar doesn't have (such as skirt bones) are added as children of the avatar's bones. The outfit's swaying parts (<a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a>) are also fixed so they move the bones they were merged into.</p><p class="article_1__p">The merge happens only when you press Play and when you upload. When you stop playing, the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a> goes back to how it was.</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -431,7 +432,7 @@
 
   <section class="section_2 article_1__section" id="shrink" aria-labelledby="shrink-heading">
     <h2 class="section_2__h1" id="shrink-heading">When your body pokes through the clothes</h2>
-    <p class="article_1__p">If the body is bigger than the clothes, your skin pokes through them when you move. Many avatars have BlendShapes (shape keys) that shrink or hide the body under the clothes. They have names like <code>Shrink_...</code> or <code>Hide_...</code>, and they are listed in the avatar's manual.</p><p class="article_1__p">Raise the value of that BlendShape on Body's Skinned Mesh Renderer to shrink it. But the value stays the same even when you take the clothes off. Also, if the avatar's FX Animator writes to this BlendShape, VRChat changes it back from the value you set in Unity (<a href="/en/avatar-tips/unity-vs-vrchat/">#13</a>).</p><p class="article_1__p">We recommend adding <strong>MA Shape Changer</strong> inside the outfit. It sets the body's BlendShape to a value you choose only while the outfit is on. When you turn the outfit off, the body goes back to normal. With Delete, it can also remove the body's polygons under the clothes to make the avatar lighter.</p>
+    <p class="article_1__p">If the body is bigger than the clothes, your skin pokes through them when you move. Many avatars have <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> (shape keys) that shrink or hide the body under the clothes. They have names like <code>Shrink_...</code> or <code>Hide_...</code>, and they are listed in the avatar's manual.</p><p class="article_1__p">Raise the value of that BlendShape on Body's <a class="term_2" href="/en/glossary/#smr" data-name="Skinned Mesh Renderer" data-tip="The component that draws a mesh that bends with bones. Bodies and clothes have one.">Skinned Mesh Renderer</a> to shrink it. But the value stays the same even when you take the clothes off. Also, if the avatar's <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> writes to this BlendShape, VRChat changes it back from the value you set in Unity (<a href="/en/avatar-tips/unity-vs-vrchat/">#13</a>).</p><p class="article_1__p">We recommend adding <strong><a class="term_2" href="/en/glossary/#shape-changer" data-name="MA Shape Changer" data-tip="A component that changes body BlendShapes, or hides parts of the body, only while an outfit is worn.">MA Shape Changer</a></strong> inside the outfit. It sets the body's BlendShape to a value you choose only while the outfit is on. When you turn the outfit off, the body goes back to normal. With Delete, it can also remove the body's <a class="term_2" href="/en/glossary/#polygon" data-name="Polygon" data-tip="The triangles that make up a mesh. More means finer detail, but heavier.">polygons</a> under the clothes to make the avatar lighter.</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -485,7 +486,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Put in the body mesh you want to shrink (usually Body).</li><li>Set uses this value while the outfit is on. Use it for BlendShapes that shrink the body.</li><li>Delete removes the part this BlendShape affects while the outfit is on. Use it for parts the clothes hide completely.</li>
+      <li>Put in the body <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">mesh</a> you want to shrink (usually Body).</li><li>Set uses this value while the outfit is on. Use it for BlendShapes that shrink the body.</li><li>Delete removes the part this BlendShape affects while the outfit is on. Use it for parts the clothes hide completely.</li>
     </ol>
   
 </div>
@@ -494,7 +495,7 @@
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
-    <p class="article_1__p">Change the shrink value and how it is applied, and compare how the body looks with the clothes on and off. Assume the FX Animator doesn&#39;t write to this BlendShape.</p>
+    <p class="article_1__p">Change the shrink value and how it is applied, and compare how the body looks with the clothes on and off. Assume the <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> doesn&#39;t write to this <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a>.</p>
     <div class="demo_2 js_outfit_demo"
       data-why-unity="A value set on Body stays the same whether the clothes are on or off." data-why-changer="Shape Changer sets the value only while the outfit is on. It goes back to 0 when you take it off."
       data-poke="With clothes on: the body pokes through the clothes. Raise the value." data-fit="With clothes on: the body fits inside the clothes."
@@ -536,9 +537,9 @@
 
   <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
     <h2 class="section_2__h1" id="menu-heading">Put clothes on and off from the menu</h2>
-    <p class="article_1__p">With Modular Avatar, you can add an outfit on/off switch to the Expressions Menu (Action Menu) without building an Animator yourself.</p>
+    <p class="article_1__p">With <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a>, you can add an outfit on/off switch to the <a class="term_2" href="/en/glossary/#expressions-menu" data-name="Expressions Menu (Action Menu)" data-tip="The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.">Expressions Menu</a> (Action Menu) without building an <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> yourself.</p>
     <ol class="steps_1">
-      <li>Right-click the avatar in the Hierarchy and choose <code>Modular Avatar → Create Toggle</code>. An object with Menu Item, Menu Installer and Object Toggle is created as a child of the avatar.</li><li>Rename the object to the name you want in the menu (for example, "Dress"). This name becomes the menu item's name.</li><li>Press + in Object Toggle and drag the outfit object in. With the checkbox on the right checked, it turns on when selected. Unchecked, it turns off when selected.</li><li>If the avatar wears these clothes from the start, turn on "Is Default" in Menu Item so it starts on.</li><li>The Shape Changer inside the outfit follows the outfit's on/off state. When you take the outfit off, the body goes back to normal.</li>
+      <li>Right-click the avatar in the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a> and choose <code>Modular Avatar → Create Toggle</code>. An <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> with <a class="term_2" href="/en/glossary/#menu-installer" data-name="MA Menu Installer and MA Menu Item" data-tip="Components that add items to the menu without rewriting the Expressions Menu.">Menu Item</a>, Menu Installer and <a class="term_2" href="/en/glossary/#object-toggle" data-name="MA Object Toggle" data-tip="A component that shows and hides objects from a menu item without making an Animator.">Object Toggle</a> is created as a child of the avatar.</li><li>Rename the object to the name you want in the menu (for example, "Dress"). This name becomes the menu item's name.</li><li>Press + in Object Toggle and drag the outfit object in. With the checkbox on the right checked, it turns on when selected. Unchecked, it turns off when selected.</li><li>If the avatar wears these clothes from the start, turn on "Is Default" in Menu Item so it starts on.</li><li>The <a class="term_2" href="/en/glossary/#shape-changer" data-name="MA Shape Changer" data-tip="A component that changes body BlendShapes, or hides parts of the body, only while an outfit is worn.">Shape Changer</a> inside the outfit follows the outfit's on/off <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a>. When you take the outfit off, the body goes back to normal.</li>
     </ol>
     <p class="article_1__p">To build the Animator yourself and make the on/off logic from scratch, see <a href="/en/avatar-tips/toggle/">#8 Building a menu toggle</a>.</p>
   </section>
@@ -546,7 +547,7 @@
   <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
     <h2 class="section_2__h1" id="test-heading">Test it in Play mode</h2>
     <ul class="rules_1">
-      <li>When you press Unity&#39;s Play button, Modular Avatar merges the outfit. Move the avatar&#39;s pose in the Scene and check that the clothes follow and nothing pokes through.</li><li>If you install Gesture Manager, you can open the Expressions Menu during Play and test the outfit on/off too.</li><li>If it all looks good, upload and check in VRChat as well. In front of a mirror, try big moves like crouching and raising your arms.</li>
+      <li>When you press Unity&#39;s Play button, <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a> merges the outfit. Move the avatar&#39;s pose in the <a class="term_2" href="/en/glossary/#scene" data-name="Scene" data-tip="The place where you put objects and work on them. Avatars are placed in a scene before uploading.">Scene</a> and check that the clothes follow and nothing pokes through.</li><li>If you install <a class="term_2" href="/en/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.">Gesture Manager</a>, you can open the <a class="term_2" href="/en/glossary/#expressions-menu" data-name="Expressions Menu (Action Menu)" data-tip="The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.">Expressions Menu</a> during Play and test the outfit on/off too.</li><li>If it all looks good, upload and check in VRChat as well. In front of a <a class="term_2" href="/en/glossary/#mirror" data-name="Mirror" data-tip="A mirror placed in a world, where you can check how your avatar looks and moves.">mirror</a>, try big moves like crouching and raising your arms.</li>
     </ul>
   </section>
 
@@ -558,8 +559,8 @@
           <h3 class="case_1__title">The clothes don&#39;t follow</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>When you press Play or move in VRChat, the clothes stay where they are.</dd></div>
-            <div><dt>Cause</dt><dd>You haven&#39;t run Setup Outfit, or the outfit isn&#39;t a child of the avatar.</dd></div>
-            <div><dt>Fix</dt><dd>Put the outfit directly under the avatar, then right-click it and run Setup Outfit again. Also check that MA Merge Armature is on the outfit&#39;s Armature.</dd></div>
+            <div><dt>Cause</dt><dd>You haven&#39;t run <a class="term_2" href="/en/glossary/#setup-outfit" data-name="Setup Outfit" data-tip="A Modular Avatar feature you pick by right-clicking an outfit. It adds the parts that make clothes follow the body.">Setup Outfit</a>, or the outfit isn&#39;t a child of the avatar.</dd></div>
+            <div><dt>Fix</dt><dd>Put the outfit directly under the avatar, then right-click it and run Setup Outfit again. Also check that <a class="term_2" href="/en/glossary/#merge-armature" data-name="MA Merge Armature" data-tip="A component that merges an outfit's bones into the avatar's bones of the same names, so clothes follow the body.">MA Merge Armature</a> is on the outfit&#39;s <a class="term_2" href="/en/glossary/#armature" data-name="Armature" data-tip="The object that holds the avatar's bones. Bones line up as parents and children below Hips.">Armature</a>.</dd></div>
           </dl>
         </section>
       
@@ -568,7 +569,7 @@
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>When you move, the skin on the chest, belly or thighs shows outside the clothes.</dd></div>
             <div><dt>Cause</dt><dd>The body under the clothes is still at full size.</dd></div>
-            <div><dt>Fix</dt><dd>Add the BlendShape that shrinks the body to the outfit with MA Shape Changer. If you set the value directly on Body, also check that the FX Animator doesn&#39;t write to it (#13).</dd></div>
+            <div><dt>Fix</dt><dd>Add the <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a> that shrinks the body to the outfit with <a class="term_2" href="/en/glossary/#shape-changer" data-name="MA Shape Changer" data-tip="A component that changes body BlendShapes, or hides parts of the body, only while an outfit is worn.">MA Shape Changer</a>. If you set the value directly on Body, also check that the <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> doesn&#39;t write to it (#13).</dd></div>
           </dl>
         </section>
       
@@ -576,8 +577,8 @@
           <h3 class="case_1__title">The clothes float or don&#39;t fit</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>The clothes float away from the body. The sleeves or hem are the wrong length.</dd></div>
-            <div><dt>Cause</dt><dd>You are using a prefab for a different avatar, or you changed your avatar&#39;s body shape.</dd></div>
-            <div><dt>Fix</dt><dd>Check that the prefab is for your avatar. If you changed the body shape with BlendShapes, set the same BlendShapes on the outfit, or use MA Blendshape Sync to keep them at the same value.</dd></div>
+            <div><dt>Cause</dt><dd>You are using a <a class="term_2" href="/en/glossary/#prefab" data-name="Prefab" data-tip="An object saved as a single file, contents and all. You drag it into a scene to use it.">prefab</a> for a different avatar, or you changed your avatar&#39;s body shape.</dd></div>
+            <div><dt>Fix</dt><dd>Check that the prefab is for your avatar. If you changed the body shape with BlendShapes, set the same BlendShapes on the outfit, or use <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">MA</a> Blendshape Sync to keep them at the same value.</dd></div>
           </dl>
         </section>
       
@@ -585,7 +586,7 @@
           <h3 class="case_1__title">Swaying parts are applied twice</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>The chest or hair sways strangely. It bounces or shakes.</dd></div>
-            <div><dt>Cause</dt><dd>The outfit and the avatar may both have PhysBones that move the same bones.</dd></div>
+            <div><dt>Cause</dt><dd>The outfit and the avatar may both have <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> that move the same <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a>.</dd></div>
             <div><dt>Fix</dt><dd>Read the outfit&#39;s manual, decide which PhysBones to use, and delete or turn off the ones you don&#39;t need.</dd></div>
           </dl>
         </section>
@@ -593,9 +594,9 @@
         <section class="case_1__item">
           <h3 class="case_1__title">The menu doesn&#39;t show up</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>The toggle you made doesn&#39;t appear in the Expressions Menu.</dd></div>
-            <div><dt>Cause</dt><dd>There is no Menu Installer, or the toggle object is outside the avatar. The menu may also be full.</dd></div>
-            <div><dt>Fix</dt><dd>Put the toggle under the avatar as its child, and check that it has a Menu Installer. Also test it in Play mode with Gesture Manager.</dd></div>
+            <div><dt>What happens</dt><dd>The toggle you made doesn&#39;t appear in the <a class="term_2" href="/en/glossary/#expressions-menu" data-name="Expressions Menu (Action Menu)" data-tip="The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.">Expressions Menu</a>.</dd></div>
+            <div><dt>Cause</dt><dd>There is no <a class="term_2" href="/en/glossary/#menu-installer" data-name="MA Menu Installer and MA Menu Item" data-tip="Components that add items to the menu without rewriting the Expressions Menu.">Menu Installer</a>, or the toggle <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> is outside the avatar. The menu may also be full.</dd></div>
+            <div><dt>Fix</dt><dd>Put the toggle under the avatar as its child, and check that it has a Menu Installer. Also test it in Play mode with <a class="term_2" href="/en/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.">Gesture Manager</a>.</dd></div>
           </dl>
         </section>
       
@@ -603,8 +604,8 @@
           <h3 class="case_1__title">The clothes turn pink</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>The outfit&#39;s clothes show up in solid pink.</dd></div>
-            <div><dt>Cause</dt><dd>The shader the outfit uses isn&#39;t in your project.</dd></div>
-            <div><dt>Fix</dt><dd>Add the shader named in the manual (such as lilToon). If it still doesn&#39;t work, choose the shader on the material again.</dd></div>
+            <div><dt>Cause</dt><dd>The <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shader</a> the outfit uses isn&#39;t in your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a>.</dd></div>
+            <div><dt>Fix</dt><dd>Add the shader named in the manual (such as <a class="term_2" href="/en/glossary/#liltoon" data-name="lilToon" data-tip="An anime-style shader widely used for Japanese avatars and outfits.">lilToon</a>). If it still doesn&#39;t work, choose the shader on the <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">material</a> again.</dd></div>
           </dl>
         </section>
       
@@ -613,7 +614,7 @@
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>An outfit you like doesn&#39;t support your avatar.</dd></div>
             <div><dt>Cause</dt><dd>The body shape and bone positions are different, so it doesn&#39;t fit as is.</dd></div>
-            <div><dt>Fix</dt><dd>First line it up roughly with &#34;Reset position to base avatar&#34; on the Outfit Root, then fix the bone positions and sizes bit by bit. There are also tools to help you fit it. This takes time, so try it after you are used to editing avatars. Also check that the terms of use allow edits for unsupported avatars.</dd></div>
+            <div><dt>Fix</dt><dd>First line it up roughly with &#34;Reset position to <a class="term_2" href="/en/glossary/#sotai" data-name="Sotai (base avatar)" data-tip="The original avatar, before any outfits or accessories are added.">base avatar</a>&#34; on the Outfit Root, then fix the bone positions and sizes bit by bit. There are also tools to help you fit it. This takes time, so try it after you are used to editing avatars. Also check that the terms of use allow edits for unsupported avatars.</dd></div>
           </dl>
         </section>
       
@@ -623,21 +624,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
     <ul class="rules_1">
-      <li>You don&#39;t need to unpack the outfit or avatar prefabs. Leaving them packed makes updates easier.</li><li>Turn off the original clothes instead of deleting them, so you can bring them back later.</li><li>Adding an outfit increases polygons and materials, and can lower your performance rank. Check it before you upload.</li><li>Back up your project before you edit, just to be safe.</li>
+      <li>You don&#39;t need to unpack the outfit or avatar <a class="term_2" href="/en/glossary/#prefab" data-name="Prefab" data-tip="An object saved as a single file, contents and all. You drag it into a scene to use it.">prefabs</a>. Leaving them packed makes updates easier.</li><li>Turn off the original clothes instead of deleting them, so you can bring them back later.</li><li>Adding an outfit increases <a class="term_2" href="/en/glossary/#polygon" data-name="Polygon" data-tip="The triangles that make up a mesh. More means finer detail, but heavier.">polygons</a> and <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>, and can lower your <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">performance rank</a>. Check it before you upload.</li><li>Back up your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a> before you edit, just to be safe.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">Summary</h2>
     <ul class="rules_1">
-      <li>Put the prefab made for your avatar under the avatar as its child.</li><li>Right-click and choose Setup Outfit, and Modular Avatar merges the bones automatically. Your original data isn&#39;t broken.</li><li>To stop the body poking through, use MA Shape Changer to shrink the body only while the outfit is on.</li><li>With Create Toggle, you can put the clothes on and off from the menu.</li>
+      <li>Put the <a class="term_2" href="/en/glossary/#prefab" data-name="Prefab" data-tip="An object saved as a single file, contents and all. You drag it into a scene to use it.">prefab</a> made for your avatar under the avatar as its child.</li><li>Right-click and choose <a class="term_2" href="/en/glossary/#setup-outfit" data-name="Setup Outfit" data-tip="A Modular Avatar feature you pick by right-clicking an outfit. It adds the parts that make clothes follow the body.">Setup Outfit</a>, and <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a> merges the <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> automatically. Your original data isn&#39;t broken.</li><li>To stop the body poking through, use <a class="term_2" href="/en/glossary/#shape-changer" data-name="MA Shape Changer" data-tip="A component that changes body BlendShapes, or hides parts of the body, only while an outfit is worn.">MA Shape Changer</a> to shrink the body only while the outfit is on.</li><li>With Create Toggle, you can put the clothes on and off from the menu.</li>
     </ul>
     <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="Previous and next tips">
-  
+  <p class="section_2__note">Look up unfamiliar words in the <a href="/en/glossary/">VRChat Glossary</a>. Hover over a colored, dotted word in the text for a short explanation.</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/en/avatar-tips/upload/" rel="prev"><span class="next_1__note">Previous (#2)</span><span class="next_1__text">How to upload</span></a></li>

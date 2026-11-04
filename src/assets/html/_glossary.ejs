@@ -1,70 +1,111 @@
 <%
-// VRChat 用語集。中身は src/assets/data/glossary.json（改変解説の本文の用語リンク・ツールチップと共通）
-// 種類ごとに h2、用語ごとに h3（id は用語の id。本文のリンクは /glossary/#<id> に飛ぶ）。
+// VRChat 用語集（日本語 /glossary/・英語 /en/glossary/）。中身は src/assets/data/glossary.json（改変解説の本文の用語リンク・ツールチップと共通）
+// 種類ごとに h2、用語ごとに h3（id は用語の id。本文のリンクは /glossary/#<id>・/en/glossary/#<id> に飛ぶ）。
 // ことばで絞り込む部品（glossary-filter.js）は、JS が無いときは出さず、全部を並べる
-// 英語版は、管理人が日本語版の内容を固めてから作る（それまで英語の文は置かない）
+// 英語のページでは、用語・種類の en を使う。改変解説の検索窓は、検索がまだ日本語だけなので日本語のページにだけ置く
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
 const terms = glossary.categories.flatMap((c) => c.terms);
 const termById = (id) => terms.find((t) => t.id === id);
 const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
 const total = terms.length;
 const SITE = "https://nunifuchisaka.github.io/";
 const strip = (t) => t.replace(/<[^>]+>/g, "");
+const T = (t) => (isEn ? t.en : t);
+const C = (c) => (isEn ? c.en : c);
+const l = {
+  ja: {
+    title: "VRChat 用語集",
+    lead: `VRChat で遊ぶときと、アバターを改変するときに出てくる言葉${total}語を、はじめての人向けに1〜2文で説明します。お砂糖や視界ジャックのような VRChat の文化の言葉から、Unity の画面、VRChat SDK、Animator とギミック、Modular Avatar、アップロードとパフォーマンスランクの言葉まで集めました。`,
+    note: "「<a href=\"/avatar-tips/\">アバター改変の解説</a>」の本文では、ここにある言葉に色と点線が付いています。マウスを乗せると短い説明が出て、押すとこのページの説明へ飛びます。",
+    jumpLabel: "このページの中",
+    count: "{n} 語",
+    searchLabel: "ことばで絞り込む",
+    searchPlaceholder: "例：お砂糖、Write Defaults、同期",
+    none: "当てはまる言葉がありません。ことばを短くするか、上の種類から探してください。",
+    more: "くわしく",
+    see: "関係する言葉",
+    no: (n) => `第${n}回`,
+    sep: "、",
+    moreTitle: "もっとくわしく知りたいとき",
+    moreLead: "言葉の使い方や、つまずいたときの直し方は「<a href=\"/avatar-tips/\">アバター改変の解説</a>」で、1回に1つずつ解説しています。困りごとから、読む回を探すこともできます。",
+    ldDesc: "VRChat の文化の言葉と、アバター改変で出てくる専門用語を、はじめての人向けに短く説明した用語集。",
+  },
+  en: {
+    title: "VRChat Glossary",
+    lead: `${total} words you'll run into while playing VRChat and editing avatars, each explained in a sentence or two for beginners. It covers VRChat culture words like osato and vision jacking, as well as Unity's windows, the VRChat SDK, the Animator and gimmicks, Modular Avatar, uploading, and Performance Rank.`,
+    note: "In the <a href=\"/en/avatar-tips/\">Avatar Tips</a>, the words listed here are colored and underlined with dots. Hover over one for a short explanation, or click it to jump to its entry on this page.",
+    jumpLabel: "On this page",
+    count: "{n} terms",
+    searchLabel: "Filter by words",
+    searchPlaceholder: "e.g. osato, Write Defaults, sync",
+    none: "No terms match. Try shorter words, or browse the categories above.",
+    more: "Learn more",
+    see: "Related terms",
+    no: (n) => `#${n}`,
+    sep: ", ",
+    moreTitle: "Want to learn more?",
+    moreLead: "How to use these, and how to fix things when you get stuck, are explained one topic at a time in the <a href=\"/en/avatar-tips/\">Avatar Tips</a>. You can also find the right tip from the problem you're having.",
+    ldDesc: "A glossary that briefly explains VRChat culture words and avatar-editing terms for beginners.",
+  },
+}[pageLocale];
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
-  "@id": `${SITE}glossary/#set`,
-  name: "VRChat 用語集",
-  description: "VRChat の文化の言葉と、アバター改変で出てくる専門用語を、はじめての人向けに短く説明した用語集。",
-  url: `${SITE}glossary/`,
-  inLanguage: "ja",
+  "@id": `${SITE}${isEn ? "en/" : ""}glossary/#set`,
+  name: l.title,
+  description: l.ldDesc,
+  url: `${SITE}${isEn ? "en/" : ""}glossary/`,
+  inLanguage: pageLocale,
   hasDefinedTerm: terms.map((t) => ({
     "@type": "DefinedTerm",
-    "@id": `${SITE}glossary/#${t.id}`,
-    name: t.term,
-    description: `${t.short}${strip(t.body)}`,
-    url: `${SITE}glossary/#${t.id}`,
-    inDefinedTermSet: `${SITE}glossary/#set`,
+    "@id": `${SITE}${isEn ? "en/" : ""}glossary/#${t.id}`,
+    name: T(t).term,
+    description: `${T(t).short}${isEn ? " " : ""}${strip(T(t).body)}`,
+    url: `${SITE}${isEn ? "en/" : ""}glossary/#${t.id}`,
+    inDefinedTermSet: `${SITE}${isEn ? "en/" : ""}glossary/#set`,
   })),
 };
 %><section class="section_2 page_1" aria-labelledby="glossary-heading">
-  <h1 class="page_1__h1" id="glossary-heading">VRChat 用語集</h1>
-  <p class="section_2__lead">VRChat で遊ぶときと、アバターを改変するときに出てくる言葉<%= total %>語を、はじめての人向けに1〜2文で説明します。お砂糖や視界ジャックのような VRChat の文化の言葉から、Unity の画面、VRChat SDK、Animator とギミック、Modular Avatar、アップロードとパフォーマンスランクの言葉まで集めました。</p>
-  <p class="section_2__note">「<a href="/avatar-tips/">アバター改変の解説</a>」の本文では、ここにある言葉に色と点線が付いています。マウスを乗せると短い説明が出て、押すとこのページの説明へ飛びます。</p>
-  <nav class="jump_1" aria-label="このページの中">
+  <h1 class="page_1__h1" id="glossary-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__note"><%- l.note %></p>
+  <nav class="jump_1" aria-label="<%= l.jumpLabel %>">
     <ul>
       <% glossary.categories.forEach(function (c) { %>
-        <li><a href="#cat-<%= c.id %>"><%= c.title %></a></li>
+        <li><a href="#cat-<%= c.id %>"><%= C(c).title %></a></li>
       <% }); %>
     </ul>
   </nav>
 </section>
 
-<div class="section_2 glossary_1 js_glossary" data-count="{n} 語">
+<div class="section_2 glossary_1 js_glossary" data-count="<%= l.count %>">
   <div class="glossary_1__controls js_glossary_controls" hidden>
-    <label class="filter_1__legend" for="glossary-search">ことばで絞り込む</label>
-    <input type="search" id="glossary-search" class="finder_1__input js_glossary_search" placeholder="例：お砂糖、Write Defaults、同期" autocomplete="off">
-    <p class="finder_1__count" aria-live="polite"><span class="js_glossary_count"><%= total %> 語</span></p>
+    <label class="filter_1__legend" for="glossary-search"><%= l.searchLabel %></label>
+    <input type="search" id="glossary-search" class="finder_1__input js_glossary_search" placeholder="<%= l.searchPlaceholder %>" autocomplete="off">
+    <p class="finder_1__count" aria-live="polite"><span class="js_glossary_count"><%= l.count.replace("{n}", total) %></span></p>
   </div>
-  <p class="finder_1__none js_glossary_none" hidden>当てはまる言葉がありません。ことばを短くするか、上の種類から探してください。</p>
+  <p class="finder_1__none js_glossary_none" hidden><%= l.none %></p>
 
   <% glossary.categories.forEach(function (c) { %>
     <section class="glossary_1__cat js_glossary_cat" id="cat-<%= c.id %>" aria-labelledby="cat-<%= c.id %>-heading">
-      <h2 class="section_2__h1" id="cat-<%= c.id %>-heading"><%= c.title %></h2>
-      <p class="section_2__lead"><%= c.lead %></p>
+      <h2 class="section_2__h1" id="cat-<%= c.id %>-heading"><%= C(c).title %></h2>
+      <p class="section_2__lead"><%= C(c).lead %></p>
       <div class="glossary_1__list">
-        <% c.terms.forEach(function (t) { %>
-          <section class="glossary_1__item js_glossary_item" id="<%= t.id %>" aria-labelledby="<%= t.id %>-heading" data-text="<%= [t.term].concat(t.match, (t.yomi || []).map((y) => y.split("=")[0]), [t.short, strip(t.body)]).join(" ") %>">
-            <h3 class="glossary_1__term" id="<%= t.id %>-heading"><%= t.term %></h3>
-            <p class="glossary_1__short"><%= t.short %></p>
-            <p class="glossary_1__body"><%- t.body %></p>
+        <% c.terms.forEach(function (t) { const v = T(t); %>
+          <section class="glossary_1__item js_glossary_item" id="<%= t.id %>" aria-labelledby="<%= t.id %>-heading" data-text="<%= [v.term].concat(v.match, isEn ? [] : (t.yomi || []).map((y) => y.split("=")[0]), [v.short, strip(v.body)]).join(" ") %>">
+            <h3 class="glossary_1__term" id="<%= t.id %>-heading"><%= v.term %></h3>
+            <p class="glossary_1__short"><%= v.short %></p>
+            <p class="glossary_1__body"><%- v.body %></p>
             <% if (t.tips.length) { %>
-              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
-                <% t.tips.forEach(function (x, i) { const a = tip(x[0]); %><a href="/avatar-tips/<%= a.slug %>/#<%= x[1] %>">第<%= a.no %>回 <%= a.title.ja %></a><% if (i < t.tips.length - 1) { %>、<% } %><% }); %>
+              <p class="glossary_1__links"><span class="glossary_1__label"><%= l.more %></span>
+                <% t.tips.forEach(function (x, i) { const a = tip(x[0]); %><a href="<%= prefix %>/avatar-tips/<%= a.slug %>/#<%= x[1] %>"><%= l.no(a.no) %> <%= a.title[pageLocale] %></a><% if (i < t.tips.length - 1) { %><%= l.sep %><% } %><% }); %>
               </p>
             <% } %>
             <% if (t.see.length) { %>
-              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
-                <% t.see.forEach(function (id, i) { const s = termById(id); %><a href="#<%= s.id %>"><%= s.term %></a><% if (i < t.see.length - 1) { %>、<% } %><% }); %>
+              <p class="glossary_1__links"><span class="glossary_1__label"><%= l.see %></span>
+                <% t.see.forEach(function (id, i) { const s = termById(id); %><a href="#<%= s.id %>"><%= T(s).term %></a><% if (i < t.see.length - 1) { %><%= l.sep %><% } %><% }); %>
               </p>
             <% } %>
           </section>
@@ -75,9 +116,9 @@ const jsonLd = {
 </div>
 
 <section class="section_2" aria-labelledby="glossary-more-heading">
-  <h2 class="section_2__h1" id="glossary-more-heading">もっとくわしく知りたいとき</h2>
-  <p class="section_2__lead">言葉の使い方や、つまずいたときの直し方は「<a href="/avatar-tips/">アバター改変の解説</a>」で、1回に1つずつ解説しています。困りごとから、読む回を探すこともできます。</p>
-  <%- include("_tips_searchbox", {searchId: "glossary-site-search"}) %>
+  <h2 class="section_2__h1" id="glossary-more-heading"><%= l.moreTitle %></h2>
+  <p class="section_2__lead"><%- l.moreLead %></p>
+  <% if (!isEn) { %><%- include("_tips_searchbox", {searchId: "glossary-site-search"}) %><% } %>
 </section>
 <script type="application/ld+json">
 <%- JSON.stringify(jsonLd, null, 2).replace(/</g, "\\u003c") %>

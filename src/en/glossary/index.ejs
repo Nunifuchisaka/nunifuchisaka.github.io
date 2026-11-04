@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../";
+const meta = {
+  type: "website",
+  title: "VRChat Glossary",
+  description: "A beginner's glossary of VRChat culture words (osato, vision jacking, instances, full-body tracking, and more) and avatar-editing terms (Unity's windows, the VRChat SDK, Animator, parameters and menus, Modular Avatar, Performance Rank, and more), each explained in a sentence or two. Every term links to the Avatar Tips that cover it in detail.",
+  url: "en/glossary/",
+  altUrl: "glossary/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/glossary-filter.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"glossary",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_glossary",{locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

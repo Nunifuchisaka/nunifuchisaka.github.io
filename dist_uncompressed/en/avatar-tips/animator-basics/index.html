@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/animator-basics-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #6</a></p>
     <h1 class="page_1__h1" id="article-heading">How the Animator works</h1>
-    <p class="article_1__lead">Press a menu item, and a hat appears. Make a hand sign, and your expression changes. In between, a chain of parts does the work, one after another: parameters, the Animator, states, transitions and animation clips. Before you build your own gimmicks, this tip explains what each part does and where you set it up.</p>
-    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Information as of November 2026.</p>
+    <p class="article_1__lead">Press a menu item, and a hat appears. Make a <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">hand sign</a>, and your expression changes. In between, a chain of parts does the work, one after another: <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameters</a>, the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a>, <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">states</a>, <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transitions</a> and <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">animation clips</a>. Before you build your own <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmicks</a>, this tip explains what each part does and where you set it up.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers Unity&#39;s <a class="term_2" href="/en/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="One of Unity's rendering systems. VRChat avatars are drawn with it.">Built-in Render Pipeline</a> and VRChat avatars (<a class="term_2" href="/en/glossary/#avatars3" data-name="Avatars 3.0" data-tip="VRChat's current avatar system. Gimmicks are built with the Animator, Expression Parameters, and the Expressions Menu.">Avatars 3.0</a>). Information as of November 2026.</p>
     <nav class="jump_1" aria-label="Contents">
       <ul>
         
@@ -181,13 +182,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">Read this when</h2>
     <ul class="rules_1">
-      <li>You want to build your own gimmicks, but the Animator makes no sense when you open it.</li><li>You&#39;ve seen names like FX and Gesture, but you don&#39;t know how they differ.</li><li>You want to know how parameters, the menu and the Animator connect.</li><li>You added a gimmick someone else made, but you don&#39;t know what&#39;s going on inside it.</li>
+      <li>You want to build your own <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmicks</a>, but the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> makes no sense when you open it.</li><li>You&#39;ve seen names like <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> and Gesture, but you don&#39;t know how they differ.</li><li>You want to know how <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameters</a>, the menu and the Animator connect.</li><li>You added a gimmick someone else made, but you don&#39;t know what&#39;s going on inside it.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="picture" aria-labelledby="picture-heading">
     <h2 class="section_2__h1" id="picture-heading">From pressing the menu to a change you can see</h2>
-    <p class="article_1__p">Almost every gimmick on a VRChat avatar works the same way. In this tip, the example is a gimmick that shows and hides a hat from the menu. Names are examples.</p>
+    <p class="article_1__p">Almost every <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmick</a> on a VRChat avatar works the same way. In this tip, the example is a gimmick that shows and hides a hat from the menu. Names are examples.</p>
     <ol class="route_1">
       
         <li class="route_1__step"><span class="route_1__head">Press the menu</span><span class="route_1__note">The &#34;Hat&#34; Toggle in the Expressions Menu</span></li>
@@ -203,7 +204,7 @@
         <li class="route_1__step"><span class="route_1__head">What you see changes</span><span class="route_1__note">The hat appears</span></li>
       
     </ol>
-    <p class="article_1__p"><strong>The menu only changes a parameter's value.</strong> It doesn't change how anything looks. What changes the look is the animation clip the Animator plays. The menu and the Animator are linked by the parameter's <strong>name</strong>.</p><p class="article_1__p">Gimmicks that react to hand signs or to touch work the same way. The first step changes from "press the menu" to "your hand shape changes" or "a hand touches your head." From the parameter onward, the flow is the same.</p><p class="article_1__p">When a gimmick doesn't work, check each step from left to right to find where the flow stops. <a href="/en/avatar-tips/gimmick-debug/#order">#12 When a gimmick doesn't work</a> explains how to check.</p>
+    <p class="article_1__p"><strong>The menu only changes a <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a>'s value.</strong> It doesn't change how anything looks. What changes the look is the <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">animation clip</a> the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> plays. The menu and the Animator are linked by the parameter's <strong>name</strong>.</p><p class="article_1__p">Gimmicks that react to <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">hand signs</a> or to touch work the same way. The first step changes from "press the menu" to "your hand shape changes" or "a hand touches your head." From the parameter onward, the flow is the same.</p><p class="article_1__p">When a gimmick doesn't work, check each step from left to right to find where the flow stops. <a href="/en/avatar-tips/gimmick-debug/#order">#12 When a gimmick doesn't work</a> explains how to check.</p>
   </section>
 
   <section class="section_2 article_1__section" id="words" aria-labelledby="words-heading">
@@ -213,27 +214,27 @@
       
         <div class="examples_1__item">
           <dt>Animator</dt>
-          <dd>The system that looks at parameters and decides which animation to play right now. The Animator component on the top object of your avatar runs it.</dd>
+          <dd>The system that looks at <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameters</a> and decides which animation to play right now. The <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> <a class="term_2" href="/en/glossary/#component" data-name="Component" data-tip="A part you attach to an object. It decides what's drawn, how it moves, and other roles.">component</a> on the top <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> of your avatar runs it.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Animator Controller (controller)</dt>
-          <dd>The file that holds what's inside the Animator. Its extension is <code>.controller</code>. It contains layers, states, transitions and parameters.</dd>
+          <dd>The file that holds what's inside the Animator. Its extension is <code>.controller</code>. It contains <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layers</a>, <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">states</a>, <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transitions</a> and parameters.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Playable Layers</dt>
-          <dd>The slots VRChat gives each avatar for controllers. They include FX, Gesture and others.</dd>
+          <dd>The slots VRChat gives each avatar for controllers. They include <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a>, Gesture and others.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Layer</dt>
-          <dd>A level inside a controller. You usually make one per gimmick. This is not the same thing as Playable Layers.</dd>
+          <dd>A level inside a controller. You usually make one per <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmick</a>. This is not the same thing as <a class="term_2" href="/en/glossary/#playable-layers" data-name="Playable Layers" data-tip="The slots VRChat provides on an avatar for controllers. There are FX, Gesture, Action, and others.">Playable Layers</a>.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>State</dt>
-          <dd>A box that stands for the current condition, like "the hat is showing." Each state holds one clip.</dd>
+          <dd>A box that stands for the current condition, like "the hat is showing." Each state holds one <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -243,7 +244,7 @@
       
         <div class="examples_1__item">
           <dt>Parameter</dt>
-          <dd>A value the Animator looks at. There are Bool (on or off), Int (whole number) and Float (decimal number).</dd>
+          <dd>A value the Animator looks at. There are <a class="term_2" href="/en/glossary/#param-types" data-name="Bool, Int, Float (parameter types)" data-tip="Kinds of parameters. Bool is on or off, Int is a whole number (0 to 255), Float is a decimal.">Bool</a> (on or off), Int (whole number) and Float (decimal number).</dd>
         </div>
       
         <div class="examples_1__item">
@@ -258,7 +259,7 @@
       
         <div class="examples_1__item">
           <dt>Expressions Menu</dt>
-          <dd>The contents of the menu you open in VRChat (the Action Menu). Pressing an item changes a parameter's value.</dd>
+          <dd>The contents of the menu you open in VRChat (the <a class="term_2" href="/en/glossary/#expressions-menu" data-name="Expressions Menu (Action Menu)" data-tip="The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.">Action Menu</a>). Pressing an item changes a parameter's value.</dd>
         </div>
       
     </dl>
@@ -266,32 +267,32 @@
 
   <section class="section_2 article_1__section" id="layers" aria-labelledby="layers-heading">
     <h2 class="section_2__h1" id="layers-heading">What the Playable Layers do</h2>
-    <p class="article_1__p">A VRChat avatar has five slots for controllers. These are called Playable Layers. Select your avatar in the Hierarchy (the object with the VRC Avatar Descriptor), and look at "Playable Layers" in the VRC Avatar Descriptor in the Inspector.</p><p class="article_1__p">The five slots are stacked in this order: Base, Additive, Gesture, Action, FX. When two slots move the same thing, the later one (closer to FX) wins.</p>
+    <p class="article_1__p">A VRChat avatar has five slots for controllers. These are called <a class="term_2" href="/en/glossary/#playable-layers" data-name="Playable Layers" data-tip="The slots VRChat provides on an avatar for controllers. There are FX, Gesture, Action, and others.">Playable Layers</a>. Select your avatar in the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a> (the <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> with the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a>), and look at "Playable Layers" in the VRC Avatar Descriptor in the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a>.</p><p class="article_1__p">The five slots are stacked in this order: Base, Additive, Gesture, Action, <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a>. When two slots move the same thing, the later one (closer to FX) wins.</p>
     <dl class="examples_1 examples_1--grid">
       
         <div class="examples_1__item">
           <dt>Base</dt>
-          <dd>Movement such as walking, running and crouching. It only moves bones (Transforms). You usually leave it alone.</dd>
+          <dd>Movement such as walking, running and crouching. It only moves <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> (Transforms). You usually leave it alone.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Additive</dt>
-          <dd>Motion added on top of Base, such as breathing. It only moves Humanoid bones. You usually leave it alone.</dd>
+          <dd>Motion added on top of Base, such as breathing. It only moves <a class="term_2" href="/en/glossary/#humanoid" data-name="Humanoid" data-tip="A fixed layout of human-shaped bones. VRChat uses it to map body movement onto the avatar.">Humanoid</a> bones. You usually leave it alone.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Gesture</dt>
-          <dd>Finger shapes for hand signs, and tail or ear motion. It only moves bones.</dd>
+          <dd>Finger shapes for <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">hand signs</a>, and tail or ear motion. It only moves bones.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Action</dt>
-          <dd>Motion for the whole body, such as emotes. Normally this slot has no effect (its Weight is 0), and it's turned on only when it's used.</dd>
+          <dd>Motion for the whole body, such as emotes. Normally this slot has no effect (its <a class="term_2" href="/en/glossary/#weight" data-name="Weight (layer weight)" data-tip="How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.">Weight</a> is 0), and it's turned on only when it's used.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>FX</dt>
-          <dd>Everything except bone motion: turning objects on and off, BlendShapes (expressions and body shape), materials and more. <strong>Almost every gimmick you build goes here.</strong></dd>
+          <dd>Everything except bone motion: turning objects on and off, <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> (expressions and body shape), <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> and more. <strong>Almost every <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmick</a> you build goes here.</strong></dd>
         </div>
       
         <div class="examples_1__item">
@@ -300,7 +301,7 @@
         </div>
       
     </dl>
-    <p class="article_1__p">There's a reason to drive the look from FX. BlendShapes and materials moved from any slot other than FX are not copied to your reflection (the avatar you see in a mirror). Everything moved from FX is copied.</p><p class="article_1__p">On the other hand, Humanoid bones (arms, legs, head, fingers and so on) don't move from FX. Hand shapes and poses are moved from Gesture or Action. Even when a hand sign changes your expression, the work is split: the expression (BlendShape) is in FX, and the finger shape is in Gesture. <a href="/en/avatar-tips/gesture/#layers">#10 Changing expressions with hand gestures</a> explains this in detail.</p><p class="article_1__p">Avatars that aren't Humanoid (Generic avatars) only have three slots: Base, Action and FX.</p>
+    <p class="article_1__p">There's a reason to drive the look from FX. BlendShapes and materials moved from any slot other than FX are not copied to your reflection (the avatar you see in a <a class="term_2" href="/en/glossary/#mirror" data-name="Mirror" data-tip="A mirror placed in a world, where you can check how your avatar looks and moves.">mirror</a>). Everything moved from FX is copied.</p><p class="article_1__p">On the other hand, Humanoid bones (arms, legs, head, fingers and so on) don't move from FX. Hand shapes and poses are moved from Gesture or Action. Even when a hand sign changes your expression, the work is split: the expression (BlendShape) is in FX, and the finger shape is in Gesture. <a href="/en/avatar-tips/gesture/#layers">#10 Changing expressions with hand gestures</a> explains this in detail.</p><p class="article_1__p">Avatars that aren't Humanoid (Generic avatars) only have three slots: Base, Action and FX.</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -362,7 +363,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>The Gesture slot. It holds a controller that makes the finger shapes for hand signs. Slots left at "Default" use VRChat's standard controller.</li><li>The FX slot. Avatars you buy usually come with a controller here already, for expressions and such. Click the field to highlight the file in the Project window, and double-click it to open it in the Animator window.</li>
+      <li>The Gesture slot. It holds a controller that makes the finger shapes for hand signs. Slots left at "Default" use VRChat's standard controller.</li><li>The FX slot. Avatars you buy usually come with a controller here already, for expressions and such. Click the field to highlight the file in the <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a>, and double-click it to open it in the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> window.</li>
     </ol>
   
 </div>
@@ -371,17 +372,17 @@
 
   <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
     <h2 class="section_2__h1" id="controller-heading">Controllers, layers, states and transitions</h2>
-    <p class="article_1__p">You look inside a controller in the Animator window. Open it with <code>Window → Animation → Animator</code>, then select (or double-click) a controller file in the Project window to show what's inside.</p><p class="article_1__p">To make your own, right-click a folder in the Project window and choose <code>Create → Animator Controller</code>. If you make one per gimmick, it's easier to connect it to your avatar later with Modular Avatar.</p><p class="article_1__p">At the top left of the Animator window are two tabs: <code>Layers</code> and <code>Parameters</code>. Choose Layers to see the list of layers. The states and transitions of the selected layer appear in the large area on the right (the graph).</p>
+    <p class="article_1__p">You look inside a controller in the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> window. Open it with <code>Window → Animation → Animator</code>, then select (or double-click) a controller file in the <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a> to show what's inside.</p><p class="article_1__p">To make your own, right-click a folder in the Project window and choose <code>Create → Animator Controller</code>. If you make one per <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmick</a>, it's easier to connect it to your avatar later with <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a>.</p><p class="article_1__p">At the top left of the Animator window are two tabs: <code>Layers</code> and <code>Parameters</code>. Choose Layers to see the list of <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layers</a>. The <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">states</a> and <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transitions</a> of the selected layer appear in the large area on the right (the graph).</p>
     <dl class="examples_1">
       
         <div class="examples_1__item">
           <dt>Layer</dt>
-          <dd>A level for each gimmick. Add one with the <code>+</code> at the top left. Layers are calculated from top to bottom, and when two of them write the same thing, <strong>the lower layer wins</strong>. Every layer except Base Layer at the top starts with a Weight (how strongly it applies) of 0 when you add it. Click the gear to the right of the layer and set Weight to 1. If it stays at 0, the state will switch, but you won't see any change.</dd>
+          <dd>A level for each gimmick. Add one with the <code>+</code> at the top left. Layers are calculated from top to bottom, and when two of them write the same thing, <strong>the lower layer wins</strong>. Every layer except Base Layer at the top starts with a <a class="term_2" href="/en/glossary/#weight" data-name="Weight (layer weight)" data-tip="How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.">Weight</a> (how strongly it applies) of 0 when you add it. Click the gear to the right of the layer and set Weight to 1. If it stays at 0, the state will switch, but you won't see any change.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>State</dt>
-          <dd>A box that stands for a condition, like "the hat is hidden" or "the hat is showing." Right-click an empty spot in the graph and choose <code>Create State → Empty</code>, or drag a clip file into the graph. When you select a state, <code>Motion</code> in the Inspector shows the clip it plays.</dd>
+          <dd>A box that stands for a condition, like "the hat is hidden" or "the hat is showing." Right-click an empty spot in the graph and choose <code>Create State → Empty</code>, or drag a <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> file into the graph. When you select a state, <code>Motion</code> in the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a> shows the clip it plays.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -396,7 +397,7 @@
       
         <div class="examples_1__item">
           <dt>Entry, Any State, Exit</dt>
-          <dd>Entry is the way in, and it connects to the Default State. Any State means "whichever state you're in now." An arrow drawn from it moves from anywhere once its condition is met. Exit is the way out. You can build an on/off gimmick without using Any State or Exit.</dd>
+          <dd>Entry is the way in, and it connects to the Default State. <a class="term_2" href="/en/glossary/#any-state" data-name="Any State" data-tip="A box meaning &quot;whichever state you're in&quot;. Arrows from it move you from anywhere when the condition is met.">Any State</a> means "whichever state you're in now." An arrow drawn from it moves from anywhere once its condition is met. Exit is the way out. You can build an on/off gimmick without using Any State or Exit.</dd>
         </div>
       
     </dl>
@@ -531,19 +532,19 @@
           
             <tr><th scope="row" class="table_3__nowrap">Transition Duration</th><td>How long it takes to blend from the previous state into the next one. If Fixed Duration is checked, it&#39;s in seconds. If not, it&#39;s a fraction of the clip&#39;s length.</td><td>Set it to 0, so it switches instantly.</td></tr>
           
-            <tr><th scope="row" class="table_3__nowrap">Conditions</th><td>The conditions for moving. Add one with +, then choose a parameter and a value. If you add several, it moves only when all of them are met.</td><td>There: Hat is true. Back: Hat is false.</td></tr>
+            <tr><th scope="row" class="table_3__nowrap">Conditions</th><td>The conditions for moving. Add one with +, then choose a <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a> and a value. If you add several, it moves only when all of them are met.</td><td>There: Hat is true. Back: Hat is false.</td></tr>
           
             <tr><th scope="row" class="table_3__nowrap">Can Transition To Self</th><td>Only arrows drawn from Any State have this. When checked, the Animator keeps re-entering the same state for as long as the condition is met.</td><td>When you use Any State, you usually uncheck it.</td></tr>
           
         </tbody>
       </table>
     </section>
-    <p class="article_1__p"><a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a> walks you through each transition setting.</p><p class="article_1__p">To make your controller work on the avatar, it has to be added to the controller in the avatar's FX slot. With Modular Avatar's <strong>MA Merge Animator</strong>, it's added automatically when you upload, without editing the FX file of the avatar you bought. This series recommends this way. <a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a> shows the steps.</p>
+    <p class="article_1__p"><a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a> walks you through each transition setting.</p><p class="article_1__p">To make your controller work on the avatar, it has to be added to the controller in the avatar's <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> slot. With Modular Avatar's <strong><a class="term_2" href="/en/glossary/#merge-animator" data-name="MA Merge Animator" data-tip="A component that adds a controller you made to the avatar's FX (or other layer) at upload time.">MA Merge Animator</a></strong>, it's added automatically when you upload, without editing the FX file of the avatar you bought. This series recommends this way. <a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a> shows the steps.</p>
   </section>
 
   <section class="section_2 article_1__section" id="parameters" aria-labelledby="parameters-heading">
     <h2 class="section_2__h1" id="parameters-heading">Parameters (Animator and Expression Parameters)</h2>
-    <p class="article_1__p">Parameters are values the Animator looks at. They're used in transition conditions and in Blend Trees (a way to mix clips based on a value).</p><p class="article_1__p">You write each parameter in two places. One is the controller's <code>Parameters</code> tab (values the Animator looks at). The other is VRChat's <strong>Expression Parameters</strong> (values the menu can change, and that can be remembered or sent to other people). <strong>The two are linked by name.</strong> The names must match exactly, including uppercase and lowercase. <code>Hat</code> and <code>hat</code> are different parameters.</p><p class="article_1__p">To add a parameter to the Animator, open the <code>Parameters</code> tab in the Animator window, press <code>+</code>, choose a type (such as <code>Bool</code>) and type a name. To make an Expression Parameters file, right-click in the Project window and choose <code>Create → VRChat → Avatars → Expression Parameters</code>. Avatars you buy usually come with one already.</p>
+    <p class="article_1__p">Parameters are values the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> looks at. They're used in <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transition</a> conditions and in <a class="term_2" href="/en/glossary/#blend-tree" data-name="Blend Tree" data-tip="A system that blends several clips together according to a parameter's value.">Blend Trees</a> (a way to mix <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clips</a> based on a value).</p><p class="article_1__p">You write each <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a> in two places. One is the controller's <code>Parameters</code> tab (values the Animator looks at). The other is VRChat's <strong><a class="term_2" href="/en/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="The list that tells VRChat which parameters the avatar uses. It also decides whether each is remembered and sent to others.">Expression Parameters</a></strong> (values the menu can change, and that can be remembered or sent to other people). <strong>The two are linked by name.</strong> The names must match exactly, including uppercase and lowercase. <code>Hat</code> and <code>hat</code> are different parameters.</p><p class="article_1__p">To add a parameter to the Animator, open the <code>Parameters</code> tab in the Animator window, press <code>+</code>, choose a type (such as <a class="term_2" href="/en/glossary/#param-types" data-name="Bool, Int, Float (parameter types)" data-tip="Kinds of parameters. Bool is on or off, Int is a whole number (0 to 255), Float is a decimal."><code>Bool</code></a>) and type a name. To make an Expression Parameters file, right-click in the <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a> and choose <code>Create → VRChat → Avatars → Expression Parameters</code>. Avatars you buy usually come with one already.</p>
     <section class="table_3" tabindex="0" aria-label="Parameter types">
       <table>
         <thead>
@@ -555,7 +556,7 @@
           
             <tr><th scope="row">Int</th><td>Whole numbers from 0 to 255</td><td class="table_3__nowrap">8 bit</td><td>Picking one of several outfits. <a href="/en/avatar-tips/radial/#int">#9 Switching in steps and changing gradually</a></td></tr>
           
-            <tr><th scope="row">Float</th><td>Decimals from -1.0 to 1.0 (0.0 to 1.0 with Radial Puppet)</td><td class="table_3__nowrap">8 bit</td><td>Changing color or size little by little by turning a dial. <a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a></td></tr>
+            <tr><th scope="row">Float</th><td>Decimals from -1.0 to 1.0 (0.0 to 1.0 with <a class="term_2" href="/en/glossary/#radial-puppet" data-name="Radial Puppet" data-tip="A menu item where you turn a circle to change a Float value between 0 and 1.">Radial Puppet</a>)</td><td class="table_3__nowrap">8 bit</td><td>Changing color or size little by little by turning a dial. <a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a></td></tr>
           
             <tr><th scope="row">Trigger (Animator only)</th><td>Becomes true for just a moment</td><td class="table_3__nowrap">—</td><td>VRChat's official docs recommend not using it. Use Bool, Int or Float instead.</td></tr>
           
@@ -572,7 +573,7 @@
       
         <div class="examples_1__item">
           <dt>Saved</dt>
-          <dd>When checked, the value is remembered even when you change worlds or switch avatars. When unchecked, it goes back to Default each time.</dd>
+          <dd>When checked, the value is remembered even when you change <a class="term_2" href="/en/glossary/#world" data-name="World" data-tip="A place in VRChat where people gather and hang out. Anyone can make and publish one.">worlds</a> or switch avatars. When unchecked, it goes back to Default each time.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -581,7 +582,7 @@
         </div>
       
     </dl>
-    <p class="article_1__p">Synced parameters (with Synced checked) can use up to 256 bits in total. A Bool uses 1 bit, and an Int or a Float uses 8 bits.</p><p class="article_1__p">Some parameters are filled in by VRChat (built-in parameters). Examples are <code>GestureLeft</code> and <code>GestureRight</code> for hand signs, and <code>IsLocal</code>, which tells whether this is your own avatar. You don't write these in Expression Parameters. Just add them to the Animator's Parameters with the same name and type, and you can use them. <a href="/en/avatar-tips/gesture/#numbers">#10 Changing expressions with hand gestures</a> explains the hand sign numbers.</p><p class="article_1__p"><a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a> shows how to choose Saved, Synced and Default for your gimmick.</p>
+    <p class="article_1__p"><a class="term_2" href="/en/glossary/#synced" data-name="Synced (sync)" data-tip="A setting that sends a parameter's value to other people. You can sync up to 256 bits in total.">Synced</a> parameters (with Synced checked) can use up to 256 bits in total. A Bool uses 1 bit, and an Int or a Float uses 8 bits.</p><p class="article_1__p">Some parameters are filled in by VRChat (built-in parameters). Examples are <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight."><code>GestureLeft</code></a> and <code>GestureRight</code> for hand signs, and <code>IsLocal</code>, which tells whether this is your own avatar. You don't write these in Expression Parameters. Just add them to the Animator's Parameters with the same name and type, and you can use them. <a href="/en/avatar-tips/gesture/#numbers">#10 Changing expressions with hand gestures</a> explains the hand sign numbers.</p><p class="article_1__p"><a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a> shows how to choose <a class="term_2" href="/en/glossary/#saved" data-name="Saved" data-tip="A setting that remembers a parameter's value when you change worlds or switch avatars.">Saved</a>, Synced and Default for your <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmick</a>.</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -670,7 +671,7 @@
 
   <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
     <h2 class="section_2__h1" id="menu-heading">Expressions Menu</h2>
-    <p class="article_1__p">The Expressions Menu is the contents of the menu you open in VRChat (the Action Menu). Each item in the menu (a Control) changes a parameter's value when you press or turn it.</p><p class="article_1__p">To use it, put a Menu (the menu file) and Parameters (the Expression Parameters file) in the "Expressions" section of the VRC Avatar Descriptor. To make a menu file, right-click in the Project window and choose <code>Create → VRChat → Avatars → Expressions Menu</code>.</p><p class="article_1__p">One menu can hold up to 8 items. If you need more, split them into another menu with a Sub Menu.</p>
+    <p class="article_1__p">The <a class="term_2" href="/en/glossary/#expressions-menu" data-name="Expressions Menu (Action Menu)" data-tip="The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.">Expressions Menu</a> is the contents of the menu you open in VRChat (the Action Menu). Each item in the menu (a Control) changes a <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a>'s value when you press or turn it.</p><p class="article_1__p">To use it, put a Menu (the menu file) and Parameters (the <a class="term_2" href="/en/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="The list that tells VRChat which parameters the avatar uses. It also decides whether each is remembered and sent to others.">Expression Parameters</a> file) in the "Expressions" section of the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a>. To make a menu file, right-click in the <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a> and choose <code>Create → VRChat → Avatars → Expressions Menu</code>.</p><p class="article_1__p">One menu can hold up to 8 items. If you need more, split them into another menu with a <a class="term_2" href="/en/glossary/#sub-menu" data-name="Sub Menu" data-tip="An item that opens another menu when pressed. Used to split things up when you have many items.">Sub Menu</a>.</p>
     <section class="table_3" tabindex="0" aria-label="Types of menu items">
       <table>
         <thead>
@@ -678,7 +679,7 @@
         </thead>
         <tbody>
           
-            <tr><th scope="row" class="table_3__nowrap">Toggle</th><td>Press it to set the Value. Press it again to go back.</td><td>Bool (Int and Float also work)</td></tr>
+            <tr><th scope="row" class="table_3__nowrap">Toggle</th><td>Press it to set the Value. Press it again to go back.</td><td><a class="term_2" href="/en/glossary/#param-types" data-name="Bool, Int, Float (parameter types)" data-tip="Kinds of parameters. Bool is on or off, Int is a whole number (0 to 255), Float is a decimal.">Bool</a> (Int and Float also work)</td></tr>
           
             <tr><th scope="row" class="table_3__nowrap">Button</th><td>Press it to set the Value. It goes back after a moment (about 1 second). It can&#39;t stay pressed.</td><td>Bool, Int and others</td></tr>
           
@@ -693,7 +694,7 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">The <code>Value</code> of a Toggle or Button is the value written to the parameter when you press it. For a Bool, 1 means true. For an Int, it's a number. For example, if Value is 2, the parameter becomes 2, so you can build a menu that switches to outfit number 2.</p>
+    <p class="article_1__p">The <code>Value</code> of a <a class="term_2" href="/en/glossary/#toggle-control" data-name="Toggle (menu item)" data-tip="A menu item that switches between on and off each time you press it.">Toggle</a> or Button is the value written to the parameter when you press it. For a Bool, 1 means true. For an Int, it's a number. For example, if Value is 2, the parameter becomes 2, so you can build a menu that switches to outfit number 2.</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -768,12 +769,12 @@
   
 </div>
 
-    <p class="article_1__p">With Modular Avatar's <strong>MA Menu Item</strong> and <strong>MA Menu Installer</strong>, you can add items without editing your avatar's menu file. This series uses that way (<a href="/en/avatar-tips/toggle/#menu">#8 Building a menu toggle</a>).</p><p class="article_1__p">If you only want to turn clothes on and off, you can also use Modular Avatar's Create Toggle and skip making an Animator (<a href="/en/avatar-tips/outfit/#menu">#3 Dressing your avatar</a>). The tips in this series build the Animator by hand, so you can see how it works.</p>
+    <p class="article_1__p">With <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a>'s <strong><a class="term_2" href="/en/glossary/#menu-installer" data-name="MA Menu Installer and MA Menu Item" data-tip="Components that add items to the menu without rewriting the Expressions Menu.">MA Menu Item</a></strong> and <strong>MA Menu Installer</strong>, you can add items without editing your avatar's menu file. This series uses that way (<a href="/en/avatar-tips/toggle/#menu">#8 Building a menu toggle</a>).</p><p class="article_1__p">If you only want to turn clothes on and off, you can also use Modular Avatar's Create Toggle and skip making an <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> (<a href="/en/avatar-tips/outfit/#menu">#3 Dressing your avatar</a>). The tips in this series build the Animator by hand, so you can see how it works.</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
-    <p class="article_1__p">See what happens to the parameter, the state and the clip, in that order, when you press &#34;Hat&#34; in the menu. You can also change the layer&#39;s Weight and the Animator&#39;s parameter name. Assume the hat was turned off in Unity before upload.</p>
+    <p class="article_1__p">See what happens to the <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a>, the <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a> and the <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>, in that order, when you press &#34;Hat&#34; in the menu. You can also change the <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layer</a>&#39;s <a class="term_2" href="/en/glossary/#weight" data-name="Weight (layer weight)" data-tip="How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.">Weight</a> and the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a>&#39;s parameter name. Assume the hat was turned off in Unity before upload.</p>
     <div class="demo_2 js_ab_demo"
       data-param-same="The menu set Hat in Expression Parameters to {v}. The Animator also has a parameter named Hat, so the Animator&#39;s Hat is {v} too." data-param-diff="The menu set Hat in Expression Parameters to {v}. The Animator&#39;s parameter is hat, so it&#39;s treated as a different parameter, and hat stays false."
       data-state-on="The Animator&#39;s {n} is true, so the condition from Hat_OFF to Hat_ON is met, and the state is Hat_ON." data-state-off="The Animator&#39;s {n} is false, so the state is Hat_OFF."
@@ -828,8 +829,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">The state changes, but the look doesn&#39;t</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>When you press Play in Unity, the Animator window shows the state switching. But the hat doesn&#39;t appear.</dd></div>
-            <div><dt>Cause</dt><dd>The added layer&#39;s Weight is still 0. When you add a layer in Unity, it&#39;s created with a Weight of 0.</dd></div>
+            <div><dt>What happens</dt><dd>When you press Play in Unity, the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> window shows the <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a> switching. But the hat doesn&#39;t appear.</dd></div>
+            <div><dt>Cause</dt><dd>The added <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layer</a>&#39;s <a class="term_2" href="/en/glossary/#weight" data-name="Weight (layer weight)" data-tip="How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.">Weight</a> is still 0. When you add a layer in Unity, it&#39;s created with a Weight of 0.</dd></div>
             <div><dt>Fix</dt><dd>In the Layers tab of the Animator window, click the layer's gear and set Weight to 1.</dd></div>
           </dl>
         </section>
@@ -838,7 +839,7 @@
           <h3 class="case_1__title">Pressing the menu doesn&#39;t change the state</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>You press the menu item, but the Animator stays in the Default state.</dd></div>
-            <div><dt>Cause</dt><dd>The parameter names in Expression Parameters and the Animator don&#39;t match. A difference in uppercase and lowercase, or a space at the end of a name, is common. Sometimes the parameter was never added to the Animator.</dd></div>
+            <div><dt>Cause</dt><dd>The <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a> names in <a class="term_2" href="/en/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="The list that tells VRChat which parameters the avatar uses. It also decides whether each is remembered and sent to others.">Expression Parameters</a> and the Animator don&#39;t match. A difference in uppercase and lowercase, or a space at the end of a name, is common. Sometimes the parameter was never added to the Animator.</dd></div>
             <div><dt>Fix</dt><dd>Copy the name from Expression Parameters and paste it as the Animator parameter's name. Match the type too.</dd></div>
           </dl>
         </section>
@@ -847,7 +848,7 @@
           <h3 class="case_1__title">It switches late, or changes slowly</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>It switches a beat after you press the menu. It doesn&#39;t change instantly, but little by little.</dd></div>
-            <div><dt>Cause</dt><dd>The transition has Has Exit Time checked, or its Transition Duration isn&#39;t 0.</dd></div>
+            <div><dt>Cause</dt><dd>The <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transition</a> has <a class="term_2" href="/en/glossary/#has-exit-time" data-name="Has Exit Time" data-tip="A transition setting. When checked, the current clip plays to a set time before moving on.">Has Exit Time</a> checked, or its <a class="term_2" href="/en/glossary/#transition-duration" data-name="Transition Duration" data-tip="A transition setting. How long to blend from the previous state into the next.">Transition Duration</a> isn&#39;t 0.</dd></div>
             <div><dt>Fix</dt><dd>Select the arrow, uncheck Has Exit Time, and set Transition Duration to 0. Also see <a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a>.</dd></div>
           </dl>
         </section>
@@ -855,8 +856,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Hand shapes or poses don&#39;t move</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>You made an arm or finger shape in an FX clip, but it doesn&#39;t move in VRChat.</dd></div>
-            <div><dt>Cause</dt><dd>Humanoid bones (muscles) don&#39;t move from FX.</dd></div>
+            <div><dt>What happens</dt><dd>You made an arm or finger shape in an <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>, but it doesn&#39;t move in VRChat.</dd></div>
+            <div><dt>Cause</dt><dd><a class="term_2" href="/en/glossary/#humanoid" data-name="Humanoid" data-tip="A fixed layout of human-shaped bones. VRChat uses it to map body movement onto the avatar.">Humanoid</a> <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> (muscles) don&#39;t move from FX.</dd></div>
             <div><dt>Fix</dt><dd>Move hand shapes with the Gesture controller, and whole-body motion with the Action controller.</dd></div>
           </dl>
         </section>
@@ -864,8 +865,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Only your reflection doesn&#39;t change expression</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>Your expression changes when you look at yourself, but the avatar in the mirror doesn&#39;t change.</dd></div>
-            <div><dt>Cause</dt><dd>You&#39;re moving the expression BlendShapes from a slot other than FX (such as Gesture). BlendShapes and materials from slots other than FX aren&#39;t copied to the avatar in the mirror.</dd></div>
+            <div><dt>What happens</dt><dd>Your expression changes when you look at yourself, but the avatar in the <a class="term_2" href="/en/glossary/#mirror" data-name="Mirror" data-tip="A mirror placed in a world, where you can check how your avatar looks and moves.">mirror</a> doesn&#39;t change.</dd></div>
+            <div><dt>Cause</dt><dd>You&#39;re moving the expression <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> from a slot other than FX (such as Gesture). BlendShapes and <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> from slots other than FX aren&#39;t copied to the avatar in the mirror.</dd></div>
             <div><dt>Fix</dt><dd>Move clips that change the look, such as expressions, into the FX controller.</dd></div>
           </dl>
         </section>
@@ -873,8 +874,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">You can see it, but others can&#39;t</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>The hat shows on your screen, but your friends say they can&#39;t see it.</dd></div>
-            <div><dt>Cause</dt><dd>Synced is unchecked for that parameter in Expression Parameters.</dd></div>
+            <div><dt>What happens</dt><dd>The hat shows on your screen, but your <a class="term_2" href="/en/glossary/#friend" data-name="Friend" data-tip="Someone you've added in VRChat. You can see where they are and go to meet them.">friends</a> say they can&#39;t see it.</dd></div>
+            <div><dt>Cause</dt><dd><a class="term_2" href="/en/glossary/#synced" data-name="Synced (sync)" data-tip="A setting that sends a parameter's value to other people. You can sync up to 256 bits in total.">Synced</a> is unchecked for that parameter in Expression Parameters.</dd></div>
             <div><dt>Fix</dt><dd>Check Synced and upload again. Other causes are listed in <a href="/en/avatar-tips/gimmick-debug/#checklist">#12 When a gimmick doesn't work</a>.</dd></div>
           </dl>
         </section>
@@ -885,21 +886,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
     <ul class="rules_1">
-      <li>Before you edit the FX file of an avatar you bought, make a copy first. If you can, add your own controller separately with Modular Avatar. Then your gimmicks won't disappear when you update the avatar.</li><li>Don't put one controller into two slots (for example, Gesture and FX). VRChat's official docs also say this can cause major problems.</li><li>Don't make dead-end states. Parameters can change at any time. When you draw an arrow to a state, also draw one back.</li><li>Don't mix Write Defaults ON and OFF in the same controller. If you make both an on clip and an off clip, it works either way (<a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a>).</li><li>Give parameters names that tell you which gimmick they belong to. If two gimmicks share a name, moving one also moves the other.</li>
+      <li>Before you edit the <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> file of an avatar you bought, make a copy first. If you can, add your own controller separately with <a class="term_2" href="/en/glossary/#modular-avatar" data-name="Modular Avatar (MA)" data-tip="A tool that builds outfits and gimmicks into an avatar without rewriting the original files.">Modular Avatar</a>. Then your <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmicks</a> won't disappear when you update the avatar.</li><li>Don't put one controller into two slots (for example, Gesture and FX). VRChat's official docs also say this can cause major problems.</li><li>Don't make dead-end <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">states</a>. Parameters can change at any time. When you draw an arrow to a state, also draw one back.</li><li>Don't mix <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> ON and OFF in the same controller. If you make both an on <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> and an off clip, it works either way (<a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a>).</li><li>Give <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameters</a> names that tell you which gimmick they belong to. If two gimmicks share a name, moving one also moves the other.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">Summary</h2>
     <ul class="rules_1">
-      <li>The menu only changes a parameter's value. What changes the look is the clip the Animator plays.</li><li>Drive the look (on/off, BlendShapes, materials) from FX. Humanoid bones don't move from FX.</li><li>A controller is made of layers, states and transitions. Set the Weight of each layer you add to 1.</li><li>Animator parameters and Expression Parameters are linked by name. Match them exactly, including uppercase and lowercase.</li><li>Next, you'll make the clips that go into states (<a href="/en/avatar-tips/animation-clip/">#7 Making animations</a>).</li>
+      <li>The menu only changes a <a class="term_2" href="/en/glossary/#parameter" data-name="Parameter" data-tip="A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.">parameter</a>'s value. What changes the look is the <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> plays.</li><li>Drive the look (on/off, <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a>, <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>) from <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a>. <a class="term_2" href="/en/glossary/#humanoid" data-name="Humanoid" data-tip="A fixed layout of human-shaped bones. VRChat uses it to map body movement onto the avatar.">Humanoid</a> <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> don't move from FX.</li><li>A controller is made of <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layers</a>, <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">states</a> and <a class="term_2" href="/en/glossary/#transition" data-name="Transition" data-tip="An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.">transitions</a>. Set the <a class="term_2" href="/en/glossary/#weight" data-name="Weight (layer weight)" data-tip="How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.">Weight</a> of each layer you add to 1.</li><li>Animator parameters and <a class="term_2" href="/en/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="The list that tells VRChat which parameters the avatar uses. It also decides whether each is remembered and sent to others.">Expression Parameters</a> are linked by name. Match them exactly, including uppercase and lowercase.</li><li>Next, you'll make the clips that go into states (<a href="/en/avatar-tips/animation-clip/">#7 Making animations</a>).</li>
     </ul>
     <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="Previous and next tips">
-  
+  <p class="section_2__note">Look up unfamiliar words in the <a href="/en/glossary/">VRChat Glossary</a>. Hover over a colored, dotted word in the text for a short explanation.</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/en/avatar-tips/quest/" rel="prev"><span class="next_1__note">Previous (#5)</span><span class="next_1__text">Quest and mobile support</span></a></li>

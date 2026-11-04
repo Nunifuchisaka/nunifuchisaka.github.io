@@ -7,6 +7,7 @@ const meta = {
   title: "VRChat 用語集",
   description: "VRChat の文化の言葉（お砂糖、視界ジャック、インスタンス、フルトラなど）と、アバター改変の専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。",
   url: "glossary/",
+  altUrl: "en/glossary/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"glossary",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"glossary"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_glossary") %>

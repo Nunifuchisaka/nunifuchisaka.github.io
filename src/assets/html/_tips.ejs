@@ -61,7 +61,7 @@ const l = {
     <ul>
       <li><a href="#find"><%= l.findTitle %></a></li>
       <li><a href="#read"><%= l.readTitle %></a></li>
-      <% if (!isEn) { %><li><a href="/glossary/">VRChat 用語集</a></li><% } %>
+      <li><a href="<%= prefix %>/glossary/"><%= isEn ? "VRChat Glossary" : "VRChat 用語集" %></a></li>
     </ul>
   </nav><% if (!isEn) { %>
   <%- include("_tips_searchbox", {searchId: "tips-site-search"}) %><% } %>

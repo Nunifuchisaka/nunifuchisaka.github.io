@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/queue-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #14</a></p>
     <h1 class="page_1__h1" id="article-heading">Render Queue (draw order)</h1>
-    <p class="article_1__lead">Transparent hair, lace or glasses lenses vanish at certain angles, or hide behind other things. Most of the time, you can fix this with the Render Queue, a number that sets the draw order.</p>
-    <p class="section_2__note">Published <time datetime="2026-11-02">November 2, 2026</time> · This applies to Unity&#39;s Built-in Render Pipeline (VRChat avatars). Content as of November 2026.</p>
+    <p class="article_1__lead"><a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">Transparent</a> hair, lace or glasses lenses vanish at certain angles, or hide behind other things. Most of the time, you can fix this with the <a class="term_2" href="/en/glossary/#render-queue" data-name="Render Queue" data-tip="A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.">Render Queue</a>, a number that sets the draw order.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-02">November 2, 2026</time> · This applies to Unity&#39;s <a class="term_2" href="/en/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="One of Unity's rendering systems. VRChat avatars are drawn with it.">Built-in Render Pipeline</a> (VRChat avatars). Content as of November 2026.</p>
     <nav class="jump_1" aria-label="Contents">
       <ul>
         
@@ -175,13 +176,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">Read this when</h2>
     <ul class="rules_1">
-      <li>Transparent parts (lace, glasses lenses, blush) disappear and reappear as you move the camera.</li><li>In worlds with water, the transparent parts of your avatar hide behind the water surface.</li><li>You can&#39;t see one transparent thing through another, like a ribbon behind a see-through skirt.</li><li>Particles and effects jump in front of your hair or clothes, or hide behind them.</li>
+      <li><a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">Transparent</a> parts (lace, glasses lenses, blush) disappear and reappear as you move the camera.</li><li>In <a class="term_2" href="/en/glossary/#world" data-name="World" data-tip="A place in VRChat where people gather and hang out. Anyone can make and publish one.">worlds</a> with water, the transparent parts of your avatar hide behind the water surface.</li><li>You can&#39;t see one transparent thing through another, like a ribbon behind a see-through skirt.</li><li>Particles and effects jump in front of your hair or clothes, or hide behind them.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
     <h2 class="section_2__h1" id="what-heading">What is the Render Queue?</h2>
-    <p class="article_1__p">When Unity draws the screen, it draws materials in order, starting from the smallest number set on each one. This number is the <strong>Render Queue</strong>. Things drawn later are layered on top of things drawn earlier.</p><p class="article_1__p">For opaque things, depth decides what's in front, so changing the order barely changes how they look. The order matters for <strong>transparent</strong> things. They don't record depth. They just blend their color over whatever is already drawn.</p>
+    <p class="article_1__p">When Unity draws the screen, it draws <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> in order, starting from the smallest number set on each one. This number is the <strong><a class="term_2" href="/en/glossary/#render-queue" data-name="Render Queue" data-tip="A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.">Render Queue</a></strong>. Things drawn later are layered on top of things drawn earlier.</p><p class="article_1__p">For opaque things, depth decides what's in front, so changing the order barely changes how they look. The order matters for <strong><a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a></strong> things. They don't record depth. They just blend their color over whatever is already drawn.</p>
     <figure class="scale_1">
       <figcaption class="scale_1__caption">The main Render Queue numbers</figcaption>
       <ol class="scale_1__list">
@@ -237,12 +238,12 @@
       
         <div class="examples_1__item">
           <dt>2501 and above (treated as transparent)</dt>
-          <dd>Within the same number, the things farthest from the camera are drawn first. The distance isn't measured to the surface you see, but to <strong>the center of the mesh's bounding box (Bounds)</strong>. When two things have centers in different places, like a big skirt and a small ribbon, which one is "closer" flips as the camera moves, and they flicker.</dd>
+          <dd>Within the same number, the things farthest from the camera are drawn first. The distance isn't measured to the surface you see, but to <strong>the center of the <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">mesh</a>'s bounding box (<a class="term_2" href="/en/glossary/#bounds" data-name="Bounds" data-tip="An invisible box that fits around a mesh. It's used for drawing order and for Performance Rank.">Bounds</a>)</strong>. When two things have centers in different places, like a big skirt and a small ribbon, which one is "closer" flips as the camera moves, and they flicker.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>When one mesh has several transparent materials</dt>
-          <dd>Within the same mesh and the same number, they're drawn in material order (Element 0, 1, …), not by distance.</dd>
+          <dd>Within the same mesh and the same number, they're drawn in <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">material</a> order (Element 0, 1, …), not by distance.</dd>
         </div>
       
     </dl>
@@ -250,7 +251,7 @@
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
-    <p class="article_1__p">The avatar&#39;s transparent part is in front of the water surface. If the water is drawn first, it looks right. Change the numbers and the distance, and see what happens.</p>
+    <p class="article_1__p">The avatar&#39;s <a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a> part is in front of the water surface. If the water is drawn first, it looks right. Change the numbers and the distance, and see what happens.</p>
     <div class="demo_1 js_queue_demo"
       data-ok="Looks right: the water is drawn first, and the part is layered on top." data-ng="Looks wrong: the part is drawn first and the water is painted over it, so the part looks like it&#39;s underwater." data-tie="The numbers are the same, so distance decides the order." data-by-number="The numbers are different, so the smaller one is drawn first."
       data-part="Avatar&#39;s transparent part" data-water="World&#39;s water surface" data-first="First" data-then="Next">
@@ -293,7 +294,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Things vanish and reappear by angle</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>Two transparent parts jump in front of or behind each other depending on the viewing angle.</dd></div>
+            <div><dt>What happens</dt><dd>Two <a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a> parts jump in front of or behind each other depending on the viewing angle.</dd></div>
             <div><dt>Cause</dt><dd>Their numbers are the same, so distance decides the order, and which one counts as closer flips with the angle.</dd></div>
             <div><dt>How to fix it</dt><dd>Raise the number of the one you want in front, just a little (+1 to +10). The number, not the distance, then decides the order, so they stop swapping.</dd></div>
           </dl>
@@ -302,16 +303,16 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Hidden by water</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>In worlds with water, the transparent parts of your avatar look like they&#39;re underwater.</dd></div>
+            <div><dt>What happens</dt><dd>In <a class="term_2" href="/en/glossary/#world" data-name="World" data-tip="A place in VRChat where people gather and hang out. Anyone can make and publish one.">worlds</a> with water, the transparent parts of your avatar look like they&#39;re underwater.</dd></div>
             <div><dt>Cause</dt><dd>A world&#39;s water surface often uses a number in the transparent range. If your part is drawn before the water, the water&#39;s color is painted over it.</dd></div>
-            <div><dt>How to fix it</dt><dd>Make the part&#39;s number larger than the water&#39;s. In my SpiderWeb, the threads are 3100 and the shockwave is 3110. The manual says that in worlds where the water is 3100 or more, you should set the thread material above the water and the shockwave after that. <a href="/spiderweb/en/">SpiderWeb manual</a></dd></div>
+            <div><dt>How to fix it</dt><dd>Make the part&#39;s number larger than the water&#39;s. In my SpiderWeb, the threads are 3100 and the shockwave is 3110. The manual says that in worlds where the water is 3100 or more, you should set the thread <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">material</a> above the water and the shockwave after that. <a href="/spiderweb/en/">SpiderWeb manual</a></dd></div>
           </dl>
         </section>
       
         <section class="case_1__item">
           <h3 class="case_1__title">Overlapping inside one mesh</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>Two transparent materials on the same mesh overlap in the wrong order.</dd></div>
+            <div><dt>What happens</dt><dd>Two transparent materials on the same <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">mesh</a> overlap in the wrong order.</dd></div>
             <div><dt>Cause</dt><dd>Their numbers are the same, so they&#39;re drawn in material order.</dd></div>
             <div><dt>How to fix it</dt><dd>Raise the number of the one you want in front, or move the one you want behind to an earlier Element.</dd></div>
           </dl>
@@ -332,28 +333,29 @@
   <section class="section_2 article_1__section" id="how" aria-labelledby="how-heading">
     <h2 class="section_2__h1" id="how-heading">How to change the number</h2>
     <ol class="steps_1">
-      <li>Duplicate the material first, so you can go back.</li><li>In the Project window, select the material you want to change.</li><li>In the Inspector, find the <strong>Render Queue</strong> field. In many shaders it's near the bottom. If it's left at <code>From Shader</code>, the shader's default number is used.</li><li>Enter the number.</li><li>To check the order, open Unity's Frame Debugger (<code>Window → Analysis → Frame Debugger</code>) and step through what gets drawn, one at a time.</li>
+      <li>Duplicate the <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">material</a> first, so you can go back.</li><li>In the <a class="term_2" href="/en/glossary/#project-window" data-name="Project window" data-tip="The Unity window that lists the files in your project (clips, materials, prefabs, and so on).">Project window</a>, select the material you want to change.</li><li>In the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a>, find the <strong><a class="term_2" href="/en/glossary/#render-queue" data-name="Render Queue" data-tip="A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.">Render Queue</a></strong> field. In many <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shaders</a> it's near the bottom. If it's left at <code>From Shader</code>, the shader's default number is used.</li><li>Enter the number.</li><li>To check the order, open Unity's Frame Debugger (<code>Window → Analysis → Frame Debugger</code>) and step through what gets drawn, one at a time.</li>
     </ol>
   </section>
 
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
     <ul class="rules_1">
-      <li>Above 2500, a material is treated as transparent. In the Built-in Render Pipeline, things above 2500 no longer receive shadows. Keep opaque things at 2500 or below.</li><li>Changing a shader&#39;s rendering mode may reset the Render Queue to its default number. Check it again after you change it.</li><li>Don&#39;t move the number a lot. The bigger it is, the later it&#39;s drawn compared to a world&#39;s transparent things (glass, fog, effects), and it may look like it&#39;s in front of them even when it&#39;s behind.</li><li>The Render Queue is a material setting, so once you upload, other people see it drawn in the same order too.</li>
+      <li>Above 2500, a <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">material</a> is treated as <a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a>. In the <a class="term_2" href="/en/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="One of Unity's rendering systems. VRChat avatars are drawn with it.">Built-in Render Pipeline</a>, things above 2500 no longer receive shadows. Keep opaque things at 2500 or below.</li><li>Changing a <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shader</a>&#39;s rendering mode may reset the <a class="term_2" href="/en/glossary/#render-queue" data-name="Render Queue" data-tip="A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.">Render Queue</a> to its default number. Check it again after you change it.</li><li>Don&#39;t move the number a lot. The bigger it is, the later it&#39;s drawn compared to a <a class="term_2" href="/en/glossary/#world" data-name="World" data-tip="A place in VRChat where people gather and hang out. Anyone can make and publish one.">world</a>&#39;s transparent things (glass, fog, effects), and it may look like it&#39;s in front of them even when it&#39;s behind.</li><li>The Render Queue is a material setting, so once you upload, other people see it drawn in the same order too.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">Summary</h2>
     <ul class="rules_1">
-      <li>The Render Queue is a number for draw order, and it matters for transparent materials.</li><li>When the numbers are the same, the distance to each mesh&#39;s center decides the order, and that causes flickering.</li><li>Set only the orders you need, with small differences, and use Cutout where you can.</li>
+      <li>The <a class="term_2" href="/en/glossary/#render-queue" data-name="Render Queue" data-tip="A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.">Render Queue</a> is a number for draw order, and it matters for <a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a> <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>.</li><li>When the numbers are the same, the distance to each <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">mesh</a>&#39;s center decides the order, and that causes flickering.</li><li>Set only the orders you need, with small differences, and use Cutout where you can.</li>
     </ul>
     <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="Previous and next tips">
-  
+  <p class="section_2__note">Look up unfamiliar words in the <a href="/en/glossary/">VRChat Glossary</a>. Hover over a colored, dotted word in the text for a short explanation.</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/en/avatar-tips/unity-vs-vrchat/" rel="prev"><span class="next_1__note">Previous (#13)</span><span class="next_1__text">It looks different in Unity and VRChat</span></a></li>

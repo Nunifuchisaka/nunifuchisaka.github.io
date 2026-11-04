@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/shape-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #13</a></p>
     <h1 class="page_1__h1" id="article-heading">It looks different in Unity and VRChat</h1>
-    <p class="article_1__lead">The expression or body shape you set up in Unity is back to the original once you&#39;re in VRChat. Most of the time, that&#39;s because the FX Animator is overwriting the BlendShape (shape key) values. This tip explains why they get overwritten, where to look, and how to fix it.</p>
-    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This applies to Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Content as of November 2026.</p>
+    <p class="article_1__lead">The expression or body shape you set up in Unity is back to the original once you&#39;re in VRChat. Most of the time, that&#39;s because the <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> is overwriting the <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a> (shape key) values. This tip explains why they get overwritten, where to look, and how to fix it.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This applies to Unity&#39;s <a class="term_2" href="/en/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="One of Unity's rendering systems. VRChat avatars are drawn with it.">Built-in Render Pipeline</a> and VRChat avatars (<a class="term_2" href="/en/glossary/#avatars3" data-name="Avatars 3.0" data-tip="VRChat's current avatar system. Gimmicks are built with the Animator, Expression Parameters, and the Expressions Menu.">Avatars 3.0</a>). Content as of November 2026.</p>
     <nav class="jump_1" aria-label="Contents">
       <ul>
         
@@ -179,7 +180,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">Read this when</h2>
     <ul class="rules_1">
-      <li>You changed your expression by moving BlendShapes in Unity, but in VRChat your face goes back to the original.</li><li>You shrank your body to fit an outfit, but in VRChat your body pokes through the outfit.</li><li>When you change hand gestures, your body shape or blush changes along with your expression.</li><li>Once a hand gesture changes your expression, the expression stays even after you put your hand back.</li>
+      <li>You changed your expression by moving <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> in Unity, but in VRChat your face goes back to the original.</li><li>You shrank your body to fit an outfit, but in VRChat your body pokes through the outfit.</li><li>When you change hand <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">gestures</a>, your body shape or blush changes along with your expression.</li><li>Once a hand gesture changes your expression, the expression stays even after you put your hand back.</li>
     </ul>
   </section>
 
@@ -190,12 +191,12 @@
       
         <div class="examples_1__item">
           <dt>1. The Animator overwrites values</dt>
-          <dd>In VRChat, your avatar's Animators (especially FX) run, and every frame they overwrite BlendShapes and other values with the values written in animations. In Unity's editor, the Animator isn't running. <strong>This is what this tip is about.</strong></dd>
+          <dd>In VRChat, your avatar's Animators (especially <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a>) run, and every frame they overwrite <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> and other values with the values written in animations. In Unity's editor, the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> isn't running. <strong>This is what this tip is about.</strong></dd>
         </div>
       
         <div class="examples_1__item">
           <dt>2. BlendShapes that VRChat moves</dt>
-          <dd>VRChat moves blinking and mouth shapes (Visemes). BlendShapes set in Eye Look or Lip Sync on the VRC Avatar Descriptor get overwritten, even if you set values for them in Unity.</dd>
+          <dd>VRChat moves blinking and mouth shapes (Visemes). BlendShapes set in Eye Look or Lip Sync on the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a> get overwritten, even if you set values for them in Unity.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -205,17 +206,17 @@
       
         <div class="examples_1__item">
           <dt>4. Brightness and color</dt>
-          <dd>The lights in your Unity scene are different from a world's lights. Brightness, color and shadows change from world to world.</dd>
+          <dd>The lights in your Unity <a class="term_2" href="/en/glossary/#scene" data-name="Scene" data-tip="The place where you put objects and work on them. Avatars are placed in a scene before uploading.">scene</a> are different from a <a class="term_2" href="/en/glossary/#world" data-name="World" data-tip="A place in VRChat where people gather and hang out. Anyone can make and publish one.">world</a>'s lights. Brightness, color and shadows change from world to world.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>5. The viewer&#39;s settings and device</dt>
-          <dd>If a viewer's Safety settings block shaders, your avatar looks different to them. On Quest and phones, people see the version made for their device, or a stand-in.</dd>
+          <dd>If a viewer's <a class="term_2" href="/en/glossary/#safety" data-name="Safety" data-tip="VRChat's settings for how much of other people's avatars you show.">Safety</a> settings block <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shaders</a>, your avatar looks different to them. On <a class="term_2" href="/en/glossary/#quest" data-name="Quest, Android, iOS" data-tip="VRChat running on standalone VR headsets such as the Meta Quest, or on phones. It needs separate avatar data from the PC version.">Quest</a> and phones, people see the version made for their device, or a stand-in.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>6. Draw order</dt>
-          <dd>When transparent parts overlap a world's transparent things, how they look depends on the draw order. <a href="/en/avatar-tips/render-queue/">#14 Render Queue (draw order)</a></dd>
+          <dd>When <a class="term_2" href="/en/glossary/#transparent" data-name="Transparent" data-tip="A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.">transparent</a> parts overlap a world's transparent things, how they look depends on the draw order. <a href="/en/avatar-tips/render-queue/">#14 Render Queue (draw order)</a></dd>
         </div>
       
     </dl>
@@ -223,7 +224,7 @@
 
   <section class="section_2 article_1__section" id="editor" aria-labelledby="editor-heading">
     <h2 class="section_2__h1" id="editor-heading">In Unity&#39;s editor, the Animator isn&#39;t running</h2>
-    <p class="article_1__p">When Unity isn't in Play mode, what you see is exactly the values you entered in the BlendShapes section of the Skinned Mesh Renderer. The Animator isn't running.</p><p class="article_1__p">When VRChat loads your avatar, the Animator starts running. <strong>Every frame</strong>, it writes over everything with the values in the animation (clip) of the state it's currently in. The values you entered in Unity get overwritten each time.</p><p class="article_1__p">In other words, <strong>if a BlendShape is written in any clip, the Animator decides its value</strong>. You only see the Skinned Mesh Renderer's value as-is when the Animator writes nothing to that BlendShape.</p>
+    <p class="article_1__p">When Unity isn't in Play mode, what you see is exactly the values you entered in the <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> section of the <a class="term_2" href="/en/glossary/#smr" data-name="Skinned Mesh Renderer" data-tip="The component that draws a mesh that bends with bones. Bodies and clothes have one.">Skinned Mesh Renderer</a>. The <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> isn't running.</p><p class="article_1__p">When VRChat loads your avatar, the Animator starts running. <strong>Every frame</strong>, it writes over everything with the values in the animation (<a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>) of the <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a> it's currently in. The values you entered in Unity get overwritten each time.</p><p class="article_1__p">In other words, <strong>if a BlendShape is written in any clip, the Animator decides its value</strong>. You only see the Skinned Mesh Renderer's value as-is when the Animator writes nothing to that BlendShape.</p>
     <ol class="route_1">
       
         <li class="route_1__step"><span class="route_1__head">The value you set in Unity</span><span class="route_1__note">eye_smile = 60 on the Skinned Mesh Renderer</span></li>
@@ -280,7 +281,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>A value you entered to change your expression. If an FX clip writes eye_smile, VRChat uses that clip's value instead.</li><li>A value you entered to shrink your body to fit an outfit. If the outfit toggle clips write shrink_chest, VRChat uses those clips' value instead.</li>
+      <li>A value you entered to change your expression. If an <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> clip writes eye_smile, VRChat uses that clip's value instead.</li><li>A value you entered to shrink your body to fit an outfit. If the outfit toggle clips write shrink_chest, VRChat uses those clips' value instead.</li>
     </ol>
   
 </div>
@@ -289,7 +290,7 @@
 
   <section class="section_2 article_1__section" id="write-defaults" aria-labelledby="write-defaults-heading">
     <h2 class="section_2__h1" id="write-defaults-heading">What Write Defaults changes</h2>
-    <p class="article_1__p">The Animator takes charge of every property that appears in any clip in the controller. If the current state's clip has that property, the Animator writes its value. <code>Write Defaults</code> on the state decides <strong>what to write when the clip doesn't have it</strong>.</p>
+    <p class="article_1__p">The <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> takes charge of every property that appears in any <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> in the controller. If the current <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a>'s clip has that property, the Animator writes its value. <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar."><code>Write Defaults</code></a> on the state decides <strong>what to write when the clip doesn't have it</strong>.</p>
     <section class="table_3" tabindex="0" aria-label="Write Defaults and the value that gets written">
       <table>
         <thead>
@@ -304,12 +305,12 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">Avatars with Write Defaults OFF often have a <strong>clip that sets all expression BlendShapes to 0</strong> in the state used when nothing is happening (Idle), so expressions from hand gestures don't stick. This clip also resets the values you set in Unity to 0.</p><p class="article_1__p">When several layers write the same BlendShape, the lower layer wins.</p>
+    <p class="article_1__p">Avatars with Write Defaults OFF often have a <strong>clip that sets all expression <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> to 0</strong> in the state used when nothing is happening (Idle), so expressions from hand <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">gestures</a> don't stick. This clip also resets the values you set in Unity to 0.</p><p class="article_1__p">When several <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layers</a> write the same BlendShape, the lower layer wins.</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
-    <p class="article_1__p">Change the value set in Unity, Write Defaults, and the current state, and see how the avatar looks in VRChat. When you change the value, it counts as a fresh upload and starts over.</p>
+    <p class="article_1__p">Change the value set in Unity, <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a>, and the current <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a>, and see how the avatar looks in VRChat. When you change the value, it counts as a fresh upload and starts over.</p>
     <div class="demo_2 js_shape_demo"
       data-clip="The current state&#39;s clip writes eye_smile as {c}, so it&#39;s {c} whether Write Defaults is on or off." data-on="The current state&#39;s clip has no eye_smile and Write Defaults is ON, so the default value is written (the {u} you set in Unity)." data-off="The current state&#39;s clip has no eye_smile and Write Defaults is OFF, so nothing is written. The last value ({v}) stays."
       data-same="It looks the same as in Unity." data-diff="It looks different from Unity ({u} in Unity, {v} in VRChat).">
@@ -361,9 +362,9 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Your changed expression goes back</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>You moved eye or mouth BlendShapes in Unity to change your usual expression. In VRChat, it goes back to the original.</dd></div>
-            <div><dt>Cause</dt><dd>The clip in the FX Idle state (the state used when nothing is happening) writes that BlendShape.</dd></div>
-            <div><dt>How to fix it</dt><dd>Change the value in that clip to the value you set in Unity. If Write Defaults is ON, you can also delete that line from the clip.</dd></div>
+            <div><dt>What happens</dt><dd>You moved eye or mouth <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShapes</a> in Unity to change your usual expression. In VRChat, it goes back to the original.</dd></div>
+            <div><dt>Cause</dt><dd>The <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> in the <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> Idle <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a> (the state used when nothing is happening) writes that BlendShape.</dd></div>
+            <div><dt>How to fix it</dt><dd>Change the value in that clip to the value you set in Unity. If <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> is ON, you can also delete that line from the clip.</dd></div>
           </dl>
         </section>
       
@@ -379,7 +380,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Hand gestures change unrelated things</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>When you change your expression with a hand gesture, your body shape or blush changes too.</dd></div>
+            <div><dt>What happens</dt><dd>When you change your expression with a hand <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">gesture</a>, your body shape or blush changes too.</dd></div>
             <div><dt>Cause</dt><dd>The expression clip has lines for BlendShapes that have nothing to do with the expression.</dd></div>
             <div><dt>How to fix it</dt><dd>Delete the unrelated lines from the expression clip. If Write Defaults is OFF, also check that no values stay behind after you delete them.</dd></div>
           </dl>
@@ -399,9 +400,9 @@
 
   <section class="section_2 article_1__section" id="find" aria-labelledby="find-heading">
     <h2 class="section_2__h1" id="find-heading">Find the clip that causes it</h2>
-    <p class="article_1__p">First, press Play in Unity and see whether the same thing happens as in VRChat. With Gesture Manager, which you can add from the VRChat Creator Companion, the Animator runs when you press Play in Unity, and you can try hand gestures too. If the value goes back when you play, the Animator is the cause.</p>
+    <p class="article_1__p">First, press Play in Unity and see whether the same thing happens as in VRChat. With <a class="term_2" href="/en/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.">Gesture Manager</a>, which you can add from the <a class="term_2" href="/en/glossary/#vcc" data-name="VCC (VRChat Creator Companion)" data-tip="VRChat's official app for creating projects and adding tools and shaders to them (Windows only).">VRChat Creator Companion</a>, the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> runs when you press Play in Unity, and you can try hand <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">gestures</a> too. If the value goes back when you play, the Animator is the cause.</p>
     <ol class="steps_1">
-      <li>Select your avatar in the Hierarchy. In the Inspector, check which controller is set for FX under "Playable Layers" on the VRC Avatar Descriptor.</li><li>Double-click that controller to open it in the Animator window. The layers are listed under Layers on the left.</li><li>Select the layers one at a time and click the orange state (the state it enters first). The state's clip appears in Motion in the Inspector.</li><li>Select the clip and look inside it in the Animation window (<code>Window → Animation → Animation</code>). If there's a line like <code>Body : Blend Shape.eye_smile</code>, that clip writes that BlendShape.</li><li>Check the states entered from hand gestures and the menu the same way.</li>
+      <li>Select your avatar in the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a>. In the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a>, check which controller is set for <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> under "<a class="term_2" href="/en/glossary/#playable-layers" data-name="Playable Layers" data-tip="The slots VRChat provides on an avatar for controllers. There are FX, Gesture, Action, and others.">Playable Layers</a>" on the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a>.</li><li>Double-click that controller to open it in the Animator window. The <a class="term_2" href="/en/glossary/#layer" data-name="Layer" data-tip="A tier inside a controller. You usually make one per gimmick.">layers</a> are listed under Layers on the left.</li><li>Select the layers one at a time and click the orange <a class="term_2" href="/en/glossary/#state" data-name="State" data-tip="A box representing the current situation, such as &quot;the hat is showing&quot;. One state holds one clip.">state</a> (the state it enters first). The state's <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a> appears in Motion in the Inspector.</li><li>Select the clip and look inside it in the Animation window (<code>Window → Animation → Animation</code>). If there's a line like <code>Body : Blend Shape.eye_smile</code>, that clip writes that <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a>.</li><li>Check the states entered from hand gestures and the menu the same way.</li>
     </ol>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
@@ -444,7 +445,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>You set eye_smile to 60 in Unity, but this clip writes it as 0. While you're in Idle in VRChat, eye_smile is 0.</li><li>Sometimes the clip also has body BlendShapes that have nothing to do with expressions. If Write Defaults is ON, deleting this line brings back the value you set in Unity.</li>
+      <li>You set eye_smile to 60 in Unity, but this clip writes it as 0. While you're in Idle in VRChat, eye_smile is 0.</li><li>Sometimes the clip also has body BlendShapes that have nothing to do with expressions. If <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> is ON, deleting this line brings back the value you set in Unity.</li>
     </ol>
   
 </div>
@@ -454,28 +455,29 @@
   <section class="section_2 article_1__section" id="fix" aria-labelledby="fix-heading">
     <h2 class="section_2__h1" id="fix-heading">How to fix it</h2>
     <ol class="steps_1">
-      <li>Before you fix anything, make sure you can go back. Duplicate the clip, or export your avatar's folder.</li><li>Open the clip that causes it in the Animation window, and change the value on that BlendShape's line to the value you set in Unity. If there are two or more keys, change all of them.</li><li>If the BlendShape doesn't need to be written, right-click its line and delete it with <code>Remove Properties</code>. If Write Defaults is ON, the value you set in Unity is used from then on. If it's OFF, the previous value may stay, so fix the value instead of deleting the line.</li><li>Press Play with Gesture Manager, try all your hand gestures and menu items, and check that the value doesn't go back.</li><li>Upload, and check in VRChat too.</li>
+      <li>Before you fix anything, make sure you can go back. Duplicate the <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>, or export your avatar's folder.</li><li>Open the clip that causes it in the Animation window, and change the value on that <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a>'s line to the value you set in Unity. If there are two or more keys, change all of them.</li><li>If the BlendShape doesn't need to be written, right-click its line and delete it with <code>Remove Properties</code>. If <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> is ON, the value you set in Unity is used from then on. If it's OFF, the previous value may stay, so fix the value instead of deleting the line.</li><li>Press Play with <a class="term_2" href="/en/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.">Gesture Manager</a>, try all your hand <a class="term_2" href="/en/glossary/#hand-sign" data-name="Hand signs (GestureLeft, GestureRight)" data-tip="Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.">gestures</a> and menu items, and check that the value doesn't go back.</li><li>Upload, and check in VRChat too.</li>
     </ol>
   </section>
 
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
     <ul class="rules_1">
-      <li>Just changing a BlendShape in Unity can&#39;t beat the value the Animator writes. The same goes for BlendShapes changed by tools such as outfit tools.</li><li>If you use a tool to make expressions, change your usual expression in that tool. If you fix FX directly, your changes are undone when the tool rebuilds it.</li><li>Installing an update to your avatar may undo the clips you fixed. Check again after an update.</li><li>Don&#39;t mix Write Defaults ON and OFF in the same controller. It becomes hard to tell which values stay.</li>
+      <li>Just changing a <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a> in Unity can&#39;t beat the value the <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> writes. The same goes for BlendShapes changed by tools such as outfit tools.</li><li>If you use a tool to make expressions, change your usual expression in that tool. If you fix <a class="term_2" href="/en/glossary/#fx" data-name="FX" data-tip="One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.">FX</a> directly, your changes are undone when the tool rebuilds it.</li><li>Installing an update to your avatar may undo the <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clips</a> you fixed. Check again after an update.</li><li>Don&#39;t mix <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> ON and OFF in the same controller. It becomes hard to tell which values stay.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">Summary</h2>
     <ul class="rules_1">
-      <li>The Animator isn&#39;t running in Unity&#39;s editor, but it runs in VRChat.</li><li>If a BlendShape is written in any clip, the Animator decides its value, not the value you set in Unity.</li><li>When it isn&#39;t in the clip, you get the value you set in Unity if Write Defaults is ON, and the last value if it&#39;s OFF.</li><li>Press Play with Gesture Manager to check, and fix the value in the clip that causes it.</li>
+      <li>The <a class="term_2" href="/en/glossary/#animator" data-name="Animator" data-tip="The system that looks at parameters and decides which animation plays right now.">Animator</a> isn&#39;t running in Unity&#39;s editor, but it runs in VRChat.</li><li>If a <a class="term_2" href="/en/glossary/#blendshape" data-name="BlendShape (shape key)" data-tip="A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.">BlendShape</a> is written in any <a class="term_2" href="/en/glossary/#clip" data-name="Animation clip (clip)" data-tip="A file that says which property of which object to set to which value. File extension .anim.">clip</a>, the Animator decides its value, not the value you set in Unity.</li><li>When it isn&#39;t in the clip, you get the value you set in Unity if <a class="term_2" href="/en/glossary/#write-defaults" data-name="Write Defaults" data-tip="A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.">Write Defaults</a> is ON, and the last value if it&#39;s OFF.</li><li>Press Play with <a class="term_2" href="/en/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.">Gesture Manager</a> to check, and fix the value in the clip that causes it.</li>
     </ul>
     <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="Previous and next tips">
-  
+  <p class="section_2__note">Look up unfamiliar words in the <a href="/en/glossary/">VRChat Glossary</a>. Hover over a colored, dotted word in the text for a short explanation.</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/en/avatar-tips/gimmick-debug/" rel="prev"><span class="next_1__note">Previous (#12)</span><span class="next_1__text">When a gimmick doesn&#39;t work</span></a></li>

@@ -5,20 +5,19 @@
 // - 同じ用語は、h2 の節ごとに最初の1回だけリンクにする（途中の節から読みはじめた人にも出るように）
 // - 見出し・リンク・ボタン・ラベル・表の見出し・再現図・動く図・道すじの図の中はリンクにしない。
 //   code の中は、code の中身がまるごと用語と同じときだけ、code ごとリンクにする
-// - 用語集はまだ日本語だけなので、英語のページでは何もしない
+// - 英語のページ（locale "en"）では、用語の en（match・term・short）を使い、/en/glossary/ へリンクする。英語の match は大文字と小文字を区別する
 const linkLocale = typeof locale !== "undefined" ? locale : "ja";
-if (linkLocale !== "ja") {
-  %><%- html %><%
-} else {
+const isEn = linkLocale === "en";
+const V = (t) => (isEn ? t.en : t);
 const escAttr = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const escRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const entries = [];
-glossary.categories.forEach((c) => c.terms.forEach((t) => t.match.forEach((m) => entries.push({ text: m, term: t }))));
+glossary.categories.forEach((c) => c.terms.forEach((t) => V(t).match.forEach((m) => entries.push({ text: m, term: t }))));
 glossary.block.forEach((b) => entries.push({ text: b, term: null }));
 entries.sort((a, b) => b.text.length - a.text.length);
 const termOf = new Map(entries.map((e) => [e.text, e.term]));
 const pattern = new RegExp(entries.map((e) => /^[\x20-\x7e]+$/.test(e.text) ? `(?<![A-Za-z0-9_])${escRe(e.text)}(?![A-Za-z0-9_])` : escRe(e.text)).join("|"), "g");
-const open = (term) => `<a class="term_2" href="/glossary/#${term.id}" data-name="${escAttr(term.term)}" data-tip="${escAttr(term.short)}">`;
+const open = (term) => `<a class="term_2" href="${isEn ? "/en" : ""}/glossary/#${term.id}" data-name="${escAttr(V(term).term)}" data-tip="${escAttr(V(term).short)}">`;
 const SKIP_TAGS = new Set(["a", "h1", "h2", "h3", "h4", "h5", "h6", "button", "label", "legend", "select", "option", "textarea", "script", "style", "svg", "figure", "figcaption", "code", "kbd", "dt", "th", "time", "summary", "nav"]);
 const SKIP_CLASS = /(^|\s)(demo_\d[^\s]*|mock_1__screens|route_1)(\s|$)/;
 const VOID_TAGS = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"]);
@@ -69,6 +68,4 @@ for (let i = 0; i < parts.length; i++) {
   if (skip) skipDepth++;
   out.push(p);
 }
-%><%- out.join("") %><%
-}
-%>
+%><%- out.join("") %>

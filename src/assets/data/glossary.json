@@ -1,11 +1,12 @@
 {
-  "_comment": "VRChat 用語集（/glossary/）と、改変解説の本文の用語リンク・ツールチップのもと。match は本文で見つけてリンクにする書き方（長いものから先に当てる。英字は単語の切れ目でだけ当てる）。yomi はひらがなの読み（用語集の絞り込み・改変解説の検索・困りごとの絞り込みで、ひらがなで探しても当たるようにする。本文のリンクには使わない）。「よみ=書き方」と書くと、その読みはその書き方にだけ当てる。書き方を書かないと、その用語の名前と match のどれにも当てる。short はツールチップに出す短い説明。body は用語集に出す説明（HTML 可）。tips は詳しく解説している回 [slug, 節の id]。see は関係する用語の id。日本語だけ（英語版は、管理人が日本語版を固めてから足す）",
+  "_comment": "VRChat 用語集（/glossary/）と、改変解説の本文の用語リンク・ツールチップのもと。match は本文で見つけてリンクにする書き方（長いものから先に当てる。英字は単語の切れ目でだけ当てる）。yomi はひらがなの読み（用語集の絞り込み・改変解説の検索・困りごとの絞り込みで、ひらがなで探しても当たるようにする。本文のリンクには使わない）。「よみ=書き方」と書くと、その読みはその書き方にだけ当てる。書き方を書かないと、その用語の名前と match のどれにも当てる。short はツールチップに出す短い説明。body は用語集に出す説明（HTML 可）。tips は詳しく解説している回 [slug, 節の id]。see は関係する用語の id。en は英語版（/en/glossary/ と英語の記事の用語リンク）の term・match・short・body。英語の match も、英字は単語の切れ目でだけ、大文字と小文字を区別して当てる",
   "block": ["Create Toggle", "コントローラーによって", "Add Component"],
   "categories": [
     {
       "id": "culture",
       "title": "VRChat の遊び方と文化",
       "lead": "VRChat の中や、VRChat で遊ぶ人どうしの会話でよく出てくる言葉です。改変の言葉ではありませんが、アバターやギミックを作るときにも関わります。",
+      "en": { "title": "VRChat life and culture", "lead": "Words you'll hear inside VRChat and in conversations between people who play it. They aren't editing terms, but they come up when you make avatars and gimmicks too." },
       "terms": [
         {
           "id": "kaihen",
@@ -14,6 +15,12 @@
           "yomi": ["かいへん=改変", "あばたーかいへん=アバター改変"],
           "short": "買ったアバターに衣装を着せたり、色や形を変えたりして、自分好みにすること。",
           "body": "BOOTH などで買ったアバターを Unity で開き、衣装やギミックを足したり、マテリアルの色を変えたりしてから、VRChat にアップロードします。このサイトの「<a href=\"/avatar-tips/\">アバター改変の解説</a>」は、改変のやり方を1回に1つずつ解説しています。",
+          "en": {
+            "term": "Kaihen (avatar editing)",
+            "match": ["avatar editing"],
+            "short": "Customizing an avatar you bought: putting outfits on it, changing its colors or shape, and so on.",
+            "body": "You open an avatar bought on BOOTH or elsewhere in Unity, add outfits and gimmicks or change material colors, then upload it to VRChat. Japanese players call this <i lang=\"ja-Latn\">kaihen</i>. This site's <a href=\"/en/avatar-tips/\">Avatar Tips</a> explain how to do it, one topic at a time."
+          },
           "tips": [["setup", "parts"], ["upload", "flow"]],
           "see": ["sotai", "booth", "unity-hub"]
         },
@@ -24,6 +31,12 @@
           "yomi": ["そたい"],
           "short": "衣装や小物を足す前の、もとのアバターのこと。",
           "body": "買ったままで、何も改変していないアバターを指して使います。衣装は「〇〇（アバターの名前）対応」として、決まった素体に合わせて作られていることが多いです。",
+          "en": {
+            "term": "Sotai (base avatar)",
+            "match": ["base avatar", "base avatars"],
+            "short": "The original avatar, before any outfits or accessories are added.",
+            "body": "Used for an avatar as bought, with nothing edited. Outfits are often made for a specific base avatar and sold as \"for (avatar name)\"."
+          },
           "tips": [["outfit", "when"]],
           "see": ["kaihen", "setup-outfit"]
         },
@@ -34,6 +47,12 @@
           "yomi": ["わーるど"],
           "short": "VRChat の中で集まって過ごす場所。だれでも作って公開できる。",
           "body": "ワールドも、アバターと同じように Unity と VRChat SDK で作ってアップロードします。ワールドごとに、ミラー、ゲーム、イベントの会場など、できることが違います。同じワールドでも、人の集まりは「インスタンス」ごとに分かれています。",
+          "en": {
+            "term": "World",
+            "match": ["worlds", "world", "World"],
+            "short": "A place in VRChat where people gather and hang out. Anyone can make and publish one.",
+            "body": "Like avatars, worlds are made in Unity with the VRChat SDK and uploaded. Each world offers different things: mirrors, games, event venues, and more. Even in the same world, people are split up into separate instances."
+          },
           "tips": [],
           "see": ["instance", "mirror", "portal"]
         },
@@ -44,6 +63,12 @@
           "yomi": ["いんすたんす"],
           "short": "同じワールドの中の、1つ1つの部屋。同じインスタンスにいる人どうしだけが会える。",
           "body": "1つのワールドに、同じ作りの部屋がいくつも立ちます。これがインスタンスです。立てるときに、だれが入れるかを選びます。Public（だれでも）、Friends+（中にいる人のフレンドも）、Friends（立てた人のフレンドだけ）、Invite+・Invite（招待された人だけ）、Group（グループの人）などがあります。",
+          "en": {
+            "term": "Instance",
+            "match": ["instances", "instance", "Instance"],
+            "short": "One copy of a world. You only meet the people in the same instance.",
+            "body": "A world can have many copies open at once, each built the same way. Each one is an instance. Whoever opens it chooses who can join: Public (anyone), Friends+ (friends of anyone inside), Friends (only the opener's friends), Invite+ and Invite (only invited people), Group (members of a group), and so on."
+          },
           "tips": [],
           "see": ["world", "friend", "join"]
         },
@@ -54,6 +79,12 @@
           "yomi": ["ふれんど", "ふれんどしんせい=フレンド申請", "ふれしん=フレ申"],
           "short": "VRChat の中で登録し合った相手。今どこにいるかが分かり、会いに行ける。",
           "body": "相手にフレンド申請（略して「フレ申」）を送り、相手が受けるとフレンドになります。フレンドが今いるインスタンスが見え、入れる設定なら会いに行けます（Join）。",
+          "en": {
+            "term": "Friend",
+            "match": ["friend request", "friends", "friend"],
+            "short": "Someone you've added in VRChat. You can see where they are and go to meet them.",
+            "body": "Send someone a friend request, and once they accept, you're friends. You can see which instance your friends are in, and visit them if the instance allows it (Join)."
+          },
           "tips": [],
           "see": ["join", "status", "instance"]
         },
@@ -64,6 +95,12 @@
           "yomi": ["じょいん"],
           "short": "フレンドのいるインスタンスへ、そのまま会いに行くこと。",
           "body": "メニューでフレンドを選び、「Join」を押すと、相手のいるインスタンスへ移ります。インスタンスの種類や相手のステータスによっては入れません。そのときは、招待を頼む（Request Invite）こともできます。",
+          "en": {
+            "term": "Join",
+            "match": ["Join"],
+            "short": "Going straight to the instance a friend is in.",
+            "body": "Pick a friend in the menu and press \"Join\" to move to their instance. Depending on the instance type and their status, you may not be able to get in. In that case you can ask for an invite (Request Invite)."
+          },
           "tips": [],
           "see": ["friend", "status", "instance"]
         },
@@ -74,6 +111,12 @@
           "yomi": ["すてーたす=ステータス", "じょいんみー=Join Me", "あすくみー=Ask Me", "びじー=Busy"],
           "short": "自分が今、人に来てほしいかどうかを、色で知らせる印。",
           "body": "Join Me（青）は「だれでも来てほしい」、Online（緑）はふつう、Ask Me（オレンジ）は「来る前に聞いてほしい」、Busy（赤。以前の Do Not Disturb）は「今はそっとしておいてほしい」という意味です。Ask Me や Busy のときは、フレンドでも Join では入れません。",
+          "en": {
+            "term": "Status (Join Me, Ask Me, and more)",
+            "match": ["Join Me", "Ask Me", "Do Not Disturb"],
+            "short": "A colored marker that tells others whether you want visitors right now.",
+            "body": "Join Me (blue) means \"anyone come over\", Online (green) is the normal state, Ask Me (orange) means \"ask before you come\", and Busy (red, formerly Do Not Disturb) means \"please leave me alone for now\". When you're on Ask Me or Busy, even friends can't Join you directly."
+          },
           "tips": [],
           "see": ["friend", "join"]
         },
@@ -84,6 +127,12 @@
           "yomi": ["とらすとらんく"],
           "short": "VRChat で遊んだ時間や活動から決まる、アカウントの段階。",
           "body": "Visitor、New User、User、Known User、Trusted User の順に上がります。New User になると、アバターやワールドをアップロードできるようになります。Safety で「どの段階の人のアバターやシェーダーを見せるか」を決めるときにも使われます。",
+          "en": {
+            "term": "Trust Rank",
+            "match": ["Trust Rank", "Trust Ranks"],
+            "short": "Your account's level, based on how much you've played and done in VRChat.",
+            "body": "It goes up in the order Visitor, New User, User, Known User, Trusted User. Once you reach New User, you can upload avatars and worlds. It's also used in Safety settings to decide whose avatars and shaders you show."
+          },
           "tips": [["upload", "need"]],
           "see": ["safety", "vrc-plus"]
         },
@@ -94,6 +143,12 @@
           "yomi": ["ぶいあーるちゃっとぷらす", "ぶいあーるしーぷらす"],
           "short": "VRChat の月額の有料プラン。",
           "body": "入ると、名前の横のバッジ、好きな画像のプロフィール、アバターのお気に入りの枠が増えるなどの特典があります。遊ぶだけなら、入らなくても困りません。",
+          "en": {
+            "term": "VRChat+ (VRC+)",
+            "match": ["VRChat+", "VRChat Plus", "VRC+"],
+            "short": "VRChat's paid monthly subscription.",
+            "body": "It comes with perks such as a badge next to your name, a custom profile picture, and more avatar favorite slots. You don't need it just to play."
+          },
           "tips": [],
           "see": ["trust-rank"]
         },
@@ -104,6 +159,12 @@
           "yomi": ["ですくとっぷもーど", "ですくとっぷぜい"],
           "short": "VR ゴーグルを使わず、パソコンの画面とキーボード・マウスで遊ぶこと。",
           "body": "VR より手軽に始められます。デスクトップで遊ぶ人を「デスクトップ勢」と言うこともあります。手の形を作れないので、ハンドサインで動かすギミックは、VR のときと同じようには使えません。メニューからも動かせるようにしておくと、だれでも使えます。",
+          "en": {
+            "term": "Desktop mode",
+            "match": ["Desktop mode", "desktop mode"],
+            "short": "Playing on a PC screen with keyboard and mouse, without a VR headset.",
+            "body": "It's an easier way to start than VR. You can't make hand shapes, so gimmicks driven by hand signs don't work the same way as in VR. If you also let them run from the menu, everyone can use them."
+          },
           "tips": [["gesture", "lock"]],
           "see": ["hand-sign", "expressions-menu", "fulltrack"]
         },
@@ -114,6 +175,12 @@
           "yomi": ["ふるとら", "ふるとらっきんぐ"],
           "short": "腰や足にもトラッカーを付けて、体全体の動きをアバターに映すこと。",
           "body": "VR ゴーグルとコントローラーだけだと、頭と両手の動きしか取れず、腰や足の動きは推し量って動かします。腰と両足にトラッカー（VIVE トラッカーや、体に付けるセンサーなど）を足すと、座る、足を組む、寝転ぶといった動きも、そのまま映せます。アバターの Humanoid の設定が正しいことが前提です。",
+          "en": {
+            "term": "Full-body tracking (FBT)",
+            "match": ["full-body tracking", "Full-body tracking", "FBT"],
+            "short": "Wearing trackers on your hips and feet so your whole body's movement shows on your avatar.",
+            "body": "With only a headset and controllers, VRChat tracks your head and hands, and guesses how your hips and legs move. Adding trackers to your hips and both feet (VIVE Trackers, body-worn sensors, and so on) lets sitting, crossing your legs, or lying down show up as they are. Your avatar's Humanoid setup needs to be correct."
+          },
           "tips": [],
           "see": ["humanoid", "desktop"]
         },
@@ -124,6 +191,12 @@
           "yomi": ["みらー", "みらーまえ=ミラー前"],
           "short": "ワールドに置かれた鏡。自分のアバターの見た目や動きを確かめられる。",
           "body": "ミラーには、自分とほかの人のアバターが映ります。ミラーの前に集まって話すことも多く、「ミラー前」とも言います。ミラーは描画が重いので、高画質（HQ）と低画質（LQ）を切り替えられるワールドが多くあります。",
+          "en": {
+            "term": "Mirror",
+            "match": ["mirrors", "mirror"],
+            "short": "A mirror placed in a world, where you can check how your avatar looks and moves.",
+            "body": "Mirrors show you and other people's avatars. People often gather in front of a mirror to chat, which Japanese players call \"mirror-mae\" (in front of the mirror). Mirrors are heavy to draw, so many worlds let you switch between high quality (HQ) and low quality (LQ)."
+          },
           "tips": [],
           "see": ["world"]
         },
@@ -134,6 +207,12 @@
           "yomi": ["ぽーたる"],
           "short": "くぐると、ほかのワールドやインスタンスへ移れる入り口。",
           "body": "メニューでワールドを選んで「Drop Portal」を押すと、目の前にポータルを置けます。近くの人も一緒にくぐれます。置いたポータルは、しばらくすると消えます。",
+          "en": {
+            "term": "Portal",
+            "match": ["portals", "portal", "Portal"],
+            "short": "A doorway you walk through to move to another world or instance.",
+            "body": "Choose a world in the menu and press \"Drop Portal\" to place a portal in front of you. People nearby can go through it with you. A portal disappears after a while."
+          },
           "tips": [],
           "see": ["world", "instance"]
         },
@@ -144,6 +223,12 @@
           "yomi": ["ぶろっく=ブロック", "みゅーと=ミュート"],
           "short": "相手の声だけを止めるのがミュート。相手とお互いに見えなくなるのがブロック。",
           "body": "ミュートは、相手の声だけを聞こえなくします。ブロックすると、相手のアバターも声も届かなくなり、相手からも自分が見えなくなります。困ったときは、ためらわずに使ってよい機能です。",
+          "en": {
+            "term": "Block and mute",
+            "match": ["Block", "Mute"],
+            "short": "Mute silences someone's voice. Block makes you and them invisible to each other.",
+            "body": "Mute stops you from hearing that person's voice. Block stops both their avatar and voice from reaching you, and they can't see you either. They're features you should feel free to use whenever something bothers you."
+          },
           "tips": [],
           "see": ["safety", "vision-jack"]
         },
@@ -154,6 +239,12 @@
           "yomi": ["しかいじゃっく"],
           "short": "シェーダーで、ほかの人の画面いっぱいに色や絵を重ねるギミック。迷惑行為とされることが多い。",
           "body": "画面全体を覆うシェーダーを使うと、近くにいる人の視界を暗くしたり、色を変えたり、絵で埋めたりできます。イベントの演出で使われることもありますが、知らない人に無断で使うと迷惑行為になり、通報されることもあります。見せられる側は、Safety でその人のシェーダーを止めるか、ブロックすると防げます。",
+          "en": {
+            "term": "Vision jacking (shikai jack)",
+            "match": ["vision jacking", "Vision jacking"],
+            "short": "A gimmick that uses a shader to cover other people's whole screen with color or images. Usually seen as harassment.",
+            "body": "A shader that covers the whole screen can darken, recolor, or fill the view of people nearby. It's sometimes used as an effect at events, but using it on strangers without permission is harassment and can get you reported. If it happens to you, turning off that person's shaders in Safety, or blocking them, stops it."
+          },
           "tips": [],
           "see": ["shader", "safety", "block-mute"]
         },
@@ -164,6 +255,12 @@
           "yomi": ["むごんぜい=無言勢", "むごん=無言"],
           "short": "マイクを使わず、身ぶりやハンドサインで話す人。",
           "body": "声を出しにくい場所で遊んでいる、声を出したくない、などの理由で、話さずに遊ぶ人もいます。うなずく、手を振る、ハンドサイン、表情のギミック、頭の上に文字を出すチャットボックスなどで気持ちを伝えます。話しかけて返事が無くても、無言勢のことがあります。",
+          "en": {
+            "term": "Mute players (mugon-zei)",
+            "match": ["mute players", "Mute players"],
+            "short": "People who don't use a mic and talk with gestures and hand signs instead.",
+            "body": "Some people play without talking, because they're somewhere they can't speak up, they'd rather not use their voice, and so on. They get their feelings across by nodding, waving, hand signs, expression gimmicks, or the chatbox that shows text over their head. If someone doesn't answer when you talk to them, they may be a mute player."
+          },
           "tips": [],
           "see": ["hand-sign", "voice-changer"]
         },
@@ -174,6 +271,12 @@
           "yomi": ["ぼいちぇん", "ぼいすちぇんじゃー"],
           "short": "自分の声を、別の高さや声の質に変えて話すための道具。",
           "body": "アバターの見た目に合わせて声を変えたい人が使います。パソコンのソフトで変えるものと、機材で変えるものがあります。地声のまま話す人も多く、使うかどうかは自由です。",
+          "en": {
+            "term": "Voice changer",
+            "match": ["voice changers", "voice changer"],
+            "short": "A tool that changes your voice to a different pitch or quality when you talk.",
+            "body": "People use one to match their voice to their avatar's look. There are software voice changers and hardware ones. Plenty of people talk in their own voice, and it's entirely up to you."
+          },
           "tips": [],
           "see": ["mugon"]
         },
@@ -184,6 +287,12 @@
           "yomi": ["なでなで"],
           "short": "相手のアバターの頭を手でなでること。親しみを伝えるあいさつ。",
           "body": "頭に手が近づくと、耳が動いたり、表情が変わったり、音が鳴ったりするギミック（Contact を使う）を入れている人もいます。急になでられるのが苦手な人もいるので、相手の様子を見てからにします。",
+          "en": {
+            "term": "Headpats (nadenade)",
+            "match": ["headpats", "headpat", "Headpats"],
+            "short": "Patting someone's avatar on the head with your hand. A friendly greeting.",
+            "body": "Some people add gimmicks (using Contacts) that move the ears, change the expression, or play a sound when a hand comes near the head. Some people don't like sudden headpats, so read the mood first."
+          },
           "tips": [["contact", "example"]],
           "see": ["contact"]
         },
@@ -194,6 +303,12 @@
           "yomi": ["おさとう=お砂糖", "おしお=お塩"],
           "short": "VRChat の中での、恋人どうしの関係のこと。",
           "body": "「お砂糖になる」「お砂糖さん（恋人の相手）」のように使います。現実では会ったことがなく、VRChat の中だけの関係のことも多いです。関係が終わることは「お塩」と言います。",
+          "en": {
+            "term": "Osato (\"sugar\")",
+            "match": ["osato", "Osato"],
+            "short": "A romantic relationship between two people inside VRChat.",
+            "body": "Japanese players say things like \"we became <i lang=\"ja-Latn\">osato</i>\" or call their partner their \"<i lang=\"ja-Latn\">osato-san</i>\". Often the two have never met in real life, and the relationship exists only in VRChat. When it ends, that's called <i lang=\"ja-Latn\">oshio</i> (\"salt\")."
+          },
           "tips": [],
           "see": ["friend"]
         },
@@ -204,6 +319,12 @@
           "yomi": ["ぶいあーるすいみん", "すいみん=睡眠", "ねおち=寝落ち"],
           "short": "VR ゴーグルを付けたまま、VRChat の中で眠ること。",
           "body": "ワールドの中で横になり、フレンドと一緒に眠る遊び方です。寝るための、暗くて静かなワールドもたくさんあります。フルトラが無くても、ワールドのベッド（座ると寝転ぶ姿勢になるもの）などで横になれます。",
+          "en": {
+            "term": "VR sleeping",
+            "match": ["VR sleeping", "VR sleep"],
+            "short": "Falling asleep in VRChat with your headset still on.",
+            "body": "A way to play where you lie down in a world and sleep alongside friends. There are many dark, quiet worlds made for sleeping. Even without full-body tracking, you can lie down using things like a world's beds (seats that put you in a lying pose)."
+          },
           "tips": [],
           "see": ["world", "fulltrack"]
         },
@@ -214,6 +335,12 @@
           "yomi": ["しゅうかい=集会", "いべんと=イベント"],
           "short": "決まった日時に、決まったワールドに集まる会。",
           "body": "同じ趣味の人の集まり、技術の話をする会、ダンスや演奏の会など、いろいろな集会があります。有志が作るイベントカレンダーや、X（旧 Twitter）などで告知されることが多いです。",
+          "en": {
+            "term": "Meetups (shukai)",
+            "match": ["meetups", "meetup"],
+            "short": "A gathering held in a set world at a set time.",
+            "body": "There are all kinds: meetups for people who share a hobby, tech talks, dance or music nights, and more. They're often announced on community-made event calendars or on X (formerly Twitter)."
+          },
           "tips": [],
           "see": ["world", "instance"]
         },
@@ -224,6 +351,12 @@
           "yomi": ["しょしんしゃあんない=初心者案内", "あんない=案内"],
           "short": "VRChat を始めたばかりの人に、操作や遊び方、行くとよいワールドを教えること。",
           "body": "メニューの使い方、フレンドの作り方、Safety の設定、行くとよいワールドなどを、一緒に回りながら教えます。案内してもらえる集会もあります。始めたばかりの人は、このサイトの「<a href=\"/start/\">はじめてのVRChat</a>」も参考にしてください。",
+          "en": {
+            "term": "Beginner guiding",
+            "match": ["beginner guiding", "Beginner guiding", "beginner guide", "beginner guides"],
+            "short": "Showing someone new to VRChat the controls, how to play, and good worlds to visit.",
+            "body": "A guide goes around with the newcomer and shows them how to use the menu, how to make friends, Safety settings, worlds worth visiting, and so on. There are also meetups where you can get a guided tour. If you've just started, see this site's <a href=\"/en/start/\">Getting Started with VRChat</a> too."
+          },
           "tips": [],
           "see": ["safety", "friend", "shukai"]
         }
@@ -233,6 +366,7 @@
       "id": "tools",
       "title": "ソフトとツール",
       "lead": "アバターを改変してアップロードするまでに使う、ソフトやツールの名前です。",
+      "en": { "title": "Software and tools", "lead": "The software and tools you use to edit an avatar and upload it." },
       "terms": [
         {
           "id": "vcc",
@@ -241,6 +375,12 @@
           "yomi": ["ぶいしーしー", "くりえいたーこんぱにおん"],
           "short": "VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。",
           "body": "VCC でプロジェクトを作ると、VRChat SDK が入った Unity のプロジェクトができます。Modular Avatar などのツールも、配っている人のリポジトリを VCC に足してから、プロジェクトに入れます。Mac や Linux では使えないので、ALCOM を使います。",
+          "en": {
+            "term": "VCC (VRChat Creator Companion)",
+            "match": ["VRChat Creator Companion", "Creator Companion", "VCC"],
+            "short": "VRChat's official app for creating projects and adding tools and shaders to them (Windows only).",
+            "body": "Creating a project in VCC gives you a Unity project with the VRChat SDK installed. For tools like Modular Avatar, you add the distributor's repository to VCC, then add the tool to your project. It doesn't run on Mac or Linux, so use ALCOM there."
+          },
           "tips": [["setup", "vcc"], ["setup", "packages"]],
           "see": ["alcom", "unity-hub", "vrchat-sdk"]
         },
@@ -251,6 +391,12 @@
           "yomi": ["あるこむ"],
           "short": "VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。",
           "body": "プロジェクトを作る、ツールやシェーダーを入れる、といった VCC と同じ使い方ができます。VCC と違い、Mac や Linux でも使えます。",
+          "en": {
+            "term": "ALCOM",
+            "match": ["ALCOM"],
+            "short": "A community-made app that does what VCC does, and runs on Windows, Mac, and Linux.",
+            "body": "You can use it the same way as VCC: create projects, add tools and shaders. Unlike VCC, it also works on Mac and Linux."
+          },
           "tips": [["setup", "choose"], ["setup", "alcom"]],
           "see": ["vcc", "unity-hub"]
         },
@@ -261,6 +407,12 @@
           "yomi": ["ゆにてぃはぶ"],
           "short": "Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。",
           "body": "VRChat は決まったバージョンの Unity（2026年11月時点で 2022.3.22f1）を使います。そのバージョンを Unity Hub で入れておき、新しいバージョンには上げません。",
+          "en": {
+            "term": "Unity Hub",
+            "match": ["Unity Hub"],
+            "short": "Unity's official app for installing Unity and opening projects.",
+            "body": "VRChat uses a specific version of Unity (2022.3.22f1 as of November 2026). Install that version through Unity Hub, and don't upgrade to newer ones."
+          },
           "tips": [["setup", "hub"]],
           "see": ["vcc", "alcom", "project"]
         },
@@ -271,6 +423,12 @@
           "yomi": ["ぶいあーるちゃっとえすでぃーけー", "えすでぃーけー"],
           "short": "Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。",
           "body": "VRChat SDK が入ったプロジェクトでは、Unity の上のメニューに「VRChat SDK」が出て、Builder でアップロードしたり、Content Manager でアップロードしたアバターを見たりできます。VCC か ALCOM でプロジェクトを作ると、はじめから入っています。",
+          "en": {
+            "term": "VRChat SDK",
+            "match": ["VRChat SDK", "SDK"],
+            "short": "VRChat's official toolkit, used inside Unity, for making and uploading avatars.",
+            "body": "In a project with the VRChat SDK, a \"VRChat SDK\" menu appears at the top of Unity. From there you upload with the Builder and check your uploaded avatars in the Content Manager. Projects created with VCC or ALCOM have it from the start."
+          },
           "tips": [["setup", "parts"], ["upload", "login"]],
           "see": ["builder", "content-manager", "vcc"]
         },
@@ -281,6 +439,12 @@
           "yomi": ["あばたーず"],
           "short": "いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。",
           "body": "VRChat SDK に入っている、アバターを作るためのしくみの名前です。いま VRChat でアップロードするアバターは、すべてこのしくみで動きます。",
+          "en": {
+            "term": "Avatars 3.0",
+            "match": ["Avatars 3.0"],
+            "short": "VRChat's current avatar system. Gimmicks are built with the Animator, Expression Parameters, and the Expressions Menu.",
+            "body": "The name of the system for building avatars that comes with the VRChat SDK. Every avatar uploaded to VRChat today runs on it."
+          },
           "tips": [["animator-basics", "picture"]],
           "see": ["animator", "expression-parameters", "expressions-menu"]
         },
@@ -291,6 +455,12 @@
           "yomi": ["びるといんれんだーぱいぷらいん"],
           "short": "Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。",
           "body": "Unity には描き方のしくみ（Render Pipeline）がいくつかあり、VRChat は Built-in Render Pipeline を使います。URP や HDRP 向けに作られたシェーダーは、VRChat のアバターでは使えません。",
+          "en": {
+            "term": "Built-in Render Pipeline",
+            "match": ["Built-in Render Pipeline"],
+            "short": "One of Unity's rendering systems. VRChat avatars are drawn with it.",
+            "body": "Unity has several rendering systems (render pipelines), and VRChat uses the Built-in Render Pipeline. Shaders made for URP or HDRP can't be used on VRChat avatars."
+          },
           "tips": [["setup", "parts"]],
           "see": ["shader", "render-queue"]
         },
@@ -301,6 +471,12 @@
           "yomi": ["もじゅらーあばたー"],
           "short": "衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。",
           "body": "衣装やギミックに MA のコンポーネントを付けておくと、再生やアップロードのときに、その指示どおりに自動で組み込みます。元のアバターのファイルは書き換えないので、外したいときは消すだけで戻ります。",
+          "en": {
+            "term": "Modular Avatar (MA)",
+            "match": ["Modular Avatar", "MA"],
+            "short": "A tool that builds outfits and gimmicks into an avatar without rewriting the original files.",
+            "body": "Put MA components on an outfit or gimmick, and when you press Play or upload, MA builds them in automatically, following those components. It doesn't rewrite the original avatar's files, so to take something off, you just delete it."
+          },
           "tips": [["outfit", "why"], ["outfit", "install"], ["toggle", "connect"]],
           "see": ["merge-armature", "merge-animator", "menu-installer"]
         },
@@ -311,6 +487,12 @@
           "yomi": ["あばたーおぷてぃまいざー"],
           "short": "見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。",
           "body": "アバターの一番上に AAO Trace And Optimize を付けると、使っていない部品を消したり、メッシュをまとめたりして、パフォーマンスランクを上げやすくします。元のデータは書き換えません。",
+          "en": {
+            "term": "AAO (Avatar Optimizer)",
+            "match": ["AAO: Avatar Optimizer", "Avatar Optimizer", "AAO"],
+            "short": "A tool that automatically makes an avatar lighter at upload time without changing how it looks.",
+            "body": "Add AAO Trace And Optimize to the top of the avatar, and it removes unused parts, merges meshes, and so on, making it easier to raise your Performance Rank. It doesn't rewrite the original data."
+          },
           "tips": [["performance", "aao"]],
           "see": ["performance-rank", "modular-avatar"]
         },
@@ -321,6 +503,12 @@
           "yomi": ["じぇすちゃーまねーじゃー"],
           "short": "Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。",
           "body": "シーンに置いて再生すると、Expressions Menu を開いたり、ハンドサインを選んだりできます。パラメーターの値も見えるので、ギミックが動かないときに、どこで止まっているかを探せます。",
+          "en": {
+            "term": "Gesture Manager",
+            "match": ["Gesture Manager", "GestureManager"],
+            "short": "A tool for trying menus and hand signs in Unity's Play mode, just like in VRChat.",
+            "body": "Place it in the scene and press Play, and you can open the Expressions Menu and choose hand signs. It also shows parameter values, so when a gimmick doesn't work, you can find where it's getting stuck."
+          },
           "tips": [["toggle", "test"], ["gimmick-debug", "tools"]],
           "see": ["expressions-menu", "parameter", "hand-sign"]
         },
@@ -331,6 +519,12 @@
           "yomi": ["りるとぅーん"],
           "short": "日本のアバターや衣装でよく使われる、アニメ調のシェーダー。",
           "body": "多くのアバターや衣装は、lilToon を使う前提で作られています。プロジェクトに入っていないと、マテリアルがピンク一色になるので、アバターより先に入れておきます。",
+          "en": {
+            "term": "lilToon",
+            "match": ["lilToon"],
+            "short": "An anime-style shader widely used for Japanese avatars and outfits.",
+            "body": "Many avatars and outfits are made assuming lilToon. If it isn't in your project, materials turn solid pink, so install it before the avatar."
+          },
           "tips": [["upload", "import"], ["quest", "shaders"]],
           "see": ["shader", "material"]
         },
@@ -341,6 +535,12 @@
           "yomi": ["ゆにてぃぱっけーじ"],
           "short": "Unity のファイルをまとめて配るための形式（拡張子 .unitypackage）。",
           "body": "BOOTH などで買ったアバターや衣装は、この形で配られることが多いです。プロジェクトを開いたまま、Project ウィンドウへドラッグすると取り込めます。",
+          "en": {
+            "term": "unitypackage",
+            "match": [".unitypackage", "unitypackage"],
+            "short": "A format for bundling and sharing Unity files (file extension .unitypackage).",
+            "body": "Avatars and outfits bought on BOOTH and elsewhere often come in this format. With your project open, drag it into the Project window to import it."
+          },
           "tips": [["upload", "import"]],
           "see": ["project-window", "booth"]
         },
@@ -351,6 +551,12 @@
           "yomi": ["ぶーす"],
           "short": "pixiv が運営する通販サイト。アバター・衣装・ギミックの多くがここで売られている。",
           "body": "買う前に、販売ページで対応しているアバター、使うシェーダー、Quest 版があるか、使ってよい範囲（利用規約）を確かめます。",
+          "en": {
+            "term": "BOOTH",
+            "match": ["BOOTH"],
+            "short": "An online marketplace run by pixiv, where many avatars, outfits, and gimmicks are sold.",
+            "body": "Before buying, check the store page for the supported avatars, the shader it uses, whether there's a Quest version, and what you're allowed to do with it (the terms of use)."
+          },
           "tips": [["outfit", "before"], ["quest", "first"]],
           "see": ["unitypackage"]
         }
@@ -360,6 +566,7 @@
       "id": "unity",
       "title": "Unity の画面と部品",
       "lead": "Unity の画面の名前と、シーンに置く物のしくみです。",
+      "en": { "title": "Unity windows and parts", "lead": "The names of Unity's windows, and how the things you place in a scene work." },
       "terms": [
         {
           "id": "project",
@@ -368,6 +575,12 @@
           "yomi": ["ぷろじぇくと"],
           "short": "Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。",
           "body": "VCC や ALCOM で作り、Unity で開きます。アバターごとにプロジェクトを分けてもかまいません。こわれたときに戻せるよう、ときどきフォルダごと書き出しておきます。",
+          "en": {
+            "term": "Project",
+            "match": ["projects", "project"],
+            "short": "The unit you work in with Unity. One folder holds the avatar's and tools' files.",
+            "body": "You create it with VCC or ALCOM and open it in Unity. It's fine to use a separate project for each avatar. Back up the whole folder from time to time so you can go back if something breaks."
+          },
           "tips": [["setup", "project"]],
           "see": ["vcc", "project-window"]
         },
@@ -378,6 +591,12 @@
           "yomi": ["ひえらるきー"],
           "short": "シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。",
           "body": "アバターを置くと、アバターの一番上の物の下に、体や服、Armature などが並びます。ドラッグで親子を変えられます。",
+          "en": {
+            "term": "Hierarchy",
+            "match": ["Hierarchy"],
+            "short": "The Unity window that lists the things placed in the scene (objects) as parents and children.",
+            "body": "When you place an avatar, its body, clothes, Armature, and so on line up under the avatar's top object. Drag items to change which is the parent and which is the child."
+          },
           "tips": [["upload", "place"]],
           "see": ["gameobject", "inspector", "scene"]
         },
@@ -388,6 +607,12 @@
           "yomi": ["ぷろじぇくとういんどう"],
           "short": "プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。",
           "body": "右クリックの Create から、フォルダやアニメーションクリップ、Animator Controller を作れます。Hierarchy が「シーンに置いた物」なのに対して、こちらは「ファイル」です。",
+          "en": {
+            "term": "Project window",
+            "match": ["Project window"],
+            "short": "The Unity window that lists the files in your project (clips, materials, prefabs, and so on).",
+            "body": "Use Create in its right-click menu to make folders, animation clips, and Animator Controllers. The Hierarchy shows things placed in the scene; the Project window shows files."
+          },
           "tips": [["toggle", "controller"]],
           "see": ["hierarchy", "prefab"]
         },
@@ -398,6 +623,12 @@
           "yomi": ["いんすぺくたー"],
           "short": "選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。",
           "body": "Hierarchy や Project で何かを選ぶと、その設定がここに出ます。付いているコンポーネントの追加や設定も、ここで行います。",
+          "en": {
+            "term": "Inspector",
+            "match": ["Inspector"],
+            "short": "The Unity window that shows the contents and settings of the selected object or file.",
+            "body": "Select something in the Hierarchy or the Project window, and its settings appear here. You also add and set up components here."
+          },
           "tips": [["upload", "place"]],
           "see": ["component", "hierarchy"]
         },
@@ -408,6 +639,12 @@
           "yomi": ["しーん"],
           "short": "オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。",
           "body": "Scene ビューでは、置いた物を見ながら動かせます。プロジェクトの中に、シーンのファイルをいくつも作れます。",
+          "en": {
+            "term": "Scene",
+            "match": ["scenes", "scene", "Scene"],
+            "short": "The place where you put objects and work on them. Avatars are placed in a scene before uploading.",
+            "body": "The Scene view lets you move things while you look at them. A project can contain many scene files."
+          },
           "tips": [["upload", "place"]],
           "see": ["hierarchy", "prefab"]
         },
@@ -418,6 +655,12 @@
           "yomi": ["おぶじぇくと", "げーむおぶじぇくと"],
           "short": "Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。",
           "body": "体のメッシュ、服、ボーン、ギミック用の空の物も、すべてオブジェクトです。名前の左のチェック（Is Active）で、出したり消したりできます。",
+          "en": {
+            "term": "Object (GameObject)",
+            "match": ["GameObjects", "GameObject", "objects", "object"],
+            "short": "Each item listed in the Hierarchy. You give it a role by adding components.",
+            "body": "Body meshes, clothes, bones, and empty objects for gimmicks are all objects. The checkbox left of the name (Is Active) shows or hides it."
+          },
           "tips": [["toggle", "plan"]],
           "see": ["component", "is-active", "hierarchy"]
         },
@@ -428,6 +671,12 @@
           "yomi": ["いずあくてぃぶ"],
           "short": "オブジェクトを出すか消すかの設定。Inspector の名前の左のチェック。",
           "body": "チェックを外すと、オブジェクトは見えなくなり、付いているコンポーネントも動きません。アニメーションクリップでオンオフするときは、この値を 1（出す）と 0（消す）で書きます。",
+          "en": {
+            "term": "Is Active",
+            "match": ["Is Active"],
+            "short": "Whether an object is shown or hidden. The checkbox left of the name in the Inspector.",
+            "body": "Uncheck it, and the object disappears and its components stop working. When you toggle something with an animation clip, you write this value as 1 (show) or 0 (hide)."
+          },
           "tips": [["toggle", "clips"], ["animation-clip", "can"]],
           "see": ["gameobject", "clip"]
         },
@@ -438,6 +687,12 @@
           "yomi": ["こんぽーねんと"],
           "short": "オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。",
           "body": "Inspector の「Add Component」から足します。Skinned Mesh Renderer、PhysBone、VRC Avatar Descriptor、Modular Avatar の部品も、すべてコンポーネントです。",
+          "en": {
+            "term": "Component",
+            "match": ["components", "component"],
+            "short": "A part you attach to an object. It decides what's drawn, how it moves, and other roles.",
+            "body": "Add them with \"Add Component\" in the Inspector. Skinned Mesh Renderer, PhysBone, VRC Avatar Descriptor, and Modular Avatar's parts are all components."
+          },
           "tips": [["outfit", "merge"]],
           "see": ["gameobject", "inspector"]
         },
@@ -448,6 +703,12 @@
           "yomi": ["ぷれはぶ"],
           "short": "オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。",
           "body": "Project では青い箱のアイコンで表示されます。アバターや衣装はプレハブの形で配られることが多く、シーンや衣装を着せたいアバターの中にドラッグして使います。",
+          "en": {
+            "term": "Prefab",
+            "match": ["prefabs", "prefab", "Prefab"],
+            "short": "An object saved as a single file, contents and all. You drag it into a scene to use it.",
+            "body": "In the Project window it shows up with a blue box icon. Avatars and outfits are often distributed as prefabs: you drag them into the scene, or into the avatar you want to dress."
+          },
           "tips": [["upload", "place"], ["outfit", "steps"]],
           "see": ["scene", "project-window"]
         }
@@ -457,6 +718,7 @@
       "id": "body",
       "title": "アバターの体と見た目",
       "lead": "アバターの形・骨・色を作っている部品です。",
+      "en": { "title": "The avatar's body and looks", "lead": "The parts that make up an avatar's shape, bones, and colors." },
       "terms": [
         {
           "id": "avatar-descriptor",
@@ -465,6 +727,12 @@
           "yomi": ["あばたーでぃすくりぷたー"],
           "short": "アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。",
           "body": "視点の位置、話したときの口の動き、Playable Layers に入れるコントローラー、Expressions Menu と Expression Parameters を、ここで決めます。これが付いている物が、1体のアバターとして扱われます。",
+          "en": {
+            "term": "VRC Avatar Descriptor",
+            "match": ["VRC Avatar Descriptor", "Avatar Descriptor"],
+            "short": "The component on the top of an avatar that holds its VRChat settings.",
+            "body": "Here you set the view position, mouth movement when talking, the controllers in the Playable Layers, and the Expressions Menu and Expression Parameters. The object with this component is treated as one avatar."
+          },
           "tips": [["animator-basics", "layers"], ["upload", "place"]],
           "see": ["playable-layers", "expressions-menu", "expression-parameters"]
         },
@@ -475,6 +743,12 @@
           "yomi": ["ひゅーまのいど"],
           "short": "人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。",
           "body": "腕・脚・頭・指などの骨は Humanoid として扱われ、VRChat が動かします。そのため、FX のアニメーションクリップでは、これらの骨は動かせません。",
+          "en": {
+            "term": "Humanoid",
+            "match": ["Humanoid"],
+            "short": "A fixed layout of human-shaped bones. VRChat uses it to map body movement onto the avatar.",
+            "body": "Bones such as the arms, legs, head, and fingers are treated as Humanoid, and VRChat moves them. That's why animation clips in FX can't move those bones."
+          },
           "tips": [["animator-basics", "layers"], ["animation-clip", "can"]],
           "see": ["armature", "bone", "fx"]
         },
@@ -485,6 +759,12 @@
           "yomi": ["あーまちゅあ"],
           "short": "アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。",
           "body": "衣装にも、同じ名前の骨が並んだ Armature があります。Modular Avatar の Merge Armature は、衣装の骨をアバターの骨にまとめて、服が体に沿って動くようにします。",
+          "en": {
+            "term": "Armature",
+            "match": ["Armature"],
+            "short": "The object that holds the avatar's bones. Bones line up as parents and children below Hips.",
+            "body": "Outfits have their own Armature with bones of the same names. Modular Avatar's Merge Armature merges the outfit's bones into the avatar's, so the clothes move with the body."
+          },
           "tips": [["outfit", "merge"]],
           "see": ["bone", "merge-armature", "humanoid"]
         },
@@ -495,6 +775,12 @@
           "yomi": ["ぼーん", "ほね=骨"],
           "short": "メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。",
           "body": "Armature の中に、親子の形で並んでいます。髪やスカートの骨は、PhysBone で揺らします。ボーンの数は、パフォーマンスランクの項目にもなっています。",
+          "en": {
+            "term": "Bone",
+            "match": ["bones", "bone"],
+            "short": "A bone that moves a mesh. When a bone moves, the mesh tied to it bends.",
+            "body": "Bones line up as parents and children inside the Armature. Hair and skirt bones are swayed with PhysBones. The number of bones is also one of the Performance Rank categories."
+          },
           "tips": [["outfit", "merge"], ["performance", "limits"]],
           "see": ["armature", "physbone", "smr"]
         },
@@ -505,6 +791,12 @@
           "yomi": ["めっしゅ"],
           "short": "三角形（ポリゴン）を組み合わせて作った、物の形のデータ。",
           "body": "体、髪、服などは、それぞれメッシュでできています。メッシュの数と三角形の数が多いほど、描くのが重くなります。",
+          "en": {
+            "term": "Mesh",
+            "match": ["meshes", "mesh"],
+            "short": "Shape data built from triangles (polygons).",
+            "body": "The body, hair, clothes, and so on are each made of meshes. The more meshes and triangles, the heavier it is to draw."
+          },
           "tips": [["performance", "light"]],
           "see": ["polygon", "smr", "material"]
         },
@@ -515,6 +807,12 @@
           "yomi": ["すきんめっしゅれんだらー", "すきんめっしゅ"],
           "short": "ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。",
           "body": "使うメッシュとマテリアル、BlendShape の値が、ここに並びます。表情や体型の調整をするときは、このコンポーネントの BlendShapes を開きます。",
+          "en": {
+            "term": "Skinned Mesh Renderer",
+            "match": ["Skinned Mesh Renderer"],
+            "short": "The component that draws a mesh that bends with bones. Bodies and clothes have one.",
+            "body": "It lists the mesh and materials used, and the BlendShape values. To adjust expressions or body shape, open BlendShapes on this component."
+          },
           "tips": [["gesture", "clips"], ["outfit", "shrink"]],
           "see": ["mesh", "blendshape", "material"]
         },
@@ -525,6 +823,12 @@
           "yomi": ["ぶれんどしぇいぷ", "しぇいぷきー"],
           "short": "メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。",
           "body": "笑顔、まばたき、口の形、胸の大きさなど、アバターごとに用意されています。アニメーションクリップで値を書くと、ハンドサインやメニューで表情を変えられます。",
+          "en": {
+            "term": "BlendShape (shape key)",
+            "match": ["BlendShapes", "BlendShape", "Blend Shape", "shape keys", "shape key"],
+            "short": "A setting that gradually changes a mesh's shape. Used for expressions and body shape. Values go from 0 to 100.",
+            "body": "Each avatar comes with its own: smile, blink, mouth shapes, chest size, and so on. Write their values in an animation clip and you can change expressions with hand signs or the menu."
+          },
           "tips": [["gesture", "clips"], ["outfit", "shrink"], ["unity-vs-vrchat", "causes"]],
           "see": ["smr", "clip", "hand-sign"]
         },
@@ -535,6 +839,12 @@
           "yomi": ["まてりある"],
           "short": "色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。",
           "body": "1つのメッシュに、いくつものマテリアルを使えます。マテリアルの数が多いほど描くのが重くなるので、パフォーマンスランクの項目にもなっています。",
+          "en": {
+            "term": "Material",
+            "match": ["materials", "material"],
+            "short": "Color and surface settings. It decides which shader and which textures to use.",
+            "body": "One mesh can use several materials. The more materials, the heavier it is to draw, so the material count is also a Performance Rank category."
+          },
           "tips": [["performance", "limits"], ["render-queue", "how"]],
           "see": ["shader", "texture", "render-queue"]
         },
@@ -545,6 +855,12 @@
           "yomi": ["しぇーだー"],
           "short": "光の当たり方や色の出し方を計算するプログラム。lilToon など。",
           "body": "マテリアルごとに、どのシェーダーを使うかを選びます。アバターが使うシェーダーがプロジェクトに入っていないと、ピンク一色で表示されます。Quest やスマホでは、VRChat/Mobile のシェーダーしか使えません。",
+          "en": {
+            "term": "Shader",
+            "match": ["shaders", "shader"],
+            "short": "A program that calculates how light hits a surface and what color comes out. lilToon, for example.",
+            "body": "Each material chooses a shader. If the shader an avatar uses isn't in the project, it shows up solid pink. Quest and phones can only use the VRChat/Mobile shaders."
+          },
           "tips": [["upload", "import"], ["quest", "shaders"]],
           "see": ["material", "liltoon", "quest"]
         },
@@ -555,6 +871,12 @@
           "yomi": ["てくすちゃ"],
           "short": "メッシュに貼る画像。肌や服の模様、色などを描いている。",
           "body": "マテリアルが、どのテクスチャをどう使うかを決めます。大きな画像が多いと、テクスチャのメモリが増えて、パフォーマンスランクが下がります。",
+          "en": {
+            "term": "Texture",
+            "match": ["textures", "texture"],
+            "short": "An image wrapped onto a mesh. It paints skin, clothing patterns, colors, and so on.",
+            "body": "The material decides which textures to use and how. Lots of large images increase texture memory and lower your Performance Rank."
+          },
           "tips": [["performance", "limits"]],
           "see": ["material", "atlas"]
         },
@@ -565,6 +887,12 @@
           "yomi": ["ぽりごん"],
           "short": "メッシュを作っている三角形。数が多いほど細かいが、重くなる。",
           "body": "パフォーマンスランクでは、三角形の数（Triangles）で数えます。使わない服や小物を消すと減ります。",
+          "en": {
+            "term": "Polygon",
+            "match": ["polygons", "polygon"],
+            "short": "The triangles that make up a mesh. More means finer detail, but heavier.",
+            "body": "Performance Rank counts them as triangles (Triangles). Removing clothes and accessories you don't use reduces them."
+          },
           "tips": [["performance", "limits"]],
           "see": ["mesh", "performance-rank"]
         },
@@ -575,6 +903,12 @@
           "yomi": ["ふぃずぼーん", "ゆれもの=揺れもの", "ゆれもの=揺れ物"],
           "short": "髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。",
           "body": "骨に付けると、体の動きに合わせて揺れます。つかまれたか、どれだけ曲がったかをパラメーターで受け取れるので、ギミックにも使えます。数が多いと重くなり、パフォーマンスランクの項目にもなっています。",
+          "en": {
+            "term": "PhysBone",
+            "match": ["VRC Phys Bone", "PhysBones", "PhysBone"],
+            "short": "VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.",
+            "body": "Attach one to a bone and it sways as the body moves. It can report through parameters whether it's grabbed and how far it's bent, so you can use it in gimmicks too. Many of them get heavy, and they're a Performance Rank category."
+          },
           "tips": [["contact", "physbone"], ["performance", "limits"]],
           "see": ["bone", "contact"]
         },
@@ -585,6 +919,12 @@
           "yomi": ["ばうんず"],
           "short": "メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。",
           "body": "半透明の物を描く順番は、カメラからこの箱の中心までの距離で決まります。箱が大きすぎると、パフォーマンスランクの「大きさ」の項目が悪くなります。",
+          "en": {
+            "term": "Bounds",
+            "match": ["Bounds"],
+            "short": "An invisible box that fits around a mesh. It's used for drawing order and for Performance Rank.",
+            "body": "The drawing order of transparent things is decided by the distance from the camera to the center of this box. If the box is too large, the \"size\" category of Performance Rank gets worse."
+          },
           "tips": [["render-queue", "sort"], ["performance", "limits"]],
           "see": ["render-queue", "transparent"]
         }
@@ -594,6 +934,7 @@
       "id": "animator",
       "title": "Animator とアニメーション",
       "lead": "ギミックを自分で組むときに使う、Animator まわりの言葉です。",
+      "en": { "title": "Animator and animation", "lead": "Animator terms you use when you build gimmicks yourself." },
       "terms": [
         {
           "id": "gimmick",
@@ -602,6 +943,12 @@
           "yomi": ["ぎみっく"],
           "short": "メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。",
           "body": "小物を出し入れする、表情を変える、色や大きさを変える、触れると反応する、などがあります。Animator・パラメーター・メニューを組み合わせて作ります。",
+          "en": {
+            "term": "Gimmick",
+            "match": ["gimmicks", "gimmick"],
+            "short": "A mechanism that switches an avatar's look or movement from the menu or with hand signs.",
+            "body": "Examples include showing and hiding accessories, changing expressions, changing color or size, and reacting to touch. You build them by combining the Animator, parameters, and the menu."
+          },
           "tips": [["animator-basics", "picture"], ["toggle", "plan"]],
           "see": ["animator", "parameter", "expressions-menu"]
         },
@@ -612,6 +959,12 @@
           "yomi": ["あにめーたー"],
           "short": "パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。",
           "body": "アバターの一番上に付いている Animator コンポーネントが、コントローラーの中身にしたがって動きます。Unity の Animator ウィンドウでは、レイヤー・ステート・トランジションを組み立てます。",
+          "en": {
+            "term": "Animator",
+            "match": ["Animator"],
+            "short": "The system that looks at parameters and decides which animation plays right now.",
+            "body": "The Animator component on the top of the avatar runs according to the contents of the controller. In Unity's Animator window, you build layers, states, and transitions."
+          },
           "tips": [["animator-basics", "words"], ["animator-basics", "controller"]],
           "see": ["controller", "layer", "state"]
         },
@@ -622,6 +975,12 @@
           "yomi": ["あにめーたーこんとろーらー", "こんとろーらー"],
           "short": "Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。",
           "body": "Project で右クリックして作ります。VRChat では、Playable Layers の枠（FX など）に入れて使います。自分で作ったものは、Modular Avatar の Merge Animator でアバターに足せます。",
+          "en": {
+            "term": "Animator Controller",
+            "match": ["Animator Controllers", "Animator Controller"],
+            "short": "A file holding the Animator's contents (layers, states, transitions, parameters). File extension .controller.",
+            "body": "Create one by right-clicking in the Project window. In VRChat you use it by putting it in a Playable Layers slot (such as FX). Ones you make yourself can be added to the avatar with Modular Avatar's Merge Animator."
+          },
           "tips": [["animator-basics", "controller"], ["toggle", "controller"]],
           "see": ["animator", "playable-layers", "merge-animator"]
         },
@@ -632,6 +991,12 @@
           "yomi": ["ぷれいあぶるれいやー"],
           "short": "VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。",
           "body": "VRC Avatar Descriptor で、枠ごとにコントローラーを入れます。見た目を変えるギミックは FX に入れます。コントローラーの中の「レイヤー」とは別のものです。",
+          "en": {
+            "term": "Playable Layers",
+            "match": ["Playable Layers"],
+            "short": "The slots VRChat provides on an avatar for controllers. There are FX, Gesture, Action, and others.",
+            "body": "You put a controller in each slot on the VRC Avatar Descriptor. Gimmicks that change the look go in FX. These are different from the layers inside a controller."
+          },
           "tips": [["animator-basics", "layers"]],
           "see": ["fx", "avatar-descriptor", "layer"]
         },
@@ -642,6 +1007,12 @@
           "yomi": ["えふえっくす"],
           "short": "Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。",
           "body": "ほとんどのギミックは FX で作ります。Humanoid の骨（腕や脚など）は、FX では動きません。",
+          "en": {
+            "term": "FX",
+            "match": ["FX"],
+            "short": "One of the Playable Layers. The slot for gimmicks that change the look, such as toggles, expressions, and colors.",
+            "body": "Most gimmicks are built in FX. Humanoid bones (arms, legs, and so on) don't move from FX."
+          },
           "tips": [["animator-basics", "layers"], ["animation-clip", "can"]],
           "see": ["playable-layers", "humanoid"]
         },
@@ -652,6 +1023,12 @@
           "yomi": ["れいやー"],
           "short": "コントローラーの中の段。ギミック1つにつき1つ作ることが多い。",
           "body": "レイヤーは上から順に動き、同じものを動かすときは、下のレイヤーが勝ちます。足したレイヤーは Weight を 1 にしないと効きません。",
+          "en": {
+            "term": "Layer",
+            "match": ["layers", "layer", "Layer"],
+            "short": "A tier inside a controller. You usually make one per gimmick.",
+            "body": "Layers run from top to bottom, and when two move the same thing, the lower layer wins. A layer you add won't take effect until you set its Weight to 1."
+          },
           "tips": [["animator-basics", "controller"], ["gesture", "layers"]],
           "see": ["weight", "state", "controller"]
         },
@@ -662,6 +1039,12 @@
           "yomi": ["うぇいと=Weight", "おもみ=重み"],
           "short": "レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。",
           "body": "レイヤーの右の歯車から変えます。0 のままだと、そのレイヤーは何も書かないので、ギミックが動きません。",
+          "en": {
+            "term": "Weight (layer weight)",
+            "match": ["Weight"],
+            "short": "How strongly a layer applies (0 to 1). Layers you add start at 0, so set it to 1.",
+            "body": "Change it from the gear on the right of the layer. If it stays at 0, that layer writes nothing and the gimmick doesn't work."
+          },
           "tips": [["toggle", "controller"], ["gimmick-debug", "checklist"]],
           "see": ["layer"]
         },
@@ -672,6 +1055,12 @@
           "yomi": ["すてーと"],
           "short": "「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。",
           "body": "Animator ウィンドウでは長方形で表示されます。オレンジ色のステートは、そのレイヤーで最初に入るステート（Layer Default State）です。",
+          "en": {
+            "term": "State",
+            "match": ["states", "state", "State"],
+            "short": "A box representing the current situation, such as \"the hat is showing\". One state holds one clip.",
+            "body": "In the Animator window it's shown as a rectangle. The orange state is the one the layer enters first (the Layer Default State)."
+          },
           "tips": [["animator-basics", "controller"], ["toggle", "controller"]],
           "see": ["transition", "clip", "any-state"]
         },
@@ -682,6 +1071,12 @@
           "yomi": ["えにーすてーと"],
           "short": "「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。",
           "body": "ステートが多いときに便利です。条件を満たしている間、同じステートに入り直し続けることがあるので、Can Transition To Self の設定に気をつけます。",
+          "en": {
+            "term": "Any State",
+            "match": ["Any State"],
+            "short": "A box meaning \"whichever state you're in\". Arrows from it move you from anywhere when the condition is met.",
+            "body": "Handy when you have many states. While the condition stays true, it can keep re-entering the same state, so watch the Can Transition To Self setting."
+          },
           "tips": [["animator-basics", "controller"], ["radial", "int"]],
           "see": ["state", "transition"]
         },
@@ -692,6 +1087,12 @@
           "yomi": ["とらんじしょん"],
           "short": "ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。",
           "body": "ステートを右クリックして「Make Transition」で引きます。オンオフのギミックでは、Has Exit Time を外し、Transition Duration を 0 にすることが多いです。",
+          "en": {
+            "term": "Transition",
+            "match": ["transitions", "transition", "Transition"],
+            "short": "An arrow from one state to another. When its conditions (Conditions) are met, you move along the arrow.",
+            "body": "Right-click a state and choose \"Make Transition\" to draw one. For on/off gimmicks you usually uncheck Has Exit Time and set Transition Duration to 0."
+          },
           "tips": [["toggle", "transitions"], ["animator-basics", "controller"]],
           "see": ["has-exit-time", "transition-duration", "state"]
         },
@@ -702,6 +1103,12 @@
           "yomi": ["はずえぐじっとたいむ"],
           "short": "トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。",
           "body": "メニューを押してもすぐに切り替わらないときは、ここにチェックが入っていないかを見ます。オンオフのギミックでは、ふつうは外します。",
+          "en": {
+            "term": "Has Exit Time",
+            "match": ["Has Exit Time"],
+            "short": "A transition setting. When checked, the current clip plays to a set time before moving on.",
+            "body": "If pressing the menu doesn't switch things right away, check whether this is ticked. For on/off gimmicks you normally uncheck it."
+          },
           "tips": [["toggle", "transitions"], ["animator-basics", "cases"]],
           "see": ["transition", "transition-duration"]
         },
@@ -712,6 +1119,12 @@
           "yomi": ["とらんじしょんでゅれーしょん"],
           "short": "トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。",
           "body": "0 にすると、すぐに切り替わります。表情などをなめらかに変えたいときは、少しだけ長くします。",
+          "en": {
+            "term": "Transition Duration",
+            "match": ["Transition Duration"],
+            "short": "A transition setting. How long to blend from the previous state into the next.",
+            "body": "Set it to 0 to switch instantly. Make it a little longer when you want expressions and the like to change smoothly."
+          },
           "tips": [["toggle", "transitions"], ["gesture", "transitions"]],
           "see": ["transition", "has-exit-time"]
         },
@@ -722,6 +1135,12 @@
           "yomi": ["ぱらめーたー"],
           "short": "Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。",
           "body": "Animator の Parameters タブで足します。VRChat のメニューから変えたり、ほかの人に送ったりするには、Expression Parameters（または MA Parameters）にも同じ名前と型で入れます。",
+          "en": {
+            "term": "Parameter",
+            "match": ["parameters", "parameter", "Parameter"],
+            "short": "A value the Animator looks at. It changes from the menu or hand signs, and is used in transition conditions and more.",
+            "body": "Add them in the Animator's Parameters tab. To change one from VRChat's menu or send it to other people, also add it to Expression Parameters (or MA Parameters) with the same name and type."
+          },
           "tips": [["animator-basics", "parameters"]],
           "see": ["param-types", "expression-parameters", "synced"]
         },
@@ -732,6 +1151,12 @@
           "yomi": ["ぶーる=Bool", "いんと=Int", "ふろーと=Float"],
           "short": "パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。",
           "body": "オンオフには Bool、いくつかから1つを選ぶには Int、少しずつ変えるには Float を使います。同期すると、Bool は 1 bit、Int と Float は 8 bit を使います。",
+          "en": {
+            "term": "Bool, Int, Float (parameter types)",
+            "match": ["Bool", "Int", "Float"],
+            "short": "Kinds of parameters. Bool is on or off, Int is a whole number (0 to 255), Float is a decimal.",
+            "body": "Use Bool for on/off, Int to pick one of several, and Float to change something gradually. When synced, a Bool uses 1 bit, and an Int or Float uses 8 bits."
+          },
           "tips": [["radial", "choose"]],
           "see": ["parameter", "synced", "radial-puppet"]
         },
@@ -742,6 +1167,12 @@
           "yomi": ["あにめーしょんくりっぷ", "くりっぷ"],
           "short": "どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。",
           "body": "Unity の Animation ウィンドウで、録画ボタンを押して値を変えると作れます。ステートに入れて使います。",
+          "en": {
+            "term": "Animation clip (clip)",
+            "match": ["animation clips", "animation clip", "Animation Clip", "clips", "clip"],
+            "short": "A file that says which property of which object to set to which value. File extension .anim.",
+            "body": "Make one in Unity's Animation window by pressing the record button and changing values. You use it by putting it in a state."
+          },
           "tips": [["animation-clip", "what"], ["animation-clip", "record"]],
           "see": ["keyframe", "path-missing", "state"]
         },
@@ -752,6 +1183,12 @@
           "yomi": ["きーふれーむ"],
           "short": "クリップの中で、ある時間の値を決めた点。Animation ウィンドウでは、ひし形で表示される。",
           "body": "値が変わらないクリップでも、キーフレームが1つは要ります。時間を変えて2つ以上打つと、その間の値は Unity がなめらかにつなぎます。",
+          "en": {
+            "term": "Keyframe",
+            "match": ["keyframes", "keyframe"],
+            "short": "A point in a clip that fixes a value at a certain time. Shown as a diamond in the Animation window.",
+            "body": "Even a clip whose value never changes needs at least one keyframe. Set two or more at different times, and Unity smoothly fills in the values between them."
+          },
           "tips": [["animation-clip", "keys"]],
           "see": ["clip"]
         },
@@ -762,6 +1199,12 @@
           "yomi": ["ぱす=パス", "みっしんぐ=Missing"],
           "short": "クリップは動かす相手を名前の道すじ（パス）で覚えている。名前や親子が変わるとつながらず、Missing! と出る。",
           "body": "Animation ウィンドウで黄色い文字の Missing! が出たら、オブジェクトの名前か場所が、クリップを作ったときと変わっています。名前を戻すか、クリップのパスを直します。",
+          "en": {
+            "term": "Paths and Missing!",
+            "match": ["Missing"],
+            "short": "A clip remembers what it moves by a path of names. If a name or parent changes, the link breaks and Missing! appears.",
+            "body": "When yellow Missing! text shows up in the Animation window, the object's name or location has changed since you made the clip. Change the name back, or fix the clip's path."
+          },
           "tips": [["animation-clip", "path"]],
           "see": ["clip", "hierarchy"]
         },
@@ -772,6 +1215,12 @@
           "yomi": ["らいとでふぉると", "らいとでふぉるつ"],
           "short": "ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。",
           "body": "ON と OFF がまざっていると、Unity では正しく見えても、VRChat で表情が戻らない、物が消えないといったずれが起きます。どちらでも動くように、オンとオフの両方のクリップを作っておくと安心です。",
+          "en": {
+            "term": "Write Defaults",
+            "match": ["Write Defaults"],
+            "short": "A state setting. When ON, values the clip doesn't write go back to their originals. Keep it all ON or all OFF across the avatar.",
+            "body": "Mixing ON and OFF causes mismatches that look fine in Unity but not in VRChat: expressions don't reset, objects don't disappear, and so on. To be safe, make clips for both on and off so it works either way."
+          },
           "tips": [["unity-vs-vrchat", "write-defaults"], ["toggle", "transitions"]],
           "see": ["state", "clip"]
         },
@@ -782,6 +1231,12 @@
           "yomi": ["ぶれんどつりー"],
           "short": "パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。",
           "body": "ステートの中に入れて使います。1つのステートで、値に合わせて少しずつ変えたり、たくさんのギミックをまとめたりできます。",
+          "en": {
+            "term": "Blend Tree",
+            "match": ["Blend Trees", "Blend Tree"],
+            "short": "A system that blends several clips together according to a parameter's value.",
+            "body": "You use it inside a state. With one state, you can change things gradually by value, or bundle many gimmicks together."
+          },
           "tips": [["animator-basics", "parameters"], ["radial", "float"]],
           "see": ["motion-time", "param-types"]
         },
@@ -792,6 +1247,12 @@
           "yomi": ["もーしょんたいむ"],
           "short": "Float の値（0〜1）で、クリップのどこを再生するかを決めるステートの設定。",
           "body": "クリップのはじめと終わりに違う値を書いておくと、メニューを回した分だけ、色や大きさを少しずつ変えられます。Radial Puppet と組み合わせて使います。",
+          "en": {
+            "term": "Motion Time",
+            "match": ["Motion Time"],
+            "short": "A state setting that uses a Float value (0 to 1) to choose which point of the clip plays.",
+            "body": "Write different values at the clip's start and end, and you can change color or size gradually, as far as you turn the menu. Used together with Radial Puppet."
+          },
           "tips": [["radial", "float"]],
           "see": ["radial-puppet", "param-types"]
         },
@@ -802,6 +1263,12 @@
           "yomi": ["とらっきんぐこんとろーる"],
           "short": "まばたきや口の動きを、VRChat に任せるか、Animator で動かすかを切り替える、ステートに付ける部品。",
           "body": "表情のクリップで目や口を動かすと、VRChat のまばたきや口の動きと重なって、表情がくずれることがあります。表情を出している間だけ、まばたきや口を止めるのに使います。",
+          "en": {
+            "term": "VRC Animator Tracking Control",
+            "match": ["VRC Animator Tracking Control", "Animator Tracking Control", "Tracking Control"],
+            "short": "A part on a state that switches blinking and mouth movement between VRChat and the Animator.",
+            "body": "When an expression clip moves the eyes or mouth, it can clash with VRChat's blinking and lip movement and break the expression. Use it to stop blinking or the mouth only while the expression is showing."
+          },
           "tips": [["gesture", "tracking"]],
           "see": ["hand-sign", "state"]
         }
@@ -811,6 +1278,7 @@
       "id": "menu",
       "title": "パラメーターとメニュー",
       "lead": "VRChat の中のメニューから、ギミックを動かすための言葉です。",
+      "en": { "title": "Parameters and menus", "lead": "Terms for running gimmicks from the menu inside VRChat." },
       "terms": [
         {
           "id": "expression-parameters",
@@ -819,6 +1287,12 @@
           "yomi": ["えくすぷれっしょんぱらめーたー"],
           "short": "VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。",
           "body": "VRC Avatar Descriptor に入れて使います。Modular Avatar を使うときは、MA Parameters に書くと、アップロードのときに自動で足されます。",
+          "en": {
+            "term": "Expression Parameters",
+            "match": ["Expression Parameters"],
+            "short": "The list that tells VRChat which parameters the avatar uses. It also decides whether each is remembered and sent to others.",
+            "body": "You use it by putting it on the VRC Avatar Descriptor. With Modular Avatar, write them in MA Parameters and they're added automatically at upload."
+          },
           "tips": [["toggle", "params"], ["animator-basics", "parameters"]],
           "see": ["synced", "saved", "ma-parameters"]
         },
@@ -829,6 +1303,12 @@
           "yomi": ["しんくど=Synced", "どうき=同期"],
           "short": "パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。",
           "body": "チェックが無いと、ギミックは自分にだけ見えて、ほかの人には変わって見えません。Bool は 1 bit、Int と Float は 8 bit を使います。",
+          "en": {
+            "term": "Synced (sync)",
+            "match": ["Synced", "synced", "sync"],
+            "short": "A setting that sends a parameter's value to other people. You can sync up to 256 bits in total.",
+            "body": "Without the check, the gimmick only changes for you, and other people don't see it change. A Bool uses 1 bit, and an Int or Float uses 8 bits."
+          },
           "tips": [["radial", "sync"], ["animator-basics", "parameters"]],
           "see": ["saved", "expression-parameters", "param-types"]
         },
@@ -839,6 +1319,12 @@
           "yomi": ["せーぶど=Saved", "ほぞん=保存"],
           "short": "ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。",
           "body": "チェックが無いと、ワールドを移るたびに、Default の値に戻ります。",
+          "en": {
+            "term": "Saved",
+            "match": ["Saved"],
+            "short": "A setting that remembers a parameter's value when you change worlds or switch avatars.",
+            "body": "Without the check, the value goes back to its Default every time you change worlds."
+          },
           "tips": [["toggle", "params"]],
           "see": ["synced", "expression-parameters"]
         },
@@ -849,6 +1335,12 @@
           "yomi": ["えくすぷれっしょんめにゅー", "あくしょんめにゅー"],
           "short": "VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。",
           "body": "項目ごとに、変えるパラメーターと値、項目の種類（Toggle・Radial Puppet・Sub Menu など）を決めます。Modular Avatar を使うときは、MA Menu Item で項目を足せます。",
+          "en": {
+            "term": "Expressions Menu (Action Menu)",
+            "match": ["Expressions Menu", "Action Menu"],
+            "short": "The file that sets the contents of the round menu you open in VRChat (the Action Menu). Pressing an item changes a parameter.",
+            "body": "For each item you set the parameter and value it changes, and its type (Toggle, Radial Puppet, Sub Menu, and so on). With Modular Avatar, you can add items with MA Menu Item."
+          },
           "tips": [["toggle", "menu"], ["animator-basics", "menu"]],
           "see": ["toggle-control", "radial-puppet", "sub-menu"]
         },
@@ -859,6 +1351,12 @@
           "yomi": ["とぐる"],
           "short": "押すたびにオンとオフが切り替わる、メニューの項目。",
           "body": "押すとパラメーターを決めた値にし、もう一度押すと元の値（0）に戻します。小物のオンオフによく使います。",
+          "en": {
+            "term": "Toggle (menu item)",
+            "match": ["Toggle"],
+            "short": "A menu item that switches between on and off each time you press it.",
+            "body": "Pressing it sets the parameter to a chosen value, and pressing it again returns it to the original value (0). Often used to show and hide accessories."
+          },
           "tips": [["toggle", "menu"]],
           "see": ["expressions-menu", "param-types"]
         },
@@ -869,6 +1367,12 @@
           "yomi": ["らでぃあるぱぺっと"],
           "short": "円を回して、Float の値を 0〜1 の間で変える、メニューの項目。",
           "body": "色の濃さや大きさなどを、少しずつ変えるのに使います。Animator 側では Motion Time や Blend Tree で受け取ります。",
+          "en": {
+            "term": "Radial Puppet",
+            "match": ["Radial Puppet"],
+            "short": "A menu item where you turn a circle to change a Float value between 0 and 1.",
+            "body": "Used to change things like color strength or size gradually. On the Animator side, you receive it with Motion Time or a Blend Tree."
+          },
           "tips": [["radial", "float"]],
           "see": ["motion-time", "expressions-menu"]
         },
@@ -879,6 +1383,12 @@
           "yomi": ["さぶめにゅー"],
           "short": "押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。",
           "body": "1つのメニューには、項目を8つまでしか置けません。それより多いときや、種類ごとに分けたいときに使います。",
+          "en": {
+            "term": "Sub Menu",
+            "match": ["Sub Menu"],
+            "short": "An item that opens another menu when pressed. Used to split things up when you have many items.",
+            "body": "One menu can only hold up to 8 items. Use it when you have more than that, or want to group items by kind."
+          },
           "tips": [["radial", "int"]],
           "see": ["expressions-menu"]
         },
@@ -889,6 +1399,12 @@
           "yomi": ["はんどさいん=ハンドサイン", "じぇすちゃー=Gesture"],
           "short": "コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。",
           "body": "0 は何もしていないとき、1 は握りこぶし、2 は手を開く、のように番号が決まっています。この番号をトランジションの条件にすると、手の形で表情を変えられます。握りの強さは GestureLeftWeight・GestureRightWeight で受け取れます。",
+          "en": {
+            "term": "Hand signs (GestureLeft, GestureRight)",
+            "match": ["hand signs", "hand sign", "gestures", "gesture", "GestureLeftWeight", "GestureRightWeight", "GestureLeft", "GestureRight"],
+            "short": "Hand shapes you make with the controllers. VRChat turns them into numbers 0 to 7 and puts them in GestureLeft and GestureRight.",
+            "body": "The numbers are fixed: 0 is neutral, 1 is a fist, 2 is an open hand, and so on. Use these numbers as transition conditions to change expressions by hand shape. You can read how hard you're squeezing with GestureLeftWeight and GestureRightWeight."
+          },
           "tips": [["gesture", "numbers"], ["gesture", "weight"]],
           "see": ["tracking-control", "blendshape", "parameter"]
         },
@@ -899,6 +1415,12 @@
           "yomi": ["こんたくと=Contact", "れしーばー=Receiver", "せんだー=Sender"],
           "short": "触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。",
           "body": "手や指には、VRChat が Sender を自動で付けています。頭などに Receiver を置くと、触れられたことをパラメーターで受け取れるので、なでると反応するギミックを作れます。",
+          "en": {
+            "term": "Contact (Sender and Receiver)",
+            "match": ["VRC Contact Receiver", "VRC Contact Sender", "Contacts", "Contact", "Receiver", "Sender"],
+            "short": "VRChat's parts for detecting touch. The Sender does the touching; the Receiver gets touched.",
+            "body": "VRChat automatically puts Senders on hands and fingers. Place a Receiver on the head or elsewhere, and you can read being touched as a parameter, so you can make gimmicks that react to headpats."
+          },
           "tips": [["contact", "what"], ["contact", "example"]],
           "see": ["receiver-type", "collision-tags", "physbone"]
         },
@@ -909,6 +1431,12 @@
           "yomi": ["れしーばーたいぷ"],
           "short": "Receiver が出す値の種類。Constant（触れている間）・OnEnter（触れた瞬間）・Proximity（近さ）。",
           "body": "触れている間だけ変えるなら Constant、触れたら1回だけ何かを始めるなら OnEnter、近づくほど強く変えるなら Proximity を選びます。",
+          "en": {
+            "term": "Receiver Type",
+            "match": ["Receiver Type"],
+            "short": "The kind of value a Receiver outputs: Constant (while touching), OnEnter (the moment of touch), Proximity (how close).",
+            "body": "Choose Constant to change something only while touched, OnEnter to start something once when touched, and Proximity to change it more strongly the closer something gets."
+          },
           "tips": [["contact", "types"]],
           "see": ["contact"]
         },
@@ -919,6 +1447,12 @@
           "yomi": ["こりじょんたぐ"],
           "short": "Contact のタグ。Sender と Receiver に同じタグが1つでもあるときだけ反応する。",
           "body": "手なら Hand、指なら Finger のように決まった名前があります。大文字と小文字も区別するので、つづりをそろえます。",
+          "en": {
+            "term": "Collision Tags",
+            "match": ["Collision Tags"],
+            "short": "Contact tags. A Sender and Receiver react only when they share at least one tag.",
+            "body": "There are fixed names, like Hand for hands and Finger for fingers. Upper and lower case are distinguished, so match the spelling exactly."
+          },
           "tips": [["contact", "what"]],
           "see": ["contact"]
         }
@@ -928,6 +1462,7 @@
       "id": "ma",
       "title": "Modular Avatar の部品",
       "lead": "衣装を着せたり、ギミックをつないだりするときに使う、Modular Avatar のコンポーネントです。",
+      "en": { "title": "Modular Avatar components", "lead": "Modular Avatar components you use to put outfits on and hook up gimmicks." },
       "terms": [
         {
           "id": "setup-outfit",
@@ -936,6 +1471,12 @@
           "yomi": ["せっとあっぷあうとふぃっと"],
           "short": "衣装を右クリックして選ぶ Modular Avatar の機能。服を体に沿って動かすための部品を自動で付ける。",
           "body": "衣装のプレハブをアバターの中に入れてから使います。衣装の Armature に MA Merge Armature が付き、再生やアップロードのときに、骨が自動でまとまります。",
+          "en": {
+            "term": "Setup Outfit",
+            "match": ["Setup Outfit"],
+            "short": "A Modular Avatar feature you pick by right-clicking an outfit. It adds the parts that make clothes follow the body.",
+            "body": "Use it after putting the outfit prefab inside the avatar. MA Merge Armature is added to the outfit's Armature, and the bones are merged automatically when you press Play or upload."
+          },
           "tips": [["outfit", "steps"], ["outfit", "merge"]],
           "see": ["merge-armature", "modular-avatar"]
         },
@@ -946,6 +1487,12 @@
           "yomi": ["まーじあーまちゅあ"],
           "short": "衣装の骨を、アバターの同じ名前の骨にまとめて、服が体に沿って動くようにするコンポーネント。",
           "body": "ふつうは Setup Outfit で自動で付きます。骨の名前に付いた接頭辞・接尾辞を取り除いて、対応する骨を探します。",
+          "en": {
+            "term": "MA Merge Armature",
+            "match": ["MA Merge Armature", "Merge Armature"],
+            "short": "A component that merges an outfit's bones into the avatar's bones of the same names, so clothes follow the body.",
+            "body": "Usually Setup Outfit adds it for you. It strips prefixes and suffixes from bone names to find the matching bones."
+          },
           "tips": [["outfit", "merge"]],
           "see": ["setup-outfit", "armature", "bone"]
         },
@@ -956,6 +1503,12 @@
           "yomi": ["まーじあにめーたー"],
           "short": "自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。",
           "body": "元の FX のファイルを書き換えずに、ギミックを足せます。Match Avatar Write Defaults にチェックを入れると、Write Defaults をアバターに合わせてくれます。",
+          "en": {
+            "term": "MA Merge Animator",
+            "match": ["MA Merge Animator", "Merge Animator"],
+            "short": "A component that adds a controller you made to the avatar's FX (or other layer) at upload time.",
+            "body": "You can add gimmicks without rewriting the original FX file. Check Match Avatar Write Defaults and it matches Write Defaults to the avatar."
+          },
           "tips": [["toggle", "connect"], ["animator-basics", "layers"]],
           "see": ["controller", "fx", "write-defaults"]
         },
@@ -966,6 +1519,12 @@
           "yomi": ["めにゅーいんすとーらー=Menu Installer", "めにゅーあいてむ=Menu Item"],
           "short": "Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。",
           "body": "MA Menu Item で項目の種類（Toggle・Radial Puppet・Sub Menu など）とパラメーターを決め、MA Menu Installer でアバターのメニューに足します。",
+          "en": {
+            "term": "MA Menu Installer and MA Menu Item",
+            "match": ["MA Menu Installer", "Menu Installer", "MA Menu Item", "Menu Item"],
+            "short": "Components that add items to the menu without rewriting the Expressions Menu.",
+            "body": "MA Menu Item sets the item's type (Toggle, Radial Puppet, Sub Menu, and so on) and parameter, and MA Menu Installer adds it to the avatar's menu."
+          },
           "tips": [["toggle", "connect"], ["outfit", "menu"]],
           "see": ["expressions-menu", "ma-parameters", "object-toggle"]
         },
@@ -976,6 +1535,12 @@
           "yomi": ["おぶじぇくととぐる"],
           "short": "Animator を作らずに、メニューの項目でオブジェクトを出し入れできるコンポーネント。",
           "body": "MA Menu Item と同じオブジェクトに付けて、オンオフしたいオブジェクトを登録します。中では、オンオフのアニメーションが自動で作られます。",
+          "en": {
+            "term": "MA Object Toggle",
+            "match": ["MA Object Toggle", "Object Toggle"],
+            "short": "A component that shows and hides objects from a menu item without making an Animator.",
+            "body": "Put it on the same object as an MA Menu Item and register the objects you want to toggle. The on/off animation is created automatically behind the scenes."
+          },
           "tips": [["outfit", "menu"]],
           "see": ["menu-installer", "is-active"]
         },
@@ -986,6 +1551,12 @@
           "yomi": ["しぇいぷちぇんじゃー"],
           "short": "衣装を着ている間だけ、体の BlendShape を変えたり、体の一部を消したりするコンポーネント。",
           "body": "服から肌が突き抜けるときに、体を細くする BlendShape を入れたり、隠れる部分のメッシュを消したりします。衣装を外すと、体も元に戻ります。",
+          "en": {
+            "term": "MA Shape Changer",
+            "match": ["MA Shape Changer", "Shape Changer"],
+            "short": "A component that changes body BlendShapes, or hides parts of the body, only while an outfit is worn.",
+            "body": "When skin pokes through clothes, use it to apply a BlendShape that slims the body, or to delete the hidden part of the mesh. Take the outfit off, and the body goes back to normal."
+          },
           "tips": [["outfit", "shrink"]],
           "see": ["blendshape", "setup-outfit"]
         },
@@ -996,6 +1567,12 @@
           "yomi": ["えむえーぱらめーたー"],
           "short": "Expression Parameters を書き換えずに、パラメーターを足すコンポーネント。Saved や Synced もここで決める。",
           "body": "ギミックのオブジェクトに付けておくと、アップロードのときに、アバターの Expression Parameters へ自動で足されます。名前と型は、Animator のパラメーターとそろえます。",
+          "en": {
+            "term": "MA Parameters",
+            "match": ["MA Parameters"],
+            "short": "A component that adds parameters without rewriting Expression Parameters. You also set Saved and Synced here.",
+            "body": "Put it on the gimmick's object, and the parameters are added to the avatar's Expression Parameters automatically at upload. Match the names and types to the Animator's parameters."
+          },
           "tips": [["toggle", "connect"], ["radial", "int"]],
           "see": ["expression-parameters", "synced", "saved"]
         }
@@ -1005,6 +1582,7 @@
       "id": "upload",
       "title": "アップロードと、ほかの人からの見え方",
       "lead": "アップロードするとき、ほかの人にどう見えるかに関わる言葉です。",
+      "en": { "title": "Uploading, and how others see you", "lead": "Terms about uploading and how your avatar looks to other people." },
       "terms": [
         {
           "id": "builder",
@@ -1013,6 +1591,12 @@
           "yomi": ["びるだー"],
           "short": "VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。",
           "body": "Unity の上のメニューの VRChat SDK › Show Control Panel で開きます。Validations の赤いエラーを直してから、Build and Publish でアップロードします。",
+          "en": {
+            "term": "Builder",
+            "match": ["Builder"],
+            "short": "A tab in the VRChat SDK window. It holds the name and visibility settings, the check results, and the upload button.",
+            "body": "Open it from VRChat SDK › Show Control Panel in Unity's top menu. Fix the red errors in Validations, then upload with Build and Publish."
+          },
           "tips": [["upload", "builder"]],
           "see": ["validations", "vrchat-sdk"]
         },
@@ -1023,6 +1607,12 @@
           "yomi": ["ばりでーしょん"],
           "short": "Builder に出る、アップロードの前に確かめた結果。赤いエラーがあるとアップロードできない。",
           "body": "黄色い警告は、多くの場合そのままでもアップロードできます。「Auto Fix」のボタンがあれば、押すと直ります。",
+          "en": {
+            "term": "Validations",
+            "match": ["Validations"],
+            "short": "The pre-upload check results shown in the Builder. You can't upload while there are red errors.",
+            "body": "Yellow warnings usually still let you upload. If there's an \"Auto Fix\" button, pressing it fixes the problem."
+          },
           "tips": [["upload", "validations"]],
           "see": ["builder"]
         },
@@ -1033,6 +1623,12 @@
           "yomi": ["ぶるーぷりんとあいでぃー"],
           "short": "アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。",
           "body": "一度アップロードすると、アバターの Pipeline Manager に書き込まれます。別のアバターとして残したいときは、Pipeline Manager の Detach で番号を外してからアップロードします。",
+          "en": {
+            "term": "Blueprint ID",
+            "match": ["Blueprint IDs", "Blueprint ID"],
+            "short": "The ID of an uploaded avatar (starting with avtr_). Uploading with the same ID overwrites it.",
+            "body": "Once you upload, it's written into the avatar's Pipeline Manager. To keep a separate avatar, use Detach on the Pipeline Manager to clear the ID before uploading."
+          },
           "tips": [["upload", "update"]],
           "see": ["pipeline-manager", "content-manager"]
         },
@@ -1043,6 +1639,12 @@
           "yomi": ["ぱいぷらいんまねーじゃー"],
           "short": "アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。",
           "body": "Quest 版をアップロードするときは、パソコン版と同じ Blueprint ID にしておくと、1つのアバターとして両方に出せます。",
+          "en": {
+            "term": "Pipeline Manager",
+            "match": ["Pipeline Manager"],
+            "short": "The component on the top of an uploaded avatar that remembers its Blueprint ID.",
+            "body": "When uploading a Quest version, use the same Blueprint ID as the PC version so both are published as one avatar."
+          },
           "tips": [["upload", "update"], ["quest", "same"]],
           "see": ["blueprint-id"]
         },
@@ -1053,6 +1655,12 @@
           "yomi": ["こんてんつまねーじゃー"],
           "short": "VRChat SDK のウィンドウのタブ。アップロードしたアバターの一覧を見られる。",
           "body": "アップロードが本当に終わったかや、どの Blueprint ID のアバターがあるかを確かめるのに使います。",
+          "en": {
+            "term": "Content Manager",
+            "match": ["Content Manager"],
+            "short": "A tab in the VRChat SDK window that lists the avatars you've uploaded.",
+            "body": "Use it to check whether an upload really finished, and which Blueprint IDs you have avatars for."
+          },
           "tips": [["upload", "check"]],
           "see": ["builder", "blueprint-id"]
         },
@@ -1063,6 +1671,12 @@
           "yomi": ["ぱふぉーまんすらんく", "らんく=ランク"],
           "short": "アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。",
           "body": "三角形の数、マテリアルの数、ボーンの数、PhysBone の数などの項目ごとに決まり、いちばん悪い項目がアバターのランクになります。見る人の設定によっては、ランクが低いアバターは代わりの姿で表示されます。",
+          "en": {
+            "term": "Performance Rank",
+            "match": ["Performance Rank", "performance rank", "rank"],
+            "short": "How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.",
+            "body": "Each category (triangle count, material count, bone count, PhysBone count, and so on) gets its own rank, and the worst one becomes the avatar's rank. Depending on the viewer's settings, avatars with low ranks are shown as a stand-in instead."
+          },
           "tips": [["performance", "rank"], ["performance", "limits"]],
           "see": ["fallback", "aao", "polygon"]
         },
@@ -1073,6 +1687,12 @@
           "yomi": ["どろーこーる"],
           "short": "画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。",
           "body": "マテリアルやメッシュをまとめると減ります。AAO などのツールで、自動でまとめることもできます。",
+          "en": {
+            "term": "Draw call",
+            "match": ["draw calls", "draw call"],
+            "short": "A command to draw something on screen. More materials and meshes mean more of them, and more load.",
+            "body": "Merging materials and meshes reduces them. Tools such as AAO can merge them automatically."
+          },
           "tips": [["performance", "why"]],
           "see": ["material", "mesh", "atlas"]
         },
@@ -1083,6 +1703,12 @@
           "yomi": ["あとらすか=アトラス化", "あとらす=アトラス"],
           "short": "いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。",
           "body": "マテリアルが減ると、ドローコールが減って軽くなります。専用のツールを使うと、自動でまとめられます。",
+          "en": {
+            "term": "Atlasing",
+            "match": ["atlasing", "atlas"],
+            "short": "Combining several textures into one image to reduce the number of materials.",
+            "body": "Fewer materials means fewer draw calls and a lighter avatar. Dedicated tools can do the combining automatically."
+          },
           "tips": [["performance", "light"]],
           "see": ["texture", "material", "drawcall"]
         },
@@ -1093,6 +1719,12 @@
           "yomi": ["せーふてぃ"],
           "short": "ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。",
           "body": "見る人が、ランクやフレンドかどうかなどで、表示するものを決めます。自分では見えていても、ほかの人の設定によっては、代わりの姿や、ギミックが止まった姿に見えます。",
+          "en": {
+            "term": "Safety",
+            "match": ["Safety"],
+            "short": "VRChat's settings for how much of other people's avatars you show.",
+            "body": "Each viewer decides what to show, based on rank, whether someone is a friend, and so on. Even if your avatar looks fine to you, other people's settings may show you as a stand-in, or with your gimmicks stopped."
+          },
           "tips": [["performance", "seen"]],
           "see": ["fallback", "performance-rank"]
         },
@@ -1103,6 +1735,12 @@
           "yomi": ["ふぉーるばっく=Fallback", "かわりのすがた=代わりの姿"],
           "short": "ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。",
           "body": "自分で Fallback に設定したアバターか、VRChat が用意したロボットなどの姿になります。Quest やスマホの人には、パソコン版しかないアバターの代わりに表示されます。",
+          "en": {
+            "term": "Fallback",
+            "match": ["Fallback", "fallback"],
+            "short": "The stand-in shown to people who can't see your avatar because of rank or Safety settings.",
+            "body": "It's either an avatar you set as your Fallback, or a robot or similar provided by VRChat. For people on Quest or phones, it's shown in place of avatars that only have a PC version."
+          },
           "tips": [["performance", "seen"], ["quest", "see"]],
           "see": ["impostor", "safety", "performance-rank"]
         },
@@ -1113,6 +1751,12 @@
           "yomi": ["いんぽすたー"],
           "short": "VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。",
           "body": "Quest やスマホの人から、パソコン版しかないアバターを見たときなどに表示されます。見る人がインポスターを切っていると、フォールバックの姿になります。",
+          "en": {
+            "term": "Impostor",
+            "match": ["impostors", "impostor", "Impostor"],
+            "short": "A blurry stand-in made of flat panels, generated automatically by VRChat.",
+            "body": "It's shown, for example, when people on Quest or phones see an avatar that only has a PC version. If the viewer has impostors turned off, they see the Fallback instead."
+          },
           "tips": [["quest", "see"]],
           "see": ["fallback", "quest"]
         },
@@ -1123,6 +1767,12 @@
           "yomi": ["くえすと=Quest", "めたくえすと=Meta Quest", "あんどろいど=Android", "あいおーえす=iOS"],
           "short": "Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。",
           "body": "Quest やスマホでは、使えるシェーダーが VRChat/Mobile に限られ、ランクの決まりも厳しくなります。Quest 版を同じ Blueprint ID でアップロードすると、Quest やスマホの人にも見えるようになります。",
+          "en": {
+            "term": "Quest, Android, iOS",
+            "match": ["Meta Quest", "Quest", "Android", "iOS"],
+            "short": "VRChat running on standalone VR headsets such as the Meta Quest, or on phones. It needs separate avatar data from the PC version.",
+            "body": "On Quest and phones, you can only use the VRChat/Mobile shaders, and the rank rules are stricter. Upload a Quest version with the same Blueprint ID, and people on Quest and phones can see you too."
+          },
           "tips": [["quest", "why"], ["quest", "steps"]],
           "see": ["shader", "performance-rank", "fallback"]
         },
@@ -1133,6 +1783,12 @@
           "yomi": ["れんだーきゅー"],
           "short": "マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。",
           "body": "半透明のパーツが消えたり、ほかの物の後ろに隠れたりするときは、この数字を見直します。マテリアルの Inspector で変えられます。",
+          "en": {
+            "term": "Render Queue",
+            "match": ["Render Queue"],
+            "short": "A number for the order materials are drawn in. Lower draws first. Up to 2500 is opaque; around 3000 is transparent.",
+            "body": "When transparent parts vanish or hide behind other things, revisit this number. You can change it in the material's Inspector."
+          },
           "tips": [["render-queue", "what"], ["render-queue", "how"]],
           "see": ["transparent", "material", "bounds"]
         },
@@ -1143,6 +1799,12 @@
           "yomi": ["はんとうめい=半透明", "とらんすぺあれんと=Transparent"],
           "short": "向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。",
           "body": "レース、メガネのレンズ、頬染めなどに使います。不透明の物を先に描いてから、遠い順に描きます。重なったときは Render Queue をずらして直します。",
+          "en": {
+            "term": "Transparent",
+            "match": ["semi-transparent", "Transparent", "transparent"],
+            "short": "A way of drawing where you can see through to what's behind. Drawing order depends on distance, so overlaps easily break front and back.",
+            "body": "Used for lace, glasses lenses, blush, and so on. Opaque things are drawn first, then transparent ones from far to near. When they overlap wrongly, offset the Render Queue to fix it."
+          },
           "tips": [["render-queue", "sort"], ["render-queue", "cases"]],
           "see": ["render-queue", "bounds"]
         }

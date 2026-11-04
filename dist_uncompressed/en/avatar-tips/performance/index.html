@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/rank-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,7 +148,7 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #4</a></p>
     <h1 class="page_1__h1" id="article-heading">Performance ranks and optimization</h1>
-    <p class="article_1__lead">You uploaded your avatar and it was Very Poor. You added an outfit and the rank went down. This tip explains how the performance rank is decided, how your avatar looks to other people, and how to raise the rank (make the avatar lighter).</p>
+    <p class="article_1__lead">You uploaded your avatar and it was Very Poor. You added an outfit and the <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> went down. This tip explains how the performance rank is decided, how your avatar looks to other people, and how to raise the rank (make the avatar lighter).</p>
     <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This is about the PC version of VRChat. The limits come from VRChat&#39;s official page (updated October 21, 2026).</p>
     <nav class="jump_1" aria-label="Contents">
       <ul>
@@ -183,13 +184,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">Read this when</h2>
     <ul class="rules_1">
-      <li>You uploaded your avatar and its rank was Very Poor.</li><li>You added an outfit or accessories and the rank went down.</li><li>An event asked people to avoid Very Poor avatars.</li><li>Someone told you your avatar looks like something else to them.</li>
+      <li>You uploaded your avatar and its <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> was Very Poor.</li><li>You added an outfit or accessories and the rank went down.</li><li>An event asked people to avoid Very Poor avatars.</li><li>Someone told you your avatar looks like something else to them.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="rank" aria-labelledby="rank-heading">
     <h2 class="section_2__h1" id="rank-heading">What the performance rank is</h2>
-    <p class="article_1__p">The performance rank shows how heavy an avatar is (how much load it puts on a PC) in five levels. Each item, such as the number of polygons or materials, has its own limits.</p>
+    <p class="article_1__p">The <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">performance rank</a> shows how heavy an avatar is (how much load it puts on a PC) in five levels. Each item, such as the number of <a class="term_2" href="/en/glossary/#polygon" data-name="Polygon" data-tip="The triangles that make up a mesh. More means finer detail, but heavier.">polygons</a> or <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>, has its own limits.</p>
     <dl class="examples_1 examples_1--grid">
       
         <div class="examples_1__item">
@@ -218,12 +219,12 @@
         </div>
       
     </dl>
-    <p class="article_1__p">Your avatar's rank is <strong>the rank of its lowest item</strong>. Even if every other item is Excellent, a single Very Poor item makes the whole avatar Very Poor.</p><p class="article_1__p">VRChat advises you to <strong>aim for Good, and if that is hard, Medium is enough</strong>.</p><p class="article_1__p">The rank is only a guide based on counting the parts in your avatar. It doesn't look at how heavy the shaders or animations are. The rank isn't everything, but it helps you spot heavy avatars.</p>
+    <p class="article_1__p">Your avatar's rank is <strong>the rank of its lowest item</strong>. Even if every other item is Excellent, a single Very Poor item makes the whole avatar Very Poor.</p><p class="article_1__p">VRChat advises you to <strong>aim for Good, and if that is hard, Medium is enough</strong>.</p><p class="article_1__p">The rank is only a guide based on counting the parts in your avatar. It doesn't look at how heavy the <a class="term_2" href="/en/glossary/#shader" data-name="Shader" data-tip="A program that calculates how light hits a surface and what color comes out. lilToon, for example.">shaders</a> or animations are. The rank isn't everything, but it helps you spot heavy avatars.</p>
   </section>
 
   <section class="section_2 article_1__section" id="seen" aria-labelledby="seen-heading">
     <h2 class="section_2__h1" id="seen-heading">How other people see your avatar</h2>
-    <p class="article_1__p">In VRChat, viewers can choose <strong>the lowest rank they want to show</strong> (Minimum Displayed Performance Rank) in "Performance Options" at the top right of the "Safety" tab. On PC, the default is "Very Poor", so avatars of every rank show as they are. If a viewer sets it to "Medium" or "Poor", avatars below that rank look different, as shown below.</p>
+    <p class="article_1__p">In VRChat, viewers can choose <strong>the lowest <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> they want to show</strong> (Minimum Displayed Performance Rank) in "Performance Options" at the top right of the "<a class="term_2" href="/en/glossary/#safety" data-name="Safety" data-tip="VRChat's settings for how much of other people's avatars you show.">Safety</a>" tab. On PC, the default is "Very Poor", so avatars of every rank show as they are. If a viewer sets it to "Medium" or "Poor", avatars below that rank look different, as shown below.</p>
     <div class="mock_1 mock_1--vrchat">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -261,22 +262,22 @@
         </thead>
         <tbody>
           
-            <tr><th scope="row">Triangles, texture memory, meshes, material slots, bones</th><td>The avatar is replaced by a stand-in (Fallback)</td></tr>
+            <tr><th scope="row">Triangles, texture memory, meshes, material slots, bones</th><td>The avatar is replaced by a stand-in (<a class="term_2" href="/en/glossary/#fallback" data-name="Fallback" data-tip="The stand-in shown to people who can't see your avatar because of rank or Safety settings.">Fallback</a>)</td></tr>
           
-            <tr><th scope="row">PhysBones or Contacts</th><td>All PhysBones and Contacts are removed (hair and other parts stop swaying)</td></tr>
+            <tr><th scope="row">PhysBones or Contacts</th><td>All <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> and <a class="term_2" href="/en/glossary/#contact" data-name="Contact (Sender and Receiver)" data-tip="VRChat's parts for detecting touch. The Sender does the touching; the Receiver gets touched.">Contacts</a> are removed (hair and other parts stop swaying)</td></tr>
           
             <tr><th scope="row">Particles, lights, audio and similar</th><td>All of those parts are removed</td></tr>
           
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">On mobile and Quest, only avatars up to "Medium" are shown from the start, and you can't choose to show Very Poor. This is covered in #5.</p><p class="article_1__p">Busy events and groups may ask you to avoid Very Poor avatars. Even if you use a Very Poor avatar with close friends, it's good to have a light avatar ready for crowded places.</p>
+    <p class="article_1__p">On mobile and <a class="term_2" href="/en/glossary/#quest" data-name="Quest, Android, iOS" data-tip="VRChat running on standalone VR headsets such as the Meta Quest, or on phones. It needs separate avatar data from the PC version.">Quest</a>, only avatars up to "Medium" are shown from the start, and you can't choose to show Very Poor. This is covered in #5.</p><p class="article_1__p">Busy events and groups may ask you to avoid Very Poor avatars. Even if you use a Very Poor avatar with close <a class="term_2" href="/en/glossary/#friend" data-name="Friend" data-tip="Someone you've added in VRChat. You can see where they are and go to meet them.">friends</a>, it's good to have a light avatar ready for crowded places.</p>
     <p class="section_2__more"><a href="/en/avatar-tips/quest/">#5 Quest and mobile support</a></p>
   </section>
 
   <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
     <h2 class="section_2__h1" id="limits-heading">Main items and limits (PC)</h2>
-    <p class="article_1__p">If an item goes over the number in the table, it drops to the next rank. If it goes over the Poor number too, it is Very Poor.</p>
+    <p class="article_1__p">If an item goes over the number in the table, it drops to the next <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a>. If it goes over the Poor number too, it is Very Poor.</p>
     <section class="table_3" tabindex="0" aria-label="Performance rank limits on PC">
       <table>
         <thead>
@@ -315,15 +316,15 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p"><strong>Things you have turned off are counted too</strong>. Outfits and accessories you switch from the menu still count toward meshes, materials and PhysBones while they are in the avatar, even when off.</p><p class="article_1__p">There are other items too, such as size (Bounds Size), Constraints and the number of Animators. You can see every item on <a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat's Performance Ranks page<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+    <p class="article_1__p"><strong>Things you have turned off are counted too</strong>. Outfits and accessories you switch from the menu still count toward <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">meshes</a>, <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> and <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> while they are in the avatar, even when off.</p><p class="article_1__p">There are other items too, such as size (<a class="term_2" href="/en/glossary/#bounds" data-name="Bounds" data-tip="An invisible box that fits around a mesh. It's used for drawing order and for Performance Rank.">Bounds</a> Size), Constraints and the number of Animators. You can see every item on <a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat's Performance Ranks page<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
   </section>
 
   <section class="section_2 article_1__section" id="where" aria-labelledby="where-heading">
     <h2 class="section_2__h1" id="where-heading">Where to see the rank</h2>
-    <p class="article_1__p">You can see the rank in Unity before you upload, and in VRChat after you upload.</p>
+    <p class="article_1__p">You can see the <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> in Unity before you upload, and in VRChat after you upload.</p>
     <h3 class="section_2__h2">In Unity (before you upload)</h3>
     <ol class="steps_1">
-      <li>In Unity&#39;s top menu, open &#34;VRChat SDK&#34; &gt; &#34;Show Control Panel&#34;.</li><li>In the &#34;Builder&#34; tab, select your avatar.</li><li>The performance section shows the overall rank and the items that lower it.</li>
+      <li>In Unity&#39;s top menu, open &#34;<a class="term_2" href="/en/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="VRChat's official toolkit, used inside Unity, for making and uploading avatars.">VRChat SDK</a>&#34; &gt; &#34;Show Control Panel&#34;.</li><li>In the &#34;<a class="term_2" href="/en/glossary/#builder" data-name="Builder" data-tip="A tab in the VRChat SDK window. It holds the name and visibility settings, the check results, and the upload button.">Builder</a>&#34; tab, select your avatar.</li><li>The performance section shows the overall rank and the items that lower it.</li>
     </ol>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
@@ -415,12 +416,12 @@
 
   <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
     <h2 class="section_2__h1" id="why-heading">Why you should make your avatar lighter</h2>
-    <p class="article_1__p">Your avatar is drawn on other people's PCs too. A heavy avatar <strong>puts load on the PCs of everyone around you</strong> and lowers their frame rate (smoothness). In crowded places, this adds up.</p><p class="article_1__p">In particular, many materials and meshes mean more draw commands (draw calls). This often matters more than the triangle count.</p><p class="article_1__p">A lot of texture memory can use up the graphics card's memory (VRAM), which causes stutters or crashes.</p>
+    <p class="article_1__p">Your avatar is drawn on other people's PCs too. A heavy avatar <strong>puts load on the PCs of everyone around you</strong> and lowers their frame rate (smoothness). In crowded places, this adds up.</p><p class="article_1__p">In particular, many <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> and <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">meshes</a> mean more draw commands (<a class="term_2" href="/en/glossary/#drawcall" data-name="Draw call" data-tip="A command to draw something on screen. More materials and meshes mean more of them, and more load.">draw calls</a>). This often matters more than the triangle count.</p><p class="article_1__p">A lot of <a class="term_2" href="/en/glossary/#texture" data-name="Texture" data-tip="An image wrapped onto a mesh. It paints skin, clothing patterns, colors, and so on.">texture</a> memory can use up the graphics card's memory (VRAM), which causes stutters or crashes.</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
-    <p class="article_1__p">Change the numbers for the main items and see what happens to the avatar&#39;s overall rank. The lowest item decides the overall rank.</p>
+    <p class="article_1__p">Change the numbers for the main items and see what happens to the avatar&#39;s overall <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a>. The lowest item decides the overall rank.</p>
     <div class="demo_2 js_rank_demo"
       data-ranks="Excellent,Good,Medium,Poor,Very Poor" data-ok="This avatar&#39;s rank is {r}. You rarely run into trouble with it." data-ng="This avatar&#39;s rank is {r}. Reduce the items in bold to raise the rank."
       data-why="Lowest: {i} ({r}). The rank is decided by the lowest item." data-all-best="Every item is in the Excellent range." data-mark=" (lowest)"
@@ -503,7 +504,7 @@
       
         <div class="examples_1__item">
           <dt>1. Add Avatar Optimizer (AAO)</dt>
-          <dd>A tool that makes your avatar lighter automatically when you upload, without changing how it looks. It removes unused parts, merges meshes, merges PhysBones and more. It doesn&#39;t change your original avatar. To install it, see &#34;Optimize with AAO&#34; below.</dd>
+          <dd>A tool that makes your avatar lighter automatically when you upload, without changing how it looks. It removes unused parts, merges <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">meshes</a>, merges <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> and more. It doesn&#39;t change your original avatar. To install it, see &#34;Optimize with <a class="term_2" href="/en/glossary/#aao" data-name="AAO (Avatar Optimizer)" data-tip="A tool that automatically makes an avatar lighter at upload time without changing how it looks.">AAO</a>&#34; below.</dd>
         </div>
       
         <div class="examples_1__item">
@@ -513,22 +514,22 @@
       
         <div class="examples_1__item">
           <dt>3. Merge meshes and materials</dt>
-          <dd>There are tools that merge meshes, and tools that combine textures into one (make an atlas) to reduce materials. Fewer materials and meshes mean fewer draw calls.</dd>
+          <dd>There are tools that merge meshes, and tools that combine <a class="term_2" href="/en/glossary/#texture" data-name="Texture" data-tip="An image wrapped onto a mesh. It paints skin, clothing patterns, colors, and so on.">textures</a> into one (make an <a class="term_2" href="/en/glossary/#atlas" data-name="Atlasing" data-tip="Combining several textures into one image to reduce the number of materials.">atlas</a>) to reduce <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>. Fewer materials and meshes mean fewer <a class="term_2" href="/en/glossary/#drawcall" data-name="Draw call" data-tip="A command to draw something on screen. More materials and meshes mean more of them, and more load.">draw calls</a>.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>4. Reduce PhysBones</dt>
-          <dd>Remove PhysBones from parts that don&#39;t need to sway, or combine ones with the same settings into one. You can also reduce the number of bones they move.</dd>
+          <dd>Remove PhysBones from parts that don&#39;t need to sway, or combine ones with the same settings into one. You can also reduce the number of <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> they move.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>5. Make textures smaller</dt>
-          <dd>Select a texture and lower &#34;Max Size&#34; in the Inspector (going from 2048 to 1024 cuts memory to about a quarter). Keep the size for textures that need fine detail, such as the eyes. &#34;Use Crunch Compression&#34; makes the download smaller, but it doesn&#39;t reduce texture memory.</dd>
+          <dd>Select a texture and lower &#34;Max Size&#34; in the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a> (going from 2048 to 1024 cuts memory to about a quarter). Keep the size for textures that need fine detail, such as the eyes. &#34;Use Crunch Compression&#34; makes the download smaller, but it doesn&#39;t reduce texture memory.</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>6. Reduce polygons</dt>
-          <dd>There are tools that reduce polygons, but they easily break the look, so use them as a last resort. If your triangle count is in the Good range, fix the other items first.</dd>
+          <dd>There are tools that reduce <a class="term_2" href="/en/glossary/#polygon" data-name="Polygon" data-tip="The triangles that make up a mesh. More means finer detail, but heavier.">polygons</a>, but they easily break the look, so use them as a last resort. If your triangle count is in the Good range, fix the other items first.</dd>
         </div>
       
     </dl>
@@ -536,9 +537,9 @@
 
   <section class="section_2 article_1__section" id="aao" aria-labelledby="aao-heading">
     <h2 class="section_2__h1" id="aao-heading">Optimize with AAO</h2>
-    <p class="article_1__p">AAO doesn&#39;t change your original avatar. It makes the avatar lighter when you press Play and when you upload. If you no longer need it, just remove the component to go back.</p>
+    <p class="article_1__p"><a class="term_2" href="/en/glossary/#aao" data-name="AAO (Avatar Optimizer)" data-tip="A tool that automatically makes an avatar lighter at upload time without changing how it looks.">AAO</a> doesn&#39;t change your original avatar. It makes the avatar lighter when you press Play and when you upload. If you no longer need it, just remove the <a class="term_2" href="/en/glossary/#component" data-name="Component" data-tip="A part you attach to an object. It decides what's drawn, how it moves, and other roles.">component</a> to go back.</p>
     <ol class="steps_1">
-      <li>From the link on the <a href="https://vpm.anatawa12.com/avatar-optimizer/en/" target="_blank" rel="noopener">AAO page<span class="visually-hidden"> (opens in a new tab)</span></a>, add anatawa12's repository to VCC or ALCOM (see #1 for how to add one).</li><li>Add "AAO: Avatar Optimizer" on your project's management screen.</li><li>In the Hierarchy, select the top of your avatar (the object with the VRC Avatar Descriptor).</li><li>In the Inspector, use "Add Component" to find and add "AAO Trace And Optimize". The default settings are fine.</li><li>Press Play and check that the look and gimmicks haven't changed, then upload. The Builder's rank may not show the numbers after AAO's optimization, so check "Avatar Stats" in VRChat after you upload.</li>
+      <li>From the link on the <a href="https://vpm.anatawa12.com/avatar-optimizer/en/" target="_blank" rel="noopener">AAO page<span class="visually-hidden"> (opens in a new tab)</span></a>, add anatawa12's repository to <a class="term_2" href="/en/glossary/#vcc" data-name="VCC (VRChat Creator Companion)" data-tip="VRChat's official app for creating projects and adding tools and shaders to them (Windows only).">VCC</a> or <a class="term_2" href="/en/glossary/#alcom" data-name="ALCOM" data-tip="A community-made app that does what VCC does, and runs on Windows, Mac, and Linux.">ALCOM</a> (see #1 for how to add one).</li><li>Add "AAO: Avatar Optimizer" on your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a>'s management screen.</li><li>In the <a class="term_2" href="/en/glossary/#hierarchy" data-name="Hierarchy" data-tip="The Unity window that lists the things placed in the scene (objects) as parents and children.">Hierarchy</a>, select the top of your avatar (the <a class="term_2" href="/en/glossary/#gameobject" data-name="Object (GameObject)" data-tip="Each item listed in the Hierarchy. You give it a role by adding components.">object</a> with the <a class="term_2" href="/en/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="The component on the top of an avatar that holds its VRChat settings.">VRC Avatar Descriptor</a>).</li><li>In the <a class="term_2" href="/en/glossary/#inspector" data-name="Inspector" data-tip="The Unity window that shows the contents and settings of the selected object or file.">Inspector</a>, use "Add Component" to find and add "AAO Trace And Optimize". The default settings are fine.</li><li>Press Play and check that the look and <a class="term_2" href="/en/glossary/#gimmick" data-name="Gimmick" data-tip="A mechanism that switches an avatar's look or movement from the menu or with hand signs.">gimmicks</a> haven't changed, then upload. The <a class="term_2" href="/en/glossary/#builder" data-name="Builder" data-tip="A tab in the VRChat SDK window. It holds the name and visibility settings, the check results, and the upload button.">Builder</a>'s <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> may not show the numbers after AAO's optimization, so check "Avatar Stats" in VRChat after you upload.</li>
     </ol>
     <p class="section_2__more"><a href="/en/avatar-tips/setup/#packages">#1 Adding tools and shaders</a></p>
   </section>
@@ -551,15 +552,15 @@
           <h3 class="case_1__title">Adding outfits made it Very Poor</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>You added a few outfits and made them switchable from the menu, and the avatar became Very Poor.</dd></div>
-            <div><dt>Cause</dt><dd>Outfits that are off are counted too, so the number of meshes, materials and PhysBones went up.</dd></div>
-            <div><dt>Fix</dt><dd>Delete outfits you don&#39;t switch to. Adding AAO&#39;s Trace And Optimize may also merge meshes and reduce the count.</dd></div>
+            <div><dt>Cause</dt><dd>Outfits that are off are counted too, so the number of <a class="term_2" href="/en/glossary/#mesh" data-name="Mesh" data-tip="Shape data built from triangles (polygons).">meshes</a>, <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a> and <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> went up.</dd></div>
+            <div><dt>Fix</dt><dd>Delete outfits you don&#39;t switch to. Adding <a class="term_2" href="/en/glossary/#aao" data-name="AAO (Avatar Optimizer)" data-tip="A tool that automatically makes an avatar lighter at upload time without changing how it looks.">AAO</a>&#39;s Trace And Optimize may also merge meshes and reduce the count.</dd></div>
           </dl>
         </section>
       
         <section class="case_1__item">
           <h3 class="case_1__title">Only the PhysBone items are Poor</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>Everything else is Good, but the PhysBones count or the bones they move make it Poor.</dd></div>
+            <div><dt>What happens</dt><dd>Everything else is Good, but the PhysBones count or the <a class="term_2" href="/en/glossary/#bone" data-name="Bone" data-tip="A bone that moves a mesh. When a bone moves, the mesh tied to it bends.">bones</a> they move make it Poor.</dd></div>
             <div><dt>Cause</dt><dd>Each outfit comes with its own PhysBones for hair and clothes.</dd></div>
             <div><dt>Fix</dt><dd>Remove PhysBones from parts that don&#39;t need to sway, or let AAO merge them.</dd></div>
           </dl>
@@ -569,7 +570,7 @@
           <h3 class="case_1__title">Texture memory is too high</h3>
           <dl class="case_1__list">
             <div><dt>What happens</dt><dd>Texture Memory goes over 150 MB and the avatar becomes Very Poor.</dd></div>
-            <div><dt>Cause</dt><dd>There are many large textures, such as 4096.</dd></div>
+            <div><dt>Cause</dt><dd>There are many large <a class="term_2" href="/en/glossary/#texture" data-name="Texture" data-tip="An image wrapped onto a mesh. It paints skin, clothing patterns, colors, and so on.">textures</a>, such as 4096.</dd></div>
             <div><dt>Fix</dt><dd>Starting with textures on parts that don&#39;t stand out, lower Max Size to 2048 or 1024.</dd></div>
           </dl>
         </section>
@@ -577,8 +578,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">Other people see a different avatar</h3>
           <dl class="case_1__list">
-            <div><dt>What happens</dt><dd>You can see your avatar, but others see a stand-in (Fallback) or a robot.</dd></div>
-            <div><dt>Cause</dt><dd>The viewer has set the displayed rank to Medium or similar, or is on mobile or Quest.</dd></div>
+            <div><dt>What happens</dt><dd>You can see your avatar, but others see a stand-in (<a class="term_2" href="/en/glossary/#fallback" data-name="Fallback" data-tip="The stand-in shown to people who can't see your avatar because of rank or Safety settings.">Fallback</a>) or a robot.</dd></div>
+            <div><dt>Cause</dt><dd>The viewer has set the displayed <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> to Medium or similar, or is on mobile or <a class="term_2" href="/en/glossary/#quest" data-name="Quest, Android, iOS" data-tip="VRChat running on standalone VR headsets such as the Meta Quest, or on phones. It needs separate avatar data from the PC version.">Quest</a>.</dd></div>
             <div><dt>Fix</dt><dd>Raising your rank lets more people see your avatar. For people on mobile or Quest, prepare a version of your avatar that supports them (#5).</dd></div>
           </dl>
         </section>
@@ -589,21 +590,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
     <ul class="rules_1">
-      <li>Before you cut anything, export your avatar&#39;s folder or back up your project. Some cuts can&#39;t be undone.</li><li>Before cutting things directly, try tools like AAO that don&#39;t change the original.</li><li>The rank is a guide. Medium is enough. You don&#39;t need to ruin a look you like just to raise the rank.</li><li>VRChat may change the rank limits. Check VRChat&#39;s official page for the latest numbers.</li>
+      <li>Before you cut anything, export your avatar&#39;s folder or back up your <a class="term_2" href="/en/glossary/#project" data-name="Project" data-tip="The unit you work in with Unity. One folder holds the avatar's and tools' files.">project</a>. Some cuts can&#39;t be undone.</li><li>Before cutting things directly, try tools like <a class="term_2" href="/en/glossary/#aao" data-name="AAO (Avatar Optimizer)" data-tip="A tool that automatically makes an avatar lighter at upload time without changing how it looks.">AAO</a> that don&#39;t change the original.</li><li>The <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> is a guide. Medium is enough. You don&#39;t need to ruin a look you like just to raise the rank.</li><li>VRChat may change the rank limits. Check VRChat&#39;s official page for the latest numbers.</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">Summary</h2>
     <ul class="rules_1">
-      <li>Your avatar&#39;s rank is decided by its lowest item.</li><li>Outfits you have turned off are counted too. Delete things you don&#39;t use.</li><li>First add AAO&#39;s Trace And Optimize, then review materials, PhysBones and textures.</li><li>Aim for Good, and if that is hard, Medium is enough.</li>
+      <li>Your avatar&#39;s <a class="term_2" href="/en/glossary/#performance-rank" data-name="Performance Rank" data-tip="How heavy an avatar is, in 5 levels: Excellent, Good, Medium, Poor, Very Poor.">rank</a> is decided by its lowest item.</li><li>Outfits you have turned off are counted too. Delete things you don&#39;t use.</li><li>First add <a class="term_2" href="/en/glossary/#aao" data-name="AAO (Avatar Optimizer)" data-tip="A tool that automatically makes an avatar lighter at upload time without changing how it looks.">AAO</a>&#39;s Trace And Optimize, then review <a class="term_2" href="/en/glossary/#material" data-name="Material" data-tip="Color and surface settings. It decides which shader and which textures to use.">materials</a>, <a class="term_2" href="/en/glossary/#physbone" data-name="PhysBone" data-tip="VRChat's component that makes hair, tails, and skirts sway. They can also be grabbed.">PhysBones</a> and <a class="term_2" href="/en/glossary/#texture" data-name="Texture" data-tip="An image wrapped onto a mesh. It paints skin, clothing patterns, colors, and so on.">textures</a>.</li><li>Aim for Good, and if that is hard, Medium is enough.</li>
     </ul>
     <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="Previous and next tips">
-  
+  <p class="section_2__note">Look up unfamiliar words in the <a href="/en/glossary/">VRChat Glossary</a>. Hover over a colored, dotted word in the text for a short explanation.</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/en/avatar-tips/outfit/" rel="prev"><span class="next_1__note">Previous (#3)</span><span class="next_1__text">Dressing your avatar</span></a></li>

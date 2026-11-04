@@ -13,6 +13,7 @@ const meta = {
 %>
 <%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
 <%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/glossary-tip.js" defer></script>
 </head>
 <body class="top_1">
 <%- include(path + "assets/html/_body_before",{locale:"en"}) %>
@@ -21,7 +22,7 @@ const meta = {
 <%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",locale:"en"}) %>
 
 <main id="main">
-<%- include(path + "assets/html/_tips-setup",{locale:"en"}) %>
+<%- include(path + "assets/html/_glossary_link",{locale:"en",html:include(path + "assets/html/_tips-setup",{locale:"en"})}) %>
 <%- include(path + "assets/html/_tips_pager",{slug:"setup",locale:"en"}) %>
 </main><!-- /#main -->
 

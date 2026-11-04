@@ -370,7 +370,7 @@ const buildLlmsTxt = (pages) => {
     section('アバター改変の解説（連載。読む順）', [...avatarTips.articles].sort((a, b) => a.no - b.no).map((a) => `avatar-tips/${a.slug}/index.html`)),
     section('そのほかのページ', pages.filter((page) => !isEnPage(page.name)).map((page) => page.name)),
     section('English', [
-      'en/index.html', 'en/products/index.html', 'en/faq/index.html', 'en/start/index.html',
+      'en/index.html', 'en/products/index.html', 'en/faq/index.html', 'en/avatar-tips/index.html', 'en/glossary/index.html', 'en/start/index.html',
       ...productNamesOf(true),
       ...pages.filter((page) => isEnPage(page.name)).map((page) => page.name),
     ]),
