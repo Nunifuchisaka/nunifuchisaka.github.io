@@ -478,7 +478,8 @@ const buildTipsSearch = (assets, glossary) => {
   const synonyms = [];
   glossary.categories.forEach((c) => c.terms.forEach((t) => {
     const body = htmlToText(t.body);
-    items.push({ k: 'g', u: `/glossary/#${t.id}`, h: t.term, w: 'VRChat 用語集', x: `${t.short} ${body}`, m: t.match.join(' ') });
+    // m：用語の別の書き方と、ひらがなの読み（読みの途中まででも、用語集の項目には当たる）
+    items.push({ k: 'g', u: `/glossary/#${t.id}`, h: t.term, w: 'VRChat 用語集', x: `${t.short} ${body}`, m: [...t.match, ...(t.yomi || []).map((y) => y.split('=')[0])].join(' ') });
     if (TIPS_SEARCH_NO_SYNONYM.includes(t.id)) return;
     const names = [...new Set([t.term, ...t.term.split(/[（）・]/), ...t.match].map((s) => s.trim()).filter((s) => s.length > 1))];
     if (names.length > 1) synonyms.push(names);
@@ -488,18 +489,84 @@ const buildTipsSearch = (assets, glossary) => {
     if (group) group.push(...others);
     else synonyms.push([name, ...others]);
   });
-  return `${JSON.stringify({ items, synonyms })}\n`;
+  return { items, synonyms };
+};
+
+// ひらがなで探すための読みの辞書（読み → 本文での書き方）。改変解説の検索・困りごとの絞り込み・用語集の絞り込みで共通
+// - 検索の索引の文（記事の節・困りごと・用語集）を kuromoji で単語に分け、漢字を含む単語と、続く名詞のまとまり（軽量＋化 など）の読みを集める
+// - 用語集の yomi も入れる（「よみ=書き方」はその書き方だけ、書き方が無ければ用語の名前と match のすべて）
+// 読みは、カタカナにして「ー」「・」を除いた形（tips-search.js などの比べ方と同じ）
+const TIPS_YOMI_FILE = 'assets/data/avatar-tips-yomi.json';
+let kuromojiTokenizer = null;
+const getTokenizer = () => {
+  if (!kuromojiTokenizer) {
+    kuromojiTokenizer = new Promise((resolve, reject) => {
+      const kuromoji = require('kuromoji');
+      kuromoji.builder({ dicPath: path.join(path.dirname(require.resolve('kuromoji/package.json')), 'dict') })
+        .build((err, tokenizer) => (err ? reject(err) : resolve(tokenizer)));
+    });
+  }
+  return kuromojiTokenizer;
+};
+const foldYomi = (text) => text.normalize('NFKC').toLowerCase()
+  .replace(/[\u3041-\u3096]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 0x60))
+  .replace(/[\u30fc\u30fb\s]/g, '');
+const buildTipsYomi = (tokenizer, items, glossary) => {
+  const KANJI = /[\u3400-\u9fff\u3005]/;
+  const dict = new Map();
+  const add = (reading, surface) => {
+    const key = foldYomi(reading);
+    if (!key || foldYomi(surface) === key) return;
+    if (!dict.has(key)) dict.set(key, new Set());
+    dict.get(key).add(surface);
+  };
+  const hasReading = (t) => t.reading && t.reading !== '*';
+  items.forEach((item) => {
+    const tokens = tokenizer.tokenize(`${item.h}\n${item.x}`);
+    tokens.forEach((t, i) => {
+      if (!hasReading(t)) return;
+      if (KANJI.test(t.surface_form)) add(t.reading, t.surface_form);
+      if (t.pos !== '名詞') return;
+      let surface = t.surface_form;
+      let reading = t.reading;
+      for (let j = i + 1; j < Math.min(tokens.length, i + 4); j++) {
+        const u = tokens[j];
+        if (u.pos !== '名詞' || !hasReading(u)) break;
+        surface += u.surface_form;
+        reading += u.reading;
+        if (KANJI.test(surface)) add(reading, surface);
+      }
+    });
+  });
+  glossary.categories.forEach((c) => c.terms.forEach((t) => {
+    const names = [...new Set([...t.term.split(/[（）・]/), ...t.match].map((s) => s.trim()).filter(Boolean))];
+    (t.yomi || []).forEach((y) => {
+      const [reading, surface] = y.split('=');
+      (surface ? [surface] : names).forEach((name) => add(reading, name));
+    });
+  }));
+  const out = {};
+  [...dict.keys()].sort().forEach((key) => { out[key] = [...dict.get(key)].sort(); });
+  return out;
 };
 const TipsSearchPlugin = {
   apply: (compiler) => {
     compiler.hooks.thisCompilation.tap('TipsSearchPlugin', (compilation) => {
-      compilation.hooks.processAssets.tap({
+      compilation.hooks.processAssets.tapPromise({
         name: 'TipsSearchPlugin',
         stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
-      }, (assets) => {
+      }, async (assets) => {
         if (!assets['avatar-tips/index.html']) return;
+        const { RawSource } = compiler.webpack.sources;
         const glossary = JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/glossary.json'), 'utf8'));
-        compilation.emitAsset(TIPS_SEARCH_FILE, new compiler.webpack.sources.RawSource(buildTipsSearch(assets, glossary)));
+        const search = buildTipsSearch(assets, glossary);
+        compilation.emitAsset(TIPS_SEARCH_FILE, new RawSource(`${JSON.stringify(search)}\n`));
+        try {
+          const yomi = buildTipsYomi(await getTokenizer(), search.items, glossary);
+          compilation.emitAsset(TIPS_YOMI_FILE, new RawSource(`${JSON.stringify(yomi)}\n`));
+        } catch (e) {
+          console.error('ひらがなで探すための読みの辞書を作れませんでした:', e.message);
+        }
       });
     });
   },

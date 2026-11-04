@@ -5,7 +5,10 @@
 // - ひらがなとカタカナ、全角と半角、大文字と小文字、「ー」・「・」のあるなしは区別しない
 // - 3文字までの英数字（MA・FX・SDK など）は、ほかの英単語の一部には当てない（Animator の ma など）
 // - 用語集の別の呼び名（synonyms。例：MA と Modular Avatar）は、どれで探しても同じに当たる
+// - ひらがなで打つと、読みの辞書（_yomi.js）で本文の漢字の書き方にも当てる（例：「ひょうじょう」で「表情」）
 // - 打つたびに検索し、URL の ?q= も書きかえる（そのまま共有・ブックマークできる）
+import { loadYomi, yomiAlts } from "./_yomi.js";
+
 (() => {
   const root = document.querySelector(".js_search");
   const form = document.querySelector(".js_search_form");
@@ -95,7 +98,12 @@
 
   // ことば1つ → 当てる書き方の一覧（別の呼び名を含む）。短い英数字は、前後が英数字でないところにだけ当てる
   const SHORT_ASCII = /^[a-z0-9]{1,3}$/;
-  const altsOf = (w) => (index.synonyms.get(w) || [w]).map((t) => ({ t, strict: SHORT_ASCII.test(t) }));
+  const synonymsOf = (w) => index.synonyms.get(w) || [w];
+  const altsOf = (w) => {
+    const all = new Set(synonymsOf(w));
+    yomiAlts(w).map(foldWord).filter(Boolean).forEach((y) => synonymsOf(y).forEach((t) => all.add(t)));
+    return [...all].map((t) => ({ t, strict: SHORT_ASCII.test(t) }));
+  };
   const WORD_CHAR = /[a-z0-9]/;
   // s の中で a が当たる位置を、cap 個まで返す
   const find = (s, a, cap) => {
@@ -228,7 +236,7 @@
       return;
     }
     root.hidden = false;
-    load().then(() => {
+    Promise.all([load(), loadYomi()]).then(() => {
       if (input.value.trim() !== q) return;
       words = q.split(/\s+/).map(foldWord).filter(Boolean).map(altsOf);
       results = index.items
@@ -246,7 +254,10 @@
     clearTimeout(timer);
     timer = setTimeout(search, 200);
   });
-  input.addEventListener("focus", () => { load().catch(() => {}); }, { once: true });
+  input.addEventListener("focus", () => {
+    load().catch(() => {});
+    loadYomi();
+  }, { once: true });
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     clearTimeout(timer);
