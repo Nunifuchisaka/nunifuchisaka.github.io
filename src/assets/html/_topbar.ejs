@@ -1,14 +1,14 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-// current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds" / "avatar-tips"）。aria-current を付ける
+// current：いま開いているページ（"home" / "start" / "timeline" / "equipment" / "products" / "videos" / "dice" / "cluster" / "claude-code" / "faq" / "worlds" / "avatar-tips" / "glossary"）。aria-current を付ける
 const currentPage = typeof current !== "undefined" ? current : "home";
 // cluster のページはナビに出さず、トップページの「cluster」から行く
-// よくある質問は「制作物」の、お気に入りワールドは「はじめてのVRChat」の下のページとして、ナビではその親に印を付ける
+// よくある質問は「制作物」の、お気に入りワールドは「はじめてのVRChat」の、VRChat 用語集は「改変解説」の下のページとして、ナビではその親に印を付ける
 // enReady：false のページは英語版がまだ無い（日本語版の内容が固まってから作る）。言語切替の English を選べないようにする
 const hasEn = typeof enReady === "undefined" ? true : enReady;
 // 英語版がまだ無い項目は、英語のメニューに出さない
 const EN_PENDING = [];
-const navPage = { faq: "products", worlds: "start", "avatar-tips-article": "avatar-tips" }[currentPage] || currentPage;
+const navPage = { faq: "products", worlds: "start", "avatar-tips-article": "avatar-tips", glossary: "avatar-tips" }[currentPage] || currentPage;
 const isEn = pageLocale === "en";
 const t = {
   ja: {

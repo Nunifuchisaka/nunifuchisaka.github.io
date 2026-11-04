@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/queue-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第14回</a></p>
     <h1 class="page_1__h1" id="article-heading">Render Queue（描画の順番）</h1>
-    <p class="article_1__lead">半透明の髪やレース、メガネのレンズが、見る角度で消えたり、ほかの物の後ろに隠れたりする。その多くは、Render Queue（レンダーキュー）という「描く順番」の数字で直せます。</p>
-    <p class="section_2__note">公開 <time datetime="2026-11-02">2026年11月2日</time> · 対象は Unity の Built-in Render Pipeline（VRChat のアバター）です。2026年11月時点の内容です。</p>
+    <p class="article_1__lead"><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>の髪やレース、メガネのレンズが、見る角度で消えたり、ほかの物の後ろに隠れたりする。その多くは、<a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a>（レンダーキュー）という「描く順番」の数字で直せます。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-02">2026年11月2日</time> · 対象は Unity の <a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a>（VRChat のアバター）です。2026年11月時点の内容です。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
         
@@ -175,13 +176,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>半透明のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。</li><li>水のあるワールドで、アバターの半透明の部分が水面に隠れる。</li><li>半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。</li><li>パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。</li>
+      <li><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。</li><li>水のあるワールドで、アバターの半透明の部分が水面に隠れる。</li><li>半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。</li><li>パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
     <h2 class="section_2__h1" id="what-heading">Render Queue とは</h2>
-    <p class="article_1__p">Unity は画面を描くとき、マテリアルごとに決まった数字の小さい順に描いていきます。この数字が <strong>Render Queue</strong> です。あとから描いた物が、先に描いた物の上に重なります。</p><p class="article_1__p">不透明な物は、奥行き（深度）を見て前後が決まるので、順番を変えても見た目はほとんど変わりません。順番が見た目に効くのは<strong>半透明</strong>の物です。半透明の物は奥行きを記録せず、すでに描かれている色の上に、自分の色を混ぜるだけだからです。</p>
+    <p class="article_1__p">Unity は画面を描くとき、<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>ごとに決まった数字の小さい順に描いていきます。この数字が <strong><a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a></strong> です。あとから描いた物が、先に描いた物の上に重なります。</p><p class="article_1__p">不透明な物は、奥行き（深度）を見て前後が決まるので、順番を変えても見た目はほとんど変わりません。順番が見た目に効くのは<strong><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a></strong>の物です。半透明の物は奥行きを記録せず、すでに描かれている色の上に、自分の色を混ぜるだけだからです。</p>
     <figure class="scale_1">
       <figcaption class="scale_1__caption">おもな Render Queue の数字</figcaption>
       <ol class="scale_1__list">
@@ -237,12 +238,12 @@
       
         <div class="examples_1__item">
           <dt>2501 以上（半透明の扱い）</dt>
-          <dd>同じ数字の中では、カメラから遠い物から描きます。距離は、見えている面までではなく、<strong>メッシュの範囲（Bounds）の中心</strong>までで測ります。大きなスカートと小さなリボンのように中心の位置が違う物は、カメラを動かすと「どちらが近いか」が入れ替わり、ちらつきます。</dd>
+          <dd>同じ数字の中では、カメラから遠い物から描きます。距離は、見えている面までではなく、<strong><a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>の範囲（<a class="term_2" href="/glossary/#bounds" data-name="Bounds" data-tip="メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。">Bounds</a>）の中心</strong>までで測ります。大きなスカートと小さなリボンのように中心の位置が違う物は、カメラを動かすと「どちらが近いか」が入れ替わり、ちらつきます。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>1つのメッシュに半透明のマテリアルがいくつかあるとき</dt>
-          <dd>同じメッシュの中で同じ数字なら、距離ではなく、マテリアルの並び順（Element 0, 1, …）で描かれます。</dd>
+          <dd>同じメッシュの中で同じ数字なら、距離ではなく、<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の並び順（Element 0, 1, …）で描かれます。</dd>
         </div>
       
     </dl>
@@ -250,7 +251,7 @@
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
-    <p class="article_1__p">アバターの半透明パーツは、水面より手前にあります。水面が先に描かれれば、正しく見えます。数字と距離を変えて、どうなるか見てみてください。</p>
+    <p class="article_1__p">アバターの<a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>パーツは、水面より手前にあります。水面が先に描かれれば、正しく見えます。数字と距離を変えて、どうなるか見てみてください。</p>
     <div class="demo_1 js_queue_demo"
       data-ok="正しく見える：水面を先に描き、その上にパーツが重なっています。" data-ng="おかしく見える：パーツを先に描き、その上に水面が塗られるので、パーツが水の中にあるように見えます。" data-tie="数字が同じなので、距離で順番が決まります。" data-by-number="数字が違うので、小さい方から描きます。"
       data-part="アバターの半透明パーツ" data-water="ワールドの水面" data-first="先" data-then="後">
@@ -293,7 +294,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">角度で消えたり出たりする</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>半透明のパーツ2つが、見る角度によって前に出たり後ろに隠れたりする。</dd></div>
+            <div><dt>起きること</dt><dd><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>のパーツ2つが、見る角度によって前に出たり後ろに隠れたりする。</dd></div>
             <div><dt>原因</dt><dd>数字が同じなので距離で順番が決まり、その判定が角度で入れ替わっています。</dd></div>
             <div><dt>直し方</dt><dd>手前に見せたい方の数字を、少しだけ（+1〜+10）大きくします。距離ではなく数字で順番が決まるので、入れ替わらなくなります。</dd></div>
           </dl>
@@ -304,14 +305,14 @@
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>水のあるワールドで、アバターの半透明の部分が水の中にあるように見える。</dd></div>
             <div><dt>原因</dt><dd>ワールドの水面は、半透明の範囲の数字を使っていることが多いです。パーツが水面より先に描かれると、上から水面の色を塗られてしまいます。</dd></div>
-            <div><dt>直し方</dt><dd>パーツの数字を、水面より大きくします。私の SpiderWeb では、糸を 3100、衝撃波を 3110 にしています。水面が 3100 以上のワールドでは、糸のマテリアルを水面より大きく、衝撃波をさらに後にするよう、説明書に書いています。 <a href="/spiderweb/">SpiderWeb の説明書</a></dd></div>
+            <div><dt>直し方</dt><dd>パーツの数字を、水面より大きくします。私の SpiderWeb では、糸を 3100、衝撃波を 3110 にしています。水面が 3100 以上のワールドでは、糸の<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>を水面より大きく、衝撃波をさらに後にするよう、説明書に書いています。 <a href="/spiderweb/">SpiderWeb の説明書</a></dd></div>
           </dl>
         </section>
       
         <section class="case_1__item">
           <h3 class="case_1__title">1つのメッシュの中で重なる</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>同じメッシュにある半透明のマテリアル2つが、逆の順番で重なる。</dd></div>
+            <div><dt>起きること</dt><dd>同じ<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>にある半透明のマテリアル2つが、逆の順番で重なる。</dd></div>
             <div><dt>原因</dt><dd>数字が同じなので、マテリアルの並び順で描かれています。</dd></div>
             <div><dt>直し方</dt><dd>手前に見せたい方の数字を大きくするか、奥に見せたい方を前の Element に並べ替えます。</dd></div>
           </dl>
@@ -332,27 +333,29 @@
   <section class="section_2 article_1__section" id="how" aria-labelledby="how-heading">
     <h2 class="section_2__h1" id="how-heading">数字の変え方</h2>
     <ol class="steps_1">
-      <li>元に戻せるように、先にマテリアルを複製しておきます。</li><li>Project ウィンドウで、変えたいマテリアルを選びます。</li><li>Inspector で <strong>Render Queue</strong> の欄を探します。多くのシェーダーでは下のほうにあります。<code>From Shader</code> のままだと、シェーダーの既定の数字になります。</li><li>数字を入れます。</li><li>順番を確かめるには、Unity の Frame Debugger（<code>Window → Analysis → Frame Debugger</code>）を開き、描かれる物を1つずつ送って見ます。</li>
+      <li>元に戻せるように、先に<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>を複製しておきます。</li><li><a class="term_2" href="/glossary/#project-window" data-name="Project ウィンドウ" data-tip="プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。">Project</a> ウィンドウで、変えたいマテリアルを選びます。</li><li><a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> で <strong><a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a></strong> の欄を探します。多くの<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>では下のほうにあります。<code>From Shader</code> のままだと、シェーダーの既定の数字になります。</li><li>数字を入れます。</li><li>順番を確かめるには、Unity の Frame Debugger（<code>Window → Analysis → Frame Debugger</code>）を開き、描かれる物を1つずつ送って見ます。</li>
     </ol>
   </section>
 
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>2500 を超えると、半透明の扱いになります。Built-in Render Pipeline では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。</li><li>シェーダーの描画モードを変えると、Render Queue が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。</li><li>大きく動かさないでください。数字が大きいほど、ワールドの半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。</li><li>Render Queue はマテリアルの設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。</li>
+      <li>2500 を超えると、<a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>の扱いになります。<a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。</li><li><a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>の描画モードを変えると、<a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a> が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。</li><li>大きく動かさないでください。数字が大きいほど、ワールドの半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。</li><li>Render Queue は<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
     <ul class="rules_1">
-      <li>Render Queue は描く順番の数字で、効くのは半透明のマテリアルです。</li><li>数字が同じだと、メッシュの中心までの距離で順番が決まり、それがちらつきの原因になります。</li><li>決めたい順番だけを小さな差で決め、できるところは Cutout にします。</li>
+      <li><a class="term_2" href="/glossary/#render-queue" data-name="Render Queue" data-tip="マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。">Render Queue</a> は描く順番の数字で、効くのは<a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>の<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>です。</li><li>数字が同じだと、<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>の中心までの距離で順番が決まり、それがちらつきの原因になります。</li><li>決めたい順番だけを小さな差で決め、できるところは Cutout にします。</li>
     </ul>
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="前後の回">
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/avatar-tips/unity-vs-vrchat/" rel="prev"><span class="next_1__note">前の回（第13回）</span><span class="next_1__text">Unity と VRChat で見た目が変わる</span></a></li>

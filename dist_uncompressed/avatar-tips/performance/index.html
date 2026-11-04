@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/rank-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,7 +148,7 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第4回</a></p>
     <h1 class="page_1__h1" id="article-heading">パフォーマンスランクと軽量化</h1>
-    <p class="article_1__lead">アップロードしたら Very Poor になった。衣装を足したら、ランクが下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。</p>
+    <p class="article_1__lead">アップロードしたら Very Poor になった。衣装を足したら、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>が下がった。パフォーマンスランクの決まり方と、ほかの人からの見え方、ランクを上げる（軽くする）方法を解説します。</p>
     <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · パソコン版（PC）の VRChat の話です。上限の数は、VRChat の公式ページ（2026年10月21日更新）によります。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
@@ -183,13 +184,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>アップロードしたら、ランクが Very Poor だった。</li><li>衣装やアクセサリーを足したら、ランクが下がった。</li><li>イベントで、Very Poor のアバターは控えてと言われた。</li><li>ほかの人から、自分のアバターが別の姿に見えていると言われた。</li>
+      <li>アップロードしたら、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>が Very Poor だった。</li><li>衣装やアクセサリーを足したら、ランクが下がった。</li><li>イベントで、Very Poor のアバターは控えてと言われた。</li><li>ほかの人から、自分のアバターが別の姿に見えていると言われた。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="rank" aria-labelledby="rank-heading">
     <h2 class="section_2__h1" id="rank-heading">パフォーマンスランクとは</h2>
-    <p class="article_1__p">パフォーマンスランクは、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。ポリゴンの数やマテリアルの数など、項目ごとに上限が決まっています。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">パフォーマンスランク</a>は、アバターがどれくらい重いか（パソコンに負担をかけるか）を、5段階で表したものです。<a class="term_2" href="/glossary/#polygon" data-name="ポリゴン" data-tip="メッシュを作っている三角形。数が多いほど細かいが、重くなる。">ポリゴン</a>の数や<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の数など、項目ごとに上限が決まっています。</p>
     <dl class="examples_1 examples_1--grid">
       
         <div class="examples_1__item">
@@ -218,12 +219,12 @@
         </div>
       
     </dl>
-    <p class="article_1__p">アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。</p><p class="article_1__p">VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。</p><p class="article_1__p">ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。シェーダーやアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。</p>
+    <p class="article_1__p">アバターのランクは、<strong>いちばん低い項目のランク</strong>になります。ほかの項目がすべて Excellent でも、1つでも Very Poor の項目があれば Very Poor です。</p><p class="article_1__p">VRChat は、<strong>Good を目指し、むずかしければ Medium で十分</strong>と案内しています。</p><p class="article_1__p">ランクは、アバターに入っている部品の数を数えて決めるだけの目安です。<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>やアニメーションの重さは見ていません。ランクがすべてではありませんが、重いアバターを見つけるには役に立ちます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="seen" aria-labelledby="seen-heading">
     <h2 class="section_2__h1" id="seen-heading">ほかの人からどう見えるか</h2>
-    <p class="article_1__p">見る人は、VRChat の「Safety」のタブの右上にある「Performance Options」で、<strong>どのランクまで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。</p>
+    <p class="article_1__p">見る人は、VRChat の「<a class="term_2" href="/glossary/#safety" data-name="Safety（セーフティ）" data-tip="ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。">Safety</a>」のタブの右上にある「Performance Options」で、<strong>どの<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>まで表示するか</strong>（Minimum Displayed Performance Rank）を決められます。パソコン版の初めの設定は「Very Poor」で、どのランクのアバターもそのまま見えます。見る人が「Medium」や「Poor」にすると、それより低いアバターは、次のように変わって見えます。</p>
     <div class="mock_1 mock_1--vrchat">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -261,22 +262,22 @@
         </thead>
         <tbody>
           
-            <tr><th scope="row">三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数</th><td>アバターが、代わりの姿（Fallback）になる</td></tr>
+            <tr><th scope="row">三角形の数、テクスチャのメモリ、メッシュの数、マテリアルの数、ボーンの数</th><td>アバターが、代わりの姿（<a class="term_2" href="/glossary/#fallback" data-name="Fallback（代わりの姿）" data-tip="ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。">Fallback</a>）になる</td></tr>
           
-            <tr><th scope="row">PhysBone や Contact の数</th><td>PhysBone と Contact がすべて外される（髪などが揺れなくなる）</td></tr>
+            <tr><th scope="row">PhysBone や Contact の数</th><td><a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> と <a class="term_2" href="/glossary/#contact" data-name="Contact（Sender と Receiver）" data-tip="触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。">Contact</a> がすべて外される（髪などが揺れなくなる）</td></tr>
           
             <tr><th scope="row">パーティクル、ライト、音など</th><td>その部品がすべて外される</td></tr>
           
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">スマホや Quest では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは第5回で扱います。</p><p class="article_1__p">人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。</p>
+    <p class="article_1__p">スマホや <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> では、初めから「Medium」までしか表示されず、Very Poor を表示する設定は選べません。くわしくは第5回で扱います。</p><p class="article_1__p">人の多いイベントやグループでは、Very Poor のアバターを控えるように言われることがあります。仲のよい人と遊ぶときは Very Poor のアバターを使うとしても、人の多い場所向けに、軽いアバターも用意しておくと安心です。</p>
     <p class="section_2__more"><a href="/avatar-tips/quest/">第5回 Quest・スマホ対応</a></p>
   </section>
 
   <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
     <h2 class="section_2__h1" id="limits-heading">おもな項目と上限（パソコン版）</h2>
-    <p class="article_1__p">表の数より多いと、次のランクに下がります。Poor の数も超えると Very Poor です。</p>
+    <p class="article_1__p">表の数より多いと、次の<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>に下がります。Poor の数も超えると Very Poor です。</p>
     <section class="table_3" tabindex="0" aria-label="パソコン版のパフォーマンスランクの上限">
       <table>
         <thead>
@@ -315,15 +316,15 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p"><strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、メッシュやマテリアル、PhysBone の数に入ります。</p><p class="article_1__p">ほかにも、大きさ（Bounds Size）、Constraint、Animator の数などの項目があります。すべての項目は、<a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat の Performance Ranks のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>で見られます。</p>
+    <p class="article_1__p"><strong>オフにしている物も数えます</strong>。メニューで出し入れする衣装やアクセサリーも、オフのまま入っていれば、<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>や<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> の数に入ります。</p><p class="article_1__p">ほかにも、大きさ（<a class="term_2" href="/glossary/#bounds" data-name="Bounds" data-tip="メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。">Bounds</a> Size）、Constraint、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> の数などの項目があります。すべての項目は、<a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat の Performance Ranks のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>で見られます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="where" aria-labelledby="where-heading">
     <h2 class="section_2__h1" id="where-heading">ランクを見る場所</h2>
-    <p class="article_1__p">ランクは、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>は、アップロードする前に Unity で、アップロードしたあとに VRChat の中で見られます。</p>
     <h3 class="section_2__h2">Unity（アップロードする前）</h3>
     <ol class="steps_1">
-      <li>Unity の上のメニューの「VRChat SDK」→「Show Control Panel」を開きます。</li><li>「Builder」のタブで、アバターを選びます。</li><li>パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。</li>
+      <li>Unity の上のメニューの「<a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a>」→「Show Control Panel」を開きます。</li><li>「<a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a>」のタブで、アバターを選びます。</li><li>パフォーマンスの欄に、全体のランクと、ランクを下げている項目が出ます。</li>
     </ol>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
@@ -415,12 +416,12 @@
 
   <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
     <h2 class="section_2__h1" id="why-heading">なぜ軽くしたほうがよいか</h2>
-    <p class="article_1__p">アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。</p><p class="article_1__p">とくに、マテリアルとメッシュの数が多いと、描くための命令（ドローコール）が増えます。三角形の数より、こちらが効いていることもよくあります。</p><p class="article_1__p">テクスチャのメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。</p>
+    <p class="article_1__p">アバターは、ほかの人のパソコンでも描かれます。重いアバターは、<strong>まわりの人のパソコンにも負担をかけ</strong>、フレームレート（なめらかさ）を下げます。人が集まる場所では、その分が積み重なります。</p><p class="article_1__p">とくに、<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>と<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>の数が多いと、描くための命令（<a class="term_2" href="/glossary/#drawcall" data-name="ドローコール" data-tip="画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。">ドローコール</a>）が増えます。三角形の数より、こちらが効いていることもよくあります。</p><p class="article_1__p"><a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>のメモリが多いと、グラフィックボードのメモリ（VRAM）が足りなくなり、カクついたり、落ちたりする原因になります。</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
-    <p class="article_1__p">おもな項目の数を変えて、アバター全体のランクがどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。</p>
+    <p class="article_1__p">おもな項目の数を変えて、アバター全体の<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>がどうなるかを見てみてください。いちばん低い項目が、全体のランクを決めます。</p>
     <div class="demo_2 js_rank_demo"
       data-ranks="Excellent,Good,Medium,Poor,Very Poor" data-ok="このアバターのランクは {r} です。困ることはあまりありません。" data-ng="このアバターのランクは {r} です。太字の項目を減らすと、ランクが上がります。"
       data-why="いちばん低いのは {i}（{r}）です。ランクは、いちばん低い項目で決まります。" data-all-best="すべての項目が Excellent の範囲です。" data-mark="（いちばん低い）"
@@ -503,7 +504,7 @@
       
         <div class="examples_1__item">
           <dt>1. Avatar Optimizer（AAO）を入れる</dt>
-          <dd>アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、メッシュをまとめる、PhysBone をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「AAO で軽くする」を見てください。</dd>
+          <dd>アップロードするときに、見た目を変えずに自動で軽くしてくれるツールです。使っていない部品を消す、<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>をまとめる、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> をまとめるなどを行います。元のアバターは書き換えません。入れ方は、下の「<a class="term_2" href="/glossary/#aao" data-name="AAO（Avatar Optimizer）" data-tip="見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。">AAO</a> で軽くする」を見てください。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -513,22 +514,22 @@
       
         <div class="examples_1__item">
           <dt>3. メッシュとマテリアルをまとめる</dt>
-          <dd>メッシュをまとめるツールや、テクスチャを1枚にまとめて（アトラス化して）マテリアルを減らすツールがあります。マテリアルとメッシュが減ると、ドローコールが減ります。</dd>
+          <dd>メッシュをまとめるツールや、<a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>を1枚にまとめて（<a class="term_2" href="/glossary/#atlas" data-name="アトラス化" data-tip="いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。">アトラス</a>化して）<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>を減らすツールがあります。マテリアルとメッシュが減ると、<a class="term_2" href="/glossary/#drawcall" data-name="ドローコール" data-tip="画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。">ドローコール</a>が減ります。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>4. PhysBone を減らす</dt>
-          <dd>揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動くボーンの数も減らせます。</dd>
+          <dd>揺れなくてもよいところの PhysBone を外したり、同じ設定のものを1つにまとめたりします。動く<a class="term_2" href="/glossary/#bone" data-name="ボーン" data-tip="メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。">ボーン</a>の数も減らせます。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>5. テクスチャを小さくする</dt>
-          <dd>テクスチャを選び、Inspector の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。</dd>
+          <dd>テクスチャを選び、<a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> の「Max Size」を小さくします（2048 を 1024 にすると、メモリは約4分の1）。目のテクスチャなど、細かいところが必要なものは残します。「Use Crunch Compression」はダウンロードの大きさを減らしますが、テクスチャのメモリは減りません。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>6. ポリゴンを減らす</dt>
-          <dd>ポリゴンを減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。</dd>
+          <dd><a class="term_2" href="/glossary/#polygon" data-name="ポリゴン" data-tip="メッシュを作っている三角形。数が多いほど細かいが、重くなる。">ポリゴン</a>を減らすツールもありますが、見た目が崩れやすいので最後の手段です。三角形の数が Good の範囲なら、ほかの項目を先に直します。</dd>
         </div>
       
     </dl>
@@ -536,9 +537,9 @@
 
   <section class="section_2 article_1__section" id="aao" aria-labelledby="aao-heading">
     <h2 class="section_2__h1" id="aao-heading">AAO で軽くする</h2>
-    <p class="article_1__p">AAO は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#aao" data-name="AAO（Avatar Optimizer）" data-tip="見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。">AAO</a> は、元のアバターを書き換えず、Play を押したときと、アップロードするときに軽くします。いらなくなったら、部品を外すだけで元に戻ります。</p>
     <ol class="steps_1">
-      <li><a href="https://vpm.anatawa12.com/avatar-optimizer/ja/" target="_blank" rel="noopener">AAO のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>のリンクから、anatawa12 さんのリポジトリを VCC か ALCOM に足します（足し方は第1回を見てください）。</li><li>プロジェクトの管理画面で「AAO: Avatar Optimizer」を入れます。</li><li>Hierarchy でアバターのいちばん上（VRC Avatar Descriptor がある物）を選びます。</li><li>Inspector の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。</li><li>Play を押して、見た目やギミックが変わっていないかを確かめてから、アップロードします。Builder のランクには、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。</li>
+      <li><a href="https://vpm.anatawa12.com/avatar-optimizer/ja/" target="_blank" rel="noopener">AAO のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>のリンクから、anatawa12 さんのリポジトリを <a class="term_2" href="/glossary/#vcc" data-name="VCC（VRChat Creator Companion）" data-tip="VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。">VCC</a> か <a class="term_2" href="/glossary/#alcom" data-name="ALCOM" data-tip="VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。">ALCOM</a> に足します（足し方は第1回を見てください）。</li><li><a class="term_2" href="/glossary/#project" data-name="プロジェクト" data-tip="Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。">プロジェクト</a>の管理画面で「AAO: Avatar Optimizer」を入れます。</li><li><a class="term_2" href="/glossary/#hierarchy" data-name="Hierarchy" data-tip="シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。">Hierarchy</a> でアバターのいちばん上（<a class="term_2" href="/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。">VRC Avatar Descriptor</a> がある物）を選びます。</li><li><a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> の「Add Component」で「AAO Trace And Optimize」を探して足します。初めの設定のままで大丈夫です。</li><li>Play を押して、見た目や<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が変わっていないかを確かめてから、アップロードします。<a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a> の<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>には、AAO で軽くしたあとの数が出ないことがあるので、アップロードしたあとに VRChat の中の「Avatar Stats」で確かめます。</li>
     </ol>
     <p class="section_2__more"><a href="/avatar-tips/setup/#packages">第1回 ツールやシェーダーを足す</a></p>
   </section>
@@ -551,15 +552,15 @@
           <h3 class="case_1__title">衣装を足したら Very Poor になった</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>衣装をいくつか入れて、メニューで切り替えられるようにしたら、Very Poor になった。</dd></div>
-            <div><dt>原因</dt><dd>オフの衣装も数えられるため、メッシュとマテリアル、PhysBone の数が増えています。</dd></div>
-            <div><dt>直し方</dt><dd>着替えない衣装を消します。AAO の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。</dd></div>
+            <div><dt>原因</dt><dd>オフの衣装も数えられるため、<a class="term_2" href="/glossary/#mesh" data-name="メッシュ" data-tip="三角形（ポリゴン）を組み合わせて作った、物の形のデータ。">メッシュ</a>と<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> の数が増えています。</dd></div>
+            <div><dt>直し方</dt><dd>着替えない衣装を消します。<a class="term_2" href="/glossary/#aao" data-name="AAO（Avatar Optimizer）" data-tip="見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。">AAO</a> の Trace And Optimize を入れると、メッシュがまとめられて減ることもあります。</dd></div>
           </dl>
         </section>
       
         <section class="case_1__item">
           <h3 class="case_1__title">PhysBone の項目だけ Poor</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>ほかは Good なのに、PhysBone の数や、動くボーンの数で Poor になる。</dd></div>
+            <div><dt>起きること</dt><dd>ほかは Good なのに、PhysBone の数や、動く<a class="term_2" href="/glossary/#bone" data-name="ボーン" data-tip="メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。">ボーン</a>の数で Poor になる。</dd></div>
             <div><dt>原因</dt><dd>衣装ごとに、髪や服の PhysBone が入っています。</dd></div>
             <div><dt>直し方</dt><dd>揺れなくてもよい PhysBone を外すか、AAO にまとめてもらいます。</dd></div>
           </dl>
@@ -569,7 +570,7 @@
           <h3 class="case_1__title">テクスチャのメモリが多い</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>Texture Memory が 150 MB を超えて、Very Poor になる。</dd></div>
-            <div><dt>原因</dt><dd>4096 などの大きなテクスチャが、たくさん入っています。</dd></div>
+            <div><dt>原因</dt><dd>4096 などの大きな<a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>が、たくさん入っています。</dd></div>
             <div><dt>直し方</dt><dd>目立たない部分のテクスチャから、Max Size を 2048 や 1024 に下げます。</dd></div>
           </dl>
         </section>
@@ -577,8 +578,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ほかの人には別の姿に見えている</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>自分では見えているのに、ほかの人には代わりの姿（Fallback）や、ロボットの姿で見えている。</dd></div>
-            <div><dt>原因</dt><dd>見る人が、表示するランクを Medium などにしているか、スマホや Quest で見ています。</dd></div>
+            <div><dt>起きること</dt><dd>自分では見えているのに、ほかの人には代わりの姿（<a class="term_2" href="/glossary/#fallback" data-name="Fallback（代わりの姿）" data-tip="ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。">Fallback</a>）や、ロボットの姿で見えている。</dd></div>
+            <div><dt>原因</dt><dd>見る人が、表示する<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>を Medium などにしているか、スマホや <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> で見ています。</dd></div>
             <div><dt>直し方</dt><dd>ランクを上げると、見てもらえる人が増えます。スマホや Quest の人向けには、対応版のアバターを用意します（第5回）。</dd></div>
           </dl>
         </section>
@@ -589,20 +590,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>けずる前に、アバターのフォルダを書き出すか、プロジェクトのバックアップを取ってください。けずった部分は戻せないことがあります。</li><li>直接けずるより、AAO のように元を書き換えないツールを先に使ってください。</li><li>ランクは目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。</li><li>ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。</li>
+      <li>けずる前に、アバターのフォルダを書き出すか、<a class="term_2" href="/glossary/#project" data-name="プロジェクト" data-tip="Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。">プロジェクト</a>のバックアップを取ってください。けずった部分は戻せないことがあります。</li><li>直接けずるより、<a class="term_2" href="/glossary/#aao" data-name="AAO（Avatar Optimizer）" data-tip="見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。">AAO</a> のように元を書き換えないツールを先に使ってください。</li><li><a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>は目安です。Medium なら十分です。ランクを上げるために、気に入っている見た目まで崩す必要はありません。</li><li>ランクの上限は、VRChat が変えることがあります。新しい数は、VRChat の公式ページで確かめてください。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
     <ul class="rules_1">
-      <li>アバターのランクは、いちばん低い項目のランクで決まります。</li><li>オフにしている衣装も数えられます。使わない物は消します。</li><li>まず AAO の Trace And Optimize を入れ、次にマテリアル、PhysBone、テクスチャを見直します。</li><li>Good を目指し、むずかしければ Medium で十分です。</li>
+      <li>アバターの<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>は、いちばん低い項目のランクで決まります。</li><li>オフにしている衣装も数えられます。使わない物は消します。</li><li>まず <a class="term_2" href="/glossary/#aao" data-name="AAO（Avatar Optimizer）" data-tip="見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。">AAO</a> の Trace And Optimize を入れ、次に<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a>、<a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>を見直します。</li><li>Good を目指し、むずかしければ Medium で十分です。</li>
     </ul>
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="前後の回">
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/avatar-tips/outfit/" rel="prev"><span class="next_1__note">前の回（第3回）</span><span class="next_1__text">衣装を着せる</span></a></li>

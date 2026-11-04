@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  type: "website",
+  title: "VRChat 用語集",
+  description: "VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。",
+  url: "glossary/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/glossary-filter.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"glossary",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_glossary") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

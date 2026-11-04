@@ -24,6 +24,7 @@
 - [制作物一覧](https://nunifuchisaka.github.io/products/): ぬにふちさかが作ったシェーダー・アバターギミック・ツールの一覧。種類で絞り込めて、対応環境と説明書へのリンクをまとめています。
 - [制作物のよくある質問](https://nunifuchisaka.github.io/faq/): ぬにふちさかの制作物（シェーダー・ギミック・ツール）に共通する、よくある質問と更新履歴。
 - [アバター改変の解説](https://nunifuchisaka.github.io/avatar-tips/): アバター改変でつまずきやすいところを、1回に1つずつ解説する連載。入れ方・アップロード・衣装・軽量化から、Animator でギミックを自分で作る方法まで。困りごとから読む回を探せます。
+- [VRChat 用語集](https://nunifuchisaka.github.io/glossary/): VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。
 - [はじめてのVRChat](https://nunifuchisaka.github.io/start/): これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。
 
 ## 制作物の説明書

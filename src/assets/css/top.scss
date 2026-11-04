@@ -491,7 +491,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__lead {
-    max-width: 40em;
     margin-top: var(--space-1);
   }
 
@@ -507,7 +506,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__p {
-    max-width: 40em;
     margin-top: var(--space-2);
     line-height: 1.9;
   }
@@ -2178,7 +2176,7 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 /*
 ## .article_1
 使用箇所：アバター改変の解説（各回）
-内容：記事の本文。読みやすい行の長さに抑え、節どうしの間を少し詰める
+内容：記事の本文。幅は画面いっぱいまで使い、節どうしの間を少し詰める
 */
 
 .article_1 {
@@ -2188,18 +2186,12 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__lead {
-    max-width: 40em;
     margin-top: var(--space-2);
     font-size: 1.7rem;
     line-height: 1.9;
   }
 
-  &__section {
-    max-width: 52em;
-  }
-
   &__p {
-    max-width: 40em;
     margin-top: var(--space-2);
     line-height: 1.9;
   }
@@ -2212,10 +2204,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     border: 1px solid var(--color-line);
     border-radius: 4px;
     overflow-wrap: anywhere;
-  }
-
-  .examples_1 dd {
-    max-width: 40em;
   }
 }
 
@@ -2520,7 +2508,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 .steps_1 {
   display: grid;
   gap: 12px;
-  max-width: 40em;
   margin-top: var(--space-2);
   counter-reset: steps_1;
   li {
@@ -2632,7 +2619,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 }
 
 .series_1__lead {
-  max-width: 40em;
   margin-top: var(--space-1);
   line-height: 1.8;
 }
@@ -2749,7 +2735,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__none {
-    max-width: 40em;
     margin-top: var(--space-3);
     &[hidden] {
       display: none;
@@ -2784,6 +2769,145 @@ $font: "Zen Kaku Gothic Antique", $gothic;
     &::after {
       content: none;
     }
+  }
+}
+
+
+/*
+## .term_2
+使用箇所：アバター改変の解説（本文の中の用語。_glossary_link.ejs が付ける）
+内容：VRChat 用語集へのリンク。文の色のまま点線の下線を付け、マウスを乗せると tip_1 の吹き出しが出る（glossary-tip.js）
+*/
+
+.term_2 {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: .3em;
+  .top_1 & {
+    color: inherit;
+  }
+  &:hover {
+    text-decoration-style: solid;
+    .top_1 & {
+      color: var(--color-link);
+    }
+  }
+}
+
+
+/*
+## .tip_1
+使用箇所：アバター改変の解説（用語の吹き出し。glossary-tip.js が body の最後に1つ作る）
+内容：用語の名前と短い説明。画面からはみ出さない位置に出す（位置は JS が決める）
+*/
+
+.tip_1 {
+  position: fixed;
+  z-index: 100;
+  box-sizing: border-box;
+  display: grid;
+  gap: 4px;
+  width: max-content;
+  max-width: min(100vw - 16px, 24em);
+  padding: 12px 16px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 22%);
+  &[hidden] {
+    display: none;
+  }
+
+  &__name {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}
+
+
+/*
+## .glossary_1
+使用箇所：VRChat 用語集（絞り込みは glossary-filter.js）
+内容：種類ごとの用語の一覧。用語ごとに、短い説明（太字）、説明、くわしい回、関係する言葉
+*/
+
+.glossary_1 {
+  &__controls {
+    display: grid;
+    gap: 8px;
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__cat {
+    margin-top: var(--space-4);
+    &:first-of-type {
+      margin-top: var(--space-3);
+    }
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 30em), 1fr));
+    gap: 12px;
+    margin-top: var(--space-2);
+  }
+
+  &__item {
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    scroll-margin-top: var(--space-4);
+    &:target {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px var(--color-accent);
+    }
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__term {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  &__short {
+    margin-top: 8px;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+
+  &__body {
+    margin-top: 8px;
+    line-height: 1.8;
+  }
+
+  &__links {
+    margin-top: 8px;
+    font-size: 1.4rem;
+    line-height: 1.8;
+  }
+
+  &__label {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
   }
 }
 
@@ -3258,7 +3382,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__notes {
     display: grid;
     gap: 10px;
-    max-width: 40em;
     margin-top: var(--space-2);
     counter-reset: mock_1;
     li {

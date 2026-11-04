@@ -1,0 +1,74 @@
+<%
+// 改変解説の本文（html）の中の用語を、VRChat 用語集（/glossary/）へのリンクにして返す。マウスを乗せると短い説明が出る（glossary-tip.js）
+// 使い方：ページで include(path + "assets/html/_glossary_link", {html: include(path + "assets/html/_tips-<slug>")}) をエスケープせずに出す
+// - 当てる言葉は glossary.json の match。長いものから先に当て、英字は単語の切れ目でだけ当てる。block の言葉はリンクにしない
+// - 同じ用語は、h2 の節ごとに最初の1回だけリンクにする（途中の節から読みはじめた人にも出るように）
+// - 見出し・リンク・ボタン・ラベル・表の見出し・再現図・動く図・道すじの図の中はリンクにしない。
+//   code の中は、code の中身がまるごと用語と同じときだけ、code ごとリンクにする
+// - 用語集はまだ日本語だけなので、英語のページでは何もしない
+const linkLocale = typeof locale !== "undefined" ? locale : "ja";
+if (linkLocale !== "ja") {
+  %><%- html %><%
+} else {
+const escAttr = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const escRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const entries = [];
+glossary.categories.forEach((c) => c.terms.forEach((t) => t.match.forEach((m) => entries.push({ text: m, term: t }))));
+glossary.block.forEach((b) => entries.push({ text: b, term: null }));
+entries.sort((a, b) => b.text.length - a.text.length);
+const termOf = new Map(entries.map((e) => [e.text, e.term]));
+const pattern = new RegExp(entries.map((e) => /^[\x20-\x7e]+$/.test(e.text) ? `(?<![A-Za-z0-9_])${escRe(e.text)}(?![A-Za-z0-9_])` : escRe(e.text)).join("|"), "g");
+const open = (term) => `<a class="term_2" href="/glossary/#${term.id}" data-name="${escAttr(term.term)}" data-tip="${escAttr(term.short)}">`;
+const SKIP_TAGS = new Set(["a", "h1", "h2", "h3", "h4", "h5", "h6", "button", "label", "legend", "select", "option", "textarea", "script", "style", "svg", "figure", "figcaption", "code", "kbd", "dt", "th", "time", "summary", "nav"]);
+const SKIP_CLASS = /(^|\s)(demo_\d[^\s]*|mock_1__screens|route_1)(\s|$)/;
+const VOID_TAGS = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"]);
+const parts = html.split(/(<[^>]+>)/);
+const out = [];
+const stack = [];
+let skipDepth = 0;
+let used = new Set();
+const link = (text) => text.replace(pattern, (m) => {
+  const term = termOf.get(m);
+  if (!term || used.has(term.id)) return m;
+  used.add(term.id);
+  return `${open(term)}${m}</a>`;
+});
+for (let i = 0; i < parts.length; i++) {
+  const p = parts[i];
+  if (!p) continue;
+  if (p[0] !== "<") {
+    out.push(skipDepth ? p : link(p));
+    continue;
+  }
+  const tag = p.match(/^<(\/?)([a-zA-Z][a-zA-Z0-9]*)/);
+  if (!tag) { out.push(p); continue; }
+  const name = tag[2].toLowerCase();
+  if (tag[1]) {
+    while (stack.length) {
+      const top = stack.pop();
+      if (top.skip) skipDepth--;
+      if (top.name === name) break;
+    }
+    out.push(p);
+    continue;
+  }
+  if (VOID_TAGS.has(name) || p.endsWith("/>")) { out.push(p); continue; }
+  if (name === "h2") used = new Set();
+  if (name === "code" && !skipDepth && parts[i + 2] === "</code>") {
+    const term = termOf.get(parts[i + 1]);
+    if (term && !used.has(term.id)) {
+      used.add(term.id);
+      out.push(`${open(term)}${p}${parts[i + 1]}</code></a>`);
+      i += 2;
+      continue;
+    }
+  }
+  const cls = (p.match(/\sclass="([^"]*)"/) || [])[1] || "";
+  const skip = SKIP_TAGS.has(name) || SKIP_CLASS.test(cls);
+  stack.push({ name, skip });
+  if (skip) skipDepth++;
+  out.push(p);
+}
+%><%- out.join("") %><%
+}
+%>

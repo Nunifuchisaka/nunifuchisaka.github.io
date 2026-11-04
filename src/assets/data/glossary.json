@@ -1,0 +1,838 @@
+{
+  "_comment": "VRChat 用語集（/glossary/）と、改変解説の本文の用語リンク・ツールチップのもと。match は本文で見つけてリンクにする書き方（長いものから先に当てる。英字は単語の切れ目でだけ当てる）。short はツールチップに出す短い説明。body は用語集に出す説明（HTML 可）。tips は詳しく解説している回 [slug, 節の id]。see は関係する用語の id。日本語だけ（英語版は、管理人が日本語版を固めてから足す）",
+  "block": ["Create Toggle", "コントローラーによって", "Add Component"],
+  "categories": [
+    {
+      "id": "tools",
+      "title": "ソフトとツール",
+      "lead": "アバターを改変してアップロードするまでに使う、ソフトやツールの名前です。",
+      "terms": [
+        {
+          "id": "vcc",
+          "term": "VCC（VRChat Creator Companion）",
+          "match": ["VRChat Creator Companion", "Creator Companion", "VCC"],
+          "short": "VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。",
+          "body": "VCC でプロジェクトを作ると、VRChat SDK が入った Unity のプロジェクトができます。Modular Avatar などのツールも、配っている人のリポジトリを VCC に足してから、プロジェクトに入れます。Mac や Linux では使えないので、ALCOM を使います。",
+          "tips": [["setup", "vcc"], ["setup", "packages"]],
+          "see": ["alcom", "unity-hub", "vrchat-sdk"]
+        },
+        {
+          "id": "alcom",
+          "term": "ALCOM",
+          "match": ["ALCOM"],
+          "short": "VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。",
+          "body": "プロジェクトを作る、ツールやシェーダーを入れる、といった VCC と同じ使い方ができます。VCC と違い、Mac や Linux でも使えます。",
+          "tips": [["setup", "choose"], ["setup", "alcom"]],
+          "see": ["vcc", "unity-hub"]
+        },
+        {
+          "id": "unity-hub",
+          "term": "Unity Hub",
+          "match": ["Unity Hub"],
+          "short": "Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。",
+          "body": "VRChat は決まったバージョンの Unity（2026年11月時点で 2022.3.22f1）を使います。そのバージョンを Unity Hub で入れておき、新しいバージョンには上げません。",
+          "tips": [["setup", "hub"]],
+          "see": ["vcc", "alcom", "project"]
+        },
+        {
+          "id": "vrchat-sdk",
+          "term": "VRChat SDK",
+          "match": ["VRChat SDK", "SDK"],
+          "short": "Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。",
+          "body": "VRChat SDK が入ったプロジェクトでは、Unity の上のメニューに「VRChat SDK」が出て、Builder でアップロードしたり、Content Manager でアップロードしたアバターを見たりできます。VCC か ALCOM でプロジェクトを作ると、はじめから入っています。",
+          "tips": [["setup", "parts"], ["upload", "login"]],
+          "see": ["builder", "content-manager", "vcc"]
+        },
+        {
+          "id": "avatars3",
+          "term": "Avatars 3.0",
+          "match": ["Avatars 3.0"],
+          "short": "いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。",
+          "body": "VRChat SDK に入っている、アバターを作るためのしくみの名前です。いま VRChat でアップロードするアバターは、すべてこのしくみで動きます。",
+          "tips": [["animator-basics", "picture"]],
+          "see": ["animator", "expression-parameters", "expressions-menu"]
+        },
+        {
+          "id": "builtin-rp",
+          "term": "Built-in Render Pipeline",
+          "match": ["Built-in Render Pipeline"],
+          "short": "Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。",
+          "body": "Unity には描き方のしくみ（Render Pipeline）がいくつかあり、VRChat は Built-in Render Pipeline を使います。URP や HDRP 向けに作られたシェーダーは、VRChat のアバターでは使えません。",
+          "tips": [["setup", "parts"]],
+          "see": ["shader", "render-queue"]
+        },
+        {
+          "id": "modular-avatar",
+          "term": "Modular Avatar（MA）",
+          "match": ["Modular Avatar", "MA"],
+          "short": "衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。",
+          "body": "衣装やギミックに MA のコンポーネントを付けておくと、再生やアップロードのときに、その指示どおりに自動で組み込みます。元のアバターのファイルは書き換えないので、外したいときは消すだけで戻ります。",
+          "tips": [["outfit", "why"], ["outfit", "install"], ["toggle", "connect"]],
+          "see": ["merge-armature", "merge-animator", "menu-installer"]
+        },
+        {
+          "id": "aao",
+          "term": "AAO（Avatar Optimizer）",
+          "match": ["AAO: Avatar Optimizer", "Avatar Optimizer", "AAO"],
+          "short": "見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。",
+          "body": "アバターの一番上に AAO Trace And Optimize を付けると、使っていない部品を消したり、メッシュをまとめたりして、パフォーマンスランクを上げやすくします。元のデータは書き換えません。",
+          "tips": [["performance", "aao"]],
+          "see": ["performance-rank", "modular-avatar"]
+        },
+        {
+          "id": "gesture-manager",
+          "term": "Gesture Manager",
+          "match": ["Gesture Manager", "GestureManager"],
+          "short": "Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。",
+          "body": "シーンに置いて再生すると、Expressions Menu を開いたり、ハンドサインを選んだりできます。パラメーターの値も見えるので、ギミックが動かないときに、どこで止まっているかを探せます。",
+          "tips": [["toggle", "test"], ["gimmick-debug", "tools"]],
+          "see": ["expressions-menu", "parameter", "hand-sign"]
+        },
+        {
+          "id": "liltoon",
+          "term": "lilToon",
+          "match": ["lilToon"],
+          "short": "日本のアバターや衣装でよく使われる、アニメ調のシェーダー。",
+          "body": "多くのアバターや衣装は、lilToon を使う前提で作られています。プロジェクトに入っていないと、マテリアルがピンク一色になるので、アバターより先に入れておきます。",
+          "tips": [["upload", "import"], ["quest", "shaders"]],
+          "see": ["shader", "material"]
+        },
+        {
+          "id": "unitypackage",
+          "term": "unitypackage",
+          "match": [".unitypackage", "unitypackage"],
+          "short": "Unity のファイルをまとめて配るための形式（拡張子 .unitypackage）。",
+          "body": "BOOTH などで買ったアバターや衣装は、この形で配られることが多いです。プロジェクトを開いたまま、Project ウィンドウへドラッグすると取り込めます。",
+          "tips": [["upload", "import"]],
+          "see": ["project-window", "booth"]
+        },
+        {
+          "id": "booth",
+          "term": "BOOTH",
+          "match": ["BOOTH"],
+          "short": "pixiv が運営する通販サイト。アバター・衣装・ギミックの多くがここで売られている。",
+          "body": "買う前に、販売ページで対応しているアバター、使うシェーダー、Quest 版があるか、使ってよい範囲（利用規約）を確かめます。",
+          "tips": [["outfit", "before"], ["quest", "first"]],
+          "see": ["unitypackage"]
+        }
+      ]
+    },
+    {
+      "id": "unity",
+      "title": "Unity の画面と部品",
+      "lead": "Unity の画面の名前と、シーンに置く物のしくみです。",
+      "terms": [
+        {
+          "id": "project",
+          "term": "プロジェクト",
+          "match": ["プロジェクト"],
+          "short": "Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。",
+          "body": "VCC や ALCOM で作り、Unity で開きます。アバターごとにプロジェクトを分けてもかまいません。こわれたときに戻せるよう、ときどきフォルダごと書き出しておきます。",
+          "tips": [["setup", "project"]],
+          "see": ["vcc", "project-window"]
+        },
+        {
+          "id": "hierarchy",
+          "term": "Hierarchy",
+          "match": ["Hierarchy"],
+          "short": "シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。",
+          "body": "アバターを置くと、アバターの一番上の物の下に、体や服、Armature などが並びます。ドラッグで親子を変えられます。",
+          "tips": [["upload", "place"]],
+          "see": ["gameobject", "inspector", "scene"]
+        },
+        {
+          "id": "project-window",
+          "term": "Project ウィンドウ",
+          "match": ["Project"],
+          "short": "プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。",
+          "body": "右クリックの Create から、フォルダやアニメーションクリップ、Animator Controller を作れます。Hierarchy が「シーンに置いた物」なのに対して、こちらは「ファイル」です。",
+          "tips": [["toggle", "controller"]],
+          "see": ["hierarchy", "prefab"]
+        },
+        {
+          "id": "inspector",
+          "term": "Inspector",
+          "match": ["Inspector"],
+          "short": "選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。",
+          "body": "Hierarchy や Project で何かを選ぶと、その設定がここに出ます。付いているコンポーネントの追加や設定も、ここで行います。",
+          "tips": [["upload", "place"]],
+          "see": ["component", "hierarchy"]
+        },
+        {
+          "id": "scene",
+          "term": "シーン（Scene）",
+          "match": ["シーン", "Scene"],
+          "short": "オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。",
+          "body": "Scene ビューでは、置いた物を見ながら動かせます。プロジェクトの中に、シーンのファイルをいくつも作れます。",
+          "tips": [["upload", "place"]],
+          "see": ["hierarchy", "prefab"]
+        },
+        {
+          "id": "gameobject",
+          "term": "オブジェクト（GameObject）",
+          "match": ["GameObject", "オブジェクト"],
+          "short": "Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。",
+          "body": "体のメッシュ、服、ボーン、ギミック用の空の物も、すべてオブジェクトです。名前の左のチェック（Is Active）で、出したり消したりできます。",
+          "tips": [["toggle", "plan"]],
+          "see": ["component", "is-active", "hierarchy"]
+        },
+        {
+          "id": "is-active",
+          "term": "Is Active",
+          "match": ["Is Active"],
+          "short": "オブジェクトを出すか消すかの設定。Inspector の名前の左のチェック。",
+          "body": "チェックを外すと、オブジェクトは見えなくなり、付いているコンポーネントも動きません。アニメーションクリップでオンオフするときは、この値を 1（出す）と 0（消す）で書きます。",
+          "tips": [["toggle", "clips"], ["animation-clip", "can"]],
+          "see": ["gameobject", "clip"]
+        },
+        {
+          "id": "component",
+          "term": "コンポーネント",
+          "match": ["コンポーネント"],
+          "short": "オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。",
+          "body": "Inspector の「Add Component」から足します。Skinned Mesh Renderer、PhysBone、VRC Avatar Descriptor、Modular Avatar の部品も、すべてコンポーネントです。",
+          "tips": [["outfit", "merge"]],
+          "see": ["gameobject", "inspector"]
+        },
+        {
+          "id": "prefab",
+          "term": "プレハブ（Prefab）",
+          "match": ["プレハブ", "Prefab"],
+          "short": "オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。",
+          "body": "Project では青い箱のアイコンで表示されます。アバターや衣装はプレハブの形で配られることが多く、シーンや衣装を着せたいアバターの中にドラッグして使います。",
+          "tips": [["upload", "place"], ["outfit", "steps"]],
+          "see": ["scene", "project-window"]
+        }
+      ]
+    },
+    {
+      "id": "body",
+      "title": "アバターの体と見た目",
+      "lead": "アバターの形・骨・色を作っている部品です。",
+      "terms": [
+        {
+          "id": "avatar-descriptor",
+          "term": "VRC Avatar Descriptor",
+          "match": ["VRC Avatar Descriptor", "Avatar Descriptor"],
+          "short": "アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。",
+          "body": "視点の位置、話したときの口の動き、Playable Layers に入れるコントローラー、Expressions Menu と Expression Parameters を、ここで決めます。これが付いている物が、1体のアバターとして扱われます。",
+          "tips": [["animator-basics", "layers"], ["upload", "place"]],
+          "see": ["playable-layers", "expressions-menu", "expression-parameters"]
+        },
+        {
+          "id": "humanoid",
+          "term": "Humanoid",
+          "match": ["Humanoid"],
+          "short": "人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。",
+          "body": "腕・脚・頭・指などの骨は Humanoid として扱われ、VRChat が動かします。そのため、FX のアニメーションクリップでは、これらの骨は動かせません。",
+          "tips": [["animator-basics", "layers"], ["animation-clip", "can"]],
+          "see": ["armature", "bone", "fx"]
+        },
+        {
+          "id": "armature",
+          "term": "Armature",
+          "match": ["Armature"],
+          "short": "アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。",
+          "body": "衣装にも、同じ名前の骨が並んだ Armature があります。Modular Avatar の Merge Armature は、衣装の骨をアバターの骨にまとめて、服が体に沿って動くようにします。",
+          "tips": [["outfit", "merge"]],
+          "see": ["bone", "merge-armature", "humanoid"]
+        },
+        {
+          "id": "bone",
+          "term": "ボーン",
+          "match": ["ボーン"],
+          "short": "メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。",
+          "body": "Armature の中に、親子の形で並んでいます。髪やスカートの骨は、PhysBone で揺らします。ボーンの数は、パフォーマンスランクの項目にもなっています。",
+          "tips": [["outfit", "merge"], ["performance", "limits"]],
+          "see": ["armature", "physbone", "smr"]
+        },
+        {
+          "id": "mesh",
+          "term": "メッシュ",
+          "match": ["メッシュ"],
+          "short": "三角形（ポリゴン）を組み合わせて作った、物の形のデータ。",
+          "body": "体、髪、服などは、それぞれメッシュでできています。メッシュの数と三角形の数が多いほど、描くのが重くなります。",
+          "tips": [["performance", "light"]],
+          "see": ["polygon", "smr", "material"]
+        },
+        {
+          "id": "smr",
+          "term": "Skinned Mesh Renderer",
+          "match": ["Skinned Mesh Renderer", "スキンメッシュ"],
+          "short": "ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。",
+          "body": "使うメッシュとマテリアル、BlendShape の値が、ここに並びます。表情や体型の調整をするときは、このコンポーネントの BlendShapes を開きます。",
+          "tips": [["gesture", "clips"], ["outfit", "shrink"]],
+          "see": ["mesh", "blendshape", "material"]
+        },
+        {
+          "id": "blendshape",
+          "term": "BlendShape（シェイプキー）",
+          "match": ["BlendShapes", "BlendShape", "Blend Shape", "シェイプキー"],
+          "short": "メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。",
+          "body": "笑顔、まばたき、口の形、胸の大きさなど、アバターごとに用意されています。アニメーションクリップで値を書くと、ハンドサインやメニューで表情を変えられます。",
+          "tips": [["gesture", "clips"], ["outfit", "shrink"], ["unity-vs-vrchat", "causes"]],
+          "see": ["smr", "clip", "hand-sign"]
+        },
+        {
+          "id": "material",
+          "term": "マテリアル",
+          "match": ["マテリアル"],
+          "short": "色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。",
+          "body": "1つのメッシュに、いくつものマテリアルを使えます。マテリアルの数が多いほど描くのが重くなるので、パフォーマンスランクの項目にもなっています。",
+          "tips": [["performance", "limits"], ["render-queue", "how"]],
+          "see": ["shader", "texture", "render-queue"]
+        },
+        {
+          "id": "shader",
+          "term": "シェーダー",
+          "match": ["シェーダー"],
+          "short": "光の当たり方や色の出し方を計算するプログラム。lilToon など。",
+          "body": "マテリアルごとに、どのシェーダーを使うかを選びます。アバターが使うシェーダーがプロジェクトに入っていないと、ピンク一色で表示されます。Quest やスマホでは、VRChat/Mobile のシェーダーしか使えません。",
+          "tips": [["upload", "import"], ["quest", "shaders"]],
+          "see": ["material", "liltoon", "quest"]
+        },
+        {
+          "id": "texture",
+          "term": "テクスチャ",
+          "match": ["テクスチャ"],
+          "short": "メッシュに貼る画像。肌や服の模様、色などを描いている。",
+          "body": "マテリアルが、どのテクスチャをどう使うかを決めます。大きな画像が多いと、テクスチャのメモリが増えて、パフォーマンスランクが下がります。",
+          "tips": [["performance", "limits"]],
+          "see": ["material", "atlas"]
+        },
+        {
+          "id": "polygon",
+          "term": "ポリゴン",
+          "match": ["ポリゴン"],
+          "short": "メッシュを作っている三角形。数が多いほど細かいが、重くなる。",
+          "body": "パフォーマンスランクでは、三角形の数（Triangles）で数えます。使わない服や小物を消すと減ります。",
+          "tips": [["performance", "limits"]],
+          "see": ["mesh", "performance-rank"]
+        },
+        {
+          "id": "physbone",
+          "term": "PhysBone",
+          "match": ["VRC Phys Bone", "PhysBones", "PhysBone"],
+          "short": "髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。",
+          "body": "骨に付けると、体の動きに合わせて揺れます。つかまれたか、どれだけ曲がったかをパラメーターで受け取れるので、ギミックにも使えます。数が多いと重くなり、パフォーマンスランクの項目にもなっています。",
+          "tips": [["contact", "physbone"], ["performance", "limits"]],
+          "see": ["bone", "contact"]
+        },
+        {
+          "id": "bounds",
+          "term": "Bounds",
+          "match": ["Bounds"],
+          "short": "メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。",
+          "body": "半透明の物を描く順番は、カメラからこの箱の中心までの距離で決まります。箱が大きすぎると、パフォーマンスランクの「大きさ」の項目が悪くなります。",
+          "tips": [["render-queue", "sort"], ["performance", "limits"]],
+          "see": ["render-queue", "transparent"]
+        }
+      ]
+    },
+    {
+      "id": "animator",
+      "title": "Animator とアニメーション",
+      "lead": "ギミックを自分で組むときに使う、Animator まわりの言葉です。",
+      "terms": [
+        {
+          "id": "gimmick",
+          "term": "ギミック",
+          "match": ["ギミック"],
+          "short": "メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。",
+          "body": "小物を出し入れする、表情を変える、色や大きさを変える、触れると反応する、などがあります。Animator・パラメーター・メニューを組み合わせて作ります。",
+          "tips": [["animator-basics", "picture"], ["toggle", "plan"]],
+          "see": ["animator", "parameter", "expressions-menu"]
+        },
+        {
+          "id": "animator",
+          "term": "Animator",
+          "match": ["Animator"],
+          "short": "パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。",
+          "body": "アバターの一番上に付いている Animator コンポーネントが、コントローラーの中身にしたがって動きます。Unity の Animator ウィンドウでは、レイヤー・ステート・トランジションを組み立てます。",
+          "tips": [["animator-basics", "words"], ["animator-basics", "controller"]],
+          "see": ["controller", "layer", "state"]
+        },
+        {
+          "id": "controller",
+          "term": "Animator Controller（コントローラー）",
+          "match": ["Animator Controller", "コントローラー"],
+          "short": "Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。",
+          "body": "Project で右クリックして作ります。VRChat では、Playable Layers の枠（FX など）に入れて使います。自分で作ったものは、Modular Avatar の Merge Animator でアバターに足せます。",
+          "tips": [["animator-basics", "controller"], ["toggle", "controller"]],
+          "see": ["animator", "playable-layers", "merge-animator"]
+        },
+        {
+          "id": "playable-layers",
+          "term": "Playable Layers",
+          "match": ["Playable Layers"],
+          "short": "VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。",
+          "body": "VRC Avatar Descriptor で、枠ごとにコントローラーを入れます。見た目を変えるギミックは FX に入れます。コントローラーの中の「レイヤー」とは別のものです。",
+          "tips": [["animator-basics", "layers"]],
+          "see": ["fx", "avatar-descriptor", "layer"]
+        },
+        {
+          "id": "fx",
+          "term": "FX",
+          "match": ["FX"],
+          "short": "Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。",
+          "body": "ほとんどのギミックは FX で作ります。Humanoid の骨（腕や脚など）は、FX では動きません。",
+          "tips": [["animator-basics", "layers"], ["animation-clip", "can"]],
+          "see": ["playable-layers", "humanoid"]
+        },
+        {
+          "id": "layer",
+          "term": "レイヤー",
+          "match": ["レイヤー"],
+          "short": "コントローラーの中の段。ギミック1つにつき1つ作ることが多い。",
+          "body": "レイヤーは上から順に動き、同じものを動かすときは、下のレイヤーが勝ちます。足したレイヤーは Weight を 1 にしないと効きません。",
+          "tips": [["animator-basics", "controller"], ["gesture", "layers"]],
+          "see": ["weight", "state", "controller"]
+        },
+        {
+          "id": "weight",
+          "term": "Weight（レイヤーの重み）",
+          "match": ["Weight"],
+          "short": "レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。",
+          "body": "レイヤーの右の歯車から変えます。0 のままだと、そのレイヤーは何も書かないので、ギミックが動きません。",
+          "tips": [["toggle", "controller"], ["gimmick-debug", "checklist"]],
+          "see": ["layer"]
+        },
+        {
+          "id": "state",
+          "term": "ステート",
+          "match": ["ステート"],
+          "short": "「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。",
+          "body": "Animator ウィンドウでは長方形で表示されます。オレンジ色のステートは、そのレイヤーで最初に入るステート（Layer Default State）です。",
+          "tips": [["animator-basics", "controller"], ["toggle", "controller"]],
+          "see": ["transition", "clip", "any-state"]
+        },
+        {
+          "id": "any-state",
+          "term": "Any State",
+          "match": ["Any State"],
+          "short": "「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。",
+          "body": "ステートが多いときに便利です。条件を満たしている間、同じステートに入り直し続けることがあるので、Can Transition To Self の設定に気をつけます。",
+          "tips": [["animator-basics", "controller"], ["radial", "int"]],
+          "see": ["state", "transition"]
+        },
+        {
+          "id": "transition",
+          "term": "トランジション",
+          "match": ["トランジション"],
+          "short": "ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。",
+          "body": "ステートを右クリックして「Make Transition」で引きます。オンオフのギミックでは、Has Exit Time を外し、Transition Duration を 0 にすることが多いです。",
+          "tips": [["toggle", "transitions"], ["animator-basics", "controller"]],
+          "see": ["has-exit-time", "transition-duration", "state"]
+        },
+        {
+          "id": "has-exit-time",
+          "term": "Has Exit Time",
+          "match": ["Has Exit Time"],
+          "short": "トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。",
+          "body": "メニューを押してもすぐに切り替わらないときは、ここにチェックが入っていないかを見ます。オンオフのギミックでは、ふつうは外します。",
+          "tips": [["toggle", "transitions"], ["animator-basics", "cases"]],
+          "see": ["transition", "transition-duration"]
+        },
+        {
+          "id": "transition-duration",
+          "term": "Transition Duration",
+          "match": ["Transition Duration"],
+          "short": "トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。",
+          "body": "0 にすると、すぐに切り替わります。表情などをなめらかに変えたいときは、少しだけ長くします。",
+          "tips": [["toggle", "transitions"], ["gesture", "transitions"]],
+          "see": ["transition", "has-exit-time"]
+        },
+        {
+          "id": "parameter",
+          "term": "パラメーター",
+          "match": ["パラメーター"],
+          "short": "Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。",
+          "body": "Animator の Parameters タブで足します。VRChat のメニューから変えたり、ほかの人に送ったりするには、Expression Parameters（または MA Parameters）にも同じ名前と型で入れます。",
+          "tips": [["animator-basics", "parameters"]],
+          "see": ["param-types", "expression-parameters", "synced"]
+        },
+        {
+          "id": "param-types",
+          "term": "Bool・Int・Float（パラメーターの型）",
+          "match": ["Bool", "Int", "Float"],
+          "short": "パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。",
+          "body": "オンオフには Bool、いくつかから1つを選ぶには Int、少しずつ変えるには Float を使います。同期すると、Bool は 1 bit、Int と Float は 8 bit を使います。",
+          "tips": [["radial", "choose"]],
+          "see": ["parameter", "synced", "radial-puppet"]
+        },
+        {
+          "id": "clip",
+          "term": "アニメーションクリップ（クリップ）",
+          "match": ["アニメーションクリップ", "Animation Clip", "クリップ"],
+          "short": "どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。",
+          "body": "Unity の Animation ウィンドウで、録画ボタンを押して値を変えると作れます。ステートに入れて使います。",
+          "tips": [["animation-clip", "what"], ["animation-clip", "record"]],
+          "see": ["keyframe", "path-missing", "state"]
+        },
+        {
+          "id": "keyframe",
+          "term": "キーフレーム",
+          "match": ["キーフレーム"],
+          "short": "クリップの中で、ある時間の値を決めた点。Animation ウィンドウでは、ひし形で表示される。",
+          "body": "値が変わらないクリップでも、キーフレームが1つは要ります。時間を変えて2つ以上打つと、その間の値は Unity がなめらかにつなぎます。",
+          "tips": [["animation-clip", "keys"]],
+          "see": ["clip"]
+        },
+        {
+          "id": "path-missing",
+          "term": "パスと Missing!",
+          "match": ["Missing"],
+          "short": "クリップは動かす相手を名前の道すじ（パス）で覚えている。名前や親子が変わるとつながらず、Missing! と出る。",
+          "body": "Animation ウィンドウで黄色い文字の Missing! が出たら、オブジェクトの名前か場所が、クリップを作ったときと変わっています。名前を戻すか、クリップのパスを直します。",
+          "tips": [["animation-clip", "path"]],
+          "see": ["clip", "hierarchy"]
+        },
+        {
+          "id": "write-defaults",
+          "term": "Write Defaults",
+          "match": ["Write Defaults"],
+          "short": "ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。",
+          "body": "ON と OFF がまざっていると、Unity では正しく見えても、VRChat で表情が戻らない、物が消えないといったずれが起きます。どちらでも動くように、オンとオフの両方のクリップを作っておくと安心です。",
+          "tips": [["unity-vs-vrchat", "write-defaults"], ["toggle", "transitions"]],
+          "see": ["state", "clip"]
+        },
+        {
+          "id": "blend-tree",
+          "term": "Blend Tree",
+          "match": ["Blend Tree"],
+          "short": "パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。",
+          "body": "ステートの中に入れて使います。1つのステートで、値に合わせて少しずつ変えたり、たくさんのギミックをまとめたりできます。",
+          "tips": [["animator-basics", "parameters"], ["radial", "float"]],
+          "see": ["motion-time", "param-types"]
+        },
+        {
+          "id": "motion-time",
+          "term": "Motion Time",
+          "match": ["Motion Time"],
+          "short": "Float の値（0〜1）で、クリップのどこを再生するかを決めるステートの設定。",
+          "body": "クリップのはじめと終わりに違う値を書いておくと、メニューを回した分だけ、色や大きさを少しずつ変えられます。Radial Puppet と組み合わせて使います。",
+          "tips": [["radial", "float"]],
+          "see": ["radial-puppet", "param-types"]
+        },
+        {
+          "id": "tracking-control",
+          "term": "VRC Animator Tracking Control",
+          "match": ["VRC Animator Tracking Control", "Animator Tracking Control", "Tracking Control"],
+          "short": "まばたきや口の動きを、VRChat に任せるか、Animator で動かすかを切り替える、ステートに付ける部品。",
+          "body": "表情のクリップで目や口を動かすと、VRChat のまばたきや口の動きと重なって、表情がくずれることがあります。表情を出している間だけ、まばたきや口を止めるのに使います。",
+          "tips": [["gesture", "tracking"]],
+          "see": ["hand-sign", "state"]
+        }
+      ]
+    },
+    {
+      "id": "menu",
+      "title": "パラメーターとメニュー",
+      "lead": "VRChat の中のメニューから、ギミックを動かすための言葉です。",
+      "terms": [
+        {
+          "id": "expression-parameters",
+          "term": "Expression Parameters",
+          "match": ["Expression Parameters"],
+          "short": "VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。",
+          "body": "VRC Avatar Descriptor に入れて使います。Modular Avatar を使うときは、MA Parameters に書くと、アップロードのときに自動で足されます。",
+          "tips": [["toggle", "params"], ["animator-basics", "parameters"]],
+          "see": ["synced", "saved", "ma-parameters"]
+        },
+        {
+          "id": "synced",
+          "term": "Synced（同期）",
+          "match": ["Synced", "同期"],
+          "short": "パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。",
+          "body": "チェックが無いと、ギミックは自分にだけ見えて、ほかの人には変わって見えません。Bool は 1 bit、Int と Float は 8 bit を使います。",
+          "tips": [["radial", "sync"], ["animator-basics", "parameters"]],
+          "see": ["saved", "expression-parameters", "param-types"]
+        },
+        {
+          "id": "saved",
+          "term": "Saved",
+          "match": ["Saved"],
+          "short": "ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。",
+          "body": "チェックが無いと、ワールドを移るたびに、Default の値に戻ります。",
+          "tips": [["toggle", "params"]],
+          "see": ["synced", "expression-parameters"]
+        },
+        {
+          "id": "expressions-menu",
+          "term": "Expressions Menu（Action Menu）",
+          "match": ["Expressions Menu", "Action Menu"],
+          "short": "VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。",
+          "body": "項目ごとに、変えるパラメーターと値、項目の種類（Toggle・Radial Puppet・Sub Menu など）を決めます。Modular Avatar を使うときは、MA Menu Item で項目を足せます。",
+          "tips": [["toggle", "menu"], ["animator-basics", "menu"]],
+          "see": ["toggle-control", "radial-puppet", "sub-menu"]
+        },
+        {
+          "id": "toggle-control",
+          "term": "Toggle（メニューの項目）",
+          "match": ["Toggle", "トグル"],
+          "short": "押すたびにオンとオフが切り替わる、メニューの項目。",
+          "body": "押すとパラメーターを決めた値にし、もう一度押すと元の値（0）に戻します。小物のオンオフによく使います。",
+          "tips": [["toggle", "menu"]],
+          "see": ["expressions-menu", "param-types"]
+        },
+        {
+          "id": "radial-puppet",
+          "term": "Radial Puppet",
+          "match": ["Radial Puppet"],
+          "short": "円を回して、Float の値を 0〜1 の間で変える、メニューの項目。",
+          "body": "色の濃さや大きさなどを、少しずつ変えるのに使います。Animator 側では Motion Time や Blend Tree で受け取ります。",
+          "tips": [["radial", "float"]],
+          "see": ["motion-time", "expressions-menu"]
+        },
+        {
+          "id": "sub-menu",
+          "term": "Sub Menu",
+          "match": ["Sub Menu"],
+          "short": "押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。",
+          "body": "1つのメニューには、項目を8つまでしか置けません。それより多いときや、種類ごとに分けたいときに使います。",
+          "tips": [["radial", "int"]],
+          "see": ["expressions-menu"]
+        },
+        {
+          "id": "hand-sign",
+          "term": "ハンドサイン（GestureLeft・GestureRight）",
+          "match": ["ハンドサイン", "GestureLeftWeight", "GestureRightWeight", "GestureLeft", "GestureRight"],
+          "short": "コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。",
+          "body": "0 は何もしていないとき、1 は握りこぶし、2 は手を開く、のように番号が決まっています。この番号をトランジションの条件にすると、手の形で表情を変えられます。握りの強さは GestureLeftWeight・GestureRightWeight で受け取れます。",
+          "tips": [["gesture", "numbers"], ["gesture", "weight"]],
+          "see": ["tracking-control", "blendshape", "parameter"]
+        },
+        {
+          "id": "contact",
+          "term": "Contact（Sender と Receiver）",
+          "match": ["VRC Contact Receiver", "VRC Contact Sender", "Contact", "Receiver", "Sender"],
+          "short": "触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。",
+          "body": "手や指には、VRChat が Sender を自動で付けています。頭などに Receiver を置くと、触れられたことをパラメーターで受け取れるので、なでると反応するギミックを作れます。",
+          "tips": [["contact", "what"], ["contact", "example"]],
+          "see": ["receiver-type", "collision-tags", "physbone"]
+        },
+        {
+          "id": "receiver-type",
+          "term": "Receiver Type",
+          "match": ["Receiver Type"],
+          "short": "Receiver が出す値の種類。Constant（触れている間）・OnEnter（触れた瞬間）・Proximity（近さ）。",
+          "body": "触れている間だけ変えるなら Constant、触れたら1回だけ何かを始めるなら OnEnter、近づくほど強く変えるなら Proximity を選びます。",
+          "tips": [["contact", "types"]],
+          "see": ["contact"]
+        },
+        {
+          "id": "collision-tags",
+          "term": "Collision Tags",
+          "match": ["Collision Tags"],
+          "short": "Contact のタグ。Sender と Receiver に同じタグが1つでもあるときだけ反応する。",
+          "body": "手なら Hand、指なら Finger のように決まった名前があります。大文字と小文字も区別するので、つづりをそろえます。",
+          "tips": [["contact", "what"]],
+          "see": ["contact"]
+        }
+      ]
+    },
+    {
+      "id": "ma",
+      "title": "Modular Avatar の部品",
+      "lead": "衣装を着せたり、ギミックをつないだりするときに使う、Modular Avatar のコンポーネントです。",
+      "terms": [
+        {
+          "id": "setup-outfit",
+          "term": "Setup Outfit",
+          "match": ["Setup Outfit"],
+          "short": "衣装を右クリックして選ぶ Modular Avatar の機能。服を体に沿って動かすための部品を自動で付ける。",
+          "body": "衣装のプレハブをアバターの中に入れてから使います。衣装の Armature に MA Merge Armature が付き、再生やアップロードのときに、骨が自動でまとまります。",
+          "tips": [["outfit", "steps"], ["outfit", "merge"]],
+          "see": ["merge-armature", "modular-avatar"]
+        },
+        {
+          "id": "merge-armature",
+          "term": "MA Merge Armature",
+          "match": ["MA Merge Armature", "Merge Armature"],
+          "short": "衣装の骨を、アバターの同じ名前の骨にまとめて、服が体に沿って動くようにするコンポーネント。",
+          "body": "ふつうは Setup Outfit で自動で付きます。骨の名前に付いた接頭辞・接尾辞を取り除いて、対応する骨を探します。",
+          "tips": [["outfit", "merge"]],
+          "see": ["setup-outfit", "armature", "bone"]
+        },
+        {
+          "id": "merge-animator",
+          "term": "MA Merge Animator",
+          "match": ["MA Merge Animator", "Merge Animator"],
+          "short": "自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。",
+          "body": "元の FX のファイルを書き換えずに、ギミックを足せます。Match Avatar Write Defaults にチェックを入れると、Write Defaults をアバターに合わせてくれます。",
+          "tips": [["toggle", "connect"], ["animator-basics", "layers"]],
+          "see": ["controller", "fx", "write-defaults"]
+        },
+        {
+          "id": "menu-installer",
+          "term": "MA Menu Installer・MA Menu Item",
+          "match": ["MA Menu Installer", "Menu Installer", "MA Menu Item", "Menu Item"],
+          "short": "Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。",
+          "body": "MA Menu Item で項目の種類（Toggle・Radial Puppet・Sub Menu など）とパラメーターを決め、MA Menu Installer でアバターのメニューに足します。",
+          "tips": [["toggle", "connect"], ["outfit", "menu"]],
+          "see": ["expressions-menu", "ma-parameters", "object-toggle"]
+        },
+        {
+          "id": "object-toggle",
+          "term": "MA Object Toggle",
+          "match": ["MA Object Toggle", "Object Toggle"],
+          "short": "Animator を作らずに、メニューの項目でオブジェクトを出し入れできるコンポーネント。",
+          "body": "MA Menu Item と同じオブジェクトに付けて、オンオフしたいオブジェクトを登録します。中では、オンオフのアニメーションが自動で作られます。",
+          "tips": [["outfit", "menu"]],
+          "see": ["menu-installer", "is-active"]
+        },
+        {
+          "id": "shape-changer",
+          "term": "MA Shape Changer",
+          "match": ["MA Shape Changer", "Shape Changer"],
+          "short": "衣装を着ている間だけ、体の BlendShape を変えたり、体の一部を消したりするコンポーネント。",
+          "body": "服から肌が突き抜けるときに、体を細くする BlendShape を入れたり、隠れる部分のメッシュを消したりします。衣装を外すと、体も元に戻ります。",
+          "tips": [["outfit", "shrink"]],
+          "see": ["blendshape", "setup-outfit"]
+        },
+        {
+          "id": "ma-parameters",
+          "term": "MA Parameters",
+          "match": ["MA Parameters"],
+          "short": "Expression Parameters を書き換えずに、パラメーターを足すコンポーネント。Saved や Synced もここで決める。",
+          "body": "ギミックのオブジェクトに付けておくと、アップロードのときに、アバターの Expression Parameters へ自動で足されます。名前と型は、Animator のパラメーターとそろえます。",
+          "tips": [["toggle", "connect"], ["radial", "int"]],
+          "see": ["expression-parameters", "synced", "saved"]
+        }
+      ]
+    },
+    {
+      "id": "upload",
+      "title": "アップロードと、ほかの人からの見え方",
+      "lead": "アップロードするとき、ほかの人にどう見えるかに関わる言葉です。",
+      "terms": [
+        {
+          "id": "builder",
+          "term": "Builder",
+          "match": ["Builder"],
+          "short": "VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。",
+          "body": "Unity の上のメニューの VRChat SDK › Show Control Panel で開きます。Validations の赤いエラーを直してから、Build and Publish でアップロードします。",
+          "tips": [["upload", "builder"]],
+          "see": ["validations", "vrchat-sdk"]
+        },
+        {
+          "id": "validations",
+          "term": "Validations",
+          "match": ["Validations"],
+          "short": "Builder に出る、アップロードの前に確かめた結果。赤いエラーがあるとアップロードできない。",
+          "body": "黄色い警告は、多くの場合そのままでもアップロードできます。「Auto Fix」のボタンがあれば、押すと直ります。",
+          "tips": [["upload", "validations"]],
+          "see": ["builder"]
+        },
+        {
+          "id": "blueprint-id",
+          "term": "Blueprint ID",
+          "match": ["Blueprint ID"],
+          "short": "アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。",
+          "body": "一度アップロードすると、アバターの Pipeline Manager に書き込まれます。別のアバターとして残したいときは、Pipeline Manager の Detach で番号を外してからアップロードします。",
+          "tips": [["upload", "update"]],
+          "see": ["pipeline-manager", "content-manager"]
+        },
+        {
+          "id": "pipeline-manager",
+          "term": "Pipeline Manager",
+          "match": ["Pipeline Manager"],
+          "short": "アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。",
+          "body": "Quest 版をアップロードするときは、パソコン版と同じ Blueprint ID にしておくと、1つのアバターとして両方に出せます。",
+          "tips": [["upload", "update"], ["quest", "same"]],
+          "see": ["blueprint-id"]
+        },
+        {
+          "id": "content-manager",
+          "term": "Content Manager",
+          "match": ["Content Manager"],
+          "short": "VRChat SDK のウィンドウのタブ。アップロードしたアバターの一覧を見られる。",
+          "body": "アップロードが本当に終わったかや、どの Blueprint ID のアバターがあるかを確かめるのに使います。",
+          "tips": [["upload", "check"]],
+          "see": ["builder", "blueprint-id"]
+        },
+        {
+          "id": "performance-rank",
+          "term": "パフォーマンスランク",
+          "match": ["パフォーマンスランク", "Performance Rank", "ランク"],
+          "short": "アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。",
+          "body": "三角形の数、マテリアルの数、ボーンの数、PhysBone の数などの項目ごとに決まり、いちばん悪い項目がアバターのランクになります。見る人の設定によっては、ランクが低いアバターは代わりの姿で表示されます。",
+          "tips": [["performance", "rank"], ["performance", "limits"]],
+          "see": ["fallback", "aao", "polygon"]
+        },
+        {
+          "id": "drawcall",
+          "term": "ドローコール",
+          "match": ["ドローコール"],
+          "short": "画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。",
+          "body": "マテリアルやメッシュをまとめると減ります。AAO などのツールで、自動でまとめることもできます。",
+          "tips": [["performance", "why"]],
+          "see": ["material", "mesh", "atlas"]
+        },
+        {
+          "id": "atlas",
+          "term": "アトラス化",
+          "match": ["アトラス"],
+          "short": "いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。",
+          "body": "マテリアルが減ると、ドローコールが減って軽くなります。専用のツールを使うと、自動でまとめられます。",
+          "tips": [["performance", "light"]],
+          "see": ["texture", "material", "drawcall"]
+        },
+        {
+          "id": "safety",
+          "term": "Safety（セーフティ）",
+          "match": ["Safety", "セーフティ"],
+          "short": "ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。",
+          "body": "見る人が、ランクやフレンドかどうかなどで、表示するものを決めます。自分では見えていても、ほかの人の設定によっては、代わりの姿や、ギミックが止まった姿に見えます。",
+          "tips": [["performance", "seen"]],
+          "see": ["fallback", "performance-rank"]
+        },
+        {
+          "id": "fallback",
+          "term": "Fallback（代わりの姿）",
+          "match": ["Fallback", "フォールバック"],
+          "short": "ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。",
+          "body": "自分で Fallback に設定したアバターか、VRChat が用意したロボットなどの姿になります。Quest やスマホの人には、パソコン版しかないアバターの代わりに表示されます。",
+          "tips": [["performance", "seen"], ["quest", "see"]],
+          "see": ["impostor", "safety", "performance-rank"]
+        },
+        {
+          "id": "impostor",
+          "term": "インポスター（Impostor）",
+          "match": ["インポスター", "Impostor"],
+          "short": "VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。",
+          "body": "Quest やスマホの人から、パソコン版しかないアバターを見たときなどに表示されます。見る人がインポスターを切っていると、フォールバックの姿になります。",
+          "tips": [["quest", "see"]],
+          "see": ["fallback", "quest"]
+        },
+        {
+          "id": "quest",
+          "term": "Quest・Android・iOS",
+          "match": ["Meta Quest", "Quest", "Android", "iOS"],
+          "short": "Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。",
+          "body": "Quest やスマホでは、使えるシェーダーが VRChat/Mobile に限られ、ランクの決まりも厳しくなります。Quest 版を同じ Blueprint ID でアップロードすると、Quest やスマホの人にも見えるようになります。",
+          "tips": [["quest", "why"], ["quest", "steps"]],
+          "see": ["shader", "performance-rank", "fallback"]
+        },
+        {
+          "id": "render-queue",
+          "term": "Render Queue",
+          "match": ["Render Queue", "レンダーキュー"],
+          "short": "マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。",
+          "body": "半透明のパーツが消えたり、ほかの物の後ろに隠れたりするときは、この数字を見直します。マテリアルの Inspector で変えられます。",
+          "tips": [["render-queue", "what"], ["render-queue", "how"]],
+          "see": ["transparent", "material", "bounds"]
+        },
+        {
+          "id": "transparent",
+          "term": "半透明（Transparent）",
+          "match": ["半透明", "Transparent"],
+          "short": "向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。",
+          "body": "レース、メガネのレンズ、頬染めなどに使います。不透明の物を先に描いてから、遠い順に描きます。重なったときは Render Queue をずらして直します。",
+          "tips": [["render-queue", "sort"], ["render-queue", "cases"]],
+          "see": ["render-queue", "bounds"]
+        }
+      ]
+    }
+  ]
+}

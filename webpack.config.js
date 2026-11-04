@@ -365,7 +365,7 @@ const buildLlmsTxt = (pages) => {
     .map((page) => page.name)
     .sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)));
   const sections = [
-    section('このサイトの主なページ', ['index.html', 'products/index.html', 'faq/index.html', 'avatar-tips/index.html', 'start/index.html']),
+    section('このサイトの主なページ', ['index.html', 'products/index.html', 'faq/index.html', 'avatar-tips/index.html', 'glossary/index.html', 'start/index.html']),
     section('制作物の説明書', productNamesOf(false)),
     section('アバター改変の解説（連載。読む順）', [...avatarTips.articles].sort((a, b) => a.no - b.no).map((a) => `avatar-tips/${a.slug}/index.html`)),
     section('そのほかのページ', pages.filter((page) => !isEnPage(page.name)).map((page) => page.name)),
@@ -607,6 +607,8 @@ const createConfig_development = ({ outputPath }) => {
             products: products,
             // アバター改変の解説の一覧（一覧ページ・各回の前後リンクで共通）
             avatarTips: avatarTips,
+            // VRChat 用語集（用語集のページと、改変解説の本文の用語リンク・ツールチップで共通）
+            glossary: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/glossary.json'), 'utf8')),
             // お気に入りワールドの一覧
             worlds: JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/worlds.json'), 'utf8')),
             // 回想の動画（Vimeo と Cloudflare R2 の両方）

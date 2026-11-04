@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 </head>
 <body class="top_1">
 <a class="skip-link" href="#main">本文へスキップ</a>
@@ -146,7 +147,7 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第5回</a></p>
     <h1 class="page_1__h1" id="article-heading">Quest・スマホ対応</h1>
-    <p class="article_1__lead">Quest やスマホの人には、パソコン用のアバターは見えません。見てもらうには、軽くした別の版（Android 版・iOS 版）を、同じアバターにアップロードします。なぜ別の版が要るのか、何が使えないのか、どう作るのかを解説します。</p>
+    <p class="article_1__lead"><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> やスマホの人には、パソコン用のアバターは見えません。見てもらうには、軽くした別の版（Android 版・iOS 版）を、同じアバターにアップロードします。なぜ別の版が要るのか、何が使えないのか、どう作るのかを解説します。</p>
     <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 数字は VRChat の公式の資料（2026年11月時点）からです。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
@@ -186,13 +187,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>Quest の友だちから、自分のアバターがぼやけた姿やロボットに見えると言われた。</li><li>パソコン用に改変したアバターを、Quest やスマホの人にも見てもらいたい。</li><li>Quest 版をアップロードしたのに、見えないと言われる。</li>
+      <li><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> の友だちから、自分のアバターがぼやけた姿やロボットに見えると言われた。</li><li>パソコン用に改変したアバターを、Quest やスマホの人にも見てもらいたい。</li><li>Quest 版をアップロードしたのに、見えないと言われる。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
     <h2 class="section_2__h1" id="why-heading">なぜ別の版が要るのか</h2>
-    <p class="article_1__p">VRChat は、パソコン（Windows）と、Android（Quest やスマホ）、iOS（iPhone や iPad）で動きます。アバターは<strong>それぞれ別の形で作ってアップロード</strong>します。Quest やスマホは、パソコンよりずっと性能が低いので、重いものや一部の部品は使えません。</p><p class="article_1__p">アップロードするときは、同じアバター（同じ Blueprint ID）に、パソコン版と Android 版を並べて入れます。見る人の機器に合う版が、自動で選ばれます。</p>
+    <p class="article_1__p">VRChat は、パソコン（Windows）と、<a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Android</a>（Quest やスマホ）、iOS（iPhone や iPad）で動きます。アバターは<strong>それぞれ別の形で作ってアップロード</strong>します。Quest やスマホは、パソコンよりずっと性能が低いので、重いものや一部の部品は使えません。</p><p class="article_1__p">アップロードするときは、同じアバター（同じ <a class="term_2" href="/glossary/#blueprint-id" data-name="Blueprint ID" data-tip="アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。">Blueprint ID</a>）に、パソコン版と Android 版を並べて入れます。見る人の機器に合う版が、自動で選ばれます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="see" aria-labelledby="see-heading">
@@ -201,12 +202,12 @@
       
         <div class="examples_1__item">
           <dt>Android 版がある</dt>
-          <dd>Android 版のアバターが見えます。ただし、ランクが低いと見えないことがあります（下の「ランクの厳しさ」）。</dd>
+          <dd><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Android</a> 版のアバターが見えます。ただし、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>が低いと見えないことがあります（下の「ランクの厳しさ」）。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>パソコン版しかない</dt>
-          <dd>VRChat が自動で作った<strong>インポスター</strong>（板を組み合わせた、ぼやけた身代わり）が見えます。インポスターを切っていると、その人が選んだ<strong>フォールバック</strong>のアバター（ロボットなど）になります。</dd>
+          <dd>VRChat が自動で作った<strong><a class="term_2" href="/glossary/#impostor" data-name="インポスター（Impostor）" data-tip="VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。">インポスター</a></strong>（板を組み合わせた、ぼやけた身代わり）が見えます。インポスターを切っていると、その人が選んだ<strong><a class="term_2" href="/glossary/#fallback" data-name="Fallback（代わりの姿）" data-tip="ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。">フォールバック</a></strong>のアバター（ロボットなど）になります。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -220,9 +221,9 @@
 
   <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
     <h2 class="section_2__h1" id="limits-heading">Quest・スマホで使えないもの</h2>
-    <p class="article_1__p">Quest・スマホのアバターでは、次のものが使えません。入っていると、消されたり、動かなかったりします。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a>・スマホのアバターでは、次のものが使えません。入っていると、消されたり、動かなかったりします。</p>
     <ul class="rules_1">
-      <li><strong>シェーダーは、VRChat が用意した「VRChat/Mobile」のものだけ</strong>です。lilToon などのシェーダーは使えません。</li><li>ライト（Light）、カメラ、Cloth、音（Audio Source）、Rigidbody や Collider などの物理の部品は、まったく動きません。</li><li>Unity の Constraint は動きません。VRChat Constraint を使います。Dynamic Bone も動かないので、PhysBone を使います。</li><li>パーティクルは、きびしく制限されます。</li><li>Android 版のアバターは、圧縮したあとで 10MB を超えるとアップロードできません。5〜8MB を目安にします。</li>
+      <li><strong><a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>は、VRChat が用意した「VRChat/Mobile」のものだけ</strong>です。<a class="term_2" href="/glossary/#liltoon" data-name="lilToon" data-tip="日本のアバターや衣装でよく使われる、アニメ調のシェーダー。">lilToon</a> などのシェーダーは使えません。</li><li>ライト（Light）、カメラ、Cloth、音（Audio Source）、Rigidbody や Collider などの物理の部品は、まったく動きません。</li><li>Unity の Constraint は動きません。VRChat Constraint を使います。Dynamic Bone も動かないので、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> を使います。</li><li>パーティクルは、きびしく制限されます。</li><li>Android 版のアバターは、圧縮したあとで 10MB を超えるとアップロードできません。5〜8MB を目安にします。</li>
     </ul>
     <p class="section_2__note"><a href="https://creators.vrchat.com/platforms/android/quest-content-limitations/" target="_blank" rel="noopener">VRChat の資料：Android Content Limitations<span class="visually-hidden">（新しいタブで開きます）</span></a></p>
   </section>
@@ -249,7 +250,7 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">半透明（髪の毛先のぼかしなど）は使えないので、不透明か、くっきり切り抜く形にします。マテリアルの「Enable GPU Instancing」は、オンにしておきます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>（髪の毛先のぼかしなど）は使えないので、不透明か、くっきり切り抜く形にします。<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>の「Enable GPU Instancing」は、オンにしておきます。</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -283,7 +284,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Shader の一覧から「VRChat/Mobile」を選び、その中のシェーダーにします。ほかのシェーダーのままだと、Quest ではピンク色や、見えない姿になります。</li><li>軽くするために、オンにしておきます。</li>
+      <li>Shader の一覧から「VRChat/Mobile」を選び、その中の<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>にします。ほかのシェーダーのままだと、<a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> ではピンク色や、見えない姿になります。</li><li>軽くするために、オンにしておきます。</li>
     </ol>
   
 </div>
@@ -292,7 +293,7 @@
 
   <section class="section_2 article_1__section" id="ranks" aria-labelledby="ranks-heading">
     <h2 class="section_2__h1" id="ranks-heading">ランクの厳しさ</h2>
-    <p class="article_1__p">Quest・スマホでは、パフォーマンスランクの基準が、パソコンよりずっと厳しくなります。そのうえ、Quest・スマホの人は、<strong>はじめの設定では Medium までしか見えません</strong>。Poor と Very Poor のアバターは、インポスターかフォールバックになります。</p><p class="article_1__p">見る人は、設定で Poor まで見えるようにはできますが、Very Poor は見えるようにできません（相手を選んで「Show Avatar」を押せば、1人ずつは見えます）。<strong>Quest 版は Medium 以上</strong>を目指します。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a>・スマホでは、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">パフォーマンスランク</a>の基準が、パソコンよりずっと厳しくなります。そのうえ、Quest・スマホの人は、<strong>はじめの設定では Medium までしか見えません</strong>。Poor と Very Poor のアバターは、<a class="term_2" href="/glossary/#impostor" data-name="インポスター（Impostor）" data-tip="VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。">インポスター</a>か<a class="term_2" href="/glossary/#fallback" data-name="Fallback（代わりの姿）" data-tip="ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。">フォールバック</a>になります。</p><p class="article_1__p">見る人は、設定で Poor まで見えるようにはできますが、Very Poor は見えるようにできません（相手を選んで「Show Avatar」を押せば、1人ずつは見えます）。<strong>Quest 版は Medium 以上</strong>を目指します。</p>
     <section class="table_3" tabindex="0" aria-label="パソコンと Quest・スマホのランクの上限（おもなもの）">
       <table>
         <thead>
@@ -313,13 +314,13 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">Quest・スマホでは、PhysBone は 8 個まで、Contact は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは<a href="/avatar-tips/performance/">第4回 パフォーマンスランクと軽量化</a>で詳しく解説しています。</p>
+    <p class="article_1__p">Quest・スマホでは、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> は 8 個まで、<a class="term_2" href="/glossary/#contact" data-name="Contact（Sender と Receiver）" data-tip="触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。">Contact</a> は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは<a href="/avatar-tips/performance/">第4回 パフォーマンスランクと軽量化</a>で詳しく解説しています。</p>
     <p class="section_2__note"><a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat の資料：Avatar Performance Ranking System<span class="visually-hidden">（新しいタブで開きます）</span></a></p>
   </section>
 
   <section class="section_2 article_1__section" id="first" aria-labelledby="first-heading">
     <h2 class="section_2__h1" id="first-heading">まず、販売ページを確かめる</h2>
-    <p class="article_1__p">多くのアバターや衣装は、販売ページに「Quest 対応」と書かれていて、<strong>Quest 用のデータが入っています</strong>。入っていれば、それを使うのがいちばんの近道です。Quest 用のプレハブを置いて、同じように改変します。</p><p class="article_1__p">Quest 用のデータが無いときは、自分で軽くします。衣装やアクセサリーを足すほど重くなるので、Quest 版はシンプルな姿にするのがおすすめです。</p>
+    <p class="article_1__p">多くのアバターや衣装は、販売ページに「<a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> 対応」と書かれていて、<strong>Quest 用のデータが入っています</strong>。入っていれば、それを使うのがいちばんの近道です。Quest 用の<a class="term_2" href="/glossary/#prefab" data-name="プレハブ（Prefab）" data-tip="オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。">プレハブ</a>を置いて、同じように改変します。</p><p class="article_1__p">Quest 用のデータが無いときは、自分で軽くします。衣装やアクセサリーを足すほど重くなるので、Quest 版はシンプルな姿にするのがおすすめです。</p>
   </section>
 
   <section class="section_2 article_1__section" id="steps" aria-labelledby="steps-heading">
@@ -327,7 +328,7 @@
     <ol class="steps_1">
       
         
-          <li>Unity に「Android Build Support」が入っているかを確かめます。入っていなければ、Unity Hub で足します（<a href="/avatar-tips/setup/#hub">第1回 Unity Hub で Unity を入れる</a>）。</li>
+          <li>Unity に「<a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Android</a> Build Support」が入っているかを確かめます。入っていなければ、<a class="term_2" href="/glossary/#unity-hub" data-name="Unity Hub" data-tip="Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。">Unity Hub</a> で足します（<a href="/avatar-tips/setup/#hub">第1回 Unity Hub で Unity を入れる</a>）。</li>
         
       
         
@@ -335,11 +336,11 @@
         
       
         
-          <li>VRChat SDK のコントロールパネル（<code>VRChat SDK → Show Control Panel</code>）の「Builder」タブで、Platform を「Android」に切り替えます。確認が出たら進めます。</li>
+          <li><a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">VRChat SDK</a> のコントロールパネル（<code>VRChat SDK → Show Control Panel</code>）の「<a class="term_2" href="/glossary/#builder" data-name="Builder" data-tip="VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。">Builder</a>」タブで、Platform を「Android」に切り替えます。確認が出たら進めます。</li>
         
       
         
-          <li>Quest 用のアバターのマテリアルを、すべて「VRChat/Mobile」のシェーダーに変えます。マテリアルを分けておくと、パソコン版の見た目を壊しません。</li>
+          <li>Quest 用のアバターの<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>を、すべて「VRChat/Mobile」の<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>に変えます。マテリアルを分けておくと、パソコン版の見た目を壊しません。</li>
         
       
         
@@ -347,11 +348,11 @@
         
       
         
-          <li>ポリゴン、マテリアル、PhysBone を減らして、ランクを Medium 以上にします。</li>
+          <li><a class="term_2" href="/glossary/#polygon" data-name="ポリゴン" data-tip="メッシュを作っている三角形。数が多いほど細かいが、重くなる。">ポリゴン</a>、マテリアル、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> を減らして、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>を Medium 以上にします。</li>
         
       
         
-          <li>パソコン版と<strong>同じ Blueprint ID</strong> にアップロードします。同じプロジェクトでアバターを複製したなら、Pipeline Manager の ID もそのまま入っています。</li>
+          <li>パソコン版と<strong>同じ <a class="term_2" href="/glossary/#blueprint-id" data-name="Blueprint ID" data-tip="アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。">Blueprint ID</a></strong> にアップロードします。同じ<a class="term_2" href="/glossary/#project" data-name="プロジェクト" data-tip="Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。">プロジェクト</a>でアバターを複製したなら、<a class="term_2" href="/glossary/#pipeline-manager" data-name="Pipeline Manager" data-tip="アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。">Pipeline Manager</a> の ID もそのまま入っています。</li>
         
       
         
@@ -432,20 +433,20 @@
   <section class="section_2 article_1__section" id="tools" aria-labelledby="tools-heading">
     <h2 class="section_2__h1" id="tools-heading">手間を減らすツール</h2>
     <ul class="rules_1">
-      <li>VRChat の資料では、パソコン版と Quest 版で設定を切り替える「EasyQuestSwitch」が紹介されています。VCC から入れられます。</li><li>パソコン版のアバターを複製して、Quest 用のマテリアルやテクスチャを作り、使えない部品を消すツール「VRCQuestTools」もあります。ただし、ランクまでは軽くしてくれないので、そのままでは Very Poor になりがちです。</li><li>パソコン版と Quest 版で別々のアバターを用意したときは、SDK の「Per-Platform Override」で、1つのアバターにまとめてアップロードできます。</li>
+      <li>VRChat の資料では、パソコン版と <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> 版で設定を切り替える「EasyQuestSwitch」が紹介されています。<a class="term_2" href="/glossary/#vcc" data-name="VCC（VRChat Creator Companion）" data-tip="VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。">VCC</a> から入れられます。</li><li>パソコン版のアバターを複製して、Quest 用の<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>や<a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>を作り、使えない部品を消すツール「VRCQuestTools」もあります。ただし、<a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>までは軽くしてくれないので、そのままでは Very Poor になりがちです。</li><li>パソコン版と Quest 版で別々のアバターを用意したときは、<a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">SDK</a> の「Per-Platform Override」で、1つのアバターにまとめてアップロードできます。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="same" aria-labelledby="same-heading">
     <h2 class="section_2__h1" id="same-heading">パソコン版と Quest 版でそろえること</h2>
     <ul class="rules_1">
-      <li><strong>ボーンの組み立て（Armature）</strong>はそろえます。頭、手、足などの大事なボーンの名前や並び、Hips の大きさと向きを変えると、ほかの機器から見たときに、おかしな動きになります。髪やスカートのボーンを減らすのはかまいません。</li><li>Expression のメニューとパラメーターも、そろえておくと安心です。片方だけにある服のオンオフなどは、もう片方の人からは変わって見えません。</li>
+      <li><strong><a class="term_2" href="/glossary/#bone" data-name="ボーン" data-tip="メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。">ボーン</a>の組み立て（<a class="term_2" href="/glossary/#armature" data-name="Armature" data-tip="アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。">Armature</a>）</strong>はそろえます。頭、手、足などの大事なボーンの名前や並び、Hips の大きさと向きを変えると、ほかの機器から見たときに、おかしな動きになります。髪やスカートのボーンを減らすのはかまいません。</li><li>Expression のメニューと<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>も、そろえておくと安心です。片方だけにある服のオンオフなどは、もう片方の人からは変わって見えません。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="ios" aria-labelledby="ios-heading">
     <h2 class="section_2__h1" id="ios-heading">iOS（iPhone・iPad）</h2>
-    <p class="article_1__p">iOS 版の VRChat もあります。作り方は Android 版とほぼ同じで、使えないものや基準も同じです。iOS 版を作るには、Unity Hub で「iOS Build Support」を足して、Platform で「iOS」を選んでアップロードします。</p><p class="article_1__p">iOS 版が無いアバターは、iOS の人からはインポスターに見えます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">iOS</a> 版の VRChat もあります。作り方は Android 版とほぼ同じで、使えないものや基準も同じです。iOS 版を作るには、<a class="term_2" href="/glossary/#unity-hub" data-name="Unity Hub" data-tip="Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。">Unity Hub</a> で「iOS Build Support」を足して、Platform で「iOS」を選んでアップロードします。</p><p class="article_1__p">iOS 版が無いアバターは、iOS の人からは<a class="term_2" href="/glossary/#impostor" data-name="インポスター（Impostor）" data-tip="VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。">インポスター</a>に見えます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
@@ -455,8 +456,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ピンク色になる</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>Quest の人から、アバターの一部や全部がピンク色に見えると言われる。</dd></div>
-            <div><dt>原因</dt><dd>Quest 版に、VRChat/Mobile 以外のシェーダーのマテリアルが残っています。</dd></div>
+            <div><dt>起きること</dt><dd><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> の人から、アバターの一部や全部がピンク色に見えると言われる。</dd></div>
+            <div><dt>原因</dt><dd>Quest 版に、VRChat/Mobile 以外の<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>の<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>が残っています。</dd></div>
             <div><dt>直し方</dt><dd>Quest 用のアバターのマテリアルを、1つずつ VRChat/Mobile のシェーダーに変えます。衣装やアクセサリーのマテリアルも見落とさないようにします。</dd></div>
           </dl>
         </section>
@@ -464,8 +465,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ぼやけた姿・ロボットに見える</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>Quest の人から、ぼやけた姿（インポスター）やロボットに見えると言われる。</dd></div>
-            <div><dt>原因</dt><dd>Android 版がアップロードされていないか、パソコン版と別のアバター（別の Blueprint ID）にアップロードしています。</dd></div>
+            <div><dt>起きること</dt><dd>Quest の人から、ぼやけた姿（<a class="term_2" href="/glossary/#impostor" data-name="インポスター（Impostor）" data-tip="VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。">インポスター</a>）やロボットに見えると言われる。</dd></div>
+            <div><dt>原因</dt><dd>Android 版がアップロードされていないか、パソコン版と別のアバター（別の <a class="term_2" href="/glossary/#blueprint-id" data-name="Blueprint ID" data-tip="アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。">Blueprint ID</a>）にアップロードしています。</dd></div>
             <div><dt>直し方</dt><dd>Platform を Android にして、パソコン版と同じ Blueprint ID にアップロードします。VRChat のアバターの詳細で、Android 版があるかを確かめます。</dd></div>
           </dl>
         </section>
@@ -474,8 +475,8 @@
           <h3 class="case_1__title">Quest 版があるのに見えない</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>Android 版をアップロードしたのに、Quest の人からは見えない。</dd></div>
-            <div><dt>原因</dt><dd>ランクが Poor か Very Poor です。Quest・スマホの人は、はじめの設定では Medium までしか見えません。</dd></div>
-            <div><dt>直し方</dt><dd>ポリゴン、マテリアル、PhysBone などを減らして、Medium 以上にします。SDK のコントロールパネルで、Android のときのランクを確かめます。</dd></div>
+            <div><dt>原因</dt><dd><a class="term_2" href="/glossary/#performance-rank" data-name="パフォーマンスランク" data-tip="アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。">ランク</a>が Poor か Very Poor です。Quest・スマホの人は、はじめの設定では Medium までしか見えません。</dd></div>
+            <div><dt>直し方</dt><dd><a class="term_2" href="/glossary/#polygon" data-name="ポリゴン" data-tip="メッシュを作っている三角形。数が多いほど細かいが、重くなる。">ポリゴン</a>、マテリアル、<a class="term_2" href="/glossary/#physbone" data-name="PhysBone" data-tip="髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。">PhysBone</a> などを減らして、Medium 以上にします。<a class="term_2" href="/glossary/#vrchat-sdk" data-name="VRChat SDK" data-tip="Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。">SDK</a> のコントロールパネルで、Android のときのランクを確かめます。</dd></div>
           </dl>
         </section>
       
@@ -483,7 +484,7 @@
           <h3 class="case_1__title">切り替えにとても時間がかかる</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>Platform を Android に切り替えると、何十分も待たされる。</dd></div>
-            <div><dt>原因</dt><dd>はじめて切り替えるときは、テクスチャなどを全部読み込み直すためです。</dd></div>
+            <div><dt>原因</dt><dd>はじめて切り替えるときは、<a class="term_2" href="/glossary/#texture" data-name="テクスチャ" data-tip="メッシュに貼る画像。肌や服の模様、色などを描いている。">テクスチャ</a>などを全部読み込み直すためです。</dd></div>
             <div><dt>直し方</dt><dd>はじめの1回は待ちます。2回目からは速くなります。切り替えの途中で Unity を閉じないでください。</dd></div>
           </dl>
         </section>
@@ -503,20 +504,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>VRChat は、Very Poor の Quest・スマホのアバターを、これから先は使えなくするかもしれないと案内しています。Quest 版は Very Poor にしないでください。</li><li>Quest 版は、自分の Quest か、Quest の友だちに見てもらって確かめます。パソコンの Unity では、Quest での見た目はわかりません。</li><li>改変したものを Quest 版にするときも、アバターや衣装の利用規約を守ります。Quest 版の改変やアップロードを認めているかも確かめます。</li>
+      <li>VRChat は、Very Poor の <a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a>・スマホのアバターを、これから先は使えなくするかもしれないと案内しています。Quest 版は Very Poor にしないでください。</li><li>Quest 版は、自分の Quest か、Quest の友だちに見てもらって確かめます。パソコンの Unity では、Quest での見た目はわかりません。</li><li>改変したものを Quest 版にするときも、アバターや衣装の利用規約を守ります。Quest 版の改変やアップロードを認めているかも確かめます。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
     <ul class="rules_1">
-      <li>Quest やスマホの人に見てもらうには、Android 版（iOS 版）を、パソコン版と同じ Blueprint ID にアップロードします。</li><li>シェーダーは VRChat/Mobile だけ。ライトや Cloth、音などは使えません。</li><li>Quest・スマホの人は、はじめは Medium までしか見えないので、Medium 以上を目指します。</li><li>まずは販売ページで、Quest 用のデータがあるかを確かめます。</li>
+      <li><a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> やスマホの人に見てもらうには、Android 版（iOS 版）を、パソコン版と同じ <a class="term_2" href="/glossary/#blueprint-id" data-name="Blueprint ID" data-tip="アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。">Blueprint ID</a> にアップロードします。</li><li><a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>は VRChat/Mobile だけ。ライトや Cloth、音などは使えません。</li><li>Quest・スマホの人は、はじめは Medium までしか見えないので、Medium 以上を目指します。</li><li>まずは販売ページで、Quest 用のデータがあるかを確かめます。</li>
     </ul>
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="前後の回">
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/avatar-tips/performance/" rel="prev"><span class="next_1__note">前の回（第4回）</span><span class="next_1__text">パフォーマンスランクと軽量化</span></a></li>

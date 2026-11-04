@@ -1,0 +1,2349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>VRChat 用語集 | ぬにふちさか</title>
+<meta name="description" content="VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/glossary/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VRChat 用語集">
+<meta property="og:description" content="VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。">
+<meta property="og:url" content="https://nunifuchisaka.github.io/glossary/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VRChat 用語集">
+<meta name="twitter:description" content="VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "VRChat 用語集 | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/glossary/",
+  "description": "VRChat のアバター改変で出てくる専門用語（Unity の画面、VRChat SDK、Animator・パラメーター・メニュー、Modular Avatar、パフォーマンスランクなど）を、はじめての人向けに短く説明した用語集。各用語から、くわしく解説している改変解説の回へ飛べます。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/glossary-filter.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/">ぬにふちさか</a>
+    <nav class="header_4__nav" aria-label="サイト内">
+      <ul>
+        
+          <li><a href="/start/">はじめてのVRChat</a></li>
+        
+          <li><a href="/timeline/">案内実績</a></li>
+        
+          <li><a href="/equipment/">VR機材</a></li>
+        
+          <li><a href="/products/">制作物</a></li>
+        
+          <li><a href="/avatar-tips/" aria-current="true">改変解説</a></li>
+        
+          <li><a href="/videos/">回想</a></li>
+        
+          <li><a href="/dice/">話題サイコロ</a></li>
+        
+          <li><a href="/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">言語切替</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja" selected>日本語</option>
+        <option value="en" disabled>English（準備中）</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="ダークにする" data-label-light="ライトにする">ダークにする</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<section class="section_2 page_1" aria-labelledby="glossary-heading">
+  <h1 class="page_1__h1" id="glossary-heading">VRChat 用語集</h1>
+  <p class="section_2__lead">VRChat のアバター改変で出てくる言葉87語を、はじめての人向けに1〜2文で説明します。Unity の画面、VRChat SDK、Animator とギミック、Modular Avatar、アップロードとパフォーマンスランクの言葉を集めました。</p>
+  <p class="section_2__note">「<a href="/avatar-tips/">アバター改変の解説</a>」の本文では、ここにある言葉に点線が付いています。マウスを乗せると短い説明が出て、押すとこのページの説明へ飛びます。</p>
+  <nav class="jump_1" aria-label="このページの中">
+    <ul>
+      
+        <li><a href="#cat-tools">ソフトとツール</a></li>
+      
+        <li><a href="#cat-unity">Unity の画面と部品</a></li>
+      
+        <li><a href="#cat-body">アバターの体と見た目</a></li>
+      
+        <li><a href="#cat-animator">Animator とアニメーション</a></li>
+      
+        <li><a href="#cat-menu">パラメーターとメニュー</a></li>
+      
+        <li><a href="#cat-ma">Modular Avatar の部品</a></li>
+      
+        <li><a href="#cat-upload">アップロードと、ほかの人からの見え方</a></li>
+      
+    </ul>
+  </nav>
+</section>
+
+<div class="section_2 glossary_1 js_glossary" data-count="{n} 語">
+  <div class="glossary_1__controls js_glossary_controls" hidden>
+    <label class="filter_1__legend" for="glossary-search">ことばで絞り込む</label>
+    <input type="search" id="glossary-search" class="finder_1__input js_glossary_search" placeholder="例：Write Defaults、同期、ピンク" autocomplete="off">
+    <p class="finder_1__count" aria-live="polite"><span class="js_glossary_count">87 語</span></p>
+  </div>
+  <p class="finder_1__none js_glossary_none" hidden>当てはまる言葉がありません。ことばを短くするか、上の種類から探してください。</p>
+
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-tools" aria-labelledby="cat-tools-heading">
+      <h2 class="section_2__h1" id="cat-tools-heading">ソフトとツール</h2>
+      <p class="section_2__lead">アバターを改変してアップロードするまでに使う、ソフトやツールの名前です。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="vcc" aria-labelledby="vcc-heading" data-text="VCC（VRChat Creator Companion） VRChat Creator Companion Creator Companion VCC VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。 VCC でプロジェクトを作ると、VRChat SDK が入った Unity のプロジェクトができます。Modular Avatar などのツールも、配っている人のリポジトリを VCC に足してから、プロジェクトに入れます。Mac や Linux では使えないので、ALCOM を使います。">
+            <h3 class="glossary_1__term" id="vcc-heading">VCC（VRChat Creator Companion）</h3>
+            <p class="glossary_1__short">VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。</p>
+            <p class="glossary_1__body">VCC でプロジェクトを作ると、VRChat SDK が入った Unity のプロジェクトができます。Modular Avatar などのツールも、配っている人のリポジトリを VCC に足してから、プロジェクトに入れます。Mac や Linux では使えないので、ALCOM を使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#vcc">第1回 VCC・ALCOM・Unity の入れ方</a>、<a href="/avatar-tips/setup/#packages">第1回 VCC・ALCOM・Unity の入れ方</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#alcom">ALCOM</a>、<a href="#unity-hub">Unity Hub</a>、<a href="#vrchat-sdk">VRChat SDK</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="alcom" aria-labelledby="alcom-heading" data-text="ALCOM ALCOM VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。 プロジェクトを作る、ツールやシェーダーを入れる、といった VCC と同じ使い方ができます。VCC と違い、Mac や Linux でも使えます。">
+            <h3 class="glossary_1__term" id="alcom-heading">ALCOM</h3>
+            <p class="glossary_1__short">VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。</p>
+            <p class="glossary_1__body">プロジェクトを作る、ツールやシェーダーを入れる、といった VCC と同じ使い方ができます。VCC と違い、Mac や Linux でも使えます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#choose">第1回 VCC・ALCOM・Unity の入れ方</a>、<a href="/avatar-tips/setup/#alcom">第1回 VCC・ALCOM・Unity の入れ方</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#vcc">VCC（VRChat Creator Companion）</a>、<a href="#unity-hub">Unity Hub</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="unity-hub" aria-labelledby="unity-hub-heading" data-text="Unity Hub Unity Hub Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。 VRChat は決まったバージョンの Unity（2026年11月時点で 2022.3.22f1）を使います。そのバージョンを Unity Hub で入れておき、新しいバージョンには上げません。">
+            <h3 class="glossary_1__term" id="unity-hub-heading">Unity Hub</h3>
+            <p class="glossary_1__short">Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。</p>
+            <p class="glossary_1__body">VRChat は決まったバージョンの Unity（2026年11月時点で 2022.3.22f1）を使います。そのバージョンを Unity Hub で入れておき、新しいバージョンには上げません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#hub">第1回 VCC・ALCOM・Unity の入れ方</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#vcc">VCC（VRChat Creator Companion）</a>、<a href="#alcom">ALCOM</a>、<a href="#project">プロジェクト</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="vrchat-sdk" aria-labelledby="vrchat-sdk-heading" data-text="VRChat SDK VRChat SDK SDK Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。 VRChat SDK が入ったプロジェクトでは、Unity の上のメニューに「VRChat SDK」が出て、Builder でアップロードしたり、Content Manager でアップロードしたアバターを見たりできます。VCC か ALCOM でプロジェクトを作ると、はじめから入っています。">
+            <h3 class="glossary_1__term" id="vrchat-sdk-heading">VRChat SDK</h3>
+            <p class="glossary_1__short">Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。</p>
+            <p class="glossary_1__body">VRChat SDK が入ったプロジェクトでは、Unity の上のメニューに「VRChat SDK」が出て、Builder でアップロードしたり、Content Manager でアップロードしたアバターを見たりできます。VCC か ALCOM でプロジェクトを作ると、はじめから入っています。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#parts">第1回 VCC・ALCOM・Unity の入れ方</a>、<a href="/avatar-tips/upload/#login">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#builder">Builder</a>、<a href="#content-manager">Content Manager</a>、<a href="#vcc">VCC（VRChat Creator Companion）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="avatars3" aria-labelledby="avatars3-heading" data-text="Avatars 3.0 Avatars 3.0 いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。 VRChat SDK に入っている、アバターを作るためのしくみの名前です。いま VRChat でアップロードするアバターは、すべてこのしくみで動きます。">
+            <h3 class="glossary_1__term" id="avatars3-heading">Avatars 3.0</h3>
+            <p class="glossary_1__short">いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。</p>
+            <p class="glossary_1__body">VRChat SDK に入っている、アバターを作るためのしくみの名前です。いま VRChat でアップロードするアバターは、すべてこのしくみで動きます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#picture">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#animator">Animator</a>、<a href="#expression-parameters">Expression Parameters</a>、<a href="#expressions-menu">Expressions Menu（Action Menu）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="builtin-rp" aria-labelledby="builtin-rp-heading" data-text="Built-in Render Pipeline Built-in Render Pipeline Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。 Unity には描き方のしくみ（Render Pipeline）がいくつかあり、VRChat は Built-in Render Pipeline を使います。URP や HDRP 向けに作られたシェーダーは、VRChat のアバターでは使えません。">
+            <h3 class="glossary_1__term" id="builtin-rp-heading">Built-in Render Pipeline</h3>
+            <p class="glossary_1__short">Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。</p>
+            <p class="glossary_1__body">Unity には描き方のしくみ（Render Pipeline）がいくつかあり、VRChat は Built-in Render Pipeline を使います。URP や HDRP 向けに作られたシェーダーは、VRChat のアバターでは使えません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#parts">第1回 VCC・ALCOM・Unity の入れ方</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#shader">シェーダー</a>、<a href="#render-queue">Render Queue</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="modular-avatar" aria-labelledby="modular-avatar-heading" data-text="Modular Avatar（MA） Modular Avatar MA 衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。 衣装やギミックに MA のコンポーネントを付けておくと、再生やアップロードのときに、その指示どおりに自動で組み込みます。元のアバターのファイルは書き換えないので、外したいときは消すだけで戻ります。">
+            <h3 class="glossary_1__term" id="modular-avatar-heading">Modular Avatar（MA）</h3>
+            <p class="glossary_1__short">衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。</p>
+            <p class="glossary_1__body">衣装やギミックに MA のコンポーネントを付けておくと、再生やアップロードのときに、その指示どおりに自動で組み込みます。元のアバターのファイルは書き換えないので、外したいときは消すだけで戻ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#why">第3回 衣装を着せる</a>、<a href="/avatar-tips/outfit/#install">第3回 衣装を着せる</a>、<a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#merge-armature">MA Merge Armature</a>、<a href="#merge-animator">MA Merge Animator</a>、<a href="#menu-installer">MA Menu Installer・MA Menu Item</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="aao" aria-labelledby="aao-heading" data-text="AAO（Avatar Optimizer） AAO: Avatar Optimizer Avatar Optimizer AAO 見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。 アバターの一番上に AAO Trace And Optimize を付けると、使っていない部品を消したり、メッシュをまとめたりして、パフォーマンスランクを上げやすくします。元のデータは書き換えません。">
+            <h3 class="glossary_1__term" id="aao-heading">AAO（Avatar Optimizer）</h3>
+            <p class="glossary_1__short">見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。</p>
+            <p class="glossary_1__body">アバターの一番上に AAO Trace And Optimize を付けると、使っていない部品を消したり、メッシュをまとめたりして、パフォーマンスランクを上げやすくします。元のデータは書き換えません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#aao">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#performance-rank">パフォーマンスランク</a>、<a href="#modular-avatar">Modular Avatar（MA）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="gesture-manager" aria-labelledby="gesture-manager-heading" data-text="Gesture Manager Gesture Manager GestureManager Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。 シーンに置いて再生すると、Expressions Menu を開いたり、ハンドサインを選んだりできます。パラメーターの値も見えるので、ギミックが動かないときに、どこで止まっているかを探せます。">
+            <h3 class="glossary_1__term" id="gesture-manager-heading">Gesture Manager</h3>
+            <p class="glossary_1__short">Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。</p>
+            <p class="glossary_1__body">シーンに置いて再生すると、Expressions Menu を開いたり、ハンドサインを選んだりできます。パラメーターの値も見えるので、ギミックが動かないときに、どこで止まっているかを探せます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#test">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/gimmick-debug/#tools">第12回 ギミックが動かないとき</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#expressions-menu">Expressions Menu（Action Menu）</a>、<a href="#parameter">パラメーター</a>、<a href="#hand-sign">ハンドサイン（GestureLeft・GestureRight）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="liltoon" aria-labelledby="liltoon-heading" data-text="lilToon lilToon 日本のアバターや衣装でよく使われる、アニメ調のシェーダー。 多くのアバターや衣装は、lilToon を使う前提で作られています。プロジェクトに入っていないと、マテリアルがピンク一色になるので、アバターより先に入れておきます。">
+            <h3 class="glossary_1__term" id="liltoon-heading">lilToon</h3>
+            <p class="glossary_1__short">日本のアバターや衣装でよく使われる、アニメ調のシェーダー。</p>
+            <p class="glossary_1__body">多くのアバターや衣装は、lilToon を使う前提で作られています。プロジェクトに入っていないと、マテリアルがピンク一色になるので、アバターより先に入れておきます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#import">第2回 アップロードのしかた</a>、<a href="/avatar-tips/quest/#shaders">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#shader">シェーダー</a>、<a href="#material">マテリアル</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="unitypackage" aria-labelledby="unitypackage-heading" data-text="unitypackage .unitypackage unitypackage Unity のファイルをまとめて配るための形式（拡張子 .unitypackage）。 BOOTH などで買ったアバターや衣装は、この形で配られることが多いです。プロジェクトを開いたまま、Project ウィンドウへドラッグすると取り込めます。">
+            <h3 class="glossary_1__term" id="unitypackage-heading">unitypackage</h3>
+            <p class="glossary_1__short">Unity のファイルをまとめて配るための形式（拡張子 .unitypackage）。</p>
+            <p class="glossary_1__body">BOOTH などで買ったアバターや衣装は、この形で配られることが多いです。プロジェクトを開いたまま、Project ウィンドウへドラッグすると取り込めます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#import">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#project-window">Project ウィンドウ</a>、<a href="#booth">BOOTH</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="booth" aria-labelledby="booth-heading" data-text="BOOTH BOOTH pixiv が運営する通販サイト。アバター・衣装・ギミックの多くがここで売られている。 買う前に、販売ページで対応しているアバター、使うシェーダー、Quest 版があるか、使ってよい範囲（利用規約）を確かめます。">
+            <h3 class="glossary_1__term" id="booth-heading">BOOTH</h3>
+            <p class="glossary_1__short">pixiv が運営する通販サイト。アバター・衣装・ギミックの多くがここで売られている。</p>
+            <p class="glossary_1__body">買う前に、販売ページで対応しているアバター、使うシェーダー、Quest 版があるか、使ってよい範囲（利用規約）を確かめます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#before">第3回 衣装を着せる</a>、<a href="/avatar-tips/quest/#first">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#unitypackage">unitypackage</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-unity" aria-labelledby="cat-unity-heading">
+      <h2 class="section_2__h1" id="cat-unity-heading">Unity の画面と部品</h2>
+      <p class="section_2__lead">Unity の画面の名前と、シーンに置く物のしくみです。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="project" aria-labelledby="project-heading" data-text="プロジェクト プロジェクト Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。 VCC や ALCOM で作り、Unity で開きます。アバターごとにプロジェクトを分けてもかまいません。こわれたときに戻せるよう、ときどきフォルダごと書き出しておきます。">
+            <h3 class="glossary_1__term" id="project-heading">プロジェクト</h3>
+            <p class="glossary_1__short">Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。</p>
+            <p class="glossary_1__body">VCC や ALCOM で作り、Unity で開きます。アバターごとにプロジェクトを分けてもかまいません。こわれたときに戻せるよう、ときどきフォルダごと書き出しておきます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/setup/#project">第1回 VCC・ALCOM・Unity の入れ方</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#vcc">VCC（VRChat Creator Companion）</a>、<a href="#project-window">Project ウィンドウ</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="hierarchy" aria-labelledby="hierarchy-heading" data-text="Hierarchy Hierarchy シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。 アバターを置くと、アバターの一番上の物の下に、体や服、Armature などが並びます。ドラッグで親子を変えられます。">
+            <h3 class="glossary_1__term" id="hierarchy-heading">Hierarchy</h3>
+            <p class="glossary_1__short">シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。</p>
+            <p class="glossary_1__body">アバターを置くと、アバターの一番上の物の下に、体や服、Armature などが並びます。ドラッグで親子を変えられます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#place">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#gameobject">オブジェクト（GameObject）</a>、<a href="#inspector">Inspector</a>、<a href="#scene">シーン（Scene）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="project-window" aria-labelledby="project-window-heading" data-text="Project ウィンドウ Project プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。 右クリックの Create から、フォルダやアニメーションクリップ、Animator Controller を作れます。Hierarchy が「シーンに置いた物」なのに対して、こちらは「ファイル」です。">
+            <h3 class="glossary_1__term" id="project-window-heading">Project ウィンドウ</h3>
+            <p class="glossary_1__short">プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。</p>
+            <p class="glossary_1__body">右クリックの Create から、フォルダやアニメーションクリップ、Animator Controller を作れます。Hierarchy が「シーンに置いた物」なのに対して、こちらは「ファイル」です。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#controller">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#hierarchy">Hierarchy</a>、<a href="#prefab">プレハブ（Prefab）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="inspector" aria-labelledby="inspector-heading" data-text="Inspector Inspector 選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。 Hierarchy や Project で何かを選ぶと、その設定がここに出ます。付いているコンポーネントの追加や設定も、ここで行います。">
+            <h3 class="glossary_1__term" id="inspector-heading">Inspector</h3>
+            <p class="glossary_1__short">選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。</p>
+            <p class="glossary_1__body">Hierarchy や Project で何かを選ぶと、その設定がここに出ます。付いているコンポーネントの追加や設定も、ここで行います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#place">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#component">コンポーネント</a>、<a href="#hierarchy">Hierarchy</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="scene" aria-labelledby="scene-heading" data-text="シーン（Scene） シーン Scene オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。 Scene ビューでは、置いた物を見ながら動かせます。プロジェクトの中に、シーンのファイルをいくつも作れます。">
+            <h3 class="glossary_1__term" id="scene-heading">シーン（Scene）</h3>
+            <p class="glossary_1__short">オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。</p>
+            <p class="glossary_1__body">Scene ビューでは、置いた物を見ながら動かせます。プロジェクトの中に、シーンのファイルをいくつも作れます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#place">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#hierarchy">Hierarchy</a>、<a href="#prefab">プレハブ（Prefab）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="gameobject" aria-labelledby="gameobject-heading" data-text="オブジェクト（GameObject） GameObject オブジェクト Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。 体のメッシュ、服、ボーン、ギミック用の空の物も、すべてオブジェクトです。名前の左のチェック（Is Active）で、出したり消したりできます。">
+            <h3 class="glossary_1__term" id="gameobject-heading">オブジェクト（GameObject）</h3>
+            <p class="glossary_1__short">Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。</p>
+            <p class="glossary_1__body">体のメッシュ、服、ボーン、ギミック用の空の物も、すべてオブジェクトです。名前の左のチェック（Is Active）で、出したり消したりできます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#plan">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#component">コンポーネント</a>、<a href="#is-active">Is Active</a>、<a href="#hierarchy">Hierarchy</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="is-active" aria-labelledby="is-active-heading" data-text="Is Active Is Active オブジェクトを出すか消すかの設定。Inspector の名前の左のチェック。 チェックを外すと、オブジェクトは見えなくなり、付いているコンポーネントも動きません。アニメーションクリップでオンオフするときは、この値を 1（出す）と 0（消す）で書きます。">
+            <h3 class="glossary_1__term" id="is-active-heading">Is Active</h3>
+            <p class="glossary_1__short">オブジェクトを出すか消すかの設定。Inspector の名前の左のチェック。</p>
+            <p class="glossary_1__body">チェックを外すと、オブジェクトは見えなくなり、付いているコンポーネントも動きません。アニメーションクリップでオンオフするときは、この値を 1（出す）と 0（消す）で書きます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#clips">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animation-clip/#can">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#gameobject">オブジェクト（GameObject）</a>、<a href="#clip">アニメーションクリップ（クリップ）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="component" aria-labelledby="component-heading" data-text="コンポーネント コンポーネント オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。 Inspector の「Add Component」から足します。Skinned Mesh Renderer、PhysBone、VRC Avatar Descriptor、Modular Avatar の部品も、すべてコンポーネントです。">
+            <h3 class="glossary_1__term" id="component-heading">コンポーネント</h3>
+            <p class="glossary_1__short">オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。</p>
+            <p class="glossary_1__body">Inspector の「Add Component」から足します。Skinned Mesh Renderer、PhysBone、VRC Avatar Descriptor、Modular Avatar の部品も、すべてコンポーネントです。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#merge">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#gameobject">オブジェクト（GameObject）</a>、<a href="#inspector">Inspector</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="prefab" aria-labelledby="prefab-heading" data-text="プレハブ（Prefab） プレハブ Prefab オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。 Project では青い箱のアイコンで表示されます。アバターや衣装はプレハブの形で配られることが多く、シーンや衣装を着せたいアバターの中にドラッグして使います。">
+            <h3 class="glossary_1__term" id="prefab-heading">プレハブ（Prefab）</h3>
+            <p class="glossary_1__short">オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。</p>
+            <p class="glossary_1__body">Project では青い箱のアイコンで表示されます。アバターや衣装はプレハブの形で配られることが多く、シーンや衣装を着せたいアバターの中にドラッグして使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#place">第2回 アップロードのしかた</a>、<a href="/avatar-tips/outfit/#steps">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#scene">シーン（Scene）</a>、<a href="#project-window">Project ウィンドウ</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-body" aria-labelledby="cat-body-heading">
+      <h2 class="section_2__h1" id="cat-body-heading">アバターの体と見た目</h2>
+      <p class="section_2__lead">アバターの形・骨・色を作っている部品です。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="avatar-descriptor" aria-labelledby="avatar-descriptor-heading" data-text="VRC Avatar Descriptor VRC Avatar Descriptor Avatar Descriptor アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。 視点の位置、話したときの口の動き、Playable Layers に入れるコントローラー、Expressions Menu と Expression Parameters を、ここで決めます。これが付いている物が、1体のアバターとして扱われます。">
+            <h3 class="glossary_1__term" id="avatar-descriptor-heading">VRC Avatar Descriptor</h3>
+            <p class="glossary_1__short">アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。</p>
+            <p class="glossary_1__body">視点の位置、話したときの口の動き、Playable Layers に入れるコントローラー、Expressions Menu と Expression Parameters を、ここで決めます。これが付いている物が、1体のアバターとして扱われます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#layers">第6回 Animator のしくみ</a>、<a href="/avatar-tips/upload/#place">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#playable-layers">Playable Layers</a>、<a href="#expressions-menu">Expressions Menu（Action Menu）</a>、<a href="#expression-parameters">Expression Parameters</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="humanoid" aria-labelledby="humanoid-heading" data-text="Humanoid Humanoid 人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。 腕・脚・頭・指などの骨は Humanoid として扱われ、VRChat が動かします。そのため、FX のアニメーションクリップでは、これらの骨は動かせません。">
+            <h3 class="glossary_1__term" id="humanoid-heading">Humanoid</h3>
+            <p class="glossary_1__short">人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。</p>
+            <p class="glossary_1__body">腕・脚・頭・指などの骨は Humanoid として扱われ、VRChat が動かします。そのため、FX のアニメーションクリップでは、これらの骨は動かせません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#layers">第6回 Animator のしくみ</a>、<a href="/avatar-tips/animation-clip/#can">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#armature">Armature</a>、<a href="#bone">ボーン</a>、<a href="#fx">FX</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="armature" aria-labelledby="armature-heading" data-text="Armature Armature アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。 衣装にも、同じ名前の骨が並んだ Armature があります。Modular Avatar の Merge Armature は、衣装の骨をアバターの骨にまとめて、服が体に沿って動くようにします。">
+            <h3 class="glossary_1__term" id="armature-heading">Armature</h3>
+            <p class="glossary_1__short">アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。</p>
+            <p class="glossary_1__body">衣装にも、同じ名前の骨が並んだ Armature があります。Modular Avatar の Merge Armature は、衣装の骨をアバターの骨にまとめて、服が体に沿って動くようにします。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#merge">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#bone">ボーン</a>、<a href="#merge-armature">MA Merge Armature</a>、<a href="#humanoid">Humanoid</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="bone" aria-labelledby="bone-heading" data-text="ボーン ボーン メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。 Armature の中に、親子の形で並んでいます。髪やスカートの骨は、PhysBone で揺らします。ボーンの数は、パフォーマンスランクの項目にもなっています。">
+            <h3 class="glossary_1__term" id="bone-heading">ボーン</h3>
+            <p class="glossary_1__short">メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。</p>
+            <p class="glossary_1__body">Armature の中に、親子の形で並んでいます。髪やスカートの骨は、PhysBone で揺らします。ボーンの数は、パフォーマンスランクの項目にもなっています。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#merge">第3回 衣装を着せる</a>、<a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#armature">Armature</a>、<a href="#physbone">PhysBone</a>、<a href="#smr">Skinned Mesh Renderer</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="mesh" aria-labelledby="mesh-heading" data-text="メッシュ メッシュ 三角形（ポリゴン）を組み合わせて作った、物の形のデータ。 体、髪、服などは、それぞれメッシュでできています。メッシュの数と三角形の数が多いほど、描くのが重くなります。">
+            <h3 class="glossary_1__term" id="mesh-heading">メッシュ</h3>
+            <p class="glossary_1__short">三角形（ポリゴン）を組み合わせて作った、物の形のデータ。</p>
+            <p class="glossary_1__body">体、髪、服などは、それぞれメッシュでできています。メッシュの数と三角形の数が多いほど、描くのが重くなります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#light">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#polygon">ポリゴン</a>、<a href="#smr">Skinned Mesh Renderer</a>、<a href="#material">マテリアル</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="smr" aria-labelledby="smr-heading" data-text="Skinned Mesh Renderer Skinned Mesh Renderer スキンメッシュ ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。 使うメッシュとマテリアル、BlendShape の値が、ここに並びます。表情や体型の調整をするときは、このコンポーネントの BlendShapes を開きます。">
+            <h3 class="glossary_1__term" id="smr-heading">Skinned Mesh Renderer</h3>
+            <p class="glossary_1__short">ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。</p>
+            <p class="glossary_1__body">使うメッシュとマテリアル、BlendShape の値が、ここに並びます。表情や体型の調整をするときは、このコンポーネントの BlendShapes を開きます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/gesture/#clips">第10回 ハンドサインで表情を変える</a>、<a href="/avatar-tips/outfit/#shrink">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#mesh">メッシュ</a>、<a href="#blendshape">BlendShape（シェイプキー）</a>、<a href="#material">マテリアル</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="blendshape" aria-labelledby="blendshape-heading" data-text="BlendShape（シェイプキー） BlendShapes BlendShape Blend Shape シェイプキー メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。 笑顔、まばたき、口の形、胸の大きさなど、アバターごとに用意されています。アニメーションクリップで値を書くと、ハンドサインやメニューで表情を変えられます。">
+            <h3 class="glossary_1__term" id="blendshape-heading">BlendShape（シェイプキー）</h3>
+            <p class="glossary_1__short">メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。</p>
+            <p class="glossary_1__body">笑顔、まばたき、口の形、胸の大きさなど、アバターごとに用意されています。アニメーションクリップで値を書くと、ハンドサインやメニューで表情を変えられます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/gesture/#clips">第10回 ハンドサインで表情を変える</a>、<a href="/avatar-tips/outfit/#shrink">第3回 衣装を着せる</a>、<a href="/avatar-tips/unity-vs-vrchat/#causes">第13回 Unity と VRChat で見た目が変わる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#smr">Skinned Mesh Renderer</a>、<a href="#clip">アニメーションクリップ（クリップ）</a>、<a href="#hand-sign">ハンドサイン（GestureLeft・GestureRight）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="material" aria-labelledby="material-heading" data-text="マテリアル マテリアル 色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。 1つのメッシュに、いくつものマテリアルを使えます。マテリアルの数が多いほど描くのが重くなるので、パフォーマンスランクの項目にもなっています。">
+            <h3 class="glossary_1__term" id="material-heading">マテリアル</h3>
+            <p class="glossary_1__short">色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。</p>
+            <p class="glossary_1__body">1つのメッシュに、いくつものマテリアルを使えます。マテリアルの数が多いほど描くのが重くなるので、パフォーマンスランクの項目にもなっています。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>、<a href="/avatar-tips/render-queue/#how">第14回 Render Queue（描画の順番）</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#shader">シェーダー</a>、<a href="#texture">テクスチャ</a>、<a href="#render-queue">Render Queue</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="shader" aria-labelledby="shader-heading" data-text="シェーダー シェーダー 光の当たり方や色の出し方を計算するプログラム。lilToon など。 マテリアルごとに、どのシェーダーを使うかを選びます。アバターが使うシェーダーがプロジェクトに入っていないと、ピンク一色で表示されます。Quest やスマホでは、VRChat/Mobile のシェーダーしか使えません。">
+            <h3 class="glossary_1__term" id="shader-heading">シェーダー</h3>
+            <p class="glossary_1__short">光の当たり方や色の出し方を計算するプログラム。lilToon など。</p>
+            <p class="glossary_1__body">マテリアルごとに、どのシェーダーを使うかを選びます。アバターが使うシェーダーがプロジェクトに入っていないと、ピンク一色で表示されます。Quest やスマホでは、VRChat/Mobile のシェーダーしか使えません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#import">第2回 アップロードのしかた</a>、<a href="/avatar-tips/quest/#shaders">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#material">マテリアル</a>、<a href="#liltoon">lilToon</a>、<a href="#quest">Quest・Android・iOS</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="texture" aria-labelledby="texture-heading" data-text="テクスチャ テクスチャ メッシュに貼る画像。肌や服の模様、色などを描いている。 マテリアルが、どのテクスチャをどう使うかを決めます。大きな画像が多いと、テクスチャのメモリが増えて、パフォーマンスランクが下がります。">
+            <h3 class="glossary_1__term" id="texture-heading">テクスチャ</h3>
+            <p class="glossary_1__short">メッシュに貼る画像。肌や服の模様、色などを描いている。</p>
+            <p class="glossary_1__body">マテリアルが、どのテクスチャをどう使うかを決めます。大きな画像が多いと、テクスチャのメモリが増えて、パフォーマンスランクが下がります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#material">マテリアル</a>、<a href="#atlas">アトラス化</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="polygon" aria-labelledby="polygon-heading" data-text="ポリゴン ポリゴン メッシュを作っている三角形。数が多いほど細かいが、重くなる。 パフォーマンスランクでは、三角形の数（Triangles）で数えます。使わない服や小物を消すと減ります。">
+            <h3 class="glossary_1__term" id="polygon-heading">ポリゴン</h3>
+            <p class="glossary_1__short">メッシュを作っている三角形。数が多いほど細かいが、重くなる。</p>
+            <p class="glossary_1__body">パフォーマンスランクでは、三角形の数（Triangles）で数えます。使わない服や小物を消すと減ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#mesh">メッシュ</a>、<a href="#performance-rank">パフォーマンスランク</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="physbone" aria-labelledby="physbone-heading" data-text="PhysBone VRC Phys Bone PhysBones PhysBone 髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。 骨に付けると、体の動きに合わせて揺れます。つかまれたか、どれだけ曲がったかをパラメーターで受け取れるので、ギミックにも使えます。数が多いと重くなり、パフォーマンスランクの項目にもなっています。">
+            <h3 class="glossary_1__term" id="physbone-heading">PhysBone</h3>
+            <p class="glossary_1__short">髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。</p>
+            <p class="glossary_1__body">骨に付けると、体の動きに合わせて揺れます。つかまれたか、どれだけ曲がったかをパラメーターで受け取れるので、ギミックにも使えます。数が多いと重くなり、パフォーマンスランクの項目にもなっています。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/contact/#physbone">第11回 触ると反応するギミック</a>、<a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#bone">ボーン</a>、<a href="#contact">Contact（Sender と Receiver）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="bounds" aria-labelledby="bounds-heading" data-text="Bounds Bounds メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。 半透明の物を描く順番は、カメラからこの箱の中心までの距離で決まります。箱が大きすぎると、パフォーマンスランクの「大きさ」の項目が悪くなります。">
+            <h3 class="glossary_1__term" id="bounds-heading">Bounds</h3>
+            <p class="glossary_1__short">メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。</p>
+            <p class="glossary_1__body">半透明の物を描く順番は、カメラからこの箱の中心までの距離で決まります。箱が大きすぎると、パフォーマンスランクの「大きさ」の項目が悪くなります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/render-queue/#sort">第14回 Render Queue（描画の順番）</a>、<a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#render-queue">Render Queue</a>、<a href="#transparent">半透明（Transparent）</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-animator" aria-labelledby="cat-animator-heading">
+      <h2 class="section_2__h1" id="cat-animator-heading">Animator とアニメーション</h2>
+      <p class="section_2__lead">ギミックを自分で組むときに使う、Animator まわりの言葉です。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="gimmick" aria-labelledby="gimmick-heading" data-text="ギミック ギミック メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。 小物を出し入れする、表情を変える、色や大きさを変える、触れると反応する、などがあります。Animator・パラメーター・メニューを組み合わせて作ります。">
+            <h3 class="glossary_1__term" id="gimmick-heading">ギミック</h3>
+            <p class="glossary_1__short">メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。</p>
+            <p class="glossary_1__body">小物を出し入れする、表情を変える、色や大きさを変える、触れると反応する、などがあります。Animator・パラメーター・メニューを組み合わせて作ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#picture">第6回 Animator のしくみ</a>、<a href="/avatar-tips/toggle/#plan">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#animator">Animator</a>、<a href="#parameter">パラメーター</a>、<a href="#expressions-menu">Expressions Menu（Action Menu）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="animator" aria-labelledby="animator-heading" data-text="Animator Animator パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。 アバターの一番上に付いている Animator コンポーネントが、コントローラーの中身にしたがって動きます。Unity の Animator ウィンドウでは、レイヤー・ステート・トランジションを組み立てます。">
+            <h3 class="glossary_1__term" id="animator-heading">Animator</h3>
+            <p class="glossary_1__short">パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。</p>
+            <p class="glossary_1__body">アバターの一番上に付いている Animator コンポーネントが、コントローラーの中身にしたがって動きます。Unity の Animator ウィンドウでは、レイヤー・ステート・トランジションを組み立てます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#words">第6回 Animator のしくみ</a>、<a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#controller">Animator Controller（コントローラー）</a>、<a href="#layer">レイヤー</a>、<a href="#state">ステート</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="controller" aria-labelledby="controller-heading" data-text="Animator Controller（コントローラー） Animator Controller コントローラー Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。 Project で右クリックして作ります。VRChat では、Playable Layers の枠（FX など）に入れて使います。自分で作ったものは、Modular Avatar の Merge Animator でアバターに足せます。">
+            <h3 class="glossary_1__term" id="controller-heading">Animator Controller（コントローラー）</h3>
+            <p class="glossary_1__short">Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。</p>
+            <p class="glossary_1__body">Project で右クリックして作ります。VRChat では、Playable Layers の枠（FX など）に入れて使います。自分で作ったものは、Modular Avatar の Merge Animator でアバターに足せます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>、<a href="/avatar-tips/toggle/#controller">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#animator">Animator</a>、<a href="#playable-layers">Playable Layers</a>、<a href="#merge-animator">MA Merge Animator</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="playable-layers" aria-labelledby="playable-layers-heading" data-text="Playable Layers Playable Layers VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。 VRC Avatar Descriptor で、枠ごとにコントローラーを入れます。見た目を変えるギミックは FX に入れます。コントローラーの中の「レイヤー」とは別のものです。">
+            <h3 class="glossary_1__term" id="playable-layers-heading">Playable Layers</h3>
+            <p class="glossary_1__short">VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。</p>
+            <p class="glossary_1__body">VRC Avatar Descriptor で、枠ごとにコントローラーを入れます。見た目を変えるギミックは FX に入れます。コントローラーの中の「レイヤー」とは別のものです。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#layers">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#fx">FX</a>、<a href="#avatar-descriptor">VRC Avatar Descriptor</a>、<a href="#layer">レイヤー</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="fx" aria-labelledby="fx-heading" data-text="FX FX Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。 ほとんどのギミックは FX で作ります。Humanoid の骨（腕や脚など）は、FX では動きません。">
+            <h3 class="glossary_1__term" id="fx-heading">FX</h3>
+            <p class="glossary_1__short">Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。</p>
+            <p class="glossary_1__body">ほとんどのギミックは FX で作ります。Humanoid の骨（腕や脚など）は、FX では動きません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#layers">第6回 Animator のしくみ</a>、<a href="/avatar-tips/animation-clip/#can">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#playable-layers">Playable Layers</a>、<a href="#humanoid">Humanoid</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="layer" aria-labelledby="layer-heading" data-text="レイヤー レイヤー コントローラーの中の段。ギミック1つにつき1つ作ることが多い。 レイヤーは上から順に動き、同じものを動かすときは、下のレイヤーが勝ちます。足したレイヤーは Weight を 1 にしないと効きません。">
+            <h3 class="glossary_1__term" id="layer-heading">レイヤー</h3>
+            <p class="glossary_1__short">コントローラーの中の段。ギミック1つにつき1つ作ることが多い。</p>
+            <p class="glossary_1__body">レイヤーは上から順に動き、同じものを動かすときは、下のレイヤーが勝ちます。足したレイヤーは Weight を 1 にしないと効きません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>、<a href="/avatar-tips/gesture/#layers">第10回 ハンドサインで表情を変える</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#weight">Weight（レイヤーの重み）</a>、<a href="#state">ステート</a>、<a href="#controller">Animator Controller（コントローラー）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="weight" aria-labelledby="weight-heading" data-text="Weight（レイヤーの重み） Weight レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。 レイヤーの右の歯車から変えます。0 のままだと、そのレイヤーは何も書かないので、ギミックが動きません。">
+            <h3 class="glossary_1__term" id="weight-heading">Weight（レイヤーの重み）</h3>
+            <p class="glossary_1__short">レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。</p>
+            <p class="glossary_1__body">レイヤーの右の歯車から変えます。0 のままだと、そのレイヤーは何も書かないので、ギミックが動きません。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#controller">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/gimmick-debug/#checklist">第12回 ギミックが動かないとき</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#layer">レイヤー</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="state" aria-labelledby="state-heading" data-text="ステート ステート 「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。 Animator ウィンドウでは長方形で表示されます。オレンジ色のステートは、そのレイヤーで最初に入るステート（Layer Default State）です。">
+            <h3 class="glossary_1__term" id="state-heading">ステート</h3>
+            <p class="glossary_1__short">「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。</p>
+            <p class="glossary_1__body">Animator ウィンドウでは長方形で表示されます。オレンジ色のステートは、そのレイヤーで最初に入るステート（Layer Default State）です。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>、<a href="/avatar-tips/toggle/#controller">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#transition">トランジション</a>、<a href="#clip">アニメーションクリップ（クリップ）</a>、<a href="#any-state">Any State</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="any-state" aria-labelledby="any-state-heading" data-text="Any State Any State 「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。 ステートが多いときに便利です。条件を満たしている間、同じステートに入り直し続けることがあるので、Can Transition To Self の設定に気をつけます。">
+            <h3 class="glossary_1__term" id="any-state-heading">Any State</h3>
+            <p class="glossary_1__short">「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。</p>
+            <p class="glossary_1__body">ステートが多いときに便利です。条件を満たしている間、同じステートに入り直し続けることがあるので、Can Transition To Self の設定に気をつけます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>、<a href="/avatar-tips/radial/#int">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#state">ステート</a>、<a href="#transition">トランジション</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="transition" aria-labelledby="transition-heading" data-text="トランジション トランジション ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。 ステートを右クリックして「Make Transition」で引きます。オンオフのギミックでは、Has Exit Time を外し、Transition Duration を 0 にすることが多いです。">
+            <h3 class="glossary_1__term" id="transition-heading">トランジション</h3>
+            <p class="glossary_1__short">ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。</p>
+            <p class="glossary_1__body">ステートを右クリックして「Make Transition」で引きます。オンオフのギミックでは、Has Exit Time を外し、Transition Duration を 0 にすることが多いです。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animator-basics/#controller">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#has-exit-time">Has Exit Time</a>、<a href="#transition-duration">Transition Duration</a>、<a href="#state">ステート</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="has-exit-time" aria-labelledby="has-exit-time-heading" data-text="Has Exit Time Has Exit Time トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。 メニューを押してもすぐに切り替わらないときは、ここにチェックが入っていないかを見ます。オンオフのギミックでは、ふつうは外します。">
+            <h3 class="glossary_1__term" id="has-exit-time-heading">Has Exit Time</h3>
+            <p class="glossary_1__short">トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。</p>
+            <p class="glossary_1__body">メニューを押してもすぐに切り替わらないときは、ここにチェックが入っていないかを見ます。オンオフのギミックでは、ふつうは外します。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animator-basics/#cases">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#transition">トランジション</a>、<a href="#transition-duration">Transition Duration</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="transition-duration" aria-labelledby="transition-duration-heading" data-text="Transition Duration Transition Duration トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。 0 にすると、すぐに切り替わります。表情などをなめらかに変えたいときは、少しだけ長くします。">
+            <h3 class="glossary_1__term" id="transition-duration-heading">Transition Duration</h3>
+            <p class="glossary_1__short">トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。</p>
+            <p class="glossary_1__body">0 にすると、すぐに切り替わります。表情などをなめらかに変えたいときは、少しだけ長くします。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/gesture/#transitions">第10回 ハンドサインで表情を変える</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#transition">トランジション</a>、<a href="#has-exit-time">Has Exit Time</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="parameter" aria-labelledby="parameter-heading" data-text="パラメーター パラメーター Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。 Animator の Parameters タブで足します。VRChat のメニューから変えたり、ほかの人に送ったりするには、Expression Parameters（または MA Parameters）にも同じ名前と型で入れます。">
+            <h3 class="glossary_1__term" id="parameter-heading">パラメーター</h3>
+            <p class="glossary_1__short">Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。</p>
+            <p class="glossary_1__body">Animator の Parameters タブで足します。VRChat のメニューから変えたり、ほかの人に送ったりするには、Expression Parameters（または MA Parameters）にも同じ名前と型で入れます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#parameters">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#param-types">Bool・Int・Float（パラメーターの型）</a>、<a href="#expression-parameters">Expression Parameters</a>、<a href="#synced">Synced（同期）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="param-types" aria-labelledby="param-types-heading" data-text="Bool・Int・Float（パラメーターの型） Bool Int Float パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。 オンオフには Bool、いくつかから1つを選ぶには Int、少しずつ変えるには Float を使います。同期すると、Bool は 1 bit、Int と Float は 8 bit を使います。">
+            <h3 class="glossary_1__term" id="param-types-heading">Bool・Int・Float（パラメーターの型）</h3>
+            <p class="glossary_1__short">パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。</p>
+            <p class="glossary_1__body">オンオフには Bool、いくつかから1つを選ぶには Int、少しずつ変えるには Float を使います。同期すると、Bool は 1 bit、Int と Float は 8 bit を使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/radial/#choose">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#parameter">パラメーター</a>、<a href="#synced">Synced（同期）</a>、<a href="#radial-puppet">Radial Puppet</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="clip" aria-labelledby="clip-heading" data-text="アニメーションクリップ（クリップ） アニメーションクリップ Animation Clip クリップ どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。 Unity の Animation ウィンドウで、録画ボタンを押して値を変えると作れます。ステートに入れて使います。">
+            <h3 class="glossary_1__term" id="clip-heading">アニメーションクリップ（クリップ）</h3>
+            <p class="glossary_1__short">どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。</p>
+            <p class="glossary_1__body">Unity の Animation ウィンドウで、録画ボタンを押して値を変えると作れます。ステートに入れて使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animation-clip/#what">第7回 アニメーションを作る</a>、<a href="/avatar-tips/animation-clip/#record">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#keyframe">キーフレーム</a>、<a href="#path-missing">パスと Missing!</a>、<a href="#state">ステート</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="keyframe" aria-labelledby="keyframe-heading" data-text="キーフレーム キーフレーム クリップの中で、ある時間の値を決めた点。Animation ウィンドウでは、ひし形で表示される。 値が変わらないクリップでも、キーフレームが1つは要ります。時間を変えて2つ以上打つと、その間の値は Unity がなめらかにつなぎます。">
+            <h3 class="glossary_1__term" id="keyframe-heading">キーフレーム</h3>
+            <p class="glossary_1__short">クリップの中で、ある時間の値を決めた点。Animation ウィンドウでは、ひし形で表示される。</p>
+            <p class="glossary_1__body">値が変わらないクリップでも、キーフレームが1つは要ります。時間を変えて2つ以上打つと、その間の値は Unity がなめらかにつなぎます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animation-clip/#keys">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#clip">アニメーションクリップ（クリップ）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="path-missing" aria-labelledby="path-missing-heading" data-text="パスと Missing! Missing クリップは動かす相手を名前の道すじ（パス）で覚えている。名前や親子が変わるとつながらず、Missing! と出る。 Animation ウィンドウで黄色い文字の Missing! が出たら、オブジェクトの名前か場所が、クリップを作ったときと変わっています。名前を戻すか、クリップのパスを直します。">
+            <h3 class="glossary_1__term" id="path-missing-heading">パスと Missing!</h3>
+            <p class="glossary_1__short">クリップは動かす相手を名前の道すじ（パス）で覚えている。名前や親子が変わるとつながらず、Missing! と出る。</p>
+            <p class="glossary_1__body">Animation ウィンドウで黄色い文字の Missing! が出たら、オブジェクトの名前か場所が、クリップを作ったときと変わっています。名前を戻すか、クリップのパスを直します。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animation-clip/#path">第7回 アニメーションを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#clip">アニメーションクリップ（クリップ）</a>、<a href="#hierarchy">Hierarchy</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="write-defaults" aria-labelledby="write-defaults-heading" data-text="Write Defaults Write Defaults ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。 ON と OFF がまざっていると、Unity では正しく見えても、VRChat で表情が戻らない、物が消えないといったずれが起きます。どちらでも動くように、オンとオフの両方のクリップを作っておくと安心です。">
+            <h3 class="glossary_1__term" id="write-defaults-heading">Write Defaults</h3>
+            <p class="glossary_1__short">ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。</p>
+            <p class="glossary_1__body">ON と OFF がまざっていると、Unity では正しく見えても、VRChat で表情が戻らない、物が消えないといったずれが起きます。どちらでも動くように、オンとオフの両方のクリップを作っておくと安心です。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/unity-vs-vrchat/#write-defaults">第13回 Unity と VRChat で見た目が変わる</a>、<a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#state">ステート</a>、<a href="#clip">アニメーションクリップ（クリップ）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="blend-tree" aria-labelledby="blend-tree-heading" data-text="Blend Tree Blend Tree パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。 ステートの中に入れて使います。1つのステートで、値に合わせて少しずつ変えたり、たくさんのギミックをまとめたりできます。">
+            <h3 class="glossary_1__term" id="blend-tree-heading">Blend Tree</h3>
+            <p class="glossary_1__short">パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。</p>
+            <p class="glossary_1__body">ステートの中に入れて使います。1つのステートで、値に合わせて少しずつ変えたり、たくさんのギミックをまとめたりできます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/animator-basics/#parameters">第6回 Animator のしくみ</a>、<a href="/avatar-tips/radial/#float">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#motion-time">Motion Time</a>、<a href="#param-types">Bool・Int・Float（パラメーターの型）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="motion-time" aria-labelledby="motion-time-heading" data-text="Motion Time Motion Time Float の値（0〜1）で、クリップのどこを再生するかを決めるステートの設定。 クリップのはじめと終わりに違う値を書いておくと、メニューを回した分だけ、色や大きさを少しずつ変えられます。Radial Puppet と組み合わせて使います。">
+            <h3 class="glossary_1__term" id="motion-time-heading">Motion Time</h3>
+            <p class="glossary_1__short">Float の値（0〜1）で、クリップのどこを再生するかを決めるステートの設定。</p>
+            <p class="glossary_1__body">クリップのはじめと終わりに違う値を書いておくと、メニューを回した分だけ、色や大きさを少しずつ変えられます。Radial Puppet と組み合わせて使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/radial/#float">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#radial-puppet">Radial Puppet</a>、<a href="#param-types">Bool・Int・Float（パラメーターの型）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="tracking-control" aria-labelledby="tracking-control-heading" data-text="VRC Animator Tracking Control VRC Animator Tracking Control Animator Tracking Control Tracking Control まばたきや口の動きを、VRChat に任せるか、Animator で動かすかを切り替える、ステートに付ける部品。 表情のクリップで目や口を動かすと、VRChat のまばたきや口の動きと重なって、表情がくずれることがあります。表情を出している間だけ、まばたきや口を止めるのに使います。">
+            <h3 class="glossary_1__term" id="tracking-control-heading">VRC Animator Tracking Control</h3>
+            <p class="glossary_1__short">まばたきや口の動きを、VRChat に任せるか、Animator で動かすかを切り替える、ステートに付ける部品。</p>
+            <p class="glossary_1__body">表情のクリップで目や口を動かすと、VRChat のまばたきや口の動きと重なって、表情がくずれることがあります。表情を出している間だけ、まばたきや口を止めるのに使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/gesture/#tracking">第10回 ハンドサインで表情を変える</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#hand-sign">ハンドサイン（GestureLeft・GestureRight）</a>、<a href="#state">ステート</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-menu" aria-labelledby="cat-menu-heading">
+      <h2 class="section_2__h1" id="cat-menu-heading">パラメーターとメニュー</h2>
+      <p class="section_2__lead">VRChat の中のメニューから、ギミックを動かすための言葉です。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="expression-parameters" aria-labelledby="expression-parameters-heading" data-text="Expression Parameters Expression Parameters VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。 VRC Avatar Descriptor に入れて使います。Modular Avatar を使うときは、MA Parameters に書くと、アップロードのときに自動で足されます。">
+            <h3 class="glossary_1__term" id="expression-parameters-heading">Expression Parameters</h3>
+            <p class="glossary_1__short">VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。</p>
+            <p class="glossary_1__body">VRC Avatar Descriptor に入れて使います。Modular Avatar を使うときは、MA Parameters に書くと、アップロードのときに自動で足されます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#params">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animator-basics/#parameters">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#synced">Synced（同期）</a>、<a href="#saved">Saved</a>、<a href="#ma-parameters">MA Parameters</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="synced" aria-labelledby="synced-heading" data-text="Synced（同期） Synced 同期 パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。 チェックが無いと、ギミックは自分にだけ見えて、ほかの人には変わって見えません。Bool は 1 bit、Int と Float は 8 bit を使います。">
+            <h3 class="glossary_1__term" id="synced-heading">Synced（同期）</h3>
+            <p class="glossary_1__short">パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。</p>
+            <p class="glossary_1__body">チェックが無いと、ギミックは自分にだけ見えて、ほかの人には変わって見えません。Bool は 1 bit、Int と Float は 8 bit を使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/radial/#sync">第9回 段階で切り替える・少しずつ変えるギミック</a>、<a href="/avatar-tips/animator-basics/#parameters">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#saved">Saved</a>、<a href="#expression-parameters">Expression Parameters</a>、<a href="#param-types">Bool・Int・Float（パラメーターの型）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="saved" aria-labelledby="saved-heading" data-text="Saved Saved ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。 チェックが無いと、ワールドを移るたびに、Default の値に戻ります。">
+            <h3 class="glossary_1__term" id="saved-heading">Saved</h3>
+            <p class="glossary_1__short">ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。</p>
+            <p class="glossary_1__body">チェックが無いと、ワールドを移るたびに、Default の値に戻ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#params">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#synced">Synced（同期）</a>、<a href="#expression-parameters">Expression Parameters</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="expressions-menu" aria-labelledby="expressions-menu-heading" data-text="Expressions Menu（Action Menu） Expressions Menu Action Menu VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。 項目ごとに、変えるパラメーターと値、項目の種類（Toggle・Radial Puppet・Sub Menu など）を決めます。Modular Avatar を使うときは、MA Menu Item で項目を足せます。">
+            <h3 class="glossary_1__term" id="expressions-menu-heading">Expressions Menu（Action Menu）</h3>
+            <p class="glossary_1__short">VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。</p>
+            <p class="glossary_1__body">項目ごとに、変えるパラメーターと値、項目の種類（Toggle・Radial Puppet・Sub Menu など）を決めます。Modular Avatar を使うときは、MA Menu Item で項目を足せます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#menu">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animator-basics/#menu">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#toggle-control">Toggle（メニューの項目）</a>、<a href="#radial-puppet">Radial Puppet</a>、<a href="#sub-menu">Sub Menu</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="toggle-control" aria-labelledby="toggle-control-heading" data-text="Toggle（メニューの項目） Toggle トグル 押すたびにオンとオフが切り替わる、メニューの項目。 押すとパラメーターを決めた値にし、もう一度押すと元の値（0）に戻します。小物のオンオフによく使います。">
+            <h3 class="glossary_1__term" id="toggle-control-heading">Toggle（メニューの項目）</h3>
+            <p class="glossary_1__short">押すたびにオンとオフが切り替わる、メニューの項目。</p>
+            <p class="glossary_1__body">押すとパラメーターを決めた値にし、もう一度押すと元の値（0）に戻します。小物のオンオフによく使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#menu">第8回 メニューでオンオフするギミックを作る</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#expressions-menu">Expressions Menu（Action Menu）</a>、<a href="#param-types">Bool・Int・Float（パラメーターの型）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="radial-puppet" aria-labelledby="radial-puppet-heading" data-text="Radial Puppet Radial Puppet 円を回して、Float の値を 0〜1 の間で変える、メニューの項目。 色の濃さや大きさなどを、少しずつ変えるのに使います。Animator 側では Motion Time や Blend Tree で受け取ります。">
+            <h3 class="glossary_1__term" id="radial-puppet-heading">Radial Puppet</h3>
+            <p class="glossary_1__short">円を回して、Float の値を 0〜1 の間で変える、メニューの項目。</p>
+            <p class="glossary_1__body">色の濃さや大きさなどを、少しずつ変えるのに使います。Animator 側では Motion Time や Blend Tree で受け取ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/radial/#float">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#motion-time">Motion Time</a>、<a href="#expressions-menu">Expressions Menu（Action Menu）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="sub-menu" aria-labelledby="sub-menu-heading" data-text="Sub Menu Sub Menu 押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。 1つのメニューには、項目を8つまでしか置けません。それより多いときや、種類ごとに分けたいときに使います。">
+            <h3 class="glossary_1__term" id="sub-menu-heading">Sub Menu</h3>
+            <p class="glossary_1__short">押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。</p>
+            <p class="glossary_1__body">1つのメニューには、項目を8つまでしか置けません。それより多いときや、種類ごとに分けたいときに使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/radial/#int">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#expressions-menu">Expressions Menu（Action Menu）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="hand-sign" aria-labelledby="hand-sign-heading" data-text="ハンドサイン（GestureLeft・GestureRight） ハンドサイン GestureLeftWeight GestureRightWeight GestureLeft GestureRight コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。 0 は何もしていないとき、1 は握りこぶし、2 は手を開く、のように番号が決まっています。この番号をトランジションの条件にすると、手の形で表情を変えられます。握りの強さは GestureLeftWeight・GestureRightWeight で受け取れます。">
+            <h3 class="glossary_1__term" id="hand-sign-heading">ハンドサイン（GestureLeft・GestureRight）</h3>
+            <p class="glossary_1__short">コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。</p>
+            <p class="glossary_1__body">0 は何もしていないとき、1 は握りこぶし、2 は手を開く、のように番号が決まっています。この番号をトランジションの条件にすると、手の形で表情を変えられます。握りの強さは GestureLeftWeight・GestureRightWeight で受け取れます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/gesture/#numbers">第10回 ハンドサインで表情を変える</a>、<a href="/avatar-tips/gesture/#weight">第10回 ハンドサインで表情を変える</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#tracking-control">VRC Animator Tracking Control</a>、<a href="#blendshape">BlendShape（シェイプキー）</a>、<a href="#parameter">パラメーター</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="contact" aria-labelledby="contact-heading" data-text="Contact（Sender と Receiver） VRC Contact Receiver VRC Contact Sender Contact Receiver Sender 触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。 手や指には、VRChat が Sender を自動で付けています。頭などに Receiver を置くと、触れられたことをパラメーターで受け取れるので、なでると反応するギミックを作れます。">
+            <h3 class="glossary_1__term" id="contact-heading">Contact（Sender と Receiver）</h3>
+            <p class="glossary_1__short">触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。</p>
+            <p class="glossary_1__body">手や指には、VRChat が Sender を自動で付けています。頭などに Receiver を置くと、触れられたことをパラメーターで受け取れるので、なでると反応するギミックを作れます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/contact/#what">第11回 触ると反応するギミック</a>、<a href="/avatar-tips/contact/#example">第11回 触ると反応するギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#receiver-type">Receiver Type</a>、<a href="#collision-tags">Collision Tags</a>、<a href="#physbone">PhysBone</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="receiver-type" aria-labelledby="receiver-type-heading" data-text="Receiver Type Receiver Type Receiver が出す値の種類。Constant（触れている間）・OnEnter（触れた瞬間）・Proximity（近さ）。 触れている間だけ変えるなら Constant、触れたら1回だけ何かを始めるなら OnEnter、近づくほど強く変えるなら Proximity を選びます。">
+            <h3 class="glossary_1__term" id="receiver-type-heading">Receiver Type</h3>
+            <p class="glossary_1__short">Receiver が出す値の種類。Constant（触れている間）・OnEnter（触れた瞬間）・Proximity（近さ）。</p>
+            <p class="glossary_1__body">触れている間だけ変えるなら Constant、触れたら1回だけ何かを始めるなら OnEnter、近づくほど強く変えるなら Proximity を選びます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/contact/#types">第11回 触ると反応するギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#contact">Contact（Sender と Receiver）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="collision-tags" aria-labelledby="collision-tags-heading" data-text="Collision Tags Collision Tags Contact のタグ。Sender と Receiver に同じタグが1つでもあるときだけ反応する。 手なら Hand、指なら Finger のように決まった名前があります。大文字と小文字も区別するので、つづりをそろえます。">
+            <h3 class="glossary_1__term" id="collision-tags-heading">Collision Tags</h3>
+            <p class="glossary_1__short">Contact のタグ。Sender と Receiver に同じタグが1つでもあるときだけ反応する。</p>
+            <p class="glossary_1__body">手なら Hand、指なら Finger のように決まった名前があります。大文字と小文字も区別するので、つづりをそろえます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/contact/#what">第11回 触ると反応するギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#contact">Contact（Sender と Receiver）</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-ma" aria-labelledby="cat-ma-heading">
+      <h2 class="section_2__h1" id="cat-ma-heading">Modular Avatar の部品</h2>
+      <p class="section_2__lead">衣装を着せたり、ギミックをつないだりするときに使う、Modular Avatar のコンポーネントです。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="setup-outfit" aria-labelledby="setup-outfit-heading" data-text="Setup Outfit Setup Outfit 衣装を右クリックして選ぶ Modular Avatar の機能。服を体に沿って動かすための部品を自動で付ける。 衣装のプレハブをアバターの中に入れてから使います。衣装の Armature に MA Merge Armature が付き、再生やアップロードのときに、骨が自動でまとまります。">
+            <h3 class="glossary_1__term" id="setup-outfit-heading">Setup Outfit</h3>
+            <p class="glossary_1__short">衣装を右クリックして選ぶ Modular Avatar の機能。服を体に沿って動かすための部品を自動で付ける。</p>
+            <p class="glossary_1__body">衣装のプレハブをアバターの中に入れてから使います。衣装の Armature に MA Merge Armature が付き、再生やアップロードのときに、骨が自動でまとまります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#steps">第3回 衣装を着せる</a>、<a href="/avatar-tips/outfit/#merge">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#merge-armature">MA Merge Armature</a>、<a href="#modular-avatar">Modular Avatar（MA）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="merge-armature" aria-labelledby="merge-armature-heading" data-text="MA Merge Armature MA Merge Armature Merge Armature 衣装の骨を、アバターの同じ名前の骨にまとめて、服が体に沿って動くようにするコンポーネント。 ふつうは Setup Outfit で自動で付きます。骨の名前に付いた接頭辞・接尾辞を取り除いて、対応する骨を探します。">
+            <h3 class="glossary_1__term" id="merge-armature-heading">MA Merge Armature</h3>
+            <p class="glossary_1__short">衣装の骨を、アバターの同じ名前の骨にまとめて、服が体に沿って動くようにするコンポーネント。</p>
+            <p class="glossary_1__body">ふつうは Setup Outfit で自動で付きます。骨の名前に付いた接頭辞・接尾辞を取り除いて、対応する骨を探します。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#merge">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#setup-outfit">Setup Outfit</a>、<a href="#armature">Armature</a>、<a href="#bone">ボーン</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="merge-animator" aria-labelledby="merge-animator-heading" data-text="MA Merge Animator MA Merge Animator Merge Animator 自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。 元の FX のファイルを書き換えずに、ギミックを足せます。Match Avatar Write Defaults にチェックを入れると、Write Defaults をアバターに合わせてくれます。">
+            <h3 class="glossary_1__term" id="merge-animator-heading">MA Merge Animator</h3>
+            <p class="glossary_1__short">自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。</p>
+            <p class="glossary_1__body">元の FX のファイルを書き換えずに、ギミックを足せます。Match Avatar Write Defaults にチェックを入れると、Write Defaults をアバターに合わせてくれます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/animator-basics/#layers">第6回 Animator のしくみ</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#controller">Animator Controller（コントローラー）</a>、<a href="#fx">FX</a>、<a href="#write-defaults">Write Defaults</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="menu-installer" aria-labelledby="menu-installer-heading" data-text="MA Menu Installer・MA Menu Item MA Menu Installer Menu Installer MA Menu Item Menu Item Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。 MA Menu Item で項目の種類（Toggle・Radial Puppet・Sub Menu など）とパラメーターを決め、MA Menu Installer でアバターのメニューに足します。">
+            <h3 class="glossary_1__term" id="menu-installer-heading">MA Menu Installer・MA Menu Item</h3>
+            <p class="glossary_1__short">Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。</p>
+            <p class="glossary_1__body">MA Menu Item で項目の種類（Toggle・Radial Puppet・Sub Menu など）とパラメーターを決め、MA Menu Installer でアバターのメニューに足します。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/outfit/#menu">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#expressions-menu">Expressions Menu（Action Menu）</a>、<a href="#ma-parameters">MA Parameters</a>、<a href="#object-toggle">MA Object Toggle</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="object-toggle" aria-labelledby="object-toggle-heading" data-text="MA Object Toggle MA Object Toggle Object Toggle Animator を作らずに、メニューの項目でオブジェクトを出し入れできるコンポーネント。 MA Menu Item と同じオブジェクトに付けて、オンオフしたいオブジェクトを登録します。中では、オンオフのアニメーションが自動で作られます。">
+            <h3 class="glossary_1__term" id="object-toggle-heading">MA Object Toggle</h3>
+            <p class="glossary_1__short">Animator を作らずに、メニューの項目でオブジェクトを出し入れできるコンポーネント。</p>
+            <p class="glossary_1__body">MA Menu Item と同じオブジェクトに付けて、オンオフしたいオブジェクトを登録します。中では、オンオフのアニメーションが自動で作られます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#menu">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#menu-installer">MA Menu Installer・MA Menu Item</a>、<a href="#is-active">Is Active</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="shape-changer" aria-labelledby="shape-changer-heading" data-text="MA Shape Changer MA Shape Changer Shape Changer 衣装を着ている間だけ、体の BlendShape を変えたり、体の一部を消したりするコンポーネント。 服から肌が突き抜けるときに、体を細くする BlendShape を入れたり、隠れる部分のメッシュを消したりします。衣装を外すと、体も元に戻ります。">
+            <h3 class="glossary_1__term" id="shape-changer-heading">MA Shape Changer</h3>
+            <p class="glossary_1__short">衣装を着ている間だけ、体の BlendShape を変えたり、体の一部を消したりするコンポーネント。</p>
+            <p class="glossary_1__body">服から肌が突き抜けるときに、体を細くする BlendShape を入れたり、隠れる部分のメッシュを消したりします。衣装を外すと、体も元に戻ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/outfit/#shrink">第3回 衣装を着せる</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#blendshape">BlendShape（シェイプキー）</a>、<a href="#setup-outfit">Setup Outfit</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="ma-parameters" aria-labelledby="ma-parameters-heading" data-text="MA Parameters MA Parameters Expression Parameters を書き換えずに、パラメーターを足すコンポーネント。Saved や Synced もここで決める。 ギミックのオブジェクトに付けておくと、アップロードのときに、アバターの Expression Parameters へ自動で足されます。名前と型は、Animator のパラメーターとそろえます。">
+            <h3 class="glossary_1__term" id="ma-parameters-heading">MA Parameters</h3>
+            <p class="glossary_1__short">Expression Parameters を書き換えずに、パラメーターを足すコンポーネント。Saved や Synced もここで決める。</p>
+            <p class="glossary_1__body">ギミックのオブジェクトに付けておくと、アップロードのときに、アバターの Expression Parameters へ自動で足されます。名前と型は、Animator のパラメーターとそろえます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>、<a href="/avatar-tips/radial/#int">第9回 段階で切り替える・少しずつ変えるギミック</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#expression-parameters">Expression Parameters</a>、<a href="#synced">Synced（同期）</a>、<a href="#saved">Saved</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+    <section class="glossary_1__cat js_glossary_cat" id="cat-upload" aria-labelledby="cat-upload-heading">
+      <h2 class="section_2__h1" id="cat-upload-heading">アップロードと、ほかの人からの見え方</h2>
+      <p class="section_2__lead">アップロードするとき、ほかの人にどう見えるかに関わる言葉です。</p>
+      <div class="glossary_1__list">
+        
+          <section class="glossary_1__item js_glossary_item" id="builder" aria-labelledby="builder-heading" data-text="Builder Builder VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。 Unity の上のメニューの VRChat SDK › Show Control Panel で開きます。Validations の赤いエラーを直してから、Build and Publish でアップロードします。">
+            <h3 class="glossary_1__term" id="builder-heading">Builder</h3>
+            <p class="glossary_1__short">VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。</p>
+            <p class="glossary_1__body">Unity の上のメニューの VRChat SDK › Show Control Panel で開きます。Validations の赤いエラーを直してから、Build and Publish でアップロードします。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#builder">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#validations">Validations</a>、<a href="#vrchat-sdk">VRChat SDK</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="validations" aria-labelledby="validations-heading" data-text="Validations Validations Builder に出る、アップロードの前に確かめた結果。赤いエラーがあるとアップロードできない。 黄色い警告は、多くの場合そのままでもアップロードできます。「Auto Fix」のボタンがあれば、押すと直ります。">
+            <h3 class="glossary_1__term" id="validations-heading">Validations</h3>
+            <p class="glossary_1__short">Builder に出る、アップロードの前に確かめた結果。赤いエラーがあるとアップロードできない。</p>
+            <p class="glossary_1__body">黄色い警告は、多くの場合そのままでもアップロードできます。「Auto Fix」のボタンがあれば、押すと直ります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#validations">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#builder">Builder</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="blueprint-id" aria-labelledby="blueprint-id-heading" data-text="Blueprint ID Blueprint ID アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。 一度アップロードすると、アバターの Pipeline Manager に書き込まれます。別のアバターとして残したいときは、Pipeline Manager の Detach で番号を外してからアップロードします。">
+            <h3 class="glossary_1__term" id="blueprint-id-heading">Blueprint ID</h3>
+            <p class="glossary_1__short">アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。</p>
+            <p class="glossary_1__body">一度アップロードすると、アバターの Pipeline Manager に書き込まれます。別のアバターとして残したいときは、Pipeline Manager の Detach で番号を外してからアップロードします。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#update">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#pipeline-manager">Pipeline Manager</a>、<a href="#content-manager">Content Manager</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="pipeline-manager" aria-labelledby="pipeline-manager-heading" data-text="Pipeline Manager Pipeline Manager アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。 Quest 版をアップロードするときは、パソコン版と同じ Blueprint ID にしておくと、1つのアバターとして両方に出せます。">
+            <h3 class="glossary_1__term" id="pipeline-manager-heading">Pipeline Manager</h3>
+            <p class="glossary_1__short">アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。</p>
+            <p class="glossary_1__body">Quest 版をアップロードするときは、パソコン版と同じ Blueprint ID にしておくと、1つのアバターとして両方に出せます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#update">第2回 アップロードのしかた</a>、<a href="/avatar-tips/quest/#same">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#blueprint-id">Blueprint ID</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="content-manager" aria-labelledby="content-manager-heading" data-text="Content Manager Content Manager VRChat SDK のウィンドウのタブ。アップロードしたアバターの一覧を見られる。 アップロードが本当に終わったかや、どの Blueprint ID のアバターがあるかを確かめるのに使います。">
+            <h3 class="glossary_1__term" id="content-manager-heading">Content Manager</h3>
+            <p class="glossary_1__short">VRChat SDK のウィンドウのタブ。アップロードしたアバターの一覧を見られる。</p>
+            <p class="glossary_1__body">アップロードが本当に終わったかや、どの Blueprint ID のアバターがあるかを確かめるのに使います。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/upload/#check">第2回 アップロードのしかた</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#builder">Builder</a>、<a href="#blueprint-id">Blueprint ID</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="performance-rank" aria-labelledby="performance-rank-heading" data-text="パフォーマンスランク パフォーマンスランク Performance Rank ランク アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。 三角形の数、マテリアルの数、ボーンの数、PhysBone の数などの項目ごとに決まり、いちばん悪い項目がアバターのランクになります。見る人の設定によっては、ランクが低いアバターは代わりの姿で表示されます。">
+            <h3 class="glossary_1__term" id="performance-rank-heading">パフォーマンスランク</h3>
+            <p class="glossary_1__short">アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。</p>
+            <p class="glossary_1__body">三角形の数、マテリアルの数、ボーンの数、PhysBone の数などの項目ごとに決まり、いちばん悪い項目がアバターのランクになります。見る人の設定によっては、ランクが低いアバターは代わりの姿で表示されます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#rank">第4回 パフォーマンスランクと軽量化</a>、<a href="/avatar-tips/performance/#limits">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#fallback">Fallback（代わりの姿）</a>、<a href="#aao">AAO（Avatar Optimizer）</a>、<a href="#polygon">ポリゴン</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="drawcall" aria-labelledby="drawcall-heading" data-text="ドローコール ドローコール 画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。 マテリアルやメッシュをまとめると減ります。AAO などのツールで、自動でまとめることもできます。">
+            <h3 class="glossary_1__term" id="drawcall-heading">ドローコール</h3>
+            <p class="glossary_1__short">画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。</p>
+            <p class="glossary_1__body">マテリアルやメッシュをまとめると減ります。AAO などのツールで、自動でまとめることもできます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#why">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#material">マテリアル</a>、<a href="#mesh">メッシュ</a>、<a href="#atlas">アトラス化</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="atlas" aria-labelledby="atlas-heading" data-text="アトラス化 アトラス いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。 マテリアルが減ると、ドローコールが減って軽くなります。専用のツールを使うと、自動でまとめられます。">
+            <h3 class="glossary_1__term" id="atlas-heading">アトラス化</h3>
+            <p class="glossary_1__short">いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。</p>
+            <p class="glossary_1__body">マテリアルが減ると、ドローコールが減って軽くなります。専用のツールを使うと、自動でまとめられます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#light">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#texture">テクスチャ</a>、<a href="#material">マテリアル</a>、<a href="#drawcall">ドローコール</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="safety" aria-labelledby="safety-heading" data-text="Safety（セーフティ） Safety セーフティ ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。 見る人が、ランクやフレンドかどうかなどで、表示するものを決めます。自分では見えていても、ほかの人の設定によっては、代わりの姿や、ギミックが止まった姿に見えます。">
+            <h3 class="glossary_1__term" id="safety-heading">Safety（セーフティ）</h3>
+            <p class="glossary_1__short">ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。</p>
+            <p class="glossary_1__body">見る人が、ランクやフレンドかどうかなどで、表示するものを決めます。自分では見えていても、ほかの人の設定によっては、代わりの姿や、ギミックが止まった姿に見えます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#seen">第4回 パフォーマンスランクと軽量化</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#fallback">Fallback（代わりの姿）</a>、<a href="#performance-rank">パフォーマンスランク</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="fallback" aria-labelledby="fallback-heading" data-text="Fallback（代わりの姿） Fallback フォールバック ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。 自分で Fallback に設定したアバターか、VRChat が用意したロボットなどの姿になります。Quest やスマホの人には、パソコン版しかないアバターの代わりに表示されます。">
+            <h3 class="glossary_1__term" id="fallback-heading">Fallback（代わりの姿）</h3>
+            <p class="glossary_1__short">ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。</p>
+            <p class="glossary_1__body">自分で Fallback に設定したアバターか、VRChat が用意したロボットなどの姿になります。Quest やスマホの人には、パソコン版しかないアバターの代わりに表示されます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/performance/#seen">第4回 パフォーマンスランクと軽量化</a>、<a href="/avatar-tips/quest/#see">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#impostor">インポスター（Impostor）</a>、<a href="#safety">Safety（セーフティ）</a>、<a href="#performance-rank">パフォーマンスランク</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="impostor" aria-labelledby="impostor-heading" data-text="インポスター（Impostor） インポスター Impostor VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。 Quest やスマホの人から、パソコン版しかないアバターを見たときなどに表示されます。見る人がインポスターを切っていると、フォールバックの姿になります。">
+            <h3 class="glossary_1__term" id="impostor-heading">インポスター（Impostor）</h3>
+            <p class="glossary_1__short">VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。</p>
+            <p class="glossary_1__body">Quest やスマホの人から、パソコン版しかないアバターを見たときなどに表示されます。見る人がインポスターを切っていると、フォールバックの姿になります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/quest/#see">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#fallback">Fallback（代わりの姿）</a>、<a href="#quest">Quest・Android・iOS</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="quest" aria-labelledby="quest-heading" data-text="Quest・Android・iOS Meta Quest Quest Android iOS Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。 Quest やスマホでは、使えるシェーダーが VRChat/Mobile に限られ、ランクの決まりも厳しくなります。Quest 版を同じ Blueprint ID でアップロードすると、Quest やスマホの人にも見えるようになります。">
+            <h3 class="glossary_1__term" id="quest-heading">Quest・Android・iOS</h3>
+            <p class="glossary_1__short">Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。</p>
+            <p class="glossary_1__body">Quest やスマホでは、使えるシェーダーが VRChat/Mobile に限られ、ランクの決まりも厳しくなります。Quest 版を同じ Blueprint ID でアップロードすると、Quest やスマホの人にも見えるようになります。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/quest/#why">第5回 Quest・スマホ対応</a>、<a href="/avatar-tips/quest/#steps">第5回 Quest・スマホ対応</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#shader">シェーダー</a>、<a href="#performance-rank">パフォーマンスランク</a>、<a href="#fallback">Fallback（代わりの姿）</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="render-queue" aria-labelledby="render-queue-heading" data-text="Render Queue Render Queue レンダーキュー マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。 半透明のパーツが消えたり、ほかの物の後ろに隠れたりするときは、この数字を見直します。マテリアルの Inspector で変えられます。">
+            <h3 class="glossary_1__term" id="render-queue-heading">Render Queue</h3>
+            <p class="glossary_1__short">マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。</p>
+            <p class="glossary_1__body">半透明のパーツが消えたり、ほかの物の後ろに隠れたりするときは、この数字を見直します。マテリアルの Inspector で変えられます。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/render-queue/#what">第14回 Render Queue（描画の順番）</a>、<a href="/avatar-tips/render-queue/#how">第14回 Render Queue（描画の順番）</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#transparent">半透明（Transparent）</a>、<a href="#material">マテリアル</a>、<a href="#bounds">Bounds</a>
+              </p>
+            
+          </section>
+        
+          <section class="glossary_1__item js_glossary_item" id="transparent" aria-labelledby="transparent-heading" data-text="半透明（Transparent） 半透明 Transparent 向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。 レース、メガネのレンズ、頬染めなどに使います。不透明の物を先に描いてから、遠い順に描きます。重なったときは Render Queue をずらして直します。">
+            <h3 class="glossary_1__term" id="transparent-heading">半透明（Transparent）</h3>
+            <p class="glossary_1__short">向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。</p>
+            <p class="glossary_1__body">レース、メガネのレンズ、頬染めなどに使います。不透明の物を先に描いてから、遠い順に描きます。重なったときは Render Queue をずらして直します。</p>
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">くわしく</span>
+                <a href="/avatar-tips/render-queue/#sort">第14回 Render Queue（描画の順番）</a>、<a href="/avatar-tips/render-queue/#cases">第14回 Render Queue（描画の順番）</a>
+              </p>
+            
+            
+              <p class="glossary_1__links"><span class="glossary_1__label">関係する言葉</span>
+                <a href="#render-queue">Render Queue</a>、<a href="#bounds">Bounds</a>
+              </p>
+            
+          </section>
+        
+      </div>
+    </section>
+  
+</div>
+
+<section class="section_2" aria-labelledby="glossary-more-heading">
+  <h2 class="section_2__h1" id="glossary-more-heading">もっとくわしく知りたいとき</h2>
+  <p class="section_2__lead">言葉の使い方や、つまずいたときの直し方は「<a href="/avatar-tips/">アバター改変の解説</a>」で、1回に1つずつ解説しています。困りごとから、読む回を探すこともできます。</p>
+</section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://nunifuchisaka.github.io/glossary/#set",
+  "name": "VRChat 用語集",
+  "description": "VRChat のアバター改変で出てくる専門用語を、はじめての人向けに短く説明した用語集。",
+  "url": "https://nunifuchisaka.github.io/glossary/",
+  "inLanguage": "ja",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#vcc",
+      "name": "VCC（VRChat Creator Companion）",
+      "description": "VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。VCC でプロジェクトを作ると、VRChat SDK が入った Unity のプロジェクトができます。Modular Avatar などのツールも、配っている人のリポジトリを VCC に足してから、プロジェクトに入れます。Mac や Linux では使えないので、ALCOM を使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#vcc",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#alcom",
+      "name": "ALCOM",
+      "description": "VCC と同じことができる、有志が作ったアプリ。Windows・Mac・Linux で使える。プロジェクトを作る、ツールやシェーダーを入れる、といった VCC と同じ使い方ができます。VCC と違い、Mac や Linux でも使えます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#alcom",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#unity-hub",
+      "name": "Unity Hub",
+      "description": "Unity を入れたり、プロジェクトを開いたりする、Unity 公式のアプリ。VRChat は決まったバージョンの Unity（2026年11月時点で 2022.3.22f1）を使います。そのバージョンを Unity Hub で入れておき、新しいバージョンには上げません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#unity-hub",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#vrchat-sdk",
+      "name": "VRChat SDK",
+      "description": "Unity に入れて使う、VRChat 公式のアバター作りとアップロードの道具。VRChat SDK が入ったプロジェクトでは、Unity の上のメニューに「VRChat SDK」が出て、Builder でアップロードしたり、Content Manager でアップロードしたアバターを見たりできます。VCC か ALCOM でプロジェクトを作ると、はじめから入っています。",
+      "url": "https://nunifuchisaka.github.io/glossary/#vrchat-sdk",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#avatars3",
+      "name": "Avatars 3.0",
+      "description": "いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。VRChat SDK に入っている、アバターを作るためのしくみの名前です。いま VRChat でアップロードするアバターは、すべてこのしくみで動きます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#avatars3",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#builtin-rp",
+      "name": "Built-in Render Pipeline",
+      "description": "Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。Unity には描き方のしくみ（Render Pipeline）がいくつかあり、VRChat は Built-in Render Pipeline を使います。URP や HDRP 向けに作られたシェーダーは、VRChat のアバターでは使えません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#builtin-rp",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#modular-avatar",
+      "name": "Modular Avatar（MA）",
+      "description": "衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。衣装やギミックに MA のコンポーネントを付けておくと、再生やアップロードのときに、その指示どおりに自動で組み込みます。元のアバターのファイルは書き換えないので、外したいときは消すだけで戻ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#modular-avatar",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#aao",
+      "name": "AAO（Avatar Optimizer）",
+      "description": "見た目を変えずに、アップロードのときに自動でアバターを軽くするツール。アバターの一番上に AAO Trace And Optimize を付けると、使っていない部品を消したり、メッシュをまとめたりして、パフォーマンスランクを上げやすくします。元のデータは書き換えません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#aao",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#gesture-manager",
+      "name": "Gesture Manager",
+      "description": "Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。シーンに置いて再生すると、Expressions Menu を開いたり、ハンドサインを選んだりできます。パラメーターの値も見えるので、ギミックが動かないときに、どこで止まっているかを探せます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#gesture-manager",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#liltoon",
+      "name": "lilToon",
+      "description": "日本のアバターや衣装でよく使われる、アニメ調のシェーダー。多くのアバターや衣装は、lilToon を使う前提で作られています。プロジェクトに入っていないと、マテリアルがピンク一色になるので、アバターより先に入れておきます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#liltoon",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#unitypackage",
+      "name": "unitypackage",
+      "description": "Unity のファイルをまとめて配るための形式（拡張子 .unitypackage）。BOOTH などで買ったアバターや衣装は、この形で配られることが多いです。プロジェクトを開いたまま、Project ウィンドウへドラッグすると取り込めます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#unitypackage",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#booth",
+      "name": "BOOTH",
+      "description": "pixiv が運営する通販サイト。アバター・衣装・ギミックの多くがここで売られている。買う前に、販売ページで対応しているアバター、使うシェーダー、Quest 版があるか、使ってよい範囲（利用規約）を確かめます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#booth",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#project",
+      "name": "プロジェクト",
+      "description": "Unity で作業する単位。1つのフォルダに、アバターやツールのファイルがまとまっている。VCC や ALCOM で作り、Unity で開きます。アバターごとにプロジェクトを分けてもかまいません。こわれたときに戻せるよう、ときどきフォルダごと書き出しておきます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#project",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#hierarchy",
+      "name": "Hierarchy",
+      "description": "シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。アバターを置くと、アバターの一番上の物の下に、体や服、Armature などが並びます。ドラッグで親子を変えられます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#hierarchy",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#project-window",
+      "name": "Project ウィンドウ",
+      "description": "プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。右クリックの Create から、フォルダやアニメーションクリップ、Animator Controller を作れます。Hierarchy が「シーンに置いた物」なのに対して、こちらは「ファイル」です。",
+      "url": "https://nunifuchisaka.github.io/glossary/#project-window",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#inspector",
+      "name": "Inspector",
+      "description": "選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。Hierarchy や Project で何かを選ぶと、その設定がここに出ます。付いているコンポーネントの追加や設定も、ここで行います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#inspector",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#scene",
+      "name": "シーン（Scene）",
+      "description": "オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。Scene ビューでは、置いた物を見ながら動かせます。プロジェクトの中に、シーンのファイルをいくつも作れます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#scene",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#gameobject",
+      "name": "オブジェクト（GameObject）",
+      "description": "Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。体のメッシュ、服、ボーン、ギミック用の空の物も、すべてオブジェクトです。名前の左のチェック（Is Active）で、出したり消したりできます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#gameobject",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#is-active",
+      "name": "Is Active",
+      "description": "オブジェクトを出すか消すかの設定。Inspector の名前の左のチェック。チェックを外すと、オブジェクトは見えなくなり、付いているコンポーネントも動きません。アニメーションクリップでオンオフするときは、この値を 1（出す）と 0（消す）で書きます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#is-active",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#component",
+      "name": "コンポーネント",
+      "description": "オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。Inspector の「Add Component」から足します。Skinned Mesh Renderer、PhysBone、VRC Avatar Descriptor、Modular Avatar の部品も、すべてコンポーネントです。",
+      "url": "https://nunifuchisaka.github.io/glossary/#component",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#prefab",
+      "name": "プレハブ（Prefab）",
+      "description": "オブジェクトを、中身ごと1つのファイルにしたもの。シーンへドラッグして使う。Project では青い箱のアイコンで表示されます。アバターや衣装はプレハブの形で配られることが多く、シーンや衣装を着せたいアバターの中にドラッグして使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#prefab",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#avatar-descriptor",
+      "name": "VRC Avatar Descriptor",
+      "description": "アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。視点の位置、話したときの口の動き、Playable Layers に入れるコントローラー、Expressions Menu と Expression Parameters を、ここで決めます。これが付いている物が、1体のアバターとして扱われます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#avatar-descriptor",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#humanoid",
+      "name": "Humanoid",
+      "description": "人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。腕・脚・頭・指などの骨は Humanoid として扱われ、VRChat が動かします。そのため、FX のアニメーションクリップでは、これらの骨は動かせません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#humanoid",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#armature",
+      "name": "Armature",
+      "description": "アバターの骨（ボーン）をまとめたオブジェクト。Hips から下に、骨が親子で並ぶ。衣装にも、同じ名前の骨が並んだ Armature があります。Modular Avatar の Merge Armature は、衣装の骨をアバターの骨にまとめて、服が体に沿って動くようにします。",
+      "url": "https://nunifuchisaka.github.io/glossary/#armature",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#bone",
+      "name": "ボーン",
+      "description": "メッシュを動かすための骨。骨が動くと、それに結び付いたメッシュが曲がる。Armature の中に、親子の形で並んでいます。髪やスカートの骨は、PhysBone で揺らします。ボーンの数は、パフォーマンスランクの項目にもなっています。",
+      "url": "https://nunifuchisaka.github.io/glossary/#bone",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#mesh",
+      "name": "メッシュ",
+      "description": "三角形（ポリゴン）を組み合わせて作った、物の形のデータ。体、髪、服などは、それぞれメッシュでできています。メッシュの数と三角形の数が多いほど、描くのが重くなります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#mesh",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#smr",
+      "name": "Skinned Mesh Renderer",
+      "description": "ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。使うメッシュとマテリアル、BlendShape の値が、ここに並びます。表情や体型の調整をするときは、このコンポーネントの BlendShapes を開きます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#smr",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#blendshape",
+      "name": "BlendShape（シェイプキー）",
+      "description": "メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。笑顔、まばたき、口の形、胸の大きさなど、アバターごとに用意されています。アニメーションクリップで値を書くと、ハンドサインやメニューで表情を変えられます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#blendshape",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#material",
+      "name": "マテリアル",
+      "description": "色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。1つのメッシュに、いくつものマテリアルを使えます。マテリアルの数が多いほど描くのが重くなるので、パフォーマンスランクの項目にもなっています。",
+      "url": "https://nunifuchisaka.github.io/glossary/#material",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#shader",
+      "name": "シェーダー",
+      "description": "光の当たり方や色の出し方を計算するプログラム。lilToon など。マテリアルごとに、どのシェーダーを使うかを選びます。アバターが使うシェーダーがプロジェクトに入っていないと、ピンク一色で表示されます。Quest やスマホでは、VRChat/Mobile のシェーダーしか使えません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#shader",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#texture",
+      "name": "テクスチャ",
+      "description": "メッシュに貼る画像。肌や服の模様、色などを描いている。マテリアルが、どのテクスチャをどう使うかを決めます。大きな画像が多いと、テクスチャのメモリが増えて、パフォーマンスランクが下がります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#texture",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#polygon",
+      "name": "ポリゴン",
+      "description": "メッシュを作っている三角形。数が多いほど細かいが、重くなる。パフォーマンスランクでは、三角形の数（Triangles）で数えます。使わない服や小物を消すと減ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#polygon",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#physbone",
+      "name": "PhysBone",
+      "description": "髪やしっぽ、スカートを揺らす VRChat のコンポーネント。つかんで動かすこともできる。骨に付けると、体の動きに合わせて揺れます。つかまれたか、どれだけ曲がったかをパラメーターで受け取れるので、ギミックにも使えます。数が多いと重くなり、パフォーマンスランクの項目にもなっています。",
+      "url": "https://nunifuchisaka.github.io/glossary/#physbone",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#bounds",
+      "name": "Bounds",
+      "description": "メッシュがすっぽり入る、見えない箱。描く順番や、パフォーマンスランクの計算に使われる。半透明の物を描く順番は、カメラからこの箱の中心までの距離で決まります。箱が大きすぎると、パフォーマンスランクの「大きさ」の項目が悪くなります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#bounds",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#gimmick",
+      "name": "ギミック",
+      "description": "メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。小物を出し入れする、表情を変える、色や大きさを変える、触れると反応する、などがあります。Animator・パラメーター・メニューを組み合わせて作ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#gimmick",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#animator",
+      "name": "Animator",
+      "description": "パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。アバターの一番上に付いている Animator コンポーネントが、コントローラーの中身にしたがって動きます。Unity の Animator ウィンドウでは、レイヤー・ステート・トランジションを組み立てます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#animator",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#controller",
+      "name": "Animator Controller（コントローラー）",
+      "description": "Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。Project で右クリックして作ります。VRChat では、Playable Layers の枠（FX など）に入れて使います。自分で作ったものは、Modular Avatar の Merge Animator でアバターに足せます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#controller",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#playable-layers",
+      "name": "Playable Layers",
+      "description": "VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。VRC Avatar Descriptor で、枠ごとにコントローラーを入れます。見た目を変えるギミックは FX に入れます。コントローラーの中の「レイヤー」とは別のものです。",
+      "url": "https://nunifuchisaka.github.io/glossary/#playable-layers",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#fx",
+      "name": "FX",
+      "description": "Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。ほとんどのギミックは FX で作ります。Humanoid の骨（腕や脚など）は、FX では動きません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#fx",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#layer",
+      "name": "レイヤー",
+      "description": "コントローラーの中の段。ギミック1つにつき1つ作ることが多い。レイヤーは上から順に動き、同じものを動かすときは、下のレイヤーが勝ちます。足したレイヤーは Weight を 1 にしないと効きません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#layer",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#weight",
+      "name": "Weight（レイヤーの重み）",
+      "description": "レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。レイヤーの右の歯車から変えます。0 のままだと、そのレイヤーは何も書かないので、ギミックが動きません。",
+      "url": "https://nunifuchisaka.github.io/glossary/#weight",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#state",
+      "name": "ステート",
+      "description": "「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。Animator ウィンドウでは長方形で表示されます。オレンジ色のステートは、そのレイヤーで最初に入るステート（Layer Default State）です。",
+      "url": "https://nunifuchisaka.github.io/glossary/#state",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#any-state",
+      "name": "Any State",
+      "description": "「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。ステートが多いときに便利です。条件を満たしている間、同じステートに入り直し続けることがあるので、Can Transition To Self の設定に気をつけます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#any-state",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#transition",
+      "name": "トランジション",
+      "description": "ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。ステートを右クリックして「Make Transition」で引きます。オンオフのギミックでは、Has Exit Time を外し、Transition Duration を 0 にすることが多いです。",
+      "url": "https://nunifuchisaka.github.io/glossary/#transition",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#has-exit-time",
+      "name": "Has Exit Time",
+      "description": "トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。メニューを押してもすぐに切り替わらないときは、ここにチェックが入っていないかを見ます。オンオフのギミックでは、ふつうは外します。",
+      "url": "https://nunifuchisaka.github.io/glossary/#has-exit-time",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#transition-duration",
+      "name": "Transition Duration",
+      "description": "トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。0 にすると、すぐに切り替わります。表情などをなめらかに変えたいときは、少しだけ長くします。",
+      "url": "https://nunifuchisaka.github.io/glossary/#transition-duration",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#parameter",
+      "name": "パラメーター",
+      "description": "Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。Animator の Parameters タブで足します。VRChat のメニューから変えたり、ほかの人に送ったりするには、Expression Parameters（または MA Parameters）にも同じ名前と型で入れます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#parameter",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#param-types",
+      "name": "Bool・Int・Float（パラメーターの型）",
+      "description": "パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。オンオフには Bool、いくつかから1つを選ぶには Int、少しずつ変えるには Float を使います。同期すると、Bool は 1 bit、Int と Float は 8 bit を使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#param-types",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#clip",
+      "name": "アニメーションクリップ（クリップ）",
+      "description": "どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。Unity の Animation ウィンドウで、録画ボタンを押して値を変えると作れます。ステートに入れて使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#clip",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#keyframe",
+      "name": "キーフレーム",
+      "description": "クリップの中で、ある時間の値を決めた点。Animation ウィンドウでは、ひし形で表示される。値が変わらないクリップでも、キーフレームが1つは要ります。時間を変えて2つ以上打つと、その間の値は Unity がなめらかにつなぎます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#keyframe",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#path-missing",
+      "name": "パスと Missing!",
+      "description": "クリップは動かす相手を名前の道すじ（パス）で覚えている。名前や親子が変わるとつながらず、Missing! と出る。Animation ウィンドウで黄色い文字の Missing! が出たら、オブジェクトの名前か場所が、クリップを作ったときと変わっています。名前を戻すか、クリップのパスを直します。",
+      "url": "https://nunifuchisaka.github.io/glossary/#path-missing",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#write-defaults",
+      "name": "Write Defaults",
+      "description": "ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。ON と OFF がまざっていると、Unity では正しく見えても、VRChat で表情が戻らない、物が消えないといったずれが起きます。どちらでも動くように、オンとオフの両方のクリップを作っておくと安心です。",
+      "url": "https://nunifuchisaka.github.io/glossary/#write-defaults",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#blend-tree",
+      "name": "Blend Tree",
+      "description": "パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。ステートの中に入れて使います。1つのステートで、値に合わせて少しずつ変えたり、たくさんのギミックをまとめたりできます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#blend-tree",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#motion-time",
+      "name": "Motion Time",
+      "description": "Float の値（0〜1）で、クリップのどこを再生するかを決めるステートの設定。クリップのはじめと終わりに違う値を書いておくと、メニューを回した分だけ、色や大きさを少しずつ変えられます。Radial Puppet と組み合わせて使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#motion-time",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#tracking-control",
+      "name": "VRC Animator Tracking Control",
+      "description": "まばたきや口の動きを、VRChat に任せるか、Animator で動かすかを切り替える、ステートに付ける部品。表情のクリップで目や口を動かすと、VRChat のまばたきや口の動きと重なって、表情がくずれることがあります。表情を出している間だけ、まばたきや口を止めるのに使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#tracking-control",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#expression-parameters",
+      "name": "Expression Parameters",
+      "description": "VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。VRC Avatar Descriptor に入れて使います。Modular Avatar を使うときは、MA Parameters に書くと、アップロードのときに自動で足されます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#expression-parameters",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#synced",
+      "name": "Synced（同期）",
+      "description": "パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。チェックが無いと、ギミックは自分にだけ見えて、ほかの人には変わって見えません。Bool は 1 bit、Int と Float は 8 bit を使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#synced",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#saved",
+      "name": "Saved",
+      "description": "ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。チェックが無いと、ワールドを移るたびに、Default の値に戻ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#saved",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#expressions-menu",
+      "name": "Expressions Menu（Action Menu）",
+      "description": "VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。項目ごとに、変えるパラメーターと値、項目の種類（Toggle・Radial Puppet・Sub Menu など）を決めます。Modular Avatar を使うときは、MA Menu Item で項目を足せます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#expressions-menu",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#toggle-control",
+      "name": "Toggle（メニューの項目）",
+      "description": "押すたびにオンとオフが切り替わる、メニューの項目。押すとパラメーターを決めた値にし、もう一度押すと元の値（0）に戻します。小物のオンオフによく使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#toggle-control",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#radial-puppet",
+      "name": "Radial Puppet",
+      "description": "円を回して、Float の値を 0〜1 の間で変える、メニューの項目。色の濃さや大きさなどを、少しずつ変えるのに使います。Animator 側では Motion Time や Blend Tree で受け取ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#radial-puppet",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#sub-menu",
+      "name": "Sub Menu",
+      "description": "押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。1つのメニューには、項目を8つまでしか置けません。それより多いときや、種類ごとに分けたいときに使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#sub-menu",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#hand-sign",
+      "name": "ハンドサイン（GestureLeft・GestureRight）",
+      "description": "コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。0 は何もしていないとき、1 は握りこぶし、2 は手を開く、のように番号が決まっています。この番号をトランジションの条件にすると、手の形で表情を変えられます。握りの強さは GestureLeftWeight・GestureRightWeight で受け取れます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#hand-sign",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#contact",
+      "name": "Contact（Sender と Receiver）",
+      "description": "触れたかどうかを調べる VRChat の部品。Sender が触れる側、Receiver が触れられる側。手や指には、VRChat が Sender を自動で付けています。頭などに Receiver を置くと、触れられたことをパラメーターで受け取れるので、なでると反応するギミックを作れます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#contact",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#receiver-type",
+      "name": "Receiver Type",
+      "description": "Receiver が出す値の種類。Constant（触れている間）・OnEnter（触れた瞬間）・Proximity（近さ）。触れている間だけ変えるなら Constant、触れたら1回だけ何かを始めるなら OnEnter、近づくほど強く変えるなら Proximity を選びます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#receiver-type",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#collision-tags",
+      "name": "Collision Tags",
+      "description": "Contact のタグ。Sender と Receiver に同じタグが1つでもあるときだけ反応する。手なら Hand、指なら Finger のように決まった名前があります。大文字と小文字も区別するので、つづりをそろえます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#collision-tags",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#setup-outfit",
+      "name": "Setup Outfit",
+      "description": "衣装を右クリックして選ぶ Modular Avatar の機能。服を体に沿って動かすための部品を自動で付ける。衣装のプレハブをアバターの中に入れてから使います。衣装の Armature に MA Merge Armature が付き、再生やアップロードのときに、骨が自動でまとまります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#setup-outfit",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#merge-armature",
+      "name": "MA Merge Armature",
+      "description": "衣装の骨を、アバターの同じ名前の骨にまとめて、服が体に沿って動くようにするコンポーネント。ふつうは Setup Outfit で自動で付きます。骨の名前に付いた接頭辞・接尾辞を取り除いて、対応する骨を探します。",
+      "url": "https://nunifuchisaka.github.io/glossary/#merge-armature",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#merge-animator",
+      "name": "MA Merge Animator",
+      "description": "自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。元の FX のファイルを書き換えずに、ギミックを足せます。Match Avatar Write Defaults にチェックを入れると、Write Defaults をアバターに合わせてくれます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#merge-animator",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#menu-installer",
+      "name": "MA Menu Installer・MA Menu Item",
+      "description": "Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。MA Menu Item で項目の種類（Toggle・Radial Puppet・Sub Menu など）とパラメーターを決め、MA Menu Installer でアバターのメニューに足します。",
+      "url": "https://nunifuchisaka.github.io/glossary/#menu-installer",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#object-toggle",
+      "name": "MA Object Toggle",
+      "description": "Animator を作らずに、メニューの項目でオブジェクトを出し入れできるコンポーネント。MA Menu Item と同じオブジェクトに付けて、オンオフしたいオブジェクトを登録します。中では、オンオフのアニメーションが自動で作られます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#object-toggle",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#shape-changer",
+      "name": "MA Shape Changer",
+      "description": "衣装を着ている間だけ、体の BlendShape を変えたり、体の一部を消したりするコンポーネント。服から肌が突き抜けるときに、体を細くする BlendShape を入れたり、隠れる部分のメッシュを消したりします。衣装を外すと、体も元に戻ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#shape-changer",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#ma-parameters",
+      "name": "MA Parameters",
+      "description": "Expression Parameters を書き換えずに、パラメーターを足すコンポーネント。Saved や Synced もここで決める。ギミックのオブジェクトに付けておくと、アップロードのときに、アバターの Expression Parameters へ自動で足されます。名前と型は、Animator のパラメーターとそろえます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#ma-parameters",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#builder",
+      "name": "Builder",
+      "description": "VRChat SDK のウィンドウのタブ。名前や公開の設定、確かめた結果、アップロードのボタンが並ぶ。Unity の上のメニューの VRChat SDK › Show Control Panel で開きます。Validations の赤いエラーを直してから、Build and Publish でアップロードします。",
+      "url": "https://nunifuchisaka.github.io/glossary/#builder",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#validations",
+      "name": "Validations",
+      "description": "Builder に出る、アップロードの前に確かめた結果。赤いエラーがあるとアップロードできない。黄色い警告は、多くの場合そのままでもアップロードできます。「Auto Fix」のボタンがあれば、押すと直ります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#validations",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#blueprint-id",
+      "name": "Blueprint ID",
+      "description": "アップロードしたアバターの番号（avtr_ で始まる）。同じ番号のままアップロードすると、上書きになる。一度アップロードすると、アバターの Pipeline Manager に書き込まれます。別のアバターとして残したいときは、Pipeline Manager の Detach で番号を外してからアップロードします。",
+      "url": "https://nunifuchisaka.github.io/glossary/#blueprint-id",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#pipeline-manager",
+      "name": "Pipeline Manager",
+      "description": "アップロードしたアバターの一番上に付く、Blueprint ID を覚えておくコンポーネント。Quest 版をアップロードするときは、パソコン版と同じ Blueprint ID にしておくと、1つのアバターとして両方に出せます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#pipeline-manager",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#content-manager",
+      "name": "Content Manager",
+      "description": "VRChat SDK のウィンドウのタブ。アップロードしたアバターの一覧を見られる。アップロードが本当に終わったかや、どの Blueprint ID のアバターがあるかを確かめるのに使います。",
+      "url": "https://nunifuchisaka.github.io/glossary/#content-manager",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#performance-rank",
+      "name": "パフォーマンスランク",
+      "description": "アバターの重さを5段階で表したもの。Excellent・Good・Medium・Poor・Very Poor。三角形の数、マテリアルの数、ボーンの数、PhysBone の数などの項目ごとに決まり、いちばん悪い項目がアバターのランクになります。見る人の設定によっては、ランクが低いアバターは代わりの姿で表示されます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#performance-rank",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#drawcall",
+      "name": "ドローコール",
+      "description": "画面に絵を描くための命令。マテリアルとメッシュが多いほど増えて、重くなる。マテリアルやメッシュをまとめると減ります。AAO などのツールで、自動でまとめることもできます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#drawcall",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#atlas",
+      "name": "アトラス化",
+      "description": "いくつものテクスチャを1枚にまとめて、マテリアルの数を減らすこと。マテリアルが減ると、ドローコールが減って軽くなります。専用のツールを使うと、自動でまとめられます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#atlas",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#safety",
+      "name": "Safety（セーフティ）",
+      "description": "ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。見る人が、ランクやフレンドかどうかなどで、表示するものを決めます。自分では見えていても、ほかの人の設定によっては、代わりの姿や、ギミックが止まった姿に見えます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#safety",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#fallback",
+      "name": "Fallback（代わりの姿）",
+      "description": "ランクやセーフティの設定でアバターが見えない人に、代わりに見せる姿。自分で Fallback に設定したアバターか、VRChat が用意したロボットなどの姿になります。Quest やスマホの人には、パソコン版しかないアバターの代わりに表示されます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#fallback",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#impostor",
+      "name": "インポスター（Impostor）",
+      "description": "VRChat が自動で作る、板を組み合わせたぼやけた身代わりの姿。Quest やスマホの人から、パソコン版しかないアバターを見たときなどに表示されます。見る人がインポスターを切っていると、フォールバックの姿になります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#impostor",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#quest",
+      "name": "Quest・Android・iOS",
+      "description": "Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。Quest やスマホでは、使えるシェーダーが VRChat/Mobile に限られ、ランクの決まりも厳しくなります。Quest 版を同じ Blueprint ID でアップロードすると、Quest やスマホの人にも見えるようになります。",
+      "url": "https://nunifuchisaka.github.io/glossary/#quest",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#render-queue",
+      "name": "Render Queue",
+      "description": "マテリアルを描く順番の数字。小さいほど先に描く。2500 までが不透明、3000 前後が半透明。半透明のパーツが消えたり、ほかの物の後ろに隠れたりするときは、この数字を見直します。マテリアルの Inspector で変えられます。",
+      "url": "https://nunifuchisaka.github.io/glossary/#render-queue",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "https://nunifuchisaka.github.io/glossary/#transparent",
+      "name": "半透明（Transparent）",
+      "description": "向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。レース、メガネのレンズ、頬染めなどに使います。不透明の物を先に描いてから、遠い順に描きます。重なったときは Render Queue をずらして直します。",
+      "url": "https://nunifuchisaka.github.io/glossary/#transparent",
+      "inDefinedTermSet": "https://nunifuchisaka.github.io/glossary/#set"
+    }
+  ]
+}
+</script>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

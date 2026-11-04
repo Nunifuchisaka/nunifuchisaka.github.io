@@ -13,6 +13,7 @@ const meta = {
 %>
 <%- include(path + "assets/html/_head",{meta:meta}) %>
 <%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/glossary-tip.js" defer></script>
 </head>
 <body class="top_1">
 <%- include(path + "assets/html/_body_before") %>
@@ -21,7 +22,7 @@ const meta = {
 <%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
-<%- include(path + "assets/html/_tips-setup") %>
+<%- include(path + "assets/html/_glossary_link",{html:include(path + "assets/html/_tips-setup")}) %>
 <%- include(path + "assets/html/_tips_pager",{slug:"setup"}) %>
 </main><!-- /#main -->
 

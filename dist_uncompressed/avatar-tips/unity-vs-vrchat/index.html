@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/shape-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第13回</a></p>
     <h1 class="page_1__h1" id="article-heading">Unity と VRChat で見た目が変わる</h1>
-    <p class="article_1__lead">Unity で整えたはずの表情や体の形が、VRChat に入ると元に戻っている。その多くは、FX の Animator が BlendShape（シェイプキー）の値を書き換えているためです。なぜ書き換わるのか、どこを見て、どう直すのかを解説します。</p>
-    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。</p>
+    <p class="article_1__lead">Unity で整えたはずの表情や体の形が、VRChat に入ると元に戻っている。その多くは、<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> の <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a>（シェイプキー）の値を書き換えているためです。なぜ書き換わるのか、どこを見て、どう直すのかを解説します。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の <a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> と VRChat のアバター（<a class="term_2" href="/glossary/#avatars3" data-name="Avatars 3.0" data-tip="いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。">Avatars 3.0</a>）です。2026年11月時点の内容です。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
         
@@ -179,7 +180,7 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>Unity で BlendShape を動かして表情を変えたのに、VRChat では元の顔に戻る。</li><li>服に合わせて体を縮めたのに、VRChat では体が服から突き抜ける。</li><li>ハンドサインを変えると、表情と一緒に、体の形や頬染めまで変わる。</li><li>一度ハンドサインで表情を変えると、手を戻しても表情が戻らない。</li>
+      <li>Unity で <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> を動かして表情を変えたのに、VRChat では元の顔に戻る。</li><li>服に合わせて体を縮めたのに、VRChat では体が服から突き抜ける。</li><li><a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>を変えると、表情と一緒に、体の形や頬染めまで変わる。</li><li>一度ハンドサインで表情を変えると、手を戻しても表情が戻らない。</li>
     </ul>
   </section>
 
@@ -190,12 +191,12 @@
       
         <div class="examples_1__item">
           <dt>1. Animator が値を書き換える</dt>
-          <dd>VRChat では、アバターの Animator（とくに FX）が動き、アニメーションに書かれた値で BlendShape などを毎フレーム上書きします。Unity の編集画面では Animator は動いていません。<strong>この記事の本題です。</strong></dd>
+          <dd>VRChat では、アバターの <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a>（とくに <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a>）が動き、アニメーションに書かれた値で <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> などを毎フレーム上書きします。Unity の編集画面では Animator は動いていません。<strong>この記事の本題です。</strong></dd>
         </div>
       
         <div class="examples_1__item">
           <dt>2. VRChat が動かす BlendShape</dt>
-          <dd>まばたきと口の形（Viseme）は VRChat が動かします。VRC Avatar Descriptor の Eye Look や Lip Sync に設定した BlendShape は、Unity で値を入れても上書きされます。</dd>
+          <dd>まばたきと口の形（Viseme）は VRChat が動かします。<a class="term_2" href="/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。">VRC Avatar Descriptor</a> の Eye Look や Lip Sync に設定した BlendShape は、Unity で値を入れても上書きされます。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -205,17 +206,17 @@
       
         <div class="examples_1__item">
           <dt>4. 明るさと色</dt>
-          <dd>Unity のシーンのライトと、ワールドのライトは違います。ワールドによって、明るさや色、影の出方が変わります。</dd>
+          <dd>Unity の<a class="term_2" href="/glossary/#scene" data-name="シーン（Scene）" data-tip="オブジェクトを置いて作業する場所。アバターも、シーンに置いてからアップロードする。">シーン</a>のライトと、ワールドのライトは違います。ワールドによって、明るさや色、影の出方が変わります。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>5. 見る人の設定と機器</dt>
-          <dd>見る人のセーフティ設定でシェーダーが止められると、別の見た目になります。Quest やスマホでは、対応版のアバターか、代わりの姿で見えます。</dd>
+          <dd>見る人の<a class="term_2" href="/glossary/#safety" data-name="Safety（セーフティ）" data-tip="ほかの人のアバターを、どこまで表示するかを決める VRChat の設定。">セーフティ</a>設定で<a class="term_2" href="/glossary/#shader" data-name="シェーダー" data-tip="光の当たり方や色の出し方を計算するプログラム。lilToon など。">シェーダー</a>が止められると、別の見た目になります。<a class="term_2" href="/glossary/#quest" data-name="Quest・Android・iOS" data-tip="Meta Quest などの単体の VR 機器や、スマホで動く VRChat。パソコン版とは別のアバターのデータが要る。">Quest</a> やスマホでは、対応版のアバターか、代わりの姿で見えます。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>6. 描く順番</dt>
-          <dd>半透明のパーツは、ワールドの半透明の物と重なると、描く順番で見え方が変わります。 <a href="/avatar-tips/render-queue/">第14回 Render Queue</a></dd>
+          <dd><a class="term_2" href="/glossary/#transparent" data-name="半透明（Transparent）" data-tip="向こうが透けて見える描き方。描く順番が距離で変わるので、重なると前後がくずれやすい。">半透明</a>のパーツは、ワールドの半透明の物と重なると、描く順番で見え方が変わります。 <a href="/avatar-tips/render-queue/">第14回 Render Queue</a></dd>
         </div>
       
     </dl>
@@ -223,7 +224,7 @@
 
   <section class="section_2 article_1__section" id="editor" aria-labelledby="editor-heading">
     <h2 class="section_2__h1" id="editor-heading">Unity の編集画面では、Animator が動いていない</h2>
-    <p class="article_1__p">Unity で再生していないときに見えているのは、Skinned Mesh Renderer の BlendShapes の欄に入れた値そのものです。Animator は動いていません。</p><p class="article_1__p">VRChat でアバターを読み込むと、Animator が動き出します。Animator は、いま入っているステートのアニメーション（クリップ）に書かれた値を、<strong>毎フレーム</strong>上から書き込みます。Unity で入れた値は、そのたびに上書きされます。</p><p class="article_1__p">つまり、<strong>どこかのクリップに書かれている BlendShape は、Animator が値を決めます</strong>。Skinned Mesh Renderer の値がそのまま見えるのは、Animator がその BlendShape に何も書かないときだけです。</p>
+    <p class="article_1__p">Unity で再生していないときに見えているのは、<a class="term_2" href="/glossary/#smr" data-name="Skinned Mesh Renderer" data-tip="ボーンに合わせて曲がるメッシュを描くコンポーネント。体や服に付いている。">Skinned Mesh Renderer</a> の <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShapes</a> の欄に入れた値そのものです。<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> は動いていません。</p><p class="article_1__p">VRChat でアバターを読み込むと、Animator が動き出します。Animator は、いま入っている<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>のアニメーション（<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>）に書かれた値を、<strong>毎フレーム</strong>上から書き込みます。Unity で入れた値は、そのたびに上書きされます。</p><p class="article_1__p">つまり、<strong>どこかのクリップに書かれている BlendShape は、Animator が値を決めます</strong>。Skinned Mesh Renderer の値がそのまま見えるのは、Animator がその BlendShape に何も書かないときだけです。</p>
     <ol class="route_1">
       
         <li class="route_1__step"><span class="route_1__head">Unity で入れた値</span><span class="route_1__note">Skinned Mesh Renderer の eye_smile = 60</span></li>
@@ -280,7 +281,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>表情を変えたくて入れた値です。FX のクリップが eye_smile を書いていると、VRChat ではその値になります。</li><li>服に合わせて体を縮めた値です。服のオンオフのクリップが shrink_chest を書いていると、VRChat ではその値になります。</li>
+      <li>表情を変えたくて入れた値です。<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> のクリップが eye_smile を書いていると、VRChat ではその値になります。</li><li>服に合わせて体を縮めた値です。服のオンオフのクリップが shrink_chest を書いていると、VRChat ではその値になります。</li>
     </ol>
   
 </div>
@@ -289,7 +290,7 @@
 
   <section class="section_2 article_1__section" id="write-defaults" aria-labelledby="write-defaults-heading">
     <h2 class="section_2__h1" id="write-defaults-heading">Write Defaults で変わること</h2>
-    <p class="article_1__p">Animator は、コントローラーのどこかのクリップに出てくるプロパティを、すべて受け持ちます。いまのステートのクリップにそのプロパティがあれば、その値を書きます。<strong>クリップに無いときに何を書くか</strong>を決めるのが、ステートの <code>Write Defaults</code> です。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> は、<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>のどこかの<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>に出てくるプロパティを、すべて受け持ちます。いまの<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>のクリップにそのプロパティがあれば、その値を書きます。<strong>クリップに無いときに何を書くか</strong>を決めるのが、ステートの <a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。"><code>Write Defaults</code></a> です。</p>
     <section class="table_3" tabindex="0" aria-label="Write Defaults と、書かれる値">
       <table>
         <thead>
@@ -304,12 +305,12 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">Write Defaults が OFF のアバターでは、ハンドサインで変えた表情が残らないように、何もしていないとき（Idle）のステートに、<strong>表情の BlendShape をすべて 0 にするクリップ</strong>を置いていることがよくあります。このクリップが、Unity で入れた値も 0 に戻します。</p><p class="article_1__p">同じ BlendShape を複数のレイヤーが書くときは、下にあるレイヤーが優先されます。</p>
+    <p class="article_1__p">Write Defaults が OFF のアバターでは、<a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>で変えた表情が残らないように、何もしていないとき（Idle）のステートに、<strong>表情の <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> をすべて 0 にするクリップ</strong>を置いていることがよくあります。このクリップが、Unity で入れた値も 0 に戻します。</p><p class="article_1__p">同じ BlendShape を複数の<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>が書くときは、下にあるレイヤーが優先されます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
-    <p class="article_1__p">Unity で入れた値、Write Defaults、いまのステートを変えて、VRChat での見た目がどうなるかを見てみてください。値を変えると、アップロードし直したものとして最初から数えます。</p>
+    <p class="article_1__p">Unity で入れた値、<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a>、いまの<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>を変えて、VRChat での見た目がどうなるかを見てみてください。値を変えると、アップロードし直したものとして最初から数えます。</p>
     <div class="demo_2 js_shape_demo"
       data-clip="いまのステートのクリップが eye_smile を {c} と書いているので、Write Defaults に関係なく {c} になります。" data-on="いまのステートのクリップに eye_smile が無く、Write Defaults が ON なので、既定値（Unity で入れた {u}）を書きます。" data-off="いまのステートのクリップに eye_smile が無く、Write Defaults が OFF なので、何も書きません。直前の値（{v}）が残ります。"
       data-same="Unity と同じ見た目です。" data-diff="Unity と違う見た目です（Unity では {u}、VRChat では {v}）。">
@@ -361,9 +362,9 @@
         <section class="case_1__item">
           <h3 class="case_1__title">変えた表情が元に戻る</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>Unity で目や口の BlendShape を動かして、いつもの表情を変えた。VRChat では元の表情に戻る。</dd></div>
-            <div><dt>原因</dt><dd>FX の Idle ステート（何もしていないときのステート）のクリップが、その BlendShape を書いています。</dd></div>
-            <div><dt>直し方</dt><dd>そのクリップの値を、Unity で入れた値に変えます。Write Defaults が ON なら、クリップからその行を消す方法もあります。</dd></div>
+            <div><dt>起きること</dt><dd>Unity で目や口の <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> を動かして、いつもの表情を変えた。VRChat では元の表情に戻る。</dd></div>
+            <div><dt>原因</dt><dd><a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> の Idle <a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>（何もしていないときのステート）の<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>が、その BlendShape を書いています。</dd></div>
+            <div><dt>直し方</dt><dd>そのクリップの値を、Unity で入れた値に変えます。<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> が ON なら、クリップからその行を消す方法もあります。</dd></div>
           </dl>
         </section>
       
@@ -379,7 +380,7 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ハンドサインで関係ないところまで変わる</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>ハンドサインで表情を変えると、体の形や頬染めまで変わる。</dd></div>
+            <div><dt>起きること</dt><dd><a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>で表情を変えると、体の形や頬染めまで変わる。</dd></div>
             <div><dt>原因</dt><dd>表情のクリップに、表情と関係ない BlendShape の行が入っています。</dd></div>
             <div><dt>直し方</dt><dd>表情のクリップから、関係ない行を消します。Write Defaults が OFF のときは、消したあとに値が残らないかも確かめます。</dd></div>
           </dl>
@@ -399,9 +400,9 @@
 
   <section class="section_2 article_1__section" id="find" aria-labelledby="find-heading">
     <h2 class="section_2__h1" id="find-heading">原因のクリップを探す</h2>
-    <p class="article_1__p">まず、Unity で再生して、VRChat と同じことが起きるかを見ます。VRChat Creator Companion から入れられる Gesture Manager を使うと、Unity で再生したときに Animator が動き、ハンドサインも試せます。再生して値が戻れば、原因は Animator です。</p>
+    <p class="article_1__p">まず、Unity で再生して、VRChat と同じことが起きるかを見ます。<a class="term_2" href="/glossary/#vcc" data-name="VCC（VRChat Creator Companion）" data-tip="VRChat 公式の、プロジェクトを作ってツールやシェーダーを入れるアプリ（Windows 用）。">VRChat Creator Companion</a> から入れられる <a class="term_2" href="/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。">Gesture Manager</a> を使うと、Unity で再生したときに <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が動き、<a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>も試せます。再生して値が戻れば、原因は Animator です。</p>
     <ol class="steps_1">
-      <li>Hierarchy でアバターを選び、Inspector の VRC Avatar Descriptor の「Playable Layers」で、FX に入っているコントローラーを確かめます。</li><li>そのコントローラーをダブルクリックして、Animator ウィンドウで開きます。左の Layers に、レイヤーが並びます。</li><li>レイヤーを1つずつ選び、オレンジ色のステート（最初に入るステート）をクリックします。Inspector の Motion に、そのステートのクリップが出ます。</li><li>クリップを選び、Animation ウィンドウ（<code>Window → Animation → Animation</code>）で中身を見ます。<code>Body : Blend Shape.eye_smile</code> のような行があれば、そのクリップがその BlendShape を書いています。</li><li>ハンドサインやメニューで入るステートも、同じように見ます。</li>
+      <li><a class="term_2" href="/glossary/#hierarchy" data-name="Hierarchy" data-tip="シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。">Hierarchy</a> でアバターを選び、<a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> の <a class="term_2" href="/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。">VRC Avatar Descriptor</a> の「<a class="term_2" href="/glossary/#playable-layers" data-name="Playable Layers" data-tip="VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。">Playable Layers</a>」で、<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> に入っている<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>を確かめます。</li><li>そのコントローラーをダブルクリックして、Animator ウィンドウで開きます。左の Layers に、<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>が並びます。</li><li>レイヤーを1つずつ選び、オレンジ色の<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>（最初に入るステート）をクリックします。Inspector の Motion に、そのステートの<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>が出ます。</li><li>クリップを選び、Animation ウィンドウ（<code>Window → Animation → Animation</code>）で中身を見ます。<code>Body : Blend Shape.eye_smile</code> のような行があれば、そのクリップがその <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> を書いています。</li><li>ハンドサインやメニューで入るステートも、同じように見ます。</li>
     </ol>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
@@ -444,7 +445,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Unity で 60 にした eye_smile を、このクリップが 0 と書いています。VRChat で Idle にいる間は、eye_smile は 0 になります。</li><li>表情と関係ない体の BlendShape が入っていることもあります。Write Defaults が ON なら、この行を消すと Unity で入れた値に戻ります。</li>
+      <li>Unity で 60 にした eye_smile を、このクリップが 0 と書いています。VRChat で Idle にいる間は、eye_smile は 0 になります。</li><li>表情と関係ない体の BlendShape が入っていることもあります。<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> が ON なら、この行を消すと Unity で入れた値に戻ります。</li>
     </ol>
   
 </div>
@@ -454,27 +455,29 @@
   <section class="section_2 article_1__section" id="fix" aria-labelledby="fix-heading">
     <h2 class="section_2__h1" id="fix-heading">直し方</h2>
     <ol class="steps_1">
-      <li>直す前に、元に戻せるようにしておきます。クリップを複製しておくか、アバターのフォルダを書き出しておきます。</li><li>原因のクリップを Animation ウィンドウで開き、その BlendShape の行の値を、Unity で入れた値に変えます。キーが2つ以上あるときは、すべて変えます。</li><li>書かなくてよい BlendShape なら、その行を右クリックして <code>Remove Properties</code> で消します。Write Defaults が ON なら、Unity で入れた値が使われるようになります。OFF のときは前の値が残ることがあるので、消さずに値を直します。</li><li>Gesture Manager で再生して、ハンドサインやメニューを一通り試し、値が戻らないかを確かめます。</li><li>アップロードして、VRChat でも確かめます。</li>
+      <li>直す前に、元に戻せるようにしておきます。<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>を複製しておくか、アバターのフォルダを書き出しておきます。</li><li>原因のクリップを Animation ウィンドウで開き、その <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> の行の値を、Unity で入れた値に変えます。キーが2つ以上あるときは、すべて変えます。</li><li>書かなくてよい BlendShape なら、その行を右クリックして <code>Remove Properties</code> で消します。<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> が ON なら、Unity で入れた値が使われるようになります。OFF のときは前の値が残ることがあるので、消さずに値を直します。</li><li><a class="term_2" href="/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。">Gesture Manager</a> で再生して、<a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>やメニューを一通り試し、値が戻らないかを確かめます。</li><li>アップロードして、VRChat でも確かめます。</li>
     </ol>
   </section>
 
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>Unity で BlendShape を変えるだけでは、Animator が書く値には勝てません。服を着せるツールなどで BlendShape を変えたときも同じです。</li><li>表情を作るツールを使っているときは、ツールの側で、いつもの表情を変えます。FX を直接直しても、ツールで作り直すと戻ります。</li><li>アバターの更新を入れると、直したクリップが元に戻ることがあります。更新のあとは、もう一度確かめてください。</li><li>同じコントローラーの中で、Write Defaults の ON と OFF を混ぜないでください。どの値が残るのか分かりにくくなります。</li>
+      <li>Unity で <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> を変えるだけでは、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が書く値には勝てません。服を着せるツールなどで BlendShape を変えたときも同じです。</li><li>表情を作るツールを使っているときは、ツールの側で、いつもの表情を変えます。<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> を直接直しても、ツールで作り直すと戻ります。</li><li>アバターの更新を入れると、直した<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>が元に戻ることがあります。更新のあとは、もう一度確かめてください。</li><li>同じ<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>の中で、<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> の ON と OFF を混ぜないでください。どの値が残るのか分かりにくくなります。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
     <ul class="rules_1">
-      <li>Unity の編集画面では Animator が動いておらず、VRChat では動きます。</li><li>どこかのクリップに書かれている BlendShape は、Unity で入れた値ではなく、Animator が値を決めます。</li><li>クリップに無いときは、Write Defaults が ON なら Unity で入れた値、OFF なら直前の値になります。</li><li>Gesture Manager で再生して確かめ、原因のクリップの値を直します。</li>
+      <li>Unity の編集画面では <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が動いておらず、VRChat では動きます。</li><li>どこかの<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>に書かれている <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> は、Unity で入れた値ではなく、Animator が値を決めます。</li><li>クリップに無いときは、<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> が ON なら Unity で入れた値、OFF なら直前の値になります。</li><li><a class="term_2" href="/glossary/#gesture-manager" data-name="Gesture Manager" data-tip="Unity の再生中に、VRChat と同じようにメニューやハンドサインを試せるツール。">Gesture Manager</a> で再生して確かめ、原因のクリップの値を直します。</li>
     </ul>
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="前後の回">
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/avatar-tips/gimmick-debug/" rel="prev"><span class="next_1__note">前の回（第12回）</span><span class="next_1__text">ギミックが動かないとき</span></a></li>

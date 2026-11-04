@@ -100,6 +100,7 @@
 <script src="/assets/js/viewer.js" defer></script>
 <script src="/assets/js/top.js" defer></script>
 
+<script src="/assets/js/glossary-tip.js" defer></script>
 <script src="/assets/js/animator-basics-demo.js" defer></script>
 </head>
 <body class="top_1">
@@ -147,8 +148,8 @@
   <header class="section_2 page_1 article_1__header">
     <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第6回</a></p>
     <h1 class="page_1__h1" id="article-heading">Animator のしくみ</h1>
-    <p class="article_1__lead">メニューを押すと、帽子が出る。ハンドサインをすると、表情が変わる。そのあいだには、パラメーター、Animator、ステート、トランジション、アニメーションクリップという部品が順に動いています。自分でギミックを作る前に、それぞれの役目と、どこで設定するのかを解説します。</p>
-    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。</p>
+    <p class="article_1__lead">メニューを押すと、帽子が出る。<a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>をすると、表情が変わる。そのあいだには、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a>、<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>、<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>、<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">アニメーションクリップ</a>という部品が順に動いています。自分で<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>を作る前に、それぞれの役目と、どこで設定するのかを解説します。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の <a class="term_2" href="/glossary/#builtin-rp" data-name="Built-in Render Pipeline" data-tip="Unity の描き方のしくみの1つ。VRChat のアバターは、これで描かれる。">Built-in Render Pipeline</a> と VRChat のアバター（<a class="term_2" href="/glossary/#avatars3" data-name="Avatars 3.0" data-tip="いまの VRChat のアバターのしくみ。Animator・Expression Parameters・Expressions Menu でギミックを作る。">Avatars 3.0</a>）です。2026年11月時点の内容です。</p>
     <nav class="jump_1" aria-label="目次">
       <ul>
         
@@ -181,13 +182,13 @@
   <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
     <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
     <ul class="rules_1">
-      <li>自分でギミックを作ってみたいが、Animator を開いても何がなんだか分からない。</li><li>FX、Gesture などの名前は見たことがあるが、違いが分からない。</li><li>パラメーターとメニューと Animator が、どうつながっているのか知りたい。</li><li>配布されているギミックを入れたが、中で何が起きているのか分からない。</li>
+      <li>自分で<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>を作ってみたいが、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> を開いても何がなんだか分からない。</li><li><a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a>、Gesture などの名前は見たことがあるが、違いが分からない。</li><li><a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>とメニューと Animator が、どうつながっているのか知りたい。</li><li>配布されているギミックを入れたが、中で何が起きているのか分からない。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="picture" aria-labelledby="picture-heading">
     <h2 class="section_2__h1" id="picture-heading">メニューを押してから、見た目が変わるまで</h2>
-    <p class="article_1__p">VRChat のアバターのギミックは、ほとんどが同じ流れで動きます。この回では、メニューで帽子を出し入れするギミックを例にします。名前は例です。</p>
+    <p class="article_1__p">VRChat のアバターの<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>は、ほとんどが同じ流れで動きます。この回では、メニューで帽子を出し入れするギミックを例にします。名前は例です。</p>
     <ol class="route_1">
       
         <li class="route_1__step"><span class="route_1__head">メニューを押す</span><span class="route_1__note">Expressions Menu の Toggle「帽子」</span></li>
@@ -203,7 +204,7 @@
         <li class="route_1__step"><span class="route_1__head">見た目が変わる</span><span class="route_1__note">帽子が出る</span></li>
       
     </ol>
-    <p class="article_1__p"><strong>メニューは、パラメーターの値を変えるだけです。</strong>見た目は変えません。見た目を変えるのは、Animator が再生するアニメーションクリップです。メニューと Animator は、パラメーターの<strong>名前</strong>でつながっています。</p><p class="article_1__p">ハンドサインや、触れたことで動くギミックも同じです。最初の「メニューを押す」が「手の形が変わる」「頭に手が触れる」に変わるだけで、パラメーターから先は同じ流れです。</p><p class="article_1__p">ギミックが動かないときは、この流れのどこで止まっているかを、左から順に確かめます。確かめ方は<a href="/avatar-tips/gimmick-debug/#order">第12回 ギミックが動かないとき</a>で解説します。</p>
+    <p class="article_1__p"><strong>メニューは、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>の値を変えるだけです。</strong>見た目は変えません。見た目を変えるのは、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が再生する<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">アニメーションクリップ</a>です。メニューと Animator は、パラメーターの<strong>名前</strong>でつながっています。</p><p class="article_1__p"><a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>や、触れたことで動くギミックも同じです。最初の「メニューを押す」が「手の形が変わる」「頭に手が触れる」に変わるだけで、パラメーターから先は同じ流れです。</p><p class="article_1__p">ギミックが動かないときは、この流れのどこで止まっているかを、左から順に確かめます。確かめ方は<a href="/avatar-tips/gimmick-debug/#order">第12回 ギミックが動かないとき</a>で解説します。</p>
   </section>
 
   <section class="section_2 article_1__section" id="words" aria-labelledby="words-heading">
@@ -213,27 +214,27 @@
       
         <div class="examples_1__item">
           <dt>Animator（アニメーター）</dt>
-          <dd>パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみです。アバターのいちばん上に付いている Animator コンポーネントが、これを動かします。</dd>
+          <dd><a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>を見て、いまどのアニメーションを再生するかを決めるしくみです。アバターのいちばん上に付いている <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> <a class="term_2" href="/glossary/#component" data-name="コンポーネント" data-tip="オブジェクトに付ける部品。何を描くか、どう動くかなどの役目を決める。">コンポーネント</a>が、これを動かします。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Animator Controller（コントローラー）</dt>
-          <dd>Animator の中身を入れたファイルです。拡張子は <code>.controller</code>。中に、レイヤー、ステート、トランジション、パラメーターが入っています。</dd>
+          <dd>Animator の中身を入れたファイルです。拡張子は <code>.controller</code>。中に、<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>、<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>、<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>、パラメーターが入っています。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Playable Layers</dt>
-          <dd>VRChat がアバターに用意している、コントローラーを入れる枠です。FX、Gesture などがあります。</dd>
+          <dd>VRChat がアバターに用意している、<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>を入れる枠です。<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a>、Gesture などがあります。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>レイヤー</dt>
-          <dd>コントローラーの中の段です。ギミック1つにつき1つ作ることが多いです。Playable Layers とは別のものです。</dd>
+          <dd>コントローラーの中の段です。<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>1つにつき1つ作ることが多いです。<a class="term_2" href="/glossary/#playable-layers" data-name="Playable Layers" data-tip="VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。">Playable Layers</a> とは別のものです。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>ステート</dt>
-          <dd>「帽子が出ている」のような、いまの状態を表す箱です。1つのステートに、1つのクリップを入れます。</dd>
+          <dd>「帽子が出ている」のような、いまの状態を表す箱です。1つのステートに、1つの<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>を入れます。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -243,12 +244,12 @@
       
         <div class="examples_1__item">
           <dt>パラメーター</dt>
-          <dd>Animator が見る値です。Bool（オンかオフ）、Int（整数）、Float（小数）があります。</dd>
+          <dd>Animator が見る値です。<a class="term_2" href="/glossary/#param-types" data-name="Bool・Int・Float（パラメーターの型）" data-tip="パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。">Bool</a>（オンかオフ）、Int（整数）、Float（小数）があります。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>アニメーションクリップ</dt>
-          <dd>どのオブジェクトの何を、どの値にするかを書いたファイルです。拡張子は <code>.anim</code>。作り方は<a href="/avatar-tips/animation-clip/">第7回 アニメーションを作る</a>で解説します。</dd>
+          <dd>どの<a class="term_2" href="/glossary/#gameobject" data-name="オブジェクト（GameObject）" data-tip="Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。">オブジェクト</a>の何を、どの値にするかを書いたファイルです。拡張子は <code>.anim</code>。作り方は<a href="/avatar-tips/animation-clip/">第7回 アニメーションを作る</a>で解説します。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -258,7 +259,7 @@
       
         <div class="examples_1__item">
           <dt>Expressions Menu</dt>
-          <dd>VRChat の中で開くメニュー（Action Menu）の中身です。項目を押すと、パラメーターの値が変わります。</dd>
+          <dd>VRChat の中で開くメニュー（<a class="term_2" href="/glossary/#expressions-menu" data-name="Expressions Menu（Action Menu）" data-tip="VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。">Action Menu</a>）の中身です。項目を押すと、パラメーターの値が変わります。</dd>
         </div>
       
     </dl>
@@ -266,7 +267,7 @@
 
   <section class="section_2 article_1__section" id="layers" aria-labelledby="layers-heading">
     <h2 class="section_2__h1" id="layers-heading">Playable Layers の役目</h2>
-    <p class="article_1__p">VRChat のアバターには、コントローラーを入れる枠が5つあります。これを Playable Layers と呼びます。Hierarchy でアバター（VRC Avatar Descriptor が付いたもの）を選び、Inspector の VRC Avatar Descriptor の「Playable Layers」で見られます。</p><p class="article_1__p">5つの枠は、Base、Additive、Gesture、Action、FX の順に重ねて使われます。同じものを2つの枠が動かすときは、あと（FX に近いほう）が勝ちます。</p>
+    <p class="article_1__p">VRChat のアバターには、<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>を入れる枠が5つあります。これを <a class="term_2" href="/glossary/#playable-layers" data-name="Playable Layers" data-tip="VRChat がアバターに用意している、コントローラーを入れる枠。FX・Gesture・Action などがある。">Playable Layers</a> と呼びます。<a class="term_2" href="/glossary/#hierarchy" data-name="Hierarchy" data-tip="シーンに置いた物（オブジェクト）を、親子の形で並べた Unity のウィンドウ。">Hierarchy</a> でアバター（<a class="term_2" href="/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。">VRC Avatar Descriptor</a> が付いたもの）を選び、<a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> の VRC Avatar Descriptor の「Playable Layers」で見られます。</p><p class="article_1__p">5つの枠は、Base、Additive、Gesture、Action、<a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> の順に重ねて使われます。同じものを2つの枠が動かすときは、あと（FX に近いほう）が勝ちます。</p>
     <dl class="examples_1 examples_1--grid">
       
         <div class="examples_1__item">
@@ -276,22 +277,22 @@
       
         <div class="examples_1__item">
           <dt>Additive</dt>
-          <dd>Base の動きに足す動きです。呼吸の動きなど。Humanoid の骨だけを動かします。ふつうは変えません。</dd>
+          <dd>Base の動きに足す動きです。呼吸の動きなど。<a class="term_2" href="/glossary/#humanoid" data-name="Humanoid" data-tip="人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。">Humanoid</a> の骨だけを動かします。ふつうは変えません。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Gesture</dt>
-          <dd>ハンドサインのときの指の形や、しっぽ・耳の動きです。骨だけを動かします。</dd>
+          <dd><a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>のときの指の形や、しっぽ・耳の動きです。骨だけを動かします。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>Action</dt>
-          <dd>エモートなど、体全体を動かす動きです。ふだんは効いていない（Weight が 0）枠で、使うときだけ効かせます。</dd>
+          <dd>エモートなど、体全体を動かす動きです。ふだんは効いていない（<a class="term_2" href="/glossary/#weight" data-name="Weight（レイヤーの重み）" data-tip="レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。">Weight</a> が 0）枠で、使うときだけ効かせます。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>FX</dt>
-          <dd>骨の動き以外のすべてです。オブジェクトのオンオフ、BlendShape（表情や体の形）、マテリアルなど。<strong>自分で作るギミックは、ほとんどがここに入ります。</strong></dd>
+          <dd>骨の動き以外のすべてです。<a class="term_2" href="/glossary/#gameobject" data-name="オブジェクト（GameObject）" data-tip="Hierarchy に並ぶ1つ1つの物。コンポーネントを付けて役目を持たせる。">オブジェクト</a>のオンオフ、<a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a>（表情や体の形）、<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>など。<strong>自分で作る<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>は、ほとんどがここに入ります。</strong></dd>
         </div>
       
         <div class="examples_1__item">
@@ -362,7 +363,7 @@
   </figure>
   
     <ol class="mock_1__notes">
-      <li>Gesture の枠です。ハンドサインのときの指の形を作るコントローラーが入っています。「Default」のままの枠は、VRChat の標準のコントローラーが使われます。</li><li>FX の枠です。買ったアバターには、表情などのためのコントローラーが、たいてい最初から入っています。欄をクリックすると Project ウィンドウでそのファイルが光り、ダブルクリックすると Animator ウィンドウで開けます。</li>
+      <li>Gesture の枠です。ハンドサインのときの指の形を作るコントローラーが入っています。「Default」のままの枠は、VRChat の標準のコントローラーが使われます。</li><li>FX の枠です。買ったアバターには、表情などのためのコントローラーが、たいてい最初から入っています。欄をクリックすると <a class="term_2" href="/glossary/#project-window" data-name="Project ウィンドウ" data-tip="プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。">Project</a> ウィンドウでそのファイルが光り、ダブルクリックすると <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> ウィンドウで開けます。</li>
     </ol>
   
 </div>
@@ -371,17 +372,17 @@
 
   <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
     <h2 class="section_2__h1" id="controller-heading">コントローラー・レイヤー・ステート・トランジション</h2>
-    <p class="article_1__p">コントローラーの中を見るのは、Animator ウィンドウです。<code>Window → Animation → Animator</code> で開き、Project ウィンドウでコントローラーのファイルを選ぶ（またはダブルクリックする）と、中身が出ます。</p><p class="article_1__p">自分で作るときは、Project ウィンドウのフォルダで右クリックして、<code>Create → Animator Controller</code> を選びます。ギミックごとに1つ作っておくと、あとで Modular Avatar でアバターにつなぎやすくなります。</p><p class="article_1__p">Animator ウィンドウの左上には、<code>Layers</code> と <code>Parameters</code> の2つのタブがあります。Layers を選ぶとレイヤーが並び、選んだレイヤーのステートとトランジションが、右の広いところ（グラフ）に出ます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>の中を見るのは、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> ウィンドウです。<code>Window → Animation → Animator</code> で開き、<a class="term_2" href="/glossary/#project-window" data-name="Project ウィンドウ" data-tip="プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。">Project</a> ウィンドウでコントローラーのファイルを選ぶ（またはダブルクリックする）と、中身が出ます。</p><p class="article_1__p">自分で作るときは、Project ウィンドウのフォルダで右クリックして、<code>Create → Animator Controller</code> を選びます。<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>ごとに1つ作っておくと、あとで <a class="term_2" href="/glossary/#modular-avatar" data-name="Modular Avatar（MA）" data-tip="衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。">Modular Avatar</a> でアバターにつなぎやすくなります。</p><p class="article_1__p">Animator ウィンドウの左上には、<code>Layers</code> と <code>Parameters</code> の2つのタブがあります。Layers を選ぶと<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>が並び、選んだレイヤーの<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>と<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>が、右の広いところ（グラフ）に出ます。</p>
     <dl class="examples_1">
       
         <div class="examples_1__item">
           <dt>レイヤー</dt>
-          <dd>ギミックごとに分けた段です。左上の <code>+</code> で足します。上から順に計算され、同じものを書くときは<strong>下のレイヤーが勝ちます</strong>。いちばん上の Base Layer 以外は、足したときの Weight（効き具合）が 0 です。レイヤーの右の歯車を押して、Weight を 1 にします。0 のままだと、ステートは切り替わっても、見た目に出ません。</dd>
+          <dd>ギミックごとに分けた段です。左上の <code>+</code> で足します。上から順に計算され、同じものを書くときは<strong>下のレイヤーが勝ちます</strong>。いちばん上の Base Layer 以外は、足したときの <a class="term_2" href="/glossary/#weight" data-name="Weight（レイヤーの重み）" data-tip="レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。">Weight</a>（効き具合）が 0 です。レイヤーの右の歯車を押して、Weight を 1 にします。0 のままだと、ステートは切り替わっても、見た目に出ません。</dd>
         </div>
       
         <div class="examples_1__item">
           <dt>ステート</dt>
-          <dd>「帽子が消えている」「帽子が出ている」のような状態を表す箱です。グラフの何もないところを右クリックして <code>Create State → Empty</code> で作るか、クリップのファイルをグラフにドラッグして作ります。ステートを選ぶと、Inspector の <code>Motion</code> に、そのとき再生するクリップが出ます。</dd>
+          <dd>「帽子が消えている」「帽子が出ている」のような状態を表す箱です。グラフの何もないところを右クリックして <code>Create State → Empty</code> で作るか、<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>のファイルをグラフにドラッグして作ります。ステートを選ぶと、<a class="term_2" href="/glossary/#inspector" data-name="Inspector" data-tip="選んだオブジェクトやファイルの中身と設定を表示する、Unity のウィンドウ。">Inspector</a> の <code>Motion</code> に、そのとき再生するクリップが出ます。</dd>
         </div>
       
         <div class="examples_1__item">
@@ -396,7 +397,7 @@
       
         <div class="examples_1__item">
           <dt>Entry・Any State・Exit</dt>
-          <dd>Entry は入り口で、Default State へつながっています。Any State は「いまどのステートにいても」という意味で、ここから引いた矢印は、条件を満たせばどこからでも移ります。Exit は出口です。オンオフのギミックは、Any State と Exit を使わずに作れます。</dd>
+          <dd>Entry は入り口で、Default State へつながっています。<a class="term_2" href="/glossary/#any-state" data-name="Any State" data-tip="「いまどのステートにいても」を表す箱。ここからの矢印は、条件を満たせばどこからでも移る。">Any State</a> は「いまどのステートにいても」という意味で、ここから引いた矢印は、条件を満たせばどこからでも移ります。Exit は出口です。オンオフのギミックは、Any State と Exit を使わずに作れます。</dd>
         </div>
       
     </dl>
@@ -531,19 +532,19 @@
           
             <tr><th scope="row" class="table_3__nowrap">Transition Duration</th><td>前のステートから次のステートへ、混ぜながら移る長さです。Fixed Duration にチェックがあれば秒、無ければクリップの長さに対する割合です。</td><td>0 にします。パッと切り替わるようにします。</td></tr>
           
-            <tr><th scope="row" class="table_3__nowrap">Conditions</th><td>移る条件です。+ で足し、パラメーターと値を選びます。いくつか足すと、すべてを満たしたときに移ります。</td><td>行きは Hat が true、帰りは Hat が false。</td></tr>
+            <tr><th scope="row" class="table_3__nowrap">Conditions</th><td>移る条件です。+ で足し、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>と値を選びます。いくつか足すと、すべてを満たしたときに移ります。</td><td>行きは Hat が true、帰りは Hat が false。</td></tr>
           
             <tr><th scope="row" class="table_3__nowrap">Can Transition To Self</th><td>Any State から引いた矢印にだけある設定です。チェックがあると、条件を満たしている間、同じステートに何度も入り直します。</td><td>Any State を使うときは、たいてい外します。</td></tr>
           
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">トランジションの設定を1つずつ決める手順は、<a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p><p class="article_1__p">作ったコントローラーをアバターで動かすには、アバターの FX の枠に入っているコントローラーに足す必要があります。Modular Avatar の <strong>MA Merge Animator</strong> を使うと、買ったアバターの FX のファイルを書き換えずに、アップロードするときに自動で足してくれます。この連載では、この方法をおすすめします。手順は<a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p>
+    <p class="article_1__p">トランジションの設定を1つずつ決める手順は、<a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p><p class="article_1__p">作ったコントローラーをアバターで動かすには、アバターの <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> の枠に入っているコントローラーに足す必要があります。Modular Avatar の <strong><a class="term_2" href="/glossary/#merge-animator" data-name="MA Merge Animator" data-tip="自分で作ったコントローラーを、アップロードのときにアバターの FX などへ足すコンポーネント。">MA Merge Animator</a></strong> を使うと、買ったアバターの FX のファイルを書き換えずに、アップロードするときに自動で足してくれます。この連載では、この方法をおすすめします。手順は<a href="/avatar-tips/toggle/#connect">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p>
   </section>
 
   <section class="section_2 article_1__section" id="parameters" aria-labelledby="parameters-heading">
     <h2 class="section_2__h1" id="parameters-heading">パラメーター（Animator と Expression Parameters）</h2>
-    <p class="article_1__p">パラメーターは、Animator が見る値です。トランジションの条件や、Blend Tree（値に合わせてクリップを混ぜるしくみ）に使います。</p><p class="article_1__p">パラメーターは、2か所に書きます。1つは、コントローラーの <code>Parameters</code> タブ（Animator が見る値）です。もう1つは、VRChat の <strong>Expression Parameters</strong>（メニューから変えられて、覚えておいたり、ほかの人に送ったりする値）です。<strong>この2つは、名前でつながります。</strong>名前は、大文字と小文字まで同じにします。<code>Hat</code> と <code>hat</code> は別のパラメーターです。</p><p class="article_1__p">Animator にパラメーターを足すには、Animator ウィンドウの <code>Parameters</code> タブを開き、<code>+</code> を押して型（<code>Bool</code> など）を選び、名前を入れます。Expression Parameters のファイルは、Project ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expression Parameters</code> で作れます。買ったアバターには、たいてい最初から入っています。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>は、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が見る値です。<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>の条件や、<a class="term_2" href="/glossary/#blend-tree" data-name="Blend Tree" data-tip="パラメーターの値に合わせて、いくつかのクリップを混ぜて再生するしくみ。">Blend Tree</a>（値に合わせて<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>を混ぜるしくみ）に使います。</p><p class="article_1__p">パラメーターは、2か所に書きます。1つは、<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>の <code>Parameters</code> タブ（Animator が見る値）です。もう1つは、VRChat の <strong><a class="term_2" href="/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。">Expression Parameters</a></strong>（メニューから変えられて、覚えておいたり、ほかの人に送ったりする値）です。<strong>この2つは、名前でつながります。</strong>名前は、大文字と小文字まで同じにします。<code>Hat</code> と <code>hat</code> は別のパラメーターです。</p><p class="article_1__p">Animator にパラメーターを足すには、Animator ウィンドウの <code>Parameters</code> タブを開き、<code>+</code> を押して型（<a class="term_2" href="/glossary/#param-types" data-name="Bool・Int・Float（パラメーターの型）" data-tip="パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。"><code>Bool</code></a> など）を選び、名前を入れます。Expression Parameters のファイルは、<a class="term_2" href="/glossary/#project-window" data-name="Project ウィンドウ" data-tip="プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。">Project</a> ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expression Parameters</code> で作れます。買ったアバターには、たいてい最初から入っています。</p>
     <section class="table_3" tabindex="0" aria-label="パラメーターの型">
       <table>
         <thead>
@@ -555,7 +556,7 @@
           
             <tr><th scope="row">Int</th><td>0〜255 の整数</td><td class="table_3__nowrap">8 bit</td><td>何着かから1つを選ぶ。<a href="/avatar-tips/radial/#int">第9回 段階で切り替える・少しずつ変えるギミック</a></td></tr>
           
-            <tr><th scope="row">Float</th><td>-1.0〜1.0 の小数（Radial Puppet では 0.0〜1.0）</td><td class="table_3__nowrap">8 bit</td><td>色や大きさを、回して少しずつ変える。<a href="/avatar-tips/radial/#float">第9回 段階で切り替える・少しずつ変えるギミック</a></td></tr>
+            <tr><th scope="row">Float</th><td>-1.0〜1.0 の小数（<a class="term_2" href="/glossary/#radial-puppet" data-name="Radial Puppet" data-tip="円を回して、Float の値を 0〜1 の間で変える、メニューの項目。">Radial Puppet</a> では 0.0〜1.0）</td><td class="table_3__nowrap">8 bit</td><td>色や大きさを、回して少しずつ変える。<a href="/avatar-tips/radial/#float">第9回 段階で切り替える・少しずつ変えるギミック</a></td></tr>
           
             <tr><th scope="row">Trigger（Animator だけ）</th><td>一瞬だけ true になる</td><td class="table_3__nowrap">—</td><td>VRChat の公式は、使わないようにすすめています。Bool・Int・Float を使います。</td></tr>
           
@@ -581,7 +582,7 @@
         </div>
       
     </dl>
-    <p class="article_1__p">同期する（Synced にチェックがある）パラメーターは、合計で 256 bit までです。Bool は 1 bit、Int と Float は 8 bit を使います。</p><p class="article_1__p">VRChat が値を入れてくれるパラメーターもあります（組み込みのパラメーター）。ハンドサインの <code>GestureLeft</code>・<code>GestureRight</code>、自分のアバターかどうかの <code>IsLocal</code> などです。これは Expression Parameters には書きません。Animator の Parameters に、同じ名前と型で足すだけで使えます。ハンドサインの番号は<a href="/avatar-tips/gesture/#numbers">第10回 ハンドサインで表情を変える</a>で解説します。</p><p class="article_1__p">Saved・Synced・Default を、ギミックに合わせて決める手順は<a href="/avatar-tips/toggle/#params">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">同期</a>する（Synced にチェックがある）パラメーターは、合計で 256 bit までです。Bool は 1 bit、Int と Float は 8 bit を使います。</p><p class="article_1__p">VRChat が値を入れてくれるパラメーターもあります（組み込みのパラメーター）。<a class="term_2" href="/glossary/#hand-sign" data-name="ハンドサイン（GestureLeft・GestureRight）" data-tip="コントローラーで作る手の形。VRChat は手の形を 0〜7 の番号にして、GestureLeft・GestureRight に入れる。">ハンドサイン</a>の <code>GestureLeft</code>・<code>GestureRight</code>、自分のアバターかどうかの <code>IsLocal</code> などです。これは Expression Parameters には書きません。Animator の Parameters に、同じ名前と型で足すだけで使えます。ハンドサインの番号は<a href="/avatar-tips/gesture/#numbers">第10回 ハンドサインで表情を変える</a>で解説します。</p><p class="article_1__p"><a class="term_2" href="/glossary/#saved" data-name="Saved" data-tip="ワールドを移ったり、アバターを着替えたりしても、パラメーターの値を覚えておく設定。">Saved</a>・Synced・Default を、<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>に合わせて決める手順は<a href="/avatar-tips/toggle/#params">第8回 メニューでオンオフするギミックを作る</a>で解説します。</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -670,7 +671,7 @@
 
   <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
     <h2 class="section_2__h1" id="menu-heading">Expressions Menu</h2>
-    <p class="article_1__p">Expressions Menu は、VRChat の中で開くメニュー（Action Menu）の中身です。メニューの項目（Control）は、押したり回したりすると、パラメーターの値を変えます。</p><p class="article_1__p">VRC Avatar Descriptor の「Expressions」の欄に、Menu（メニューのファイル）と Parameters（Expression Parameters のファイル）を入れて使います。メニューのファイルは、Project ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expressions Menu</code> で作れます。</p><p class="article_1__p">1つのメニューに置ける項目は、8つまでです。それより多いときは、Sub Menu で別のメニューに分けます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#expressions-menu" data-name="Expressions Menu（Action Menu）" data-tip="VRChat の中で開く丸いメニュー（Action Menu）の中身を決めるファイル。項目を押すと、パラメーターが変わる。">Expressions Menu</a> は、VRChat の中で開くメニュー（Action Menu）の中身です。メニューの項目（Control）は、押したり回したりすると、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>の値を変えます。</p><p class="article_1__p"><a class="term_2" href="/glossary/#avatar-descriptor" data-name="VRC Avatar Descriptor" data-tip="アバターの一番上に付ける、VRChat のアバターの設定をまとめたコンポーネント。">VRC Avatar Descriptor</a> の「Expressions」の欄に、Menu（メニューのファイル）と Parameters（<a class="term_2" href="/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。">Expression Parameters</a> のファイル）を入れて使います。メニューのファイルは、<a class="term_2" href="/glossary/#project-window" data-name="Project ウィンドウ" data-tip="プロジェクトの中のファイル（クリップ、マテリアル、プレハブなど）を並べた Unity のウィンドウ。">Project</a> ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expressions Menu</code> で作れます。</p><p class="article_1__p">1つのメニューに置ける項目は、8つまでです。それより多いときは、<a class="term_2" href="/glossary/#sub-menu" data-name="Sub Menu" data-tip="押すと、別のメニューを開く項目。項目が多いときに分けるのに使う。">Sub Menu</a> で別のメニューに分けます。</p>
     <section class="table_3" tabindex="0" aria-label="メニューの項目の種類">
       <table>
         <thead>
@@ -678,7 +679,7 @@
         </thead>
         <tbody>
           
-            <tr><th scope="row" class="table_3__nowrap">Toggle</th><td>押すと Value の値を入れ、もう一度押すと元に戻します。</td><td>Bool（Int・Float にも使えます）</td></tr>
+            <tr><th scope="row" class="table_3__nowrap">Toggle</th><td>押すと Value の値を入れ、もう一度押すと元に戻します。</td><td><a class="term_2" href="/glossary/#param-types" data-name="Bool・Int・Float（パラメーターの型）" data-tip="パラメーターの種類。Bool はオンかオフ、Int は整数（0〜255）、Float は小数。">Bool</a>（Int・Float にも使えます）</td></tr>
           
             <tr><th scope="row" class="table_3__nowrap">Button</th><td>押すと Value の値を入れ、少したつと（1秒ほどで）元に戻します。押したままにはできません。</td><td>Bool・Int など</td></tr>
           
@@ -693,7 +694,7 @@
         </tbody>
       </table>
     </section>
-    <p class="article_1__p">Toggle と Button の <code>Value</code> は、押したときにパラメーターへ入る値です。Bool なら 1 で true になります。Int なら番号です。たとえば Value が 2 なら、パラメーターが 2 になり、2番の服に切り替える、という作り方ができます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#toggle-control" data-name="Toggle（メニューの項目）" data-tip="押すたびにオンとオフが切り替わる、メニューの項目。">Toggle</a> と Button の <code>Value</code> は、押したときにパラメーターへ入る値です。Bool なら 1 で true になります。Int なら番号です。たとえば Value が 2 なら、パラメーターが 2 になり、2番の服に切り替える、という作り方ができます。</p>
     <div class="mock_1 mock_1--unity">
   <figure class="mock_1__figure">
   <div class="mock_1__screens">
@@ -768,12 +769,12 @@
   
 </div>
 
-    <p class="article_1__p">Modular Avatar の <strong>MA Menu Item</strong> と <strong>MA Menu Installer</strong> を使うと、アバターのメニューのファイルを書き換えずに、項目を足せます。この連載では、こちらを使います（<a href="/avatar-tips/toggle/#menu">第8回 メニューでオンオフするギミックを作る</a>）。</p><p class="article_1__p">服のオンオフだけなら、Modular Avatar の Create Toggle で、Animator を作らずに済ませる方法もあります（<a href="/avatar-tips/outfit/#menu">第3回 衣装を着せる</a>）。この連載の回では、しくみが分かるように、Animator から自分で組みます。</p>
+    <p class="article_1__p"><a class="term_2" href="/glossary/#modular-avatar" data-name="Modular Avatar（MA）" data-tip="衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。">Modular Avatar</a> の <strong><a class="term_2" href="/glossary/#menu-installer" data-name="MA Menu Installer・MA Menu Item" data-tip="Expressions Menu を書き換えずに、メニューへ項目を足すコンポーネント。">MA Menu Item</a></strong> と <strong>MA Menu Installer</strong> を使うと、アバターのメニューのファイルを書き換えずに、項目を足せます。この連載では、こちらを使います（<a href="/avatar-tips/toggle/#menu">第8回 メニューでオンオフするギミックを作る</a>）。</p><p class="article_1__p">服のオンオフだけなら、Modular Avatar の Create Toggle で、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> を作らずに済ませる方法もあります（<a href="/avatar-tips/outfit/#menu">第3回 衣装を着せる</a>）。この連載の回では、しくみが分かるように、Animator から自分で組みます。</p>
   </section>
 
   <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
     <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
-    <p class="article_1__p">メニューの「帽子」を押したときに、パラメーター、ステート、クリップの順に何が起きるかを見てみてください。レイヤーの Weight と、Animator のパラメーター名も変えられます。帽子は、Unity でオフにしてアップロードしたものとします。</p>
+    <p class="article_1__p">メニューの「帽子」を押したときに、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>、<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>、<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>の順に何が起きるかを見てみてください。<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>の <a class="term_2" href="/glossary/#weight" data-name="Weight（レイヤーの重み）" data-tip="レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。">Weight</a> と、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> のパラメーター名も変えられます。帽子は、Unity でオフにしてアップロードしたものとします。</p>
     <div class="demo_2 js_ab_demo"
       data-param-same="メニューが Expression Parameters の Hat を {v} にしました。Animator にも同じ名前の Hat があるので、Animator の Hat も {v} です。" data-param-diff="メニューが Expression Parameters の Hat を {v} にしました。Animator のパラメーターは hat なので別のものとして扱われ、hat は false のままです。"
       data-state-on="Animator の {n} が true なので、Hat_OFF から Hat_ON への条件を満たし、ステートは Hat_ON です。" data-state-off="Animator の {n} が false なので、ステートは Hat_OFF です。"
@@ -828,8 +829,8 @@
         <section class="case_1__item">
           <h3 class="case_1__title">ステートは変わるのに、見た目が変わらない</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>Unity で再生すると、Animator ウィンドウではステートが切り替わっている。でも、帽子は出ない。</dd></div>
-            <div><dt>原因</dt><dd>足したレイヤーの Weight が 0 のままです。Unity でレイヤーを足すと、Weight は 0 で作られます。</dd></div>
+            <div><dt>起きること</dt><dd>Unity で再生すると、<a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> ウィンドウでは<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>が切り替わっている。でも、帽子は出ない。</dd></div>
+            <div><dt>原因</dt><dd>足した<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>の <a class="term_2" href="/glossary/#weight" data-name="Weight（レイヤーの重み）" data-tip="レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。">Weight</a> が 0 のままです。Unity でレイヤーを足すと、Weight は 0 で作られます。</dd></div>
             <div><dt>直し方</dt><dd>Animator ウィンドウの Layers で、そのレイヤーの歯車を押し、Weight を 1 にします。</dd></div>
           </dl>
         </section>
@@ -838,7 +839,7 @@
           <h3 class="case_1__title">メニューを押しても、ステートが変わらない</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>メニューの項目を押しても、Animator のステートが Default のまま動かない。</dd></div>
-            <div><dt>原因</dt><dd>Expression Parameters と Animator で、パラメーターの名前が違います。大文字小文字の違いや、名前の最後の空白もよくあります。Animator にパラメーターを足し忘れていることもあります。</dd></div>
+            <div><dt>原因</dt><dd><a class="term_2" href="/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。">Expression Parameters</a> と Animator で、<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>の名前が違います。大文字小文字の違いや、名前の最後の空白もよくあります。Animator にパラメーターを足し忘れていることもあります。</dd></div>
             <div><dt>直し方</dt><dd>Expression Parameters の名前をコピーして、Animator のパラメーター名に貼り直します。型もそろえます。</dd></div>
           </dl>
         </section>
@@ -847,7 +848,7 @@
           <h3 class="case_1__title">切り替わるのが遅れる・じわっと変わる</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>メニューを押してから、一拍おいて切り替わる。パッと変わらず、少しずつ変わる。</dd></div>
-            <div><dt>原因</dt><dd>トランジションの Has Exit Time にチェックが入っているか、Transition Duration が 0 ではありません。</dd></div>
+            <div><dt>原因</dt><dd><a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>の <a class="term_2" href="/glossary/#has-exit-time" data-name="Has Exit Time" data-tip="トランジションの設定。チェックがあると、いまのクリップを決まった時間まで再生してから移る。">Has Exit Time</a> にチェックが入っているか、<a class="term_2" href="/glossary/#transition-duration" data-name="Transition Duration" data-tip="トランジションの設定。前のステートから次のステートへ、混ぜながら移る長さ。">Transition Duration</a> が 0 ではありません。</dd></div>
             <div><dt>直し方</dt><dd>矢印を選び、Has Exit Time を外し、Transition Duration を 0 にします。<a href="/avatar-tips/toggle/#transitions">第8回 メニューでオンオフするギミックを作る</a>も見てください。</dd></div>
           </dl>
         </section>
@@ -855,9 +856,9 @@
         <section class="case_1__item">
           <h3 class="case_1__title">手の形やポーズが動かない</h3>
           <dl class="case_1__list">
-            <div><dt>起きること</dt><dd>FX のクリップで腕や指の形を作ったのに、VRChat では動かない。</dd></div>
-            <div><dt>原因</dt><dd>Humanoid の骨（筋肉）は、FX では動きません。</dd></div>
-            <div><dt>直し方</dt><dd>手の形は Gesture、体全体の動きは Action のコントローラーで動かします。</dd></div>
+            <div><dt>起きること</dt><dd><a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> の<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>で腕や指の形を作ったのに、VRChat では動かない。</dd></div>
+            <div><dt>原因</dt><dd><a class="term_2" href="/glossary/#humanoid" data-name="Humanoid" data-tip="人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。">Humanoid</a> の骨（筋肉）は、FX では動きません。</dd></div>
+            <div><dt>直し方</dt><dd>手の形は Gesture、体全体の動きは Action の<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>で動かします。</dd></div>
           </dl>
         </section>
       
@@ -865,7 +866,7 @@
           <h3 class="case_1__title">鏡の中の自分だけ、表情が変わらない</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>自分の目で見ると表情が変わっているのに、鏡に映るアバターは変わらない。</dd></div>
-            <div><dt>原因</dt><dd>表情の BlendShape を、FX 以外の枠（Gesture など）で動かしています。FX 以外の枠の BlendShape やマテリアルは、鏡の中のアバターに写されません。</dd></div>
+            <div><dt>原因</dt><dd>表情の <a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a> を、FX 以外の枠（Gesture など）で動かしています。FX 以外の枠の BlendShape や<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>は、鏡の中のアバターに写されません。</dd></div>
             <div><dt>直し方</dt><dd>表情などの見た目のクリップは、FX のコントローラーに移します。</dd></div>
           </dl>
         </section>
@@ -874,7 +875,7 @@
           <h3 class="case_1__title">自分には見えるのに、ほかの人には変わって見えない</h3>
           <dl class="case_1__list">
             <div><dt>起きること</dt><dd>自分の画面では帽子が出ているのに、フレンドからは見えていないと言われる。</dd></div>
-            <div><dt>原因</dt><dd>Expression Parameters で、そのパラメーターの Synced のチェックが外れています。</dd></div>
+            <div><dt>原因</dt><dd>Expression Parameters で、そのパラメーターの <a class="term_2" href="/glossary/#synced" data-name="Synced（同期）" data-tip="パラメーターの値を、ほかの人に送る設定。同期できる量は、合計 256 bit まで。">Synced</a> のチェックが外れています。</dd></div>
             <div><dt>直し方</dt><dd>Synced にチェックを入れて、アップロードし直します。ほかの原因は<a href="/avatar-tips/gimmick-debug/#checklist">第12回 ギミックが動かないとき</a>にまとめています。</dd></div>
           </dl>
         </section>
@@ -885,20 +886,22 @@
   <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
     <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
     <ul class="rules_1">
-      <li>買ったアバターの FX のファイルを直接書き換えるときは、先に複製を取っておきます。できれば Modular Avatar で、自分のコントローラーを別に足します。アバターを更新しても、自分のギミックが消えません。</li><li>1つのコントローラーを、2つの枠（たとえば Gesture と FX）に入れないでください。VRChat の公式も、大きな問題の元になるとしています。</li><li>行き止まりのステートを作らないでください。パラメーターはいつでも変わります。行きの矢印を引いたら、帰りの矢印も引きます。</li><li>同じコントローラーの中で、Write Defaults の ON と OFF を混ぜないでください。オンのクリップとオフのクリップを両方作っておくと、どちらでも動きます（<a href="/avatar-tips/unity-vs-vrchat/#write-defaults">第13回 Unity と VRChat で見た目が変わる</a>）。</li><li>パラメーターの名前は、何のギミックか分かる名前にします。ほかのギミックと同じ名前にすると、片方を動かしたときに、もう片方も動きます。</li>
+      <li>買ったアバターの <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> のファイルを直接書き換えるときは、先に複製を取っておきます。できれば <a class="term_2" href="/glossary/#modular-avatar" data-name="Modular Avatar（MA）" data-tip="衣装やギミックを、元のデータを書き換えずにアバターへ組み込むツール。">Modular Avatar</a> で、自分の<a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>を別に足します。アバターを更新しても、自分の<a class="term_2" href="/glossary/#gimmick" data-name="ギミック" data-tip="メニューやハンドサインで、アバターの見た目や動きを切り替えるしかけ。">ギミック</a>が消えません。</li><li>1つのコントローラーを、2つの枠（たとえば Gesture と FX）に入れないでください。VRChat の公式も、大きな問題の元になるとしています。</li><li>行き止まりの<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>を作らないでください。<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>はいつでも変わります。行きの矢印を引いたら、帰りの矢印も引きます。</li><li>同じコントローラーの中で、<a class="term_2" href="/glossary/#write-defaults" data-name="Write Defaults" data-tip="ステートの設定。ON だと、クリップに書いていない値を元に戻す。アバターの中で ON か OFF にそろえる。">Write Defaults</a> の ON と OFF を混ぜないでください。オンの<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>とオフのクリップを両方作っておくと、どちらでも動きます（<a href="/avatar-tips/unity-vs-vrchat/#write-defaults">第13回 Unity と VRChat で見た目が変わる</a>）。</li><li>パラメーターの名前は、何のギミックか分かる名前にします。ほかのギミックと同じ名前にすると、片方を動かしたときに、もう片方も動きます。</li>
     </ul>
   </section>
 
   <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
     <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
     <ul class="rules_1">
-      <li>メニューはパラメーターの値を変えるだけで、見た目を変えるのは Animator が再生するクリップです。</li><li>見た目（オンオフ、BlendShape、マテリアル）は FX で動かします。Humanoid の骨は FX では動きません。</li><li>コントローラーの中は、レイヤー、ステート、トランジションでできています。足したレイヤーは Weight を 1 にします。</li><li>Animator のパラメーターと Expression Parameters は、名前でつながります。大文字小文字までそろえます。</li><li>次は、ステートに入れるクリップを作ります（<a href="/avatar-tips/animation-clip/">第7回 アニメーションを作る</a>）。</li>
+      <li>メニューは<a class="term_2" href="/glossary/#parameter" data-name="パラメーター" data-tip="Animator が見る値。メニューやハンドサインで変わり、トランジションの条件などに使う。">パラメーター</a>の値を変えるだけで、見た目を変えるのは <a class="term_2" href="/glossary/#animator" data-name="Animator" data-tip="パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみ。">Animator</a> が再生する<a class="term_2" href="/glossary/#clip" data-name="アニメーションクリップ（クリップ）" data-tip="どのオブジェクトの何を、どの値にするかを書いたファイル。拡張子は .anim。">クリップ</a>です。</li><li>見た目（オンオフ、<a class="term_2" href="/glossary/#blendshape" data-name="BlendShape（シェイプキー）" data-tip="メッシュの形を少しずつ変える設定。表情や、体型の調整に使う。値は 0〜100。">BlendShape</a>、<a class="term_2" href="/glossary/#material" data-name="マテリアル" data-tip="色や質感の設定。どのシェーダーで、どのテクスチャを使うかを決める。">マテリアル</a>）は <a class="term_2" href="/glossary/#fx" data-name="FX" data-tip="Playable Layers の1つ。オンオフ・表情・色など、見た目を変えるギミックを入れる枠。">FX</a> で動かします。<a class="term_2" href="/glossary/#humanoid" data-name="Humanoid" data-tip="人型の骨の決まった並び。VRChat は、これを使って体の動きをアバターに当てはめる。">Humanoid</a> の骨は FX では動きません。</li><li><a class="term_2" href="/glossary/#controller" data-name="Animator Controller（コントローラー）" data-tip="Animator の中身（レイヤー・ステート・トランジション・パラメーター）を入れたファイル。拡張子は .controller。">コントローラー</a>の中は、<a class="term_2" href="/glossary/#layer" data-name="レイヤー" data-tip="コントローラーの中の段。ギミック1つにつき1つ作ることが多い。">レイヤー</a>、<a class="term_2" href="/glossary/#state" data-name="ステート" data-tip="「帽子が出ている」のような、いまの状態を表す箱。1つのステートに、1つのクリップを入れる。">ステート</a>、<a class="term_2" href="/glossary/#transition" data-name="トランジション" data-tip="ステートからステートへの矢印。条件（Conditions）を満たすと、矢印の先へ移る。">トランジション</a>でできています。足したレイヤーは <a class="term_2" href="/glossary/#weight" data-name="Weight（レイヤーの重み）" data-tip="レイヤーをどれだけ効かせるか（0〜1）。足したレイヤーは 0 なので、1 にする。">Weight</a> を 1 にします。</li><li>Animator のパラメーターと <a class="term_2" href="/glossary/#expression-parameters" data-name="Expression Parameters" data-tip="VRChat に、アバターで使うパラメーターを知らせる一覧。覚えておくか、ほかの人に送るかもここで決める。">Expression Parameters</a> は、名前でつながります。大文字小文字までそろえます。</li><li>次は、ステートに入れるクリップを作ります（<a href="/avatar-tips/animation-clip/">第7回 アニメーションを作る</a>）。</li>
     </ul>
     <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
   </section>
 </article>
 
+
 <nav class="section_2 article_1__pager" aria-label="前後の回">
+  <p class="section_2__note">わからない言葉は「<a href="/glossary/">VRChat 用語集</a>」で調べられます。本文の点線の付いた言葉は、マウスを乗せると短い説明が出ます。</p>
   <ul class="next_1 next_1--pager">
     
       <li class="next_1__prev"><a href="/avatar-tips/quest/" rel="prev"><span class="next_1__note">前の回（第5回）</span><span class="next_1__text">Quest・スマホ対応</span></a></li>
