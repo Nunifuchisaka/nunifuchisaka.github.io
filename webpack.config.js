@@ -325,7 +325,7 @@ const sourceFilesOf = (assetName) => {
   if (fs.existsSync(ejs)) {
     if (!includeCounts) {
       includeCounts = {};
-      glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs' }).forEach((key) => {
+      glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs', posix: true }).forEach((key) => {
         includesOf(path.join(SRC_DIR, key)).forEach((file) => { includeCounts[file] = (includeCounts[file] || 0) + 1; });
       });
     }
@@ -344,7 +344,7 @@ const buildSitemap = (pages) => {
 
 const buildLlmsTxt = (pages) => {
   // INTRO_FILE の <!-- --> は書き手へのメモなので、llms.txt には出さない
-  const intro = fs.readFileSync(path.resolve(__dirname, AIO_CONFIG.INTRO_FILE), 'utf8').replace(/<!--[\s\S]*?-->\n*/g, '').trim();
+  const intro = fs.readFileSync(path.resolve(__dirname, AIO_CONFIG.INTRO_FILE), 'utf8').replace(/\r\n/g, '\n').replace(/<!--[\s\S]*?-->\n*/g, '').trim();
   const byName = {};
   pages.forEach((page) => { byName[page.name] = page; });
   const used = new Set();
@@ -398,7 +398,7 @@ const AioFilesPlugin = {
 
         let cacheChanged = false;
         pages.forEach((page) => {
-          const hash = require('crypto').createHash('sha1').update(page.html).digest('hex');
+          const hash = require('crypto').createHash('sha1').update(page.html.replace(/\r\n/g, '\n')).digest('hex');
           const cached = lastmodCache[page.url];
           if (!cached || cached.hash !== hash) {
             const lastmod = cached ? today() : (gitDate(sourceFilesOf(page.name)) || today());
@@ -465,7 +465,7 @@ const createConfig_development = ({ outputPath }) => {
   };
 
   // CSS
-  glob.sync('**/*.scss', { cwd: SRC_PATH, ignore: '**/_*.scss' }).forEach(key => {
+  glob.sync('**/*.scss', { cwd: SRC_PATH, ignore: '**/_*.scss', posix: true }).forEach(key => {
     config.entry[key.replace('.scss', '.css')] = path.resolve(SRC_PATH, key);
   });
   config.module.rules.push({
@@ -574,7 +574,7 @@ const createConfig_development = ({ outputPath }) => {
   );
 
   // HTML
-  glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs' }).forEach(key => {
+  glob.sync('**/*.ejs', { cwd: SRC_PATH, ignore: '**/_*.ejs', posix: true }).forEach(key => {
     config.plugins.push(
       new HtmlWebpackPlugin({
         template: path.resolve(SRC_PATH, key),
@@ -660,7 +660,7 @@ const createConfig_production = ({ outputPath }) => {
   };
 
   // JS
-  glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js' }).forEach(key => {
+  glob.sync('**/*.js', { cwd: SRC_PATH, ignore: '**/_*.js', posix: true }).forEach(key => {
     config.entry[key.replace('.js', '')] = path.resolve(SRC_PATH, key);
   });
   config.module.rules.push({
