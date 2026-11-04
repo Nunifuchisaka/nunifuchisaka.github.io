@@ -1,0 +1,50 @@
+<%
+// 改変解説の検索ページ（/avatar-tips/search/?q=…）。検索は tips-search.js
+// 索引（/assets/data/avatar-tips-search.json）は、ビルドのときに webpack.config.js の TipsSearchPlugin が、
+// 日本語の各回（h2 の節ごと）・VRChat 用語集・困りごと（逆引き）から作る
+// 英語版は、管理人が日本語版の内容を固めてから作る
+const terms = glossary.categories.reduce((n, c) => n + c.terms.length, 0);
+const problems = avatarTips.problems.reduce((n, g) => n + g.items.length, 0);
+const examples = ["Write Defaults", "表情", "ピンク", "同期", "衣装", "Quest", "軽量化", "Missing", "揺れもの", "トランジション"];
+const kinds = [["all", "すべて"], ["a", "記事の節"], ["p", "困りごと"], ["g", "用語集"]];
+%><section class="section_2 page_1" aria-labelledby="search-heading">
+  <h1 class="page_1__h1" id="search-heading">改変解説を検索</h1>
+  <p class="section_2__lead">「<a href="/avatar-tips/">アバター改変の解説</a>」全<%= avatarTips.articles.length %>回の本文、「<a href="/glossary/">VRChat 用語集</a>」の<%= terms %>語、困りごとの一覧<%= problems %>件から、ことばで探せます。見つかった節や用語へ、そのまま飛べます。</p>
+  <form class="search_1__form js_search_form" action="/avatar-tips/search/" method="get" role="search" aria-label="改変解説を検索">
+    <label class="filter_1__legend" for="search-q">検索することば</label>
+    <div class="search_1__row">
+      <input type="search" id="search-q" name="q" class="finder_1__input search_1__input js_search_input" placeholder="例：Write Defaults、表情、ピンク" autocomplete="off">
+      <button type="submit" class="search_1__button">検索</button>
+    </div>
+  </form>
+  <p class="section_2__note">空白で区切ると、すべてのことばを含むところだけを出します。ひらがなとカタカナ、全角と半角、大文字と小文字、「ー」のあるなしは区別しません。「MA」と「Modular Avatar」のような別の呼び名も一緒に探します。</p>
+  <noscript><p class="section_2__note">検索には JavaScript を使います。JavaScript が使えないときは、「<a href="/avatar-tips/#find">困りごとから探す</a>」か「<a href="/glossary/">VRChat 用語集</a>」から探してください。</p></noscript>
+</section>
+
+<section class="section_2 search_1 js_search" aria-labelledby="search-results-heading" data-src="/assets/data/avatar-tips-search.json" hidden>
+  <h2 class="section_2__h1" id="search-results-heading">検索結果</h2>
+  <fieldset class="filter_1 search_1__kinds">
+    <legend class="filter_1__legend">種類</legend>
+    <div class="filter_1__options">
+      <% kinds.forEach(function (k) { %>
+        <label class="filter_1__option">
+          <input type="radio" name="search-kind" value="<%= k[0] %>" class="js_search_kind"<% if (k[0] === "all") { %> checked<% } %>>
+          <span><%= k[1] %><span class="filter_1__count js_search_kind_count" data-kind="<%= k[0] %>">0</span></span>
+        </label>
+      <% }); %>
+    </div>
+  </fieldset>
+  <p class="finder_1__count search_1__status js_search_status" aria-live="polite"></p>
+  <ol class="search_1__list js_search_list"></ol>
+  <button type="button" class="search_1__more js_search_more" hidden></button>
+</section>
+
+<section class="section_2" aria-labelledby="search-examples-heading">
+  <h2 class="section_2__h1" id="search-examples-heading">ことばの例</h2>
+  <p class="section_2__lead">何を入れればよいか迷ったら、次のことばから試してください。困っていることから探すなら「<a href="/avatar-tips/#find">困りごとから探す</a>」も使えます。</p>
+  <ul class="search_1__examples">
+    <% examples.forEach(function (w) { %>
+      <li><a href="/avatar-tips/search/?q=<%= encodeURIComponent(w) %>"><%= w %></a></li>
+    <% }); %>
+  </ul>
+</section>

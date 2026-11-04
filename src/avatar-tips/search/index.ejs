@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "website",
+  title: "改変解説を検索",
+  description: "アバター改変の解説（全回の本文）、VRChat 用語集、困りごとの一覧を、ことばで検索するページ。",
+  url: "avatar-tips/search/",
+  titleSeparator: " | ",
+  noindex: true,
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/tips-search.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-search",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips_search") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

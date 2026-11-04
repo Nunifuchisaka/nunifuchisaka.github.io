@@ -77,6 +77,7 @@ const jsonLd = {
 <section class="section_2" aria-labelledby="glossary-more-heading">
   <h2 class="section_2__h1" id="glossary-more-heading">もっとくわしく知りたいとき</h2>
   <p class="section_2__lead">言葉の使い方や、つまずいたときの直し方は「<a href="/avatar-tips/">アバター改変の解説</a>」で、1回に1つずつ解説しています。困りごとから、読む回を探すこともできます。</p>
+  <%- include("_tips_searchbox", {searchId: "glossary-site-search"}) %>
 </section>
 <script type="application/ld+json">
 <%- JSON.stringify(jsonLd, null, 2).replace(/</g, "\\u003c") %>

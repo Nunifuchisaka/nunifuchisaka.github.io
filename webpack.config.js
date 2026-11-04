@@ -422,6 +422,89 @@ const AioFilesPlugin = {
   },
 };
 
+// --- アバター改変の解説のサイト内検索（/avatar-tips/search/ と tips-search.js）---
+// development 側で、出力した日本語の各回の HTML・VRChat 用語集・困りごと（逆引き）から、検索用の索引を作る。
+// 各回は h2 の節ごとに1件（節へのリンク）。docs へは後段のコピーで入る
+const TIPS_SEARCH_FILE = 'assets/data/avatar-tips-search.json';
+// 用語集の match のうち、言いかえ（同じものの別の呼び名）として検索を広げないもの（中身が別の物の並び）
+const TIPS_SEARCH_NO_SYNONYM = ['param-types', 'contact', 'hand-sign', 'quest', 'menu-installer'];
+// 用語集に無い、よく使う呼び名（はじめの名前と同じものとして探す）
+const TIPS_SEARCH_EXTRA_SYNONYMS = [
+  ['PhysBone', '揺れもの', '揺れ物'],
+  ['Write Defaults', 'WD'],
+  ['Quest', 'クエスト'],
+  ['BlendShape', 'ブレンドシェイプ'],
+  ['Animator', 'アニメーター'],
+  ['Modular Avatar', 'モジュラーアバター'],
+  ['Gesture Manager', 'ジェスチャーマネージャー'],
+];
+const BLOCK_TAGS = 'p|li|ul|ol|div|section|article|aside|header|footer|h[1-6]|dl|dt|dd|table|thead|tbody|tr|td|th|caption|figure|figcaption|blockquote|pre|br|hr|summary|details';
+const htmlToText = (html) => decodeHtml(html
+  .replace(/<(script|style|svg|nav|button|template|noscript)\b[\s\S]*?<\/\1>/g, ' ')
+  .replace(new RegExp(`</?(?:${BLOCK_TAGS})\\b[^>]*>`, 'g'), ' ')
+  .replace(/<[^>]+>/g, '')
+  .replace(/&nbsp;/g, ' '))
+  .replace(/\s+/g, ' ')
+  .trim();
+const buildTipsSearch = (assets, glossary) => {
+  const items = [];
+  [...avatarTips.articles].sort((a, b) => a.no - b.no).forEach((a) => {
+    const asset = assets[`avatar-tips/${a.slug}/index.html`];
+    if (!asset) return;
+    const html = asset.source().toString();
+    const main = ((html.split('<main id="main">')[1] || '').split('</main>')[0]) || '';
+    const where = `第${a.no}回 ${a.title.ja}`;
+    const url = `/avatar-tips/${a.slug}/`;
+    const chunks = main.split(/(?=<h2\b)/);
+    chunks.forEach((chunk, i) => {
+      if (i === 0) {
+        // h2 より前（h1 と書き出し）は、その回のはじめへのリンク
+        const text = htmlToText(chunk.replace(/<h1\b[\s\S]*?<\/h1>/, ' '));
+        items.push({ k: 'a', u: url, h: a.title.ja, w: `第${a.no}回`, x: `${a.desc.ja} ${text}` });
+        return;
+      }
+      const head = chunk.match(/^<h2\b[^>]*\bid="([^"]+)-heading"[^>]*>([\s\S]*?)<\/h2>/);
+      if (!head) return;
+      const id = head[1];
+      if (!main.includes(`id="${id}"`)) return;
+      items.push({ k: 'a', u: `${url}#${id}`, h: htmlToText(head[2]), w: where, x: htmlToText(chunk.slice(head[0].length)) });
+    });
+  });
+  const tipOf = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+  avatarTips.problems.forEach((group) => group.items.forEach((p) => {
+    const a = tipOf(p.slug);
+    items.push({ k: 'p', u: `/avatar-tips/${p.slug}/#${p.hash}`, h: p.q.ja, w: `第${a.no}回 ${a.title.ja}`, x: group.title.ja });
+  }));
+  const synonyms = [];
+  glossary.categories.forEach((c) => c.terms.forEach((t) => {
+    const body = htmlToText(t.body);
+    items.push({ k: 'g', u: `/glossary/#${t.id}`, h: t.term, w: 'VRChat 用語集', x: `${t.short} ${body}`, m: t.match.join(' ') });
+    if (TIPS_SEARCH_NO_SYNONYM.includes(t.id)) return;
+    const names = [...new Set([t.term, ...t.term.split(/[（）・]/), ...t.match].map((s) => s.trim()).filter((s) => s.length > 1))];
+    if (names.length > 1) synonyms.push(names);
+  }));
+  TIPS_SEARCH_EXTRA_SYNONYMS.forEach(([name, ...others]) => {
+    const group = synonyms.find((names) => names.includes(name));
+    if (group) group.push(...others);
+    else synonyms.push([name, ...others]);
+  });
+  return `${JSON.stringify({ items, synonyms })}\n`;
+};
+const TipsSearchPlugin = {
+  apply: (compiler) => {
+    compiler.hooks.thisCompilation.tap('TipsSearchPlugin', (compilation) => {
+      compilation.hooks.processAssets.tap({
+        name: 'TipsSearchPlugin',
+        stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+      }, (assets) => {
+        if (!assets['avatar-tips/index.html']) return;
+        const glossary = JSON.parse(fs.readFileSync(path.resolve(SRC_PATH, 'assets/data/glossary.json'), 'utf8'));
+        compilation.emitAsset(TIPS_SEARCH_FILE, new compiler.webpack.sources.RawSource(buildTipsSearch(assets, glossary)));
+      });
+    });
+  },
+};
+
 /**
  * Webpack設定を生成する関数
  */
@@ -452,6 +535,7 @@ const createConfig_development = ({ outputPath }) => {
     plugins: [
       new RemoveEmptyScriptsPlugin(),
       AioFilesPlugin,
+      TipsSearchPlugin,
       {
         apply: (compiler) => {
           compiler.hooks.beforeRun.tapPromise('YoutubePlugin', updateYoutube);

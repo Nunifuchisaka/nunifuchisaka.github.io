@@ -63,7 +63,8 @@ const l = {
       <li><a href="#read"><%= l.readTitle %></a></li>
       <% if (!isEn) { %><li><a href="/glossary/">VRChat 用語集</a></li><% } %>
     </ul>
-  </nav>
+  </nav><% if (!isEn) { %>
+  <%- include("_tips_searchbox", {searchId: "tips-site-search"}) %><% } %>
 </section>
 
 <section class="section_2 finder_1 js_tips_finder" id="find" aria-labelledby="find-heading" data-count="<%= l.count %>">
