@@ -398,6 +398,29 @@
       <p class="param-note">ワールド空間法線の上方向成分（Y成分）を見て、上を向いた面ほど濃く霜が乗るマスクを既存の <code>frost</code> に加算する表現です。<code>Frost Coverage</code> や <code>Freeze Amount</code> と重ねても問題なく、いずれも同じ <code>frost</code> 値に合成されるため艶消し・スペキュラ減衰などの見た目も自動的にそろいます。</p>
     </details>
 
+    <!-- Audio Reactive (AudioLink) -->
+    <details class="param-group reveal">
+      <summary>Audio Reactive <span class="grp-badge">音に反応</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>プロパティ</th><th>説明</th></tr></thead>
+          <tbody>
+            <tr><td>Audio Reactive (AudioLink)</td><td>ワールドの AudioLink の音に合わせて既存の表現を動かす機能の ON/OFF。OFF では従来と同じ見た目・負荷（シェーダーバリアントごと外れる）。Animator からは変えられない</td></tr>
+            <tr><td>Audio Strength</td><td>音の表現全体の強さ（0〜1）。メニューで止めるときはこの値を Animator で 0 / 1 にする（FrostHalo がこの形）</td></tr>
+            <tr><td>Audio Smoothing</td><td>音の値のなめらかさ。0 で生の値（拍に鋭く反応）、1 で AudioLink のフィルタ済みの値（<code>ALPASS_FILTEREDAUDIOLINK</code> の x=10 段。ちらつきが少ない）</td></tr>
+            <tr><td>Bass → Inner Glow</td><td>Bass で内側から光る量。縁は Fresnel Color、内側は SSS Color で光り、霜の下では弱まる</td></tr>
+            <tr><td>Bass → Pulse Scale</td><td>Bass でメッシュ全体を原点中心に拡大する割合（0.03 で 3%）。影も同じ形になる</td></tr>
+            <tr><td>High Mids → Dispersion</td><td>High Mids で光の分散（プリズム色）を足す量。<code>Dispersion Intensity</code> が 0 でも出る</td></tr>
+            <tr><td>Treble → Sparkle</td><td>Treble で、視線に向いたきらめきの面を光らせる量。<code>Sparkle Intensity</code> が 0 でも出る（粒の大きさ・密度は Sparkle の設定を使う）</td></tr>
+            <tr><td>Sparkle Chrono</td><td>Treble の強さに応じて、きらめきの瞬きを進める速さ。<code>Sparkle Chrono × Audio Strength</code> がクロノ由来の速さに掛かる。0 でクロノによる進行を止める（通常の <code>Sparkle Twinkle Speed</code> は別）</td></tr>
+            <tr><td>Theme Color</td><td>ワールドのテーマ色に、縁（テーマ色 0）と内側（テーマ色 1）の Glow の色を寄せる量。ワールドがテーマ色を設定していないときは寄せない</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="param-note">シェーダーがワールドの <code>_AudioTexture</code> を直接読みます（Animator や Expression パラメータは使いません）。AudioLink パッケージは不要で、読み取り部分は <code>Shader/DeepFrostIceAudioLink.cginc</code> に同梱しています（AudioLink 由来の MIT ライセンスコード。ライセンスは同じフォルダの <code>AudioLink_LICENSE.md</code>）。<br>AudioLink 対応のワールドで音源が鳴っているときだけ動き、自分の声やマイクには反応しません。非対応ワールドでは ON でも OFF と同じ見た目です。テーマ色はワールドが設定しているときだけ効きます。この機能の光（Inner Glow / Sparkle / Dispersion）は暗所マスクを通さない自発光で、暗い場所でも光ります（他の表現は従来どおり暗所では光りません）。暗い所で光らせたくないマテリアルでは OFF にしてください。<code>Bass → Pulse Scale</code> はメッシュの原点を中心に全体を拡大するため、大きなメッシュや原点がメッシュから離れたメッシュでは小さくするか 0 にしてください。PC 専用です（Quest / Android は対象外）。</p>
+      <p class="param-note">同梱アクセサリー「FrostHalo（氷のヘイロー）」（<code>FrostHalo/FrostHalo.prefab</code>。アバターのルート直下に置いてアップロードするだけで、Modular Avatar が頭上に氷の輪を取り付けます）は、この機能を最初から ON にしています。Expression Menu の <code>FrostHalo</code> サブメニューに <code>Show</code>（表示）／<code>Frost</code>（霜化。1.5 秒かけて全体が白い霜に覆われ、OFF で透明な氷へ戻る）／<code>Audio Reactive</code>（音に反応。AudioLink 対応ワールドで曲に合わせて内側が光って脈打ち、きらめく。OFF ですぐ止まる）の 3 つのトグルが入り、同期パラメータは計 3 bit です。メニューの <code>Audio Reactive</code> は <code>Audio Strength</code> を 0 / 1 に切り替えるだけなので、負荷まで外したいときは <code>FrostHalo.mat</code> の <code>Audio Reactive (AudioLink)</code> を OFF にしてください。</p>
+    </details>
+
     <!-- Sparkle -->
     <details class="param-group reveal">
       <summary>Sparkle <span class="grp-badge">きらめき</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></summary>
