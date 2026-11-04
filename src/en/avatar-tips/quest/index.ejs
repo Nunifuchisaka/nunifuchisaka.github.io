@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../../";
+const meta = {
+  type: "article",
+  title: "Quest and mobile support",
+  description: "To be seen by people on Quest and phones, you upload a lighter Android version to the same avatar. What you can't use, the rank limits, how to make one and common problems, with recreated screen views.",
+  url: "en/avatar-tips/quest/",
+  altUrl: "avatar-tips/quest/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-quest",{locale:"en"}) %>
+<%- include(path + "assets/html/_tips_pager",{slug:"quest",locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

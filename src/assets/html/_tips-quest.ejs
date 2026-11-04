@@ -4,193 +4,373 @@ const isEn = pageLocale === "en";
 const prefix = isEn ? "/en" : "";
 // アバター改変の解説：Quest・スマホ対応
 // 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
-// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 // 数字は VRChat の Avatar Performance Ranking System（2026年11月時点）から。変わったら表を直す
 const article = avatarTips.articles.find((a) => a.slug === "quest");
 const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
-const tipNo = (slug) => `第${tip(slug).no}回`;
+const tipNo = (slug) => isEn ? `#${tip(slug).no}` : `第${tip(slug).no}回`;
 const [py, pm, pd] = article.published.split("-").map(Number);
-const published = `${py}年${pm}月${pd}日`;
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const published = isEn ? `${MONTHS_EN[pm - 1]} ${pd}, ${py}` : `${py}年${pm}月${pd}日`;
 const links = {
   limits: "https://creators.vrchat.com/platforms/android/quest-content-limitations/",
   ranks: "https://creators.vrchat.com/avatars/avatar-performance-ranking-system/",
   impostors: "https://creators.vrchat.com/avatars/avatar-impostors/",
 };
-const newTab = "（新しいタブで開きます）";
+const newTab = isEn ? " (opens in a new tab)" : "（新しいタブで開きます）";
 const ext = (href, text) => `<a href="${href}" target="_blank" rel="noopener">${text}<span class="visually-hidden">${newTab}</span></a>`;
 
 const l = {
-  series: `アバター改変の解説 第${article.no}回`,
-  title: "Quest・スマホ対応",
-  lead: "Quest やスマホの人には、パソコン用のアバターは見えません。見てもらうには、軽くした別の版（Android 版・iOS 版）を、同じアバターにアップロードします。なぜ別の版が要るのか、何が使えないのか、どう作るのかを解説します。",
-  meta: "数字は VRChat の公式の資料（2026年11月時点）からです。",
-  publishedLabel: "公開",
-  tocLabel: "目次",
-  whenTitle: "こんなときに読んでください",
-  when: [
-    "Quest の友だちから、自分のアバターがぼやけた姿やロボットに見えると言われた。",
-    "パソコン用に改変したアバターを、Quest やスマホの人にも見てもらいたい。",
-    "Quest 版をアップロードしたのに、見えないと言われる。",
-  ],
-  whyTitle: "なぜ別の版が要るのか",
-  why: [
-    "VRChat は、パソコン（Windows）と、Android（Quest やスマホ）、iOS（iPhone や iPad）で動きます。アバターは<strong>それぞれ別の形で作ってアップロード</strong>します。Quest やスマホは、パソコンよりずっと性能が低いので、重いものや一部の部品は使えません。",
-    "アップロードするときは、同じアバター（同じ Blueprint ID）に、パソコン版と Android 版を並べて入れます。見る人の機器に合う版が、自動で選ばれます。",
-  ],
-  seeTitle: "Quest の人からは、どう見えるか",
-  see: [
-    { head: "Android 版がある", body: "Android 版のアバターが見えます。ただし、ランクが低いと見えないことがあります（下の「ランクの厳しさ」）。" },
-    { head: "パソコン版しかない", body: "VRChat が自動で作った<strong>インポスター</strong>（板を組み合わせた、ぼやけた身代わり）が見えます。インポスターを切っていると、その人が選んだ<strong>フォールバック</strong>のアバター（ロボットなど）になります。" },
-    { head: "インポスターについて", body: "インポスターは、VRChat のサイトの自分のアバターのページで、作り直すこともできます。人型のアバターだけに対応しています。あくまで身代わりなので、表情や服のオンオフは伝わりません。" },
-  ],
-  limitsTitle: "Quest・スマホで使えないもの",
-  limitsLead: "Quest・スマホのアバターでは、次のものが使えません。入っていると、消されたり、動かなかったりします。",
-  limits: [
-    "<strong>シェーダーは、VRChat が用意した「VRChat/Mobile」のものだけ</strong>です。lilToon などのシェーダーは使えません。",
-    "ライト（Light）、カメラ、Cloth、音（Audio Source）、Rigidbody や Collider などの物理の部品は、まったく動きません。",
-    "Unity の Constraint は動きません。VRChat Constraint を使います。Dynamic Bone も動かないので、PhysBone を使います。",
-    "パーティクルは、きびしく制限されます。",
-    "Android 版のアバターは、圧縮したあとで 10MB を超えるとアップロードできません。5〜8MB を目安にします。",
-  ],
-  shadersTitle: "使えるシェーダー",
-  shadersTableLabel: "Quest・スマホのアバターで使えるおもなシェーダー",
-  shadersHead: ["シェーダー（VRChat/Mobile/…）", "向いているもの"],
-  shadersRows: [
-    ["Toon Standard", "トゥーン調のアバターに。影の色やリムライト、マットキャップなどを設定できます。迷ったらこれ。"],
-    ["Toon Lit", "平らな色の、アニメ調のアバターに。設定が少なく、とても軽いです。"],
-    ["Standard Lite", "Unity の Standard に近い、写実的な見た目に。"],
-    ["Matcap Lit", "金属のような光るところに。"],
-    ["Diffuse など", "色だけを出す、いちばん簡単なものです。"],
-  ],
-  shadersNote: "半透明（髪の毛先のぼかしなど）は使えないので、不透明か、くっきり切り抜く形にします。マテリアルの「Enable GPU Instancing」は、オンにしておきます。",
-  ranksTitle: "ランクの厳しさ",
-  ranks: [
-    "Quest・スマホでは、パフォーマンスランクの基準が、パソコンよりずっと厳しくなります。そのうえ、Quest・スマホの人は、<strong>はじめの設定では Medium までしか見えません</strong>。Poor と Very Poor のアバターは、インポスターかフォールバックになります。",
-    "見る人は、設定で Poor まで見えるようにはできますが、Very Poor は見えるようにできません（相手を選んで「Show Avatar」を押せば、1人ずつは見えます）。<strong>Quest 版は Medium 以上</strong>を目指します。",
-  ],
-  ranksTableLabel: "パソコンと Quest・スマホのランクの上限（おもなもの）",
-  ranksHead: ["項目", "パソコン（Poor まで）", "Quest・スマホ（Poor まで）", "Quest・スマホ（Medium まで）"],
-  ranksRows: [
-    ["ポリゴン（三角形）", "70,000", "20,000", "15,000"],
-    ["マテリアル", "32", "4", "2"],
-    ["Skinned Mesh", "16", "2", "2"],
-    ["テクスチャのメモリ", "150 MB", "40 MB", "25 MB"],
-    ["PhysBone の数", "32", "8", "6"],
-  ],
-  ranksNote: `Quest・スマホでは、PhysBone は 8 個まで、Contact は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは`,
-  ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: "" + tipNo("performance") + " パフォーマンスランクと軽量化" },
-  ranksNote2: "で詳しく解説しています。",
-  firstTitle: "まず、販売ページを確かめる",
-  first: [
-    "多くのアバターや衣装は、販売ページに「Quest 対応」と書かれていて、<strong>Quest 用のデータが入っています</strong>。入っていれば、それを使うのがいちばんの近道です。Quest 用のプレハブを置いて、同じように改変します。",
-    "Quest 用のデータが無いときは、自分で軽くします。衣装やアクセサリーを足すほど重くなるので、Quest 版はシンプルな姿にするのがおすすめです。",
-  ],
-  stepsTitle: "Quest 版を作る手順",
-  steps: [
-    { html: "Unity に「Android Build Support」が入っているかを確かめます。入っていなければ、Unity Hub で足します（" },
-    "パソコン版のアバターを複製して、Quest 用にします。元のアバターに手を入れないので、パソコン版はそのまま残せます。",
-    "VRChat SDK のコントロールパネル（<code>VRChat SDK → Show Control Panel</code>）の「Builder」タブで、Platform を「Android」に切り替えます。確認が出たら進めます。",
-    "Quest 用のアバターのマテリアルを、すべて「VRChat/Mobile」のシェーダーに変えます。マテリアルを分けておくと、パソコン版の見た目を壊しません。",
-    "使えない部品（ライト、Cloth、音、Unity の Constraint など）を消します。SDK のコントロールパネルに出る警告やエラーも見ます。",
-    "ポリゴン、マテリアル、PhysBone を減らして、ランクを Medium 以上にします。",
-    "パソコン版と<strong>同じ Blueprint ID</strong> にアップロードします。同じプロジェクトでアバターを複製したなら、Pipeline Manager の ID もそのまま入っています。",
-    "Quest の人に見てもらうか、自分の Quest で確かめます。",
-  ],
-  stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: "" + tipNo("setup") + " Unity Hub で Unity を入れる" },
-  stepsHubAfter: "）。",
-  sdkMock: {
-    variant: "unity",
-    caption: "再現図：VRChat SDK のコントロールパネル（Builder タブ）。並びや見た目は簡単にしています",
-    screens: [{
-      bar: "VRChat SDK › Builder",
-      tabs: ["Authentication", "Builder", "Content Manager", "Settings"],
-      activeTab: 1,
-      label: "VRChat SDK の Builder タブの再現図。1 Platform で Windows と Android に印、iOS に印なし、2 Build and Publish のボタン",
-      rows: [
-        { type: "head", text: "Build" },
-        { mark: 1, label: "Platform", type: "select", text: "Windows, Android" },
-        { type: "check", on: true, text: "Windows" },
-        { type: "check", on: true, text: "Android", hot: true },
-        { type: "check", on: false, text: "iOS" },
-        { mark: 2, type: "button", text: "Build and Publish" },
-      ],
-    }],
-    notes: [
-      "アップロードする先を選びます。印を付けたものを、まとめてアップロードできます。いま開いている先と違うものを選ぶと、切り替えの確認が出ます。",
-      "押すと、選んだ先ごとにビルドしてアップロードします。Android に切り替えると、はじめは全部を読み込み直すので、時間がかかります。",
+  ja: {
+    series: `アバター改変の解説 第${article.no}回`,
+    title: "Quest・スマホ対応",
+    lead: "Quest やスマホの人には、パソコン用のアバターは見えません。見てもらうには、軽くした別の版（Android 版・iOS 版）を、同じアバターにアップロードします。なぜ別の版が要るのか、何が使えないのか、どう作るのかを解説します。",
+    meta: "数字は VRChat の公式の資料（2026年11月時点）からです。",
+    publishedLabel: "公開",
+    tocLabel: "目次",
+    whenTitle: "こんなときに読んでください",
+    when: [
+      "Quest の友だちから、自分のアバターがぼやけた姿やロボットに見えると言われた。",
+      "パソコン用に改変したアバターを、Quest やスマホの人にも見てもらいたい。",
+      "Quest 版をアップロードしたのに、見えないと言われる。",
     ],
-  },
-  shaderMock: {
-    variant: "unity",
-    caption: "再現図：Unity の Inspector（Quest 用のマテリアル）。名前は例です",
-    screens: [{
-      bar: "Inspector › Body_Quest（Material）",
-      label: "Quest 用のマテリアルの再現図。1 Shader が VRChat/Mobile/Toon Lit、2 Enable GPU Instancing に印",
-      rows: [
-        { mark: 1, label: "Shader", type: "select", text: "VRChat/Mobile/Toon Lit", hot: true },
-        { mark: 2, type: "check", on: true, text: "Enable GPU Instancing" },
-      ],
-    }],
-    notes: [
-      "Shader の一覧から「VRChat/Mobile」を選び、その中のシェーダーにします。ほかのシェーダーのままだと、Quest ではピンク色や、見えない姿になります。",
-      "軽くするために、オンにしておきます。",
+    whyTitle: "なぜ別の版が要るのか",
+    why: [
+      "VRChat は、パソコン（Windows）と、Android（Quest やスマホ）、iOS（iPhone や iPad）で動きます。アバターは<strong>それぞれ別の形で作ってアップロード</strong>します。Quest やスマホは、パソコンよりずっと性能が低いので、重いものや一部の部品は使えません。",
+      "アップロードするときは、同じアバター（同じ Blueprint ID）に、パソコン版と Android 版を並べて入れます。見る人の機器に合う版が、自動で選ばれます。",
     ],
+    seeTitle: "Quest の人からは、どう見えるか",
+    see: [
+      { head: "Android 版がある", body: "Android 版のアバターが見えます。ただし、ランクが低いと見えないことがあります（下の「ランクの厳しさ」）。" },
+      { head: "パソコン版しかない", body: "VRChat が自動で作った<strong>インポスター</strong>（板を組み合わせた、ぼやけた身代わり）が見えます。インポスターを切っていると、その人が選んだ<strong>フォールバック</strong>のアバター（ロボットなど）になります。" },
+      { head: "インポスターについて", body: "インポスターは、VRChat のサイトの自分のアバターのページで、作り直すこともできます。人型のアバターだけに対応しています。あくまで身代わりなので、表情や服のオンオフは伝わりません。" },
+    ],
+    limitsTitle: "Quest・スマホで使えないもの",
+    limitsLead: "Quest・スマホのアバターでは、次のものが使えません。入っていると、消されたり、動かなかったりします。",
+    limits: [
+      "<strong>シェーダーは、VRChat が用意した「VRChat/Mobile」のものだけ</strong>です。lilToon などのシェーダーは使えません。",
+      "ライト（Light）、カメラ、Cloth、音（Audio Source）、Rigidbody や Collider などの物理の部品は、まったく動きません。",
+      "Unity の Constraint は動きません。VRChat Constraint を使います。Dynamic Bone も動かないので、PhysBone を使います。",
+      "パーティクルは、きびしく制限されます。",
+      "Android 版のアバターは、圧縮したあとで 10MB を超えるとアップロードできません。5〜8MB を目安にします。",
+    ],
+    shadersTitle: "使えるシェーダー",
+    shadersTableLabel: "Quest・スマホのアバターで使えるおもなシェーダー",
+    shadersHead: ["シェーダー（VRChat/Mobile/…）", "向いているもの"],
+    shadersRows: [
+      ["Toon Standard", "トゥーン調のアバターに。影の色やリムライト、マットキャップなどを設定できます。迷ったらこれ。"],
+      ["Toon Lit", "平らな色の、アニメ調のアバターに。設定が少なく、とても軽いです。"],
+      ["Standard Lite", "Unity の Standard に近い、写実的な見た目に。"],
+      ["Matcap Lit", "金属のような光るところに。"],
+      ["Diffuse など", "色だけを出す、いちばん簡単なものです。"],
+    ],
+    shadersNote: "半透明（髪の毛先のぼかしなど）は使えないので、不透明か、くっきり切り抜く形にします。マテリアルの「Enable GPU Instancing」は、オンにしておきます。",
+    ranksTitle: "ランクの厳しさ",
+    ranks: [
+      "Quest・スマホでは、パフォーマンスランクの基準が、パソコンよりずっと厳しくなります。そのうえ、Quest・スマホの人は、<strong>はじめの設定では Medium までしか見えません</strong>。Poor と Very Poor のアバターは、インポスターかフォールバックになります。",
+      "見る人は、設定で Poor まで見えるようにはできますが、Very Poor は見えるようにできません（相手を選んで「Show Avatar」を押せば、1人ずつは見えます）。<strong>Quest 版は Medium 以上</strong>を目指します。",
+    ],
+    ranksTableLabel: "パソコンと Quest・スマホのランクの上限（おもなもの）",
+    ranksHead: ["項目", "パソコン（Poor まで）", "Quest・スマホ（Poor まで）", "Quest・スマホ（Medium まで）"],
+    ranksRows: [
+      ["ポリゴン（三角形）", "70,000", "20,000", "15,000"],
+      ["マテリアル", "32", "4", "2"],
+      ["Skinned Mesh", "16", "2", "2"],
+      ["テクスチャのメモリ", "150 MB", "40 MB", "25 MB"],
+      ["PhysBone の数", "32", "8", "6"],
+    ],
+    ranksNote: `Quest・スマホでは、PhysBone は 8 個まで、Contact は 16 個までという上限もあります。これを超えると、「Show Avatar」で表示しても、PhysBone などがすべて消されます。ランクのしくみは`,
+    ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: "" + tipNo("performance") + " パフォーマンスランクと軽量化" },
+    ranksNote2: "で詳しく解説しています。",
+    firstTitle: "まず、販売ページを確かめる",
+    first: [
+      "多くのアバターや衣装は、販売ページに「Quest 対応」と書かれていて、<strong>Quest 用のデータが入っています</strong>。入っていれば、それを使うのがいちばんの近道です。Quest 用のプレハブを置いて、同じように改変します。",
+      "Quest 用のデータが無いときは、自分で軽くします。衣装やアクセサリーを足すほど重くなるので、Quest 版はシンプルな姿にするのがおすすめです。",
+    ],
+    stepsTitle: "Quest 版を作る手順",
+    steps: [
+      { html: "Unity に「Android Build Support」が入っているかを確かめます。入っていなければ、Unity Hub で足します（" },
+      "パソコン版のアバターを複製して、Quest 用にします。元のアバターに手を入れないので、パソコン版はそのまま残せます。",
+      "VRChat SDK のコントロールパネル（<code>VRChat SDK → Show Control Panel</code>）の「Builder」タブで、Platform を「Android」に切り替えます。確認が出たら進めます。",
+      "Quest 用のアバターのマテリアルを、すべて「VRChat/Mobile」のシェーダーに変えます。マテリアルを分けておくと、パソコン版の見た目を壊しません。",
+      "使えない部品（ライト、Cloth、音、Unity の Constraint など）を消します。SDK のコントロールパネルに出る警告やエラーも見ます。",
+      "ポリゴン、マテリアル、PhysBone を減らして、ランクを Medium 以上にします。",
+      "パソコン版と<strong>同じ Blueprint ID</strong> にアップロードします。同じプロジェクトでアバターを複製したなら、Pipeline Manager の ID もそのまま入っています。",
+      "Quest の人に見てもらうか、自分の Quest で確かめます。",
+    ],
+    stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: "" + tipNo("setup") + " Unity Hub で Unity を入れる" },
+    stepsHubAfter: "）。",
+    sdkMock: {
+      variant: "unity",
+      caption: "再現図：VRChat SDK のコントロールパネル（Builder タブ）。並びや見た目は簡単にしています",
+      screens: [{
+        bar: "VRChat SDK › Builder",
+        tabs: ["Authentication", "Builder", "Content Manager", "Settings"],
+        activeTab: 1,
+        label: "VRChat SDK の Builder タブの再現図。1 Platform で Windows と Android に印、iOS に印なし、2 Build and Publish のボタン",
+        rows: [
+          { type: "head", text: "Build" },
+          { mark: 1, label: "Platform", type: "select", text: "Windows, Android" },
+          { type: "check", on: true, text: "Windows" },
+          { type: "check", on: true, text: "Android", hot: true },
+          { type: "check", on: false, text: "iOS" },
+          { mark: 2, type: "button", text: "Build and Publish" },
+        ],
+      }],
+      notes: [
+        "アップロードする先を選びます。印を付けたものを、まとめてアップロードできます。いま開いている先と違うものを選ぶと、切り替えの確認が出ます。",
+        "押すと、選んだ先ごとにビルドしてアップロードします。Android に切り替えると、はじめは全部を読み込み直すので、時間がかかります。",
+      ],
+    },
+    shaderMock: {
+      variant: "unity",
+      caption: "再現図：Unity の Inspector（Quest 用のマテリアル）。名前は例です",
+      screens: [{
+        bar: "Inspector › Body_Quest（Material）",
+        label: "Quest 用のマテリアルの再現図。1 Shader が VRChat/Mobile/Toon Lit、2 Enable GPU Instancing に印",
+        rows: [
+          { mark: 1, label: "Shader", type: "select", text: "VRChat/Mobile/Toon Lit", hot: true },
+          { mark: 2, type: "check", on: true, text: "Enable GPU Instancing" },
+        ],
+      }],
+      notes: [
+        "Shader の一覧から「VRChat/Mobile」を選び、その中のシェーダーにします。ほかのシェーダーのままだと、Quest ではピンク色や、見えない姿になります。",
+        "軽くするために、オンにしておきます。",
+      ],
+    },
+    toolsTitle: "手間を減らすツール",
+    tools: [
+      "VRChat の資料では、パソコン版と Quest 版で設定を切り替える「EasyQuestSwitch」が紹介されています。VCC から入れられます。",
+      "パソコン版のアバターを複製して、Quest 用のマテリアルやテクスチャを作り、使えない部品を消すツール「VRCQuestTools」もあります。ただし、ランクまでは軽くしてくれないので、そのままでは Very Poor になりがちです。",
+      "パソコン版と Quest 版で別々のアバターを用意したときは、SDK の「Per-Platform Override」で、1つのアバターにまとめてアップロードできます。",
+    ],
+    sameTitle: "パソコン版と Quest 版でそろえること",
+    same: [
+      "<strong>ボーンの組み立て（Armature）</strong>はそろえます。頭、手、足などの大事なボーンの名前や並び、Hips の大きさと向きを変えると、ほかの機器から見たときに、おかしな動きになります。髪やスカートのボーンを減らすのはかまいません。",
+      "Expression のメニューとパラメーターも、そろえておくと安心です。片方だけにある服のオンオフなどは、もう片方の人からは変わって見えません。",
+    ],
+    iosTitle: "iOS（iPhone・iPad）",
+    ios: [
+      "iOS 版の VRChat もあります。作り方は Android 版とほぼ同じで、使えないものや基準も同じです。iOS 版を作るには、Unity Hub で「iOS Build Support」を足して、Platform で「iOS」を選んでアップロードします。",
+      "iOS 版が無いアバターは、iOS の人からはインポスターに見えます。",
+    ],
+    casesTitle: "よくある困りごと",
+    caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+    cases: [
+      { title: "ピンク色になる",
+        symptom: "Quest の人から、アバターの一部や全部がピンク色に見えると言われる。",
+        cause: "Quest 版に、VRChat/Mobile 以外のシェーダーのマテリアルが残っています。",
+        fix: "Quest 用のアバターのマテリアルを、1つずつ VRChat/Mobile のシェーダーに変えます。衣装やアクセサリーのマテリアルも見落とさないようにします。" },
+      { title: "ぼやけた姿・ロボットに見える",
+        symptom: "Quest の人から、ぼやけた姿（インポスター）やロボットに見えると言われる。",
+        cause: "Android 版がアップロードされていないか、パソコン版と別のアバター（別の Blueprint ID）にアップロードしています。",
+        fix: "Platform を Android にして、パソコン版と同じ Blueprint ID にアップロードします。VRChat のアバターの詳細で、Android 版があるかを確かめます。" },
+      { title: "Quest 版があるのに見えない",
+        symptom: "Android 版をアップロードしたのに、Quest の人からは見えない。",
+        cause: "ランクが Poor か Very Poor です。Quest・スマホの人は、はじめの設定では Medium までしか見えません。",
+        fix: "ポリゴン、マテリアル、PhysBone などを減らして、Medium 以上にします。SDK のコントロールパネルで、Android のときのランクを確かめます。" },
+      { title: "切り替えにとても時間がかかる",
+        symptom: "Platform を Android に切り替えると、何十分も待たされる。",
+        cause: "はじめて切り替えるときは、テクスチャなどを全部読み込み直すためです。",
+        fix: "はじめの1回は待ちます。2回目からは速くなります。切り替えの途中で Unity を閉じないでください。" },
+      { title: "片方だけ更新してしまった",
+        symptom: "パソコン版だけ改変してアップロードしたら、Quest の人からは前の姿のまま見える。",
+        cause: "Android 版を、アップロードし直していません。版ごとに別々に入っています。",
+        fix: "Quest 版にも同じ改変をして、アップロードし直します。Platform で Windows と Android の両方に印を付けると、まとめてアップロードできます。" },
+    ],
+    careTitle: "気をつけること",
+    care: [
+      "VRChat は、Very Poor の Quest・スマホのアバターを、これから先は使えなくするかもしれないと案内しています。Quest 版は Very Poor にしないでください。",
+      "Quest 版は、自分の Quest か、Quest の友だちに見てもらって確かめます。パソコンの Unity では、Quest での見た目はわかりません。",
+      "改変したものを Quest 版にするときも、アバターや衣装の利用規約を守ります。Quest 版の改変やアップロードを認めているかも確かめます。",
+    ],
+    sumTitle: "まとめ",
+    sum: [
+      "Quest やスマホの人に見てもらうには、Android 版（iOS 版）を、パソコン版と同じ Blueprint ID にアップロードします。",
+      "シェーダーは VRChat/Mobile だけ。ライトや Cloth、音などは使えません。",
+      "Quest・スマホの人は、はじめは Medium までしか見えないので、Medium 以上を目指します。",
+      "まずは販売ページで、Quest 用のデータがあるかを確かめます。",
+    ],
+    back: "アバター改変の解説の一覧",
+    docImpostors: "VRChat の資料：Impostors",
+    docLimits: "VRChat の資料：Android Content Limitations",
+    docRanks: "VRChat の資料：Avatar Performance Ranking System",
   },
-  toolsTitle: "手間を減らすツール",
-  tools: [
-    "VRChat の資料では、パソコン版と Quest 版で設定を切り替える「EasyQuestSwitch」が紹介されています。VCC から入れられます。",
-    "パソコン版のアバターを複製して、Quest 用のマテリアルやテクスチャを作り、使えない部品を消すツール「VRCQuestTools」もあります。ただし、ランクまでは軽くしてくれないので、そのままでは Very Poor になりがちです。",
-    "パソコン版と Quest 版で別々のアバターを用意したときは、SDK の「Per-Platform Override」で、1つのアバターにまとめてアップロードできます。",
-  ],
-  sameTitle: "パソコン版と Quest 版でそろえること",
-  same: [
-    "<strong>ボーンの組み立て（Armature）</strong>はそろえます。頭、手、足などの大事なボーンの名前や並び、Hips の大きさと向きを変えると、ほかの機器から見たときに、おかしな動きになります。髪やスカートのボーンを減らすのはかまいません。",
-    "Expression のメニューとパラメーターも、そろえておくと安心です。片方だけにある服のオンオフなどは、もう片方の人からは変わって見えません。",
-  ],
-  iosTitle: "iOS（iPhone・iPad）",
-  ios: [
-    "iOS 版の VRChat もあります。作り方は Android 版とほぼ同じで、使えないものや基準も同じです。iOS 版を作るには、Unity Hub で「iOS Build Support」を足して、Platform で「iOS」を選んでアップロードします。",
-    "iOS 版が無いアバターは、iOS の人からはインポスターに見えます。",
-  ],
-  casesTitle: "よくある困りごと",
-  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
-  cases: [
-    { title: "ピンク色になる",
-      symptom: "Quest の人から、アバターの一部や全部がピンク色に見えると言われる。",
-      cause: "Quest 版に、VRChat/Mobile 以外のシェーダーのマテリアルが残っています。",
-      fix: "Quest 用のアバターのマテリアルを、1つずつ VRChat/Mobile のシェーダーに変えます。衣装やアクセサリーのマテリアルも見落とさないようにします。" },
-    { title: "ぼやけた姿・ロボットに見える",
-      symptom: "Quest の人から、ぼやけた姿（インポスター）やロボットに見えると言われる。",
-      cause: "Android 版がアップロードされていないか、パソコン版と別のアバター（別の Blueprint ID）にアップロードしています。",
-      fix: "Platform を Android にして、パソコン版と同じ Blueprint ID にアップロードします。VRChat のアバターの詳細で、Android 版があるかを確かめます。" },
-    { title: "Quest 版があるのに見えない",
-      symptom: "Android 版をアップロードしたのに、Quest の人からは見えない。",
-      cause: "ランクが Poor か Very Poor です。Quest・スマホの人は、はじめの設定では Medium までしか見えません。",
-      fix: "ポリゴン、マテリアル、PhysBone などを減らして、Medium 以上にします。SDK のコントロールパネルで、Android のときのランクを確かめます。" },
-    { title: "切り替えにとても時間がかかる",
-      symptom: "Platform を Android に切り替えると、何十分も待たされる。",
-      cause: "はじめて切り替えるときは、テクスチャなどを全部読み込み直すためです。",
-      fix: "はじめの1回は待ちます。2回目からは速くなります。切り替えの途中で Unity を閉じないでください。" },
-    { title: "片方だけ更新してしまった",
-      symptom: "パソコン版だけ改変してアップロードしたら、Quest の人からは前の姿のまま見える。",
-      cause: "Android 版を、アップロードし直していません。版ごとに別々に入っています。",
-      fix: "Quest 版にも同じ改変をして、アップロードし直します。Platform で Windows と Android の両方に印を付けると、まとめてアップロードできます。" },
-  ],
-  careTitle: "気をつけること",
-  care: [
-    "VRChat は、Very Poor の Quest・スマホのアバターを、これから先は使えなくするかもしれないと案内しています。Quest 版は Very Poor にしないでください。",
-    "Quest 版は、自分の Quest か、Quest の友だちに見てもらって確かめます。パソコンの Unity では、Quest での見た目はわかりません。",
-    "改変したものを Quest 版にするときも、アバターや衣装の利用規約を守ります。Quest 版の改変やアップロードを認めているかも確かめます。",
-  ],
-  sumTitle: "まとめ",
-  sum: [
-    "Quest やスマホの人に見てもらうには、Android 版（iOS 版）を、パソコン版と同じ Blueprint ID にアップロードします。",
-    "シェーダーは VRChat/Mobile だけ。ライトや Cloth、音などは使えません。",
-    "Quest・スマホの人は、はじめは Medium までしか見えないので、Medium 以上を目指します。",
-    "まずは販売ページで、Quest 用のデータがあるかを確かめます。",
-  ],
-  back: "アバター改変の解説の一覧",
-};
+  en: {
+    series: `Avatar Tips #${article.no}`,
+    title: "Quest and mobile support",
+    lead: "People on Quest or phones can't see avatars made for PC. To be seen by them, you upload a separate, lighter version (an Android version and an iOS version) to the same avatar. This tip explains why you need a separate version, what you can't use, and how to make one.",
+    meta: "The numbers come from VRChat's official docs (as of November 2026).",
+    publishedLabel: "Published",
+    tocLabel: "Contents",
+    whenTitle: "Read this when",
+    when: [
+      "A friend on Quest says your avatar looks like a blurry figure or a robot.",
+      "You edited an avatar for PC and want people on Quest or phones to see it too.",
+      "You uploaded a Quest version, but people say they still can't see it.",
+    ],
+    whyTitle: "Why you need a separate version",
+    why: [
+      "VRChat runs on PC (Windows), Android (Quest and phones) and iOS (iPhone and iPad). You <strong>build and upload your avatar separately for each one</strong>. Quest and phones are much less powerful than a PC, so heavy content and some components can't be used.",
+      "When you upload, you put the PC version and the Android version side by side in the same avatar (the same Blueprint ID). Each viewer automatically gets the version that matches their device.",
+    ],
+    seeTitle: "What people on Quest see",
+    see: [
+      { head: "There is an Android version", body: 'They see your Android avatar. But if its rank is low, they may not see it (see "How strict the ranks are" below).' },
+      { head: "There is only a PC version", body: "They see an <strong>impostor</strong> that VRChat made automatically (a blurry stand-in built from flat panels). If they turned impostors off, they see the <strong>fallback</strong> avatar they chose instead (such as a robot)." },
+      { head: "About impostors", body: "You can also regenerate the impostor on your avatar's page on the VRChat website. Only humanoid avatars are supported. It's only a stand-in, so expressions and outfit toggles don't come through." },
+    ],
+    limitsTitle: "What you can't use on Quest and mobile",
+    limitsLead: "Quest and mobile avatars can't use the things below. If your avatar has them, they get removed or simply don't work.",
+    limits: [
+      '<strong>Only the "VRChat/Mobile" shaders that VRChat provides</strong> are allowed. Shaders like lilToon can\'t be used.',
+      "Lights, cameras, Cloth, sound (Audio Source), and physics components like Rigidbody and Collider don't work at all.",
+      "Unity Constraints don't work, so use VRChat Constraints. Dynamic Bone doesn't work either, so use PhysBone.",
+      "Particles are heavily restricted.",
+      "An Android avatar can't be uploaded if it's over 10MB after compression. Aim for about 5 to 8MB.",
+    ],
+    shadersTitle: "Shaders you can use",
+    shadersTableLabel: "The main shaders you can use on Quest and mobile avatars",
+    shadersHead: ["Shader (VRChat/Mobile/…)", "Good for"],
+    shadersRows: [
+      ["Toon Standard", "Toon-style avatars. You can set shadow colors, rim light, matcaps and more. If you're not sure, use this one."],
+      ["Toon Lit", "Anime-style avatars with flat colors. It has few settings and is very light."],
+      ["Standard Lite", "A realistic look, close to Unity's Standard shader."],
+      ["Matcap Lit", "Shiny parts, like metal."],
+      ["Diffuse and others", "The simplest ones, which only show color."],
+    ],
+    shadersNote: 'Transparency (like soft, faded hair tips) isn\'t available, so make things opaque or use a sharp cutout. Turn on "Enable GPU Instancing" on your materials.',
+    ranksTitle: "How strict the ranks are",
+    ranks: [
+      "On Quest and mobile, the performance rank limits are much stricter than on PC. On top of that, <strong>by default, people on Quest and mobile can only see avatars up to Medium</strong>. Poor and Very Poor avatars turn into an impostor or a fallback.",
+      'Viewers can change a setting to see avatars up to Poor, but they can\'t choose to see Very Poor ones (they can still select one person and press "Show Avatar" to see them one at a time). <strong>Aim for Medium or better on your Quest version</strong>.',
+    ],
+    ranksTableLabel: "Rank limits on PC and on Quest and mobile (main items)",
+    ranksHead: ["Item", "PC (up to Poor)", "Quest and mobile (up to Poor)", "Quest and mobile (up to Medium)"],
+    ranksRows: [
+      ["Polygons (triangles)", "70,000", "20,000", "15,000"],
+      ["Materials", "32", "4", "2"],
+      ["Skinned Meshes", "16", "2", "2"],
+      ["Texture memory", "150 MB", "40 MB", "25 MB"],
+      ["PhysBone components", "32", "8", "6"],
+    ],
+    ranksNote: 'Quest and mobile also have hard limits: up to 8 PhysBones and up to 16 Contacts. If you go over them, all PhysBones and similar components are removed, even when someone uses "Show Avatar". For how ranks work, see ',
+    ranksLink: { href: `${prefix}/avatar-tips/performance/`, text: `${tipNo("performance")} ${tip("performance").title[pageLocale]}` },
+    ranksNote2: ".",
+    firstTitle: "First, check the store page",
+    first: [
+      'Many avatars and outfits say "Quest compatible" (<span lang="ja">Quest 対応</span>) on their store page, and <strong>come with Quest data</strong>. If yours does, using it is the quickest way. Place the Quest prefab and edit it the same way you did for PC.',
+      "If there's no Quest data, you lighten the avatar yourself. Every outfit or accessory you add makes it heavier, so a simple look is a good choice for your Quest version.",
+    ],
+    stepsTitle: "Steps to make a Quest version",
+    steps: [
+      { html: 'Check that "Android Build Support" is installed for your Unity. If it isn\'t, add it in Unity Hub (see ' },
+      "Duplicate your PC avatar and use the copy for Quest. You don't touch the original, so your PC version stays as it is.",
+      'Open the VRChat SDK Control Panel (<code>VRChat SDK → Show Control Panel</code>), and in the "Builder" tab, switch Platform to "Android". If a confirmation appears, continue.',
+      'Change every material on the Quest avatar to a "VRChat/Mobile" shader. Keeping separate materials means you won\'t break the look of the PC version.',
+      "Delete the components you can't use (lights, Cloth, sound, Unity Constraints and so on). Also read the warnings and errors in the SDK Control Panel.",
+      "Reduce polygons, materials and PhysBones until the rank is Medium or better.",
+      "Upload to <strong>the same Blueprint ID</strong> as the PC version. If you duplicated the avatar in the same project, the Pipeline Manager already has that ID.",
+      "Check it on your own Quest, or ask someone on Quest to look.",
+    ],
+    stepsHubLink: { href: `${prefix}/avatar-tips/setup/#hub`, text: `${tipNo("setup")} Installing Unity with Unity Hub` },
+    stepsHubAfter: ").",
+    sdkMock: {
+      variant: "unity",
+      caption: "Recreated view: the VRChat SDK Control Panel (Builder tab). The layout and look are simplified.",
+      screens: [{
+        bar: "VRChat SDK › Builder",
+        tabs: ["Authentication", "Builder", "Content Manager", "Settings"],
+        activeTab: 1,
+        label: "Recreated view of the VRChat SDK Builder tab. 1: Platform, with Windows and Android checked and iOS unchecked. 2: the Build and Publish button.",
+        rows: [
+          { type: "head", text: "Build" },
+          { mark: 1, label: "Platform", type: "select", text: "Windows, Android" },
+          { type: "check", on: true, text: "Windows" },
+          { type: "check", on: true, text: "Android", hot: true },
+          { type: "check", on: false, text: "iOS" },
+          { mark: 2, type: "button", text: "Build and Publish" },
+        ],
+      }],
+      notes: [
+        "Choose where to upload. Everything you check is uploaded in one go. If you pick a platform other than the one that's open now, you're asked to confirm the switch.",
+        "Press this to build and upload for each platform you chose. The first switch to Android reimports everything, so it takes a while.",
+      ],
+    },
+    shaderMock: {
+      variant: "unity",
+      caption: "Recreated view: Unity's Inspector (a material for Quest). Names are examples.",
+      screens: [{
+        bar: "Inspector › Body_Quest (Material)",
+        label: "Recreated view of a material for Quest. 1: Shader set to VRChat/Mobile/Toon Lit. 2: Enable GPU Instancing checked.",
+        rows: [
+          { mark: 1, label: "Shader", type: "select", text: "VRChat/Mobile/Toon Lit", hot: true },
+          { mark: 2, type: "check", on: true, text: "Enable GPU Instancing" },
+        ],
+      }],
+      notes: [
+        'In the Shader list, choose "VRChat/Mobile" and pick a shader inside it. If you leave another shader, the avatar shows up pink or invisible on Quest.',
+        "Turn this on to make it lighter.",
+      ],
+    },
+    toolsTitle: "Tools that save effort",
+    tools: [
+      'VRChat\'s docs introduce "EasyQuestSwitch", which switches settings between the PC and Quest versions. You can add it from the VCC.',
+      'There is also "VRCQuestTools", which duplicates your PC avatar, makes Quest materials and textures, and removes components you can\'t use. But it doesn\'t lighten the avatar enough for the rank, so as-is the result often ends up Very Poor.',
+      'If you made separate avatars for PC and Quest, the SDK\'s "Per-Platform Override" lets you upload them together as one avatar.',
+    ],
+    sameTitle: "What to keep the same on PC and Quest",
+    same: [
+      "Keep <strong>the bone structure (Armature)</strong> the same. If you change the names or order of key bones like the head, hands and feet, or the size and direction of Hips, your avatar moves strangely when seen from other devices. Removing hair or skirt bones is fine.",
+      "It's also safer to keep the Expressions menu and parameters the same. If an outfit toggle exists on only one version, people on the other version won't see it change.",
+    ],
+    iosTitle: "iOS (iPhone and iPad)",
+    ios: [
+      'VRChat also runs on iOS. Making an iOS version is almost the same as making an Android one, with the same restrictions and limits. To make one, add "iOS Build Support" in Unity Hub, choose "iOS" in Platform, and upload.',
+      "If your avatar has no iOS version, people on iOS see it as an impostor.",
+    ],
+    casesTitle: "Common problems",
+    caseLabels: { symptom: "What happens", cause: "Cause", fix: "How to fix it" },
+    cases: [
+      { title: "It turns pink",
+        symptom: "People on Quest say part or all of your avatar looks pink.",
+        cause: "The Quest version still has materials using shaders other than VRChat/Mobile.",
+        fix: "Go through the materials on the Quest avatar one by one and change them to VRChat/Mobile shaders. Don't miss the materials on outfits and accessories." },
+      { title: "It looks blurry or like a robot",
+        symptom: "People on Quest say you look like a blurry figure (an impostor) or a robot.",
+        cause: "No Android version was uploaded, or it was uploaded to a different avatar (a different Blueprint ID) from the PC version.",
+        fix: "Set Platform to Android and upload to the same Blueprint ID as the PC version. Check your avatar's details in VRChat to see whether it has an Android version." },
+      { title: "There's a Quest version, but they can't see it",
+        symptom: "You uploaded an Android version, but people on Quest still can't see it.",
+        cause: "Its rank is Poor or Very Poor. By default, people on Quest and mobile can only see avatars up to Medium.",
+        fix: "Reduce polygons, materials, PhysBones and so on until it's Medium or better. Check the Android rank in the SDK Control Panel." },
+      { title: "Switching takes a very long time",
+        symptom: "When you switch Platform to Android, you have to wait for tens of minutes.",
+        cause: "The first switch reimports everything, including textures.",
+        fix: "Just wait the first time. It's faster after that. Don't close Unity while it's switching." },
+      { title: "You only updated one version",
+        symptom: "You edited and uploaded only the PC version, and people on Quest still see your old look.",
+        cause: "You didn't upload the Android version again. Each version is stored separately.",
+        fix: "Make the same edits to the Quest version and upload it again. If you check both Windows and Android in Platform, you can upload them together." },
+    ],
+    careTitle: "Things to watch out for",
+    care: [
+      "VRChat has said that Very Poor Quest and mobile avatars may stop being usable in the future. Don't let your Quest version be Very Poor.",
+      "Check your Quest version on your own Quest, or ask a friend on Quest to look. Unity on your PC can't show you how it looks on Quest.",
+      "Follow the terms of use of your avatar and outfits when you make a Quest version of your edits, too. Also check that they allow editing and uploading a Quest version.",
+    ],
+    sumTitle: "Summary",
+    sum: [
+      "To be seen by people on Quest and phones, upload an Android (and iOS) version to the same Blueprint ID as the PC version.",
+      "Only VRChat/Mobile shaders are allowed. Lights, Cloth, sound and similar components can't be used.",
+      "By default, people on Quest and mobile can only see avatars up to Medium, so aim for Medium or better.",
+      "Start by checking the store page to see if Quest data is included.",
+    ],
+    back: "All Avatar Tips",
+    docImpostors: "VRChat docs: Impostors",
+    docLimits: "VRChat docs: Android Content Limitations",
+    docRanks: "VRChat docs: Avatar Performance Ranking System",
+  },
+}[pageLocale];
 const sections = [
   { id: "when", title: l.whenTitle },
   { id: "why", title: l.whyTitle },
@@ -244,7 +424,7 @@ const sections = [
         </div>
       <% }); %>
     </dl>
-    <p class="section_2__note"><%- ext(links.impostors, "VRChat の資料：Impostors") %></p>
+    <p class="section_2__note"><%- ext(links.impostors, l.docImpostors) %></p>
   </section>
 
   <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
@@ -253,7 +433,7 @@ const sections = [
     <ul class="rules_1">
       <% l.limits.forEach(function (item) { %><li><%- item %></li><% }); %>
     </ul>
-    <p class="section_2__note"><%- ext(links.limits, "VRChat の資料：Android Content Limitations") %></p>
+    <p class="section_2__note"><%- ext(links.limits, l.docLimits) %></p>
   </section>
 
   <section class="section_2 article_1__section" id="shaders" aria-labelledby="shaders-heading">
@@ -290,7 +470,7 @@ const sections = [
       </table>
     </section>
     <p class="article_1__p"><%= l.ranksNote %><a href="<%= l.ranksLink.href %>"><%= l.ranksLink.text %></a><%= l.ranksNote2 %></p>
-    <p class="section_2__note"><%- ext(links.ranks, "VRChat の資料：Avatar Performance Ranking System") %></p>
+    <p class="section_2__note"><%- ext(links.ranks, l.docRanks) %></p>
   </section>
 
   <section class="section_2 article_1__section" id="first" aria-labelledby="first-heading">
