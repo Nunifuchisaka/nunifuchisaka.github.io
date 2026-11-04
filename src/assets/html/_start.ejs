@@ -93,7 +93,7 @@ const l = isEn ? {
     <%# 日本語版だけにある節を含めた目次（英語版は、日本語版の内容が固まってから作る） %>
     <nav class="jump_1" aria-label="目次">
       <ul>
-        <% [["devices", l.devicesTitle], ["cloud", "性能の低いパソコンや Mac で遊ぶ"], ["steps", l.stepsTitle], ["mic", "マイクの設定"], ["tips", l.tipsTitle], ["manners", l.mannersTitle], ["next", l.nextTitle]].forEach(function (item) { %>
+        <% [["devices", l.devicesTitle], ["cloud", "性能の低いパソコンや Mac で遊ぶ"], ["steps", l.stepsTitle], ["mic", "マイクの設定"], ["pcvr", "VRゴーグルを PC につなぐ（PCVR）"], ["tips", l.tipsTitle], ["manners", l.mannersTitle], ["next", l.nextTitle]].forEach(function (item) { %>
           <li><a href="#<%= item[0] %>"><%= item[1] %></a></li>
         <% }); %>
       </ul>
@@ -129,7 +129,9 @@ const l = isEn ? {
   </ol>
 </section>
 
-<% if (!isEn) { %><%- include("_start-mic") %><% } %>
+<% if (!isEn) { %><%- include("_start-mic") %>
+
+<%- include("_start-pcvr") %><% } %>
 
 <section class="section_2" id="tips" aria-labelledby="tips-heading">
   <h2 class="section_2__h1" id="tips-heading"><%= l.tipsTitle %></h2>

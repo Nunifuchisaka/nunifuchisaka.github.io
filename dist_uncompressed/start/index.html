@@ -19,7 +19,7 @@
 <link rel="android_icon" href="/apple-touch-icon.png">
 
 <title>はじめてのVRChat | ぬにふちさか</title>
-<meta name="description" content="これからVRChatを始める人のために、遊べる機器・最初にすること・知っておくと楽なことをまとめました。">
+<meta name="description" content="これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。">
 
 <!-- <meta name="keywords" content=""> -->
 <link rel="canonical" href="https://nunifuchisaka.github.io/start/">
@@ -32,13 +32,13 @@
 <meta property="og:site_name" content="ぬにふちさか">
 <meta property="og:type" content="article">
 <meta property="og:title" content="はじめてのVRChat">
-<meta property="og:description" content="これからVRChatを始める人のために、遊べる機器・最初にすること・知っておくと楽なことをまとめました。">
+<meta property="og:description" content="これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。">
 <meta property="og:url" content="https://nunifuchisaka.github.io/start/">
 <meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="はじめてのVRChat">
-<meta name="twitter:description" content="これからVRChatを始める人のために、遊べる機器・最初にすること・知っておくと楽なことをまとめました。">
+<meta name="twitter:description" content="これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。">
 <meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
 
 <link rel="stylesheet" href="/assets/css/base.css">
@@ -55,7 +55,7 @@
   "@type": "WebPage",
   "name": "はじめてのVRChat | ぬにふちさか",
   "url": "https://nunifuchisaka.github.io/start/",
-  "description": "これからVRChatを始める人のために、遊べる機器・最初にすること・知っておくと楽なことをまとめました。"
+  "description": "これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。"
 }
 </script>
 
@@ -158,6 +158,8 @@
           <li><a href="#steps">最初にすること</a></li>
         
           <li><a href="#mic">マイクの設定</a></li>
+        
+          <li><a href="#pcvr">VRゴーグルを PC につなぐ（PCVR）</a></li>
         
           <li><a href="#tips">知っておくと楽なこと</a></li>
         
@@ -574,6 +576,81 @@
       </section>
     
   </div>
+</section>
+
+
+<section class="section_2" id="pcvr" aria-labelledby="pcvr-heading">
+  <h2 class="section_2__h1" id="pcvr-heading">VRゴーグルを PC につなぐ（PCVR）</h2>
+  <p class="section_2__lead">Meta Quest や PICO を PC につなぐなら、無線の Virtual Desktop がおすすめです。有料ですが、新品の Meta Quest 3 / 3S を Meta の紹介プログラムで始めると 30ドル相当のストア残高が付くので、その残高で買えます。PC につなぐと、PC 向けのワールドやアバター、下の便利なアプリが使えます。</p>
+  <dl class="examples_1">
+    <div class="examples_1__item">
+      <dt>Virtual Desktop（おすすめ）</dt>
+      <dd>無線でつなぐ有料のアプリです。Meta Quest でも PICO でも使えます。画質と安定がよく、設定も細かく変えられるので、無線で遊ぶ人の定番です。PC には Virtual Desktop Streamer を入れ、PC はルーターに有線 LAN でつなぎ、ゴーグルは 5GHz 以上の Wi-Fi につなぎます。ストアごとに別売りで、Meta Horizon Store で買ったものは PICO では使えません（Meta Horizon Store では 24.99ドル）。</dd>
+    </div>
+  </dl>
+  
+    <h3 class="section_2__h2">Meta Quest の場合</h3>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Quest Link（ケーブル）</dt>
+          <dd>無料です。PC に Meta Quest Link アプリを入れ、USB-C ケーブル（USB 3）でつなぎます。映像が安定し、遅れも少ないですが、ケーブルが動きのじゃまになります。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Air Link</dt>
+          <dd>無料です。Quest Link と同じ Meta Quest Link アプリで、Wi-Fi を使って無線でつなぎます。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Steam Link</dt>
+          <dd>無料です。Valve のアプリで、Meta Quest Link アプリを使わずに、無線で SteamVR に直接つなぎます。</dd>
+        </div>
+      
+    </dl>
+  
+    <h3 class="section_2__h2">PICO の場合</h3>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>PICO Connect</dt>
+          <dd>PICO 公式の無料アプリです。USB-C ケーブルでも Wi-Fi でもつなげます。PC は Windows 10（22H2 以降）か 11、ゴーグルは PICO OS 5.11.2 以降が要ります。古い PICO OS では、前のアプリ「Streaming Assistant」を使います。</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Steam Link</dt>
+          <dd>無料です。2025年9月から PICO のストアでも配られています（PICO 4 Ultra、PICO 4 / 4 Pro、Neo3）。ただし PICO では、ハンドトラッキングや体のトラッキングを SteamVR に送りません。</dd>
+        </div>
+      
+    </dl>
+  
+  <p class="section_2__p">無線で遊ぶときは、家の Wi-Fi が快適さを大きく左右します。<a href="https://note.com/nunifuchisaka/n/n26fa632039f3" target="_blank" rel="noopener">PCVR のための Wi-Fi・LAN 環境の作り方（note）<span class="visually-hidden">（新しいタブで開きます）</span></a>にまとめています。</p>
+
+  <h3 class="section_2__h2">Meta Quest なら、Virtual Desktop を紹介プログラムの特典で買える</h3>
+  <ul class="rules_1">
+    <li>Meta の紹介プログラムでは、紹介リンクから新品の Meta Quest 3 / 3S を買って使い始めると、紹介された人と紹介した人の両方に、30ドル相当の Quest cash（Meta Horizon Store で使える残高）が付きます。</li><li>この残高で、Virtual Desktop（24.99ドル）の代金をまかなえます。現金ではなく、ストアでだけ使えます。</li><li>条件：新品の Quest 3 / 3S で、その Meta アカウントで初めての Quest であること。ゴーグルの初期設定（有効化）の前に、紹介リンクを開いて承認しておきます。18歳以上が対象です。条件は変わることがあるので、Meta の公式ヘルプで確かめてください。</li><li>下のリンクはぬにふちさかの紹介リンクです。ここから使うと、ぬにふちさかにも同じ特典が付きます。</li>
+  </ul>
+  <p class="section_2__more section_2__more--button"><a href="https://www.meta.com/referrals/link/Nunifuchisaka" target="_blank" rel="noopener">ぬにふちさかの Meta 紹介リンク<span class="visually-hidden">（新しいタブで開きます）</span></a></p>
+  <p class="section_2__note"><a href="https://www.meta.com/ja-jp/help/orders-and-returns/924058594926904/" target="_blank" rel="noopener">Meta 公式ヘルプ：Meta Quest の紹介の送信と利用<span class="visually-hidden">（新しいタブで開きます）</span></a></p>
+
+  <h3 class="section_2__h2">PCVR で入れておくと便利なアプリ</h3>
+  <dl class="examples_1 examples_1--grid">
+    
+      <div class="examples_1__item">
+        <dt>XSOverlay</dt>
+        <dd>VR の中に PC の画面やウィンドウを出して、コントローラーでクリックや文字入力ができます。左の手首には、コントローラーやトラッカーの電池の残りも出ます。ゴーグルを外さずに Discord を見たり、調べ物をしたりできます。Steam で 1,010円（早期アクセス）。Windows 10 / 11 用。</dd>
+      </div>
+    
+      <div class="examples_1__item">
+        <dt>OVR Advanced Settings</dt>
+        <dd>SteamVR の細かい設定をまとめて変えられます。ボタンを握って手を動かすと自分の位置ごと動かせる Space Drag（座ったまま、寝転んだまま視点の高さを変えられる）、床の高さを合わせる Fix Floor、マイクの Push-to-Talk、画面の明るさなど。Steam で 920円。画面は英語だけです。</dd>
+      </div>
+    
+  </dl>
+  <ul class="rules_1">
+    <li>どちらも SteamVR の上で動くアプリです。PC につないで、SteamVR 経由で VRChat を遊んでいるときに使えます。ゴーグルだけで遊ぶとき（PC につながないとき）は使えません。Meta Quest でも PICO でも、PC につないでいれば使えます。</li><li>そのままだと、SteamVR を起動するたびに自分で開く必要があります。SteamVR の設定の「スタートアップ / シャットダウン」→「スタートアップオーバーレイアプリを選択」で両方をオンにすると、SteamVR と一緒に立ち上がります。</li>
+  </ul>
+  
 </section>
 
 
