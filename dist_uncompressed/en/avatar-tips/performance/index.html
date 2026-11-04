@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Performance ranks and optimization | ぬにふちさか</title>
+<meta name="description" content="Your avatar is Very Poor, or the rank dropped after adding an outfit. How the performance rank is decided, the PC limits, how others see your avatar, and how to make it lighter with tools like AAO, with recreated views and a figure you can play with.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/performance/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/performance/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/performance/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/performance/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Performance ranks and optimization">
+<meta property="og:description" content="Your avatar is Very Poor, or the rank dropped after adding an outfit. How the performance rank is decided, the PC limits, how others see your avatar, and how to make it lighter with tools like AAO, with recreated views and a figure you can play with.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/performance/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Performance ranks and optimization">
+<meta name="twitter:description" content="Your avatar is Very Poor, or the rank dropped after adding an outfit. How the performance rank is decided, the PC limits, how others see your avatar, and how to make it lighter with tools like AAO, with recreated views and a figure you can play with.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Performance ranks and optimization | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/performance/",
+  "description": "Your avatar is Very Poor, or the rank dropped after adding an outfit. How the performance rank is decided, the PC limits, how others see your avatar, and how to make it lighter with tools like AAO, with recreated views and a figure you can play with."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/rank-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #4</a></p>
+    <h1 class="page_1__h1" id="article-heading">Performance ranks and optimization</h1>
+    <p class="article_1__lead">You uploaded your avatar and it was Very Poor. You added an outfit and the rank went down. This tip explains how the performance rank is decided, how your avatar looks to other people, and how to raise the rank (make the avatar lighter).</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This is about the PC version of VRChat. The limits come from VRChat&#39;s official page (updated October 21, 2026).</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#rank">What the performance rank is</a></li>
+        
+          <li><a href="#seen">How other people see your avatar</a></li>
+        
+          <li><a href="#limits">Main items and limits (PC)</a></li>
+        
+          <li><a href="#where">Where to see the rank</a></li>
+        
+          <li><a href="#why">Why you should make your avatar lighter</a></li>
+        
+          <li><a href="#demo">Try it yourself</a></li>
+        
+          <li><a href="#light">How to make your avatar lighter</a></li>
+        
+          <li><a href="#aao">Optimize with AAO</a></li>
+        
+          <li><a href="#cases">Common problems</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>You uploaded your avatar and its rank was Very Poor.</li><li>You added an outfit or accessories and the rank went down.</li><li>An event asked people to avoid Very Poor avatars.</li><li>Someone told you your avatar looks like something else to them.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="rank" aria-labelledby="rank-heading">
+    <h2 class="section_2__h1" id="rank-heading">What the performance rank is</h2>
+    <p class="article_1__p">The performance rank shows how heavy an avatar is (how much load it puts on a PC) in five levels. Each item, such as the number of polygons or materials, has its own limits.</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Excellent</dt>
+          <dd>The best rank.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Good</dt>
+          <dd>A good rank. Aim for this one.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Medium</dt>
+          <dd>Despite the name, this is good enough. If you reach this, you rarely run into trouble.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Poor</dt>
+          <dd>A rank worth improving a little.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Very Poor</dt>
+          <dd>A heavy avatar. There is no upper limit, so it can be very heavy.</dd>
+        </div>
+      
+    </dl>
+    <p class="article_1__p">Your avatar's rank is <strong>the rank of its lowest item</strong>. Even if every other item is Excellent, a single Very Poor item makes the whole avatar Very Poor.</p><p class="article_1__p">VRChat advises you to <strong>aim for Good, and if that is hard, Medium is enough</strong>.</p><p class="article_1__p">The rank is only a guide based on counting the parts in your avatar. It doesn't look at how heavy the shaders or animations are. The rank isn't everything, but it helps you spot heavy avatars.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="seen" aria-labelledby="seen-heading">
+    <h2 class="section_2__h1" id="seen-heading">How other people see your avatar</h2>
+    <p class="article_1__p">In VRChat, viewers can choose <strong>the lowest rank they want to show</strong> (Minimum Displayed Performance Rank) in "Performance Options" at the top right of the "Safety" tab. On PC, the default is "Very Poor", so avatars of every rank show as they are. If a viewer sets it to "Medium" or "Poor", avatars below that rank look different, as shown below.</p>
+    <div class="mock_1 mock_1--vrchat">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of Performance Options. 1 Minimum Displayed Performance Rank, with Medium, Poor and Very Poor to choose from. Very Poor is selected">
+        <p class="mock_1__bar">Safety › Performance Options</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--seg is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Minimum Displayed Performance Rank</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span>Medium</span><span>Poor</span><span class="is_on">Very Poor</span></span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: VRChat&#39;s Performance Options (the viewer&#39;s setting). The layout and look are simplified.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>On PC, the default is "Very Poor" (every avatar shows as it is). If you set it to "Medium", Poor and Very Poor avatars have parts removed or are replaced by a stand-in.</li>
+    </ol>
+  
+</div>
+
+    <section class="table_3" tabindex="0" aria-label="How an avatar looks when it is below the displayed rank">
+      <table>
+        <thead>
+          <tr><th scope="col">Item over the limit</th><th scope="col">How it looks</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Triangles, texture memory, meshes, material slots, bones</th><td>The avatar is replaced by a stand-in (Fallback)</td></tr>
+          
+            <tr><th scope="row">PhysBones or Contacts</th><td>All PhysBones and Contacts are removed (hair and other parts stop swaying)</td></tr>
+          
+            <tr><th scope="row">Particles, lights, audio and similar</th><td>All of those parts are removed</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">On mobile and Quest, only avatars up to "Medium" are shown from the start, and you can't choose to show Very Poor. This is covered in #5.</p><p class="article_1__p">Busy events and groups may ask you to avoid Very Poor avatars. Even if you use a Very Poor avatar with close friends, it's good to have a light avatar ready for crowded places.</p>
+    <p class="section_2__more"><a href="/en/avatar-tips/quest/">#5 Quest and mobile support</a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="limits" aria-labelledby="limits-heading">
+    <h2 class="section_2__h1" id="limits-heading">Main items and limits (PC)</h2>
+    <p class="article_1__p">If an item goes over the number in the table, it drops to the next rank. If it goes over the Poor number too, it is Very Poor.</p>
+    <section class="table_3" tabindex="0" aria-label="Performance rank limits on PC">
+      <table>
+        <thead>
+          <tr><th scope="col">Item</th><th scope="col">Excellent</th><th scope="col">Good</th><th scope="col">Medium</th><th scope="col">Poor</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Triangles</th><td class="table_3__nowrap">32,000</td><td class="table_3__nowrap">70,000</td><td class="table_3__nowrap">70,000</td><td class="table_3__nowrap">70,000</td></tr>
+          
+            <tr><th scope="row">Texture Memory</th><td class="table_3__nowrap">40 MB</td><td class="table_3__nowrap">75 MB</td><td class="table_3__nowrap">110 MB</td><td class="table_3__nowrap">150 MB</td></tr>
+          
+            <tr><th scope="row">Skinned Meshes</th><td class="table_3__nowrap">1</td><td class="table_3__nowrap">2</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td></tr>
+          
+            <tr><th scope="row">Basic Meshes (meshes without skinning)</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">24</td></tr>
+          
+            <tr><th scope="row">Material Slots</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">Bones</th><td class="table_3__nowrap">75</td><td class="table_3__nowrap">150</td><td class="table_3__nowrap">256</td><td class="table_3__nowrap">400</td></tr>
+          
+            <tr><th scope="row">PhysBones Components</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">PhysBones Affected Transforms (bones moved by PhysBones)</th><td class="table_3__nowrap">16</td><td class="table_3__nowrap">64</td><td class="table_3__nowrap">128</td><td class="table_3__nowrap">256</td></tr>
+          
+            <tr><th scope="row">PhysBones Colliders</th><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">PhysBones Collision Check Count (how many collider checks are made)</th><td class="table_3__nowrap">32</td><td class="table_3__nowrap">128</td><td class="table_3__nowrap">256</td><td class="table_3__nowrap">512</td></tr>
+          
+            <tr><th scope="row">Contacts</th><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td><td class="table_3__nowrap">24</td><td class="table_3__nowrap">32</td></tr>
+          
+            <tr><th scope="row">Lights</th><td class="table_3__nowrap">0</td><td class="table_3__nowrap">0</td><td class="table_3__nowrap">0</td><td class="table_3__nowrap">1</td></tr>
+          
+            <tr><th scope="row">Particle Systems</th><td class="table_3__nowrap">0</td><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">16</td></tr>
+          
+            <tr><th scope="row">Audio Sources</th><td class="table_3__nowrap">1</td><td class="table_3__nowrap">4</td><td class="table_3__nowrap">8</td><td class="table_3__nowrap">8</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p"><strong>Things you have turned off are counted too</strong>. Outfits and accessories you switch from the menu still count toward meshes, materials and PhysBones while they are in the avatar, even when off.</p><p class="article_1__p">There are other items too, such as size (Bounds Size), Constraints and the number of Animators. You can see every item on <a href="https://creators.vrchat.com/avatars/avatar-performance-ranking-system/" target="_blank" rel="noopener">VRChat's Performance Ranks page<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="where" aria-labelledby="where-heading">
+    <h2 class="section_2__h1" id="where-heading">Where to see the rank</h2>
+    <p class="article_1__p">You can see the rank in Unity before you upload, and in VRChat after you upload.</p>
+    <h3 class="section_2__h2">In Unity (before you upload)</h3>
+    <ol class="steps_1">
+      <li>In Unity&#39;s top menu, open &#34;VRChat SDK&#34; &gt; &#34;Show Control Panel&#34;.</li><li>In the &#34;Builder&#34; tab, select your avatar.</li><li>The performance section shows the overall rank and the items that lower it.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the performance section of the VRChat SDK Builder. 1 overall rank Poor, 2 Triangles 69,000 Good, 3 PhysBones Components 20 Poor, plus Bones 300 Poor, Texture Memory 120 MB Poor and more">
+        <p class="mock_1__bar">VRChat SDK › Builder</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Overall Performance</span>
+                <span class="mock_1__control"><span class="mock_1__value">Poor</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Stats</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Triangles</span>
+                <span class="mock_1__control"><span class="mock_1__value">69,000 · Good</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Material Slots</span>
+                <span class="mock_1__control"><span class="mock_1__value">12 · Medium</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Skinned Meshes</span>
+                <span class="mock_1__control"><span class="mock_1__value">6 · Medium</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">PhysBones Components</span>
+                <span class="mock_1__control"><span class="mock_1__value">20 · Poor</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Bones</span>
+                <span class="mock_1__control"><span class="mock_1__value">300 · Poor</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Texture Memory</span>
+                <span class="mock_1__control"><span class="mock_1__value">120 MB · Poor</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: the performance section of the VRChat SDK Builder. The layout, look and wording are simplified. The numbers are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The rank of the whole avatar. It is the rank of the lowest item.</li><li>The triangle count is in the Good range. Lowering it won't raise the overall rank.</li><li>An item that lowers the rank. Reduce it to raise the rank.</li>
+    </ol>
+  
+</div>
+
+    <h3 class="section_2__h2">In VRChat (after you upload)</h3>
+    <ol class="steps_1">
+      <li>In the main menu, go to &#34;Avatars&#34;, select your avatar, and press &#34;Avatar Stats&#34; at the bottom left.</li><li>For someone else&#39;s avatar, open the Quick Menu, select that person, and press &#34;Show Avatar Stats&#34;.</li><li>The text color shows the rank of each item.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="why" aria-labelledby="why-heading">
+    <h2 class="section_2__h1" id="why-heading">Why you should make your avatar lighter</h2>
+    <p class="article_1__p">Your avatar is drawn on other people's PCs too. A heavy avatar <strong>puts load on the PCs of everyone around you</strong> and lowers their frame rate (smoothness). In crowded places, this adds up.</p><p class="article_1__p">In particular, many materials and meshes mean more draw commands (draw calls). This often matters more than the triangle count.</p><p class="article_1__p">A lot of texture memory can use up the graphics card's memory (VRAM), which causes stutters or crashes.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
+    <p class="article_1__p">Change the numbers for the main items and see what happens to the avatar&#39;s overall rank. The lowest item decides the overall rank.</p>
+    <div class="demo_2 js_rank_demo"
+      data-ranks="Excellent,Good,Medium,Poor,Very Poor" data-ok="This avatar&#39;s rank is {r}. You rarely run into trouble with it." data-ng="This avatar&#39;s rank is {r}. Reduce the items in bold to raise the rank."
+      data-why="Lowest: {i} ({r}). The rank is decided by the lowest item." data-all-best="Every item is in the Excellent range." data-mark=" (lowest)"
+      data-sep=": " data-join=", " data-num-locale="en-US">
+      <div class="demo_2__controls" role="group" aria-label="Item counts">
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-tris">Triangles</label> <output class="demo_1__value" for="rank-tris">69,000</output></p>
+            <input type="range" id="rank-tris" class="js_rank_input" min="0" max="150000" step="1000" value="69000"
+              data-name="Triangles" data-limits="32000,70000,70000,70000">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-tex">Texture Memory</label> <output class="demo_1__value" for="rank-tex">120 MB</output></p>
+            <input type="range" id="rank-tex" class="js_rank_input" min="0" max="300" step="5" value="120"
+              data-name="Texture Memory" data-limits="40,75,110,150" data-unit=" MB">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-skinned">Skinned Meshes</label> <output class="demo_1__value" for="rank-skinned">6</output></p>
+            <input type="range" id="rank-skinned" class="js_rank_input" min="1" max="24" step="1" value="6"
+              data-name="Skinned Meshes" data-limits="1,2,8,16">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-mats">Material Slots</label> <output class="demo_1__value" for="rank-mats">12</output></p>
+            <input type="range" id="rank-mats" class="js_rank_input" min="1" max="48" step="1" value="12"
+              data-name="Material Slots" data-limits="4,8,16,32">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-bones">Bones</label> <output class="demo_1__value" for="rank-bones">300</output></p>
+            <input type="range" id="rank-bones" class="js_rank_input" min="0" max="600" step="5" value="300"
+              data-name="Bones" data-limits="75,150,256,400">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-pb">PhysBones</label> <output class="demo_1__value" for="rank-pb">20</output></p>
+            <input type="range" id="rank-pb" class="js_rank_input" min="0" max="48" step="1" value="20"
+              data-name="PhysBones" data-limits="4,8,16,32">
+          </div>
+        
+          <div class="demo_1__range">
+            <p class="demo_1__label"><label for="rank-pbt">Bones moved by PhysBones</label> <output class="demo_1__value" for="rank-pbt">180</output></p>
+            <input type="range" id="rank-pbt" class="js_rank_input" min="0" max="400" step="4" value="180"
+              data-name="Bones moved by PhysBones" data-limits="16,64,128,256">
+          </div>
+        
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__result is_ng js_rank_result">This avatar&#39;s rank is Poor. Reduce the items in bold to raise the rank.</p>
+        <p class="demo_1__why js_rank_why">Lowest: Texture Memory, Bones, PhysBones, Bones moved by PhysBones (Poor). The rank is decided by the lowest item.</p>
+        <p class="demo_1__label">Rank of each item</p>
+        <ul class="rules_1 js_rank_list">
+          
+            <li>Triangles: 69,000 → Good</li>
+          
+            <li><strong>Texture Memory: 120 MB → Poor (lowest)</strong></li>
+          
+            <li>Skinned Meshes: 6 → Medium</li>
+          
+            <li>Material Slots: 12 → Medium</li>
+          
+            <li><strong>Bones: 300 → Poor (lowest)</strong></li>
+          
+            <li><strong>PhysBones: 20 → Poor (lowest)</strong></li>
+          
+            <li><strong>Bones moved by PhysBones: 180 → Poor (lowest)</strong></li>
+          
+        </ul>
+      </div>
+      <noscript><p class="section_2__note">Turn on JavaScript to use this figure.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="light" aria-labelledby="light-heading">
+    <h2 class="section_2__h1" id="light-heading">How to make your avatar lighter</h2>
+    <p class="article_1__p">These are listed from most to least effective. Before you cut anything from the original avatar, try 1 and 2 first.</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>1. Add Avatar Optimizer (AAO)</dt>
+          <dd>A tool that makes your avatar lighter automatically when you upload, without changing how it looks. It removes unused parts, merges meshes, merges PhysBones and more. It doesn&#39;t change your original avatar. To install it, see &#34;Optimize with AAO&#34; below.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>2. Delete outfits you don&#39;t use</dt>
+          <dd>Things you have turned off are counted too. For outfits and accessories you never switch to, don&#39;t just turn them off. Delete them from the avatar (it&#39;s safer to duplicate the avatar for uploading and delete them from the copy).</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>3. Merge meshes and materials</dt>
+          <dd>There are tools that merge meshes, and tools that combine textures into one (make an atlas) to reduce materials. Fewer materials and meshes mean fewer draw calls.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>4. Reduce PhysBones</dt>
+          <dd>Remove PhysBones from parts that don&#39;t need to sway, or combine ones with the same settings into one. You can also reduce the number of bones they move.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>5. Make textures smaller</dt>
+          <dd>Select a texture and lower &#34;Max Size&#34; in the Inspector (going from 2048 to 1024 cuts memory to about a quarter). Keep the size for textures that need fine detail, such as the eyes. &#34;Use Crunch Compression&#34; makes the download smaller, but it doesn&#39;t reduce texture memory.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>6. Reduce polygons</dt>
+          <dd>There are tools that reduce polygons, but they easily break the look, so use them as a last resort. If your triangle count is in the Good range, fix the other items first.</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="aao" aria-labelledby="aao-heading">
+    <h2 class="section_2__h1" id="aao-heading">Optimize with AAO</h2>
+    <p class="article_1__p">AAO doesn&#39;t change your original avatar. It makes the avatar lighter when you press Play and when you upload. If you no longer need it, just remove the component to go back.</p>
+    <ol class="steps_1">
+      <li>From the link on the <a href="https://vpm.anatawa12.com/avatar-optimizer/en/" target="_blank" rel="noopener">AAO page<span class="visually-hidden"> (opens in a new tab)</span></a>, add anatawa12's repository to VCC or ALCOM (see #1 for how to add one).</li><li>Add "AAO: Avatar Optimizer" on your project's management screen.</li><li>In the Hierarchy, select the top of your avatar (the object with the VRC Avatar Descriptor).</li><li>In the Inspector, use "Add Component" to find and add "AAO Trace And Optimize". The default settings are fine.</li><li>Press Play and check that the look and gimmicks haven't changed, then upload. The Builder's rank may not show the numbers after AAO's optimization, so check "Avatar Stats" in VRChat after you upload.</li>
+    </ol>
+    <p class="section_2__more"><a href="/en/avatar-tips/setup/#packages">#1 Adding tools and shaders</a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Adding outfits made it Very Poor</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You added a few outfits and made them switchable from the menu, and the avatar became Very Poor.</dd></div>
+            <div><dt>Cause</dt><dd>Outfits that are off are counted too, so the number of meshes, materials and PhysBones went up.</dd></div>
+            <div><dt>Fix</dt><dd>Delete outfits you don&#39;t switch to. Adding AAO&#39;s Trace And Optimize may also merge meshes and reduce the count.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Only the PhysBone items are Poor</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Everything else is Good, but the PhysBones count or the bones they move make it Poor.</dd></div>
+            <div><dt>Cause</dt><dd>Each outfit comes with its own PhysBones for hair and clothes.</dd></div>
+            <div><dt>Fix</dt><dd>Remove PhysBones from parts that don&#39;t need to sway, or let AAO merge them.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Texture memory is too high</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Texture Memory goes over 150 MB and the avatar becomes Very Poor.</dd></div>
+            <div><dt>Cause</dt><dd>There are many large textures, such as 4096.</dd></div>
+            <div><dt>Fix</dt><dd>Starting with textures on parts that don&#39;t stand out, lower Max Size to 2048 or 1024.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Other people see a different avatar</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You can see your avatar, but others see a stand-in (Fallback) or a robot.</dd></div>
+            <div><dt>Cause</dt><dd>The viewer has set the displayed rank to Medium or similar, or is on mobile or Quest.</dd></div>
+            <div><dt>Fix</dt><dd>Raising your rank lets more people see your avatar. For people on mobile or Quest, prepare a version of your avatar that supports them (#5).</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>Before you cut anything, export your avatar&#39;s folder or back up your project. Some cuts can&#39;t be undone.</li><li>Before cutting things directly, try tools like AAO that don&#39;t change the original.</li><li>The rank is a guide. Medium is enough. You don&#39;t need to ruin a look you like just to raise the rank.</li><li>VRChat may change the rank limits. Check VRChat&#39;s official page for the latest numbers.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>Your avatar&#39;s rank is decided by its lowest item.</li><li>Outfits you have turned off are counted too. Delete things you don&#39;t use.</li><li>First add AAO&#39;s Trace And Optimize, then review materials, PhysBones and textures.</li><li>Aim for Good, and if that is hard, Medium is enough.</li>
+    </ul>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/outfit/" rel="prev"><span class="next_1__note">Previous (#3)</span><span class="next_1__text">Dressing your avatar</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/quest/" rel="next"><span class="next_1__note">Next (#5)</span><span class="next_1__text">Quest and mobile support</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

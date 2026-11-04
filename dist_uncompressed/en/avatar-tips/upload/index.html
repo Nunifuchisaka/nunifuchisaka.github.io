@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>How to upload | ぬにふちさか</title>
+<meta name="description" content="From importing a purchased avatar into Unity to uploading it to VRChat. Covers the order to import shaders, how to read the VRChat SDK Builder and Validations, updating and Blueprint IDs, and common stumbling points, with recreated views of the screens.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/upload/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/upload/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/upload/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/upload/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to upload">
+<meta property="og:description" content="From importing a purchased avatar into Unity to uploading it to VRChat. Covers the order to import shaders, how to read the VRChat SDK Builder and Validations, updating and Blueprint IDs, and common stumbling points, with recreated views of the screens.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/upload/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to upload">
+<meta name="twitter:description" content="From importing a purchased avatar into Unity to uploading it to VRChat. Covers the order to import shaders, how to read the VRChat SDK Builder and Validations, updating and Blueprint IDs, and common stumbling points, with recreated views of the screens.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "How to upload | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/upload/",
+  "description": "From importing a purchased avatar into Unity to uploading it to VRChat. Covers the order to import shaders, how to read the VRChat SDK Builder and Validations, updating and Blueprint IDs, and common stumbling points, with recreated views of the screens."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #2</a></p>
+    <h1 class="page_1__h1" id="article-heading">How to upload</h1>
+    <p class="article_1__lead">This is the whole flow, from importing an avatar you bought into Unity to uploading it to VRChat. With recreated views of the screens, it explains the order to import shaders, how to read the VRChat SDK Builder, what to watch out for when updating, and common stumbling points.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers VRChat SDK 3 (Avatars). It&#39;s up to date as of November 2026, and the screens may change when the SDK is updated.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#flow">The steps to uploading</a></li>
+        
+          <li><a href="#need">What you need to upload</a></li>
+        
+          <li><a href="#import">Importing shaders and the avatar</a></li>
+        
+          <li><a href="#place">Placing it in the scene</a></li>
+        
+          <li><a href="#login">Logging in to the VRChat SDK</a></li>
+        
+          <li><a href="#builder">Checking in the Builder and uploading</a></li>
+        
+          <li><a href="#validations">How to read Validations (the check results)</a></li>
+        
+          <li><a href="#update">Updating, or keeping it as a separate avatar</a></li>
+        
+          <li><a href="#check">Checking in VRChat</a></li>
+        
+          <li><a href="#cases">Common problems</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>You bought an avatar, but you don&#39;t know how to use it in VRChat.</li><li>Red or yellow messages appear in the Builder, and you don&#39;t know what to do.</li><li>You want to upload an edited avatar again, or keep it as a separate avatar.</li><li>You uploaded an avatar, but you can&#39;t find it in VRChat.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="flow" aria-labelledby="flow-heading">
+    <h2 class="section_2__h1" id="flow-heading">The steps to uploading</h2>
+    <p class="article_1__p">This starts from the point where you've installed Unity and VCC (or ALCOM) and created a project for avatars. If you haven't yet, read <a href="/en/avatar-tips/setup/">#1 Installing VCC, ALCOM and Unity</a> first.</p>
+    <ol class="route_1">
+      
+        <li class="route_1__step"><span class="route_1__head">Import shaders and tools</span><span class="route_1__note">lilToon and so on. Before the avatar</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Import the avatar</span><span class="route_1__note">Load the .unitypackage</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Place it in the scene</span><span class="route_1__note">Drag the Prefab into the Hierarchy</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Log in to the SDK</span><span class="route_1__note">With your VRChat account</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Check in the Builder</span><span class="route_1__note">Fix errors and publish</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Check in VRChat</span><span class="route_1__note">Wear it from your avatar list</span></li>
+      
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="need" aria-labelledby="need-heading">
+    <h2 class="section_2__h1" id="need-heading">What you need to upload</h2>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>A VRChat account</dt>
+          <dd>Log in with the account you created on the VRChat website. If you play with a Steam or Meta account, link it to a VRChat account first.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>&#34;New User&#34; rank or higher</dt>
+          <dd>Only accounts with a rank (Trust Rank) of "New User" or higher can upload. While you're a "Visitor", you can only use the test that only you can see (Build &amp; Test). When you become able to upload, you'll get an email.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>The avatar&#39;s terms of use</dt>
+          <dd>Each avatar and outfit has its own rules on how you may use it. In particular, check the download page or the included terms to see whether you may make it public (Public).</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="import" aria-labelledby="import-heading">
+    <h2 class="section_2__h1" id="import-heading">Importing shaders and the avatar</h2>
+    <p class="article_1__p">The avatar&#39;s instructions (README) list what to import first (shaders and tools) and in what order. Read them first.</p>
+    <ol class="steps_1">
+      <li>Import the shaders (lilToon, Poiyomi and so on) and tools (Modular Avatar and so on) listed in the instructions <strong>before the avatar</strong>. If they can be installed with VCC or ALCOM, install them from the project's manage screen. If they come as a .unitypackage, import them the same way as in the next step.</li><li>Drag the avatar's .unitypackage into Unity's Project window. You can also choose it from <code>Assets → Import Package → Custom Package...</code>.</li><li>When the Import Unity Package window appears, just click "Import".</li><li>When the import finishes, check the Console window for red errors.</li>
+    </ol>
+    <p class="article_1__p">If you import the avatar first, it turns pink because its shader is missing. In most cases, importing the shader afterward fixes it.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="place" aria-labelledby="place-heading">
+    <h2 class="section_2__h1" id="place-heading">Placing it in the scene</h2>
+    <ol class="steps_1">
+      <li>In the Project window, open the avatar's folder. Find the Prefab named after the avatar (the blue box icon).</li><li>Drag the Prefab into the Hierarchy to place it in the scene. Some avatars come with a ready-to-use scene, so you just open it.</li><li>Select the avatar in the Hierarchy and check that the Inspector has a "VRC Avatar Descriptor". Avatars sold in shops almost always have it set up already.</li><li>Keep only the avatar you're uploading in the scene so you don't get confused. To hide ones you don't need, select them and uncheck the box at the top left.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="login" aria-labelledby="login-heading">
+    <h2 class="section_2__h1" id="login-heading">Logging in to the VRChat SDK</h2>
+    <ol class="steps_1">
+      <li>Click <code>VRChat SDK → Show Control Panel</code> in the menu at the top. The VRChat SDK window opens.</li><li>On the "Authentication" tab, enter your VRChat user name (or email address) and password, and log in. If you use two-factor authentication, enter the code too.</li><li>Open the "Builder" tab, and the avatar you placed in the scene appears.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="builder" aria-labelledby="builder-heading">
+    <h2 class="section_2__h1" id="builder-heading">Checking in the Builder and uploading</h2>
+    <p class="article_1__p">The Builder tab shows the avatar&#39;s name, its visibility setting, the check results (Validations), and the upload button.</p>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the VRChat SDK Builder. 1 Name, 2 Visibility (Private and Public), 3 Content Warnings, 4 Thumbnail, 5 Platforms (Windows, Android, iOS), 6 the checkbox confirming your rights, 7 the Build and Publish button">
+        <p class="mock_1__bar">VRChat SDK › Builder</p>
+        
+          <p class="mock_1__tabs"><span>Authentication</span><span class="is_on">Builder</span><span>Content Manager</span><span>Settings</span></p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Name</span>
+                <span class="mock_1__control"><span class="mock_1__value">MyAvatar</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--seg is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Visibility</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span class="is_on">Private</span><span>Public</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">Content Warnings</span>
+                <span class="mock_1__control"><span class="mock_1__select">None</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button">
+                <span class="mock_1__mark">4</span>
+                <span class="mock_1__label">Thumbnail</span>
+                <span class="mock_1__control"><span class="mock_1__button">Capture</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--seg">
+                <span class="mock_1__mark">5</span>
+                <span class="mock_1__label">Platforms</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span class="is_on">Windows</span><span>Android</span><span>iOS</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">6</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">I have the rights to upload this content</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button is_hot">
+                <span class="mock_1__mark">7</span>
+                
+                <span class="mock_1__control"><span class="mock_1__button">Build and Publish</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: the VRChat SDK Builder tab. The layout and look are simplified.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The name shown in your VRChat avatar list. You can change it later.</li><li><strong>Private</strong> means only you can use it. With <strong>Public</strong>, other people can switch into the avatar too, for example from avatar displays in worlds. Avatars sold in shops often forbid Public in their terms, so normally choose Private.</li><li>Choose the kinds of warnings that apply, such as a lot of exposed skin or scary content. Viewers can then hide it in their settings.</li><li>The image shown in the list. Capture how the scene looks right now, or choose an image file.</li><li>Which devices you're building for. For the PC version only, choose Windows. To be seen on Quest or phones too, also build for those devices (there are requirements).</li><li>A checkbox confirming that the information you entered is correct and that you have the right to upload it. You can't upload without checking it.</li><li>Click it to start the build. When the build is done, it's sent to VRChat. You can't click it while there's a red error in Validations below.</li>
+    </ol>
+  
+</div>
+
+    <ol class="steps_1">
+      <li>Enter a name and choose a Visibility. If you're not sure, choose Private.</li><li>Choose any Content Warnings that apply, and capture a Thumbnail.</li><li>Go through the messages in Validations at the bottom, starting from the top (see the next figure).</li><li>Choose the devices to build for (Platforms), check the rights checkbox, and click "Build and Publish".</li><li>Wait for the build and upload to finish. If the avatar is large, it takes a few minutes.</li>
+    </ol>
+    <p class="article_1__p">If you want to try it before uploading, use "Build &amp; Test". It shows up in your VRChat avatar list as a test avatar that only you can wear. You can use it even with the "Visitor" rank.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="validations" aria-labelledby="validations-heading">
+    <h2 class="section_2__h1" id="validations-heading">How to read Validations (the check results)</h2>
+    <p class="article_1__p">Below the Builder are the results of the SDK's checks on your avatar. There are three kinds of messages.</p>
+    <section class="table_3" tabindex="0" aria-label="Kinds of messages in Validations">
+      <table>
+        <thead>
+          <tr><th scope="col">Color</th><th scope="col">Meaning</th><th scope="col">What to do</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Red (error)</th><td>A problem that stops you from uploading</td><td>You can&#39;t click &#34;Build and Publish&#34; until it&#39;s fixed. Always fix it.</td></tr>
+          
+            <tr><th scope="row">Yellow (warning)</th><td>You can upload, but something needs attention</td><td>Most of the time, you can upload as it is. Read what it says, and fix what you can.</td></tr>
+          
+            <tr><th scope="row">Blue or white (info)</th><td>Information such as the performance rank</td><td>Just read it. Nothing to do.</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of Validations. 1 a red error with an Auto Fix button, 2 a yellow warning with a Select button, 3 a performance rank notice">
+        <p class="mock_1__bar">VRChat SDK › Builder › Validations</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">Validations</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">✕ Error: must be fixed before you can upload</span>
+                <span class="mock_1__control"><span class="mock_1__button">Auto Fix</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">! Warning: too many polygons</span>
+                <span class="mock_1__control"><span class="mock_1__button">Select</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">i Info: performance rank</span>
+                <span class="mock_1__control"><span class="mock_1__value">Poor</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Validations in the Builder. The messages are examples, and the real wording is different.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>If there's an "Auto Fix" button, clicking it makes the SDK fix the problem for you. Before you click, read the message to see what will change.</li><li>Click "Select" to select the object causing the message in the Hierarchy. That shows you where to fix it.</li><li>A rough guide to how heavy the avatar is. If the rank is low, some people may not see your avatar, depending on their settings. <a href="/en/avatar-tips/performance/">#4 Performance ranks and optimization</a> explains this in detail.</li>
+    </ol>
+  
+</div>
+
+  </section>
+
+  <section class="section_2 article_1__section" id="update" aria-labelledby="update-heading">
+    <h2 class="section_2__h1" id="update-heading">Updating, or keeping it as a separate avatar</h2>
+    <p class="article_1__p">Once you upload, a component called "Pipeline Manager" is added to the avatar's top object, and a <strong>Blueprint ID</strong> (an ID that starts with <code>avtr_</code>) is written into it. This ID tells which avatar on VRChat it is.</p><p class="article_1__p">If you upload with the same Blueprint ID, <strong>the previous avatar is overwritten</strong>. When you fix your edits and upload again, that's fine.</p><p class="article_1__p">To keep your edited version <strong>as a separate avatar</strong>, click "Detach" in the Pipeline Manager to remove the ID, then upload. It gets a new ID.</p>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Pipeline Manager. 1 Blueprint ID, 2 the Detach button, 3 the Attach button">
+        <p class="mock_1__bar">Inspector › MyAvatar (Pipeline Manager)</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Blueprint ID</span>
+                <span class="mock_1__control"><span class="mock_1__value">avtr_1a2b3c4d-…</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button">
+                <span class="mock_1__mark">2</span>
+                
+                <span class="mock_1__control"><span class="mock_1__button">Detach (Optional)</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__button">Attach (Optional)</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: the Pipeline Manager in the Inspector. The ID is an example.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The ID of the avatar on VRChat that your upload goes to. The avatar with this ID is overwritten.</li><li>Removes the ID. If you upload after this, it goes in as a new avatar.</li><li>Used to create a new ID, or to upload to a specific ID. You normally won't need it.</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">If you duplicate the avatar in the Hierarchy (Ctrl + D), the Blueprint ID is copied too. If you upload the copy as it is, the original avatar is overwritten. Detach the copy first.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="check" aria-labelledby="check-heading">
+    <h2 class="section_2__h1" id="check-heading">Checking in VRChat</h2>
+    <ol class="steps_1">
+      <li>Open VRChat, go to the avatar list in the menu, and open the section with the avatars you uploaded.</li><li>Select the avatar you uploaded and switch into it. If it isn't there, reload the list or restart VRChat.</li><li>In front of a mirror, try everything: expressions, hand gestures, swaying parts, and things you control from the menu.</li><li>How others see you also depends on ranks and Safety settings. If you're worried, ask a friend to take a look.</li>
+    </ol>
+    <p class="article_1__p">You can also see the list of avatars you uploaded on the &#34;Content Manager&#34; tab of the VRChat SDK in Unity.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The VRChat SDK menu or the Builder doesn&#39;t appear</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>There's no VRChat SDK in the menu at the top. Or the Builder doesn't appear when you open the Control Panel.</dd></div>
+            <div><dt>How to fix it</dt><dd>Check the Console for red errors (compile errors). An error from a tool you imported can stop the SDK from working. Also check that your Unity version is the one VRChat specifies.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">You can&#39;t upload (rank)</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You can log in, but it says you can't upload.</dd></div>
+            <div><dt>How to fix it</dt><dd>Check that your account's rank is "New User" or higher. While you're a "Visitor", you can try the avatar by yourself with Build &amp; Test. Your rank goes up as you play VRChat.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">&#34;Build and Publish&#34; can&#39;t be clicked</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The button is grayed out and can't be clicked.</dd></div>
+            <div><dt>How to fix it</dt><dd>Check that there are no red errors in Validations, and that you checked the rights checkbox. If clicking it does nothing, restart Unity.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The avatar turns pink</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>In Unity or VRChat, the avatar or its clothes turn solid pink.</dd></div>
+            <div><dt>How to fix it</dt><dd>The shader it uses isn't installed. Install the shaders listed in the instructions. If that doesn't fix it, select the material and choose the shader again.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">A different avatar got overwritten</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You uploaded a new avatar, and it replaced a previous one.</dd></div>
+            <div><dt>How to fix it</dt><dd>You uploaded with the same Blueprint ID, for example after duplicating. Detach in the Pipeline Manager and upload again. Upload the overwritten avatar again from its original project.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">You uploaded it, but can&#39;t find it</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The upload finished, but the avatar doesn't appear in your VRChat avatar list.</dd></div>
+            <div><dt>How to fix it</dt><dd>Check that the account you logged in to the SDK with is the same one you play VRChat with. Also check whether it appears in the SDK's Content Manager, and whether there are errors in the Console. If the SDK is old, update it with VCC or ALCOM.</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>Follow the terms of use for avatars and outfits. Whether you may make it Public, how far you may edit it, and whether you may share it with others are different for each model.</li><li>A Public avatar can be worn by other people too, for example from avatar displays in worlds. Keep avatars that are just for you Private.</li><li>A Fallback is the look shown instead to people who can&#39;t see your avatar because of ranks or Safety settings. You can set it from your avatar list in VRChat. Only light avatars can be set as a Fallback.</li><li>Back up your project before big edits, just to be safe.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>Import shaders and tools first, then the avatar&#39;s .unitypackage.</li><li>Log in to the VRChat SDK, fix the red errors in the Builder&#39;s Validations, and then click Build and Publish.</li><li>If you&#39;re not sure, choose Private. Check the terms of use before making it Public.</li><li>Uploading with the same Blueprint ID overwrites the avatar. To make a separate avatar, Detach first.</li>
+    </ul>
+    <p class="article_1__p">VRChat's official steps are in <a href="https://creators.vrchat.com/avatars/creating-your-first-avatar/" target="_blank" rel="noopener">Creating Your First Avatar<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/setup/" rel="prev"><span class="next_1__note">Previous (#1)</span><span class="next_1__text">Installing VCC, ALCOM and Unity</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/outfit/" rel="next"><span class="next_1__note">Next (#3)</span><span class="next_1__text">Dressing your avatar</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

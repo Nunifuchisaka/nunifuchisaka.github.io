@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>When a gimmick doesn&#39;t work | ぬにふちさか</title>
+<meta name="description" content="Nothing happens from the menu, only you can see it, it resets when you change worlds. The order to check things with Gesture Manager, and a list of common causes and where to fix them, with a table you can narrow down by problem.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/gimmick-debug/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/gimmick-debug/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/gimmick-debug/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/gimmick-debug/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="When a gimmick doesn&#39;t work">
+<meta property="og:description" content="Nothing happens from the menu, only you can see it, it resets when you change worlds. The order to check things with Gesture Manager, and a list of common causes and where to fix them, with a table you can narrow down by problem.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/gimmick-debug/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="When a gimmick doesn&#39;t work">
+<meta name="twitter:description" content="Nothing happens from the menu, only you can see it, it resets when you change worlds. The order to check things with Gesture Manager, and a list of common causes and where to fix them, with a table you can narrow down by problem.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "When a gimmick doesn&#39;t work | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/gimmick-debug/",
+  "description": "Nothing happens from the menu, only you can see it, it resets when you change worlds. The order to check things with Gesture Manager, and a list of common causes and where to fix them, with a table you can narrow down by problem."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/gimmick-debug-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #12</a></p>
+    <h1 class="page_1__h1" id="article-heading">When a gimmick doesn&#39;t work</h1>
+    <p class="article_1__lead">You press it in the menu and nothing happens. Only you can see it. It resets when you change worlds. When a gimmick doesn&#39;t work the way you expected, this page shows where to start, what order to check things in, and a list of common causes. When you&#39;re stuck, come here first.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Up to date as of November 2026.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#order">The order to check things</a></li>
+        
+          <li><a href="#tools">Tools for checking</a></li>
+        
+          <li><a href="#checklist">Common causes</a></li>
+        
+          <li><a href="#cases">Common problems and how to fix them</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>A gimmick you built doesn&#39;t do anything when you press it in the menu.</li><li>You can see it, but someone told you they can&#39;t.</li><li>Your toggles reset when you change worlds or switch avatars.</li><li>It worked in Unity, but it doesn&#39;t work in VRChat.</li><li>You can&#39;t tell what&#39;s wrong, and you don&#39;t know where to start looking.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="order" aria-labelledby="order-heading">
+    <h2 class="section_2__h1" id="order-heading">The order to check things</h2>
+    <p class="article_1__p">A gimmick works by passing a value along in this order: <strong>menu → parameter → state → clip → what you see</strong> (for details, see <a href="/en/avatar-tips/animator-basics/#picture">#6 How the Animator works</a>). If it stops being passed along somewhere, nothing after that point works.</p><p class="article_1__p">So <strong>start at the front and check, one step at a time, how far the value gets</strong>. The cause is just before the point where it stops. This finds the problem much faster than fixing whatever comes to mind.</p><p class="article_1__p">And <strong>check in Unity first</strong>. To test in VRChat, you have to upload and wait every time. In Unity, you just fix it and press Play, and you can check right away.</p>
+    <ol class="route_1">
+      
+        <li class="route_1__step"><span class="route_1__head">1. Play in Unity</span><span class="route_1__note">Press the menu in Gesture Manager</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">2. Parameter</span><span class="route_1__note">Does the value change?</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">3. State</span><span class="route_1__note">Does it go into a different state?</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">4. Clip</span><span class="route_1__note">Is it writing the right things?</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">5. Yourself in VRChat</span><span class="route_1__note">Upload and try it</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">6. With friends</span><span class="route_1__note">Can other people see it?</span></li>
+      
+    </ol>
+    <h3 class="section_2__h2">What to look at in each step, and where to look when it stops</h3>
+    <dl class="examples_1">
+      
+        <div class="examples_1__item">
+          <dt>1. Play in Unity with Gesture Manager</dt>
+          <dd>Follow the steps in the next section: press Unity's Play button, then press the gimmick's item in the Gesture Manager menu. If it works in Unity, your Animator and clips are set up correctly. Go on to 5. If it doesn't work in Unity either, check from 2 in order.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>2. Does the parameter&#39;s value change?</dt>
+          <dd>When you press the menu, look at the Debug section of Gesture Manager and see whether that parameter's value changes. <strong>If it doesn't change, the cause is the menu or Expression Parameters</strong>. Check that the names match, and that the parameter is in Expression Parameters.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>3. Does it go into a different state?</dt>
+          <dd>If the parameter changes but the state doesn't, the cause is <strong>the parameter name in the Animator, or the transition conditions</strong>. In the Animator window, look at which state is running in that layer (how to look is in the next section).</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>4. Is the clip writing the right things?</dt>
+          <dd>If the state changes but what you see doesn't, the cause is <strong>what's in the clip, or the layer settings</strong>. Check that the clip's paths aren't broken (Missing), that the layer's Weight isn't 0, and that a lower layer isn't writing the same thing.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>5. Check it yourself in VRChat</dt>
+          <dd>Once it works in Unity, upload and try it in VRChat. If it works in Unity but not in VRChat, look at <strong>things that were removed during upload</strong> (such as EditorOnly objects), and at which avatar you uploaded to.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>6. Ask a friend how it looks to other people</dt>
+          <dd>Once it works for you, ask a friend to look. Gesture Manager and your own screen can only show you <strong>how you see yourself</strong>. If other people can't see it, check the parameter's Synced setting (sends it to other people) and the Quest version.</dd>
+        </div>
+      
+    </dl>
+    <p class="section_2__note">Once you know which step it stops at, pick that problem in the &#34;Common causes&#34; list below to narrow down where to look.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="tools" aria-labelledby="tools-heading">
+    <h2 class="section_2__h1" id="tools-heading">Tools for checking</h2>
+    <p class="article_1__p">There are three main tools for checking: Gesture Manager in Unity, the Animator window in Unity, and the displays inside VRChat.</p>
+
+    <h3 class="section_2__h2">Gesture Manager (run it like VRChat, in Unity)</h3>
+    <p class="article_1__p">Gesture Manager is a tool that runs your avatar's Animator in Unity Play mode the same way VRChat does. You can try out your menu (Expressions Menu) and hand gestures inside Unity. It's made by BlackStartx (<a href="https://github.com/BlackStartx/VRC-Gesture-Manager" target="_blank" rel="noopener">Gesture Manager download page<span class="visually-hidden"> (opens in a new tab)</span></a>).</p><p class="article_1__p">Add Gesture Manager to your project from the project list in VCC or ALCOM. For how to add it, see <a href="/en/avatar-tips/setup/#packages">#1 Installing VCC, ALCOM and Unity</a>.</p>
+    <ol class="steps_1">
+      <li>In Unity's top menu, choose <code>Tools → Gesture Manager Emulator</code>. An object called <code>GestureManager</code> is added to the scene. It's only for testing, and it isn't included in your upload.</li><li>Press the Play button (▶) at the top center of Unity. Unity goes into Play mode, and the Animator starts running.</li><li>Select <code>GestureManager</code> in the Hierarchy. A round menu, the same shape as VRChat's, appears in the Inspector. If there are two or more avatars, choose the one you want to test.</li><li>In the round menu, press the item for the gimmick you want to test. Check in the Scene or Game view whether it changes.</li><li>Open the <code>Debug</code> section near the top of the Inspector. It lists parameter values, layer Weights, and the state each layer is in right now. Press the menu and see which values change.</li><li>When you're done checking, press the Play button again to stop. <strong>Settings you change while playing go back when you stop.</strong> Make your fixes after you stop.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of Gesture Manager&#39;s Debug section. Under Parameters, 1 Hat is true and GestureLeft is 0. Under Layer Weights, 2 the FX Hat layer is 0. Under Animator States, 3 the FX Hat layer is in Hat_On">
+        <p class="mock_1__bar">Inspector › GestureManager › Debug</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">Parameters</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Hat</span>
+                <span class="mock_1__control"><span class="mock_1__value">true</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">GestureLeft</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Layer Weights</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">FX / Hat</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Animator States</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">FX / Hat</span>
+                <span class="mock_1__control"><span class="mock_1__value">Hat_On</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Gesture Manager&#39;s Debug section (in Unity Play mode). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Turning the hat on in the menu set Hat to true. The menu and Expression Parameters are fine.</li><li>The Hat layer's Weight is 0. With this, what you see won't change even when the state changes. Set the Weight to 1.</li><li>The state is Hat_On. The transition is fine too.</li>
+    </ol>
+  
+</div>
+
+    <p class="section_2__note">Names and layout in Gesture Manager can differ between versions. If you can&#39;t find a section, try pressing the buttons in the Inspector one by one.</p>
+
+    <h3 class="section_2__h2">The Animator window (see which state is running)</h3>
+    <ol class="steps_1">
+      <li>While playing with Gesture Manager, select your avatar in the Hierarchy (the top object, with the VRC Avatar Descriptor on it).</li><li>Open the Animator window with <code>Window → Animation → Animator</code>. Sometimes you can also open the layer you want (FX, for example) from Gesture Manager's Debug section.</li><li>In the <code>Layers</code> tab on the left, choose the layer you want to look at.</li><li>The state it's in right now shows a <strong>blue progress bar</strong> underneath that moves. Press the menu and see whether the bar moves to another state. If it doesn't, the transition conditions or the parameter name are wrong.</li><li>Select a transition arrow, and its conditions (Conditions) appear in the Inspector. Check that the parameter name and value match.</li>
+    </ol>
+    <p class="section_2__note">Settings you change in the Animator window while playing may also go back when you stop. Once you know what to change to fix it, stop playing and make the same change again.</p>
+
+    <h3 class="section_2__h2">Displays inside VRChat</h3>
+    <p class="article_1__p">Inside VRChat, there's also a display that shows your avatar's parameter values. In the Expressions menu (Action Menu), around the settings (Options), there's an item that turns on a debug display (Debug). Its name and location can change with VRChat updates, so if you can't find it, check VRChat's official documentation for where it is now.</p><p class="article_1__p">The VRChat SDK Builder also has a way to test only in VRChat on your own PC, without uploading (Build &amp; Test). It's faster than uploading every time.</p><p class="article_1__p"><strong>Only other people can check how you look to other people.</strong> When you check sync (Synced) or the Quest version, ask a friend to look at you in the same world. If you have friends on Quest or mobile, ask them to look too, so you can be sure.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="checklist" aria-labelledby="checklist-heading">
+    <h2 class="section_2__h1" id="checklist-heading">Common causes</h2>
+    <p class="article_1__p">A list of what happens, the likely causes, and where to check and fix it. Use it together with the step where things stopped in the order above. The links go to more detailed fixes.</p>
+    <div class="demo_2__controls js_debug_picker" data-target="debug-checklist"
+      data-all="Showing all causes ({n})." data-some="Possible causes for this problem: {n}." hidden>
+      <fieldset class="demo_1__distance">
+        <legend class="demo_1__label">Narrow down by problem</legend>
+        <label><input type="radio" name="debug-symptom" value="all" class="js_debug_symptom" checked> All</label>
+        
+          <label><input type="radio" name="debug-symptom" value="menu" class="js_debug_symptom"> Nothing happens when I press the menu</label>
+        
+          <label><input type="radio" name="debug-symptom" value="unity" class="js_debug_symptom"> It works in Unity, but not in VRChat</label>
+        
+          <label><input type="radio" name="debug-symptom" value="others" class="js_debug_symptom"> I can see it, but other people can&#39;t</label>
+        
+          <label><input type="radio" name="debug-symptom" value="reset" class="js_debug_symptom"> It resets when I change worlds or avatars</label>
+        
+          <label><input type="radio" name="debug-symptom" value="timing" class="js_debug_symptom"> It&#39;s delayed, changes slowly, or flickers</label>
+        
+          <label><input type="radio" name="debug-symptom" value="wrong" class="js_debug_symptom"> It won&#39;t turn back, or other things change too</label>
+        
+          <label><input type="radio" name="debug-symptom" value="touch" class="js_debug_symptom"> Nothing happens when I touch it</label>
+        
+          <label><input type="radio" name="debug-symptom" value="menuitem" class="js_debug_symptom"> A menu item doesn&#39;t show up or can&#39;t be added</label>
+        
+          <label><input type="radio" name="debug-symptom" value="upload" class="js_debug_symptom"> I can&#39;t upload</label>
+        
+          <label><input type="radio" name="debug-symptom" value="update" class="js_debug_symptom"> It stopped working after I renamed or updated something</label>
+        
+      </fieldset>
+      <p class="demo_1__why js_debug_count" aria-live="polite">Showing all causes (24).</p>
+    </div>
+    <noscript><p class="section_2__note">JavaScript is turned off, so you can&#39;t narrow the list down. All causes are listed in the table below.</p></noscript>
+    <section class="table_3" id="debug-checklist" tabindex="0" aria-label="Common causes when a gimmick doesn&#39;t work">
+      <table>
+        <thead>
+          <tr><th scope="col">What happens</th><th scope="col">Likely cause</th><th scope="col">Where to check and fix</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr data-symptoms="menu"><th scope="row">Pressing the menu doesn&#39;t change what you see (even in Unity)</th><td>A layer you added still has a <strong>Weight of 0</strong>. When you add a layer to the Animator in Unity, it's created with a Weight of 0.</td><td>In the <code>Layers</code> tab of the Animator window, click the gear on that layer and set <code>Weight</code> to 1.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#controller">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu"><th scope="row">Pressing the menu changes neither the parameter nor the state</th><td><strong>The parameter name is different</strong> in the menu, Expression Parameters, and the Animator. Upper and lower case, and spaces at the start or end, also make it a different name.</td><td>Compare the names in all three places letter by letter and make them match. Copying and pasting the name avoids mistakes.<ul class="table_3__list"><li><a href="/en/avatar-tips/animator-basics/#parameters">#6 How the Animator works</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu"><th scope="row">Nothing happens at all when you press the menu</th><td><strong>The parameter isn't in Expression Parameters</strong>. Having it only in the Animator's parameters doesn't let the menu change its value.</td><td>Add it to Expression Parameters. If you connect it with Modular Avatar (MA), check that it's in MA Parameters.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu wrong"><th scope="row">Turning it on does nothing, or it stops at an in-between value</th><td><strong>The type (Bool, Int, Float) is different</strong> in Expression Parameters and the Animator. VRChat sometimes converts the type when passing the value, but then the transition conditions may no longer match.</td><td>Compare the types in both and make them match. Some setups change the type on purpose, but make them match first.<ul class="table_3__list"><li><a href="/en/avatar-tips/animator-basics/#parameters">#6 How the Animator works</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu wrong"><th scope="row">It turns on, but won&#39;t turn back off</th><td>There's no transition going back, or <strong>its condition is the same as the one for turning on</strong>.</td><td>Select the arrow going back to the off state and look at <code>Conditions</code> in the Inspector. For a Bool, the one going back should be <code>false</code>.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="timing"><th scope="row">It switches a beat late, or changes slowly</th><td>The transition has <strong>Has Exit Time</strong> checked. Or <strong>Transition Duration</strong> isn't 0.</td><td>Select the arrow, uncheck <code>Has Exit Time</code>, and set <code>Transition Duration</code> under <code>Settings</code> to 0.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="timing"><th scope="row">It flickers, or the animation keeps starting over</th><td>A transition from <strong>Any State</strong> has <strong>Can Transition To Self</strong> checked. While the condition is true, it keeps re-entering the same state.</td><td>Select the arrow from Any State and uncheck <code>Can Transition To Self</code> under <code>Settings</code>.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu update"><th scope="row">The state changes, but what you see doesn&#39;t. In the Animation window, items show &#34;Missing!&#34; in yellow</th><td>You renamed an object, moved it somewhere else, or moved it to another avatar. <strong>The clip's paths</strong> (which object it animates) no longer match.</td><td>Change the name and location back, or fix the clip's paths.<ul class="table_3__list"><li><a href="/en/avatar-tips/animation-clip/#path">#7 Making animations</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu wrong"><th scope="row">The state changes, but what you see doesn&#39;t, or it ends up at a different value</th><td><strong>A lower layer</strong> writes the same thing (the same BlendShape, or the same object on/off). When two layers write the same thing, the lower layer wins.</td><td>Look at the clips in the lower layer, and delete the same line or change the layer order.<ul class="table_3__list"><li><a href="/en/avatar-tips/animator-basics/#controller">#6 How the Animator works</a></li><li><a href="/en/avatar-tips/gesture/#layers">#10 Changing expressions with hand gestures</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu"><th scope="row">The clip is correct, but it doesn&#39;t work</th><td>You put a clip that changes how things look in <strong>a layer other than FX</strong> (such as Gesture). Or you're trying to move Humanoid bones in FX.</td><td>Animate object on/off, BlendShapes, and materials in FX.<ul class="table_3__list"><li><a href="/en/avatar-tips/animator-basics/#layers">#6 How the Animator works</a></li><li><a href="/en/avatar-tips/animation-clip/#can">#7 Making animations</a></li></ul></td></tr>
+          
+            <tr data-symptoms="wrong"><th scope="row">Things don&#39;t go back when you turn off the menu or release the hand gesture. Unrelated things change too</th><td><strong>Write Defaults ON and OFF are mixed</strong>. Or it's OFF, but you didn't make a clip for the off state.</td><td>Make everything in the controller either ON or OFF, and make both an on clip and an off clip.<ul class="table_3__list"><li><a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a></li><li><a href="/en/avatar-tips/unity-vs-vrchat/#find">#13 It looks different in Unity and VRChat</a></li><li><a href="/en/avatar-tips/toggle/#clips">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="wrong"><th scope="row">During an expression, blinking or mouth movement overlaps and the face breaks</th><td>The blinking and mouth movement VRChat controls and your expression clip are moving the same BlendShape.</td><td>Use VRC Animator Tracking Control to switch blinking and mouth to Animation only while the expression is on.<ul class="table_3__list"><li><a href="/en/avatar-tips/gesture/#tracking">#10 Changing expressions with hand gestures</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu wrong"><th scope="row">Turning the Radial Puppet doesn&#39;t change things gradually</th><td>The state's <strong>Motion Time</strong> has no parameter set. Or the parameter isn't a Float.</td><td>Under the state's <code>Motion Time</code>, check <code>Parameter</code> and choose a Float parameter.<ul class="table_3__list"><li><a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a></li></ul></td></tr>
+          
+            <tr data-symptoms="others"><th scope="row">You can see it, but other people can&#39;t</th><td><strong>Synced</strong> (sends it to other people) is unchecked in Expression Parameters.</td><td>Check Synced. A parameter with Synced unchecked only changes on your own screen.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a></li><li><a href="/en/avatar-tips/radial/#sync">#9 Switching in steps and changing gradually</a></li></ul></td></tr>
+          
+            <tr data-symptoms="touch others"><th scope="row">Nothing happens when touched, or it only reacts to you</th><td>The VRC Contact Receiver's <strong>Collision Tags</strong> don't match the touching side (Sender). <strong>Allow Self</strong> or <strong>Allow Others</strong> is unchecked. You're using the value of a <strong>Local Only</strong> Receiver as if it were synced.</td><td>Go over the Receiver's settings again.<ul class="table_3__list"><li><a href="/en/avatar-tips/contact/#what">#11 Gimmicks that react to touch</a></li><li><a href="/en/avatar-tips/contact/#sync">#11 Gimmicks that react to touch</a></li></ul></td></tr>
+          
+            <tr data-symptoms="others"><th scope="row">Only people on Quest or mobile can&#39;t see the gimmick</th><td><strong>The Android version (for Quest and mobile)</strong> doesn't include the gimmick. Or it uses parts that can't be used on Android.</td><td>Add the same gimmick to the Android version too, and upload again.<ul class="table_3__list"><li><a href="/en/avatar-tips/quest/#steps">#5 Quest and mobile support</a></li></ul></td></tr>
+          
+            <tr data-symptoms="others touch"><th scope="row">Other people say your physics bones or touch gimmicks aren&#39;t moving</th><td>Your avatar is heavier than the rank that person has set. If you have too many PhysBones or Contacts, all PhysBones and Contacts are removed on that person's screen.</td><td>Look at the PhysBone and Contact items in your Performance Rank, and reduce the number.<ul class="table_3__list"><li><a href="/en/avatar-tips/performance/#limits">#4 Performance ranks and optimization</a></li><li><a href="/en/avatar-tips/performance/#seen">#4 Performance ranks and optimization</a></li></ul></td></tr>
+          
+            <tr data-symptoms="reset"><th scope="row">It resets when you change worlds or switch avatars</th><td><strong>Saved</strong> (remembers the value) is unchecked in Expression Parameters. Or the <strong>Default</strong> value isn't what you expected.</td><td>Check Saved and go over the Default value again.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menuitem"><th scope="row">You can&#39;t add an item to the menu, or an added item doesn&#39;t show up</th><td>One menu can hold <strong>up to 8 items</strong>. You can't add more to a full menu. If you connect it with MA, the <strong>MA Menu Installer</strong> is missing or turned off.</td><td>Split the menu using a Sub Menu. With MA, check that the object with the Menu Installer is turned on.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#menu">#8 Building a menu toggle</a></li><li><a href="/en/avatar-tips/animator-basics/#menu">#6 How the Animator works</a></li></ul></td></tr>
+          
+            <tr data-symptoms="upload"><th scope="row">You can&#39;t upload. It says there are too many parameters</th><td>The total of your synced parameters is over <strong>256 bits</strong>. A Bool is 1 bit, and an Int or Float is 8 bits. Parameters added by outfits and tools count too.</td><td>Check the amount under Validations in the Builder. Delete ones you don't use, or uncheck Synced on ones other people don't need to see. You can also combine several on/off toggles into one Int.<ul class="table_3__list"><li><a href="/en/avatar-tips/upload/#validations">#2 How to upload</a></li><li><a href="/en/avatar-tips/radial/#int">#9 Switching in steps and changing gradually</a></li></ul></td></tr>
+          
+            <tr data-symptoms="menu"><th scope="row">After connecting it with MA, what you see doesn&#39;t change</th><td><strong>Path Mode</strong> on <strong>MA Merge Animator</strong> doesn't match how you recorded the clip. With Relative, paths are counted from the object that has Merge Animator on it (Relative Path Root). Layer Type may also not be FX.</td><td>Go over Path Mode and Layer Type again.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="unity"><th scope="row">It shows up in Unity, but not in VRChat</th><td>The object's tag is <strong>EditorOnly</strong>, so it's removed during upload. Or <strong>a parent object is off</strong>, and the clip doesn't turn it on.</td><td>Set <code>Tag</code> at the very top of the Inspector to <code>Untagged</code>. In the Hierarchy, check from the parent down that each object is on.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#test">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+            <tr data-symptoms="unity update"><th scope="row">You fixed it, but nothing changes in VRChat</th><td>You uploaded to <strong>a different avatar</strong> (a different Blueprint ID). Or you're wearing the old avatar.</td><td>Check which avatar you're uploading to in the Builder. In VRChat, switch to the avatar you uploaded again.<ul class="table_3__list"><li><a href="/en/avatar-tips/upload/#update">#2 How to upload</a></li></ul></td></tr>
+          
+            <tr data-symptoms="update"><th scope="row">After installing an avatar update, a gimmick you made disappeared or stopped working</th><td>The update overwrote the original avatar's FX or menu. Anything you added directly to the avatar's FX is lost.</td><td>If you connect what you make with MA, it stays separate from the original avatar's FX, so updates are less likely to wipe it out.<ul class="table_3__list"><li><a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a></li></ul></td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems and how to fix them</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Nothing happens when you press the menu, even in Unity</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>When you press the menu in Gesture Manager, the parameter and the state both change. But what you see doesn&#39;t.</dd></div>
+            <div><dt>Cause</dt><dd>Most often, a layer you added still has a Weight of 0. When you add a layer in Unity, it&#39;s created with a Weight of 0.</dd></div>
+            <div><dt>Fix</dt><dd>In Layers in the Animator window, click the gear on that layer and set Weight to 1. If it still doesn&#39;t change, check the clip&#39;s paths and the lower layers.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Only you can see it</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>On your screen, the hat is showing. Your friends say there&#39;s no hat.</dd></div>
+            <div><dt>Cause</dt><dd>Synced is unchecked for that parameter in Expression Parameters. The value isn&#39;t being sent to other people.</dd></div>
+            <div><dt>Fix</dt><dd>Check Synced and upload again. If your friends are on Quest or mobile, also check that the Android version includes the gimmick.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It turns off when you change worlds</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You turn the hat on, but when you change worlds, the hat is gone.</dd></div>
+            <div><dt>Cause</dt><dd>Saved is unchecked for that parameter in Expression Parameters. When you change worlds, it goes back to the Default value.</dd></div>
+            <div><dt>Fix</dt><dd>Check Saved and upload again.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It flickers when you turn it on</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>When you turn it on, the hat keeps rapidly appearing and disappearing.</dd></div>
+            <div><dt>Cause</dt><dd>A transition from Any State has Can Transition To Self checked. While the condition is true, it keeps re-entering the same state.</dd></div>
+            <div><dt>Fix</dt><dd>Select the arrow from Any State and uncheck Can Transition To Self.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It works in Unity, but doesn&#39;t show up in VRChat</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The hat shows up in Gesture Manager. But after you upload and press it in VRChat, it doesn&#39;t.</dd></div>
+            <div><dt>Cause</dt><dd>The hat object&#39;s tag is EditorOnly, so it&#39;s removed during upload. You may also have uploaded to a different avatar.</dd></div>
+            <div><dt>Fix</dt><dd>Set Tag to Untagged and upload again. Also check which avatar you&#39;re uploading to in the Builder.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Too many parameters to upload</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>After you add a gimmick, the Builder warns that there are too many parameters, and you can&#39;t upload.</dd></div>
+            <div><dt>Cause</dt><dd>The total of your synced parameters is over 256 bits. Parameters added by outfits and tools count too.</dd></div>
+            <div><dt>Fix</dt><dd>Delete parameters you don&#39;t use, or uncheck Synced on ones other people don&#39;t need to see. Several on/off toggles, like outfit switches, can be combined into one Int (8 bits).</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li><strong>Fix only one thing at a time.</strong> If you change several things at once, you won't know which one fixed it, or which one broke it.</li><li>Before you fix anything, make sure you can undo it. Duplicate the controller and clips, or export the avatar's folder.</li><li>Settings you change while Unity is playing go back when you stop. Make your fixes after you stop playing.</li><li>Even if it works in Gesture Manager, you can't check how it looks to other people (sync) there. In the end, ask a friend to look in VRChat.</li><li>If you add things directly to a purchased avatar's FX or menu, they can be lost when the avatar is updated. For things you make yourself, connecting them with MA is safer.</li><li>VRChat's debug display and Gesture Manager's screens can change names or locations with updates.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>A gimmick works in this order: menu → parameter → state → clip → what you see. Start at the front and check how far the value gets.</li><li>Check with Gesture Manager in Unity first. You can try things right away without waiting for an upload.</li><li>If the parameter doesn&#39;t change, look at the menu and Expression Parameters. If the state doesn&#39;t change, look at the transitions. If what you see doesn&#39;t change, look at the clips and layers.</li><li>Once it works in Unity, check it yourself in VRChat, and finally ask a friend to look so you can confirm sync.</li><li>This is the last tip in &#34;Building gimmicks yourself with the Animator&#34;. When you&#39;re stuck, use the list above to go back to each tip.</li>
+    </ul>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/contact/" rel="prev"><span class="next_1__note">Previous (#11)</span><span class="next_1__text">Gimmicks that react to touch</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/unity-vs-vrchat/" rel="next"><span class="next_1__note">Next (#13)</span><span class="next_1__text">It looks different in Unity and VRChat</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

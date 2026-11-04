@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Making animations | ぬにふちさか</title>
+<meta name="description" content="A gimmick&#39;s visual changes live in animation clips. Learn what you can move from FX, how to make clips by recording in the Animation window, how keyframes work, and how to fix broken paths that show Missing!, with recreated screens and an interactive demo.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/animation-clip/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/animation-clip/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/animation-clip/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/animation-clip/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Making animations">
+<meta property="og:description" content="A gimmick&#39;s visual changes live in animation clips. Learn what you can move from FX, how to make clips by recording in the Animation window, how keyframes work, and how to fix broken paths that show Missing!, with recreated screens and an interactive demo.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/animation-clip/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Making animations">
+<meta name="twitter:description" content="A gimmick&#39;s visual changes live in animation clips. Learn what you can move from FX, how to make clips by recording in the Animation window, how keyframes work, and how to fix broken paths that show Missing!, with recreated screens and an interactive demo.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Making animations | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/animation-clip/",
+  "description": "A gimmick&#39;s visual changes live in animation clips. Learn what you can move from FX, how to make clips by recording in the Animation window, how keyframes work, and how to fix broken paths that show Missing!, with recreated screens and an interactive demo."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/animation-clip-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #7</a></p>
+    <h1 class="page_1__h1" id="article-heading">Making animations</h1>
+    <p class="article_1__lead">When a gimmick changes how something looks, you write what changes, and how, in an animation clip. This tip explains what&#39;s inside a clip, what you can move from FX, how to make clips by recording in Unity, how to place keyframes, and how to fix a broken path that shows &#34;Missing!&#34;.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Information as of November 2026.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#what">What is an animation clip?</a></li>
+        
+          <li><a href="#can">What to move from FX, and what not to</a></li>
+        
+          <li><a href="#record">Making clips by recording</a></li>
+        
+          <li><a href="#keys">Keyframes and clip length</a></li>
+        
+          <li><a href="#path">Paths and fixing &#34;Missing!&#34;</a></li>
+        
+          <li><a href="#demo">Try it yourself</a></li>
+        
+          <li><a href="#cases">Common problems and fixes</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>You want to build a gimmick, but you don&#39;t know how to make an animation clip.</li><li>You want to know what an animation can move.</li><li>Items in the Animation window turn yellow and say &#34;Missing!&#34;.</li><li>You recorded a clip, and it ended up moving things that have nothing to do with it.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading">What is an animation clip?</h2>
+    <p class="article_1__p">An animation clip (clip) is a file that says <strong>which property of which object to set to what value, and when</strong>. Its extension is <code>.anim</code>. You use it by putting it in an Animator state. <a href="/en/avatar-tips/animator-basics/#controller">#6 How the Animator works</a> explains how states and clips relate.</p><p class="article_1__p">The Animator writes the values in the current state's clip to the avatar <strong>every frame</strong>. As long as it stays in that state, it keeps writing the same values.</p><p class="article_1__p">For example, the clip <code>Hat_ON</code>, which shows the hat, contains just this one row.</p>
+    <section class="table_3" tabindex="0" aria-label="Contents of the Hat_ON clip (example)">
+      <table>
+        <thead>
+          <tr><th scope="col">Path (which object)</th><th scope="col">Type</th><th scope="col">Property (what)</th><th scope="col">Frame 0</th><th scope="col">Frame 1</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row"><code>Accessories/Hat</code></th><td>GameObject</td><td>Is Active</td><td>1 (on)</td><td>1 (on)</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">Each row (property) is made of a <strong>path</strong> (which object in the avatar) and a <strong>property</strong> (what to change on that object). A mark in the row for the value at a certain time is called a <strong>keyframe</strong> (key).</p><p class="article_1__p">In the Animation window, this row appears as <code>Hat : Is Active</code>: the last name in the path, then the property name.</p><p class="article_1__p">For an on/off gimmick, make both a clip that shows the hat (Hat_ON) and a clip that hides it (Hat_OFF). There are ways to skip the off clip, but then how it behaves depends on the Write Defaults setting. If you make both, it works the same whether Write Defaults is ON or OFF (<a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a>).</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="can" aria-labelledby="can-heading">
+    <h2 class="section_2__h1" id="can-heading">What to move from FX, and what not to</h2>
+    <p class="article_1__p">Most gimmick clips go into the FX controller. From FX, you can move almost anything except Humanoid bones (muscles). If you move BlendShapes or materials from a slot other than FX, they aren't copied to the avatar in the mirror (<a href="/en/avatar-tips/animator-basics/#layers">#6 How the Animator works</a>).</p>
+    <section class="table_3" tabindex="0" aria-label="What FX clips can move">
+      <table>
+        <thead>
+          <tr><th scope="col">What to move</th><th scope="col">Example row in the Animation window</th><th scope="col">Used for</th><th scope="col">In FX</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Turning objects on and off</th><td><code>Hat : Is Active</code></td><td>Showing and hiding accessories or clothes</td><td>◯ Used most often</td></tr>
+          
+            <tr><th scope="row">Turning components on and off</th><td><code>Hat : Enabled</code> (Mesh Renderer and others)</td><td>Hiding only the look. Stopping particles, lights, sound, PhysBones or Contacts</td><td>◯</td></tr>
+          
+            <tr><th scope="row">BlendShapes</th><td><code>Body : Blend Shape.cheek</code></td><td>Blushing, expressions, body shape</td><td>◯</td></tr>
+          
+            <tr><th scope="row">Material values</th><td><code>Body : Material._Color</code></td><td>Color, brightness, how it glows. The names differ for each shader</td><td>◯</td></tr>
+          
+            <tr><th scope="row">Swapping materials</th><td>The Materials field</td><td>Switching clothes to another color</td><td>◯</td></tr>
+          
+            <tr><th scope="row">Transform (position, rotation, scale)</th><td><code>Hat : Scale</code></td><td>Changing the size, moving something</td><td>△ It works, but VRChat&#39;s official docs don&#39;t recommend it. To show and hide, use Is Active</td></tr>
+          
+            <tr><th scope="row">Humanoid bones (arms, legs, head, fingers)</th><td>Muscle rows starting with <code>Animator.</code></td><td>Poses, hand shapes</td><td>✕ They don&#39;t move from FX. Move them with Gesture or Action</td></tr>
+          
+            <tr><th scope="row">Things outside the avatar</th><td>—</td><td>Objects in the world</td><td>✕ You can only move things inside the avatar</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">When you move material values, you move values of the shader your avatar uses (such as lilToon). If you change the shader, a value with the same name may no longer exist, and the clip may stop working.</p><p class="article_1__p">To change something gradually (color or size) by turning a dial in the menu, use a Radial Puppet and Motion Time (<a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a>).</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="record" aria-labelledby="record-heading">
+    <h2 class="section_2__h1" id="record-heading">Making clips by recording</h2>
+    <p class="article_1__p">The easiest way to make a clip is to <strong>record</strong> it in Unity's Animation window. While recording, any value you change in the Inspector is written into the clip. Here you'll make <code>Hat_ON</code>, a clip that shows the hat, and <code>Hat_OFF</code>, a clip that hides it. Assume the hat (Hat) is a child of Accessories in the avatar, and is normally turned off.</p>
+    <h3 class="section_2__h2">Preparation: make the clips and the controller</h3>
+    <ol class="steps_1">
+      <li>Make a folder for the gimmick in the Project window. Right-click inside <code>Assets</code>, choose <code>Create → Folder</code>, and give it a name (for example, <code>Hat</code> inside <code>MyGimmicks</code>). Keeping each gimmick in its own folder makes things easier to find later.</li><li>Right-click inside that folder, choose <code>Create → Animation</code>, and name it <code>Hat_ON</code>. Make <code>Hat_OFF</code> the same way. In some Unity versions, it's at <code>Create → Animation → Animation Clip</code>.</li><li>Right-click in the same folder, choose <code>Create → Animator Controller</code>, and name it <code>Hat_FX</code>.</li><li>Double-click <code>Hat_FX</code> to open it in the Animator window. Drag the <code>Hat_OFF</code> and <code>Hat_ON</code> files into the graph. This makes two states with the clips in them. The Animation window only lets you pick clips that are in the selected Animator's controller, so turn them into states first.</li><li>In the Hierarchy, select the top object of your avatar (the one with the VRC Avatar Descriptor). Drag <code>Hat_FX</code> into the <code>Controller</code> field of the Animator component in the Inspector. <strong>This is only temporary, for recording.</strong></li>
+    </ol>
+    <h3 class="section_2__h2">Record</h3>
+    <ol class="steps_1">
+      <li>Open the Animation window with <code>Window → Animation → Animation</code> (or press Ctrl + 6). Keep the top object of your avatar selected in the Hierarchy.</li><li>In the dropdown at the top left of the Animation window, choose <code>Hat_ON</code>.</li><li>Press the red circle (the record button) at the top left. The timeline turns red, and recording starts.</li><li>Make sure the white vertical line (the current time) is at frame 0. You can also move it by typing <code>0</code> in the time field.</li><li>Select the hat (Hat) in the Hierarchy, and check the box at the top left of the Inspector to turn it on. A <code>Hat : Is Active</code> row appears in the Animation window, with a key at frame 0.</li><li>Type <code>1</code> in the time field to move to frame 1. Select the <code>Hat : Is Active</code> row in the Animation window and press the <code>Add Keyframe</code> button (a diamond with a +). A key with the same value (on) is added at frame 1 too.</li><li>Press the red circle again to stop recording.</li><li>Choose <code>Hat_OFF</code> in the dropdown and start recording again. At frame 0, <strong>check the hat's box once, then uncheck it</strong>. Recording only adds a key when a value changes, so to record something that's already off as off, change it once and then change it back. Add a key at frame 1 too, then stop recording.</li><li>Make sure the hat in the Hierarchy is back to how it was before recording (off). If it isn't, set it back with the checkbox in the Inspector.</li><li>Set the <code>Controller</code> of the Animator component on your avatar's top object back to how it was (usually None). VRChat doesn't use this field. It uses the controllers in the Playable Layers slots. If you leave yours here, it's harder to tell which controller is the real one.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Animation window while recording. 1 The red record button is pressed, 2 the clip dropdown shows Hat_ON and the time is 1, 3 the Hat : Is Active row has keys at frames 0 and 1, 4 the Add Property button">
+        <p class="mock_1__bar">Animation › Hat_ON</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--button is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Record</span>
+                <span class="mock_1__control"><span class="mock_1__button">●</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Clip</span>
+                <span class="mock_1__control"><span class="mock_1__select">Hat_ON</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Frame</span>
+                <span class="mock_1__control"><span class="mock_1__value">1</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Properties</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">Hat : Is Active</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Keys</span>
+                <span class="mock_1__control"><span class="mock_1__text">◆ 0　◆ 1</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--button">
+                <span class="mock_1__mark">4</span>
+                
+                <span class="mock_1__control"><span class="mock_1__button">Add Property</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Unity&#39;s Animation window (while recording). Names are examples. The layout is simplified</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The record button. While it's pressed, the timeline and the values you change in the Inspector are tinted red.</li><li>Choose which clip to write to. It lists the clips in the selected Animator's controller.</li><li>This row appears when you change the hat's checkbox while recording. The check means on (1).</li><li>You can also add rows without recording. Press Add Property, choose the object and property, and press +.</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">BlendShape and material values are recorded the same way: change the value in the Inspector while recording. For a BlendShape, change the value in the <code>BlendShapes</code> section of the Skinned Mesh Renderer.</p><p class="article_1__p"><strong>Everything you touch while recording goes into the clip.</strong> Don't move other objects or try out values while recording. To delete a row that got in, right-click it in the Animation window and choose <code>Remove Properties</code>.</p><p class="article_1__p">When you connect with Modular Avatar's MA Merge Animator, you can also add an Animator component to the gimmick object and record there. The "Paths" section below explains this. <a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a> shows how to connect it to your avatar.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="keys" aria-labelledby="keys-heading">
+    <h2 class="section_2__h1" id="keys-heading">Keyframes and clip length</h2>
+    <p class="article_1__p">A keyframe marks the value at a certain time. Between keys, Unity fills in the values smoothly. If you put a key of 0 at frame 0 and a key of 100 at frame 60, you get a clip that changes from 0 to 100 over 1 second (when 1 second is 60 frames).</p><p class="article_1__p"><strong>In an on/off clip, the value doesn't change.</strong> The hat stays out the whole time it's shown. So two keys with the same value, at frame 0 and frame 1, are enough. The length is almost 0, but as long as it's in the state, the Animator keeps writing this value.</p><p class="article_1__p">A single key usually works too. But a clip with a length of 0 can be awkward to handle, for example when you use Motion Time. Two keys are the safe choice.</p><p class="article_1__p">For things that change in steps (turning a dial to change color, changing size little by little), put keys with different values at the start and the end, and use the Animator's Motion Time to choose which part of the clip to show. <a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a> shows how.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="path" aria-labelledby="path-heading">
+    <h2 class="section_2__h1" id="path-heading">Paths and fixing &#34;Missing!&#34;</h2>
+    <p class="article_1__p">Each row in a clip says which object to move, using a <strong>path</strong>. The path is the chain of names, joined with <code>/</code>, from the object with the Animator you selected while recording down to the object being moved. If you recorded on the top object of your avatar, the hat's path is <code>Accessories/Hat</code>.</p><p class="article_1__p">A path depends only on names and positions. <strong>If you rename the hat or move it under another object after recording, the clip can no longer find it.</strong> When this happens, the row in the Animation window turns yellow and shows something like <code>Hat : Is Active (Missing!)</code>. In VRChat, that row doesn't move anything either.</p><p class="article_1__p">Names are case-sensitive. Just changing <code>Hat</code> to <code>hat</code> is enough to break the path.</p>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Animation window. 1 The Hat : Is Active (Missing!) row is yellow">
+        <p class="mock_1__bar">Animation › Hat_ON</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">Properties</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Hat : Is Active (Missing!)</span>
+                <span class="mock_1__control"><span class="mock_1__value">1</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Hierarchy. The child of Accessories inside Avatar_A is named 2 Hat2">
+        <p class="mock_1__bar">Hierarchy</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">▼ Avatar_A</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　▼ Accessories</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">　　Hat2</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　▶ Armature</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">　Body</span>
+                <span class="mock_1__control"></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: the Animation window and the Hierarchy after the hat was renamed after recording. Names are examples</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The clip says <code>Accessories/Hat</code>, but there's no object named Hat in that place. The row turns yellow.</li><li>The hat was renamed to Hat2, so the path no longer matches.</li>
+    </ol>
+  
+</div>
+
+    <h3 class="section_2__h2">How to fix it</h3>
+    <ol class="steps_1">
+      <li><strong>The surest fix is to put the name and position back to how they were when you recorded.</strong> Rename the hat back to <code>Hat</code> and put it back under <code>Accessories</code>, and the yellow warning goes away.</li><li>If you want to keep the new name or position, edit the clip's path instead. Select the yellow row in the Animation window and press <code>F2</code> (or click it twice, slowly) to edit the path. Enter the current name and position (for example, <code>Accessories/Hat2</code>).</li><li>After editing, check that the yellow warning is gone. The key values stay as they were.</li><li>Check whether other clips move the same object. If you fixed Hat_ON, fix Hat_OFF the same way.</li>
+    </ol>
+    <h3 class="section_2__h2">Paths when connecting with Modular Avatar</h3>
+    <p class="article_1__p">When you connect a controller to your avatar with Modular Avatar's MA Merge Animator, the <code>Path Mode</code> setting changes where paths are counted from. With <code>Relative</code> (the default), paths are read from the object that has MA Merge Animator. With <code>Absolute</code>, paths are read from the top object of the avatar (<a href="https://modular-avatar.nadena.dev/docs/reference/merge-animator" target="_blank" rel="noopener">Modular Avatar's Merge Animator page<span class="visually-hidden"> (opens in a new tab)</span></a>).</p><p class="article_1__p">When you use Relative, add an Animator component to the gimmick object (the object you put MA Merge Animator on), select that object, and record. Paths are counted from that object, so they're less likely to break when you move the gimmick to another avatar. If you check "Delete attached animator" in MA Merge Animator, the Animator you used for recording is removed automatically when you upload.</p><p class="article_1__p">To move something outside the gimmick object, like a hat that came with the avatar, record on the top object of the avatar and set Path Mode to Absolute.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
+    <p class="article_1__p">The Hat_ON clip says the hat&#39;s path is Accessories/Hat. Change the hat&#39;s name or position as if you did it after recording, and see whether the clip can still find the hat.</p>
+    <div class="demo_2 js_clip_demo" data-clip="Accessories/Hat"
+      data-why="The path in the clip is {c}, and the hat is now at {p}." data-empty="The name is empty. Type a name."
+      data-ok="The path matches. The clip writes 1 to the hat&#39;s Is Active, so the hat appears." data-ng="The path doesn&#39;t match. The row turns yellow and says &#34;Missing!&#34;. The clip can&#39;t find the hat, so the hat doesn&#39;t appear." data-none="not written">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who">Animation window</p>
+          <svg class="demo_2__svg" viewBox="0 0 200 100" aria-hidden="true" focusable="false"><rect x="2" y="2" width="196" height="96" rx="6" fill="#383838" stroke="#232323" stroke-width="2"/><rect x="2" y="2" width="196" height="22" rx="6" fill="#282828"/><text x="10" y="17" font-size="10" font-family="sans-serif" fill="#9a9a9a">Animation › Hat_ON</text><rect x="10" y="38" width="180" height="26" rx="3" fill="#3e3e3e" stroke="#232323"/><text class="js_clip_row" x="18" y="55" font-size="11" font-weight="700" font-family="sans-serif" fill="#d2d2d2">Hat : Is Active</text><text x="18" y="84" font-size="10" font-family="monospace" fill="#9a9a9a">path: Accessories/Hat</text></svg>
+          <p class="demo_2__num">Hat is now at <code class="js_clip_now">Accessories/Hat</code></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who">What you see (playing Hat_ON)</p>
+          <svg class="demo_2__svg" viewBox="0 0 120 104" aria-hidden="true" focusable="false"><ellipse cx="60" cy="62" rx="40" ry="38" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse cx="45" cy="62" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="75" cy="62" rx="5" ry="7" fill="#3b2a24"/><path d="M50 82 Q60 89 70 82" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/><g class="js_clip_hat" opacity="1"><rect x="36" y="4" width="48" height="30" rx="6" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/><ellipse cx="60" cy="34" rx="48" ry="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/></g></svg>
+          <p class="demo_2__num">Is Active <span class="js_clip_active">1</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="clip-name">Name of the hat</label></p>
+          <input type="text" id="clip-name" class="js_clip_name" value="Hat" autocomplete="off" spellcheck="false">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">Where the hat is</legend>
+          
+            <label><input type="radio" name="clip-parent" value="Accessories/" class="js_clip_parent" checked> Child of Accessories (when recorded)</label>
+          
+            <label><input type="radio" name="clip-parent" value="" class="js_clip_parent"> Directly under the avatar</label>
+          
+            <label><input type="radio" name="clip-parent" value="Armature/Hips/Spine/Chest/Neck/Head/" class="js_clip_parent"> Child of the Head bone</label>
+          
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_clip_why">The path in the clip is Accessories/Hat, and the hat is now at Accessories/Hat.</p>
+        <p class="demo_1__result is_ok js_clip_result">The path matches. The clip writes 1 to the hat&#39;s Is Active, so the hat appears.</p>
+      </div>
+      <noscript><p class="section_2__note">Turn on JavaScript to use the demo.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems and fixes</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">A row turns yellow and says &#34;Missing!&#34;</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>In the Animation window, a clip row turns yellow and (Missing!) appears after its name. That part doesn&#39;t move in VRChat either.</dd></div>
+            <div><dt>Cause</dt><dd>You renamed or moved the object after recording. Or you&#39;ve selected a different object with an Animator than the one you recorded on.</dd></div>
+            <div><dt>Fix</dt><dd>Put the name and position back to how they were when you recorded, or select the row and press F2 to edit the path. Also check Path Mode in MA Merge Animator.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">You can&#39;t press the record button, or no clips appear</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The Animation window shows no record button or clip dropdown. Only a &#34;Create&#34; button appears.</dd></div>
+            <div><dt>Cause</dt><dd>You haven&#39;t selected an object with an Animator component in the Hierarchy, or that Animator&#39;s Controller is empty.</dd></div>
+            <div><dt>Fix</dt><dd>Select the top object of your avatar, and put a controller that contains your clips in the Animator's Controller field. Don't press Create here. It makes a new controller and puts it in.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Unrelated things move too</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>It&#39;s a clip for showing a hat, but playing it also changes your expression or clothes.</dd></div>
+            <div><dt>Cause</dt><dd>You touched other objects or values while recording, so those rows got into the clip too.</dd></div>
+            <div><dt>Fix</dt><dd>In the Animation window, right-click the rows you don't need and choose Remove Properties.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">After you stopped recording, the object in the scene had changed</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Nothing went into the clip, and the hat in the Hierarchy stayed on.</dd></div>
+            <div><dt>Cause</dt><dd>You changed the value before pressing the record button (while not recording). Changes made while not recording change the object in the scene itself, not the clip.</dd></div>
+            <div><dt>Fix</dt><dd>Set the value back in the Inspector. Make sure the record button is red before you change values.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">You moved arms or fingers, but they don&#39;t move in VRChat</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You made an arm or finger pose in a clip, but it doesn&#39;t move when you put it in FX.</dd></div>
+            <div><dt>Cause</dt><dd>Humanoid bones (muscles) don&#39;t move from FX.</dd></div>
+            <div><dt>Fix</dt><dd>Move hand shapes with the Gesture controller, and whole-body motion with the Action controller (<a href="/en/avatar-tips/animator-basics/#layers">#6 How the Animator works</a>).</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">A clip that changes color doesn&#39;t work</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You made a clip that changes a material&#39;s color, but the color doesn&#39;t change in VRChat.</dd></div>
+            <div><dt>Cause</dt><dd>You changed the material&#39;s shader after making the clip, so a value with that name no longer exists. Sometimes the clip is moving a value on a different material (slot).</dd></div>
+            <div><dt>Fix</dt><dd>Record again with the current shader. Also check whether the row in the Animation window has turned yellow.</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>When you finish recording, always press the record button to stop. If you keep working while recording, everything you touch goes into the clip.</li><li>Don't change the names or positions of objects your clips use. If you do change them, fix the clip paths too.</li><li>When you're done, put back the controller you placed in your avatar's Animator for recording.</li><li>Use Is Active to show and hide things. Hiding something by setting its scale to 0 means moving a Transform from FX, which VRChat's official docs don't recommend.</li><li>Make both an on clip and an off clip. Then it works the same no matter how Write Defaults is set (<a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a>).</li><li>Before you edit clips that came with an avatar or outfit you bought, make a copy first.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>A clip says what (property) of which object (path) to set to what value, and when (keys).</li><li>From FX, you move on/off, BlendShapes and materials. Humanoid bones don't move.</li><li>Make clips by recording in the Animation window. Everything you touch while recording goes into the clip.</li><li>For an on/off clip, keys with the same value at frames 0 and 1 are enough.</li><li>Renaming or moving an object breaks the path and shows "Missing!". Put it back, or edit the path with F2.</li><li>Next, you'll use the clips made here to build a gimmick you turn on and off from the menu (<a href="/en/avatar-tips/toggle/">#8 Building a menu toggle</a>).</li>
+    </ul>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/animator-basics/" rel="prev"><span class="next_1__note">Previous (#6)</span><span class="next_1__text">How the Animator works</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/toggle/" rel="next"><span class="next_1__note">Next (#8)</span><span class="next_1__text">Building a menu toggle</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

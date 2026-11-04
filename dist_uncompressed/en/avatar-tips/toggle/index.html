@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Building a menu toggle | ぬにふちさか</title>
+<meta name="description" content="Build a gimmick that shows and hides an accessory like a hat from the menu, starting from the Animator. Covers the on and off clips, layers and transitions, Expression Parameters, the menu, and hooking it up with Modular Avatar, with recreated screens and an interactive demo.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/toggle/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/toggle/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/toggle/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/toggle/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building a menu toggle">
+<meta property="og:description" content="Build a gimmick that shows and hides an accessory like a hat from the menu, starting from the Animator. Covers the on and off clips, layers and transitions, Expression Parameters, the menu, and hooking it up with Modular Avatar, with recreated screens and an interactive demo.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/toggle/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building a menu toggle">
+<meta name="twitter:description" content="Build a gimmick that shows and hides an accessory like a hat from the menu, starting from the Animator. Covers the on and off clips, layers and transitions, Expression Parameters, the menu, and hooking it up with Modular Avatar, with recreated screens and an interactive demo.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Building a menu toggle | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/toggle/",
+  "description": "Build a gimmick that shows and hides an accessory like a hat from the menu, starting from the Animator. Covers the on and off clips, layers and transitions, Expression Parameters, the menu, and hooking it up with Modular Avatar, with recreated screens and an interactive demo."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/toggle-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #8</a></p>
+    <h1 class="page_1__h1" id="article-heading">Building a menu toggle</h1>
+    <p class="article_1__lead">Build a gimmick that shows and hides a hat from the menu, starting from the Animator. This tip walks you through it one click at a time: the on and off clips, the controller and layer, transitions, the parameter, the menu, and hooking it all up to your avatar.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · Covers Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Up to date as of November 2026.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">When to read this</a></li>
+        
+          <li><a href="#plan">What you&#39;ll build</a></li>
+        
+          <li><a href="#controller">Create the controller and layer</a></li>
+        
+          <li><a href="#clips">Record the on and off clips</a></li>
+        
+          <li><a href="#transitions">Set up the transitions</a></li>
+        
+          <li><a href="#connect">Hook it up to your avatar</a></li>
+        
+          <li><a href="#params">Tell VRChat about the parameter (Expression Parameters)</a></li>
+        
+          <li><a href="#menu">Add an item to the menu</a></li>
+        
+          <li><a href="#demo">Try it out</a></li>
+        
+          <li><a href="#test">Test it with Gesture Manager</a></li>
+        
+          <li><a href="#cases">Common problems and fixes</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">When to read this</h2>
+    <ul class="rules_1">
+      <li>You want to show and hide accessories like a hat, glasses, or wings from the menu.</li><li>You&#39;ve been using Modular Avatar&#39;s Create Toggle, but you want to know what happens inside it and build one yourself.</li><li>You want to hook up an Animator you built without breaking your avatar.</li><li>Your toggle lags a beat, resets when you change worlds, or other people can&#39;t see it.</li>
+    </ul>
+    <p class="article_1__p">This tip assumes you've read <a href="/en/avatar-tips/animator-basics/#controller">#6 How the Animator works</a> and <a href="/en/avatar-tips/animation-clip/#record">#7 Making animations</a>. Those tips explain what layers, states, transitions, and parameters are.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="plan" aria-labelledby="plan-heading">
+    <h2 class="section_2__h1" id="plan-heading">What you&#39;ll build</h2>
+    <p class="article_1__p">You'll turn a hat on your avatar's head (named <code>Hat</code> in the Hierarchy) on and off with a "Hat Toggle" item in the Expressions Menu (the menu you open in VRChat). The names are examples. Use the name of your own accessory instead.</p><p class="article_1__p">You'll make five things: two clips, one controller, one parameter, and one menu item. At the end, you'll hook them up to your avatar with Modular Avatar (MA).</p>
+    <ol class="route_1">
+      
+        <li class="route_1__step"><span class="route_1__head">The &#34;Hat Toggle&#34; menu item</span><span class="route_1__note">Pressing it sets HatOn to true</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Parameter HatOn</span><span class="route_1__note">Bool (true or false)</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">FX layer Hat</span><span class="route_1__note">Moves from OFF to ON</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Clip Hat_ON</span><span class="route_1__note">Writes 1 to Hat&#39;s Is Active</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">Result</span><span class="route_1__note">The hat appears</span></li>
+      
+    </ol>
+    <p class="article_1__p">Before you start, back up your avatar's folder or the whole Unity project, so you can go back if something goes wrong.</p><p class="article_1__p">Keep the files you make in your own folder, separate from the avatar's folder. For example, right-click <code>Assets</code> in the Project window, choose <code>Create → Folder</code>, and make <code>MyGimmicks/Hat</code>. This way, updating the avatar won't overwrite them.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
+    <h2 class="section_2__h1" id="controller-heading">Create the controller and layer</h2>
+    <p class="article_1__p">Create an Animator Controller (a controller) just for the hat. Don't touch the FX controller your avatar already has. For what FX and the other layers do, see <a href="/en/avatar-tips/animator-basics/#layers">#6 How the Animator works</a>.</p>
+    <ol class="steps_1">
+      <li>In the Project window, right-click <code>MyGimmicks/Hat</code>, choose <code>Create → Animation</code>, and make a clip named <code>Hat_ON</code>. Make <code>Hat_OFF</code> the same way. You'll record what goes inside them in the next section. You make them now so you can put them in states.</li><li>Right-click the same folder, choose <code>Create → Animator Controller</code>, and name it <code>Hat_FX</code>. (In some Unity versions, it's inside <code>Create → Animation</code>.)</li><li>Double-click <code>Hat_FX</code>. The Animator window (<code>Window → Animation → Animator</code>) opens.</li><li>Click the <code>Layers</code> tab at the top left. There's one layer, <code>Base Layer</code>. Leave it empty. You won't use it.</li><li>Click the <code>+</code> to the right of <code>Layers</code> to add a layer. Name it <code>Hat</code>.</li><li>Click the gear to the right of <code>Hat</code> and set <code>Weight</code> to <strong>1</strong>. <strong>New layers are created with a Weight of 0. At 0, the layer writes nothing.</strong></li><li>Click the <code>Parameters</code> tab at the top left, click <code>+</code>, and choose <code>Bool</code>. Name it <code>HatOn</code>. It must match the name you'll put in the menu later, down to upper and lower case.</li><li>Go back to the <code>Layers</code> tab and select the <code>Hat</code> layer. Drag <code>Hat_OFF</code> from the Project window onto an empty spot in the Animator window. A state named <code>Hat_OFF</code> appears. The first state you place turns orange. It's the state this layer enters first.</li><li>Then drag in <code>Hat_ON</code> to make another state. This one is gray.</li><li>If <code>Hat_ON</code> turned orange instead, right-click <code>Hat_OFF</code> and choose <code>Set as Layer Default State</code>.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Animator window&#39;s Layers tab. Base Layer is empty, 1 the Hat layer&#39;s Weight is 1, 3 Hat_OFF is the orange first state, and Hat_ON is the other state">
+        <p class="mock_1__bar">Animator › Hat_FX</p>
+        
+          <p class="mock_1__tabs"><span class="is_on">Layers</span><span>Parameters</span></p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--text">
+                
+                <span class="mock_1__label">Base Layer</span>
+                <span class="mock_1__control"><span class="mock_1__text">Left empty</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--slider is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Hat · Weight</span>
+                <span class="mock_1__control"><span class="mock_1__slider" style="--v: 100%;"><span></span></span><span class="mock_1__num">1</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Inside the Hat layer</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">Hat_OFF</span>
+                <span class="mock_1__control"><span class="mock_1__value">Orange (entered first)</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Hat_ON</span>
+                <span class="mock_1__control"><span class="mock_1__value">Gray</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Animator window&#39;s Parameters tab. 2 there is a Bool named HatOn">
+        <p class="mock_1__bar">Animator › Hat_FX</p>
+        
+          <p class="mock_1__tabs"><span>Layers</span><span class="is_on">Parameters</span></p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--check is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">HatOn</span>
+                <span class="mock_1__control"><span class="mock_1__check">Bool</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: the Animator window (Hat_FX). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Set Weight to 1 from the gear. At 0, nothing changes when you press the menu.</li><li>This is a Bool parameter. The checkbox shows its current value (false).</li><li>The layer starts from the orange state. The hat starts hidden, so make Hat_OFF the orange one.</li>
+    </ol>
+  
+</div>
+
+  </section>
+
+  <section class="section_2 article_1__section" id="clips" aria-labelledby="clips-heading">
+    <h2 class="section_2__h1" id="clips-heading">Record the on and off clips</h2>
+    <p class="article_1__p">Record what goes inside the clip that shows the hat and the clip that hides it. <a href="/en/avatar-tips/animation-clip/#record">#7 Making animations</a> explains recording in detail.</p>
+    <ol class="steps_1">
+      <li>In the Hierarchy, select <code>Hat</code>, and uncheck the box to the left of its name at the top of the Inspector to turn it off. This means the hat starts hidden (it matches the Default you'll set later).</li><li>In the Hierarchy, select the top of your avatar (the object with the VRC Avatar Descriptor). In the Inspector, drag <code>Hat_FX</code> from the Project window into the <code>Controller</code> field of the <code>Animator</code>. Put it there <strong>only while you record</strong>. The Animation window can only open clips from the controller in the selected avatar's Animator.</li><li>Open the Animation window (<code>Window → Animation → Animation</code>). In the clip name field at the top left, choose <code>Hat_ON</code>.</li><li>Click the red record button. Then select <code>Hat</code> in the Hierarchy and check the box to the left of its name in the Inspector. A <code>Hat : Is Active</code> row appears in the Animation window, with a key (a diamond) at frame 0. Click the record button again to stop.</li><li>Switch the clip name field to <code>Hat_OFF</code> and record the same way. This time, check the box and then uncheck it, so you get a key where <code>Hat : Is Active</code> is 0 (off).</li><li>When you're done recording, make sure <code>Hat</code> is unchecked (back to how it was before recording). Also put the <code>Controller</code> field of the <code>Animator</code> on the top of your avatar back the way it was. If it was empty, click the small circle to the right of the field and choose <code>None</code>.</li>
+    </ol>
+    <p class="article_1__p"><strong>You make an off clip too, so the toggle works no matter how Write Defaults (what happens to values a clip doesn't write) is set.</strong> If the off state has a clip that writes nothing, the hat stays on for avatars with Write Defaults OFF. If both the on and off clips write <code>Is Active</code>, it works with either setting.</p><p class="article_1__p">Start recording after you select the top of your avatar. The clip stores "where Hat is, as seen from the top of the avatar" (the path). You'll use this path later when you hook it up with MA.</p>
+    <p class="section_2__more"><a href="/en/avatar-tips/animation-clip/#path">#7 Making animations</a></p>
+  </section>
+
+  <section class="section_2 article_1__section" id="transitions" aria-labelledby="transitions-heading">
+    <h2 class="section_2__h1" id="transitions-heading">Set up the transitions</h2>
+    <p class="article_1__p">Draw two arrows (transitions): one from OFF to ON, and one from ON to OFF. Here you decide when to switch, and how.</p>
+    <ol class="steps_1">
+      <li>Right-click <code>Hat_OFF</code>, choose <code>Make Transition</code>, and then click <code>Hat_ON</code>. A white arrow appears.</li><li>Click the arrow to select it. The transition settings appear in the Inspector.</li><li><strong>Uncheck</strong> <code>Has Exit Time</code>.</li><li>Click the triangle to the left of <code>Settings</code> to open it, and set <code>Transition Duration</code> to <strong>0</strong>.</li><li>Click the <code>+</code> under <code>Conditions</code> at the bottom. Make sure the left field says <code>HatOn</code> and the right field says <code>true</code>.</li><li>Draw an arrow from <code>Hat_ON</code> to <code>Hat_OFF</code> the same way. Uncheck <code>Has Exit Time</code>, set <code>Transition Duration</code> to 0, and set the <code>Conditions</code> to <code>HatOn</code> is <code>false</code>.</li><li>Select the <code>Hat_OFF</code> and <code>Hat_ON</code> states one at a time, and look at the <code>Write Defaults</code> checkbox in the Inspector. Make both the same. If you hook it up with MA, MA will match it to your avatar later.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the transition settings. 1 Has Exit Time is unchecked, Fixed Duration is checked, 2 Transition Duration is 0, Transition Offset is 0, 3 Conditions has HatOn true">
+        <p class="mock_1__bar">Inspector › Hat_OFF -&gt; Hat_ON</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--check is_hot">
+                <span class="mock_1__mark">1</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check">Has Exit Time</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">▼ Settings</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">Fixed Duration</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Transition Duration (s)</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Transition Offset</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Conditions</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">3</span>
+                <span class="mock_1__label">HatOn</span>
+                <span class="mock_1__control"><span class="mock_1__select">true</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Unity&#39;s Inspector (the transition from Hat_OFF to Hat_ON). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>With this unchecked, the state switches the moment the condition is met.</li><li>At 0, it goes straight to the next clip without blending it with the previous one.</li><li>When HatOn becomes true, the layer follows this arrow to Hat_ON.</li>
+    </ol>
+  
+</div>
+
+    <h3 class="section_2__h2">Why uncheck Has Exit Time and set Duration to 0?</h3>
+    <p class="article_1__p">When <code>Has Exit Time</code> is checked, the state waits for the current clip to reach a set point before it switches. It <strong>lags a beat</strong> after you press the menu.</p><p class="article_1__p"><code>Transition Duration</code> is how many seconds it takes to blend from the previous clip into the next one. Above 0, colors and BlendShapes change <strong>gradually</strong>. Turning an object on or off has no in-between, so it just snaps at some point during the blend. It only looks late.</p><p class="article_1__p">A toggle should feel like "press it and it changes right away," so uncheck Has Exit Time and set Duration to 0. When <code>Has Exit Time</code> is unchecked, Unity warns you if there are no <code>Conditions</code>. Always add a condition.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="connect" aria-labelledby="connect-heading">
+    <h2 class="section_2__h1" id="connect-heading">Hook it up to your avatar</h2>
+    <p class="article_1__p">Hook the controller you made up to your avatar&#39;s FX. There are two ways to do it.</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Hook it up with Modular Avatar (recommended)</dt>
+          <dd>Add MA components to an object inside your avatar, and MA adds the Hat layer to your avatar's FX when you upload. It doesn't rewrite your avatar's files, so it won't disappear when you update the avatar. When you don't need it anymore, just delete the object.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Add it to your avatar&#39;s FX directly</dt>
+          <dd>Add the Hat layer to your avatar's FX controller yourself. You don't need MA, but it rewrites your avatar's files. It may disappear when you update the avatar, and it could break the original gimmicks.</dd>
+        </div>
+      
+    </dl>
+    <h3 class="section_2__h2">Steps to hook it up with Modular Avatar</h3>
+    <ol class="steps_1">
+      <li>If you don't have MA yet, add it with VCC or ALCOM (<a href="/en/avatar-tips/outfit/#install">#3 Dressing your avatar</a>).</li><li>In the Hierarchy, right-click the top of your avatar and choose <code>Create Empty</code> to make an empty object. Name it <code>Hat Toggle</code>. This is also the name that shows in the menu.</li><li>With <code>Hat Toggle</code> selected, click <code>Add Component</code> in the Inspector, search for <code>MA Merge Animator</code>, and add it.</li><li>Drag <code>Hat_FX</code> from the Project window into the <code>Animator to merge</code> field.</li><li>Set <code>Layer Type</code> to <code>FX</code>.</li><li>Set <code>Path Mode</code> to <code>Absolute</code>, because you recorded the clips from the top of the avatar. With <code>Relative</code>, the paths are read as seen from this <code>Hat Toggle</code> object, and the hat can't be found.</li><li>Check <code>Match Avatar Write Defaults</code>. It matches the states' Write Defaults to your avatar's FX.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of MA Merge Animator. 1 Animator to merge is Hat_FX, Layer Type is FX, 2 Path Mode is Absolute, 3 Match Avatar Write Defaults is checked">
+        <p class="mock_1__bar">Inspector › Hat Toggle</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Merge Animator</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Animator to merge</span>
+                <span class="mock_1__control"><span class="mock_1__select">Hat_FX</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Layer Type</span>
+                <span class="mock_1__control"><span class="mock_1__select">FX</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--seg is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Path Mode</span>
+                <span class="mock_1__control"><span class="mock_1__seg"><span>Relative</span><span class="is_on">Absolute</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">Match Avatar Write Defaults</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: MA Merge Animator on the Hat Toggle object (English display). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>The controller you want to hook up. Its layers are added to FX.</li><li>Use Absolute for clips recorded from the top of the avatar. If you recorded children of the Hat Toggle object, use Relative.</li><li>MA checks whether your avatar uses Write Defaults ON or OFF, and matches the added states to it.</li>
+    </ol>
+  
+</div>
+
+    <p class="section_2__note">MA can also show its interface in Japanese. This tip uses the names from the English display.</p>
+    <h3 class="section_2__h2">Adding it to your avatar&#39;s FX directly</h3>
+    <ol class="steps_1">
+      <li>Select your avatar in the Hierarchy. In the Inspector, find <code>Playable Layers</code> on the VRC Avatar Descriptor and check which controller is in FX.</li><li>Select that controller in the Project window and press <code>Ctrl + D</code> to duplicate it. Put the duplicate into the FX field of the VRC Avatar Descriptor. This keeps the original file safe.</li><li>Open the duplicated controller and add the <code>Hat</code> layer (Weight 1), the <code>HatOn</code> parameter, and the two states and transitions, following the steps in this tip.</li><li>Match the states' <code>Write Defaults</code> to the other states in the same FX. If ON and OFF are mixed, it's hard to tell which values stay.</li><li>Add the parameter and the menu item to the Parameters and Menu files set under <code>Expressions</code> on the VRC Avatar Descriptor (see the next two sections).</li>
+    </ol>
+    <p class="article_1__p">When you update the avatar, the FX and menu files may be overwritten, and what you added may disappear. You&#39;d have to add it again every time, so we recommend hooking it up with MA. For more on Write Defaults, see <a href="/en/avatar-tips/unity-vs-vrchat/#write-defaults">#13 It looks different in Unity and VRChat</a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="params" aria-labelledby="params-heading">
+    <h2 class="section_2__h1" id="params-heading">Tell VRChat about the parameter (Expression Parameters)</h2>
+    <p class="article_1__p">Just creating <code>HatOn</code> in the Animator doesn't tell VRChat about it. Only after you register it in Expression Parameters can the menu change it, and only then is it sent to other people. When you use MA, register it with MA Parameters. <a href="/en/avatar-tips/animator-basics/#parameters">#6 How the Animator works</a> explains how the two kinds of parameters relate.</p>
+    <ol class="steps_1">
+      <li>Select the <code>Hat Toggle</code> object and add <code>MA Parameters</code> from <code>Add Component</code>.</li><li>Click the button that adds a parameter, and type <code>HatOn</code> as the name. Make it match the Animator parameter exactly, including upper and lower case.</li><li>Set the type to <code>Bool</code>.</li><li>Leave <code>Default Value</code> (the starting value) off (false, 0).</li><li>Check <code>Saved</code> and <code>Synced</code>. The table below shows what they mean.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of MA Parameters. 1 HatOn is a Bool, Default Value is off, 2 Saved is checked, 3 Synced is checked">
+        <p class="mock_1__bar">Inspector › Hat Toggle</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Parameters</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">HatOn</span>
+                <span class="mock_1__control"><span class="mock_1__select">Bool</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                
+                
+                <span class="mock_1__control"><span class="mock_1__check">Default Value</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">2</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">Saved</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check is_on">Synced</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: MA Parameters on the Hat Toggle object (English display). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Use the same name and type as HatOn in the Animator.</li><li>Remembers whether it's on or off, even when you change worlds or switch avatars and come back.</li><li>Sends the value to other people. If unchecked, only you can see the hat.</li>
+    </ol>
+  
+</div>
+
+    <section class="table_3" tabindex="0" aria-label="The three Expression Parameters settings, and what changes for the wearer">
+      <table>
+        <thead>
+          <tr><th scope="col">Setting</th><th scope="col">With it</th><th scope="col">Without it</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Saved (remember)</th><td>Keeps the last value, even when you change worlds or switch avatars and come back</td><td>Goes back to Default when you change worlds or switch avatars</td></tr>
+          
+            <tr><th scope="row">Synced (sync)</th><td>The value is sent to others, so they see the same thing. Uses the sync budget (256 bits). A Bool takes 1 bit</td><td>Changes only on your screen. Others keep seeing Default. Uses none of the budget</td></tr>
+          
+            <tr><th scope="row">Default (starting value)</th><td>The value used the first time you wear the avatar, and the value it goes back to when Saved is off. To show the hat from the start, set it to on (true, 1)</td><td>—</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">If you set Default to on, turn on <code>Hat</code> in the Hierarchy too. Then what you see in Unity matches the starting value.</p>
+    <p class="article_1__p">When you add it to your avatar's FX directly, select the file in <code>Parameters</code> under <code>Expressions</code> on the VRC Avatar Descriptor. Add a row in the Inspector, and set the name <code>HatOn</code>, the type <code>Bool</code>, and <code>Default</code>, <code>Saved</code>, and <code>Synced</code> the same way.</p><p class="article_1__p">For the detailed rules on parameters, see <a href="https://creators.vrchat.com/avatars/animator-parameters/" target="_blank" rel="noopener">VRChat's Animator Parameters page<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
+    <h2 class="section_2__h1" id="menu-heading">Add an item to the menu</h2>
+    <p class="article_1__p">Finally, add a "Hat Toggle" item to the menu you open in VRChat (the Expressions Menu). <a href="/en/avatar-tips/animator-basics/#menu">#6 How the Animator works</a> explains how the menu and parameters relate.</p>
+    <ol class="steps_1">
+      <li>Select the <code>Hat Toggle</code> object and add <code>MA Menu Installer</code> from <code>Add Component</code>. This component decides where in the menu the item goes. If you don't choose anything, it goes in the top menu.</li><li>Next, add <code>MA Menu Item</code> from <code>Add Component</code>. This component becomes one item in the menu.</li><li>Set <code>Type</code> to <code>Toggle</code>. Each press switches between on and off.</li><li>Type <code>HatOn</code> in <code>Parameter</code> (or pick it from the list if you can).</li><li>Leave <code>Value</code> at 1. When a Toggle turns on, it sets the Parameter to this value. When it turns off, it sets it back to 0. For a Bool, 1 is true and 0 is false.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of MA Menu Installer and MA Menu Item. Install To on the Menu Installer is empty, 1 Type is Toggle, 2 Parameter is HatOn, Value is 1">
+        <p class="mock_1__bar">Inspector › Hat Toggle</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Menu Installer</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Install To</span>
+                <span class="mock_1__control"><span class="mock_1__select">(empty: top menu)</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">▼ MA Menu Item</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Type</span>
+                <span class="mock_1__control"><span class="mock_1__select">Toggle</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Parameter</span>
+                <span class="mock_1__control"><span class="mock_1__select">HatOn</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Value</span>
+                <span class="mock_1__control"><span class="mock_1__value">1</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: MA Menu Installer and MA Menu Item on the Hat Toggle object (English display). The layout and look are simplified. Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Each press switches between on and off.</li><li>Use the same name as in the Animator and MA Parameters. If even one character is different, it won't work.</li>
+    </ol>
+  
+</div>
+
+    <ul class="rules_1">
+      <li>The name shown in the menu is the object's name (<code>Hat Toggle</code>). You can add an icon too.</li><li>Depending on the MA version, MA Menu Item also has fields like Saved. This tip uses the settings you made in MA Parameters.</li><li>A menu can hold up to 8 items. When it's full, group items into a Sub Menu (an item that opens another menu inside).</li><li>When you add it to your avatar's FX directly, select the file in <code>Menu</code> under <code>Expressions</code> on the VRC Avatar Descriptor, and click <code>Add Control</code> in the Inspector. Enter "Hat Toggle" in <code>Name</code>, <code>Toggle</code> in <code>Type</code>, and <code>HatOn</code> in <code>Parameter</code>. For details, see <a href="https://creators.vrchat.com/avatars/expression-menu-and-controls/" target="_blank" rel="noopener">VRChat's Expressions Menu page<span class="visually-hidden"> (opens in a new tab)</span></a>.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">Try it out</h2>
+    <p class="article_1__p">Press &#34;Hat Toggle&#34; in the menu, then try unchecking the build steps. You&#39;ll see how your look changes for you and for others, and why.</p>
+    <div class="demo_2 js_toggle_demo"
+      data-idle="&#34;Hat Toggle&#34; is off in the menu, so HatOn is false. The layer is in the Hat_OFF state, and the hat is hidden." data-name-ng="The parameter the menu changes has a different name from the one in the Animator. HatOn in the Animator stays false, so nobody sees the hat." data-weight-ng="HatOn becomes true, and the layer moves to the Hat_ON state. But the layer&#39;s Weight is 0, so it writes nothing. The hat doesn&#39;t appear."
+      data-synced-ng="It isn&#39;t Synced, so the value of HatOn isn&#39;t sent to others. On their screens, HatOn stays at Default (false)." data-exit-ng="Has Exit Time is checked, so the layer waits for the current clip to play before it switches. The hat appears a beat late." data-ok="HatOn became true, and the layer with Weight 1 moved to Hat_ON. The value is sent to others too, so everyone sees the hat."
+      data-result="You see {s}. Others see {o}." data-shown="the hat" data-hidden="no hat" data-sep=" ">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who">You, as you see yourself</p>
+          <div class="js_toggle_face" data-face="self"><svg class="demo_2__svg" viewBox="0 0 120 110" aria-hidden="true" focusable="false"><ellipse cx="60" cy="68" rx="40" ry="37" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse cx="46" cy="70" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="74" cy="70" rx="5" ry="7" fill="#3b2a24"/><path d="M50 88 Q60 95 70 88" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/><g class="js_toggle_hat" opacity="0"><rect x="32" y="6" width="56" height="32" rx="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/><rect x="16" y="34" width="88" height="9" rx="4.5" fill="#34508f"/></g></svg></div>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who">You, as others see you</p>
+          <div class="js_toggle_face" data-face="other"><svg class="demo_2__svg" viewBox="0 0 120 110" aria-hidden="true" focusable="false"><ellipse cx="60" cy="68" rx="40" ry="37" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse cx="46" cy="70" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="74" cy="70" rx="5" ry="7" fill="#3b2a24"/><path d="M50 88 Q60 95 70 88" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/><g class="js_toggle_hat" opacity="0"><rect x="32" y="6" width="56" height="32" rx="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/><rect x="16" y="34" width="88" height="9" rx="4.5" fill="#34508f"/></g></svg></div>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">Expressions Menu</legend>
+          <label><input type="checkbox" class="js_toggle_menu"> Press &#34;Hat Toggle&#34; to turn it on</label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">How you built it</legend>
+          <label><input type="checkbox" class="js_toggle_check" data-check="weight" checked> Set the layer&#39;s Weight to 1</label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="name" checked> The menu and the Animator use the same parameter name</label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="exit" checked> Unchecked Has Exit Time on the transitions</label>
+          <label><input type="checkbox" class="js_toggle_check" data-check="synced" checked> Made it Synced in Expression Parameters</label>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_toggle_why">&#34;Hat Toggle&#34; is off in the menu, so HatOn is false. The layer is in the Hat_OFF state, and the hat is hidden.</p>
+        <p class="demo_1__result js_toggle_result">You see no hat. Others see no hat.</p>
+      </div>
+      <noscript><p class="section_2__note">Turn on JavaScript to use this demo.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
+    <h2 class="section_2__h1" id="test-heading">Test it with Gesture Manager</h2>
+    <p class="article_1__p">Before you upload, test it inside Unity. Gesture Manager is a tool that imitates VRChat&#39;s menu and hand gestures when you press Play in Unity. Add it to your project with VCC or ALCOM.</p>
+    <ol class="steps_1">
+      <li>From Unity's top menu, choose <code>Tools → Gesture Manager Emulator</code>. An object named <code>GestureManager</code> appears in the scene. (The menu location and name may differ by version.)</li><li>Press the Play button (▶) at the top. MA adds the Hat layer to FX at this point, so the avatar in Play mode is hooked up the same way as when you upload.</li><li>Select <code>GestureManager</code> in the Hierarchy. The same round menu as in VRChat appears in the Inspector.</li><li>Open <code>Expressions</code> and press <code>Hat Toggle</code>. Check that the hat appears in the Scene or Game view. Press it again and check that it disappears.</li><li>If it doesn't work, check whether <code>HatOn</code> changes in Gesture Manager's parameter view (its name differs by version). If it doesn't change, suspect the menu or the parameter. If it changes but the hat doesn't appear, suspect the layer's Weight or the clip's path.</li><li>Press the Play button again to stop. Settings you changed in Play mode go back when you stop.</li>
+    </ol>
+    <h3 class="section_2__h2">Upload and check</h3>
+    <ol class="steps_1">
+      <li>Upload from the VRChat SDK Builder. The steps are the same as in <a href="/en/avatar-tips/upload/#builder">#2 How to upload</a>.</li><li>Wear the avatar in VRChat, open <code>Expressions</code> in the Action Menu, and press <code>Hat Toggle</code>.</li><li>Change worlds, or switch avatars and come back, to check that the on/off state is kept (Saved).</li><li>To be sure others can see it too (Synced), ask a friend to look.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems and fixes</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Nothing happens when you press the menu</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You can press &#34;Hat Toggle&#34; in the menu, but the hat doesn&#39;t appear. In Gesture Manager, HatOn does change.</dd></div>
+            <div><dt>Cause</dt><dd>The Hat layer&#39;s Weight is still 0. Or the clip&#39;s path doesn&#39;t point to the hat (for example, MA&#39;s Path Mode is wrong).</dd></div>
+            <div><dt>Fix</dt><dd>Set Weight to 1 from the gear. Open the clip in the Animation window, check that no row is yellow and marked Missing, and set Path Mode to match how you recorded.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">HatOn doesn&#39;t change</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Even when you press the menu, HatOn stays false in Gesture Manager.</dd></div>
+            <div><dt>Cause</dt><dd>The parameter name is different somewhere between the menu&#39;s Parameter, MA Parameters, and the Animator. Upper and lower case, and spaces at the start or end, also count as differences.</dd></div>
+            <div><dt>Fix</dt><dd>Copy and paste the name so it matches in all three places. Match the type (Bool) too.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It switches a beat late</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The hat appears a little after you press. It&#39;s late when it disappears, too.</dd></div>
+            <div><dt>Cause</dt><dd>Has Exit Time is checked on a transition, or Transition Duration is above 0.</dd></div>
+            <div><dt>Fix</dt><dd>On both arrows, uncheck Has Exit Time and set Transition Duration to 0.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It keeps turning on and off by itself</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The hat blinks on and off even though you didn&#39;t press the menu.</dd></div>
+            <div><dt>Cause</dt><dd>The transitions have no Conditions, so they move on Has Exit Time alone.</dd></div>
+            <div><dt>Fix</dt><dd>Add the conditions: HatOn is true for OFF to ON, and HatOn is false for ON to OFF.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">It resets when you change worlds</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You turned the hat on, but it&#39;s gone after you change worlds, or switch avatars and come back.</dd></div>
+            <div><dt>Cause</dt><dd>Saved isn&#39;t checked on the parameter.</dd></div>
+            <div><dt>Fix</dt><dd>Check Saved in MA Parameters (or in Expression Parameters, if you added it directly), and upload again.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Only you can see it</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>The hat shows on your screen, but your friends can&#39;t see it.</dd></div>
+            <div><dt>Cause</dt><dd>Synced isn&#39;t checked on the parameter. Or the other person&#39;s Safety settings are blocking animations.</dd></div>
+            <div><dt>Fix</dt><dd>Check Synced and upload again. Ask the other person to check their own settings.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The hat won&#39;t go away when you turn it off</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Once you turn it on, the hat stays even after you turn it off.</dd></div>
+            <div><dt>Cause</dt><dd>The Hat_OFF clip has no Is Active row, and Write Defaults is OFF, so the value from when it was on stays.</dd></div>
+            <div><dt>Fix</dt><dd>Add a key to the Hat_OFF clip that writes 0 to Hat&#39;s Is Active.</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>Try not to rewrite the FX and menu files your avatar came with. If you hook things up with MA, your gimmicks stay even after you update the avatar.</li><li>Give your parameter a name that doesn&#39;t clash with the avatar&#39;s other gimmicks. If two share a name, both gimmicks move together.</li><li>Don&#39;t mix Write Defaults ON and OFF in the same controller. MA&#39;s Match Avatar Write Defaults can match it to your avatar.</li><li>Synced parameters use the sync budget (256 bits in total). For things only you need to see, uncheck Synced.</li><li>A menu can hold up to 8 items. If you have a lot of accessories, group them into a Sub Menu.</li><li>Don&#39;t move Humanoid bones (how the arms or neck bend) with FX clips. Use FX clips for looks: turning objects on and off, BlendShapes, materials, and so on.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>Make both an on clip and an off clip. Then it works however Write Defaults is set.</li><li>Add a layer to your own controller and set its Weight to 1. Add a Bool parameter and two states.</li><li>On the transitions, uncheck Has Exit Time, set Transition Duration to 0, and add conditions.</li><li>Register the parameter in Expression Parameters (MA Parameters). Saved remembers it, Synced sends it to others, and Default is the starting value.</li><li>Use MA Merge Animator, MA Parameters, MA Menu Installer, and MA Menu Item to hook it up without rewriting your avatar&#39;s files.</li><li>Test it with Gesture Manager, then upload.</li>
+    </ul>
+    <p class="article_1__p">In the next tip, <a href="/en/avatar-tips/radial/">#9 Switching in steps and changing gradually</a>, you'll build a gimmick that picks one of several outfits, and one that changes gradually as you turn a dial.</p>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/animation-clip/" rel="prev"><span class="next_1__note">Previous (#7)</span><span class="next_1__text">Making animations</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/radial/" rel="next"><span class="next_1__note">Next (#9)</span><span class="next_1__text">Switching in steps and changing gradually</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

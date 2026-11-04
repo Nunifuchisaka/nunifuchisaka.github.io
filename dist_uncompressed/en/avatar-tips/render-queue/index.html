@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Render Queue (draw order) | ぬにふちさか</title>
+<meta name="description" content="Transparent hair or clothes vanish at certain angles or hide behind water. Most of the time, the Render Queue (a number for draw order) fixes it. How it works and how to fix it, with a demo you can try yourself.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/render-queue/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/render-queue/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/render-queue/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Render Queue (draw order)">
+<meta property="og:description" content="Transparent hair or clothes vanish at certain angles or hide behind water. Most of the time, the Render Queue (a number for draw order) fixes it. How it works and how to fix it, with a demo you can try yourself.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/render-queue/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Render Queue (draw order)">
+<meta name="twitter:description" content="Transparent hair or clothes vanish at certain angles or hide behind water. Most of the time, the Render Queue (a number for draw order) fixes it. How it works and how to fix it, with a demo you can try yourself.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Render Queue (draw order) | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/render-queue/",
+  "description": "Transparent hair or clothes vanish at certain angles or hide behind water. Most of the time, the Render Queue (a number for draw order) fixes it. How it works and how to fix it, with a demo you can try yourself."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/queue-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #14</a></p>
+    <h1 class="page_1__h1" id="article-heading">Render Queue (draw order)</h1>
+    <p class="article_1__lead">Transparent hair, lace or glasses lenses vanish at certain angles, or hide behind other things. Most of the time, you can fix this with the Render Queue, a number that sets the draw order.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-02">November 2, 2026</time> · This applies to Unity&#39;s Built-in Render Pipeline (VRChat avatars). Content as of November 2026.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#what">What is the Render Queue?</a></li>
+        
+          <li><a href="#sort">Sorting changes at 2500</a></li>
+        
+          <li><a href="#demo">Try it yourself</a></li>
+        
+          <li><a href="#cases">Common problems and how to fix them</a></li>
+        
+          <li><a href="#how">How to change the number</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>Transparent parts (lace, glasses lenses, blush) disappear and reappear as you move the camera.</li><li>In worlds with water, the transparent parts of your avatar hide behind the water surface.</li><li>You can&#39;t see one transparent thing through another, like a ribbon behind a see-through skirt.</li><li>Particles and effects jump in front of your hair or clothes, or hide behind them.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading">What is the Render Queue?</h2>
+    <p class="article_1__p">When Unity draws the screen, it draws materials in order, starting from the smallest number set on each one. This number is the <strong>Render Queue</strong>. Things drawn later are layered on top of things drawn earlier.</p><p class="article_1__p">For opaque things, depth decides what's in front, so changing the order barely changes how they look. The order matters for <strong>transparent</strong> things. They don't record depth. They just blend their color over whatever is already drawn.</p>
+    <figure class="scale_1">
+      <figcaption class="scale_1__caption">The main Render Queue numbers</figcaption>
+      <ol class="scale_1__list">
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">1000</span>
+            <span class="scale_1__name" lang="en">Background</span>
+            <span class="scale_1__note">The background (skyboxes and so on)</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">2000</span>
+            <span class="scale_1__name" lang="en">Geometry</span>
+            <span class="scale_1__note">Opaque things. Most materials</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">2450</span>
+            <span class="scale_1__name" lang="en">AlphaTest</span>
+            <span class="scale_1__note">Cutouts. Opaque things with holes</span>
+          </li>
+        
+          <li class="scale_1__step scale_1__step--border">
+            <span class="scale_1__value">2500</span>
+            
+            <span class="scale_1__note">Up to here counts as &#34;opaque&#34;</span>
+          </li>
+        
+          <li class="scale_1__step scale_1__step--transparent">
+            <span class="scale_1__value">3000</span>
+            <span class="scale_1__name" lang="en">Transparent</span>
+            <span class="scale_1__note">Transparent things</span>
+          </li>
+        
+          <li class="scale_1__step">
+            <span class="scale_1__value">4000</span>
+            <span class="scale_1__name" lang="en">Overlay</span>
+            <span class="scale_1__note">Drawn last. Layered on top of everything</span>
+          </li>
+        
+      </ol>
+    </figure>
+  </section>
+
+  <section class="section_2 article_1__section" id="sort" aria-labelledby="sort-heading">
+    <h2 class="section_2__h1" id="sort-heading">Sorting changes at 2500</h2>
+    <dl class="examples_1">
+      
+        <div class="examples_1__item">
+          <dt>2500 and below (treated as opaque)</dt>
+          <dd>Roughly, the things closest to the camera are drawn first. Depth decides what's in front, so it looks right whatever the order.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>2501 and above (treated as transparent)</dt>
+          <dd>Within the same number, the things farthest from the camera are drawn first. The distance isn't measured to the surface you see, but to <strong>the center of the mesh's bounding box (Bounds)</strong>. When two things have centers in different places, like a big skirt and a small ribbon, which one is "closer" flips as the camera moves, and they flicker.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>When one mesh has several transparent materials</dt>
+          <dd>Within the same mesh and the same number, they're drawn in material order (Element 0, 1, …), not by distance.</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">Try it yourself</h2>
+    <p class="article_1__p">The avatar&#39;s transparent part is in front of the water surface. If the water is drawn first, it looks right. Change the numbers and the distance, and see what happens.</p>
+    <div class="demo_1 js_queue_demo"
+      data-ok="Looks right: the water is drawn first, and the part is layered on top." data-ng="Looks wrong: the part is drawn first and the water is painted over it, so the part looks like it&#39;s underwater." data-tie="The numbers are the same, so distance decides the order." data-by-number="The numbers are different, so the smaller one is drawn first."
+      data-part="Avatar&#39;s transparent part" data-water="World&#39;s water surface" data-first="First" data-then="Next">
+      <div class="demo_1__stage" aria-hidden="true">
+        <span class="demo_1__water js_queue_water"><span>World&#39;s water surface</span></span>
+        <span class="demo_1__part js_queue_part"><span>Avatar&#39;s transparent part</span></span>
+      </div>
+      <div class="demo_1__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-part">Avatar&#39;s transparent part</label> <output class="demo_1__value" for="queue-part">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-part" class="js_queue_input" data-target="part">
+        </div>
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-water">World&#39;s water surface</label> <output class="demo_1__value" for="queue-water">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-water" class="js_queue_input" data-target="water">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">Whose center is closer to the camera?</legend>
+          <label><input type="radio" name="queue-near" value="part" class="js_queue_near" checked> The part</label>
+          <label><input type="radio" name="queue-near" value="water" class="js_queue_near"> The water (a large water surface is often judged as having a closer center)</label>
+        </fieldset>
+      </div>
+      <div class="demo_1__output" aria-live="polite">
+        <p class="demo_1__label">Draw order</p>
+        <ol class="demo_1__order js_queue_order">
+          <li>World&#39;s water surface (3000)</li>
+          <li>Avatar&#39;s transparent part (3000)</li>
+        </ol>
+        <p class="demo_1__why js_queue_why">The numbers are the same, so distance decides the order.</p>
+        <p class="demo_1__result is_ok js_queue_result">Looks right: the water is drawn first, and the part is layered on top.</p>
+      </div>
+      <noscript><p class="section_2__note">To change the numbers, please turn on JavaScript.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems and how to fix them</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Things vanish and reappear by angle</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Two transparent parts jump in front of or behind each other depending on the viewing angle.</dd></div>
+            <div><dt>Cause</dt><dd>Their numbers are the same, so distance decides the order, and which one counts as closer flips with the angle.</dd></div>
+            <div><dt>How to fix it</dt><dd>Raise the number of the one you want in front, just a little (+1 to +10). The number, not the distance, then decides the order, so they stop swapping.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Hidden by water</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>In worlds with water, the transparent parts of your avatar look like they&#39;re underwater.</dd></div>
+            <div><dt>Cause</dt><dd>A world&#39;s water surface often uses a number in the transparent range. If your part is drawn before the water, the water&#39;s color is painted over it.</dd></div>
+            <div><dt>How to fix it</dt><dd>Make the part&#39;s number larger than the water&#39;s. In my SpiderWeb, the threads are 3100 and the shockwave is 3110. The manual says that in worlds where the water is 3100 or more, you should set the thread material above the water and the shockwave after that. <a href="/spiderweb/en/">SpiderWeb manual</a></dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Overlapping inside one mesh</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Two transparent materials on the same mesh overlap in the wrong order.</dd></div>
+            <div><dt>Cause</dt><dd>Their numbers are the same, so they&#39;re drawn in material order.</dd></div>
+            <div><dt>How to fix it</dt><dd>Raise the number of the one you want in front, or move the one you want behind to an earlier Element.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Use Cutout if sharp edges are fine</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>You&#39;re using transparency only to cut out a shape, like hair tips or the holes in lace.</dd></div>
+            <div><dt>Cause</dt><dd>Transparency needs its order adjusted. Cutout (2450) is treated as opaque and records depth.</dd></div>
+            <div><dt>How to fix it</dt><dd>If sharp edges are fine, switch to Cutout. The draw order problems go away.</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="how" aria-labelledby="how-heading">
+    <h2 class="section_2__h1" id="how-heading">How to change the number</h2>
+    <ol class="steps_1">
+      <li>Duplicate the material first, so you can go back.</li><li>In the Project window, select the material you want to change.</li><li>In the Inspector, find the <strong>Render Queue</strong> field. In many shaders it's near the bottom. If it's left at <code>From Shader</code>, the shader's default number is used.</li><li>Enter the number.</li><li>To check the order, open Unity's Frame Debugger (<code>Window → Analysis → Frame Debugger</code>) and step through what gets drawn, one at a time.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>Above 2500, a material is treated as transparent. In the Built-in Render Pipeline, things above 2500 no longer receive shadows. Keep opaque things at 2500 or below.</li><li>Changing a shader&#39;s rendering mode may reset the Render Queue to its default number. Check it again after you change it.</li><li>Don&#39;t move the number a lot. The bigger it is, the later it&#39;s drawn compared to a world&#39;s transparent things (glass, fog, effects), and it may look like it&#39;s in front of them even when it&#39;s behind.</li><li>The Render Queue is a material setting, so once you upload, other people see it drawn in the same order too.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>The Render Queue is a number for draw order, and it matters for transparent materials.</li><li>When the numbers are the same, the distance to each mesh&#39;s center decides the order, and that causes flickering.</li><li>Set only the orders you need, with small differences, and use Cutout where you can.</li>
+    </ul>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/unity-vs-vrchat/" rel="prev"><span class="next_1__note">Previous (#13)</span><span class="next_1__text">It looks different in Unity and VRChat</span></a></li>
+    
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

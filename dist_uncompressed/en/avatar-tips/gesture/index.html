@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>Changing expressions with hand gestures | ぬにふちさか</title>
+<meta name="description" content="A peace sign for a smile, a fist for an angry face. Build the system that changes your expression with hand gestures yourself in the FX Animator. Covers GestureLeft and GestureRight numbers, which hand wins, overlap with blinking and the mouth (Tracking Control), and using grip strength, with recreated views and an interactive demo.">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/en/avatar-tips/gesture/">
+
+<link rel="alternate" hreflang="ja" href="https://nunifuchisaka.github.io/avatar-tips/gesture/">
+<link rel="alternate" hreflang="en" href="https://nunifuchisaka.github.io/en/avatar-tips/gesture/">
+<link rel="alternate" hreflang="x-default" href="https://nunifuchisaka.github.io/avatar-tips/gesture/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Changing expressions with hand gestures">
+<meta property="og:description" content="A peace sign for a smile, a fist for an angry face. Build the system that changes your expression with hand gestures yourself in the FX Animator. Covers GestureLeft and GestureRight numbers, which hand wins, overlap with blinking and the mouth (Tracking Control), and using grip strength, with recreated views and an interactive demo.">
+<meta property="og:url" content="https://nunifuchisaka.github.io/en/avatar-tips/gesture/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Changing expressions with hand gestures">
+<meta name="twitter:description" content="A peace sign for a smile, a fist for an angry face. Build the system that changes your expression with hand gestures yourself in the FX Animator. Covers GestureLeft and GestureRight numbers, which hand wins, overlap with blinking and the mouth (Tracking Control), and using grip strength, with recreated views and an interactive demo.">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Changing expressions with hand gestures | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/en/avatar-tips/gesture/",
+  "description": "A peace sign for a smile, a fist for an angry face. Build the system that changes your expression with hand gestures yourself in the FX Animator. Covers GestureLeft and GestureRight numbers, which hand wins, overlap with blinking and the mouth (Tracking Control), and using grip strength, with recreated views and an interactive demo."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/gesture-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/avatar-tips/" aria-current="true">Avatar Tips</a></li>
+        
+          <li><a href="/en/videos/">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/en/avatar-tips/">Avatar Tips #10</a></p>
+    <h1 class="page_1__h1" id="article-heading">Changing expressions with hand gestures</h1>
+    <p class="article_1__lead">Make a peace sign and you smile. Make a fist and you look angry. In this tip, you build the system that changes your expression with hand gestures yourself, in the FX Animator. It covers the gesture numbers, which hand takes priority, how expressions overlap with blinking and mouth movement, and how to use grip strength.</p>
+    <p class="section_2__note">Published <time datetime="2026-11-03">November 3, 2026</time> · This covers Unity&#39;s Built-in Render Pipeline and VRChat avatars (Avatars 3.0). Accurate as of November 2026.</p>
+    <nav class="jump_1" aria-label="Contents">
+      <ul>
+        
+          <li><a href="#when">Read this when</a></li>
+        
+          <li><a href="#plan">What you&#39;ll build</a></li>
+        
+          <li><a href="#numbers">Gesture numbers</a></li>
+        
+          <li><a href="#clips">Make the expression clips</a></li>
+        
+          <li><a href="#layers">Left and right hand layers and priority</a></li>
+        
+          <li><a href="#build">Make the layers and states</a></li>
+        
+          <li><a href="#transitions">Transition settings</a></li>
+        
+          <li><a href="#demo">Try it out</a></li>
+        
+          <li><a href="#tracking">Overlap with blinking and mouth (Tracking Control)</a></li>
+        
+          <li><a href="#weight">Changing an expression gradually with grip strength</a></li>
+        
+          <li><a href="#lock">Stopping expressions from the menu</a></li>
+        
+          <li><a href="#test">Connect it to your avatar and test</a></li>
+        
+          <li><a href="#cases">Common problems and fixes</a></li>
+        
+          <li><a href="#care">Things to watch out for</a></li>
+        
+          <li><a href="#summary">Summary</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">Read this when</h2>
+    <ul class="rules_1">
+      <li>You want your expression to change with hand gestures.</li><li>You want to move an expression on an avatar you bought to a different hand gesture.</li><li>You want to decide which expression shows when your left and right hands make different gestures.</li><li>When your expression changes, blinking or mouth movement overlaps it and your face looks broken.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="plan" aria-labelledby="plan-heading">
+    <h2 class="section_2__h1" id="plan-heading">What you&#39;ll build</h2>
+    <p class="article_1__p">In this tip, you build the following. It assumes you have already used layers, states, transitions and parameters once in <a href="/en/avatar-tips/toggle/">#8 Building a menu toggle</a>.</p>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Expression clips</dt>
+          <dd>Make an animation clip for each gesture&#39;s face that only writes BlendShapes (shape keys).</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Left hand layer</dt>
+          <dd>Make a Left Hand layer in FX, and switch expression states by the GestureLeft number.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Right hand layer</dt>
+          <dd>Make a Right Hand layer the same way. When your two hands make different gestures at once, the right hand wins.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Blink and mouth layer</dt>
+          <dd>Stop VRChat&#39;s blinking and mouth movement only while an expression is showing.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Menu on/off</dt>
+          <dd>For times you don&#39;t want your expression to change, let a menu switch turn off gesture expressions.</dd>
+        </div>
+      
+    </dl>
+    <p class="article_1__p"><strong>Most avatars you buy already have a hand-gesture expression system in their FX.</strong> Open FX in the Animator and look for layers named something like Left Hand, Right Hand or Gesture. If they're there, it's quicker to swap that layer's clips or change the transition numbers than to build new ones, and nothing will clash.</p><p class="article_1__p">If you build new layers and connect them, delete or disable the original gesture layers. If two layers write the same BlendShapes, it becomes hard to tell which expression will show (the reason is explained below in "Left and right hand layers and priority").</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="numbers" aria-labelledby="numbers-heading">
+    <h2 class="section_2__h1" id="numbers-heading">Gesture numbers</h2>
+    <p class="article_1__p">VRChat turns your current hand gesture into a number and puts it in Int parameters called <code>GestureLeft</code> (left hand) and <code>GestureRight</code> (right hand). VRChat fills in both automatically. You don't need to add them to Expression Parameters, and VRChat sends them to other people too.</p><p class="article_1__p">To use them, just add them to the Animator's Parameters with the same name and the same type (Int). Match the names exactly, including upper and lower case.</p>
+    <section class="table_3" tabindex="0" aria-label="GestureLeft and GestureRight numbers and hand shapes">
+      <table>
+        <thead>
+          <tr><th scope="col">Number</th><th scope="col">Name</th><th scope="col">Hand shape</th><th scope="col">Expression in this tip&#39;s example</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row" class="table_3__nowrap">0</th><td class="table_3__nowrap">Neutral</td><td>A relaxed hand (loosely open)</td><td>Normal face (Face_Neutral)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">1</th><td class="table_3__nowrap">Fist</td><td>A closed fist</td><td>Angry (Face_Angry)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">2</th><td class="table_3__nowrap">HandOpen</td><td>All fingers spread wide (open hand)</td><td>Surprised (Face_Surprise)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">3</th><td class="table_3__nowrap">FingerPoint</td><td>Only the index finger out (pointing)</td><td>Deadpan stare (Face_Jito)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">4</th><td class="table_3__nowrap">Victory</td><td>Index and middle fingers up (peace sign)</td><td>Smile (Face_Smile)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">5</th><td class="table_3__nowrap">RockNRoll</td><td>Index and little fingers up</td><td>Wink (Face_Wink)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">6</th><td class="table_3__nowrap">HandGun</td><td>Thumb and index finger up (finger gun)</td><td>Sad (Face_Sad)</td></tr>
+          
+            <tr><th scope="row" class="table_3__nowrap">7</th><td class="table_3__nowrap">ThumbsUp</td><td>Only the thumb up (thumbs up)</td><td>Big laugh (Face_Laugh)</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">The numbers and names come from <a href="https://creators.vrchat.com/avatars/animator-parameters/" target="_blank" rel="noopener">VRChat's Animator Parameters page<span class="visually-hidden"> (opens in a new tab)</span></a>. The hand shapes are a rough guide. Which fingers you move, and how, to get each number depends on your controller.</p><p class="article_1__p">You don't have to give every gesture an expression. People often leave out Fist, which tends to happen when you hold things, and FingerPoint, which tends to happen while you talk.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="clips" aria-labelledby="clips-heading">
+    <h2 class="section_2__h1" id="clips-heading">Make the expression clips</h2>
+    <p class="article_1__p">You make an expression by writing BlendShape values into an animation clip. How to make a clip (recording) is explained in <a href="/en/avatar-tips/animation-clip/#record">#7 Making animations</a>. Here are the rules to follow for expression clips.</p>
+    <ol class="steps_1">
+      <li>In the Project window, make a folder for your expression clips (e.g. <code>Assets/MyGesture</code>). Right-click and choose <code>Create → Animation</code> to make clips with the names in the right column of the table (e.g. <code>Face_Smile</code>). Also make <code>Face_Neutral</code> for your normal face.</li><li>Select your avatar in the Hierarchy and open the Animation window with <code>Window → Animation → Animation</code>. In the top left, switch the clip to <code>Face_Smile</code> and press the record button (the red circle).</li><li>In the Hierarchy, select the face mesh (a Skinned Mesh Renderer such as Body), and raise the values of the BlendShapes you use for the smile under <code>BlendShapes</code> in the Inspector. Because you're recording, the values you change are written into the clip.</li><li><strong>Write every BlendShape you use for expressions into every clip.</strong> In the smile clip, also write the BlendShapes for the angry and surprised faces, set to 0. On an avatar with Write Defaults OFF, a BlendShape that isn't in the clip keeps its previous value. If you write them all, you get the same expression whether Write Defaults is ON or OFF.</li><li>Don't write BlendShapes that have nothing to do with expressions (shrinking the body, blush, hiding clothes and so on). If you do, your body shape will change too when you switch gestures. Press the record button again to stop recording.</li><li>Make the other expressions the same way. <code>Face_Neutral</code> is a clip that writes every expression BlendShape at its normal value (usually 0).</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the Animation window. The Face_Smile clip has the rows 1 eye_smile 100 and mouth_smile 100, and 2 brow_angry 0, eye_surprise 0 and mouth_o 0">
+        <p class="mock_1__bar">Animation › Face_Smile</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Body : Blend Shape.eye_smile</span>
+                <span class="mock_1__control"><span class="mock_1__value">100</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Body : Blend Shape.mouth_smile</span>
+                <span class="mock_1__control"><span class="mock_1__value">100</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Body : Blend Shape.brow_angry</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Body : Blend Shape.eye_surprise</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Body : Blend Shape.mouth_o</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Unity&#39;s Animation window (inside the smile clip). Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>These are the BlendShapes for the smile. Only these go up.</li><li>Also write the BlendShapes for the other expressions, set to 0, so the previous expression's values don't stay behind.</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">To see what happens when unrelated BlendShapes get in, read "Gestures change unrelated parts" in <a href="/en/avatar-tips/unity-vs-vrchat/#cases">#13 It looks different in Unity and VRChat</a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="layers" aria-labelledby="layers-heading">
+    <h2 class="section_2__h1" id="layers-heading">Left and right hand layers and priority</h2>
+    <p class="article_1__p">Put the left hand and the right hand on separate layers in FX. The Left Hand layer only looks at GestureLeft, and the Right Hand layer only looks at GestureRight.</p><p class="article_1__p">Both layers write the same face BlendShapes. <strong>When two layers write the same thing, the layer lower in the Animator's Layers list wins.</strong> This is because the lower layer writes over the values the upper layer wrote.</p>
+    <section class="table_3" tabindex="0" aria-label="Gestures of the lower layer (right hand) and the expression you see">
+      <table>
+        <thead>
+          <tr><th scope="col">Right hand (lower layer)</th><th scope="col">Left hand (upper layer)</th><th scope="col">Expression you see</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Neutral (0)</th><td>Neutral (0)</td><td>Normal face</td></tr>
+          
+            <tr><th scope="row">Neutral (0)</th><td>Victory (4)</td><td>Left hand&#39;s smile</td></tr>
+          
+            <tr><th scope="row">Fist (1)</th><td>Neutral (0)</td><td>Right hand&#39;s angry face</td></tr>
+          
+            <tr><th scope="row">Fist (1)</th><td>Victory (4)</td><td>Right hand&#39;s angry face (the lower layer wins)</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <p class="article_1__p">For the table to work this way, there's one important rule. <strong>In the lower layer's (right hand's) Neutral state, don't write any expression BlendShapes.</strong> If the right hand's Neutral writes "all 0", it overwrites the left hand's expression and makes it disappear, even when your right hand is doing nothing.</p><p class="article_1__p">So in the right hand's Neutral, put <code>Face_None</code>, a clip that writes no expression. In the upper left hand layer's Neutral, put <code>Face_Neutral</code>, your normal face. When both hands are Neutral, the left hand layer writes your normal face, so your face goes back to normal.</p><p class="article_1__p"><code>Face_None</code> can be an empty clip. However, putting an empty clip in a state with Write Defaults OFF is said to sometimes cause problems, such as values staying behind. If you're worried, make an empty GameObject inside your avatar (e.g. <code>FaceDummy</code>), and record a clip that only writes that GameObject as on (Is Active). Nothing happens to your face.</p>
+    <h3 class="section_2__h2">Which hand gets priority</h3>
+    <dl class="examples_1 examples_1--grid">
+      
+        <div class="examples_1__item">
+          <dt>Put the hand you use more at the bottom</dt>
+          <dd>Put the layer for the hand you usually use for expressions at the bottom. When you use both hands, that hand&#39;s expression shows.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>Put the hand that holds things at the top</dt>
+          <dd>If one hand tends to make a Fist when holding things, put it at the top. Your expression is then less likely to change on its own while you hold something.</dd>
+        </div>
+      
+        <div class="examples_1__item">
+          <dt>How to change the order</dt>
+          <dd>In the Animator&#39;s Layers list, drag a layer&#39;s name up or down.</dd>
+        </div>
+      
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="build" aria-labelledby="build-heading">
+    <h2 class="section_2__h1" id="build-heading">Make the layers and states</h2>
+    <p class="article_1__p">Make the expression layers in your own Animator Controller that you connect to FX. How to make a controller and connect it to your avatar is explained in <a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a>.</p>
+    <ol class="steps_1">
+      <li>Double-click your Animator Controller to open it in the Animator window (<code>Window → Animation → Animator</code>).</li><li>In the <code>Parameters</code> tab at the top left, press <code>+</code>, choose <code>Int</code>, and name it <code>GestureLeft</code>. Add <code>GestureRight</code> the same way.</li><li>In the <code>Layers</code> tab, press <code>+</code> and name the new layer <code>Left Hand</code>. Press the gear to the right of the layer and set <code>Weight</code> to 1. A new layer starts with Weight 0, so it won't work as is.</li><li>Drag the 8 expression clips from the Project window onto an empty spot in the Animator window. You get 8 states with the same names as the clips.</li><li>Right-click the <code>Face_Neutral</code> state and choose <code>Set as Layer Default State</code>. The state that turns orange is the one the layer enters first.</li><li>Select the states one by one and set <code>Write Defaults</code> in the Inspector to match your avatar's other layers (if you're not sure, select one of the original FX states and check).</li><li>Make a <code>Right Hand</code> layer the same way and set its Weight to 1. In this one, put <code>Face_None</code> in the Neutral state and make it the default. Check that <code>Right Hand</code> is below <code>Left Hand</code>.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="transitions" aria-labelledby="transitions-heading">
+    <h2 class="section_2__h1" id="transitions-heading">Transition settings</h2>
+    <p class="article_1__p">When the gesture changes, the layer should move straight to that expression&#39;s state. Draw the transitions from Any State, so it can move from whatever state it&#39;s in.</p>
+    <ol class="steps_1">
+      <li>In the <code>Left Hand</code> layer, right-click the light blue <code>Any State</code>, choose <code>Make Transition</code>, then click the <code>Face_Smile</code> state. An arrow appears.</li><li>Click the arrow and press <code>+</code> under <code>Conditions</code> in the Inspector. Set it to <code>GestureLeft</code>, <code>Equals</code>, <code>4</code>. This means "when the left hand is Victory (4)".</li><li>Uncheck <code>Has Exit Time</code>. If it's checked, the transition waits until the previous state's clip finishes.</li><li>Open <code>Settings</code> and set <code>Transition Duration</code> to about 0.1. The expression changes softly. For on/off gimmicks you used 0, but expressions look more natural with a little time.</li><li><strong>Uncheck <code>Can Transition To Self</code>.</strong> If it's checked, the layer re-enters the state every frame while it's in it, so the expression flickers or never fully changes.</li><li>Make transitions from Any State to the other numbers the same way (including 0 for Neutral). Only change the number.</li><li>Do the same in the <code>Right Hand</code> layer. Use <code>GestureRight</code> in the Conditions.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of the transition Inspector. 1 Has Exit Time is off, 2 Transition Duration 0.1, 3 Can Transition To Self is off, 4 Conditions is GestureLeft Equals 4">
+        <p class="mock_1__bar">Inspector › Any State -&gt; Face_Smile</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                <span class="mock_1__mark">1</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check">Has Exit Time</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">▼ Settings</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Transition Duration (s)</span>
+                <span class="mock_1__control"><span class="mock_1__value">0.1</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check is_hot">
+                <span class="mock_1__mark">3</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check">Can Transition To Self</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Conditions</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                <span class="mock_1__mark">4</span>
+                <span class="mock_1__label">GestureLeft</span>
+                <span class="mock_1__control"><span class="mock_1__value">Equals 4</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Unity&#39;s Inspector (the transition from Any State to Face_Smile). Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Uncheck it, so the expression changes as soon as you change your gesture.</li><li>For expressions, about 0.1 gives a smooth change.</li><li>Always uncheck this on transitions from Any State.</li><li>The condition is "when the left hand is Victory (4)".</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">The transition settings for on/off gimmicks are explained in <a href="/en/avatar-tips/toggle/#transitions">#8 Building a menu toggle</a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">Try it out</h2>
+    <p class="article_1__p">Change the left and right hand gestures, which layer is at the bottom, and what goes in the lower layer&#39;s Neutral, and see which expression shows.</p>
+    <div class="demo_2 js_gesture_demo"
+      data-hand-left="Left Hand" data-hand-right="Right Hand"
+      data-upper=" (upper)" data-lower=" (lower)" data-layer=" layer" data-pass="Writes no expression"
+      data-why-lower="The {l} layer, which is lower, writes &#34;{e}&#34;. Both write the same BlendShapes, so the lower layer wins." data-why-hidden=" The &#34;{h}&#34; from the {u} layer above is overwritten and doesn&#39;t show."
+      data-why-pass="The {l} layer, which is lower, is in Neutral and writes no expression. The &#34;{e}&#34; written by the {u} layer above shows as it is." data-why-reset="The Neutral in the {l} layer, which is lower, writes every expression BlendShape as 0. Whatever the {u} layer above writes, it gets overwritten with the normal face."
+      data-ok="You see: {e} (from the {w} layer)" data-ng="You see: {e}. The {u} gesture has no effect.">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who js_gesture_who" data-face="left">Left Hand layer (upper)</p>
+          <div class="js_gesture_face" data-face="left"><svg class="demo_2__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false"><g class="js_gesture_dim" opacity="1"><ellipse cx="60" cy="52" rx="44" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><g data-expr="neutral" display="none"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><ellipse cx="78" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M50 73 Q60 78 70 73" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="angry" display="none"><ellipse cx="42" cy="50" rx="6" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="6" ry="7" fill="#3b2a24"/><path d="M31 34 L51 41 M89 34 L69 41" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 77 Q60 69 72 77" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="surprise" display="none"><ellipse cx="42" cy="47" rx="7" ry="10" fill="#3b2a24"/><ellipse cx="78" cy="47" rx="7" ry="10" fill="#3b2a24"/><path d="M33 31 Q42 26 51 31 M69 31 Q78 26 87 31" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="60" cy="75" rx="6" ry="8" fill="#3b2a24"/></g><g data-expr="jito" display="none"><path d="M34 47 L50 47 M70 47 L86 47" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="42" cy="51" rx="6" ry="4" fill="#3b2a24"/><ellipse cx="78" cy="51" rx="6" ry="4" fill="#3b2a24"/><path d="M51 75 L69 75" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="smile" display="inline"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="wink" display="none"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M70 48 Q78 55 86 48" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="sad" display="none"><ellipse cx="42" cy="50" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="5" ry="7" fill="#3b2a24"/><path d="M32 39 L50 33 M88 39 L70 33" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 79 Q60 70 72 79" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="laugh" display="none"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M45 68 Q60 92 75 68 Z" fill="#3b2a24"/></g></g></svg></div>
+          <p class="demo_2__num js_gesture_num" data-face="left">Smile</p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who js_gesture_who" data-face="right">Right Hand layer (lower)</p>
+          <div class="js_gesture_face" data-face="right"><svg class="demo_2__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false"><g class="js_gesture_dim" opacity="0.35"><ellipse cx="60" cy="52" rx="44" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><g data-expr="neutral" display="inline"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><ellipse cx="78" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M50 73 Q60 78 70 73" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="angry" display="none"><ellipse cx="42" cy="50" rx="6" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="6" ry="7" fill="#3b2a24"/><path d="M31 34 L51 41 M89 34 L69 41" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 77 Q60 69 72 77" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="surprise" display="none"><ellipse cx="42" cy="47" rx="7" ry="10" fill="#3b2a24"/><ellipse cx="78" cy="47" rx="7" ry="10" fill="#3b2a24"/><path d="M33 31 Q42 26 51 31 M69 31 Q78 26 87 31" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="60" cy="75" rx="6" ry="8" fill="#3b2a24"/></g><g data-expr="jito" display="none"><path d="M34 47 L50 47 M70 47 L86 47" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="42" cy="51" rx="6" ry="4" fill="#3b2a24"/><ellipse cx="78" cy="51" rx="6" ry="4" fill="#3b2a24"/><path d="M51 75 L69 75" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="smile" display="none"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="wink" display="none"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M70 48 Q78 55 86 48" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="sad" display="none"><ellipse cx="42" cy="50" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="5" ry="7" fill="#3b2a24"/><path d="M32 39 L50 33 M88 39 L70 33" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 79 Q60 70 72 79" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="laugh" display="none"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M45 68 Q60 92 75 68 Z" fill="#3b2a24"/></g></g></svg></div>
+          <p class="demo_2__num js_gesture_num" data-face="right">Writes no expression</p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="gesture-left">Left hand (GestureLeft)</label></p>
+          <select id="gesture-left" class="js_gesture_left">
+            <option value="0" data-expr="neutral" data-face="Normal face">0 Neutral → Normal face</option><option value="1" data-expr="angry" data-face="Angry">1 Fist → Angry</option><option value="2" data-expr="surprise" data-face="Surprised">2 HandOpen → Surprised</option><option value="3" data-expr="jito" data-face="Deadpan stare">3 FingerPoint → Deadpan stare</option><option value="4" data-expr="smile" data-face="Smile" selected>4 Victory → Smile</option><option value="5" data-expr="wink" data-face="Wink">5 RockNRoll → Wink</option><option value="6" data-expr="sad" data-face="Sad">6 HandGun → Sad</option><option value="7" data-expr="laugh" data-face="Big laugh">7 ThumbsUp → Big laugh</option>
+          </select>
+        </div>
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="gesture-right">Right hand (GestureRight)</label></p>
+          <select id="gesture-right" class="js_gesture_right">
+            <option value="0" data-expr="neutral" data-face="Normal face" selected>0 Neutral → Normal face</option><option value="1" data-expr="angry" data-face="Angry">1 Fist → Angry</option><option value="2" data-expr="surprise" data-face="Surprised">2 HandOpen → Surprised</option><option value="3" data-expr="jito" data-face="Deadpan stare">3 FingerPoint → Deadpan stare</option><option value="4" data-expr="smile" data-face="Smile">4 Victory → Smile</option><option value="5" data-expr="wink" data-face="Wink">5 RockNRoll → Wink</option><option value="6" data-expr="sad" data-face="Sad">6 HandGun → Sad</option><option value="7" data-expr="laugh" data-face="Big laugh">7 ThumbsUp → Big laugh</option>
+          </select>
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">Layer at the bottom (wins)</legend>
+          <label><input type="radio" name="gesture-order" value="right" class="js_gesture_order" checked> Right Hand layer</label>
+          <label><input type="radio" name="gesture-order" value="left" class="js_gesture_order"> Left Hand layer</label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">Clip in the lower layer&#39;s Neutral</legend>
+          
+            <label><input type="radio" name="gesture-neutral" value="pass" class="js_gesture_neutral" checked> Face_None (writes no expression)</label>
+          
+            <label><input type="radio" name="gesture-neutral" value="reset" class="js_gesture_neutral"> A clip that writes every expression as 0</label>
+          
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <div class="demo_2__face">
+          <p class="demo_2__who">Expression you see</p>
+          <div class="js_gesture_face" data-face="view"><svg class="demo_2__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false"><g class="js_gesture_dim" opacity="1"><ellipse cx="60" cy="52" rx="44" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><g data-expr="neutral" display="none"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><ellipse cx="78" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M50 73 Q60 78 70 73" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="angry" display="none"><ellipse cx="42" cy="50" rx="6" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="6" ry="7" fill="#3b2a24"/><path d="M31 34 L51 41 M89 34 L69 41" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 77 Q60 69 72 77" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="surprise" display="none"><ellipse cx="42" cy="47" rx="7" ry="10" fill="#3b2a24"/><ellipse cx="78" cy="47" rx="7" ry="10" fill="#3b2a24"/><path d="M33 31 Q42 26 51 31 M69 31 Q78 26 87 31" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="60" cy="75" rx="6" ry="8" fill="#3b2a24"/></g><g data-expr="jito" display="none"><path d="M34 47 L50 47 M70 47 L86 47" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><ellipse cx="42" cy="51" rx="6" ry="4" fill="#3b2a24"/><ellipse cx="78" cy="51" rx="6" ry="4" fill="#3b2a24"/><path d="M51 75 L69 75" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="smile" display="inline"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="wink" display="none"><ellipse cx="42" cy="48" rx="6" ry="8" fill="#3b2a24"/><path d="M70 48 Q78 55 86 48" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M46 70 Q60 84 74 70" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="sad" display="none"><ellipse cx="42" cy="50" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="78" cy="50" rx="5" ry="7" fill="#3b2a24"/><path d="M32 39 L50 33 M88 39 L70 33" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M48 79 Q60 70 72 79" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/></g><g data-expr="laugh" display="none"><path d="M34 51 Q42 39 50 51 M70 51 Q78 39 86 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round"/><path d="M45 68 Q60 92 75 68 Z" fill="#3b2a24"/></g></g></svg></div>
+        </div>
+        <p class="demo_1__why js_gesture_why">The Right Hand layer, which is lower, is in Neutral and writes no expression. The &#34;Smile&#34; written by the Left Hand layer above shows as it is.</p>
+        <p class="demo_1__result is_ok js_gesture_result">You see: Smile (from the Left Hand layer)</p>
+      </div>
+      <noscript><p class="section_2__note">Turn on JavaScript to use the demo.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="tracking" aria-labelledby="tracking-heading">
+    <h2 class="section_2__h1" id="tracking-heading">Overlap with blinking and mouth (Tracking Control)</h2>
+    <p class="article_1__p">Apart from expressions, VRChat moves your blinking and your mouth shape (the mouth movement when you talk, called visemes) on its own. If an expression clip closes the eyes or opens the mouth, blinking or mouth movement gets layered on top. The eyes can look like they're flipping inside out, or you get a double mouth.</p><p class="article_1__p"><code>VRC Animator Tracking Control</code> prevents this. Add it to a state, and when the layer enters that state, it can stop VRChat's blinking or mouth movement (Animation) or bring it back (Tracking). <code>No Change</code> leaves the current setting alone. The setting stays until another state changes it again (<a href="https://creators.vrchat.com/avatars/state-behaviors/" target="_blank" rel="noopener">VRChat's State Behaviors page<span class="visually-hidden"> (opens in a new tab)</span></a>).</p><p class="article_1__p">If you add it separately to the left and right hand layers, blinking comes back in the middle of the other hand's expression when you relax one hand. So make one layer that only handles blinking and the mouth.</p>
+    <ol class="steps_1">
+      <li>In the <code>Layers</code> tab, press <code>+</code> and make a layer called <code>Eyes Mouth</code>. Press the gear and set Weight to 1.</li><li>Right-click an empty spot and choose <code>Create State → Empty</code> to make two states. Name them <code>Tracking</code> (normally) and <code>Animation</code> (while an expression is showing). Make <code>Tracking</code> the default. Putting <code>Face_None</code> in each state's Motion makes it safe even with Write Defaults OFF.</li><li>Select the <code>Animation</code> state, press <code>Add Behaviour</code> in the Inspector and choose <code>VRC Animator Tracking Control</code>. Set <code>Eyes &amp; Eyelids</code> to <code>Animation</code>. If your expressions also change the mouth shape, set <code>Mouth &amp; Jaw</code> to <code>Animation</code> too. Leave the other parts on <code>No Change</code>.</li><li>Add the same Behaviour to the <code>Tracking</code> state, and set the parts you just changed to <code>Tracking</code>.</li><li>Draw two transitions from <code>Tracking</code> to <code>Animation</code>. The first one's condition is <code>GestureLeft NotEqual 0</code>, and the second one's is <code>GestureRight NotEqual 0</code>. Separate transitions mean "either hand".</li><li>Draw one transition from <code>Animation</code> to <code>Tracking</code> and add two conditions: <code>GestureLeft Equals 0</code> and <code>GestureRight Equals 0</code>. Several conditions on one transition mean "both hands". On every transition, uncheck Has Exit Time and set Transition Duration to 0.</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="Recreated view of VRC Animator Tracking Control. Head is No Change, 1 Eyes &amp; Eyelids is Animation, 2 Mouth &amp; Jaw is Animation">
+        <p class="mock_1__bar">Inspector › Animation (VRC Animator Tracking Control)</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--radio">
+                
+                <span class="mock_1__label">Head</span>
+                <span class="mock_1__control"><span class="mock_1__radio"><span class="is_on">No Change</span><span>Tracking</span><span>Animation</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--radio">
+                
+                <span class="mock_1__label">Left Hand</span>
+                <span class="mock_1__control"><span class="mock_1__radio"><span class="is_on">No Change</span><span>Tracking</span><span>Animation</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--radio is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Eyes &amp; Eyelids</span>
+                <span class="mock_1__control"><span class="mock_1__radio"><span>No Change</span><span>Tracking</span><span class="is_on">Animation</span></span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--radio">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Mouth &amp; Jaw</span>
+                <span class="mock_1__control"><span class="mock_1__radio"><span>No Change</span><span>Tracking</span><span class="is_on">Animation</span></span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">Recreated view: Unity&#39;s Inspector (VRC Animator Tracking Control on the Animation state). Names are examples.</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>Stops blinking and eye movement while an expression is showing.</li><li>If an expression changes the mouth, this stops mouth movement when you talk. While it's stopped, your mouth won't move when you talk.</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">If none of your expressions change the mouth, it's more natural to leave <code>Mouth &amp; Jaw</code> running so your mouth moves when you talk. To decide per expression, change the conditions so that only that gesture's number moves the layer to <code>Animation</code>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="weight" aria-labelledby="weight-heading">
+    <h2 class="section_2__h1" id="weight-heading">Changing an expression gradually with grip strength</h2>
+    <p class="article_1__p"><code>GestureLeftWeight</code> and <code>GestureRightWeight</code> are Float parameters that show how far you're pulling the trigger, from 0 to 1. For example, when you make a Fist without pulling the trigger, GestureLeft is 1 and GestureLeftWeight is 0. It gets closer to 1 as you pull.</p><p class="article_1__p">With this, you can make an expression like "the harder you squeeze your fist, the angrier you look". It works the same way as a gimmick that changes gradually with a menu radial: Motion Time (<a href="/en/avatar-tips/radial/#float">#9 Switching in steps and changing gradually</a>).</p>
+    <ol class="steps_1">
+      <li>Add <code>GestureLeftWeight</code> as a <code>Float</code> to the Animator's Parameters.</li><li>Duplicate the angry clip and set two keys: your normal face at the first frame (0), and the angry face at the last frame.</li><li>Select the <code>Face_Angry</code> state in the <code>Left Hand</code> layer and change its Motion to this clip. In the Inspector, check <code>Parameter</code> next to <code>Motion Time</code> and choose <code>GestureLeftWeight</code>.</li>
+    </ol>
+    <p class="article_1__p">Grip strength is sent to other people too, but not very often. To others, the change may look a little less smooth.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="lock" aria-labelledby="lock-heading">
+    <h2 class="section_2__h1" id="lock-heading">Stopping expressions from the menu</h2>
+    <p class="article_1__p">This is a switch that keeps your expression from changing on its own when you take photos or hold things. Add one Bool parameter and add it to the transition conditions.</p>
+    <ol class="steps_1">
+      <li>Add a Bool called <code>GestureFaceOff</code> to Expression Parameters (check Saved and Synced, leave Default unchecked). Put a Toggle for this parameter in your menu. You add them the same way as in <a href="/en/avatar-tips/toggle/#params">#8 Building a menu toggle</a> and <a href="/en/avatar-tips/toggle/#menu">#8 Building a menu toggle</a>.</li><li>Also add <code>GestureFaceOff</code> as a Bool to the Animator's Parameters.</li><li>In the <code>Left Hand</code> layer, select each transition to an expression other than Neutral, one by one, and add <code>GestureFaceOff</code>, <code>false</code> to its Conditions. This means "only while expressions aren't stopped".</li><li>Draw one more transition from Any State to Neutral, with the condition <code>GestureFaceOff</code>, <code>true</code>. The moment you stop expressions, your face goes back to normal.</li><li>Add the same conditions to the <code>Right Hand</code> and <code>Eyes Mouth</code> layers. In <code>Eyes Mouth</code>, add a transition that goes back to <code>Tracking</code> when <code>GestureFaceOff</code> is true.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="test" aria-labelledby="test-heading">
+    <h2 class="section_2__h1" id="test-heading">Connect it to your avatar and test</h2>
+    <ol class="steps_1">
+      <li>Connect your Animator Controller to FX with Modular Avatar's MA Merge Animator. See <a href="/en/avatar-tips/toggle/#connect">#8 Building a menu toggle</a> for how.</li><li>If you have Gesture Manager installed, you can press Play in Unity and test by choosing left and right hand gestures. Try the left hand only, the right hand only, then both, and check that you get the expressions in the table.</li><li>If you press Play with your avatar selected in the Animator window, the current state is highlighted in blue. When an expression doesn't show, check which state of which layer it's in.</li>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">Common problems and fixes</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The left hand&#39;s expressions don&#39;t show</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>Expressions you made with the right hand show, but left hand gestures don&#39;t change your expression.</dd></div>
+            <div><dt>Cause</dt><dd>The Neutral in the lower Right Hand layer writes every expression BlendShape as 0 and overwrites the left hand&#39;s expression.</dd></div>
+            <div><dt>Fix</dt><dd>Change the clip in Right Hand&#39;s Neutral to Face_None, which writes no expression.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Expressions mix together</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>When you change from smile to angry, two expressions mix, such as smiling eyes with an angry mouth.</dd></div>
+            <div><dt>Cause</dt><dd>Write Defaults is OFF and the angry clip doesn&#39;t write the smile&#39;s BlendShapes, so the smile&#39;s values stay behind.</dd></div>
+            <div><dt>Fix</dt><dd>Write every expression BlendShape into every clip. Set the ones that expression doesn&#39;t use to 0.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The expression flickers or doesn&#39;t fully change</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>While you hold a gesture, the expression flickers or stops partway.</dd></div>
+            <div><dt>Cause</dt><dd>Can Transition To Self is checked on the transitions from Any State, so the layer re-enters the state every frame.</dd></div>
+            <div><dt>Fix</dt><dd>Select each transition from Any State and uncheck Can Transition To Self.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">The expression lags behind</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>There&#39;s a delay between changing your gesture and your expression changing.</dd></div>
+            <div><dt>Cause</dt><dd>Has Exit Time is checked on the transitions, or Transition Duration is too long.</dd></div>
+            <div><dt>Fix</dt><dd>Uncheck Has Exit Time and set Transition Duration to about 0.1.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Blinking or mouth movement overlaps</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>On an expression with closed eyes, blinking overlaps and the eyes break. On an expression with an open mouth, talking gives you a double mouth.</dd></div>
+            <div><dt>Cause</dt><dd>VRChat&#39;s blinking and mouth movement are moving on top of the expression.</dd></div>
+            <div><dt>Fix</dt><dd>Make an Eyes Mouth layer, and use Tracking Control to set Eyes &amp; Eyelids (and Mouth &amp; Jaw) to Animation while an expression is showing.</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">Both the original expression and yours show</h3>
+          <dl class="case_1__list">
+            <div><dt>What happens</dt><dd>With the same gesture, the avatar&#39;s original expression and the one you made switch back and forth.</dd></div>
+            <div><dt>Cause</dt><dd>The avatar&#39;s original gesture layers and your layers both write the same BlendShapes.</dd></div>
+            <div><dt>Fix</dt><dd>Keep only one of them. Swapping the clips in the original layers causes the fewest clashes.</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+    <p class="article_1__p">When your expression doesn't go back after you relax your hand, or your body shape changes too, see <a href="/en/avatar-tips/unity-vs-vrchat/#cases">#13 It looks different in Unity and VRChat</a>.</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">Things to watch out for</h2>
+    <ul class="rules_1">
+      <li>Only write face BlendShapes in expression clips. Don&#39;t write body shapes, clothes or object on/off.</li><li>It&#39;s safer not to write the BlendShapes used for blinking (the ones in Eyelids on the VRC Avatar Descriptor) in expression clips. They can clash with VRChat&#39;s blinking.</li><li>Don&#39;t mix Write Defaults ON and OFF in the same controller.</li><li>If an expression tool or an avatar update rebuilds FX, your changes may be lost. Keep copies of the clips you changed in a separate folder.</li><li>If you swap the order of the left and right hand layers, swap their Neutral clips too. The lower layer&#39;s Neutral is Face_None, and the upper layer&#39;s Neutral is Face_Neutral.</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">Summary</h2>
+    <ul class="rules_1">
+      <li>Hand gestures go into GestureLeft and GestureRight as numbers from 0 to 7. You don&#39;t need to add them to Expression Parameters.</li><li>In expression clips, write every BlendShape used for expressions, and nothing unrelated.</li><li>When layers write the same BlendShapes, the lower layer wins. Put a clip that writes no expression in the lower layer&#39;s Neutral.</li><li>Transitions from Any State use Equals conditions, no Has Exit Time, and no Can Transition To Self.</li><li>When blinking or the mouth clashes, stop them with VRC Animator Tracking Control.</li>
+    </ul>
+    <p class="section_2__more"><a href="/en/avatar-tips/">All Avatar Tips</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="Previous and next tips">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/en/avatar-tips/radial/" rel="prev"><span class="next_1__note">Previous (#9)</span><span class="next_1__text">Switching in steps and changing gradually</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/en/avatar-tips/contact/" rel="next"><span class="next_1__note">Next (#11)</span><span class="next_1__text">Gimmicks that react to touch</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

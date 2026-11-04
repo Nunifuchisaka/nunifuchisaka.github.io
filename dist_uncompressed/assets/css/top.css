@@ -2028,7 +2028,6 @@
 .series_1 {
   display: grid;
   gap: var(--space-2);
-  max-width: 48em;
 }
 .series_1 a {
   display: grid;
@@ -2111,7 +2110,6 @@
 .finder_1__controls {
   display: grid;
   gap: var(--space-2);
-  max-width: 48em;
   margin-top: var(--space-3);
 }
 .finder_1__controls[hidden] {
@@ -2143,7 +2141,6 @@
   font-variant-numeric: tabular-nums;
 }
 .finder_1__group {
-  max-width: 48em;
   margin-top: var(--space-3);
 }
 .finder_1__group[hidden] {
@@ -2212,7 +2209,6 @@
 */
 .next_1--pager {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 52em;
 }
 .next_1--pager .next_1__next {
   grid-column: 2;
