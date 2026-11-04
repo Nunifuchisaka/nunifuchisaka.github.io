@@ -601,28 +601,28 @@ const photos = [
   'c931d006-f2be-4b29-83ca-c3a36458e399',
 ];
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+// clusterLimit：数を渡すと、先頭からその枚数だけ並べる（トップページ用）。並びは1行にそろえる
+const limit = typeof clusterLimit !== "undefined" ? clusterLimit : 0;
+const shownPhotos = limit ? photos.slice(0, limit) : photos;
 const t = {
   ja: {
-    ariaLabel: (key, total) => `cluster写真 ${key + 1}/${total}(新しいタブで開きます)`,
+    ariaLabel: (key, total) => `cluster の写真 ${key + 1}/${total} を大きく表示`,
     alt: "clusterでの活動写真",
   },
   en: {
-    ariaLabel: (key, total) => `cluster photo ${key + 1}/${total} (opens in a new tab)`,
+    ariaLabel: (key, total) => `Open cluster photo ${key + 1} of ${total}`,
     alt: "Photo from cluster activities",
   },
 };
 const l = t[pageLocale];
-%><section id="cluster" class="section_1">
-  <h2 class="section_1__h1">
-    cluster
-  </h2>
-  <ul class="list_4">
-    <% photos.forEach(function (value, key) { %>
-      <li style="--num: '<%= photos.length - key %>';">
-        <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="glightbox" data-gallery="cluster" data-type="image" aria-label="<%= l.ariaLabel(key, photos.length) %>">
-          <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy">
-        </a>
-      </li>
-    <% }); %>
-  </ul><!-- /.list_4 -->
-</section><!-- /#cluster.section_1 -->
+%><ul class="list_8 <%= limit ? "list_8--row" : "list_8--small" %>">
+  <% shownPhotos.forEach(function (value, key) {
+    const size = imageSizes[`cluster/${value}.webp`];
+  %>
+    <li<% if (size) { %> style="--ar: <%= (size.width / size.height).toFixed(4) %>;"<% } %>>
+      <a href="/assets/img/cluster/<%= value %>.webp" target="_blank" rel="noopener" class="js_viewer" data-gallery="cluster" aria-label="<%= l.ariaLabel(key, shownPhotos.length) %>">
+        <img src="/assets/img/cluster/<%= value %>.webp" alt="<%= l.alt %>" loading="lazy"<% if (size) { %> width="<%= size.width %>" height="<%= size.height %>"<% } %>>
+      </a>
+    </li>
+  <% }); %>
+</ul><!-- /.list_8 -->

@@ -43,47 +43,130 @@ const topicsByLocale = {
 
 const locale = document.documentElement.lang === "en" ? "en" : "ja";
 const topics = topicsByLocale[locale];
-const exampleLabel = locale === "en" ? (list) => `(e.g. ${list.join(", ")})` : (list) => `（例：${list.join("、")}）`;
 
-let lastIndex = -1;
+// サイコロの面ごとの向き（その面を正面に向けるための回転）
+const FACE_ROTATION = {
+  1: [0, 0],
+  2: [0, -90],
+  3: [-90, 0],
+  4: [90, 0],
+  5: [0, 90],
+  6: [0, 180],
+};
+const ROLL_MS = 1100;
 
-function pickIndex() {
-  if (topics.length <= 1) return 0;
-  let index = lastIndex;
-  while (index === lastIndex) {
-    index = Math.floor(Math.random() * topics.length);
+const shuffle = (list) => {
+  const array = list.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-  return index;
-}
+  return array;
+};
 
-document.addEventListener("DOMContentLoaded", () => {
-  const button = document.getElementById("js-dice-button");
-  const icon = document.getElementById("js-dice-icon");
-  const questionEl = document.getElementById("js-dice-question");
-  const exampleEl = document.getElementById("js-dice-example");
+const initDice = (root) => {
+  const cube = root.querySelector(".js_dice_cube");
+  const result = root.querySelector(".js_dice_result");
+  const questionEl = root.querySelector(".js_dice_question");
+  const examplesEl = root.querySelector(".js_dice_examples");
+  const rollButton = root.querySelector(".js_dice_roll");
+  const remainingEl = root.querySelector(".js_dice_remaining");
+  const fullscreenButton = root.querySelector(".js_dice_fullscreen");
+  if (!cube || !questionEl || !rollButton) return;
 
-  if (!button || !icon || !questionEl || !exampleEl) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const ANIMATION_DURATION = 600;
+  // 一巡するまで同じ話題を出さない（袋から引く）。一巡したら混ぜ直す。直前と同じ話題が先頭に来たら入れ替える
+  let bag = [];
+  let last = null;
+  const draw = () => {
+    if (!bag.length) {
+      bag = shuffle(topics.map((_, i) => i));
+      if (bag.length > 1 && bag[bag.length - 1] === last) [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+    }
+    last = bag.pop();
+    return topics[last];
+  };
 
-  button.addEventListener("click", () => {
-    if (button.disabled) return;
-    button.disabled = true;
+  const showRemaining = () => {
+    if (!remainingEl) return;
+    const n = bag.length || topics.length;
+    remainingEl.textContent = remainingEl.dataset.template.replace("{n}", String(n));
+  };
 
-    icon.classList.remove("is_rolling");
-    void icon.offsetWidth;
-    icon.classList.add("is_rolling");
+  const showTopic = (topic) => {
+    questionEl.textContent = topic.q;
+    examplesEl.replaceChildren(...(topic.examples || []).map((example) => {
+      const li = document.createElement("li");
+      li.textContent = example;
+      return li;
+    }));
+    result.classList.remove("is_revealed");
+    void result.offsetWidth;
+    result.classList.add("is_revealed");
+    showRemaining();
+  };
 
-    window.setTimeout(() => {
-      const index = pickIndex();
-      lastIndex = index;
-      const topic = topics[index];
+  let angleX = -20;
+  let angleY = 30;
+  cube.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
 
-      questionEl.textContent = topic.q;
-      exampleEl.textContent = topic.examples ? exampleLabel(topic.examples) : "";
+  rollButton.addEventListener("click", () => {
+    if (rollButton.disabled) return;
+    const face = 1 + Math.floor(Math.random() * 6);
+    const [fx, fy] = FACE_ROTATION[face];
+    // 少し斜めから見た向きで止める（立体だと分かるように）
+    const nextX = angleX - (((angleX % 360) + 360) % 360) + 720 + fx - 18;
+    const nextY = angleY - (((angleY % 360) + 360) % 360) + 720 + fy + 24;
+    const topic = draw();
+    const target = `rotateX(${nextX}deg) rotateY(${nextY}deg)`;
 
-      icon.classList.remove("is_rolling");
-      button.disabled = false;
-    }, ANIMATION_DURATION);
+    if (reduceMotion.matches || !cube.animate) {
+      cube.style.transform = target;
+      angleX = nextX;
+      angleY = nextY;
+      showTopic(topic);
+      return;
+    }
+
+    rollButton.disabled = true;
+    root.classList.add("is_rolling");
+    const animation = cube.animate(
+      [
+        { transform: `rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(0)` },
+        { transform: `rotateX(${(angleX + nextX) / 2}deg) rotateY(${(angleY + nextY) / 2}deg) translateY(-28%)`, offset: 0.45 },
+        { transform: `${target} translateY(0)` },
+      ],
+      { duration: ROLL_MS, easing: "cubic-bezier(.25, .8, .3, 1)" },
+    );
+    animation.finished.then(() => {
+      cube.style.transform = target;
+      angleX = nextX;
+      angleY = nextY;
+      root.classList.remove("is_rolling");
+      rollButton.disabled = false;
+      showTopic(topic);
+      rollButton.focus();
+    });
   });
-});
+
+  // 全画面（VR のブラウザや配信画面で見やすくする）。使えないブラウザではボタンを出さない
+  if (fullscreenButton && document.fullscreenEnabled) {
+    fullscreenButton.hidden = false;
+    const render = () => {
+      const active = document.fullscreenElement === root;
+      fullscreenButton.textContent = active ? root.dataset.labelExit : root.dataset.labelFullscreen;
+    };
+    fullscreenButton.addEventListener("click", () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else root.requestFullscreen().catch(() => {});
+    });
+    document.addEventListener("fullscreenchange", render);
+    render();
+  }
+
+  showRemaining();
+};
+
+const dice = document.querySelector(".js_dice");
+if (dice) initDice(dice);

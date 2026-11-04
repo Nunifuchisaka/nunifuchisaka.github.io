@@ -1,79 +1,205 @@
 @use "sass:math";
 @use "../assets/css/tool" as *;
 
-.dice_1 {
-  max-width: $width1;
-  margin: 0 auto;
-  padding: 2em 1em;
+/*
+## .dice_2
+使用箇所：話題サイコロ（src/dice, src/en/dice）
+内容：立体のサイコロ・話題・振るボタン。VR のブラウザでも読みやすいよう、文字とボタンを大きくする。
+     色は assets/css/top.css のトークンを使う。全画面にしたときは .dice_2 自体が画面いっぱいになる
+*/
+
+.dice_2 {
+  --size: clamp(96px, 16vw, 148px);
+
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  margin-top: var(--space-3);
+  padding: var(--space-4) var(--space-3);
   text-align: center;
-
-  &__lead {
-    margin-bottom: 1.5em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  @include sp {
+    padding: var(--space-3) var(--space-2);
   }
 
-  &__button {
-    display: inline-flex;
-    align-items: center;
-    gap: .5em;
-    padding: .75em 2em;
-    font: inherit;
-    font-weight: 700;
-    color: #16160e;
-    cursor: pointer;
-    background: #eaf4fc;
+  &:fullscreen {
+    align-content: center;
+    padding: 4vh 6vw;
+    overflow: auto;
     border: 0;
-    border-radius: 100vw;
-    transition: opacity .2s;
+    border-radius: 0;
 
-    &:hover {
-      opacity: .8;
-    }
+    --size: clamp(120px, 18vh, 220px);
+  }
 
-    &:focus-visible {
-      outline: 2px solid rgb(29 155 240);
-      outline-offset: 2px;
-    }
+  // 立体のサイコロ
+  // 回っている途中や斜めに止まったときも、まわりの文字に重ならないよう余白をとる
+  &__stage {
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) * .25) 0;
+    perspective: 700px;
+  }
 
-    &:disabled {
-      cursor: default;
-      opacity: .6;
+  &__cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  &__face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    place-items: center;
+    padding: 14%;
+    background: var(--color-bg);
+    border: 2px solid var(--color-line);
+    border-radius: 18%;
+    box-shadow: inset 0 0 0 1px var(--color-surface);
+    backface-visibility: hidden;
+    &--1 { transform: translateZ(calc(var(--size) / 2)); }
+    &--6 { transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
+    &--2 { transform: rotateY(90deg) translateZ(calc(var(--size) / 2)); }
+    &--5 { transform: rotateY(-90deg) translateZ(calc(var(--size) / 2)); }
+    &--3 { transform: rotateX(90deg) translateZ(calc(var(--size) / 2)); }
+    &--4 { transform: rotateX(-90deg) translateZ(calc(var(--size) / 2)); }
+  }
+
+  &__pip {
+    width: 62%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    &.is_on {
+      background: var(--color-text);
     }
   }
 
-  &__icon {
-    font-size: math.div(20, 16) * 100%;
-
-    &.is_rolling {
-      animation: dice_1_spin .6s ease-in-out;
-    }
+  // 1の目だけ赤くて大きい（日本のサイコロ）
+  &__face--1 &__pip.is_on {
+    width: 96%;
+    background: #c8323a;
   }
 
   &__result {
-    margin-top: 2em;
-    min-height: 6em;
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+    width: 100%;
+    max-width: 32em;
+    min-height: 6.5em;
+    &.is_revealed {
+      animation: dice_2_reveal .45s cubic-bezier(.2, .8, .3, 1);
+    }
   }
 
   &__question {
-    font-size: math.div(20, 16) * 100%;
-    font-weight: 700;
-    line-height: 1.6;
+    font-size: clamp(2.4rem, 1.6rem + 2.6vw, 4.4rem);
+    font-weight: 900;
+    line-height: 1.4;
+    text-wrap: balance;
+    .dice_2:fullscreen & {
+      font-size: clamp(3.2rem, 5vw, 6.4rem);
+    }
   }
 
-  &__example {
-    margin-top: .5em;
-    color: rgb(234 244 252 / 70%);
+  &__examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    li {
+      padding: 6px 16px;
+      font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem);
+      font-weight: 700;
+      background: var(--color-bg);
+      border: 1px solid var(--color-line);
+      border-radius: 100vw;
+    }
+  }
+
+  &__controls {
+    display: grid;
+    gap: var(--space-1);
+    justify-items: center;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  // VR のポインターでも押しやすい大きさにする
+  &__roll {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 88px;
+    padding: 16px 32px;
+    font: inherit;
+    font-size: clamp(2.2rem, 1.8rem + 1vw, 2.8rem);
+    font-weight: 900;
+    color: var(--color-bg);
+    cursor: pointer;
+    background: var(--color-text);
+    border: 0;
+    border-radius: 100vw;
+    transition: opacity .15s;
+
+    // 位置は動かさない（縁にポインターがあると、動いた分だけ当たり判定が揺れてちらつくため）
+    &:hover {
+      opacity: .88;
+    }
+
+    &:active {
+      opacity: .75;
+    }
+    &:disabled {
+      cursor: progress;
+      opacity: .7;
+    }
+  }
+
+  &__remaining {
+    min-height: 1.5em;
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+  }
+
+  &__fullscreen {
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 6px 20px;
+    font: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
   }
 }
 
-@keyframes dice_1_spin {
-  0% { transform: rotate(0deg) scale(1); }
-  30% { transform: rotate(120deg) scale(1.2); }
-  60% { transform: rotate(240deg) scale(.9); }
-  100% { transform: rotate(360deg) scale(1); }
+@keyframes dice_2_reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dice_1__icon.is_rolling {
+  .dice_2__result.is_revealed {
     animation: none;
+  }
+  .dice_2__roll {
+    transition: none;
   }
 }

@@ -1,0 +1,42 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// 好きなワールド・案内でよく行くワールド。中身は src/assets/data/worlds.json
+// ワールドを足すときは、groups の items に { id, name, author, photo, platforms, note } を1件足し、写真を src/assets/img/worlds/ に置く
+const groups = worlds.groups;
+const total = groups.reduce((sum, g) => sum + g.items.length, 0);
+const l = isEn ? {
+  title: "Favorite worlds",
+  lead: (n) => `${n} VRChat worlds I like and often take newcomers to. Descriptions in English are coming soon.`,
+  jump: "Jump to a group",
+  back: "New to VRChat? Start here",
+} : {
+  title: "お気に入りワールド",
+  lead: (n) => `好きなワールドや、案内でよく行くワールド${n}件を紹介します。`,
+  jump: "種類へ移動",
+  back: "はじめての方は、はじめてのVRChat へ",
+};
+%><section class="section_2 page_1" aria-labelledby="worlds-heading">
+  <h1 class="page_1__h1" id="worlds-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead(total) %></p>
+  <p class="section_2__more"><a href="<%= prefix %>/start/"><%= l.back %></a></p>
+  <nav class="jump_1" aria-label="<%= l.jump %>">
+    <ul>
+      <% groups.forEach(function (group) { %>
+        <li><a href="#<%= group.id %>"><%= group.title[pageLocale] %><span class="jump_1__count"><%= group.items.length %></span></a></li>
+      <% }); %>
+    </ul>
+  </nav>
+</section>
+
+<% groups.forEach(function (group) { %>
+<section class="section_2" id="<%= group.id %>" aria-labelledby="<%= group.id %>-heading">
+  <h2 class="section_2__h1" id="<%= group.id %>-heading"><%= group.title[pageLocale] %></h2>
+  <ul class="world_1">
+    <% group.items.forEach(function (item) { %>
+      <%- include("_world_card", { item: item, locale: pageLocale }) %>
+    <% }); %>
+  </ul>
+</section>
+<% }); %>

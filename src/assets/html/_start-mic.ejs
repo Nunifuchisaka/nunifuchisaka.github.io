@@ -1,0 +1,164 @@
+<%
+// はじめてのVRChat「マイクの設定」。日本語版だけ（英語版は、日本語版の内容が固まってから作る）
+// 再現図（_mock）は本物の画面写真ではなく、説明に要る項目だけを描き直したもの。VRChat の項目名は英語表示のもの
+// VRChat の画面や名前は変わるので、名前が違っても「何をする項目か」で探せるように、番号ごとに役目を書く
+const route = [
+  { head: "マイク", note: "ゴーグルのマイク、ヘッドセット、卓上のマイク" },
+  { head: "Windows", note: "使うマイク・入力の音量・マイクへのアクセス許可" },
+  { head: "VRChat", note: "使うマイク・音量・ノイズの抑制・拾い始める大きさ・ミュート" },
+  { head: "相手", note: "相手の耳に届く" },
+];
+
+const vrchatMock = {
+  variant: "vrchat",
+  caption: "再現図：VRChat のマイクの設定（英語表示。画面は説明用に描き直したもので、実際とは見た目が違います）",
+  screens: [{
+    bar: "Settings › Audio & Voice › Microphone",
+    label: "VRChat のマイクの設定の再現図。1 使うマイク、2 マイクの音量 100%、3 ノイズの抑制 オン、4 声を拾い始める大きさ 5%、5 ミュートのしかた Toggle",
+    rows: [
+      { mark: 1, label: "Microphone", type: "select", text: "Headset Microphone (Oculus Virtual Audio Device)" },
+      { mark: 2, label: "Mic Output Volume", type: "slider", value: 100, text: "100%" },
+      { mark: 3, label: "Noise Suppression", type: "toggle", on: true, text: "ON" },
+      { mark: 4, label: "Mic Activation Threshold", type: "meter", level: 46, threshold: 5, text: "5%" },
+      { mark: 5, label: "Microphone Behaviour", type: "seg", options: ["Toggle", "Push to Talk"], active: 0 },
+    ],
+  }],
+  notes: [
+    "<strong>使うマイク（Microphone）</strong>：声を拾うマイクを選びます。Quest Link でゴーグルのマイクを使うなら「Oculus Virtual Audio Device」の入った名前を選びます。一覧に目当てのマイクが無いときは、Windows がマイクを見つけられていないので、下の Windows の設定を確かめます。",
+    "<strong>マイクの音量（Mic Output Volume）</strong>：相手に届く自分の声の大きさです。ふつうは 100% のままにします。音が割れると言われたら下げます。小さいと言われたら、先に Windows の入力の音量を確かめます。",
+    "<strong>ノイズの抑制（Noise Suppression）</strong>：パソコンのファンやキーボードの音を減らします。声がこもる、途切れると言われたらオフにします。NVIDIA Broadcast など別のノイズ除去を使うときも、二重にかからないようにオフにします。",
+    "<strong>声を拾い始める大きさ（Mic Activation Threshold）</strong>：この大きさより小さい音は送りません。話すとバーが動くので、話しているときは線を超え、黙っているときは線より下になる位置にします。上げすぎると、話し始めや小さな声が切れます。5% ほどから試します。",
+    "<strong>ミュートのしかた（Microphone Behaviour）</strong>：Toggle は押すたびにオンとオフが切り替わり、Push to Talk は押している間だけ声が届きます。デスクトップモードでは V キーです。",
+  ],
+};
+
+const windowsSoundMock = {
+  variant: "windows",
+  caption: "再現図：Windows 11 の「設定」→「システム」→「サウンド」の入力",
+  screens: [{
+    bar: "設定 › システム › サウンド",
+    label: "Windows のサウンドの設定の再現図。入力の欄で、1 話したり録音したりするデバイスを選ぶ、2 音量 90 と、話すと動く入力のバー",
+    rows: [
+      { type: "head", text: "入力" },
+      { mark: 1, label: "話したり録音したりするデバイスを選んでください", type: "radio", options: ["ヘッドセット マイク（Oculus Virtual Audio Device）", "マイク（USB Audio Device）"], active: 0 },
+      { mark: 2, label: "音量", type: "slider", value: 90, text: "90" },
+      { label: "", type: "meter", level: 52, threshold: 0, text: "" },
+    ],
+  }],
+  notes: [
+    "<strong>使うマイク</strong>：VRChat で使うマイクを選びます。VRChat の「Microphone」と同じものにしておくと迷いません。",
+    "<strong>音量</strong>：話すと、下のバーが動きます。動かないときは、マイクが声を拾っていません。音量は 80〜100 ほどにして、声が小さいと言われたらここを上げます。",
+  ],
+};
+
+const windowsPrivacyMock = {
+  variant: "windows",
+  caption: "再現図：Windows 11 の「設定」→「プライバシーとセキュリティ」→「マイク」",
+  screens: [{
+    bar: "設定 › プライバシーとセキュリティ › マイク",
+    label: "Windows のマイクのアクセス許可の再現図。1 マイクへのアクセス オン、2 アプリにマイクへのアクセスを許可する オン、3 デスクトップ アプリにマイクへのアクセスを許可する オン",
+    rows: [
+      { mark: 1, label: "マイクへのアクセス", type: "toggle", on: true, text: "オン" },
+      { mark: 2, label: "アプリにマイクへのアクセスを許可する", type: "toggle", on: true, text: "オン" },
+      { mark: 3, label: "デスクトップ アプリにマイクへのアクセスを許可する", type: "toggle", on: true, text: "オン", hot: true },
+    ],
+  }],
+  notes: [
+    "<strong>マイクへのアクセス</strong>：オフだと、どのアプリもマイクを使えません。",
+    "<strong>アプリにマイクへのアクセスを許可する</strong>：オンにします。",
+    "<strong>デスクトップ アプリにマイクへのアクセスを許可する</strong>：Steam から入れた VRChat は「デスクトップ アプリ」です。ここがオフだと、VRChat はマイクを使えません。見落としやすいところです。",
+  ],
+};
+
+const windowsDialogMock = {
+  variant: "dialog",
+  caption: "再現図：マイクのプロパティ（「聴く」「レベル」「詳細」の3つのタブ）",
+  screens: [
+    {
+      bar: "マイクのプロパティ",
+      tabs: ["全般", "聴く", "レベル", "詳細"], activeTab: 1,
+      label: "マイクのプロパティの聴くタブの再現図。1 このデバイスを聴く のチェックが外れている",
+      rows: [
+        { mark: 1, type: "check", on: false, text: "このデバイスを聴く" },
+      ],
+    },
+    {
+      bar: "マイクのプロパティ",
+      tabs: ["全般", "聴く", "レベル", "詳細"], activeTab: 2,
+      label: "マイクのプロパティのレベルタブの再現図。2 マイク 90、3 マイク ブースト 0 dB",
+      rows: [
+        { mark: 2, label: "マイク", type: "slider", value: 90, text: "90" },
+        { mark: 3, label: "マイク ブースト", type: "slider", value: 0, text: "0.0 dB" },
+      ],
+    },
+    {
+      bar: "マイクのプロパティ",
+      tabs: ["全般", "聴く", "レベル", "詳細"], activeTab: 3,
+      label: "マイクのプロパティの詳細タブの再現図。4 アプリケーションによりこのデバイスを排他的に制御できるようにする のチェック",
+      rows: [
+        { type: "head", text: "排他モード" },
+        { mark: 4, type: "check", on: true, text: "アプリケーションによりこのデバイスを排他的に制御できるようにする" },
+      ],
+    },
+  ],
+  notes: [
+    "<strong>このデバイスを聴く</strong>：チェックがあると、自分の声が自分のイヤホンやスピーカーから聞こえます。自分の声が遅れて聞こえるときは、ここを外します。",
+    "<strong>マイク</strong>：「設定」の音量と同じものです。",
+    "<strong>マイク ブースト</strong>：マイクによってはあります。上げると声が大きくなりますが、周りの音も大きく拾います。声が小さいときは、先に「マイク」を上げます。",
+    "<strong>排他的に制御</strong>：チェックがあると、ほかのアプリ（Discord など）がマイクを使っている間、VRChat がマイクを使えないことがあります。声が届かないときは、外して試します。",
+  ],
+};
+
+const troubles = [
+  { title: "声がまったく届かない",
+    check: "VRChat でミュートになっていないか → VRChat の「Microphone」で選んだマイク → Windows のマイクのアクセス許可（とくにデスクトップ アプリ）→ Windows の入力のバーが話すと動くか、の順に確かめます。" },
+  { title: "声が小さい",
+    check: "Windows の入力の音量と、VRChat の Mic Output Volume を確かめます。マイクと口が離れていないかも見ます。相手が、あなたの声だけを個別に小さくしていることもあります。" },
+  { title: "声が途切れる、話し始めが切れる",
+    check: "Mic Activation Threshold を下げます。それでも切れるときは、Noise Suppression をオフにします。無線でつないでいるときは、電波の具合でも途切れます。" },
+  { title: "雑音や息の音が入る",
+    check: "Noise Suppression をオンにして、Mic Activation Threshold を少し上げます。マイク ブーストを下げ、マイクを口の正面から少しずらします。" },
+  { title: "相手の声が、自分の声に混ざって返る",
+    check: "スピーカーで聞いていると、相手の声をマイクが拾って送り返します。イヤホンやヘッドホンで聞きます。自分の声が自分に聞こえるときは、Windows の「このデバイスを聴く」を外します。" },
+  { title: "ゴーグルを替えたら声が届かなくなった",
+    check: "VRChat の「Microphone」と Windows の入力で、新しいゴーグルのマイクを選び直します。PCVR では、SteamVR の設定の「オーディオ」でも、SteamVR を使っている間のマイクを選べます。" },
+];
+%><section class="section_2" id="mic" aria-labelledby="mic-heading">
+  <h2 class="section_2__h1" id="mic-heading">マイクの設定</h2>
+  <p class="section_2__lead">VRChat で話した声は、マイク → Windows → VRChat → 相手 の順に届きます。どこか1か所でも止まると、声は届きません。声が届かない、小さい、途切れるときは、この順に確かめてください。</p>
+  <ol class="route_1">
+    <% route.forEach(function (step) { %>
+      <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+    <% }); %>
+  </ol>
+  <p class="section_2__note">Quest だけで遊ぶときは、Windows の設定は関係ありません。Quest の設定で、VRChat にマイクの使用が許可されているかを確かめます。</p>
+
+  <h3 class="section_2__h2">ひとりで確かめる</h3>
+  <ul class="rules_1">
+    <li>画面の端に、斜線の入ったマイクのアイコンが出ているときはミュート中です。</li>
+    <li>鏡の前で話すと、口が動くアバターなら、声に合わせて口が動きます。口が動けば、声は VRChat まで届いています。</li>
+    <li>Windows のサウンドの設定で、話すと入力のバーが動くかを見ます。動かなければ、Windows までも届いていません。</li>
+  </ul>
+
+  <h3 class="section_2__h2">VRChat の中の設定</h3>
+  <p class="section_2__p">メインメニューの Settings の「Audio &amp; Voice」に、マイクの項目があります。クイックメニューの設定からも変えられます。日本語表示にしているときは、項目の名前も日本語になります。</p>
+  <%- include("_mock", { mock: vrchatMock }) %>
+
+  <h3 class="section_2__h2">Windows の設定</h3>
+  <p class="section_2__p">パソコンで遊ぶとき（PCVR とデスクトップモード）は、Windows の設定も確かめます。Windows 11 の画面で説明します。Windows 10 にも、ほぼ同じ項目があります。</p>
+  <%- include("_mock", { mock: windowsSoundMock }) %>
+  <%- include("_mock", { mock: windowsPrivacyMock }) %>
+  <p class="section_2__p">さらに細かい設定は、「設定」→「システム」→「サウンド」の下のほうにある「サウンドの詳細設定」（Windows の版によっては「その他のサウンド設定」）を開き、「録音」タブでマイクを選んで「プロパティ」を押すと出ます。</p>
+  <%- include("_mock", { mock: windowsDialogMock }) %>
+  <p class="section_2__p">PCVR では、SteamVR を起動すると、Windows の既定のマイクがゴーグルのマイクに切り替わることがあります。ゴーグルではなく別のマイクを使いたいときは、SteamVR の設定の「オーディオ」で、SteamVR を使っている間のマイクを選びます。</p>
+
+  <h3 class="section_2__h2">よくある困りごと</h3>
+  <div class="case_1">
+    <% troubles.forEach(function (c) { %>
+      <section class="case_1__item">
+        <h4 class="case_1__title"><%= c.title %></h4>
+        <p class="case_1__text"><%= c.check %></p>
+      </section>
+    <% }); %>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+<%
+// 再現図：ソフトの設定画面を、説明に要るところだけ HTML で描き直したもの（.mock_1）。本物の画面写真ではない
+// mock = { variant: "vrchat" | "windows" | "dialog" | "unity" | "vcc" | "hub" | "alcom", caption, screens: [{ bar, tabs, activeTab, label, rows }], notes: [文（HTML可）] }
+// rows の1行 = { mark: 番号, label, type, ... }。type ごとの中身は下の control を参照
+// 画面の中身は絵として扱い（role="img"）、読み上げには label と、下の番号つきの説明を使う
+const m = mock;
+const control = (row) => {
+  switch (row.type) {
+    case "select": return `<span class="mock_1__select">${row.text}</span>`;
+    case "slider": return `<span class="mock_1__slider" style="--v: ${row.value}%;"><span></span></span><span class="mock_1__num">${row.text}</span>`;
+    case "toggle": return `<span class="mock_1__toggle${row.on ? " is_on" : ""}"><span></span></span><span class="mock_1__num">${row.text}</span>`;
+    case "meter": return `<span class="mock_1__meter${row.threshold ? " has_threshold" : ""}" style="--level: ${row.level}%; --threshold: ${row.threshold}%;"><span></span></span><span class="mock_1__num">${row.text}</span>`;
+    case "seg": return `<span class="mock_1__seg">${row.options.map((o, i) => `<span${i === row.active ? ` class="is_on"` : ""}>${o}</span>`).join("")}</span>`;
+    case "radio": return `<span class="mock_1__radio">${row.options.map((o, i) => `<span${i === row.active ? ` class="is_on"` : ""}>${o}</span>`).join("")}</span>`;
+    case "check": return `<span class="mock_1__check${row.on ? " is_on" : ""}">${row.text}</span>`;
+    case "value": return `<span class="mock_1__value">${row.text}</span>`;
+    case "button": return `<span class="mock_1__button">${row.text}</span>`;
+    default: return row.text ? `<span class="mock_1__text">${row.text}</span>` : "";
+  }
+};
+%><div class="mock_1 mock_1--<%= m.variant %>">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    <% m.screens.forEach(function (screen) { %>
+      <div class="mock_1__screen" role="img" aria-label="<%= screen.label %>">
+        <p class="mock_1__bar"><%= screen.bar %></p>
+        <% if (screen.tabs) { %>
+          <p class="mock_1__tabs"><% screen.tabs.forEach(function (tab, i) { %><span<% if (i === screen.activeTab) { %> class="is_on"<% } %>><%= tab %></span><% }); %></p>
+        <% } %>
+        <div class="mock_1__body">
+          <% screen.rows.forEach(function (row) { %>
+            <% if (row.type === "head") { %>
+              <p class="mock_1__head"><%= row.text %></p>
+            <% } else { %>
+              <div class="mock_1__row mock_1__row--<%= row.type %><% if (row.hot) { %> is_hot<% } %>">
+                <% if (row.mark) { %><span class="mock_1__mark"><%= row.mark %></span><% } %>
+                <% if (row.label) { %><span class="mock_1__label"><%= row.label %></span><% } %>
+                <span class="mock_1__control"><%- control(row) %></span>
+              </div>
+            <% } %>
+          <% }); %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  <figcaption class="mock_1__caption"><%= m.caption %></figcaption>
+  </figure>
+  <% if (m.notes) { %>
+    <ol class="mock_1__notes">
+      <% m.notes.forEach(function (note) { %><li><%- note %></li><% }); %>
+    </ol>
+  <% } %>
+</div>

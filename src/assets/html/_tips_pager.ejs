@@ -1,0 +1,19 @@
+<%
+// アバター改変の解説の各回の下に置く、前の回・次の回への案内。slug は いまの回。順番は avatar-tips.json の no
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const prefix = pageLocale === "en" ? "/en" : "";
+const articles = [...avatarTips.articles].sort((a, b) => a.no - b.no);
+const at = articles.findIndex((a) => a.slug === slug);
+const prev = articles[at - 1];
+const next = articles[at + 1];
+const l = { label: "前後の回", prev: "前の回", next: "次の回", no: (n) => `第${n}回` };
+%><nav class="section_2 article_1__pager" aria-label="<%= l.label %>">
+  <ul class="next_1 next_1--pager">
+    <% if (prev) { %>
+      <li class="next_1__prev"><a href="<%= prefix %>/avatar-tips/<%= prev.slug %>/" rel="prev"><span class="next_1__note"><%= l.prev %>（<%= l.no(prev.no) %>）</span><span class="next_1__text"><%= prev.title[pageLocale] %></span></a></li>
+    <% } %>
+    <% if (next) { %>
+      <li class="next_1__next"><a href="<%= prefix %>/avatar-tips/<%= next.slug %>/" rel="next"><span class="next_1__note"><%= l.next %>（<%= l.no(next.no) %>）</span><span class="next_1__text"><%= next.title[pageLocale] %></span></a></li>
+    <% } %>
+  </ul>
+</nav>

@@ -1,0 +1,54 @@
+<%
+// はじめてのVRChat「性能の低いパソコンや Mac で遊ぶ」（GeForce NOW と SteamAC Lite）。日本語版だけ（英語版は、日本語版の内容が固まってから作る）
+// 料金やプランは変わるので、金額は書かずに公式サイトへ案内する
+const gfn = {
+  facts: [
+    { title: "しくみ", note: "GeForce NOW は、NVIDIA のクラウドゲームのサービスです。ゲームは NVIDIA の高性能なパソコンで動き、その映像が手元に届きます。手元の機器は映像を映して操作を送るだけなので、性能の低いパソコンや Mac、Chromebook、スマホでも遊べます。" },
+    { title: "遊べる形", note: "デスクトップモード（キーボードとマウス）だけです。VRゴーグルを使う遊び方はできません。Webカメラを使う機能も使えません。" },
+    { title: "用意するもの", note: "GeForce NOW のアカウント、Steam のアカウント、VRChat のアカウントと、安定したネット回線です。GeForce NOW では Steam 版の VRChat を動かします。回線は、有線か 5GHz の Wi-Fi が安心です。" },
+    { title: "料金", note: "無料のプランもありますが、1回に遊べる時間が短く、混んでいると順番待ちになります。長く遊ぶなら有料のプランにします。料金やプランは変わるので、公式サイトで確かめてください。" },
+  ],
+  steps: [
+    "GeForce NOW の公式サイトでアカウントを作り、アプリを入れます。ブラウザからも遊べます。",
+    "GeForce NOW で VRChat を探して、プレイを押します。",
+    "Steam のアカウントでログインして、VRChat を起動します。",
+    "VRChat のアカウントでログインします。",
+    "話すときは、GeForce NOW にマイクの使用を許可します。Mac では、システム設定の「プライバシーとセキュリティ」→「マイク」で許可します。",
+  ],
+  steamac: {
+    url: "https://r-fallingstar.github.io/steamac-lite/?lang=ja",
+    lead: "Apple Silicon（M1 以降）の Mac なら、SteamAC Lite というアプリを使うと、Mac で直接遊べるかもしれません。Mac の中で SteamOS（Steam を動かすための OS）を動かし、その上で Steam 版の VRChat を動かすアプリです。GeForce NOW と違い、Mac そのものの性能で動きます。",
+    items: [
+      "個人が作っている実験版です。Valve や VRChat の公式のものではありません。",
+      "必要なもの：Apple Silicon（M1 以降）の Mac、macOS 15.5 以降、メモリ 8GB 以上、空き容量 20GB ほど（入れるゲームの分は別に要ります）。Intel の Mac では使えません。",
+      "作者の M1・メモリ 8GB の Mac で、VRChat が動いたと書かれています。重いワールドやアバター、長い時間遊んだときの安定、すべての Mac で動くかは、まだ確かめられていません。",
+      "Apple の公証を受けていないため、初めて開くときに macOS の確認が出ます。入手先を確かめたうえで、自分の判断で開いてください。",
+    ],
+    link: "SteamAC Lite の導入ガイド",
+    newTab: "（新しいタブで開きます）",
+  },
+};
+%><section class="section_2" id="cloud" aria-labelledby="cloud-heading">
+  <h2 class="section_2__h1" id="cloud-heading">性能の低いパソコンや Mac で遊ぶ</h2>
+  <p class="section_2__lead">VRChat のパソコン版は Windows 向けで、動かすにはある程度の性能が要ります。性能が足りないパソコンや Mac でも、GeForce NOW を使えば遊べます。VRChat は 2024年11月から GeForce NOW に対応しています。</p>
+  <dl class="examples_1 examples_1--grid">
+    <% gfn.facts.forEach(function (item) { %>
+      <div class="examples_1__item">
+        <dt><%= item.title %></dt>
+        <dd><%= item.note %></dd>
+      </div>
+    <% }); %>
+  </dl>
+
+  <h3 class="section_2__h2">GeForce NOW で始める</h3>
+  <ol class="steps_1">
+    <% gfn.steps.forEach(function (step) { %><li><%= step %></li><% }); %>
+  </ol>
+
+  <h3 class="section_2__h2">Mac で直接動かす（SteamAC Lite・実験版）</h3>
+  <p class="section_2__p"><%= gfn.steamac.lead %></p>
+  <ul class="rules_1">
+    <% gfn.steamac.items.forEach(function (item) { %><li><%= item %></li><% }); %>
+  </ul>
+  <p class="section_2__more section_2__more--button"><a href="<%= gfn.steamac.url %>" target="_blank" rel="noopener"><%= gfn.steamac.link %><span class="visually-hidden"><%= gfn.steamac.newTab %></span></a></p>
+</section>

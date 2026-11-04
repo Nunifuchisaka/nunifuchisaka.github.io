@@ -1,66 +1,45 @@
 <%
 const pageLocale = typeof locale !== "undefined" ? locale : "ja";
-const newTab = pageLocale === "en" ? "(opens in a new tab)" : "（新しいタブで開きます）";
-%><section id="portfolio" class="section_1">
-  <h2 class="section_1__h1">
-    Portfolio
-  </h2>
-  <ul class="list_3">
-    <%
-    const portfolio = [
-      {
-        title: "桜兎フルガ 公式サイト",
-        eyecatch: "otofuruga.webp",
-        url: "https://otofuruga.pink/",
-      },
-      {
-        title: "DeepFrostIce",
-        eyecatch: "deepfrostice.webp",
-        url: "https://nunifuchisaka.github.io/deepfrostice/",
-      },
-      {
-        title: "HeartBeat",
-        eyecatch: "heartbeat.jpg",
-        url: "https://nunifuchisaka.github.io/heartbeat/",
-      },
-      {
-        title: "SpiderWeb",
-        eyecatch: "spiderweb.webp",
-        url: "https://nunifuchisaka.github.io/spiderweb/",
-      },
-      {
-        title: "ImageGetter",
-        eyecatch: "imagegetter.webp",
-        url: "https://nunifuchisaka.github.io/imagegetter/",
-      },
-      {
-        title: "GlossySkin",
-        eyecatch: "glossyskin.webp",
-        url: "https://nunifuchisaka.github.io/glossyskin/",
-      },
-      {
-        title: "DeskCinema",
-        eyecatch: "deskcinema.png",
-        url: "https://nunifuchisaka.github.io/deskcinema/",
-      },
-      {
-        title: "NuniAvatarToolkit",
-        eyecatch: "nuniavatartoolkit.svg",
-        url: "https://nunifuchisaka.github.io/nuniavatartoolkit/",
-      },
-      {
-        title: "PublicWalker",
-        eyecatch: "publicwalker.svg",
-        url: "https://nunifuchisaka.github.io/publicwalker/",
-      },
-    ];
-    portfolio.forEach(function (value, key) { %>
+const isEn = pageLocale === "en";
+const newTab = isEn ? "(opens in a new tab)" : "（新しいタブで開きます）";
+// 各制作物：種類（kind）と、何ができるかの一文（desc）。BOOTH の制作物は src/assets/data/products.json から引く（制作物一覧と共通）
+const productLinks = isEn
+  ? { text: "See all products, with what each works with", href: "/en/products/", faq: "Product FAQ", faqHref: "/en/faq/" }
+  : { text: "すべての制作物と、対応している環境を見る", href: "/products/", faq: "制作物のよくある質問", faqHref: "/faq/" };
+const portfolio = [
+  {
+    title: "桜兎フルガ 公式サイト",
+    eyecatch: "/assets/img/otofuruga.webp",
+    url: "https://otofuruga.pink/",
+    external: true,
+    kind: { ja: "Webサイト制作", en: "Website" },
+    desc: { ja: "桜兎フルガさんの公式サイト。", en: "The official website of Oto Furuga." },
+  },
+].concat(products.items.map((item) => {
+  const kindName = item.kindName || products.kinds.find((k) => k.key === item.kind).label;
+  return {
+    title: item.name,
+    eyecatch: item.image,
+    url: isEn && item.hasEn ? `/${item.dir}/en/` : `/${item.dir}/`,
+    kind: kindName,
+    desc: item.desc,
+  };
+}));
+%><section id="portfolio" class="section_2" aria-labelledby="portfolio-heading">
+  <h2 class="section_2__h1" id="portfolio-heading">Products</h2>
+  <ul class="list_9">
+    <% portfolio.forEach(function (item) { %>
       <li>
-        <a href="<%= value.url %>" target="_blank" rel="noopener">
-          <img src="/assets/img/<%= value.eyecatch %>" alt="<%= value.title %>">
-          <p><%= value.title %><span class="visually-hidden"><%= newTab %></span></p>
+        <a href="<%= item.url %>"<% if (item.external) { %> target="_blank" rel="noopener"<% } %>>
+          <span class="list_9__image"><img src="<%= item.eyecatch %>" alt="" loading="lazy"></span>
+          <span class="list_9__body">
+            <span class="list_9__kind"><%= item.kind[pageLocale] %></span>
+            <span class="list_9__title"><%= item.title %><% if (item.external) { %><span class="visually-hidden"><%= newTab %></span><% } %></span>
+            <span class="list_9__desc"><%= item.desc[pageLocale] %></span>
+          </span>
         </a>
       </li>
     <% }); %>
-  </ul><!-- /.list_3 -->
-</section><!-- /#portfolio.section_1 -->
+  </ul><!-- /.list_9 -->
+  <p class="section_2__more section_2__more--button"><a href="<%= productLinks.href %>"><%= productLinks.text %></a> <a href="<%= productLinks.faqHref %>"><%= productLinks.faq %></a></p>
+</section><!-- /#portfolio.section_2 -->

@@ -11,30 +11,24 @@ const meta = {
 };
 %>
 <%- include("assets/html/_head",{meta:meta}) %>
+<%- include("assets/html/_head_top") %>
 </head>
-<body>
+<body class="top_1">
 <%- include("assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include("assets/html/_header") %>
+<%- include("assets/html/_topbar") %>
+<%- include("assets/html/_profile") %>
 
 <main id="main">
-<div class="wrapper_1">
-  <div class="wrapper_1__1">
-
-    <%- include("assets/html/_link") %>
-
-  </div><!-- /.wrapper_1__1 -->
-  <div class="wrapper_1__2">
-
-    <%- include("assets/html/_gallery") %>
-
-  </div><!-- /.wrapper_1__2 -->
-</div><!-- /.wrapper_1 -->
-
+<%- include("assets/html/_link") %>
+<%- include("assets/html/_gallery") %>
+<%- include("assets/html/_cluster_top") %>
+<%- include("assets/html/_youtube") %>
+<%- include("assets/html/_note") %>
 <%- include("assets/html/_portfolio") %>
+<%- include("assets/html/_worlds_top") %>
 <%- include("assets/html/_guide") %>
-<%- include("assets/html/_cluster") %>
 </main><!-- /#main -->
 
 <%- include("assets/html/_footer") %>

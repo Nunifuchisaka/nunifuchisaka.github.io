@@ -693,6 +693,9 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+@view-transition {
+  navigation: auto;
+}
 .is_none {
   display: none !important;
 }
@@ -863,6 +866,14 @@ a:focus-visible {
   .glightbox-clean .gclose {
     opacity: 0.7;
     right: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

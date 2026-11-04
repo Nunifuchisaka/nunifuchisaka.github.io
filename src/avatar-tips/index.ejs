@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  type: "website",
+  title: "アバター改変の解説",
+  description: "アバター改変でつまずきやすいところを、1回に1つずつ解説する連載。入れ方・アップロード・衣装・軽量化から、Animator でギミックを自分で作る方法まで。困りごとから読む回を探せます。",
+  url: "avatar-tips/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/tips-finder.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const l = isEn
+  ? { title: "Memories", lead: "Fragments of days gone by, in video.", frame: (n, total) => `VRChat video ${n} of ${total}` }
+  : { title: "回想", lead: "過ぎた日の断片を、動画で振り返ります。", frame: (n, total) => `VRChatの動画 ${n}/${total}` };
+// 動画の一覧は src/assets/data/memories.json。vimeo は Vimeo の動画番号、file は Cloudflare R2 に置いたファイル名（r2Base からの位置）
+// R2 の動画は r2Base が空のあいだは出さない。並びは date（年-月-その月の何本目）の新しい順
+const r2Base = (memories.r2Base || "").replace(/\/+$/, "");
+const videos = memories.videos
+  .filter((v) => v.vimeo || (v.file && r2Base))
+  .slice()
+  .sort((a, b) => b.date.localeCompare(a.date, "en", { numeric: true }));
+const r2Url = (file) => `${r2Base}/${file.split("/").map(encodeURIComponent).join("/")}`;
+%><section class="section_2 page_1" aria-labelledby="videos-heading">
+  <h1 class="page_1__h1" id="videos-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <ul class="list_15">
+    <% videos.forEach(function (video, i) { %>
+      <li>
+        <% if (video.vimeo) { %>
+          <iframe src="https://player.vimeo.com/video/<%= video.vimeo %>?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="<%= l.frame(i + 1, videos.length) %>"></iframe>
+        <% } else { %>
+          <video src="<%= r2Url(video.file) %>#t=0.1"<% if (video.poster) { %> poster="<%= r2Url(video.poster) %>"<% } %> controls loop playsinline preload="metadata" aria-label="<%= l.frame(i + 1, videos.length) %>"></video>
+        <% } %>
+      </li>
+    <% }); %>
+  </ul><!-- /.list_15 -->
+</section>

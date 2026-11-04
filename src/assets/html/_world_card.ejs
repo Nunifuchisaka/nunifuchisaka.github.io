@@ -1,0 +1,18 @@
+<%
+// お気に入りワールドのカード1枚（お気に入りワールドのページと、トップページで共通）。カード全体が VRChat 公式サイトのワールドのページへのリンク
+// item：worlds.json のワールド1件 / locale："ja" か "en"
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const l = isEn
+  ? { platforms: "Works on", author: "By", newTab: "(opens on the VRChat website in a new tab)" }
+  : { platforms: "対応", author: "作者", newTab: "（VRChat の公式サイトを新しいタブで開きます）" };
+%><li class="world_1__item">
+  <a class="world_1__link" href="https://vrchat.com/home/world/<%= item.id %>/info" target="_blank" rel="noopener">
+    <span class="world_1__photo"><img src="/assets/img/worlds/<%= item.photo %>" alt="" loading="lazy" width="800" height="600"></span>
+    <div class="world_1__body">
+      <h3 class="world_1__name"><%= item.name %><span class="visually-hidden"><%= l.newTab %></span></h3>
+      <p class="world_1__meta"><%= l.author %>: <%= item.author %><% if (item.platforms) { %> / <%= l.platforms %>: <%= item.platforms.join(" · ") %><% } %></p>
+      <% if (item.note && item.note[pageLocale]) { %><p class="world_1__note"><%= item.note[pageLocale] %></p><% } %>
+    </div>
+  </a>
+</li>

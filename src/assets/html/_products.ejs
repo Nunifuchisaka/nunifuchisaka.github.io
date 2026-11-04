@@ -1,0 +1,93 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// 制作物の一覧。中身は src/assets/data/products.json（トップの Products・よくある質問と共通）
+// 種類で絞り込む：ラジオボタンの選択を CSS の :has() で読み、合わない制作物を隠す（JS なし）
+const items = products.items;
+const kinds = products.kinds;
+const count = (key) => key === "all" ? items.length : items.filter((item) => item.kind === key).length;
+const kindLabel = (key) => (kinds.find((k) => k.key === key) || { label: { ja: "", en: "" } }).label[pageLocale];
+const l = isEn ? {
+  title: "Products",
+  lead: (n) => `${n} shaders, avatar gimmicks and tools I have made. See what each one works with, then read the manual or get it on BOOTH.`,
+  filter: "Show",
+  all: "All",
+  works: "Works with",
+  needs: "You need",
+  price: "Price",
+  version: "Latest",
+  manual: "Read the manual",
+  manualJa: "Read the manual (Japanese)",
+  booth: "Get it on BOOTH",
+  boothShop: "BOOTH shop",
+  newTab: "(opens in a new tab)",
+  faq: { href: `${prefix}/faq/`, text: "Product FAQ", note: "Common questions and the update history for every product" },
+  unknown: "See the manual",
+} : {
+  title: "制作物一覧",
+  lead: (n) => `これまでに作ったシェーダー・アバターギミック・ツール${n}点です。対応している環境を見てから、説明書を読んだり BOOTH で手に入れたりできます。`,
+  filter: "種類で絞り込む",
+  all: "すべて",
+  works: "対応",
+  needs: "必要なもの",
+  price: "価格",
+  version: "最新版",
+  manual: "説明書を読む",
+  manualJa: "説明書を読む",
+  booth: "BOOTH で見る",
+  boothShop: "BOOTH のショップへ",
+  newTab: "（新しいタブで開きます）",
+  faq: { href: `${prefix}/faq/`, text: "制作物のよくある質問", note: "どの制作物にも共通する質問と、更新履歴" },
+  unknown: "説明書を参照",
+};
+%><section class="section_2 page_1" aria-labelledby="products-heading">
+  <h1 class="page_1__h1" id="products-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead(items.length) %></p>
+</section>
+
+<div class="section_2 products_1">
+  <fieldset class="filter_1">
+    <legend class="filter_1__legend"><%= l.filter %></legend>
+    <div class="filter_1__options">
+      <% [{ key: "all", label: l.all }].concat(kinds.map((k) => ({ key: k.key, label: k.label[pageLocale] }))).forEach(function (option) { %>
+        <label class="filter_1__option">
+          <input type="radio" name="kind" value="<%= option.key %>" id="filter-<%= option.key %>"<% if (option.key === "all") { %> checked<% } %>>
+          <span><%= option.label %><span class="filter_1__count"><%= count(option.key) %></span></span>
+        </label>
+      <% }); %>
+    </div>
+  </fieldset>
+
+  <ul class="list_16">
+    <% items.forEach(function (item) {
+      const manualHref = isEn && item.hasEn ? `/${item.dir}/en/` : `/${item.dir}/`;
+      const manualText = isEn && !item.hasEn ? l.manualJa : l.manual;
+    %>
+      <li class="list_16__item" data-kind="<%= item.kind %>">
+        <span class="list_16__image"><img src="<%= item.image %>" alt="" loading="lazy"></span>
+        <div class="list_16__body">
+          <p class="list_16__kind"><%= item.kindName ? item.kindName[pageLocale] : kindLabel(item.kind) %></p>
+          <h2 class="list_16__name"><%= item.name %></h2>
+          <p class="list_16__desc"><%= item.desc[pageLocale] %></p>
+          <dl class="list_16__spec">
+            <div><dt><%= l.works %></dt><dd><%= item.works ? item.works[pageLocale] : l.unknown %></dd></div>
+            <% if (item.needs) { %><div><dt><%= l.needs %></dt><dd><%= item.needs[pageLocale] %></dd></div><% } %>
+            <% if (item.price) { %><div><dt><%= l.price %></dt><dd><%= item.price[pageLocale] %></dd></div><% } %>
+            <% if (item.version) { %><div><dt><%= l.version %></dt><dd><%= item.version %></dd></div><% } %>
+          </dl>
+          <p class="list_16__links">
+            <a class="list_16__manual" href="<%= manualHref %>"<% if (isEn && !item.hasEn) { %> hreflang="ja"<% } %>><%= manualText %><span class="visually-hidden">: <%= item.name %></span></a>
+            <% if (item.booth) { %><a class="list_16__booth" href="<%= item.booth %>" target="_blank" rel="noopener"><%= item.boothShop ? l.boothShop : l.booth %><span class="visually-hidden">: <%= item.name %> <%= l.newTab %></span></a><% } %>
+          </p>
+        </div>
+      </li>
+    <% }); %>
+  </ul>
+</div>
+
+<section class="section_2" aria-label="<%= l.faq.text %>">
+  <ul class="next_1">
+    <li><a href="<%= l.faq.href %>"><span class="next_1__text"><%= l.faq.text %></span><span class="next_1__note"><%= l.faq.note %></span></a></li>
+  </ul>
+</section>

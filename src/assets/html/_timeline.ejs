@@ -1,0 +1,34 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const parse = (file) => {
+  const m = file.match(/(\d{4})-(\d{2})-(\d{2})/);
+  return m ? { y: +m[1], m: +m[2], d: +m[3] } : null;
+};
+const fullDate = (p) => isEn ? `${MONTHS_EN[p.m - 1]} ${p.d}, ${p.y}` : `${p.y}年${p.m}月${p.d}日`;
+
+// 案内写真（古い順）。日付の無いファイルは集計から外す
+const chron = [...guides].sort().map((file) => ({ file: file, date: parse(file) })).filter((p) => p.date);
+const total = chron.length;
+const first = total ? chron[0].date : null;
+const last = total ? chron[total - 1].date : null;
+
+const t = isEn ? {
+  title: "Guide Log",
+  headline: total ? `From <span>${fullDate(first)}</span> to <span>${fullDate(last)}</span>, I guided newcomers <span>${total} times</span>.` : "",
+  lead: "Counted from the “#VRChat始めました” (I started VRChat) posts. One photo is one guide; sometimes several people at once.",
+} : {
+  title: "案内実績",
+  headline: total ? `<span>${fullDate(first)}から</span><span>${fullDate(last)}まで、</span><span>${total}回の初心者案内。</span>` : "",
+  lead: "「#VRChat始めました」の報告をもとに数えています。写真1枚が案内1回で、一度に何人かを案内することもあります。",
+};
+%><section class="section_2 page_1" aria-labelledby="timeline-heading">
+  <h1 class="page_1__h1" id="timeline-heading"><%= t.title %></h1>
+  <% if (total) { %>
+    <p class="page_1__headline"><%- t.headline %></p>
+  <% } %>
+  <p class="section_2__lead"><%= t.lead %></p>
+</section>
+
+<%- include("_guide", { guideScope: "all", locale: pageLocale }) %>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "Animator のしくみ",
+  description: "メニューを押してから見た目が変わるまでに、何が動いているのか。FX などの Playable Layers、レイヤー・ステート・トランジション、パラメーターと Expressions Menu の役目を、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/animator-basics/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/animator-basics-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-animator-basics") %>
+<%- include(path + "assets/html/_tips_pager",{slug:"animator-basics"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

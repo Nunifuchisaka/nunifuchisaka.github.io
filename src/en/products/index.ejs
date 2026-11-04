@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../";
+const meta = {
+  title: "Products",
+  description: "Shaders, avatar gimmicks and tools by Nunifuchisaka, with what each works with and links to the manuals.",
+  url: "en/products/",
+  altUrl: "products/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"products",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_products",{locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

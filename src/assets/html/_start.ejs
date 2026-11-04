@@ -1,0 +1,164 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// これから VRChat を始める人向けの読み物。案内の依頼は受け付けない（連絡先は載せない）
+// VRChat の画面や名前は変わるので、細かい操作（どのボタンを押すか）は書かず、何ができるかを書く
+const l = isEn ? {
+  title: "Getting started with VRChat",
+  lead: "For anyone about to start VRChat: what you can play on, what to do first, and a few things that make the first days easier. You don't need a VR headset to begin.",
+  asOf: "Written in November 2026. Screens and names in VRChat may change.",
+  devicesTitle: "What you can play on",
+  devices: [
+    { icon: "fa-solid fa-vr-cardboard", name: "A VR headset", note: "A Meta Quest works on its own. Connect it to a gaming PC and you can also use PC-only worlds and avatars.", link: { href: `${prefix}/equipment/`, text: "The gear I use" } },
+    { icon: "fa-solid fa-desktop", name: "A PC", note: "Play without a headset, with a keyboard and mouse (desktop mode). Install it from Steam." },
+    { icon: "fa-solid fa-mobile-screen", name: "A phone", note: "There are apps for Android and iPhone too. Some worlds and avatars don't support phones." },
+  ],
+  stepsTitle: "Your first steps",
+  steps: [
+    { title: "Make an account", note: "Make a VRChat account on the official VRChat website. You can also sign in with Steam or Meta, but a VRChat account lets you use the same account on any device." },
+    { title: "Install the app", note: "On Quest, get it from the Meta Horizon Store. On PC, get it from Steam. It is free." },
+    { title: "Pick an avatar", note: "At first you choose from the avatars VRChat provides. Open the avatar list in the menu and pick one you like." },
+    { title: "Get used to the controls", note: "You start in your Home world. Try moving, opening the menu, and turning your mic on and off." },
+    { title: "Go where people are", note: "Visit a world made for newcomers, or join a friend. Having someone show you around helps you settle in fast." },
+  ],
+  tipsTitle: "Good to know early",
+  tips: [
+    { title: "Instances", note: "The same world is split into separate rooms called instances. Anyone can join Public; Friends+ is for friends and their friends; Friends is for friends only; Invite is for people who were invited." },
+    { title: "Muting your mic", note: "Mics pick up the sounds around you easily, so muting while you aren't talking keeps you at ease." },
+    { title: "Safety settings", note: "You can change how strangers' avatars appear and how loud they are. Use it when heavy avatars or loud sounds bother you." },
+    { title: "Blocking and reporting", note: "If someone bothers you, block them from their profile. After blocking, neither of you can see or hear the other." },
+    { title: "Trust rank", note: "Your rank goes up as you play. To upload your own avatars or worlds, you need to reach New User or higher." },
+    { title: "Quest and PC", note: "On a Quest by itself, only avatars made for Quest show as they really look. Others show as a stand-in." },
+  ],
+  mannersTitle: "Manners",
+  manners: [
+    "Don't touch or get very close to someone you have just met.",
+    "Read the world's rules, such as a sign by the entrance.",
+    "Ask the people in a photo before you post it.",
+    "Keep loud sounds and bright effects down when others are around.",
+  ],
+  nextTitle: "Read next",
+  next: [
+    { href: `${prefix}/equipment/`, text: "VR Gear", note: "The gear I use, with notes on terms like wired and wireless PC VR" },
+    { href: `${prefix}/worlds/`, text: "Favorite worlds", note: "Worlds I like and often take newcomers to" },
+    { href: `${prefix}/timeline/`, text: "Guide Log", note: "Every time I have shown someone around" },
+  ],
+} : {
+  title: "はじめてのVRChat",
+  lead: "これからVRChatを始める人に向けて、遊べる機器と、最初にすること、知っておくと楽なことをまとめました。VRゴーグルがなくても始められます。",
+  asOf: "2026年11月時点の内容です。VRChatの画面や名前は変わることがあります。",
+  devicesTitle: "遊べる機器",
+  devices: [
+    { icon: "fa-solid fa-vr-cardboard", name: "VRゴーグル", note: "Meta Quest なら、ゴーグルだけで遊べます。ゲーム用のPCとつなぐと、PC向けのワールドやアバターも使えます。", link: { href: `${prefix}/equipment/`, text: "使っている機材を見る" } },
+    { icon: "fa-solid fa-desktop", name: "パソコン", note: "ゴーグルなしで、キーボードとマウスで遊べます（デスクトップモード）。Steam から入れます。性能が足りないときや Mac のときは、GeForce NOW などで遊べます。", link: { href: "#cloud", text: "性能の低いパソコンや Mac で遊ぶ" } },
+    { icon: "fa-solid fa-mobile-screen", name: "スマホ", note: "Android と iPhone 向けのアプリもあります。スマホに対応していないワールドやアバターもあります。" },
+  ],
+  stepsTitle: "最初にすること",
+  steps: [
+    { title: "アカウントを作る", note: "VRChat の公式サイトで、VRChat アカウントを作ります。Steam や Meta のアカウントでも入れますが、VRChat アカウントならどの機器でも同じアカウントを使えます。" },
+    { title: "アプリを入れる", note: "Quest は Meta Horizon Store、パソコンは Steam から入れます。無料です。" },
+    { title: "アバターを選ぶ", note: "最初は、VRChat に用意されたアバターから選びます。メニューのアバター一覧から、気に入ったものを選んでください。" },
+    { title: "操作に慣れる", note: "最初に入るホームで、移動、メニューを開く、マイクのオンオフを試します。" },
+    { title: "人のいる場所へ行く", note: "初心者向けのワールドや、知り合いのいるところへ行ってみます。案内してくれる人がいると、早く慣れます。" },
+  ],
+  tipsTitle: "知っておくと楽なこと",
+  tips: [
+    { title: "インスタンス", note: "同じワールドでも、部屋（インスタンス）が分かれています。Public は誰でも、Friends+ はフレンドとそのフレンド、Friends はフレンドだけ、Invite は招待された人だけが入れます。" },
+    { title: "マイクのミュート", note: "マイクは周りの音を拾いやすいので、話さないときはミュートにしておくと安心です。" },
+    { title: "セーフティ設定", note: "知らない人のアバターの見え方や、声の大きさを変えられます。重いアバターや大きな音が気になるときに使います。" },
+    { title: "ブロックと通報", note: "嫌なことをされたら、その人のプロフィールからブロックできます。ブロックすると、お互いに見えなくなり、声も聞こえなくなります。" },
+    { title: "トラストランク", note: "遊んでいるうちにランクが上がります。自分のアバターやワールドをアップロードするには、New User 以上になる必要があります。" },
+    { title: "Quest と PC", note: "Quest だけで遊ぶときは、Quest に対応したアバターだけが本来の姿で見えます。対応していないアバターは、代わりの姿で表示されます。" },
+  ],
+  mannersTitle: "マナー",
+  manners: [
+    "初めて会った人に、いきなり触れたり、近づきすぎたりしない。",
+    "入口の看板など、ワールドのルールを読む。",
+    "写真を載せるときは、写っている人に聞く。",
+    "周りに人がいるときは、大きな音や光るエフェクトを控えめにする。",
+  ],
+  nextTitle: "次に読む",
+  next: [
+    { href: `${prefix}/equipment/`, text: "VR機材", note: "使っている機材と、有線VR・無線VRなどの言葉の説明" },
+    { href: `${prefix}/worlds/`, text: "お気に入りワールド", note: "好きなワールドや、案内でよく行くワールド" },
+    { href: `${prefix}/timeline/`, text: "案内実績", note: "これまでに案内した日の記録" },
+  ],
+};
+%><section class="section_2 page_1" aria-labelledby="start-heading">
+  <h1 class="page_1__h1" id="start-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__note"><%= l.asOf %></p>
+  <% if (!isEn) { %>
+    <%# 日本語版だけにある節を含めた目次（英語版は、日本語版の内容が固まってから作る） %>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        <% [["devices", l.devicesTitle], ["cloud", "性能の低いパソコンや Mac で遊ぶ"], ["steps", l.stepsTitle], ["mic", "マイクの設定"], ["pcvr", "VRゴーグルを PC につなぐ（PCVR）"], ["tips", l.tipsTitle], ["manners", l.mannersTitle], ["next", l.nextTitle]].forEach(function (item) { %>
+          <li><a href="#<%= item[0] %>"><%= item[1] %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  <% } %>
+</section>
+
+<section class="section_2" id="devices" aria-labelledby="devices-heading">
+  <h2 class="section_2__h1" id="devices-heading"><%= l.devicesTitle %></h2>
+  <ul class="device_1">
+    <% l.devices.forEach(function (device) { %>
+      <li class="device_1__item">
+        <span class="device_1__icon" aria-hidden="true"><i class="<%= device.icon %>"></i></span>
+        <h3 class="device_1__name"><%= device.name %></h3>
+        <p class="device_1__note"><%= device.note %></p>
+        <% if (device.link) { %><p class="device_1__link"><a href="<%= device.link.href %>"><%= device.link.text %></a></p><% } %>
+      </li>
+    <% }); %>
+  </ul>
+</section>
+
+<% if (!isEn) { %><%- include("_start-cloud") %><% } %>
+
+<section class="section_2" id="steps" aria-labelledby="steps-heading">
+  <h2 class="section_2__h1" id="steps-heading"><%= l.stepsTitle %></h2>
+  <ol class="flow_1">
+    <% l.steps.forEach(function (step) { %>
+      <li class="flow_1__step">
+        <p class="flow_1__title"><%= step.title %></p>
+        <p class="flow_1__note"><%= step.note %></p>
+      </li>
+    <% }); %>
+  </ol>
+</section>
+
+<% if (!isEn) { %><%- include("_start-mic") %>
+
+<%- include("_start-pcvr") %><% } %>
+
+<section class="section_2" id="tips" aria-labelledby="tips-heading">
+  <h2 class="section_2__h1" id="tips-heading"><%= l.tipsTitle %></h2>
+  <dl class="examples_1 examples_1--grid">
+    <% l.tips.forEach(function (tip) { %>
+      <div class="examples_1__item">
+        <dt><%= tip.title %></dt>
+        <dd><%= tip.note %></dd>
+      </div>
+    <% }); %>
+  </dl>
+</section>
+
+<section class="section_2" id="manners" aria-labelledby="manners-heading">
+  <h2 class="section_2__h1" id="manners-heading"><%= l.mannersTitle %></h2>
+  <ul class="rules_1">
+    <% l.manners.forEach(function (rule) { %>
+      <li><%= rule %></li>
+    <% }); %>
+  </ul>
+</section>
+
+<section class="section_2" id="next" aria-labelledby="next-heading">
+  <h2 class="section_2__h1" id="next-heading"><%= l.nextTitle %></h2>
+  <ul class="next_1">
+    <% l.next.forEach(function (item) { %>
+      <li><a href="<%= item.href %>"><span class="next_1__text"><%= item.text %></span><span class="next_1__note"><%= item.note %></span></a></li>
+    <% }); %>
+  </ul>
+</section>

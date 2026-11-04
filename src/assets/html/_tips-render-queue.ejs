@@ -1,0 +1,244 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：Render Queue。対象は Unity の Built-in Render Pipeline（VRChat のアバター）
+// 本文の文字列は管理人側で書いたもの（code や strong の HTML を含むので、エスケープせずに出す）
+const article = avatarTips.articles.find((a) => a.slug === "render-queue");
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = isEn ? `${MONTHS_EN[pm - 1]} ${pd}, ${py}` : `${py}年${pm}月${pd}日`;
+const spiderweb = isEn ? "/spiderweb/en/" : "/spiderweb/";
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "Render Queue（描画の順番）",
+  lead: "半透明の髪やレース、メガネのレンズが、見る角度で消えたり、ほかの物の後ろに隠れたりする。その多くは、Render Queue（レンダーキュー）という「描く順番」の数字で直せます。",
+  meta: "対象は Unity の Built-in Render Pipeline（VRChat のアバター）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "半透明のパーツ（レース、メガネのレンズ、頬染め）が、カメラを動かすと消えたり出たりする。",
+    "水のあるワールドで、アバターの半透明の部分が水面に隠れる。",
+    "半透明のスカートの向こうのリボンなど、半透明の物越しに別の半透明の物が見えない。",
+    "パーティクルやエフェクトが、髪や服の前に出たり後ろに隠れたりする。",
+  ],
+  whatTitle: "Render Queue とは",
+  what: [
+    "Unity は画面を描くとき、マテリアルごとに決まった数字の小さい順に描いていきます。この数字が <strong>Render Queue</strong> です。あとから描いた物が、先に描いた物の上に重なります。",
+    "不透明な物は、奥行き（深度）を見て前後が決まるので、順番を変えても見た目はほとんど変わりません。順番が見た目に効くのは<strong>半透明</strong>の物です。半透明の物は奥行きを記録せず、すでに描かれている色の上に、自分の色を混ぜるだけだからです。",
+  ],
+  scaleLabel: "おもな Render Queue の数字",
+  scale: [
+    { value: 1000, name: "Background", note: "背景（スカイボックスなど）" },
+    { value: 2000, name: "Geometry", note: "不透明な物。ほとんどのマテリアル" },
+    { value: 2450, name: "AlphaTest", note: "切り抜き（Cutout）。穴の開いた不透明な物" },
+    { value: 2500, name: "", note: "ここまでが「不透明」の扱い", border: true },
+    { value: 3000, name: "Transparent", note: "半透明な物" },
+    { value: 4000, name: "Overlay", note: "いちばん最後。すべての上に重ねる物" },
+  ],
+  sortTitle: "2500 を境に、並べ方が変わる",
+  sort: [
+    { head: "2500 以下（不透明の扱い）", body: "おおよそカメラに近い物から描きます。前後は奥行きで決まるので、順番がどうでも見た目は正しくなります。" },
+    { head: "2501 以上（半透明の扱い）", body: "同じ数字の中では、カメラから遠い物から描きます。距離は、見えている面までではなく、<strong>メッシュの範囲（Bounds）の中心</strong>までで測ります。大きなスカートと小さなリボンのように中心の位置が違う物は、カメラを動かすと「どちらが近いか」が入れ替わり、ちらつきます。" },
+    { head: "1つのメッシュに半透明のマテリアルがいくつかあるとき", body: "同じメッシュの中で同じ数字なら、距離ではなく、マテリアルの並び順（Element 0, 1, …）で描かれます。" },
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "アバターの半透明パーツは、水面より手前にあります。水面が先に描かれれば、正しく見えます。数字と距離を変えて、どうなるか見てみてください。",
+  demo: {
+    part: "アバターの半透明パーツ",
+    water: "ワールドの水面",
+    distance: "カメラから中心が近いのは？",
+    partNear: "パーツ",
+    waterNear: "水面（大きな水面は、中心が近いと判定されやすい）",
+    order: "描く順番",
+    ok: "正しく見える：水面を先に描き、その上にパーツが重なっています。",
+    ng: "おかしく見える：パーツを先に描き、その上に水面が塗られるので、パーツが水の中にあるように見えます。",
+    tie: "数字が同じなので、距離で順番が決まります。",
+    byNumber: "数字が違うので、小さい方から描きます。",
+    first: "先",
+    then: "後",
+    noJs: "数字を動かすには、JavaScript を有効にしてください。",
+  },
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "角度で消えたり出たりする",
+      symptom: "半透明のパーツ2つが、見る角度によって前に出たり後ろに隠れたりする。",
+      cause: "数字が同じなので距離で順番が決まり、その判定が角度で入れ替わっています。",
+      fix: "手前に見せたい方の数字を、少しだけ（+1〜+10）大きくします。距離ではなく数字で順番が決まるので、入れ替わらなくなります。" },
+    { title: "水面に隠れる",
+      symptom: "水のあるワールドで、アバターの半透明の部分が水の中にあるように見える。",
+      cause: "ワールドの水面は、半透明の範囲の数字を使っていることが多いです。パーツが水面より先に描かれると、上から水面の色を塗られてしまいます。",
+      fix: "パーツの数字を、水面より大きくします。私の SpiderWeb では、糸を 3100、衝撃波を 3110 にしています。水面が 3100 以上のワールドでは、糸のマテリアルを水面より大きく、衝撃波をさらに後にするよう、説明書に書いています。",
+      link: { href: spiderweb, text: "SpiderWeb の説明書" } },
+    { title: "1つのメッシュの中で重なる",
+      symptom: "同じメッシュにある半透明のマテリアル2つが、逆の順番で重なる。",
+      cause: "数字が同じなので、マテリアルの並び順で描かれています。",
+      fix: "手前に見せたい方の数字を大きくするか、奥に見せたい方を前の Element に並べ替えます。" },
+    { title: "縁がくっきりでよいなら Cutout に",
+      symptom: "髪の毛先やレースの穴など、形を抜くためだけに半透明を使っている。",
+      cause: "半透明は順番の調整が要ります。Cutout（2450）は不透明の扱いで、奥行きも記録します。",
+      fix: "縁がくっきりしていてよいなら、Cutout にします。順番の問題が起きなくなります。" },
+  ],
+  howTitle: "数字の変え方",
+  how: [
+    "元に戻せるように、先にマテリアルを複製しておきます。",
+    "Project ウィンドウで、変えたいマテリアルを選びます。",
+    "Inspector で <strong>Render Queue</strong> の欄を探します。多くのシェーダーでは下のほうにあります。<code>From Shader</code> のままだと、シェーダーの既定の数字になります。",
+    "数字を入れます。",
+    "順番を確かめるには、Unity の Frame Debugger（<code>Window → Analysis → Frame Debugger</code>）を開き、描かれる物を1つずつ送って見ます。",
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "2500 を超えると、半透明の扱いになります。Built-in Render Pipeline では、2500 を超えた物は影を受けなくなります。不透明な物は 2500 以下のままにしてください。",
+    "シェーダーの描画モードを変えると、Render Queue が既定の数字に戻ることがあります。変えたあとに、もう一度確かめてください。",
+    "大きく動かさないでください。数字が大きいほど、ワールドの半透明の物（ガラス、霧、エフェクト）より後に描かれ、その奥にあっても手前にあるように見えることがあります。",
+    "Render Queue はマテリアルの設定なので、アップロードすれば、ほかの人にも同じ順番で描かれます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "Render Queue は描く順番の数字で、効くのは半透明のマテリアルです。",
+    "数字が同じだと、メッシュの中心までの距離で順番が決まり、それがちらつきの原因になります。",
+    "決めたい順番だけを小さな差で決め、できるところは Cutout にします。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "what", title: l.whatTitle },
+  { id: "sort", title: l.sortTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "how", title: l.howTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="what" aria-labelledby="what-heading">
+    <h2 class="section_2__h1" id="what-heading"><%= l.whatTitle %></h2>
+    <% l.what.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <figure class="scale_1">
+      <figcaption class="scale_1__caption"><%= l.scaleLabel %></figcaption>
+      <ol class="scale_1__list">
+        <% l.scale.forEach(function (step) { %>
+          <li class="scale_1__step<% if (step.border) { %> scale_1__step--border<% } %><% if (step.value === 3000) { %> scale_1__step--transparent<% } %>">
+            <span class="scale_1__value"><%= step.value %></span>
+            <% if (step.name) { %><span class="scale_1__name" lang="en"><%= step.name %></span><% } %>
+            <span class="scale_1__note"><%= step.note %></span>
+          </li>
+        <% }); %>
+      </ol>
+    </figure>
+  </section>
+
+  <section class="section_2 article_1__section" id="sort" aria-labelledby="sort-heading">
+    <h2 class="section_2__h1" id="sort-heading"><%= l.sortTitle %></h2>
+    <dl class="examples_1">
+      <% l.sort.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_1 js_queue_demo"
+      data-ok="<%= l.demo.ok %>" data-ng="<%= l.demo.ng %>" data-tie="<%= l.demo.tie %>" data-by-number="<%= l.demo.byNumber %>"
+      data-part="<%= l.demo.part %>" data-water="<%= l.demo.water %>" data-first="<%= l.demo.first %>" data-then="<%= l.demo.then %>">
+      <div class="demo_1__stage" aria-hidden="true">
+        <span class="demo_1__water js_queue_water"><span><%= l.demo.water %></span></span>
+        <span class="demo_1__part js_queue_part"><span><%= l.demo.part %></span></span>
+      </div>
+      <div class="demo_1__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-part"><%= l.demo.part %></label> <output class="demo_1__value" for="queue-part">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-part" class="js_queue_input" data-target="part">
+        </div>
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="queue-water"><%= l.demo.water %></label> <output class="demo_1__value" for="queue-water">3000</output></p>
+          <input type="range" min="2990" max="3110" step="1" value="3000" id="queue-water" class="js_queue_input" data-target="water">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.distance %></legend>
+          <label><input type="radio" name="queue-near" value="part" class="js_queue_near" checked> <%= l.demo.partNear %></label>
+          <label><input type="radio" name="queue-near" value="water" class="js_queue_near"> <%= l.demo.waterNear %></label>
+        </fieldset>
+      </div>
+      <div class="demo_1__output" aria-live="polite">
+        <p class="demo_1__label"><%= l.demo.order %></p>
+        <ol class="demo_1__order js_queue_order">
+          <li><%= l.demo.water %><%= isEn ? " (3000)" : "（3000）" %></li>
+          <li><%= l.demo.part %><%= isEn ? " (3000)" : "（3000）" %></li>
+        </ol>
+        <p class="demo_1__why js_queue_why"><%= l.demo.tie %></p>
+        <p class="demo_1__result is_ok js_queue_result"><%= l.demo.ok %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %><% if (c.link) { %> <a href="<%= c.link.href %>"><%= c.link.text %></a><% } %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="how" aria-labelledby="how-heading">
+    <h2 class="section_2__h1" id="how-heading"><%= l.howTitle %></h2>
+    <ol class="steps_1">
+      <% l.how.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

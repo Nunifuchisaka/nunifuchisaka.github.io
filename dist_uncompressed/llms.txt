@@ -1,0 +1,92 @@
+# ぬにふちさか（Nunifuchisaka）
+
+> VRChat で活動する VR クリエイター「ぬにふちさか」の個人サイト。BOOTH で配布・販売している VRChat 向けのシェーダー・アバターギミック・ツールの説明書と、アバター改変の解説の連載、はじめて VRChat に来た人への案内の記録をまとめています。
+
+- 名前：ぬにふちさか（英語表記は Nunifuchisaka）
+- 作っているもの：VRChat アバター用のシェーダーとギミック（Unity・Modular Avatar・lilToon 向け）、Windows・macOS 用の小さなツール、Blender のアドオン
+- 制作物の配布・販売：BOOTH（https://nunifuchisaka.booth.pm/）
+- 制作物の対応環境と必要なものは、それぞれの説明書と「制作物の一覧」「よくある質問」に書いてあります
+- 多くのページに英語版があります（いちばん下の「English」）
+
+## ほかの場所でのぬにふちさか
+
+- [BOOTH](https://nunifuchisaka.booth.pm/): 制作物の配布・販売
+- [VRChat](https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5)
+- [cluster](https://cluster.mu/u/nunifuchisaka)
+- [X](https://x.com/nunifuchisaka)
+- [YouTube](https://www.youtube.com/@nunifuchisaka)
+- [note](https://note.com/nunifuchisaka)
+- [GitHub](https://github.com/Nunifuchisaka)
+
+## このサイトの主なページ
+
+- [ぬにふちさか](https://nunifuchisaka.github.io/): ぬにふちさか関連リンク集
+- [制作物一覧](https://nunifuchisaka.github.io/products/): ぬにふちさかが作ったシェーダー・アバターギミック・ツールの一覧。種類で絞り込めて、対応環境と説明書へのリンクをまとめています。
+- [制作物のよくある質問](https://nunifuchisaka.github.io/faq/): ぬにふちさかの制作物（シェーダー・ギミック・ツール）に共通する、よくある質問と更新履歴。
+- [アバター改変の解説](https://nunifuchisaka.github.io/avatar-tips/): アバター改変でつまずきやすいところを、1回に1つずつ解説する連載。入れ方・アップロード・衣装・軽量化から、Animator でギミックを自分で作る方法まで。困りごとから読む回を探せます。
+- [はじめてのVRChat](https://nunifuchisaka.github.io/start/): これからVRChatを始める人のために、遊べる機器、最初にすること、マイクの設定、Meta Quest や PICO を PC につなぐ方法（Virtual Desktop など）、XSOverlay・OVR Advanced Settings などの便利なアプリ、知っておくと楽なことをまとめました。
+
+## 制作物の説明書
+
+- [DeepFrostIceShader / 氷・深蒼凍・霜シェーダー](https://nunifuchisaka.github.io/deepfrostice/): VRChat PCアバター用の氷シェーダー。Built-in Render Pipeline / Forward レンダリング向け。屈折・裏面描画・厚み色吸収・フロスト・凍結/融解・スパークル・グレイシャーディゾルブなどを備えた氷表現シェーダー。
+- [アニメーション設定ガイド｜DeepFrostIceShader（氷・深蒼凍・霜シェーダー）](https://nunifuchisaka.github.io/deepfrostice/animation/): DeepFrostIceの凍結・融解・厚み吸収・ディゾルブ・トップスノー・スパークル・表示切替を、VRChatのExpression Menuから動かす手順。同梱サンプル DeepFrostIceSample.prefab をドラッグするだけの最短ルートと、AnimationClip・AnimatorController・Expression Parameters/Menu・Modular Avatarを理解して自作・改変するルートを解説。
+- [GlossySkin / 凪 -Nagi- のツヤ肌マスク](https://nunifuchisaka.github.io/glossyskin/): 凪 -Nagi-（rio3d様）専用のツヤ肌マスクテクスチャ。lilToonのMatCapのマスクを差し替えるだけで、夜の灯りや逆光を拾って脚や肩、鎖骨がつやりと光ります。凪付属のマスクより描き込みが細かいマスク2種と、ツヤの強さを0〜100%で変えられるおまけのスライダーを同梱。
+- [HeartBeat / 心音ギミック](https://nunifuchisaka.github.io/heartbeat/): VRChatアバター用の心音ギミック。相手の頭が胸に触れたときだけ、至近距離に届く空間音声で心音が鳴ります。大型動物と人間を重ねたキメラ心音を4種収録。Modular Avatar対応でドラッグ＆ドロップ導入。
+- [SpiderWeb / 糸のギミック](https://nunifuchisaka.github.io/spiderweb/): VRChatアバター用の糸のギミック。銀の指輪が光り、指先から糸が伸び、腕を振ると周囲に24本の糸と薔薇の花びらが降る。ガンで一本ずつ、衝撃波で一斉に落とせます。Modular Avatar対応・PC専用。
+- [餓者髑髏 -Gashadokuro- / 背後に迫る巨大な骸骨ギミック](https://nunifuchisaka.github.io/gashadokuro/): VRChatアバター用の巨大な骸骨ギミック。背後の地面から4倍の大きさの骸骨の上半身が紫に燃えながら迫り上がり、自分の腕・胴・頭の動きに合わせて動きます。両手を握り続けると闇のブレスを吐きます。Modular Avatar対応・PC専用。
+- [Regret -ペッてすると飛んでく亡者の手 / 骨アクセサリー](https://nunifuchisaka.github.io/regret/): VRChatアバター用の骨アクセサリー。腕や足に装着でき、振ると骨が振り落とされて飛んでいき、床に残ります。落ちた骨に元の部位で触れると、また装着されます。Modular Avatar対応・PC専用。
+- [NuniAvatarToolkit / VRChat・VRMアバター向けメッシュ最適化Blenderアドオン](https://nunifuchisaka.github.io/nuniavatartoolkit/): VRChat/VRMアバター制作向けの、メッシュ最適化オールインワンBlenderアドオン NuniAvatarToolkit。隠れメッシュ削除・服メッシュフィット・貫通チェック・テクスチャ再リンク・不要データ一括削除・書き出し前チェックなど9機能を収録。Blender 4.2以降対応、無料配布。
+- [VRC PublicWalker | Public徘徊する人のためのツール](https://nunifuchisaka.github.io/publicwalker/): VRChatのpublicインスタンスへの再訪を、ログ監視とXSOverlay通知（任意）でお知らせするWindows向け常駐ツール。入室履歴を自動で記録し、大きなインスタンス番号表示で「さっき行った場所か」を一目で見分けられます。SteamVRの手首表示にも対応。
+- [DeskCinema | 動画壁紙アプリ](https://nunifuchisaka.github.io/deskcinema/): ローカル動画やYouTubeを、モニターごとに動画壁紙として再生するWindows向けデスクトップアプリ。DeskCinemaで動画を壁紙にできます。
+- [KeyDisplay / キー入力オーバーレイ表示アプリ](https://nunifuchisaka.github.io/keydisplay/): Unity/Blenderなどの操作解説・実況動画向けに、押しているキーやマウスのクリック・ドラッグを画面に表示するオーバーレイアプリ KeyDisplay。修飾キーの結合表示、ショートカット説明、クリック透過に対応。Windows/macOS両対応。
+- [ImageGetter / 複数URLシェア画像一括取得ツール](https://nunifuchisaka.github.io/imagegetter/): 複数URLのシェア画像（og:image）を一括取得・保存するWindows向けツール ImageGetter。GUI版・CLI版を収録し、出力先・オプションのプリセット機能やAIエージェント連携にも対応しています。
+
+## アバター改変の解説（連載。読む順）
+
+- [VCC・ALCOM・Unity の入れ方](https://nunifuchisaka.github.io/avatar-tips/setup/): アバター改変に要る Unity Hub・Unity 2022.3.22f1 と、VCC・ALCOM の役目、どちらを選ぶか、入れる手順を、再現図つきで解説。Mac で改変するときや、よくある困りごとも。
+- [アップロードのしかた](https://nunifuchisaka.github.io/avatar-tips/upload/): 買ったアバターを Unity に入れて VRChat にアップロードするまで。シェーダーを入れる順番、VRChat SDK の Builder と Validations の見方、更新と Blueprint ID、よくあるつまずきを再現図つきで解説。
+- [衣装を着せる](https://nunifuchisaka.github.io/avatar-tips/outfit/): 買った衣装を Modular Avatar の Setup Outfit で着せる手順と、しくみ、体が服から突き抜けるときの直し方、メニューで服をオンオフする方法を、再現図と動かして確かめられる図つきで解説。
+- [パフォーマンスランクと軽量化](https://nunifuchisaka.github.io/avatar-tips/performance/): Very Poor になった、衣装を足したらランクが下がった。パフォーマンスランクの決まり方とパソコン版の上限、ほかの人からの見え方、AAO などで軽くする方法を、再現図と動かして確かめられる図つきで解説。
+- [Quest・スマホ対応](https://nunifuchisaka.github.io/avatar-tips/quest/): Quest やスマホの人にアバターを見てもらうには、軽くした Android 版を同じアバターにアップロードします。使えないもの、ランクの基準、作る手順と困りごとを、再現図つきで解説。
+- [Animator のしくみ](https://nunifuchisaka.github.io/avatar-tips/animator-basics/): メニューを押してから見た目が変わるまでに、何が動いているのか。FX などの Playable Layers、レイヤー・ステート・トランジション、パラメーターと Expressions Menu の役目を、再現図と動かして確かめられる図つきで解説。
+- [アニメーションを作る](https://nunifuchisaka.github.io/avatar-tips/animation-clip/): ギミックの見た目の変化は、アニメーションクリップに書きます。FX で動かせるもの、Animation ウィンドウの録画で作る手順、キーフレーム、パスが切れて Missing! と出たときの直し方を、再現図と動かして確かめられる図つきで解説。
+- [メニューでオンオフするギミックを作る](https://nunifuchisaka.github.io/avatar-tips/toggle/): 帽子などの小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。オンとオフのクリップ、レイヤーとトランジション、Expression Parameters、メニュー、Modular Avatar でのつなぎ方まで、再現図と動かして確かめられる図つきで解説。
+- [段階で切り替える・少しずつ変えるギミック](https://nunifuchisaka.github.io/avatar-tips/radial/): 服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。
+- [ハンドサインで表情を変える](https://nunifuchisaka.github.io/avatar-tips/gesture/): ピースで笑顔、グーで怒り。ハンドサインで表情を変えるしくみを、FX の Animator に自分で組みます。GestureLeft・GestureRight の番号、左右の手の優先、まばたきや口との重なり（Tracking Control）、握りの強さの使い方を、再現図と動かして確かめられる図つきで解説。
+- [触ると反応するギミック](https://nunifuchisaka.github.io/avatar-tips/contact/): 頭をなでると頬が赤くなる、しっぽをつかむと表情が変わる。VRC Contact の Sender・Receiver、Receiver Type の選び方、PhysBone のパラメーター、ほかの人からの見え方を、再現図と動かして確かめられる図つきで解説。
+- [ギミックが動かないとき](https://nunifuchisaka.github.io/avatar-tips/gimmick-debug/): メニューを押しても動かない、自分にしか見えない、ワールドを移ると戻る。Gesture Manager で確かめる順番と、よくある原因・直す場所の一覧を、困りごとから絞れる表つきで解説。
+- [Unity と VRChat で見た目が変わる](https://nunifuchisaka.github.io/avatar-tips/unity-vs-vrchat/): Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは FX の Animator が BlendShape を書き換えているためです。仕組みと探し方・直し方を、再現図と動かして確かめられる図つきで解説。
+- [Render Queue（描画の順番）](https://nunifuchisaka.github.io/avatar-tips/render-queue/): 半透明の髪や服が角度で消える、水面に隠れる。その多くは Render Queue（描く順番の数字）で直せます。仕組みと直し方を、動かして確かめられる図つきで解説。
+
+## そのほかのページ
+
+- [Claude Code の使い方](https://nunifuchisaka.github.io/claude-code/): ぬにふちさかの Claude Code のエージェント構成と、サイトや説明書づくりでの使い方
+- [cluster](https://nunifuchisaka.github.io/cluster/): clusterでの活動写真
+- [話題サイコロ](https://nunifuchisaka.github.io/dice/): VRChatでの雑談中に話題を迷ったときにランダムに話題を選んでくれるサイコロ
+- [VR機材](https://nunifuchisaka.github.io/equipment/): ぬにふちさかが使用しているVRChat配信・案内用のVR機材まとめ
+- [案内実績](https://nunifuchisaka.github.io/timeline/): VRChatを始めるお手伝いをしてきた案内実績・タイムライン
+- [回想](https://nunifuchisaka.github.io/videos/): 過去の断片を振り返る
+- [お気に入りワールド](https://nunifuchisaka.github.io/worlds/): ぬにふちさかが好きなVRChatのワールドや、初心者案内でよく行くワールドの紹介。
+
+## English
+
+- [Nunifuchisaka](https://nunifuchisaka.github.io/en/): Nunifuchisaka's link collection
+- [Products](https://nunifuchisaka.github.io/en/products/): Shaders, avatar gimmicks and tools by Nunifuchisaka, with what each works with and links to the manuals.
+- [Product FAQ](https://nunifuchisaka.github.io/en/faq/): Common questions and the update history for Nunifuchisaka's shaders, gimmicks and tools.
+- [Getting started with VRChat](https://nunifuchisaka.github.io/en/start/): For people about to start VRChat: what you can play on, what to do first, and what helps to know.
+- [DeepFrostIceShader / Ice · Deep Frost · Rime Shader](https://nunifuchisaka.github.io/deepfrostice/en/): An ice shader for VRChat PC avatars, built for the Built-in Render Pipeline / Forward rendering path. Features refraction, backface rendering, thickness-based color absorption, frost, freeze/melt, sparkle, glacier dissolve, and more.
+- [GlossySkin / Glossy Skin Mask for Nagi -凪-](https://nunifuchisaka.github.io/glossyskin/en/): A glossy skin mask texture made for Nagi -凪- (by rio3d). Swap the MatCap mask in lilToon and the legs, shoulders and collarbones pick up night lights and backlight with a soft sheen. Includes two finely detailed masks and a bonus radial slider for dialing the gloss from 0 to 100%.
+- [HeartBeat / Heartbeat Gimmick](https://nunifuchisaka.github.io/heartbeat/en/): A heartbeat gimmick for VRChat avatars. When someone else's head touches your chest, a looping heartbeat plays through close-range spatial audio. Includes 4 chimera heartbeats blending large animals and humans. Modular Avatar support with drag-and-drop setup.
+- [SpiderWeb / Thread Gimmick](https://nunifuchisaka.github.io/spiderweb/en/): A thread gimmick for VRChat avatars. Silver rings light up, threads shoot from your fingertips, and a swing of the arm pins 24 threads into the space around you while rose petals fall. Cut them one at a time with a finger gun, or bring them all down with a shockwave. Modular Avatar support, PC only.
+- [Gashadokuro / Giant Skeleton Gimmick](https://nunifuchisaka.github.io/gashadokuro/en/): A giant skeleton gimmick for VRChat avatars. The upper body of a skeleton four times your size rises from the ground behind you, burning with purple flame, and follows the movement of your arms, torso and head. Keep both hands in fists and it breathes a cloud of darkness. Modular Avatar support, PC only.
+- [Regret – The Skeleton Hand That Flies Off When You Flick It](https://nunifuchisaka.github.io/regret/en/): A bone accessory for VRChat avatars. Attach it to an arm or leg. Flick it and the bone flies off and stays on the floor. Touch it again with the same body part to re-attach it. Modular Avatar support, PC only.
+- [NuniAvatarToolkit / Blender add-on for VRChat & VRM avatars](https://nunifuchisaka.github.io/nuniavatartoolkit/en/): NuniAvatarToolkit is a free, all-in-one Blender add-on for preparing VRChat and VRM avatars: hidden mesh removal, clothing fit, poke-through check, texture relinking, data cleanup, pre-export checks and more. Nine tools in one sidebar tab. Blender 4.2 or later.
+- [VRC PublicWalker | A tool for public-instance wanderers](https://nunifuchisaka.github.io/publicwalker/en/): A Windows desktop app that watches your VRChat logs and warns you — with an always-on-top window and an optional XSOverlay notification — when you walk back into a public instance you've already visited. Shows the list on your wrist in SteamVR, too.
+- [DeskCinema | Video Wallpaper App](https://nunifuchisaka.github.io/deskcinema/en/): A Windows desktop app that plays local videos and YouTube videos as per-monitor animated wallpapers. Make your videos into wallpapers with DeskCinema.
+- [KeyDisplay / Key Input Overlay App](https://nunifuchisaka.github.io/keydisplay/en/): KeyDisplay is an overlay app for Unity/Blender tutorial and gameplay recordings that shows the keys you're pressing, your mouse position, clicks, and drag trails on screen. Combines modifier key presses, shows Blender/Unity shortcut hints, and stays click-through. Windows/macOS.
+- [How I use Claude Code](https://nunifuchisaka.github.io/en/claude-code/): Nunifuchisaka's Claude Code agent setup and how it is used to build this site and the product manuals
+- [cluster](https://nunifuchisaka.github.io/en/cluster/): Photos from my activities in cluster
+- [Topic Dice](https://nunifuchisaka.github.io/en/dice/): A dice that randomly picks a topic when you're stuck for something to talk about during VRChat chit-chat
+- [VR Gear](https://nunifuchisaka.github.io/en/equipment/): A roundup of the VR gear Nunifuchisaka uses for VRChat streaming and guiding
+- [Guide Log](https://nunifuchisaka.github.io/en/timeline/): A guide log and timeline of helping people get started with VRChat
+- [Memories](https://nunifuchisaka.github.io/en/videos/): Looking back on fragments of the past

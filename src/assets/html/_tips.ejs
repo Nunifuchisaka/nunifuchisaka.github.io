@@ -1,0 +1,113 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説の一覧。中身は src/assets/data/avatar-tips.json
+// 1. 困りごとから探す（逆引き）：problems の悩みから、読む回とその中の節へ飛ぶ。絞り込み（tips-finder.js）は JS が無いときは出さず、全部を並べる
+// 2. 順番に読む：parts ごとに、no（第◯回）の順に並べる
+const articles = [...avatarTips.articles].sort((a, b) => a.no - b.no);
+const bySlug = (slug) => articles.find((a) => a.slug === slug);
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dateLabel = (iso) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  return isEn ? `${MONTHS_EN[m - 1]} ${d}, ${y}` : `${y}年${m}月${d}日`;
+};
+const problemCount = avatarTips.problems.reduce((n, g) => n + g.items.length, 0);
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const l = {
+  title: "アバター改変の解説",
+  lead: "アバター改変でつまずきやすいところを、1回に1つずつ、仕組みと直し方まで解説する連載です。",
+  scope: "Unity（Built-in Render Pipeline）で作る VRChat のアバターを前提に書いています。",
+  jumpLabel: "このページの中",
+  findTitle: "困りごとから探す",
+  findLead: "やりたいことや、困っていることから、読む回とその中の場所を探せます。",
+  filterLegend: "種類",
+  all: "すべて",
+  searchLabel: "ことばで絞り込む",
+  searchPlaceholder: "例：ピンク、表情、Quest",
+  count: "{n} 件",
+  none: "当てはまる困りごとがありません。ことばを短くするか、下の「順番に読む」から探してください。",
+  readTitle: "順番に読む",
+  readLead: "はじめて改変するときは、第1回から順に読むのがおすすめです。部ごとに、前の回を読んだことを前提にしています。",
+  part: (n) => `第${n}部`,
+  no: (n) => `第${n}回`,
+  more: "これからも回を増やしていきます。",
+};
+%><section class="section_2 page_1" aria-labelledby="tips-heading">
+  <h1 class="page_1__h1" id="tips-heading"><%= l.title %></h1>
+  <p class="section_2__lead"><%= l.lead %></p>
+  <p class="section_2__note"><%= l.scope %></p>
+  <nav class="jump_1" aria-label="<%= l.jumpLabel %>">
+    <ul>
+      <li><a href="#find"><%= l.findTitle %></a></li>
+      <li><a href="#read"><%= l.readTitle %></a></li>
+    </ul>
+  </nav>
+</section>
+
+<section class="section_2 finder_1 js_tips_finder" id="find" aria-labelledby="find-heading" data-count="<%= l.count %>">
+  <h2 class="section_2__h1" id="find-heading"><%= l.findTitle %></h2>
+  <p class="section_2__lead"><%= l.findLead %></p>
+
+  <div class="finder_1__controls js_tips_controls" hidden>
+    <fieldset class="filter_1">
+      <legend class="filter_1__legend"><%= l.filterLegend %></legend>
+      <div class="filter_1__options">
+        <% [{ id: "all", title: l.all, n: problemCount }].concat(avatarTips.problems.map((g) => ({ id: g.id, title: g.title[pageLocale], n: g.items.length }))).forEach(function (option) { %>
+          <label class="filter_1__option">
+            <input type="radio" name="tips-group" value="<%= option.id %>" class="js_tips_group"<% if (option.id === "all") { %> checked<% } %>>
+            <span><%= option.title %><span class="filter_1__count"><%= option.n %></span></span>
+          </label>
+        <% }); %>
+      </div>
+    </fieldset>
+    <div class="finder_1__search">
+      <label class="filter_1__legend" for="tips-search"><%= l.searchLabel %></label>
+      <input type="search" id="tips-search" class="finder_1__input js_tips_search" placeholder="<%= l.searchPlaceholder %>" autocomplete="off">
+    </div>
+    <p class="finder_1__count" aria-live="polite"><span class="js_tips_count"><%= l.count.replace("{n}", problemCount) %></span></p>
+  </div>
+
+  <% avatarTips.problems.forEach(function (group) { %>
+    <section class="finder_1__group js_tips_group_box" data-group="<%= group.id %>" aria-labelledby="find-<%= group.id %>">
+      <h3 class="finder_1__h" id="find-<%= group.id %>"><%= group.title[pageLocale] %></h3>
+      <ul class="finder_1__list">
+        <% group.items.forEach(function (item) { const a = bySlug(item.slug); %>
+          <li class="js_tips_item">
+            <a href="<%= prefix %>/avatar-tips/<%= item.slug %>/#<%= item.hash %>">
+              <span class="finder_1__q"><%= item.q[pageLocale] %></span>
+              <span class="finder_1__to"><%= l.no(a.no) %> <%= a.title[pageLocale] %></span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </section>
+  <% }); %>
+  <p class="finder_1__none js_tips_none" hidden><%= l.none %></p>
+</section>
+
+<section class="section_2" id="read" aria-labelledby="read-heading">
+  <h2 class="section_2__h1" id="read-heading"><%= l.readTitle %></h2>
+  <p class="section_2__lead"><%= l.readLead %></p>
+  <% avatarTips.parts.forEach(function (part, pi) {
+    const list = articles.filter((a) => a.part === part.id);
+    if (!list.length) return; %>
+    <section class="series_1__part" aria-labelledby="part-<%= part.id %>">
+      <h3 class="series_1__h" id="part-<%= part.id %>"><span class="series_1__partno"><%= l.part(pi + 1) %></span><%= part.title[pageLocale] %></h3>
+      <p class="series_1__lead"><%= part.lead[pageLocale] %></p>
+      <ol class="series_1" start="<%= list[0].no %>">
+        <% list.forEach(function (a) { %>
+          <li class="series_1__item">
+            <a href="<%= prefix %>/avatar-tips/<%= a.slug %>/">
+              <span class="series_1__no"><%= l.no(a.no) %></span>
+              <span class="series_1__title"><%= a.title[pageLocale] %></span>
+              <span class="series_1__desc"><%= a.desc[pageLocale] %></span>
+              <time class="series_1__date" datetime="<%= a.published %>"><%= dateLabel(a.published) %></time>
+            </a>
+          </li>
+        <% }); %>
+      </ol>
+    </section>
+  <% }); %>
+  <p class="section_2__note"><%= l.more %></p>
+</section>

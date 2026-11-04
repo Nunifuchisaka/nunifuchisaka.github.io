@@ -1,0 +1,348 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：Unity と VRChat で見た目が変わる（とくに FX の Animator が BlendShape を書き換えること）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+const article = avatarTips.articles.find((a) => a.slug === "unity-vs-vrchat");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+// 動く図の顔。v は eye_smile の値（0〜100）。0 で目を開き、100 で笑った目（への字）になる
+const eye = (x, v) => {
+  const r = v / 100;
+  return `<ellipse class="js_eye_open" cx="${x}" cy="48" rx="6" ry="${Math.max(0.4, 8 * (1 - r)).toFixed(2)}" fill="#3b2a24"/>`
+    + `<path class="js_eye_smile" d="M${x - 8} 51 Q${x} 39 ${x + 8} 51" fill="none" stroke="#3b2a24" stroke-width="3" stroke-linecap="round" opacity="${r.toFixed(2)}"/>`;
+};
+const face = (v) => `<svg class="demo_2__svg" viewBox="0 0 120 100" aria-hidden="true" focusable="false">`
+  + `<ellipse cx="60" cy="52" rx="44" ry="42" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + eye(42, v) + eye(78, v)
+  + `<path d="M50 72 Q60 80 70 72" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "Unity と VRChat で見た目が変わる",
+  lead: "Unity で整えたはずの表情や体の形が、VRChat に入ると元に戻っている。その多くは、FX の Animator が BlendShape（シェイプキー）の値を書き換えているためです。なぜ書き換わるのか、どこを見て、どう直すのかを解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "Unity で BlendShape を動かして表情を変えたのに、VRChat では元の顔に戻る。",
+    "服に合わせて体を縮めたのに、VRChat では体が服から突き抜ける。",
+    "ハンドサインを変えると、表情と一緒に、体の形や頬染めまで変わる。",
+    "一度ハンドサインで表情を変えると、手を戻しても表情が戻らない。",
+  ],
+  causesTitle: "見た目が変わるおもな理由",
+  causesLead: "Unity と VRChat で見た目が変わる理由は、いくつかあります。この記事では、いちばん多い 1 を詳しく扱います。",
+  causes: [
+    { head: "1. Animator が値を書き換える", body: "VRChat では、アバターの Animator（とくに FX）が動き、アニメーションに書かれた値で BlendShape などを毎フレーム上書きします。Unity の編集画面では Animator は動いていません。<strong>この記事の本題です。</strong>" },
+    { head: "2. VRChat が動かす BlendShape", body: "まばたきと口の形（Viseme）は VRChat が動かします。VRC Avatar Descriptor の Eye Look や Lip Sync に設定した BlendShape は、Unity で値を入れても上書きされます。" },
+    { head: "3. 揺れもの（PhysBone）", body: "Unity の編集中は揺れものが動かないので、髪やスカートは作ったときの形のままです。VRChat では重力などで形が変わります。Unity で再生すると動きます。" },
+    { head: "4. 明るさと色", body: "Unity のシーンのライトと、ワールドのライトは違います。ワールドによって、明るさや色、影の出方が変わります。" },
+    { head: "5. 見る人の設定と機器", body: "見る人のセーフティ設定でシェーダーが止められると、別の見た目になります。Quest やスマホでは、対応版のアバターか、代わりの姿で見えます。" },
+    { head: "6. 描く順番", body: "半透明のパーツは、ワールドの半透明の物と重なると、描く順番で見え方が変わります。", link: { href: `${prefix}/avatar-tips/render-queue/`, text: "" + tipNo("render-queue") + " Render Queue" } },
+  ],
+  editorTitle: "Unity の編集画面では、Animator が動いていない",
+  editor: [
+    "Unity で再生していないときに見えているのは、Skinned Mesh Renderer の BlendShapes の欄に入れた値そのものです。Animator は動いていません。",
+    "VRChat でアバターを読み込むと、Animator が動き出します。Animator は、いま入っているステートのアニメーション（クリップ）に書かれた値を、<strong>毎フレーム</strong>上から書き込みます。Unity で入れた値は、そのたびに上書きされます。",
+    "つまり、<strong>どこかのクリップに書かれている BlendShape は、Animator が値を決めます</strong>。Skinned Mesh Renderer の値がそのまま見えるのは、Animator がその BlendShape に何も書かないときだけです。",
+  ],
+  route: [
+    { head: "Unity で入れた値", note: "Skinned Mesh Renderer の eye_smile = 60" },
+    { head: "VRChat で読み込む", note: "Animator が動き出す" },
+    { head: "FX の Idle ステート", note: "クリップが eye_smile = 0 と書く" },
+    { head: "見た目", note: "eye_smile = 0（Unity と違う）" },
+  ],
+  inspectorMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Skinned Mesh Renderer の BlendShapes）。名前は例です",
+    screens: [{
+      bar: "Inspector › Body（Skinned Mesh Renderer）",
+      label: "Skinned Mesh Renderer の BlendShapes の再現図。1 eye_smile 60、mouth_smile 0、2 shrink_chest 100",
+      rows: [
+        { type: "head", text: "▼ BlendShapes" },
+        { mark: 1, label: "eye_smile", type: "slider", value: 60, text: "60", hot: true },
+        { label: "mouth_smile", type: "slider", value: 0, text: "0" },
+        { mark: 2, label: "shrink_chest", type: "slider", value: 100, text: "100" },
+      ],
+    }],
+    notes: [
+      "表情を変えたくて入れた値です。FX のクリップが eye_smile を書いていると、VRChat ではその値になります。",
+      "服に合わせて体を縮めた値です。服のオンオフのクリップが shrink_chest を書いていると、VRChat ではその値になります。",
+    ],
+  },
+  wdTitle: "Write Defaults で変わること",
+  wd: [
+    "Animator は、コントローラーのどこかのクリップに出てくるプロパティを、すべて受け持ちます。いまのステートのクリップにそのプロパティがあれば、その値を書きます。<strong>クリップに無いときに何を書くか</strong>を決めるのが、ステートの <code>Write Defaults</code> です。",
+  ],
+  wdTableLabel: "Write Defaults と、書かれる値",
+  wdHead: ["", "Write Defaults が ON", "Write Defaults が OFF"],
+  wdRows: [
+    ["クリップに書いてある", "クリップの値", "クリップの値"],
+    ["クリップに書いていない", "既定値（読み込んだときの値。つまり、アップロードしたときに Unity で入れていた値）", "何も書かない（直前に書かれた値が残る）"],
+  ],
+  wd2: [
+    "Write Defaults が OFF のアバターでは、ハンドサインで変えた表情が残らないように、何もしていないとき（Idle）のステートに、<strong>表情の BlendShape をすべて 0 にするクリップ</strong>を置いていることがよくあります。このクリップが、Unity で入れた値も 0 に戻します。",
+    "同じ BlendShape を複数のレイヤーが書くときは、下にあるレイヤーが優先されます。",
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "Unity で入れた値、Write Defaults、いまのステートを変えて、VRChat での見た目がどうなるかを見てみてください。値を変えると、アップロードし直したものとして最初から数えます。",
+  demo: {
+    unity: "Unity（編集中）",
+    vrc: "VRChat",
+    slider: "Unity で入れた eye_smile",
+    wd: "Write Defaults",
+    state: "いまのステート",
+    states: [
+      { value: "reset", clip: "0", text: "Idle（eye_smile を 0 と書くクリップ）" },
+      { value: "empty", clip: "", text: "Idle（eye_smile を書かないクリップ）" },
+      { value: "smile", clip: "100", text: "笑顔のハンドサイン（eye_smile を 100 と書く）" },
+    ],
+    clip: "いまのステートのクリップが eye_smile を {c} と書いているので、Write Defaults に関係なく {c} になります。",
+    on: "いまのステートのクリップに eye_smile が無く、Write Defaults が ON なので、既定値（Unity で入れた {u}）を書きます。",
+    off: "いまのステートのクリップに eye_smile が無く、Write Defaults が OFF なので、何も書きません。直前の値（{v}）が残ります。",
+    same: "Unity と同じ見た目です。",
+    diff: "Unity と違う見た目です（Unity では {u}、VRChat では {v}）。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "変えた表情が元に戻る",
+      symptom: "Unity で目や口の BlendShape を動かして、いつもの表情を変えた。VRChat では元の表情に戻る。",
+      cause: "FX の Idle ステート（何もしていないときのステート）のクリップが、その BlendShape を書いています。",
+      fix: "そのクリップの値を、Unity で入れた値に変えます。Write Defaults が ON なら、クリップからその行を消す方法もあります。" },
+    { title: "縮めた体が服から突き抜ける",
+      symptom: "服に合わせて体の BlendShape（縮小用）を動かした。VRChat では体が元の形に戻り、服から突き抜ける。",
+      cause: "服をオンオフするクリップが、体の縮小の BlendShape も書いています（たとえば服がオンのとき 100、オフのとき 0）。いまのステートのクリップの値が使われます。",
+      fix: "服のオンオフのクリップで、縮小の値を合わせます。服がオンのときのクリップに、Unity で入れた値を書きます。" },
+    { title: "ハンドサインで関係ないところまで変わる",
+      symptom: "ハンドサインで表情を変えると、体の形や頬染めまで変わる。",
+      cause: "表情のクリップに、表情と関係ない BlendShape の行が入っています。",
+      fix: "表情のクリップから、関係ない行を消します。Write Defaults が OFF のときは、消したあとに値が残らないかも確かめます。" },
+    { title: "表情が戻らない",
+      symptom: "ハンドサインで表情を変えたあと、手を戻しても表情が戻らない。",
+      cause: "Write Defaults が OFF で、Idle のクリップにその BlendShape が無いため、ハンドサインで書いた値が残っています。",
+      fix: "Idle のクリップに、その BlendShape をいつもの値で書く行を足します。" },
+  ],
+  findTitle: "原因のクリップを探す",
+  findLead: "まず、Unity で再生して、VRChat と同じことが起きるかを見ます。VRChat Creator Companion から入れられる Gesture Manager を使うと、Unity で再生したときに Animator が動き、ハンドサインも試せます。再生して値が戻れば、原因は Animator です。",
+  find: [
+    "Hierarchy でアバターを選び、Inspector の VRC Avatar Descriptor の「Playable Layers」で、FX に入っているコントローラーを確かめます。",
+    "そのコントローラーをダブルクリックして、Animator ウィンドウで開きます。左の Layers に、レイヤーが並びます。",
+    "レイヤーを1つずつ選び、オレンジ色のステート（最初に入るステート）をクリックします。Inspector の Motion に、そのステートのクリップが出ます。",
+    "クリップを選び、Animation ウィンドウ（<code>Window → Animation → Animation</code>）で中身を見ます。<code>Body : Blend Shape.eye_smile</code> のような行があれば、そのクリップがその BlendShape を書いています。",
+    "ハンドサインやメニューで入るステートも、同じように見ます。",
+  ],
+  animMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Animation ウィンドウ（Idle のクリップの中身）。名前は例です",
+    screens: [{
+      bar: "Animation › Idle_reset",
+      label: "Animation ウィンドウの再現図。Idle_reset のクリップに、1 Body : Blend Shape.eye_smile 0、Body : Blend Shape.mouth_smile 0、2 Body : Blend Shape.shrink_chest 0 の行がある",
+      rows: [
+        { mark: 1, label: "Body : Blend Shape.eye_smile", type: "value", text: "0", hot: true },
+        { label: "Body : Blend Shape.mouth_smile", type: "value", text: "0" },
+        { mark: 2, label: "Body : Blend Shape.shrink_chest", type: "value", text: "0" },
+      ],
+    }],
+    notes: [
+      "Unity で 60 にした eye_smile を、このクリップが 0 と書いています。VRChat で Idle にいる間は、eye_smile は 0 になります。",
+      "表情と関係ない体の BlendShape が入っていることもあります。Write Defaults が ON なら、この行を消すと Unity で入れた値に戻ります。",
+    ],
+  },
+  fixTitle: "直し方",
+  fix: [
+    "直す前に、元に戻せるようにしておきます。クリップを複製しておくか、アバターのフォルダを書き出しておきます。",
+    "原因のクリップを Animation ウィンドウで開き、その BlendShape の行の値を、Unity で入れた値に変えます。キーが2つ以上あるときは、すべて変えます。",
+    "書かなくてよい BlendShape なら、その行を右クリックして <code>Remove Properties</code> で消します。Write Defaults が ON なら、Unity で入れた値が使われるようになります。OFF のときは前の値が残ることがあるので、消さずに値を直します。",
+    "Gesture Manager で再生して、ハンドサインやメニューを一通り試し、値が戻らないかを確かめます。",
+    "アップロードして、VRChat でも確かめます。",
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "Unity で BlendShape を変えるだけでは、Animator が書く値には勝てません。服を着せるツールなどで BlendShape を変えたときも同じです。",
+    "表情を作るツールを使っているときは、ツールの側で、いつもの表情を変えます。FX を直接直しても、ツールで作り直すと戻ります。",
+    "アバターの更新を入れると、直したクリップが元に戻ることがあります。更新のあとは、もう一度確かめてください。",
+    "同じコントローラーの中で、Write Defaults の ON と OFF を混ぜないでください。どの値が残るのか分かりにくくなります。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "Unity の編集画面では Animator が動いておらず、VRChat では動きます。",
+    "どこかのクリップに書かれている BlendShape は、Unity で入れた値ではなく、Animator が値を決めます。",
+    "クリップに無いときは、Write Defaults が ON なら Unity で入れた値、OFF なら直前の値になります。",
+    "Gesture Manager で再生して確かめ、原因のクリップの値を直します。",
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "causes", title: l.causesTitle },
+  { id: "editor", title: l.editorTitle },
+  { id: "write-defaults", title: l.wdTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "find", title: l.findTitle },
+  { id: "fix", title: l.fixTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="causes" aria-labelledby="causes-heading">
+    <h2 class="section_2__h1" id="causes-heading"><%= l.causesTitle %></h2>
+    <p class="article_1__p"><%= l.causesLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.causes.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %><% if (item.link) { %> <a href="<%= item.link.href %>"><%= item.link.text %></a><% } %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="editor" aria-labelledby="editor-heading">
+    <h2 class="section_2__h1" id="editor-heading"><%= l.editorTitle %></h2>
+    <% l.editor.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="route_1">
+      <% l.route.forEach(function (step, i) { %>
+        <li class="route_1__step<% if (i === l.route.length - 1) { %> is_ng<% } %>"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.inspectorMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="write-defaults" aria-labelledby="write-defaults-heading">
+    <h2 class="section_2__h1" id="write-defaults-heading"><%= l.wdTitle %></h2>
+    <% l.wd.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.wdTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.wdHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.wdRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.wd2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_shape_demo"
+      data-clip="<%= l.demo.clip %>" data-on="<%= l.demo.on %>" data-off="<%= l.demo.off %>"
+      data-same="<%= l.demo.same %>" data-diff="<%= l.demo.diff %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.unity %></p>
+          <div class="js_shape_face" data-face="unity"><%- face(60) %></div>
+          <p class="demo_2__num">eye_smile <span class="js_shape_num" data-face="unity">60</span></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.vrc %></p>
+          <div class="js_shape_face" data-face="vrc"><%- face(0) %></div>
+          <p class="demo_2__num">eye_smile <span class="js_shape_num" data-face="vrc">0</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="shape-unity"><%= l.demo.slider %></label> <output class="demo_1__value" for="shape-unity">60</output></p>
+          <input type="range" min="0" max="100" step="10" value="60" id="shape-unity" class="js_shape_unity">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.wd %></legend>
+          <label><input type="radio" name="shape-wd" value="on" class="js_shape_wd" checked> ON</label>
+          <label><input type="radio" name="shape-wd" value="off" class="js_shape_wd"> OFF</label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.state %></legend>
+          <% l.demo.states.forEach(function (s, i) { %>
+            <label><input type="radio" name="shape-state" value="<%= s.value %>" data-clip="<%= s.clip %>" class="js_shape_state"<% if (i === 0) { %> checked<% } %>> <%= s.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_shape_why"><%= l.demo.clip.replace(/\{c\}/g, "0") %></p>
+        <p class="demo_1__result is_ng js_shape_result"><%= l.demo.diff.replace("{u}", "60").replace("{v}", "0") %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%= c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="find" aria-labelledby="find-heading">
+    <h2 class="section_2__h1" id="find-heading"><%= l.findTitle %></h2>
+    <p class="article_1__p"><%= l.findLead %></p>
+    <ol class="steps_1">
+      <% l.find.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+    <%- include("_mock", { mock: l.animMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="fix" aria-labelledby="fix-heading">
+    <h2 class="section_2__h1" id="fix-heading"><%= l.fixTitle %></h2>
+    <ol class="steps_1">
+      <% l.fix.forEach(function (step) { %><li><%- step %></li><% }); %>
+    </ol>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

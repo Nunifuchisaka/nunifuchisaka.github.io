@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../";
+const meta = {
+  title: "お気に入りワールド",
+  description: "ぬにふちさかが好きなVRChatのワールドや、初心者案内でよく行くワールドの紹介。",
+  url: "worlds/",
+  altUrl: "en/worlds/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"worlds"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_worlds") %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

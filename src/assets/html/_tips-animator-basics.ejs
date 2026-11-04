@@ -1,0 +1,591 @@
+<%
+const pageLocale = typeof locale !== "undefined" ? locale : "ja";
+const isEn = pageLocale === "en";
+const prefix = isEn ? "/en" : "";
+// アバター改変の解説：Animator のしくみ（Playable Layers、コントローラー・レイヤー・ステート・トランジション、パラメーター、Expressions Menu）
+// 本文の文字列は code や strong の HTML を含むので、エスケープせずに出す。再現図（_mock）は本物の画面写真ではない
+// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
+// 事実は VRChat の Playable Layers・Animator Parameters・Expressions Menu and Controls のページ（2026年11月時点）による
+const article = avatarTips.articles.find((a) => a.slug === "animator-basics");
+const tip = (slug) => avatarTips.articles.find((a) => a.slug === slug);
+const tipNo = (slug) => `第${tip(slug).no}回`;
+// ほかの回へのリンク。hash は記事の中の節の id
+const tipLink = (slug, hash) => `<a href="${prefix}/avatar-tips/${slug}/${hash ? `#${hash}` : ""}">${tipNo(slug)} ${tip(slug).title.ja}</a>`;
+const [py, pm, pd] = article.published.split("-").map(Number);
+const published = `${py}年${pm}月${pd}日`;
+
+// 動く図の絵。Animator のグラフ（Hat_OFF と Hat_ON の2つのステート）と、帽子をかぶった顔
+// 絵なので、ライトでもダークでも同じ色にする。いまのステートは青で塗る（色は animator-basics-demo.js と同じ）
+const stateBox = (key, x, name, on) => `<rect class="js_ab_state" data-state="${key}" x="${x}" y="40" width="72" height="34" rx="6" fill="${on ? "#4c7fbf" : "#e9edf2"}" stroke="#4a5a6e" stroke-width="1.5"/>`
+  + `<text class="js_ab_state_text" data-state="${key}" x="${x + 36}" y="61" text-anchor="middle" font-size="12" font-weight="700" font-family="sans-serif" fill="${on ? "#fff" : "#1b2a3a"}">${name}</text>`;
+const graph = `<svg class="demo_2__svg" viewBox="0 0 200 110" aria-hidden="true" focusable="false">`
+  + stateBox("off", 6, "Hat_OFF", true) + stateBox("on", 122, "Hat_ON", false)
+  + `<path d="M78 50 H116" stroke="#4a5a6e" stroke-width="2"/><polygon points="122,50 115,46 115,54" fill="#4a5a6e"/>`
+  + `<path d="M122 64 H84" stroke="#4a5a6e" stroke-width="2"/><polygon points="78,64 85,60 85,68" fill="#4a5a6e"/>`
+  + `<text class="js_ab_cond" data-value="true" x="100" y="34" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#1b2a3a">Hat = true</text>`
+  + `<text class="js_ab_cond" data-value="false" x="100" y="88" text-anchor="middle" font-size="10" font-family="sans-serif" fill="#1b2a3a">Hat = false</text>`
+  + `</svg>`;
+const hatFace = (show) => `<svg class="demo_2__svg" viewBox="0 0 120 104" aria-hidden="true" focusable="false">`
+  + `<ellipse cx="60" cy="62" rx="40" ry="38" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/>`
+  + `<ellipse cx="45" cy="62" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="75" cy="62" rx="5" ry="7" fill="#3b2a24"/>`
+  + `<path d="M50 82 Q60 89 70 82" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/>`
+  + `<g class="js_ab_hat" opacity="${show ? 1 : 0}"><rect x="36" y="4" width="48" height="30" rx="6" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/>`
+  + `<ellipse cx="60" cy="34" rx="48" ry="8" fill="#6f8fd6" stroke="#34508f" stroke-width="2"/></g>`
+  + `</svg>`;
+
+const l = {
+  series: `アバター改変の解説 第${article.no}回`,
+  title: "Animator のしくみ",
+  lead: "メニューを押すと、帽子が出る。ハンドサインをすると、表情が変わる。そのあいだには、パラメーター、Animator、ステート、トランジション、アニメーションクリップという部品が順に動いています。自分でギミックを作る前に、それぞれの役目と、どこで設定するのかを解説します。",
+  meta: "対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。",
+  publishedLabel: "公開",
+  tocLabel: "目次",
+  whenTitle: "こんなときに読んでください",
+  when: [
+    "自分でギミックを作ってみたいが、Animator を開いても何がなんだか分からない。",
+    "FX、Gesture などの名前は見たことがあるが、違いが分からない。",
+    "パラメーターとメニューと Animator が、どうつながっているのか知りたい。",
+    "配布されているギミックを入れたが、中で何が起きているのか分からない。",
+  ],
+  pictureTitle: "メニューを押してから、見た目が変わるまで",
+  picture: [
+    "VRChat のアバターのギミックは、ほとんどが同じ流れで動きます。この回では、メニューで帽子を出し入れするギミックを例にします。名前は例です。",
+  ],
+  route: [
+    { head: "メニューを押す", note: "Expressions Menu の Toggle「帽子」" },
+    { head: "パラメーターが変わる", note: "Hat が false から true に" },
+    { head: "トランジションの条件を満たす", note: "条件は「Hat が true」" },
+    { head: "ステートが変わる", note: "Hat_OFF から Hat_ON に" },
+    { head: "クリップの値が書かれる", note: "帽子の Is Active を 1 に" },
+    { head: "見た目が変わる", note: "帽子が出る" },
+  ],
+  picture2: [
+    "<strong>メニューは、パラメーターの値を変えるだけです。</strong>見た目は変えません。見た目を変えるのは、Animator が再生するアニメーションクリップです。メニューと Animator は、パラメーターの<strong>名前</strong>でつながっています。",
+    "ハンドサインや、触れたことで動くギミックも同じです。最初の「メニューを押す」が「手の形が変わる」「頭に手が触れる」に変わるだけで、パラメーターから先は同じ流れです。",
+    `ギミックが動かないときは、この流れのどこで止まっているかを、左から順に確かめます。確かめ方は${tipLink("gimmick-debug", "order")}で解説します。`,
+  ],
+  wordsTitle: "この回で出てくる言葉",
+  wordsLead: "はじめに、言葉の意味をそろえておきます。Unity の画面の表記は英語のままにしています。",
+  words: [
+    { head: "Animator（アニメーター）", body: "パラメーターを見て、いまどのアニメーションを再生するかを決めるしくみです。アバターのいちばん上に付いている Animator コンポーネントが、これを動かします。" },
+    { head: "Animator Controller（コントローラー）", body: "Animator の中身を入れたファイルです。拡張子は <code>.controller</code>。中に、レイヤー、ステート、トランジション、パラメーターが入っています。" },
+    { head: "Playable Layers", body: "VRChat がアバターに用意している、コントローラーを入れる枠です。FX、Gesture などがあります。" },
+    { head: "レイヤー", body: "コントローラーの中の段です。ギミック1つにつき1つ作ることが多いです。Playable Layers とは別のものです。" },
+    { head: "ステート", body: "「帽子が出ている」のような、いまの状態を表す箱です。1つのステートに、1つのクリップを入れます。" },
+    { head: "トランジション", body: "ステートからステートへの矢印です。条件を満たすと、矢印の先のステートへ移ります。" },
+    { head: "パラメーター", body: "Animator が見る値です。Bool（オンかオフ）、Int（整数）、Float（小数）があります。" },
+    { head: "アニメーションクリップ", body: `どのオブジェクトの何を、どの値にするかを書いたファイルです。拡張子は <code>.anim</code>。作り方は${tipLink("animation-clip")}で解説します。` },
+    { head: "Expression Parameters", body: "VRChat に、アバターで使うパラメーターを知らせる一覧です。値を覚えておくか、ほかの人に送るかも、ここで決めます。" },
+    { head: "Expressions Menu", body: "VRChat の中で開くメニュー（Action Menu）の中身です。項目を押すと、パラメーターの値が変わります。" },
+  ],
+  layersTitle: "Playable Layers の役目",
+  layers: [
+    "VRChat のアバターには、コントローラーを入れる枠が5つあります。これを Playable Layers と呼びます。Hierarchy でアバター（VRC Avatar Descriptor が付いたもの）を選び、Inspector の VRC Avatar Descriptor の「Playable Layers」で見られます。",
+    "5つの枠は、Base、Additive、Gesture、Action、FX の順に重ねて使われます。同じものを2つの枠が動かすときは、あと（FX に近いほう）が勝ちます。",
+  ],
+  layerItems: [
+    { head: "Base", body: "歩く、走る、しゃがむなど、移動の動きです。骨（Transform）だけを動かします。ふつうは変えません。" },
+    { head: "Additive", body: "Base の動きに足す動きです。呼吸の動きなど。Humanoid の骨だけを動かします。ふつうは変えません。" },
+    { head: "Gesture", body: "ハンドサインのときの指の形や、しっぽ・耳の動きです。骨だけを動かします。" },
+    { head: "Action", body: "エモートなど、体全体を動かす動きです。ふだんは効いていない（Weight が 0）枠で、使うときだけ効かせます。" },
+    { head: "FX", body: "骨の動き以外のすべてです。オブジェクトのオンオフ、BlendShape（表情や体の形）、マテリアルなど。<strong>自分で作るギミックは、ほとんどがここに入ります。</strong>" },
+    { head: "Sitting・TPose・IKPose", body: "座ったときの動きや、体の大きさ・関節の曲がり方を測るためのポーズです。Playable Layers の下に並んでいます。ふつうは変えません。" },
+  ],
+  layers2: [
+    "見た目を FX で動かすのには、理由があります。FX 以外の枠で動かした BlendShape やマテリアルは、鏡に映る自分（ミラーの中のアバター）に写されません。FX で動かしたものは、すべて写されます。",
+    `反対に、Humanoid の骨（腕、脚、頭、指など）は、FX では動きません。手の形やポーズは Gesture や Action で動かします。ハンドサインで表情を変えるときも、表情（BlendShape）は FX、指の形は Gesture、と分かれます。くわしくは${tipLink("gesture", "layers")}で解説します。`,
+    "Humanoid ではない（Generic の）アバターには、Base、Action、FX の3つの枠だけがあります。",
+  ],
+  descriptorMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（VRC Avatar Descriptor の Playable Layers）。名前は例です。並びと表示は簡単にしています",
+    screens: [{
+      bar: "Inspector › Avatar_A（VRC Avatar Descriptor）",
+      label: "VRC Avatar Descriptor の Playable Layers の再現図。Base、Additive、Action は Default、1 Gesture に Gesture_Avatar_A、2 FX に FX_Avatar_A が入っている",
+      rows: [
+        { type: "head", text: "▼ Playable Layers" },
+        { label: "Base", type: "select", text: "Default" },
+        { label: "Additive", type: "select", text: "Default" },
+        { mark: 1, label: "Gesture", type: "select", text: "Gesture_Avatar_A (Animator Controller)" },
+        { label: "Action", type: "select", text: "Default" },
+        { mark: 2, label: "FX", type: "select", text: "FX_Avatar_A (Animator Controller)", hot: true },
+      ],
+    }],
+    notes: [
+      "Gesture の枠です。ハンドサインのときの指の形を作るコントローラーが入っています。「Default」のままの枠は、VRChat の標準のコントローラーが使われます。",
+      "FX の枠です。買ったアバターには、表情などのためのコントローラーが、たいてい最初から入っています。欄をクリックすると Project ウィンドウでそのファイルが光り、ダブルクリックすると Animator ウィンドウで開けます。",
+    ],
+  },
+  controllerTitle: "コントローラー・レイヤー・ステート・トランジション",
+  controller: [
+    "コントローラーの中を見るのは、Animator ウィンドウです。<code>Window → Animation → Animator</code> で開き、Project ウィンドウでコントローラーのファイルを選ぶ（またはダブルクリックする）と、中身が出ます。",
+    "自分で作るときは、Project ウィンドウのフォルダで右クリックして、<code>Create → Animator Controller</code> を選びます。ギミックごとに1つ作っておくと、あとで Modular Avatar でアバターにつなぎやすくなります。",
+    "Animator ウィンドウの左上には、<code>Layers</code> と <code>Parameters</code> の2つのタブがあります。Layers を選ぶとレイヤーが並び、選んだレイヤーのステートとトランジションが、右の広いところ（グラフ）に出ます。",
+  ],
+  parts: [
+    { head: "レイヤー", body: "ギミックごとに分けた段です。左上の <code>+</code> で足します。上から順に計算され、同じものを書くときは<strong>下のレイヤーが勝ちます</strong>。いちばん上の Base Layer 以外は、足したときの Weight（効き具合）が 0 です。レイヤーの右の歯車を押して、Weight を 1 にします。0 のままだと、ステートは切り替わっても、見た目に出ません。" },
+    { head: "ステート", body: "「帽子が消えている」「帽子が出ている」のような状態を表す箱です。グラフの何もないところを右クリックして <code>Create State → Empty</code> で作るか、クリップのファイルをグラフにドラッグして作ります。ステートを選ぶと、Inspector の <code>Motion</code> に、そのとき再生するクリップが出ます。" },
+    { head: "Default State（オレンジ色のステート）", body: "レイヤーが動き出したときに、最初に入るステートです。最初に作ったステートがオレンジ色になります。ステートを右クリックして <code>Set as Layer Default State</code> で変えられます。オンオフなら、ふだんの姿（帽子が消えている）を Default にします。" },
+    { head: "トランジション", body: "ステートからステートへの矢印です。ステートを右クリックして <code>Make Transition</code> を選び、行き先のステートをクリックすると引けます。矢印を選ぶと、Inspector に移るときの設定と <code>Conditions</code>（条件）が出ます。" },
+    { head: "Entry・Any State・Exit", body: "Entry は入り口で、Default State へつながっています。Any State は「いまどのステートにいても」という意味で、ここから引いた矢印は、条件を満たせばどこからでも移ります。Exit は出口です。オンオフのギミックは、Any State と Exit を使わずに作れます。" },
+  ],
+  animatorMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Animator ウィンドウ（帽子を出し入れするコントローラー）。名前は例です。グラフは文字の並びに直しています",
+    screens: [
+      {
+        bar: "Animator › Hat_FX",
+        tabs: ["Layers", "Parameters"],
+        activeTab: 0,
+        label: "Animator ウィンドウの Layers タブの再現図。Base Layer と、1 足したレイヤー Hat がある",
+        rows: [
+          { label: "Base Layer", type: "text", text: "⚙" },
+          { mark: 1, label: "Hat", type: "text", text: "⚙", hot: true },
+        ],
+      },
+      {
+        bar: "Hat のレイヤーの設定（歯車）",
+        label: "レイヤーの設定の再現図。2 Weight を 1 にしている。Mask は None、Blending は Override",
+        rows: [
+          { mark: 2, label: "Weight", type: "slider", value: 100, text: "1", hot: true },
+          { label: "Mask", type: "select", text: "None (Avatar Mask)" },
+          { label: "Blending", type: "select", text: "Override" },
+        ],
+      },
+      {
+        bar: "グラフ（Hat のレイヤー）",
+        label: "Hat のレイヤーのグラフの再現図。Entry から 3 Default State の Hat_OFF へ。4 Hat_OFF から Hat_ON へは Hat が true のとき、Hat_ON から Hat_OFF へは Hat が false のとき移る",
+        rows: [
+          { label: "Entry", type: "text", text: "→ Hat_OFF" },
+          { mark: 3, label: "Hat_OFF", type: "text", text: "Default State", hot: true },
+          { label: "Hat_ON", type: "text" },
+          { mark: 4, label: "Hat_OFF → Hat_ON", type: "text", text: "Hat true" },
+          { label: "Hat_ON → Hat_OFF", type: "text", text: "Hat false" },
+        ],
+      },
+    ],
+    notes: [
+      "ギミック1つにつき、レイヤーを1つ足します。左上の + を押し、名前（ここでは Hat）を付けます。",
+      "レイヤーの右の歯車を押すと出ます。足したばかりのレイヤーは Weight が 0 です。必ず 1 にします。",
+      "オレンジ色のステートから始まります。帽子が消えている Hat_OFF を Default にしています。",
+      "矢印を選ぶと、Inspector に条件が出ます。行きは Hat が true、帰りは Hat が false のときに移ります。",
+    ],
+  },
+  transTableLabel: "トランジションのおもな設定",
+  transHead: ["設定", "意味", "オンオフのギミックでは"],
+  transRows: [
+    ["Has Exit Time", "チェックが入っていると、いまのクリップを決まった時間（Exit Time）まで再生してから移ります。", "外します。すぐに移るようにします。"],
+    ["Transition Duration", "前のステートから次のステートへ、混ぜながら移る長さです。Fixed Duration にチェックがあれば秒、無ければクリップの長さに対する割合です。", "0 にします。パッと切り替わるようにします。"],
+    ["Conditions", "移る条件です。+ で足し、パラメーターと値を選びます。いくつか足すと、すべてを満たしたときに移ります。", "行きは Hat が true、帰りは Hat が false。"],
+    ["Can Transition To Self", "Any State から引いた矢印にだけある設定です。チェックがあると、条件を満たしている間、同じステートに何度も入り直します。", "Any State を使うときは、たいてい外します。"],
+  ],
+  controller2: [
+    `トランジションの設定を1つずつ決める手順は、${tipLink("toggle", "transitions")}で解説します。`,
+    `作ったコントローラーをアバターで動かすには、アバターの FX の枠に入っているコントローラーに足す必要があります。Modular Avatar の <strong>MA Merge Animator</strong> を使うと、買ったアバターの FX のファイルを書き換えずに、アップロードするときに自動で足してくれます。この連載では、この方法をおすすめします。手順は${tipLink("toggle", "connect")}で解説します。`,
+  ],
+  paramsTitle: "パラメーター（Animator と Expression Parameters）",
+  params: [
+    "パラメーターは、Animator が見る値です。トランジションの条件や、Blend Tree（値に合わせてクリップを混ぜるしくみ）に使います。",
+    "パラメーターは、2か所に書きます。1つは、コントローラーの <code>Parameters</code> タブ（Animator が見る値）です。もう1つは、VRChat の <strong>Expression Parameters</strong>（メニューから変えられて、覚えておいたり、ほかの人に送ったりする値）です。<strong>この2つは、名前でつながります。</strong>名前は、大文字と小文字まで同じにします。<code>Hat</code> と <code>hat</code> は別のパラメーターです。",
+    "Animator にパラメーターを足すには、Animator ウィンドウの <code>Parameters</code> タブを開き、<code>+</code> を押して型（<code>Bool</code> など）を選び、名前を入れます。Expression Parameters のファイルは、Project ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expression Parameters</code> で作れます。買ったアバターには、たいてい最初から入っています。",
+  ],
+  typesTableLabel: "パラメーターの型",
+  typesHead: ["型", "入る値", "同期に使う量", "よく使うギミック"],
+  typesRows: [
+    ["Bool", "true（オン）か false（オフ）", "1 bit", `小物や服の出し入れ。${tipLink("toggle")}`],
+    ["Int", "0〜255 の整数", "8 bit", `何着かから1つを選ぶ。${tipLink("radial", "int")}`],
+    ["Float", "-1.0〜1.0 の小数（Radial Puppet では 0.0〜1.0）", "8 bit", `色や大きさを、回して少しずつ変える。${tipLink("radial", "float")}`],
+    ["Trigger（Animator だけ）", "一瞬だけ true になる", "—", "VRChat の公式は、使わないようにすすめています。Bool・Int・Float を使います。"],
+  ],
+  params2: [
+    "Animator の型は、Expression Parameters の型と同じにするのが基本です。違う型にすると、VRChat が変換します。たとえば、Expression Parameters で Bool のパラメーターを、Animator で Float として受けると、true は 1.0、false は 0.0 になります。オンオフを Blend Tree で扱いたいときに使えます。",
+    "Expression Parameters には、パラメーターごとに次の設定があります。",
+  ],
+  paramOpts: [
+    { head: "Default", body: "アバターを読み込んだときや、リセットしたときの値です。帽子をはじめはかぶっていないなら、false にします。" },
+    { head: "Saved", body: "チェックを入れると、ワールドを移ったり、アバターを着替えたりしても、値を覚えておきます。外すと、そのたびに Default に戻ります。" },
+    { head: "Synced", body: "チェックを入れると、値がほかの人に送られます。外すと自分にだけ変わり、ほかの人には変わって見えません。" },
+  ],
+  params3: [
+    "同期する（Synced にチェックがある）パラメーターは、合計で 256 bit までです。Bool は 1 bit、Int と Float は 8 bit を使います。",
+    `VRChat が値を入れてくれるパラメーターもあります（組み込みのパラメーター）。ハンドサインの <code>GestureLeft</code>・<code>GestureRight</code>、自分のアバターかどうかの <code>IsLocal</code> などです。これは Expression Parameters には書きません。Animator の Parameters に、同じ名前と型で足すだけで使えます。ハンドサインの番号は${tipLink("gesture", "numbers")}で解説します。`,
+    `Saved・Synced・Default を、ギミックに合わせて決める手順は${tipLink("toggle", "params")}で解説します。`,
+  ],
+  paramsMock: {
+    variant: "unity",
+    caption: "再現図：Animator ウィンドウの Parameters タブと、Expression Parameters の Inspector。名前は例です。並びは簡単にしています",
+    screens: [
+      {
+        bar: "Animator › Hat_FX",
+        tabs: ["Layers", "Parameters"],
+        activeTab: 1,
+        label: "Animator ウィンドウの Parameters タブの再現図。1 Bool のパラメーター Hat がある",
+        rows: [
+          { mark: 1, label: "Hat", type: "value", text: "Bool · false", hot: true },
+        ],
+      },
+      {
+        bar: "Inspector › ExParams_Avatar_A（Expression Parameters）",
+        label: "Expression Parameters の再現図。2 名前 Hat、型 Bool、Default はオフ、3 Saved にチェック、4 Synced にチェック",
+        rows: [
+          { type: "head", text: "Parameters" },
+          { mark: 2, label: "Name", type: "value", text: "Hat", hot: true },
+          { label: "Type", type: "select", text: "Bool" },
+          { type: "check", on: false, text: "Default" },
+          { mark: 3, type: "check", on: true, text: "Saved" },
+          { mark: 4, type: "check", on: true, text: "Synced" },
+        ],
+      },
+    ],
+    notes: [
+      "Animator の Parameters タブです。ここに無いパラメーターは、トランジションの条件に選べません。",
+      "Expression Parameters の名前です。Animator のパラメーターと、大文字小文字まで同じにします。名前をコピーして貼ると、まちがえにくくなります。",
+      "Saved：ワールドを移っても、値を覚えておきます。",
+      "Synced：値をほかの人に送ります。外すと、ほかの人からは変わって見えません。",
+    ],
+  },
+  menuTitle: "Expressions Menu",
+  menu: [
+    "Expressions Menu は、VRChat の中で開くメニュー（Action Menu）の中身です。メニューの項目（Control）は、押したり回したりすると、パラメーターの値を変えます。",
+    "VRC Avatar Descriptor の「Expressions」の欄に、Menu（メニューのファイル）と Parameters（Expression Parameters のファイル）を入れて使います。メニューのファイルは、Project ウィンドウで右クリックして <code>Create → VRChat → Avatars → Expressions Menu</code> で作れます。",
+    "1つのメニューに置ける項目は、8つまでです。それより多いときは、Sub Menu で別のメニューに分けます。",
+  ],
+  menuTableLabel: "メニューの項目の種類",
+  menuHead: ["種類", "すること", "使うパラメーター"],
+  menuRows: [
+    ["Toggle", "押すと Value の値を入れ、もう一度押すと元に戻します。", "Bool（Int・Float にも使えます）"],
+    ["Button", "押すと Value の値を入れ、少したつと（1秒ほどで）元に戻します。押したままにはできません。", "Bool・Int など"],
+    ["Sub Menu", "別のメニューを開きます。メニューの中に、さらにメニューを入れられます。", "使わなくてもよい"],
+    ["Two Axis Puppet", "スティックを倒した縦と横で、2つの Float を -1.0〜1.0 の間で変えます。", "Float 2つ"],
+    ["Four Axis Puppet", "上・右・下・左に倒した量で、4つの Float を 0.0〜1.0 の間で変えます。", "Float 4つ"],
+    ["Radial Puppet", "丸いメーターを回して、1つの Float を 0.0〜1.0 の間で変えます。", "Float 1つ"],
+  ],
+  menu2: [
+    "Toggle と Button の <code>Value</code> は、押したときにパラメーターへ入る値です。Bool なら 1 で true になります。Int なら番号です。たとえば Value が 2 なら、パラメーターが 2 になり、2番の服に切り替える、という作り方ができます。",
+  ],
+  menuMock: {
+    variant: "unity",
+    caption: "再現図：Unity の Inspector（Expressions Menu の項目）。名前は例です。並びは簡単にしています",
+    screens: [{
+      bar: "Inspector › Menu_Avatar_A（Expressions Menu）",
+      label: "Expressions Menu の項目の再現図。1 Name は 帽子、Icon は None、2 Type は Toggle、3 Parameter は Hat, Bool、Value は 1、Add Control のボタン",
+      rows: [
+        { type: "head", text: "Controls" },
+        { mark: 1, label: "Name", type: "value", text: "帽子" },
+        { label: "Icon", type: "select", text: "None (Texture 2D)" },
+        { mark: 2, label: "Type", type: "select", text: "Toggle" },
+        { mark: 3, label: "Parameter", type: "select", text: "Hat, Bool", hot: true },
+        { label: "Value", type: "value", text: "1" },
+        { type: "button", text: "Add Control" },
+      ],
+    }],
+    notes: [
+      "VRChat のメニューに出る名前です。日本語も使えます。",
+      "項目の種類です。オンオフなら Toggle にします。",
+      "値を変えるパラメーターです。Expression Parameters にあるパラメーターから選びます。",
+    ],
+  },
+  menu3: [
+    `Modular Avatar の <strong>MA Menu Item</strong> と <strong>MA Menu Installer</strong> を使うと、アバターのメニューのファイルを書き換えずに、項目を足せます。この連載では、こちらを使います（${tipLink("toggle", "menu")}）。`,
+    `服のオンオフだけなら、Modular Avatar の Create Toggle で、Animator を作らずに済ませる方法もあります（${tipLink("outfit", "menu")}）。この連載の回では、しくみが分かるように、Animator から自分で組みます。`,
+  ],
+  demoTitle: "動かして確かめる",
+  demoLead: "メニューの「帽子」を押したときに、パラメーター、ステート、クリップの順に何が起きるかを見てみてください。レイヤーの Weight と、Animator のパラメーター名も変えられます。帽子は、Unity でオフにしてアップロードしたものとします。",
+  demo: {
+    animator: "Animator（Hat のレイヤー）",
+    look: "見た目",
+    stateLabel: "いまのステート",
+    menuLegend: "メニュー",
+    menuText: "「帽子」（Toggle）をオンにする",
+    weight: "Hat のレイヤーの Weight",
+    name: "Animator のパラメーター名",
+    names: [
+      { value: "Hat", text: "Hat（Expression Parameters と同じ）" },
+      { value: "hat", text: "hat（h だけ小文字）" },
+    ],
+    paramSame: "メニューが Expression Parameters の Hat を {v} にしました。Animator にも同じ名前の Hat があるので、Animator の Hat も {v} です。",
+    paramDiff: "メニューが Expression Parameters の Hat を {v} にしました。Animator のパラメーターは hat なので別のものとして扱われ、hat は false のままです。",
+    stateOn: "Animator の {n} が true なので、Hat_OFF から Hat_ON への条件を満たし、ステートは Hat_ON です。",
+    stateOff: "Animator の {n} が false なので、ステートは Hat_OFF です。",
+    write1: "Weight が 1 なので、{s} のクリップが、帽子の Is Active を {a} と書きます。",
+    write0: "Weight が 0 なので、{s} にいても、このレイヤーの値は見た目に使われません。帽子は、アップロードしたときのまま（オフ）です。",
+    shown: "出ています",
+    hidden: "消えています",
+    ok: "メニューのとおり、帽子が{x}。",
+    ng: "メニューと違い、帽子が{x}。",
+    noJs: "図を動かすには、JavaScript を有効にしてください。",
+  },
+  casesTitle: "よくある困りごとと直し方",
+  caseLabels: { symptom: "起きること", cause: "原因", fix: "直し方" },
+  cases: [
+    { title: "ステートは変わるのに、見た目が変わらない",
+      symptom: "Unity で再生すると、Animator ウィンドウではステートが切り替わっている。でも、帽子は出ない。",
+      cause: "足したレイヤーの Weight が 0 のままです。Unity でレイヤーを足すと、Weight は 0 で作られます。",
+      fix: "Animator ウィンドウの Layers で、そのレイヤーの歯車を押し、Weight を 1 にします。" },
+    { title: "メニューを押しても、ステートが変わらない",
+      symptom: "メニューの項目を押しても、Animator のステートが Default のまま動かない。",
+      cause: "Expression Parameters と Animator で、パラメーターの名前が違います。大文字小文字の違いや、名前の最後の空白もよくあります。Animator にパラメーターを足し忘れていることもあります。",
+      fix: "Expression Parameters の名前をコピーして、Animator のパラメーター名に貼り直します。型もそろえます。" },
+    { title: "切り替わるのが遅れる・じわっと変わる",
+      symptom: "メニューを押してから、一拍おいて切り替わる。パッと変わらず、少しずつ変わる。",
+      cause: "トランジションの Has Exit Time にチェックが入っているか、Transition Duration が 0 ではありません。",
+      fix: `矢印を選び、Has Exit Time を外し、Transition Duration を 0 にします。${tipLink("toggle", "transitions")}も見てください。` },
+    { title: "手の形やポーズが動かない",
+      symptom: "FX のクリップで腕や指の形を作ったのに、VRChat では動かない。",
+      cause: "Humanoid の骨（筋肉）は、FX では動きません。",
+      fix: "手の形は Gesture、体全体の動きは Action のコントローラーで動かします。" },
+    { title: "鏡の中の自分だけ、表情が変わらない",
+      symptom: "自分の目で見ると表情が変わっているのに、鏡に映るアバターは変わらない。",
+      cause: "表情の BlendShape を、FX 以外の枠（Gesture など）で動かしています。FX 以外の枠の BlendShape やマテリアルは、鏡の中のアバターに写されません。",
+      fix: "表情などの見た目のクリップは、FX のコントローラーに移します。" },
+    { title: "自分には見えるのに、ほかの人には変わって見えない",
+      symptom: "自分の画面では帽子が出ているのに、フレンドからは見えていないと言われる。",
+      cause: "Expression Parameters で、そのパラメーターの Synced のチェックが外れています。",
+      fix: `Synced にチェックを入れて、アップロードし直します。ほかの原因は${tipLink("gimmick-debug", "checklist")}にまとめています。` },
+  ],
+  careTitle: "気をつけること",
+  care: [
+    "買ったアバターの FX のファイルを直接書き換えるときは、先に複製を取っておきます。できれば Modular Avatar で、自分のコントローラーを別に足します。アバターを更新しても、自分のギミックが消えません。",
+    "1つのコントローラーを、2つの枠（たとえば Gesture と FX）に入れないでください。VRChat の公式も、大きな問題の元になるとしています。",
+    "行き止まりのステートを作らないでください。パラメーターはいつでも変わります。行きの矢印を引いたら、帰りの矢印も引きます。",
+    `同じコントローラーの中で、Write Defaults の ON と OFF を混ぜないでください。オンのクリップとオフのクリップを両方作っておくと、どちらでも動きます（${tipLink("unity-vs-vrchat", "write-defaults")}）。`,
+    "パラメーターの名前は、何のギミックか分かる名前にします。ほかのギミックと同じ名前にすると、片方を動かしたときに、もう片方も動きます。",
+  ],
+  sumTitle: "まとめ",
+  sum: [
+    "メニューはパラメーターの値を変えるだけで、見た目を変えるのは Animator が再生するクリップです。",
+    "見た目（オンオフ、BlendShape、マテリアル）は FX で動かします。Humanoid の骨は FX では動きません。",
+    "コントローラーの中は、レイヤー、ステート、トランジションでできています。足したレイヤーは Weight を 1 にします。",
+    "Animator のパラメーターと Expression Parameters は、名前でつながります。大文字小文字までそろえます。",
+    `次は、ステートに入れるクリップを作ります（${tipLink("animation-clip")}）。`,
+  ],
+  back: "アバター改変の解説の一覧",
+};
+const sections = [
+  { id: "when", title: l.whenTitle },
+  { id: "picture", title: l.pictureTitle },
+  { id: "words", title: l.wordsTitle },
+  { id: "layers", title: l.layersTitle },
+  { id: "controller", title: l.controllerTitle },
+  { id: "parameters", title: l.paramsTitle },
+  { id: "menu", title: l.menuTitle },
+  { id: "demo", title: l.demoTitle },
+  { id: "cases", title: l.casesTitle },
+  { id: "care", title: l.careTitle },
+  { id: "summary", title: l.sumTitle },
+];
+%><article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="<%= prefix %>/avatar-tips/"><%= l.series %></a></p>
+    <h1 class="page_1__h1" id="article-heading"><%= l.title %></h1>
+    <p class="article_1__lead"><%= l.lead %></p>
+    <p class="section_2__note"><%= l.publishedLabel %> <time datetime="<%= article.published %>"><%= published %></time> · <%= l.meta %></p>
+    <nav class="jump_1" aria-label="<%= l.tocLabel %>">
+      <ul>
+        <% sections.forEach(function (s) { %>
+          <li><a href="#<%= s.id %>"><%= s.title %></a></li>
+        <% }); %>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading"><%= l.whenTitle %></h2>
+    <ul class="rules_1">
+      <% l.when.forEach(function (item) { %><li><%= item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="picture" aria-labelledby="picture-heading">
+    <h2 class="section_2__h1" id="picture-heading"><%= l.pictureTitle %></h2>
+    <% l.picture.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <ol class="route_1">
+      <% l.route.forEach(function (step) { %>
+        <li class="route_1__step"><span class="route_1__head"><%= step.head %></span><span class="route_1__note"><%= step.note %></span></li>
+      <% }); %>
+    </ol>
+    <% l.picture2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="words" aria-labelledby="words-heading">
+    <h2 class="section_2__h1" id="words-heading"><%= l.wordsTitle %></h2>
+    <p class="article_1__p"><%= l.wordsLead %></p>
+    <dl class="examples_1 examples_1--grid">
+      <% l.words.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+  </section>
+
+  <section class="section_2 article_1__section" id="layers" aria-labelledby="layers-heading">
+    <h2 class="section_2__h1" id="layers-heading"><%= l.layersTitle %></h2>
+    <% l.layers.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <dl class="examples_1 examples_1--grid">
+      <% l.layerItems.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <% l.layers2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.descriptorMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="controller" aria-labelledby="controller-heading">
+    <h2 class="section_2__h1" id="controller-heading"><%= l.controllerTitle %></h2>
+    <% l.controller.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <dl class="examples_1">
+      <% l.parts.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <%- include("_mock", { mock: l.animatorMock }) %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.transTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.transHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.transRows.forEach(function (row) { %>
+            <tr><th scope="row" class="table_3__nowrap"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.controller2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="parameters" aria-labelledby="parameters-heading">
+    <h2 class="section_2__h1" id="parameters-heading"><%= l.paramsTitle %></h2>
+    <% l.params.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.typesTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.typesHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.typesRows.forEach(function (row) { %>
+            <tr><th scope="row"><%= row[0] %></th><td><%= row[1] %></td><td class="table_3__nowrap"><%= row[2] %></td><td><%- row[3] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.params2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <dl class="examples_1">
+      <% l.paramOpts.forEach(function (item) { %>
+        <div class="examples_1__item">
+          <dt><%= item.head %></dt>
+          <dd><%- item.body %></dd>
+        </div>
+      <% }); %>
+    </dl>
+    <% l.params3.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.paramsMock }) %>
+  </section>
+
+  <section class="section_2 article_1__section" id="menu" aria-labelledby="menu-heading">
+    <h2 class="section_2__h1" id="menu-heading"><%= l.menuTitle %></h2>
+    <% l.menu.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <section class="table_3" tabindex="0" aria-label="<%= l.menuTableLabel %>">
+      <table>
+        <thead>
+          <tr><% l.menuHead.forEach(function (h) { %><th scope="col"><%= h %></th><% }); %></tr>
+        </thead>
+        <tbody>
+          <% l.menuRows.forEach(function (row) { %>
+            <tr><th scope="row" class="table_3__nowrap"><%= row[0] %></th><td><%= row[1] %></td><td><%= row[2] %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </section>
+    <% l.menu2.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+    <%- include("_mock", { mock: l.menuMock }) %>
+    <% l.menu3.forEach(function (text) { %><p class="article_1__p"><%- text %></p><% }); %>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading"><%= l.demoTitle %></h2>
+    <p class="article_1__p"><%= l.demoLead %></p>
+    <div class="demo_2 js_ab_demo"
+      data-param-same="<%= l.demo.paramSame %>" data-param-diff="<%= l.demo.paramDiff %>"
+      data-state-on="<%= l.demo.stateOn %>" data-state-off="<%= l.demo.stateOff %>"
+      data-write1="<%= l.demo.write1 %>" data-write0="<%= l.demo.write0 %>"
+      data-shown="<%= l.demo.shown %>" data-hidden="<%= l.demo.hidden %>"
+      data-ok="<%= l.demo.ok %>" data-ng="<%= l.demo.ng %>">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.animator %></p>
+          <%- graph %>
+          <p class="demo_2__num"><%= l.demo.stateLabel %> <span class="js_ab_state_name">Hat_OFF</span></p>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who"><%= l.demo.look %></p>
+          <%- hatFace(false) %>
+          <p class="demo_2__num">Is Active <span class="js_ab_active">0</span></p>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.menuLegend %></legend>
+          <label><input type="checkbox" class="js_ab_menu"> <%= l.demo.menuText %></label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.weight %></legend>
+          <label><input type="radio" name="ab-weight" value="1" class="js_ab_weight" checked> 1</label>
+          <label><input type="radio" name="ab-weight" value="0" class="js_ab_weight"> 0</label>
+        </fieldset>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label"><%= l.demo.name %></legend>
+          <% l.demo.names.forEach(function (n, i) { %>
+            <label><input type="radio" name="ab-name" value="<%= n.value %>" class="js_ab_name"<% if (i === 0) { %> checked<% } %>> <%= n.text %></label>
+          <% }); %>
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_ab_why" data-step="param"><%= l.demo.paramSame.replace(/\{v\}/g, "false") %></p>
+        <p class="demo_1__why js_ab_why" data-step="state"><%= l.demo.stateOff.replace("{n}", "Hat") %></p>
+        <p class="demo_1__why js_ab_why" data-step="write"><%= l.demo.write1.replace("{s}", "Hat_OFF").replace("{a}", "0") %></p>
+        <p class="demo_1__result is_ok js_ab_result"><%= l.demo.ok.replace("{x}", l.demo.hidden) %></p>
+      </div>
+      <noscript><p class="section_2__note"><%= l.demo.noJs %></p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading"><%= l.casesTitle %></h2>
+    <div class="case_1">
+      <% l.cases.forEach(function (c) { %>
+        <section class="case_1__item">
+          <h3 class="case_1__title"><%= c.title %></h3>
+          <dl class="case_1__list">
+            <div><dt><%= l.caseLabels.symptom %></dt><dd><%= c.symptom %></dd></div>
+            <div><dt><%= l.caseLabels.cause %></dt><dd><%= c.cause %></dd></div>
+            <div><dt><%= l.caseLabels.fix %></dt><dd><%- c.fix %></dd></div>
+          </dl>
+        </section>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading"><%= l.careTitle %></h2>
+    <ul class="rules_1">
+      <% l.care.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading"><%= l.sumTitle %></h2>
+    <ul class="rules_1">
+      <% l.sum.forEach(function (item) { %><li><%- item %></li><% }); %>
+    </ul>
+    <p class="section_2__more"><a href="<%= prefix %>/avatar-tips/"><%= l.back %></a></p>
+  </section>
+</article>

@@ -20,6 +20,7 @@
 
 <title>Memories | ぬにふちさか</title>
 <meta name="description" content="Looking back on fragments of the past">
+
 <!-- <meta name="keywords" content=""> -->
 <link rel="canonical" href="https://nunifuchisaka.github.io/en/videos/">
 
@@ -62,7 +63,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
   "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
   "url": "https://nunifuchisaka.github.io/",
   "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
   "sameAs": [
@@ -78,90 +81,109 @@
   ]
 }
 </script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
 </head>
-<body>
+<body class="top_1">
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <div id="wrapper">
-<header class="header_2">
-  <div class="header_2__bg">
-    <img src="https://pbs.twimg.com/profile_banners/3296468640/1761009935/1500x500" alt="" draggable="false">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/en/">Nunifuchisaka</a>
+    <nav class="header_4__nav" aria-label="Site">
+      <ul>
+        
+          <li><a href="/en/start/">Getting started</a></li>
+        
+          <li><a href="/en/timeline/">Guide Log</a></li>
+        
+          <li><a href="/en/equipment/">VR Gear</a></li>
+        
+          <li><a href="/en/products/">Products</a></li>
+        
+          <li><a href="/en/videos/" aria-current="page">Memories</a></li>
+        
+          <li><a href="/en/dice/">Topic Dice</a></li>
+        
+          <li><a href="/en/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">Language</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en" selected>English</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="Switch to dark" data-label-light="Switch to light">Switch to dark</button>
+    </div>
   </div>
-  <nav>
-    <ul>
-      <li><a href="/en/">Home</a></li>
-      <li><a href="/en/timeline/">Guide Log</a></li>
-      <li><a href="/en/equipment/">VR Gear</a></li>
-      <li><a href="/en/videos/">Memories</a></li>
-      <li><a href="/en/dice/">Topic Dice</a></li>
-      <li class="header_2__lang">
-        <label class="visually-hidden" for="js-lang-select">Language</label>
-        <select id="js-lang-select">
-          <option value="ja">日本語</option>
-          <option value="en" selected>English</option>
-        </select>
-      </li>
-    </ul>
-  </nav><!-- /#hnav -->
-  <div class="header_2__icon">
-    <img src="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg" alt="" draggable="false">
-  </div>
-  <div class="header_2__1">
-    <h1 class="name">
-      ぬにふちさか
-    </h1>
-    <p class="lead">
-      ENTP-A “Summon Beast”<br>Born in winter, raised in snow country. Ice element.<br>Reportedly responds to summons from humans it has grown close to.<br>Frequently spotted roaming Public instances.
-    </p>
-  </div>
-</header>
+</header><!-- /.header_4 -->
+
 
 <main id="main">
-<header class="header_3">
-  <h2 class="header_3__h1">
-    Memories
-  </h2>
-</header><!-- /.header_3 -->
+<section class="section_2 page_1" aria-labelledby="videos-heading">
+  <h1 class="page_1__h1" id="videos-heading">Memories</h1>
+  <p class="section_2__lead">Fragments of days gone by, in video.</p>
+  <ul class="list_15">
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1214748689?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 1 of 6"></iframe>
+        
+      </li>
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1214749484?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 2 of 6"></iframe>
+        
+      </li>
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1207053023?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 3 of 6"></iframe>
+        
+      </li>
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1207051556?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 4 of 6"></iframe>
+        
+      </li>
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1207050904?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 5 of 6"></iframe>
+        
+      </li>
+    
+      <li>
+        
+          <iframe src="https://player.vimeo.com/video/1207052178?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1&amp;dnt=1" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" title="VRChat video 6 of 6"></iframe>
+        
+      </li>
+    
+  </ul><!-- /.list_15 -->
+</section>
 
-<ul class="list_6">
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1214749484?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1214748689?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1207053023?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1207052178?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1207051556?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-    <li>
-      <div class="video_1">
-        <iframe src="https://player.vimeo.com/video/1207050904?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VRChat video"></iframe>
-      </div><!-- /.video_1 -->
-    </li>
-  
-</ul><!-- /.list_6 -->
 </main><!-- /#main -->
 
 <footer id="footer">

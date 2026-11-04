@@ -1,0 +1,563 @@
+{
+  "_note": "お気に入りワールド（/worlds/）の一覧。name・author は VRChat の公式情報から（全角の記号は半角に直す）。photo は src/assets/img/worlds/ に置いた公式サムネイル（800×600 の WebP）。platforms は分かるときだけ。note の英語（en）は、日本語版の内容が固まってから足す",
+  "_top": "top に並べた id のワールドを、トップページの「お気に入りワールド」にも出す（並び順もこのとおり）",
+  "top": [
+    "wrld_5ac1eb74-1888-4552-9aab-6f2b6f19ac8e",
+    "wrld_ff3daa0e-0620-44a1-b15c-ce0f9b9bb7d4",
+    "wrld_a48e00a2-7a2e-45fd-ab52-0f4c8225fcbb"
+  ],
+  "groups": [
+    {
+      "id": "relax",
+      "title": {
+        "ja": "のんびり過ごすなら",
+        "en": "For relaxing and talking"
+      },
+      "items": [
+        {
+          "id": "wrld_ab46c720-b9a9-4b39-8ebc-1b93d7626af7",
+          "name": "Rainy Skyline - 雨の摩天楼",
+          "author": "˖Vera˖",
+          "photo": "rainy-skyline.webp",
+          "platforms": [
+            "PC",
+            "Quest"
+          ],
+          "note": {
+            "ja": "雨の降る夜の街と摩天楼を見下ろす、居心地のよい部屋。映画やパーティーゲーム、カクテルバー、ペン、写真撮影まで、友だちとゆっくり過ごせます。"
+          }
+        },
+        {
+          "id": "wrld_99924ad6-6bb9-479c-8835-282f0a634f60",
+          "name": "[JP] NDC Library",
+          "author": "nemurigi",
+          "photo": "ndc-library.webp",
+          "note": {
+            "ja": "日本十進分類法（NDC）の分類番号が並ぶ、静かな図書館のワールド。落ち着いて話したいときに。"
+          }
+        },
+        {
+          "id": "wrld_226f5714-74cb-4569-a302-6069a80cf678",
+          "name": "Endless hug / 永遠の抱擁",
+          "author": "_Harim",
+          "photo": "endless-hug.webp",
+          "note": {
+            "ja": "雪山の夕暮れに、灯りのともる温泉。「温かい抱擁は寒さを忘れさせてくれる」。"
+          }
+        },
+        {
+          "id": "wrld_54928d77-7c31-4d5b-9f8e-dbc45a478437",
+          "name": "Horizons",
+          "author": "DAGINATSUKO",
+          "photo": "horizons.webp",
+          "note": {
+            "ja": "地球を見下ろす軌道上の、くつろげる宇宙ホテルの一室。"
+          }
+        },
+        {
+          "id": "wrld_760b95b6-7dcd-4939-9b0a-7837ab24c2f6",
+          "name": "Thad Tiny Library (AI Inside)",
+          "author": "Thad Gyther",
+          "photo": "thad-tiny-library.webp",
+          "note": {
+            "ja": "AI が物語を読み聞かせてくれる、小さな山小屋の図書室。部屋の様子を好みに変えられて、寝落ちにも向いています。"
+          }
+        },
+        {
+          "id": "wrld_0684aedc-97fa-4a90-bbfd-02ded0673a53",
+          "name": "Sleepy Loft",
+          "author": "˖Vera˖",
+          "photo": "sleepy-loft.webp",
+          "note": {
+            "ja": "やわらかな灯りの、小さな屋根裏の隠れ家。動画プレイヤーやペン、ゲームもあり、夜にのんびり過ごせます。"
+          }
+        },
+        {
+          "id": "wrld_a5c9f5c1-7f9c-417a-9342-8f15c8702be1",
+          "name": "Thad Home of Cuddles",
+          "author": "Thad Gyther",
+          "photo": "thad-home-of-cuddles.webp",
+          "note": {
+            "ja": "とても居心地のよい家のワールド。独自のプライバシーの仕組みや、クッション・プール・ゲームなどがあります。"
+          }
+        },
+        {
+          "id": "wrld_56ee68a1-166d-464e-81c6-12adb1b4b26c",
+          "name": "米津玄師との生活",
+          "author": "Hakuei",
+          "photo": "life-with-yonezu.webp",
+          "note": {
+            "ja": "「同居人が最強のシンガーソングライター」。アパートの一室のワールドです。"
+          }
+        },
+        {
+          "id": "wrld_f1e15ed4-1844-4b67-9636-497880a4dbf7",
+          "name": "Hanami Onsen",
+          "author": "zelfine",
+          "photo": "hanami-onsen.webp",
+          "note": {
+            "ja": "美しい浜辺のそばにある、和風の温泉。YouTube 検索つきの動画プレイヤーや、夜・雨などの切り替え、ゲームもあり、友だちとくつろげます。"
+          }
+        },
+        {
+          "id": "wrld_3561853a-f983-423b-830c-41eecf3dbc4e",
+          "name": "ぷらね邸 - PLANETEI",
+          "author": "jumius（ゆみうす）",
+          "photo": "planetei.webp",
+          "note": {
+            "ja": "快適なリビングで、満天の星と、プラネタリウム投影機の機械の美しさを楽しめるワールド。"
+          }
+        },
+        {
+          "id": "wrld_99e74170-0a33-496f-b998-813a783b2db9",
+          "name": "Daikokuyu",
+          "author": "龍 lilea",
+          "photo": "daikokuyu.webp",
+          "note": {
+            "ja": "閉店・解体された北千住の銭湯「大黒湯」を、3650枚の写真からフォトグラメトリで残したワールド。銭湯でひと息つけます。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "scenery",
+      "title": {
+        "ja": "景色を眺めるなら",
+        "en": "For the views"
+      },
+      "items": [
+        {
+          "id": "wrld_c2c0a30b-51d8-46d1-a62f-d17b0ca28911",
+          "name": "Cosmos",
+          "author": "suzuki_i",
+          "photo": "cosmos.webp",
+          "note": {
+            "ja": "化粧品ブランド「COSMOS」をイメージした、やわらかな色合いの上品なワールド。"
+          }
+        },
+        {
+          "id": "wrld_83423a77-3f49-4687-8de1-ab57f259bf40",
+          "name": "Fractured Winter",
+          "author": "Lavryou",
+          "photo": "fractured-winter.webp",
+          "note": {
+            "ja": "ひび割れたような不思議な空の下、静かな雪の森を歩くワールド。光に踏み込むと、まわりの世界が変わっていきます。"
+          }
+        },
+        {
+          "id": "wrld_94f3d1c0-2b3f-4ad4-b119-7f9dd20fa4c6",
+          "name": "Floating Breath",
+          "author": "rakurai5",
+          "photo": "floating-breath.webp",
+          "note": {
+            "ja": "光る水槽の中をクラゲが漂う、暗く静かな水族館のようなワールド。"
+          }
+        },
+        {
+          "id": "wrld_7f0a9b5a-5a2f-4beb-bd26-2809a7bac8f9",
+          "name": "Ancient Cathedral",
+          "author": "Okabintaro",
+          "photo": "ancient-cathedral.webp",
+          "note": {
+            "ja": "たくさんのろうそくが揺れる、古い大聖堂。演出の中で強い光が出ると注意書きがあります。"
+          }
+        },
+        {
+          "id": "wrld_668e8d21-79a0-4ee5-a2cf-3b5f371a92bf",
+          "name": "Light Aquarium",
+          "author": "phi16",
+          "photo": "light-aquarium.webp",
+          "note": {
+            "ja": "光の粒が、流体のシミュレーションで流れていく部屋。"
+          }
+        },
+        {
+          "id": "wrld_5ac1eb74-1888-4552-9aab-6f2b6f19ac8e",
+          "name": "Half empty",
+          "author": "yuri_ts",
+          "photo": "half-empty.webp",
+          "note": {
+            "ja": "「風をつかまえたんだ」。光の差す部屋で、粒子や流体のシミュレーションが風のように舞うワールド。"
+          }
+        },
+        {
+          "id": "wrld_f6445b27-037d-4926-b51f-d79ada716b31",
+          "name": "2000s Classroom",
+          "author": "Artic-",
+          "photo": "2000s-classroom.webp",
+          "note": {
+            "ja": "2000年代はじめの東欧の学校を再現した、放課後の教室。黒板に絵を描いたり、音楽を聴いたりできます。"
+          }
+        },
+        {
+          "id": "wrld_a7464c28-ebaf-4463-994e-4e13f6144a0f",
+          "name": "消えたあなたと, 止まっている春が - Spring and you",
+          "author": "AREN _",
+          "photo": "spring-and-you.webp",
+          "note": {
+            "ja": "日の差しこむ部屋に、草花と絵が並ぶ春のワールド。"
+          }
+        },
+        {
+          "id": "wrld_4e8f3e44-dca9-4ae7-9580-954bb4b2cbc4",
+          "name": "Amebient",
+          "author": "phi16",
+          "photo": "amebient.webp",
+          "note": {
+            "ja": "雨と音のワールド。Cap.・phi16・lactoice の共作です。"
+          }
+        },
+        {
+          "id": "wrld_6e5a0cf2-9ea4-4ccd-a165-c4b53d2945d1",
+          "name": "Inokashira-kōen Station (井の頭公園駅)",
+          "author": "nyanya",
+          "photo": "inokashira-koen-station.webp",
+          "note": {
+            "ja": "東京都三鷹市にある、京王井の頭線の井の頭公園駅を再現したワールド。"
+          }
+        },
+        {
+          "id": "wrld_2d1cc673-650f-4c64-8c82-a08d5ccd02b2",
+          "name": "始まりのトンネル - Tunnel at the Beginning",
+          "author": "HANI.",
+          "photo": "tunnel-at-the-beginning.webp",
+          "note": {
+            "ja": "「始まりと終わりは常に共存する」。夜桜の並ぶ、静かなワールド。"
+          }
+        },
+        {
+          "id": "wrld_88e3c772-894f-418d-b9e5-96059af3d631",
+          "name": "Yayoi Summer Nights",
+          "author": "猫屋敷やよい",
+          "photo": "yayoi-summer-nights.webp",
+          "note": {
+            "ja": "海辺の鳥居を望む、夏の夜の和風の座敷。「ちりんちりん～」。"
+          }
+        },
+        {
+          "id": "wrld_6e48ab76-2a6b-4eb6-8997-9ac70a8f48c8",
+          "name": "Sapphirae",
+          "author": "Fins",
+          "photo": "sapphirae.webp",
+          "note": {
+            "ja": "花と緑にあふれた部屋。写真を撮るのにも向いています。"
+          }
+        },
+        {
+          "id": "wrld_4e7b0176-68fc-471c-98a9-5bd10148c333",
+          "name": "Evermist Manor",
+          "author": "Mei ʚɞ",
+          "photo": "evermist-manor.webp",
+          "note": {
+            "ja": "霧に包まれた、ゴシック調の静かな洋館。"
+          }
+        },
+        {
+          "id": "wrld_18930fde-634f-463d-a9df-4e61a35f4228",
+          "name": "Starlit Canopy",
+          "author": "민소담_",
+          "photo": "starlit-canopy.webp",
+          "note": {
+            "ja": "木々のあいだの星明かりが屋根をつくる、夜の森と池のワールド。"
+          }
+        },
+        {
+          "id": "wrld_6b0f8171-e617-4e9a-8c4f-931d4a7bcc5f",
+          "name": "Dream: / 夢:",
+          "author": "_Harim",
+          "photo": "dream.webp",
+          "note": {
+            "ja": "水の上を走る、夏の青い電車。「夢であってほしい」。"
+          }
+        },
+        {
+          "id": "wrld_04f3546e-b632-48e0-a2b3-4cc63e55ead0",
+          "name": "蛍火 Firefly",
+          "author": "Sawacrab",
+          "photo": "firefly.webp",
+          "note": {
+            "ja": "蛍と雨の、夜の水辺。"
+          }
+        },
+        {
+          "id": "wrld_b26c8a97-5c38-4dd2-9aa7-520eea7b3e69",
+          "name": "星の入り江 - Liminal Cove",
+          "author": "- Shigure -",
+          "photo": "liminal-cove.webp",
+          "note": {
+            "ja": "夜の入り江で、青く光る波打ち際を眺めるワールド。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "experience",
+      "title": {
+        "ja": "物語や音楽を体験するなら",
+        "en": "For stories and music"
+      },
+      "items": [
+        {
+          "id": "wrld_cb43c149-c9cb-4b9a-b228-ac8833cb69ff",
+          "name": "Project Lost Worlds",
+          "author": "Fins",
+          "photo": "project-lost-worlds.webp",
+          "note": {
+            "ja": "宇宙船アストリア号に乗って、遠い月エリオスへ旅する映像体験（2部作の1作目、約1時間）。日本語にも対応しています。定員は6人で、入る前にワールドを先に読み込んでおくよう案内されています。"
+          }
+        },
+        {
+          "id": "wrld_2e999ffe-0565-4169-9445-a76345ea0a3a",
+          "name": "Undestined - yosumi (Music Experience World)",
+          "author": "MIGIRI Inc",
+          "photo": "undestined.webp",
+          "note": {
+            "ja": "クリエイティブスタジオ MIGIRI と、バーチャルシンガー yosumi による体験型の音楽ワールド。ワールドの音量は 80% 以上がおすすめとされています。"
+          }
+        },
+        {
+          "id": "wrld_eda2b55e-9f7e-402c-b3ce-af7eac14bd4d",
+          "name": "_Let Go / 手放す",
+          "author": "_you5248",
+          "photo": "let-go.webp",
+          "note": {
+            "ja": "目を覚ますと白い部屋にいて、散らばったかけらをひとつずつ拾い集めていく、物語のワールド。"
+          }
+        },
+        {
+          "id": "wrld_577c4af3-1de7-40f4-88ad-7bf10ab3a1ee",
+          "name": "TITANIC: Beyond Reality - Sinking Experience",
+          "author": "CabaBear",
+          "photo": "titanic.webp",
+          "note": {
+            "ja": "タイタニック号に乗り込み、華やかな船内と、沈没したあの夜を体験できるワールド。"
+          }
+        },
+        {
+          "id": "wrld_8bbb6f61-61cf-4243-a58e-2000f2740e2b",
+          "name": "よるとうげ -Yorutouge-",
+          "author": "VR_SMEJ",
+          "photo": "yorutouge.webp",
+          "note": {
+            "ja": "星くんに誘われて、Kikuo さんの音楽の世界を体験するワールド。「この夜をこえよう」。"
+          }
+        },
+        {
+          "id": "wrld_0819f8c3-9950-4397-b4a8-974baf679c2f",
+          "name": "叩ケ叩ケ手ェ叩ケ [SSMV]",
+          "author": "fley",
+          "photo": "tatake-tatake.webp",
+          "note": {
+            "ja": "「叩ケ叩ケ手ェ叩ケ」の SSMV（VRMV・パーティクルライブ）。"
+          }
+        },
+        {
+          "id": "wrld_de53549a-20cf-4c6f-abea-dcda197e1e16",
+          "name": "ORGANISM",
+          "author": "DrMorro",
+          "photo": "organism.webp",
+          "note": {
+            "ja": "夜の街や廊下を探索するワールド。謎解きも決まった答えもなく、「Organism」が何なのかは自分で決めます。"
+          }
+        },
+        {
+          "id": "wrld_ff3daa0e-0620-44a1-b15c-ce0f9b9bb7d4",
+          "name": "Project [ latent ] // archive_",
+          "author": "月白 累",
+          "photo": "project-latent.webp",
+          "note": {
+            "ja": "月白累さんの歌う姿と箱庭の空間を VR の中に組み立て直し、記録として再生するワールド。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "games",
+      "title": {
+        "ja": "みんなで遊ぶなら",
+        "en": "For playing games together"
+      },
+      "items": [
+        {
+          "id": "wrld_6f55a286-b851-4d3e-8933-e7a31138edd7",
+          "name": "PokoPeaLand",
+          "author": "PPLSTAFF01",
+          "photo": "pokopea-land.webp",
+          "note": {
+            "ja": "VTuber「ぽこピー」（甲賀流忍者ぽんぽこ・オシャレになりたい！ピーナッツくん）のテーマパーク。ジェットコースターなどのアトラクションに、ホラーもあります。"
+          }
+        },
+        {
+          "id": "wrld_8b9b3207-02ee-468e-b301-be6212447813",
+          "name": "魚げっさー",
+          "author": "omake-saan",
+          "photo": "uo-guessr.webp",
+          "note": {
+            "ja": "魚の頭を見て、その魚の長さを当てるゲーム。1ゲーム約5分、最大8人。オモコロチャンネルの動画が元ネタです。"
+          }
+        },
+        {
+          "id": "wrld_1e364e73-681a-43a5-a7d4-06aab9635e4a",
+          "name": "ピ虐研究所 Pi:G RESEARCH Lab",
+          "author": "PPLSTAFF01",
+          "photo": "pig-research-lab.webp",
+          "platforms": [
+            "PC",
+            "Quest"
+          ],
+          "note": {
+            "ja": "ぽこピーランドのアトラクション「ピ虐研究所」を、単体で遊べるようにした Quest 対応版。ホラーです。"
+          }
+        },
+        {
+          "id": "wrld_4aebef30-f891-4cec-9fa9-d13599732f9b",
+          "name": "ガンナガン / GUN AND GUN",
+          "author": "mouri314",
+          "photo": "gun-and-gun.webp",
+          "note": {
+            "ja": "アナログゲーム制作サークル Keepdry の、二丁拳銃で戦う対戦カードゲーム「ガンナガン」を VR で遊べるワールド。2人用、10〜30分。"
+          }
+        },
+        {
+          "id": "wrld_2ba1a0c1-5d7a-4271-bc13-401157b35dcd",
+          "name": "ブラッドリコール / BLOOD RECALL",
+          "author": "mouri314",
+          "photo": "blood-recall.webp",
+          "note": {
+            "ja": "アナログゲーム制作サークル シエラゲームズのカードゲーム「ブラッドリコール」を VR で遊べるワールド。1〜2人用、10〜30分。"
+          }
+        },
+        {
+          "id": "wrld_c8401de9-ab65-41f8-9a1d-bb34cb9a9e8b",
+          "name": "Udon Chicken Horse",
+          "author": "まかん｜coffee",
+          "photo": "udon-chicken-horse.webp",
+          "note": {
+            "ja": "道を作って、相手より先にゴールを目指す2〜4人の対戦ゲーム。"
+          }
+        },
+        {
+          "id": "wrld_d1d2318c-5144-4902-a774-876f45c06804",
+          "name": "Price Guess",
+          "author": "Jar",
+          "photo": "price-guess.webp",
+          "note": {
+            "ja": "いろいろな物の値段を当てるゲーム。何人でも遊べます。"
+          }
+        },
+        {
+          "id": "wrld_f3353426-64fa-4739-9a97-95e110552d1b",
+          "name": "Multiply Defense",
+          "author": "Linx（リンクス）",
+          "photo": "multiply-defense.webp",
+          "note": {
+            "ja": "かけ算の問題を解いて、押し寄せる敵を撃退するゲーム。1〜9人がおすすめ。"
+          }
+        },
+        {
+          "id": "wrld_8abba687-ebfd-4356-846d-d069976df375",
+          "name": "GeoLocator Remapped",
+          "author": "Maki Maki",
+          "photo": "geolocator-remapped.webp",
+          "note": {
+            "ja": "世界のどこかの景色を見て、その場所を地図で当てるゲーム。入る前に、設定で「Untrusted URL」を許可しておく必要があります。"
+          }
+        },
+        {
+          "id": "wrld_7954bf74-a725-491d-83a6-6e264f7da818",
+          "name": "BABEL!",
+          "author": "Linx（リンクス）",
+          "photo": "babel.webp",
+          "platforms": [
+            "PC",
+            "Quest"
+          ],
+          "note": {
+            "ja": "建物を作りながら撃ち合う対戦シューティング。2〜20人で遊べて、VR・デスクトップ・Quest に対応しています。"
+          }
+        },
+        {
+          "id": "wrld_16e7749a-30bb-4fe1-ae19-e4105eeadf7d",
+          "name": "Break the OFFICE!",
+          "author": "DoritosDontacos",
+          "photo": "break-the-office.webp",
+          "note": {
+            "ja": "オフィスを好きなだけ壊せるワールド。もとに戻す機能はありません。"
+          }
+        },
+        {
+          "id": "wrld_e9093447-5e69-4eec-8262-358a4ad72db9",
+          "name": "Blackout!",
+          "author": "Ostinyo",
+          "photo": "blackout.webp",
+          "note": {
+            "ja": "明かりが消えると、殺人犯が動き出す。みんなで協力して止めるゲーム。"
+          }
+        },
+        {
+          "id": "wrld_a48e00a2-7a2e-45fd-ab52-0f4c8225fcbb",
+          "name": "Sim Pool!",
+          "author": "misha_m",
+          "photo": "sim-pool.webp",
+          "note": {
+            "ja": "水がリアルタイムの GPU シミュレーション（最大100万粒子）でできたプール。水鉄砲やすべり台、浮き輪で遊べます。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "title": {
+        "ja": "撮る・学ぶ・試すなら",
+        "en": "For photos, learning and trying avatars"
+      },
+      "items": [
+        {
+          "id": "wrld_95f6ad59-299d-4f52-a358-4c4f01b4906a",
+          "name": "Just ミーム",
+          "author": "プロト（Proto）",
+          "photo": "just-meme.webp",
+          "note": {
+            "ja": "プリセットを選んでカメラを固定して撮るだけで、自分のアバターで「ネットでよく見るアレ（ミーム）」の写真が撮れるワールド。"
+          }
+        },
+        {
+          "id": "wrld_6075be77-2fa3-44c2-8204-95905bb3fd53",
+          "name": "MyAvatarGoods",
+          "author": "MetaCreatorsTYO",
+          "photo": "my-avatar-goods.webp",
+          "note": {
+            "ja": "フレンドと撮った写真から、アクリルキーホルダーを注文するためのデータを作れるワールド。"
+          }
+        },
+        {
+          "id": "wrld_b5ed19cb-cf04-481c-833a-9833138ff668",
+          "name": "VR宇宙博物館コスモリア Cosmoria",
+          "author": "vsp_vrc",
+          "photo": "cosmoria.webp",
+          "note": {
+            "ja": "VR の宇宙博物館。展示を見て回れて、プラネタリウムもあります。日本語を含む5つの言語に対応しています。"
+          }
+        },
+        {
+          "id": "wrld_b5c47aab-a6ff-4240-8033-2995edb00eb6",
+          "name": "Aquarius",
+          "author": "Fins",
+          "photo": "aquarius.webp",
+          "note": {
+            "ja": "いくつもの環境に分かれた水族館。海の生き物を眺めながら、新しいことを学べます。"
+          }
+        },
+        {
+          "id": "wrld_035a2859-d85f-4475-b9e5-891978589da7",
+          "name": "KOGE's Workplace",
+          "author": "KOGE1NU",
+          "photo": "koges-workplace.webp",
+          "note": {
+            "ja": "ケモノ・ドラゴン系のアバターを、買う前に試着できるワールド。900体以上のサンプルがあります。"
+          }
+        }
+      ]
+    }
+  ]
+}

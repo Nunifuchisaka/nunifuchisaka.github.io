@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head><%
+const path = "../../";
+const meta = {
+  type: "article",
+  title: "メニューでオンオフするギミックを作る",
+  description: "帽子などの小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。オンとオフのクリップ、レイヤーとトランジション、Expression Parameters、メニュー、Modular Avatar でのつなぎ方まで、再現図と動かして確かめられる図つきで解説。",
+  url: "avatar-tips/toggle/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/toggle-demo.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before") %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips-toggle") %>
+<%- include(path + "assets/html/_tips_pager",{slug:"toggle"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after") %>
+</body>
+</html>

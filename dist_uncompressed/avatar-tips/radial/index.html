@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KEESYXVLZP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KEESYXVLZP');
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="android_icon" href="/apple-touch-icon.png">
+
+<title>段階で切り替える・少しずつ変えるギミック | ぬにふちさか</title>
+<meta name="description" content="服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。">
+
+<!-- <meta name="keywords" content=""> -->
+<link rel="canonical" href="https://nunifuchisaka.github.io/avatar-tips/radial/">
+
+
+<meta property="og:site_name" content="ぬにふちさか">
+<meta property="og:type" content="article">
+<meta property="og:title" content="段階で切り替える・少しずつ変えるギミック">
+<meta property="og:description" content="服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。">
+<meta property="og:url" content="https://nunifuchisaka.github.io/avatar-tips/radial/">
+<meta property="og:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="段階で切り替える・少しずつ変えるギミック">
+<meta name="twitter:description" content="服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。">
+<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg">
+
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/common.css?3">
+
+<script src="https://kit.fontawesome.com/277b07acdc.js" crossorigin="anonymous"></script>
+<script src="/assets/js/vendor.js" defer></script>
+<script src="/assets/js/common.js" defer></script>
+<script src="/assets/js/lang-switch.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "段階で切り替える・少しずつ変えるギミック | ぬにふちさか",
+  "url": "https://nunifuchisaka.github.io/avatar-tips/radial/",
+  "description": "服を何着かから1つ選ぶ（Int）、帽子の大きさや色をメニューを回して少しずつ変える（Float と Radial Puppet）。Any State からの切り替え、Motion Time と Blend Tree、同期の精度を、再現図と動かして確かめられる図つきで解説。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://nunifuchisaka.github.io/#person",
+  "name": "ぬにふちさか",
+  "alternateName": "Nunifuchisaka",
+  "url": "https://nunifuchisaka.github.io/",
+  "image": "https://pbs.twimg.com/profile_images/1778446890205593600/VDgQcJLw_400x400.jpg",
+  "sameAs": [
+    "https://vrchat.com/home/user/usr_342929cd-b5ee-4bfd-817f-0e4cb430abf5",
+    "https://cluster.mu/u/nunifuchisaka",
+    "https://x.com/nunifuchisaka",
+    "https://www.youtube.com/@nunifuchisaka",
+    "https://vimeo.com/nunifuchisaka",
+    "https://nunifuchisaka.booth.pm/",
+    "https://www.tiktok.com/@nunifuchisaka",
+    "https://www.instagram.com/nunifuchisaka/",
+    "https://github.com/Nunifuchisaka"
+  ]
+}
+</script>
+<script>
+  // 保存されたテーマを描画前に当て、読み込み時のちらつきを防ぐ
+  (function () {
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&amp;display=swap">
+<link rel="stylesheet" href="/assets/css/top.css">
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/viewer.js" defer></script>
+<script src="/assets/js/top.js" defer></script>
+
+<script src="/assets/js/radial-demo.js" defer></script>
+</head>
+<body class="top_1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<div id="wrapper">
+<header class="header_4">
+  <div class="header_4__inner">
+    <a class="header_4__home" href="/">ぬにふちさか</a>
+    <nav class="header_4__nav" aria-label="サイト内">
+      <ul>
+        
+          <li><a href="/start/">はじめてのVRChat</a></li>
+        
+          <li><a href="/timeline/">案内実績</a></li>
+        
+          <li><a href="/equipment/">VR機材</a></li>
+        
+          <li><a href="/products/">制作物</a></li>
+        
+          <li><a href="/avatar-tips/" aria-current="true">改変解説</a></li>
+        
+          <li><a href="/videos/">回想</a></li>
+        
+          <li><a href="/dice/">話題サイコロ</a></li>
+        
+          <li><a href="/claude-code/">Claude Code</a></li>
+        
+      </ul>
+    </nav>
+    <div class="header_4__tools">
+      <label class="visually-hidden" for="js-lang-select">言語切替</label>
+      <select class="header_4__select" id="js-lang-select">
+        <option value="ja" selected>日本語</option>
+        <option value="en" disabled>English（準備中）</option>
+      </select>
+      <button type="button" class="header_4__theme js_theme_toggle" data-label-dark="ダークにする" data-label-light="ライトにする">ダークにする</button>
+    </div>
+  </div>
+</header><!-- /.header_4 -->
+
+
+<main id="main">
+<article class="article_1" aria-labelledby="article-heading">
+  <header class="section_2 page_1 article_1__header">
+    <p class="article_1__series"><a href="/avatar-tips/">アバター改変の解説 第9回</a></p>
+    <h1 class="page_1__h1" id="article-heading">段階で切り替える・少しずつ変えるギミック</h1>
+    <p class="article_1__lead">服を何着かから1つ選ぶ、帽子の大きさや色をメニューを回して少しずつ変える。オンオフの次は、Int と Float のパラメーターを使うギミックを作ります。Any State からの切り替え、Radial Puppet と Motion Time、Blend Tree、ほかの人からの見え方まで、1クリックずつ解説します。</p>
+    <p class="section_2__note">公開 <time datetime="2026-11-03">2026年11月3日</time> · 対象は Unity の Built-in Render Pipeline と VRChat のアバター（Avatars 3.0）です。2026年11月時点の内容です。</p>
+    <nav class="jump_1" aria-label="目次">
+      <ul>
+        
+          <li><a href="#when">こんなときに読んでください</a></li>
+        
+          <li><a href="#choose">Bool・Int・Float の選び方</a></li>
+        
+          <li><a href="#int">Int で、服を3着から1つ選ぶ</a></li>
+        
+          <li><a href="#float">Float と Radial Puppet で、少しずつ変える</a></li>
+        
+          <li><a href="#demo">動かして確かめる</a></li>
+        
+          <li><a href="#sync">同期と精度、ほかの人からの見え方</a></li>
+        
+          <li><a href="#cases">よくある困りごとと直し方</a></li>
+        
+          <li><a href="#care">気をつけること</a></li>
+        
+          <li><a href="#summary">まとめ</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section_2 article_1__section" id="when" aria-labelledby="when-heading">
+    <h2 class="section_2__h1" id="when-heading">こんなときに読んでください</h2>
+    <ul class="rules_1">
+      <li>服を何着か用意して、メニューで1つを選んで着替えたい。2着が同時に出ないようにしたい。</li><li>帽子やしっぽの大きさ、髪の色などを、メニューを回して少しずつ変えたい。</li><li>Bool・Int・Float のどれを使えばよいか分からない。</li><li>回して変えたのに、ほかの人からは少し遅れて見える、段々に見える。</li>
+    </ul>
+    <p class="article_1__p">この回は、<a href="/avatar-tips/toggle/">第8回 メニューでオンオフするギミックを作る</a> で帽子のオンオフを作った前提で進めます。コントローラーの作り方、Weight を 1 にすること、Modular Avatar（MA）でつなぐ手順は、そちらと同じです。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="choose" aria-labelledby="choose-heading">
+    <h2 class="section_2__h1" id="choose-heading">Bool・Int・Float の選び方</h2>
+    <p class="article_1__p">パラメーターには3つの型があります。何をしたいかで選びます。パラメーターそのものの説明は <a href="/avatar-tips/animator-basics/#parameters">第6回 Animator のしくみ</a> にあります。</p>
+    <section class="table_3" tabindex="0" aria-label="パラメーターの型と、向いているギミック">
+      <table>
+        <thead>
+          <tr><th scope="col">型</th><th scope="col">入る値</th><th scope="col">同期の量</th><th scope="col">向いているもの</th><th scope="col">メニューの項目</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">Bool</th><td>true か false</td><td>1 bit</td><td>1つのものを出す・消す</td><td>Toggle</td></tr>
+          
+            <tr><th scope="row">Int</th><td>0〜255 の整数</td><td>8 bit</td><td>何個かから1つを選ぶ</td><td>値ごとに Toggle か Button</td></tr>
+          
+            <tr><th scope="row">Float</th><td>-1〜1 の小数（Radial Puppet では 0〜1）</td><td>8 bit</td><td>大きさや色を少しずつ変える</td><td>Radial Puppet</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <ul class="rules_1">
+      <li><strong>出すか消すかの2つだけなら Bool</strong> です。いちばん量を使いません。</li><li><strong>何着かから1つだけ選ぶなら Int</strong> です。値は1つしか入らないので、2着が同時に出ることがありません。3着なら Bool を3つ使うほうが量は少なく済みます（3 bit）。ただし、2つ同時にオンにできてしまいます。選ぶものが多いほど、Int のほうが得になります。</li><li><strong>途中の値がほしいなら Float</strong> です。Radial Puppet（丸いダイヤルを回すメニューの項目）と組み合わせます。</li><li>同期できる量は、アバター全体で合計 256 bit までです。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="int" aria-labelledby="int-heading">
+    <h2 class="section_2__h1" id="int-heading">Int で、服を3着から1つ選ぶ</h2>
+    <p class="article_1__p">アバターの中に、3着の服 <code>Outfit_A</code>、<code>Outfit_B</code>、<code>Outfit_C</code> があるとします。名前は例です。Int のパラメーター <code>OutfitNo</code> の値で、どれを出すかを決めます。0 のときは、3着とも消します。</p>
+    <section class="table_3" tabindex="0" aria-label="OutfitNo の値と、入るステートと、クリップの中身">
+      <table>
+        <thead>
+          <tr><th scope="col">OutfitNo</th><th scope="col">ステート（クリップ）</th><th scope="col">Outfit_A</th><th scope="col">Outfit_B</th><th scope="col">Outfit_C</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">0</th><td>Outfit_0</td><td>0（オフ）</td><td>0（オフ）</td><td>0（オフ）</td></tr>
+          
+            <tr><th scope="row">1</th><td>Outfit_1</td><td>1（オン）</td><td>0（オフ）</td><td>0（オフ）</td></tr>
+          
+            <tr><th scope="row">2</th><td>Outfit_2</td><td>0（オフ）</td><td>1（オン）</td><td>0（オフ）</td></tr>
+          
+            <tr><th scope="row">3</th><td>Outfit_3</td><td>0（オフ）</td><td>0（オフ）</td><td>1（オン）</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <h3 class="section_2__h2">クリップとコントローラーを作る</h3>
+    <ol class="steps_1">
+      <li>Project の自分用のフォルダ（たとえば <code>MyGimmicks/Outfit</code>）を右クリックして <code>Create → Animation</code> を選び、<code>Outfit_0</code>〜<code>Outfit_3</code> の4つのクリップを作ります。中身はあとで録画します。</li><li>同じフォルダで <code>Create → Animator Controller</code> を選び、<code>Outfit_FX</code> を作ってダブルクリックで開きます。</li><li><code>Layers</code> の <code>+</code> でレイヤー <code>Outfit</code> を足し、歯車から <code>Weight</code> を 1 にします。</li><li><code>Parameters</code> の <code>+</code> から <code>Int</code> を選び、名前を <code>OutfitNo</code> にします。</li><li><code>Outfit</code> レイヤーを選び、<code>Outfit_0</code> を最初にドラッグして、オレンジ色の最初のステートにします。続けて <code>Outfit_1</code>〜<code>Outfit_3</code> もドラッグします。</li>
+    </ol>
+    <h3 class="section_2__h2">クリップを録画する</h3>
+    <ol class="steps_1">
+      <li>アバターのいちばん上を選び、Inspector の <code>Animator</code> の <code>Controller</code> の欄に、録画のあいだだけ <code>Outfit_FX</code> を入れます（前の回と同じです）。</li><li>Animation ウィンドウ（<code>Window → Animation → Animation</code>）で、クリップの名前の欄から <code>Outfit_1</code> を選びます。</li><li>録画ボタンを押し、<code>Outfit_A</code> をオン、<code>Outfit_B</code> と <code>Outfit_C</code> をオフにします（一度チェックを切り替えて戻すと、いまと同じ値でもキーが打たれます）。<strong>3つの行がそろっているか</strong>を確かめてから、録画を止めます。</li><li><code>Outfit_0</code>、<code>Outfit_2</code>、<code>Outfit_3</code> も、上の表のとおりに録画します。</li><li>終わったら、服のオンオフと、<code>Animator</code> の <code>Controller</code> の欄を、もとに戻します。</li>
+    </ol>
+    <p class="article_1__p">どのクリップにも、3着すべての行を入れます。<code>Outfit_2</code> に <code>Outfit_A</code> の行が無いと、Write Defaults が OFF のアバターでは、前に出ていた Outfit_A が消えずに残り、2着が重なります。</p>
+    <h3 class="section_2__h2">Any State からのトランジション</h3>
+    <ol class="steps_1">
+      <li>Animator ウィンドウで、水色の <code>Any State</code> を右クリックして <code>Make Transition</code> を選び、<code>Outfit_1</code> をクリックします。</li><li>矢印を選び、Inspector で <code>Has Exit Time</code> を外します。<code>Settings</code> を開き、<code>Transition Duration</code> を 0 にし、<code>Can Transition To Self</code> のチェックを<strong>外します</strong>。</li><li><code>Conditions</code> の <code>+</code> を押し、<code>OutfitNo</code>、<code>Equals</code>、<code>1</code> にします。</li><li>同じように、<code>Any State</code> から <code>Outfit_0</code>、<code>Outfit_2</code>、<code>Outfit_3</code> へも矢印を引き、<code>Equals</code> の数をそれぞれ 0、2、3 にします。</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="トランジションの設定の再現図。Has Exit Time のチェックが外れている、Transition Duration が 0、1 Can Transition To Self のチェックが外れている、2 Conditions に OutfitNo Equals 1">
+        <p class="mock_1__bar">Inspector › AnyState -&gt; Outfit_1</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--check">
+                
+                
+                <span class="mock_1__control"><span class="mock_1__check">Has Exit Time</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">▼ Settings</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Transition Duration (s)</span>
+                <span class="mock_1__control"><span class="mock_1__value">0</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check is_hot">
+                <span class="mock_1__mark">1</span>
+                
+                <span class="mock_1__control"><span class="mock_1__check">Can Transition To Self</span></span>
+              </div>
+            
+          
+            
+              <p class="mock_1__head">Conditions</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">OutfitNo</span>
+                <span class="mock_1__control"><span class="mock_1__select">Equals 1</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：Unity の Inspector（Any State から Outfit_1 へのトランジション）。並びや見た目は簡単にしています。名前は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>外しておかないと、OutfitNo が 1 の間、Outfit_1 に毎フレーム入り直します。</li><li>Int では Equals（等しい）で、値ごとに行き先を分けます。</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p"><code>Any State</code> は「いまどのステートにいても」という意味の入り口です。ここから矢印を引くと、どこにいても条件が合えばそのステートに移ります。4つのステートを互いに矢印でつなぐと 12 本要りますが、Any State からなら 4 本で済みます。</p><p class="article_1__p"><code>Can Transition To Self</code> が付いたままだと、条件が合っている間ずっと、同じステートに入り直し続けます。オンオフだけのクリップでは見た目は変わらないこともありますが、動きのあるクリップは最初に戻り続けます。外しておきます。</p>
+    <h3 class="section_2__h2">メニューで1つを選ぶ</h3>
+    <p class="article_1__p">MA でつなぐ手順は、前の回と同じです。アバターの中に <code>着替え</code> というオブジェクトを作り、MA Merge Animator（<code>Outfit_FX</code>、FX、Absolute、Match Avatar Write Defaults）と、MA Parameters を付けます。</p>
+    <ol class="steps_1">
+      <li>MA Parameters に <code>OutfitNo</code> を足し、型を <code>Int</code> にします。<code>Default Value</code> は、はじめに着ている服の番号にします（何も着ないなら 0）。<code>Saved</code> と <code>Synced</code> にチェックを入れます。</li><li><code>着替え</code> に <code>MA Menu Installer</code> と <code>MA Menu Item</code> を付け、Menu Item の <code>Type</code> を <code>Sub Menu</code> にします。中のメニューを、このオブジェクトの子から作るように選びます（<code>Children</code> などと書かれた選択肢）。</li><li><code>着替え</code> を右クリックして <code>Create Empty Child</code> を選び、子を3つ作ります。名前を <code>制服</code>、<code>パーカー</code>、<code>ワンピース</code> にします。メニューに出る名前です。</li><li>3つの子それぞれに <code>MA Menu Item</code> を付け、<code>Type</code> を <code>Toggle</code>、<code>Parameter</code> を <code>OutfitNo</code> にします。<code>Value</code> を、<code>制服</code> は 1、<code>パーカー</code> は 2、<code>ワンピース</code> は 3 にします。</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="親の着替えの MA Menu Item の再現図。1 Type は Sub Menu で、中身は子から作る">
+        <p class="mock_1__bar">Inspector › 着替え</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Menu Item</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Type</span>
+                <span class="mock_1__control"><span class="mock_1__select">Sub Menu</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Submenu Source</span>
+                <span class="mock_1__control"><span class="mock_1__select">Children</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+      <div class="mock_1__screen" role="img" aria-label="子のパーカーの MA Menu Item の再現図。Type は Toggle、Parameter は OutfitNo、2 Value は 2">
+        <p class="mock_1__bar">Inspector › パーカー</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <p class="mock_1__head">▼ MA Menu Item</p>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Type</span>
+                <span class="mock_1__control"><span class="mock_1__select">Toggle</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Parameter</span>
+                <span class="mock_1__control"><span class="mock_1__select">OutfitNo</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value is_hot">
+                <span class="mock_1__mark">2</span>
+                <span class="mock_1__label">Value</span>
+                <span class="mock_1__control"><span class="mock_1__value">2</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：MA Menu Item（英語の表示）。左が親の着替え、右が子のパーカー。並びや見た目は簡単にしています。名前は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>押すと、中にもう1つのメニューが開きます。子の3つが、そこに並びます。</li><li>押すと OutfitNo が 2 になります。項目ごとに数を変えます。</li>
+    </ol>
+  
+</div>
+
+    <p class="article_1__p">Toggle は、オンにすると Parameter を Value の数にし、オフにすると 0 に戻します。「パーカー」を押すと OutfitNo は 2 になり、Outfit_2 に移ります。</p><p class="article_1__p">続けて「ワンピース」を押すと 3 になります。OutfitNo はもう 2 ではないので、「パーカー」の項目は自然にオフの表示になります。1つしか選べないのは、このためです。</p><p class="article_1__p">選んでいる「ワンピース」をもう一度押すと 0 に戻り、3着とも消えます。</p><p class="article_1__p">アバターの FX に直接足すときは、Expression Parameters に Int の行を足し、Expressions Menu で <code>Add Control</code> を押して Type を <code>Sub Menu</code> にし、中のメニューのファイルに Toggle を3つ並べます。くわしくは <a href="https://creators.vrchat.com/avatars/expression-menu-and-controls/" target="_blank" rel="noopener">VRChat の Expressions Menu のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>（英語）にあります。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="float" aria-labelledby="float-heading">
+    <h2 class="section_2__h1" id="float-heading">Float と Radial Puppet で、少しずつ変える</h2>
+    <p class="article_1__p">帽子の大きさを、メニューのダイヤルを回して変えます。Float のパラメーター <code>HatSize</code>（0〜1）を、1つのクリップの「どこを再生するか」に使います。これが <strong>Motion Time</strong> です。</p>
+    <ol class="route_1">
+      
+        <li class="route_1__step"><span class="route_1__head">Radial Puppet を回す</span><span class="route_1__note">HatSize = 0〜1</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">ステートの Motion Time</span><span class="route_1__note">HatSize をクリップの位置にする</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">クリップの 0〜60 フレーム</span><span class="route_1__note">0.5 なら 30 フレーム目</span></li>
+      
+        <li class="route_1__step"><span class="route_1__head">見た目</span><span class="route_1__note">その位置の大きさになる</span></li>
+      
+    </ol>
+    <h3 class="section_2__h2">クリップとステートを作り、Motion Time を付ける</h3>
+    <ol class="steps_1">
+      <li>Project で <code>Create → Animation</code> を選び、<code>Hat_Size</code> を作ります。中身はあとで録画します。</li><li><code>Create → Animator Controller</code> で <code>HatSize_FX</code> を作って開き、レイヤー <code>HatSize</code> を足して <code>Weight</code> を 1 にします。</li><li><code>Parameters</code> の <code>+</code> から <code>Float</code> を選び、名前を <code>HatSize</code> にします。</li><li><code>Hat_Size</code> を Animator ウィンドウにドラッグして、ステートを作ります。オレンジ色の最初のステートになります。トランジションは要りません。</li><li>ステートを選び、Inspector の <code>Motion Time</code> の行の <code>Parameter</code> にチェックを入れ、右の欄で <code>HatSize</code> を選びます。</li><li><code>Write Defaults</code> は、ほかのステートとそろえます（MA の Match Avatar Write Defaults を使うなら、合わせてくれます）。</li>
+    </ol>
+    <div class="mock_1 mock_1--unity">
+  <figure class="mock_1__figure">
+  <div class="mock_1__screens">
+    
+      <div class="mock_1__screen" role="img" aria-label="ステートの設定の再現図。Motion は Hat_Size、Speed は 1、1 Motion Time の Parameter にチェックがあり HatSize を選んでいる">
+        <p class="mock_1__bar">Inspector › Hat_Size</p>
+        
+        <div class="mock_1__body">
+          
+            
+              <div class="mock_1__row mock_1__row--select">
+                
+                <span class="mock_1__label">Motion</span>
+                <span class="mock_1__control"><span class="mock_1__select">Hat_Size</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--value">
+                
+                <span class="mock_1__label">Speed</span>
+                <span class="mock_1__control"><span class="mock_1__value">1</span></span>
+              </div>
+            
+          
+            
+              <div class="mock_1__row mock_1__row--check is_hot">
+                <span class="mock_1__mark">1</span>
+                <span class="mock_1__label">Motion Time</span>
+                <span class="mock_1__control"><span class="mock_1__check is_on">Parameter · HatSize</span></span>
+              </div>
+            
+          
+        </div>
+      </div>
+    
+  </div>
+  <figcaption class="mock_1__caption">再現図：Unity の Inspector（Hat_Size のステート）。並びや見た目は簡単にしています。名前は例です</figcaption>
+  </figure>
+  
+    <ol class="mock_1__notes">
+      <li>クリップを時間で再生するかわりに、HatSize の値の位置で止めます。0 ならはじめ、1 なら終わりです。</li>
+    </ol>
+  
+</div>
+
+    <h3 class="section_2__h2">はじめと終わりにキーを打つ</h3>
+    <ol class="steps_1">
+      <li>アバターのいちばん上の <code>Animator</code> の <code>Controller</code> の欄に、録画のあいだだけ <code>HatSize_FX</code> を入れます。Animation ウィンドウで <code>Hat_Size</code> を選び、録画ボタンを押します。</li><li>フレームの欄（再生ボタンの右の数）が 0 なのを確かめ、Hierarchy で <code>Hat</code> を選び、Inspector の Transform の <code>Scale</code> を X・Y・Z とも 0.5 にします。</li><li>フレームの欄に 60 と入れて、60 フレーム目に移ります。<code>Scale</code> を X・Y・Z とも 1.5 にします。録画を止めます。</li><li>Animation ウィンドウ下の <code>Curves</code> を押し、キーをすべて選んで右クリックし、<code>Both Tangents → Linear</code> を選びます。キーの間が一定の割合で変わるようになります（はじめのままだと、端の近くがゆっくり変わる曲線になることがあります）。</li><li>Project で <code>Hat_Size</code> を選び、Inspector の <code>Loop Time</code> のチェックを外します。付いたままだと、いちばん端（1）で最初の形に戻って見えることがあります。</li><li><code>Hat</code> の Scale が録画の前に戻っているかを確かめ、<code>Animator</code> の <code>Controller</code> の欄をもとに戻します。</li>
+    </ol>
+    <p class="article_1__p">色を変えるときも同じです。0 フレーム目と 60 フレーム目に、マテリアルの色の行（<code>Mesh Renderer : Material._Color</code> のような行。名前はシェーダーによって違います）のキーを打ちます。</p>
+    <h3 class="section_2__h2">アバターにつなぎ、メニューに足す</h3>
+    <ol class="steps_1">
+      <li>MA でつなぐときは、オブジェクト <code>帽子の大きさ</code> を作り、MA Merge Animator（<code>HatSize_FX</code>）と MA Parameters を付けます。<code>HatSize</code> を <code>Float</code> で足し、<code>Default Value</code> を 0.5（Scale 1.0 にあたる）にし、<code>Saved</code> と <code>Synced</code> にチェックを入れます。</li><li>MA Menu Installer と MA Menu Item を付け、<code>Type</code> を <code>Radial Puppet</code> にします。回す値を入れる欄（Rotation と書かれた欄）に <code>HatSize</code> を入れます。</li><li>VRChat でこの項目を押すとダイヤルが開き、回すと HatSize が 0〜1 で変わります。</li>
+    </ol>
+    <h3 class="section_2__h2">もう1つの方法：Blend Tree（1D）</h3>
+    <p class="article_1__p">Blend Tree は、パラメーターの値に合わせて、いくつかのクリップを混ぜる部品です。Motion Time のかわりに使えます。</p>
+    <ol class="steps_1">
+      <li>Project で、空のクリップ <code>Hat_Small</code> と <code>Hat_Big</code> を作ります。</li><li><code>HatSize</code> レイヤーの何もないところを右クリックして <code>Create State → From New Blend Tree</code> を選びます。Motion Time のステートのかわりに使うので、こちらを右クリックして <code>Set as Layer Default State</code> にします。</li><li>できたステートをダブルクリックすると、中の <code>Blend Tree</code> が見えます。それをクリックします。</li><li>Inspector で <code>Blend Type</code> を <code>1D</code>、<code>Parameter</code> を <code>HatSize</code> にします。</li><li><code>Motion</code> の <code>+</code> から <code>Add Motion Field</code> を2回選び、<code>Hat_Small</code> と <code>Hat_Big</code> を入れます。</li><li><code>Automate Thresholds</code> のチェックを外し、<code>Hat_Small</code> の Threshold を 0、<code>Hat_Big</code> を 1 にします。</li><li>上と同じように録画して、<code>Hat_Small</code> には Scale 0.5、<code>Hat_Big</code> には Scale 1.5 のキーを、0 フレーム目にだけ打ちます。キーの間は Blend Tree が混ぜるので、Linear にする手間はありません。</li>
+    </ol>
+    <p class="article_1__p"><strong>どちらを使うか</strong>：クリップ1つで済む Motion Time のほうが手早く作れます。真ん中にも形を決めたいとき（0 で小さく、0.5 でふつう、1 で大きく、の3つ）や、クリップを分けて管理したいときは、Blend Tree が向いています。</p><p class="article_1__p">Blend Tree は、パラメーターが Float のときに使えます。VRChat は、Expression Parameters と Animator で型が違うとき、値を変換して渡すことがあります。たとえば Expression Parameters では Bool にしておき、Animator では同じ名前を Float にして Blend Tree に使う、という組み方があります。</p>
+  </section>
+
+  <section class="section_2 article_1__section" id="demo" aria-labelledby="demo-heading">
+    <h2 class="section_2__h1" id="demo-heading">動かして確かめる</h2>
+    <p class="article_1__p">Radial Puppet を回したつもりで、値を動かしてみてください。Motion Time で、60 フレームのクリップのどこが使われるかと、その見た目が変わります。</p>
+    <div class="demo_2 js_radial_demo" data-frames="60"
+      data-frame="HatSize が {v} なので、60 フレームのクリップの {f} フレーム目の値が使われます。" data-size="帽子の Scale は {x} です。" data-color="帽子の色は、青から赤へ {p}% 進んだところです。" data-remote="ほかの人に届く値は、目安で {r} です（8 bit に丸められるため）。">
+      <div class="demo_2__faces">
+        <div class="demo_2__face">
+          <p class="demo_2__who">見た目</p>
+          <div class="js_radial_look"><svg class="demo_2__svg" viewBox="-10 -20 140 130" aria-hidden="true" focusable="false"><ellipse cx="60" cy="68" rx="40" ry="37" fill="#f6dcc8" stroke="#8a5a44" stroke-width="2"/><ellipse cx="46" cy="70" rx="5" ry="7" fill="#3b2a24"/><ellipse cx="74" cy="70" rx="5" ry="7" fill="#3b2a24"/><path d="M50 88 Q60 95 70 88" fill="none" stroke="#8a5a44" stroke-width="3" stroke-linecap="round"/><g class="js_radial_hat" transform="translate(60 40) scale(1.00) translate(-60 -40)"><rect class="js_radial_fill" x="32" y="6" width="56" height="32" rx="8" fill="rgb(111 143 214)" stroke="#34508f" stroke-width="2"/><rect class="js_radial_fill" x="16" y="34" width="88" height="9" rx="4.5" fill="rgb(111 143 214)" stroke="#34508f" stroke-width="2"/></g></svg></div>
+        </div>
+        <div class="demo_2__face">
+          <p class="demo_2__who">クリップの中の位置</p>
+          <div class="js_radial_clip"><svg class="demo_2__svg" viewBox="0 0 160 90" aria-hidden="true" focusable="false"><line x1="16" y1="48" x2="144" y2="48" stroke="#5f5f5f" stroke-width="3" stroke-linecap="round"/><rect x="-6" y="-6" width="12" height="12" fill="#34508f" transform="translate(16 48) rotate(45)"/><rect x="-6" y="-6" width="12" height="12" fill="#34508f" transform="translate(144 48) rotate(45)"/><text x="16" y="80" font-size="11" text-anchor="middle" fill="#0d1b2a">0</text><text x="144" y="80" font-size="11" text-anchor="middle" fill="#0d1b2a">60</text><line class="js_radial_head" x1="80.0" y1="24" x2="80.0" y2="66" stroke="#b3261e" stroke-width="2.5"/><text class="js_radial_frame" x="80.0" y="17" font-size="12" font-weight="700" text-anchor="middle" fill="#b3261e">30</text></svg></div>
+        </div>
+      </div>
+      <div class="demo_2__controls">
+        <div class="demo_1__range">
+          <p class="demo_1__label"><label for="radial-value">Radial Puppet の値（HatSize）</label> <output class="demo_1__value" for="radial-value">0.50</output></p>
+          <input type="range" min="0" max="100" step="1" value="50" id="radial-value" class="js_radial_value">
+        </div>
+        <fieldset class="demo_1__distance">
+          <legend class="demo_1__label">クリップで変えるもの</legend>
+          
+            <label><input type="radio" name="radial-mode" value="size" class="js_radial_mode" checked> 大きさ（Scale 0.5 → 1.5）</label>
+          
+            <label><input type="radio" name="radial-mode" value="color" class="js_radial_mode"> 色（青 → 赤）</label>
+          
+        </fieldset>
+      </div>
+      <div class="demo_2__output" aria-live="polite">
+        <p class="demo_1__why js_radial_why">HatSize が 0.50 なので、60 フレームのクリップの 30 フレーム目の値が使われます。</p>
+        <p class="demo_1__result js_radial_result">帽子の Scale は 1.00 です。</p>
+        <p class="demo_1__why js_radial_remote">ほかの人に届く値は、目安で 0.504 です（8 bit に丸められるため）。</p>
+      </div>
+      <noscript><p class="section_2__note">図を動かすには、JavaScript を有効にしてください。</p></noscript>
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="sync" aria-labelledby="sync-heading">
+    <h2 class="section_2__h1" id="sync-heading">同期と精度、ほかの人からの見え方</h2>
+    <p class="article_1__p"><strong>Bool と Int は、ほかの人にも同じ値が届きます。</strong>OutfitNo が 2 なら、ほかの人の画面でも 2 です。</p><p class="article_1__p"><strong>Float は、ほかの人に送るときに 8 bit に丸められます。</strong>-1〜1 を 255 段ほどに分けるので、細かさはおよそ 1/127 ずつです。自分の画面の 0.503 が、ほかの人には 0.504 になる、というくらいの差です。大きさや色なら、まず気づきません。</p><p class="article_1__p">値は、少し遅れて届きます。ダイヤルを速く回すと、ほかの人からは、遅れて追いかけるように見えたり、段々に変わって見えたりすることがあります。</p><p class="article_1__p">公式の説明では、ダイヤル（Radial Puppet など）を開いて回している間は、値をこまめに送り、ほかの人の側でなめらかにつなぐ、とされています。ただし、どれくらいなめらかに見えるかは、通信の状態などで変わります。<strong>回し終えたあとの値は、ほかの人にも届きます</strong>。途中の動きまでぴったり同じには見えない、と考えておくと安心です。</p><p class="article_1__p">くわしい決まりは、<a href="https://creators.vrchat.com/avatars/animator-parameters/" target="_blank" rel="noopener">VRChat の Animator Parameters のページ<span class="visually-hidden">（新しいタブで開きます）</span></a>（英語）にあります。</p>
+    <section class="table_3" tabindex="0" aria-label="この回と前の回で使った、同期の量の例">
+      <table>
+        <thead>
+          <tr><th scope="col">パラメーター</th><th scope="col">型</th><th scope="col">同期の量</th></tr>
+        </thead>
+        <tbody>
+          
+            <tr><th scope="row">HatOn</th><td>Bool</td><td>1 bit</td></tr>
+          
+            <tr><th scope="row">OutfitNo</th><td>Int</td><td>8 bit</td></tr>
+          
+            <tr><th scope="row">HatSize</th><td>Float</td><td>8 bit</td></tr>
+          
+            <tr><th scope="row">合計</th><td></td><td>17 bit（256 bit まで使える）</td></tr>
+          
+        </tbody>
+      </table>
+    </section>
+    <ul class="rules_1">
+      <li>Synced を外したパラメーターは、量を使いません。そのかわり、ほかの人には Default のままに見えます。自分だけが見られればよいものに使います。</li><li>量が 256 bit を超えると、アップロードできません。Expression Parameters の Inspector などに、いま使っている量が出ます。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="cases" aria-labelledby="cases-heading">
+    <h2 class="section_2__h1" id="cases-heading">よくある困りごとと直し方</h2>
+    <div class="case_1">
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">2着が同時に出る</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>別の服を選んだのに、前の服が消えずに重なる。</dd></div>
+            <div><dt>原因</dt><dd>クリップに、ほかの服の行（Is Active が 0）が入っていません。Write Defaults が OFF なので、前の値が残っています。</dd></div>
+            <div><dt>直し方</dt><dd>Outfit_0〜Outfit_3 のどのクリップにも、3着すべての Is Active の行を入れます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">選んでも切り替わらない</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>メニューで服を押しても、何も変わらない。</dd></div>
+            <div><dt>原因</dt><dd>Animator のパラメーターの名前か型（Int）が違うか、Any State からの矢印の Equals の数が違います。レイヤーの Weight が 0 のこともあります。</dd></div>
+            <div><dt>直し方</dt><dd>名前と型を、MA Parameters と Animator でそろえます。矢印の数と、メニューの Value が合っているかを確かめます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">動きのあるクリップが最初から再生され続ける</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>選んだ服に揺れなどのアニメーションを付けたら、ずっと最初の形で止まって見える。</dd></div>
+            <div><dt>原因</dt><dd>Any State からの矢印で、Can Transition To Self にチェックが入っています。毎フレーム入り直しています。</dd></div>
+            <div><dt>直し方</dt><dd>Any State から出る矢印のすべてで、Can Transition To Self を外します。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">回しても大きさが変わらない</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>Radial Puppet を回しても、帽子の大きさが変わらない。</dd></div>
+            <div><dt>原因</dt><dd>ステートの Motion Time の Parameter にチェックが入っていないか、クリップに 0 フレーム目のキーしか無いです。</dd></div>
+            <div><dt>直し方</dt><dd>Motion Time にチェックを入れて HatSize を選びます。クリップの 0 フレーム目と終わりの両方にキーを打ちます。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">いちばん大きくすると、小さく戻る</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>ダイヤルを最後まで回すと、いちばん小さい形になる。</dd></div>
+            <div><dt>原因</dt><dd>クリップの Loop Time にチェックが入っていて、終わりが最初とつながっています。</dd></div>
+            <div><dt>直し方</dt><dd>Project でクリップを選び、Inspector の Loop Time を外します。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">真ん中が速く、両端がゆっくり変わる</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>回したぶんだけ変わらず、端の近くではあまり変わらない。</dd></div>
+            <div><dt>原因</dt><dd>キーの間の曲線が、端でゆるやかになっています。</dd></div>
+            <div><dt>直し方</dt><dd>Animation ウィンドウの Curves でキーを選び、右クリックから Both Tangents → Linear にします。</dd></div>
+          </dl>
+        </section>
+      
+        <section class="case_1__item">
+          <h3 class="case_1__title">ほかの人には遅れて見える</h3>
+          <dl class="case_1__list">
+            <div><dt>起きること</dt><dd>自分ではなめらかに変わるのに、友だちからは遅れて、段々に変わって見えると言われた。</dd></div>
+            <div><dt>原因</dt><dd>Float の値はネットワークで少し遅れて届き、8 bit に丸められます。</dd></div>
+            <div><dt>直し方</dt><dd>ふつうのことなので、回し終えたあとの値が合っていれば問題ありません。速い動きを見せたいときは、Float を回すのではなく、クリップ自体を再生する組み方にします。</dd></div>
+          </dl>
+        </section>
+      
+    </div>
+  </section>
+
+  <section class="section_2 article_1__section" id="care" aria-labelledby="care-heading">
+    <h2 class="section_2__h1" id="care-heading">気をつけること</h2>
+    <ul class="rules_1">
+      <li>Int で切り替えるときは、どのクリップにも、切り替えるものすべての行を入れます。</li><li>Any State から出る矢印は、Can Transition To Self を外します。</li><li>Motion Time に使うクリップは、Loop Time を外し、はじめと終わりにキーを打ちます。</li><li>Float は 8 bit に丸められて、少し遅れてほかの人に届きます。ぴったり同じ値が要るものは、Int で段階に分けます。</li><li>同期の量は、アバター全体で 256 bit までです。服のギミックなど、ほかのツールが足すパラメーターも数に入ります。</li><li>大きさを変えるときは、Humanoid の骨ではなく、小物のオブジェクトの Scale を動かします。</li>
+    </ul>
+  </section>
+
+  <section class="section_2 article_1__section" id="summary" aria-labelledby="summary-heading">
+    <h2 class="section_2__h1" id="summary-heading">まとめ</h2>
+    <ul class="rules_1">
+      <li>オンオフは Bool、何個かから1つ選ぶなら Int、少しずつ変えるなら Float です。</li><li>Int は、Any State から Equals の条件で各ステートへ移ります。Can Transition To Self は外します。</li><li>メニューの Toggle は、オンでその Value、オフで 0 にします。値ごとに項目を作ると、1つだけ選べます。</li><li>Float は Radial Puppet で回し、ステートの Motion Time でクリップの位置にします。Blend Tree でも作れます。</li><li>Float は 8 bit に丸められ、少し遅れてほかの人に届きます。</li>
+    </ul>
+    <p class="article_1__p">次の <a href="/avatar-tips/gesture/">第10回 ハンドサインで表情を変える</a> では、ハンドサインの番号で表情を切り替えます。</p>
+    <p class="section_2__more"><a href="/avatar-tips/">アバター改変の解説の一覧</a></p>
+  </section>
+</article>
+
+<nav class="section_2 article_1__pager" aria-label="前後の回">
+  <ul class="next_1 next_1--pager">
+    
+      <li class="next_1__prev"><a href="/avatar-tips/toggle/" rel="prev"><span class="next_1__note">前の回（第8回）</span><span class="next_1__text">メニューでオンオフするギミックを作る</span></a></li>
+    
+    
+      <li class="next_1__next"><a href="/avatar-tips/gesture/" rel="next"><span class="next_1__note">次の回（第10回）</span><span class="next_1__text">ハンドサインで表情を変える</span></a></li>
+    
+  </ul>
+</nav>
+
+</main><!-- /#main -->
+
+<footer id="footer">
+  <p>&copy; ぬにふちさか</p>
+</footer>
+</div><!-- /#wrapper -->
+
+
+</body>
+</html>

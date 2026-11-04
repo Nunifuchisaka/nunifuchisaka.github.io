@@ -1,0 +1,3360 @@
+@use "sass:math";
+@use "tool" as *;
+
+/*
+# トップページ
+使用箇所：src/index.ejs, src/en/index.ejs（body.top_1）
+色：主役は写真なので、周りは無彩色寄りに抑える。地 #EDEEEF / 墨 #2B2420 / 夜 #1B1E23 / 灯 #F2B35E（ライトでは #9A5A0E）
+灯（--color-accent）はフォーカスの枠と、リンクの下線の hover にだけ使う。
+氷（--color-ice）はキービジュアルのアイコンを巡る光にだけ使う（「氷属性」の演出。ライトでは少し濃い水色）。
+*/
+
+$font: "Zen Kaku Gothic Antique", $gothic;
+
+@mixin theme-light {
+  color-scheme: light;
+
+  --color-bg: #edeeef;
+  --color-surface: #f7f7f8;
+  --color-text: #2b2420;
+  --color-text-muted: #555d66;
+  --color-link: #1e5a80;
+  --color-accent: #9a5a0e;
+  --color-line: #cfd3d7;
+  --color-ice: #7fb0cf;
+}
+
+@mixin theme-dark {
+  color-scheme: dark;
+
+  --color-bg: #1b1e23;
+  --color-surface: #23272e;
+  --color-text: #eef0f2;
+  --color-text-muted: #a9b0b8;
+  --color-link: #9ccbe6;
+  --color-accent: #f2b35e;
+  --color-line: #383e47;
+  --color-ice: #d6ecf8;
+}
+
+:root {
+  @include theme-light;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 72px;
+  --width-page: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include theme-dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  @include theme-dark;
+}
+
+
+/*
+## body.top_1
+使用箇所：トップページの body
+内容：共通 CSS（foundation）の色・文字組みをトップだけ上書きする
+*/
+
+.top_1 {
+  font: 400 1.6rem/1.75 $font;
+  letter-spacing: .03em;
+  color: var(--color-text);
+  background: var(--color-bg);
+  @include sp {
+    font-size: 1.6rem;
+  }
+
+  a {
+    color: var(--color-link);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .skip-link {
+    color: var(--color-bg);
+    background: var(--color-text);
+  }
+
+  #wrapper {
+    max-width: none;
+    border: 0;
+  }
+
+  #main {
+    max-width: var(--width-page);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    @include sp {
+      padding: 0 var(--space-2);
+    }
+  }
+
+  #footer {
+    max-width: var(--width-page);
+    margin: var(--space-5) auto 0;
+    padding: var(--space-3) var(--space-4);
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    text-align: left;
+    background: transparent;
+    @include sp {
+      padding: var(--space-3) var(--space-2);
+    }
+  }
+}
+
+
+/*
+## .header_4
+使用箇所：トップページ
+内容：名前（ホーム）・ページ内ナビ・言語切替・テーマ切替の1段バー
+*/
+
+.header_4 {
+  position: relative;
+  z-index: 2;
+  view-transition-name: topbar;
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-3);
+    max-width: var(--width-page);
+    margin: 0 auto;
+    padding: var(--space-2) var(--space-4);
+    @include sp {
+      gap: var(--space-1) var(--space-2);
+      padding: var(--space-1) var(--space-2) var(--space-2);
+    }
+  }
+
+  &__home {
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-decoration: none;
+    .top_1 & {
+      color: var(--color-text);
+    }
+  }
+
+  &__nav {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 var(--space-2);
+    }
+    a {
+      display: block;
+      padding: var(--space-1) 0;
+      font-size: 1.4rem;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+      &[aria-current] {
+        font-weight: 700;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: .35em;
+      }
+    }
+    @include sp {
+      order: 3;
+      width: 100%;
+    }
+  }
+
+  &__tools {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+    margin-left: auto;
+  }
+
+  &__select,
+  &__theme {
+    box-sizing: border-box;
+    min-height: 36px;
+    padding: 4px 12px;
+    font: inherit;
+    font-size: 1.3rem;
+    letter-spacing: .03em;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    @include sp {
+      padding: 4px 10px;
+      letter-spacing: 0;
+    }
+  }
+
+  &__theme {
+    cursor: pointer;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+  }
+}
+
+
+/*
+## .profile_2
+使用箇所：トップページの最初の画面
+内容：もとのヘッダー（X のバナー・アイコン・名前・紹介文）を整えたもの。
+     アイコンはバナーの下端に半分かけ、名前と紹介文はその右（スマホでは下）に置く
+演出：JS を使わず、新しい CSS だけで「氷の光」を付ける。どれも対応していないブラウザでは何も起きず、
+     「視差効果を減らす」設定では止まる（光の輪だけは止まった状態で残る）。
+     1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
+     2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
+     3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
+     4. 霜（assets/js/frost.js）… 写真の上に WebGL2 の canvas を重ね、写実的な霜を描く。なぞると溶けて凍り直す
+*/
+
+// アイコンを巡る光の角度。@property で <angle> として登録すると、グラデーションの角度をそのままアニメーションできる
+@property --profile-glint {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes profile_2-glint {
+  to {
+    --profile-glint: 360deg;
+  }
+}
+
+// スクロールでバナーが奥へ沈む。進み具合は時間ではなくバナーが画面上端から出ていく量（animation-range: exit）
+@keyframes profile_2-sink {
+  to {
+    scale: 1.12;
+    translate: 0 16%;
+    opacity: .4;
+  }
+}
+
+.profile_2 {
+  max-width: var(--width-page);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  @include sp {
+    padding: 0;
+  }
+
+  &__banner {
+    // hidden だとこの枠がスクロールコンテナ扱いになり、下の view() がページではなく枠を基準にしてしまうので clip にする
+    overflow: clip;
+    border-radius: 8px;
+    @include sp {
+      border-radius: 0;
+    }
+  }
+
+  // 写真と、その上に重なる霜の canvas。スクロールで沈む視差はこの箱ごと動かす
+  &__picture {
+    position: relative;
+    aspect-ratio: 3 / 1;
+  }
+
+  &__banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+    background: var(--color-surface);
+    border-radius: 8px;
+    @include sp {
+      border-radius: 0;
+    }
+  }
+
+  &__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: pan-y; // 指でなぞって溶かせるが、縦スクロールは邪魔しない
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 176px 1fr;
+    gap: 0 var(--space-4);
+    padding: 0 var(--space-3);
+    @include sp {
+      grid-template-columns: 1fr;
+      padding: 0 var(--space-2);
+    }
+  }
+
+  &__icon {
+    position: relative;
+    align-self: start; // グリッドのセル（文の高さ）いっぱいに伸びないようにし、光の輪がアイコンと同じ円になるようにする
+    margin-top: -88px;
+    @include sp {
+      width: 112px;
+      margin-top: -56px;
+    }
+
+    // 氷の光の輪。アイコンの縁（背景色の枠）のすぐ外側に細く見え、透明な部分が多い扇形がゆっくり回る
+    &::before {
+      position: absolute;
+      inset: -3px -3px auto;
+      aspect-ratio: 1;
+      content: "";
+      background: conic-gradient(from var(--profile-glint), transparent 0deg 200deg, var(--color-ice) 290deg, transparent 350deg 360deg);
+      border-radius: 50%;
+      animation: profile_2-glint 14s linear infinite;
+      @include sp {
+        inset: -2px;
+      }
+    }
+
+    img {
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: var(--color-surface);
+      border: 6px solid var(--color-bg);
+      border-radius: 50%;
+      @include sp {
+        border-width: 4px;
+      }
+    }
+  }
+
+  &__text {
+    padding-top: var(--space-3);
+    @include sp {
+      padding-top: var(--space-1);
+    }
+  }
+
+  &__name {
+    font-size: clamp(3.2rem, 2.4rem + 2vw, 4.8rem);
+    font-weight: 900;
+    line-height: 1.15;
+  }
+
+  &__reading {
+    margin-top: 2px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--color-text-muted);
+  }
+
+  &__lead {
+    margin-top: var(--space-2);
+    font-size: 1.6rem;
+    line-height: 1.9;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .profile_2 {
+    // 開いたときの入場。@starting-style に「最初の一瞬の見た目」を書くと、通常の見た目へ transition で移る
+    &__banner,
+    &__icon,
+    &__name,
+    &__reading,
+    &__lead {
+      transition: opacity .9s ease-out, translate .9s cubic-bezier(.2, .7, .2, 1);
+      @starting-style {
+        opacity: 0;
+        translate: 0 12px;
+      }
+    }
+
+    &__banner {
+      @starting-style {
+        translate: 0;
+      }
+    }
+
+    &__icon {
+      transition-delay: .15s;
+    }
+
+    &__name {
+      transition-delay: .3s;
+    }
+
+    &__reading {
+      transition-delay: .4s;
+    }
+
+    &__lead {
+      transition-delay: .5s;
+    }
+  }
+
+  // スクロール連動。バナーが画面上端から出ていく間（exit）だけ、沈む動きが進む
+  @supports (animation-timeline: view()) {
+    .profile_2__picture {
+      animation: profile_2-sink linear both;
+      animation-timeline: view(block);
+      animation-range: exit;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile_2__icon::before {
+    animation: none;
+  }
+}
+
+
+/*
+## .page_1
+使用箇所：トップページ以外の新デザインのページ（cluster）
+内容：ページの見出し
+*/
+
+.page_1 {
+  padding-top: var(--space-3);
+  &__h1 {
+    font-size: clamp(3.2rem, 2.4rem + 2vw, 4.4rem);
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  // 案内実績の要約。数字を大きくせず、一文として大きく組む
+  &__headline {
+    max-width: 22em;
+
+    // 日付や回数の途中で改行しない
+    span {
+      display: inline-block;
+    }
+
+    margin-top: var(--space-2);
+    font-size: clamp(2rem, 1.4rem + 1.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.5;
+    text-wrap: balance;
+  }
+}
+
+
+/*
+## .section_2
+使用箇所：トップページ
+内容：各節の見出し・注記・導入文
+*/
+
+.section_2 {
+  margin-top: var(--space-5);
+  &:first-child {
+    margin-top: var(--space-4);
+  }
+
+  &__h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    @include sp {
+      font-size: 2.2rem;
+    }
+  }
+
+  &__note {
+    margin-top: 4px;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  &__lead {
+    max-width: 40em;
+    margin-top: var(--space-1);
+  }
+
+  // 節の中の小見出しと段落（はじめてのVRChat のように、1つの節が長いとき）
+  &__h2 {
+    margin-top: var(--space-4);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    @include sp {
+      font-size: 1.8rem;
+    }
+  }
+
+  &__p {
+    max-width: 40em;
+    margin-top: var(--space-2);
+    line-height: 1.9;
+  }
+
+  &__more {
+    margin-top: var(--space-2);
+    font-weight: 700;
+  }
+
+  // トップページの「すべて見る」など。リンクを丸いボタンにする（外部サイトへのリンクには ↗ を付ける）
+  &__more--button {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    a {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 48px;
+      padding: 8px 24px;
+      line-height: 1.4;
+      text-decoration: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 100vw;
+      transition: border-color .15s, background-color .15s;
+      .top_1 & {
+        color: var(--color-text);
+      }
+      &::after {
+        flex: none;
+        color: var(--color-link);
+        content: "→";
+      }
+      &[target="_blank"]::after {
+        content: "↗";
+      }
+      &:hover {
+        background: var(--color-bg);
+        border-color: var(--color-text-muted);
+      }
+      @include sp {
+        padding: 8px 20px;
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
+
+
+/*
+## .list_7
+使用箇所：トップページ「リンク集」
+内容：外部リンクのボタン（アイコン＋名前）。名前の長さに合わせた幅で並べ、行の余りは各ボタンが少しずつ広がって埋める（最後の行だけは広げない）。
+     名前は折り返さない
+*/
+
+.list_7 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: var(--space-2);
+  @include sp {
+    gap: 8px;
+  }
+
+  // 最後の行の余りはここが受け取り、最後の行のボタンは名前の長さのままにする
+  &::after {
+    content: "";
+    flex: 1000 1 0;
+  }
+  li {
+    flex: 1 1 auto;
+  }
+  a {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 52px;
+    padding: 10px 22px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+    transition: border-color .15s, background-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      background: var(--color-bg);
+      border-color: var(--color-text-muted);
+    }
+    @include sp {
+      min-height: 48px;
+      padding: 8px 16px;
+      font-size: 1.4rem;
+    }
+    i {
+      flex: none;
+      width: 1.25em;
+      color: var(--color-link);
+      text-align: center;
+    }
+  }
+}
+
+
+/*
+## .list_8
+使用箇所：トップページ「写真」、cluster ページ
+内容：写真をトリミングせずに、行ごとに高さを揃えて左右いっぱいに並べる（ジャスティファイド）。
+     各写真の縦横比を --ar に入れ、幅の伸び（flex-grow）も縦横比に比例させると、同じ行の写真の高さが揃う。
+     最後の行は ::after が余りを受け取り、写真が引き伸ばされないようにする。押すと viewer_1 で開く
+*/
+
+.list_8 {
+  --row: 240px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-2);
+  @include sp {
+    --row: 140px;
+
+    gap: 6px;
+  }
+  &::after {
+    content: "";
+    flex-grow: 1000;
+  }
+  &--small {
+    --row: 170px;
+    @include sp {
+      --row: 96px;
+    }
+  }
+
+  // トップページの cluster（数枚だけ）。PC では折り返さず1行で左右いっぱいに、スマホでは2枚ずつ並べる
+  &--row {
+    flex-wrap: nowrap;
+    &::after {
+      display: none;
+    }
+    li {
+      flex-basis: 0;
+    }
+    @include sp {
+      flex-wrap: wrap;
+      li {
+        flex-basis: 40%;
+      }
+    }
+  }
+  li {
+    flex: var(--ar, 1.5) 1 calc(var(--row) * var(--ar, 1.5));
+    min-width: 0;
+  }
+  a {
+    display: block;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--ar, 1.5);
+    background: var(--color-surface);
+  }
+}
+
+
+/*
+## .list_9
+使用箇所：トップページ「Products」
+内容：作品の一覧。画像（トリミングしない）・種類・名前・何ができるかの一文
+*/
+
+.list_9 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  a {
+    display: grid;
+    grid-template-columns: 44% 1fr;
+    gap: var(--space-2);
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 12px;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    @include sp {
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      padding: 10px;
+    }
+  }
+  &__image {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: var(--color-bg);
+    border-radius: 6px;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  &__body {
+    display: grid;
+    gap: 4px;
+  }
+  &__kind {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    @include sp {
+      font-size: 1.6rem;
+    }
+  }
+  &__desc {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    @include sp {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+
+/*
+## .list_13
+使用箇所：トップページ「YouTube」
+内容：新しい順の動画。押すとその場で再生する（assets/js/top.js）
+*/
+
+.list_13 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) 10px;
+  }
+  &__player {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 6px;
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+  &__poster {
+    display: block;
+    height: 100%;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &:hover .list_13__play {
+      background: rgb(0 0 0 / 85%);
+    }
+  }
+  &__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56px;
+    height: 40px;
+    background: rgb(0 0 0 / 65%);
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-color: transparent transparent transparent #fff;
+      border-style: solid;
+      border-width: 9px 0 9px 15px;
+      transform: translate(-35%, -50%);
+    }
+  }
+  &__title {
+    display: -webkit-box;
+    margin-top: 8px;
+    overflow: hidden;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  &__date {
+    margin-top: 2px;
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+
+/*
+## .month_1
+使用箇所：トップページ「案内の記録」
+内容：月の見出し（スクロール中は上に貼り付く）と、その月の写真
+*/
+
+.month_1 {
+  margin-top: var(--space-4);
+  &__h1 {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: var(--space-1) 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    background: var(--color-bg);
+  }
+  &__count {
+    margin-left: .5em;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .list_12
+使用箇所：トップページ「案内の記録」
+内容：案内写真（16:9 のまま）と、その日付・何人目か
+*/
+
+.list_12 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3) var(--space-2);
+  margin-top: var(--space-1);
+  @include sp {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2) 10px;
+  }
+  &--flat {
+    margin-top: var(--space-2);
+  }
+  a {
+    display: block;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+
+    // トリミングしない（16:9 でない写真は余白が付く）
+    object-fit: contain;
+    background: var(--color-surface);
+    border-radius: 4px;
+  }
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 .6em;
+    margin-top: 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+  &__num {
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .viewer_1
+使用箇所：トップページ・cluster ページ（assets/js/viewer.js が作る dialog）
+内容：写真ビューア。写真は View Transitions で一覧から広がって開く
+*/
+
+.viewer_1 {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-4) 72px;
+  color: #eef0f2;
+  background: transparent;
+  border: 0;
+  @include sp {
+    padding: 56px var(--space-1) var(--space-3);
+  }
+  &::backdrop {
+    background: rgb(12 14 17 / 94%);
+  }
+  &[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  &__figure {
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100dvh - var(--space-4) * 2 - 48px);
+    object-fit: contain;
+    border-radius: 4px;
+    @include sp {
+      max-height: calc(100dvh - 140px);
+    }
+  }
+
+  &__caption {
+    display: flex;
+    gap: .8em;
+    font-size: 1.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__title {
+    font-weight: 700;
+  }
+
+  &__note {
+    color: #a9b0b8;
+  }
+
+  &__button {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    font: inherit;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: #eef0f2;
+    cursor: pointer;
+    background: rgb(255 255 255 / 8%);
+    border: 0;
+    border-radius: 50%;
+    &:hover {
+      background: rgb(255 255 255 / 18%);
+    }
+    &:focus-visible {
+      outline: 3px solid #f2b35e;
+      outline-offset: 2px;
+    }
+    &:disabled {
+      visibility: hidden;
+    }
+    &--prev {
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+    }
+    &--next {
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+    }
+    &--close {
+      top: 12px;
+      right: 12px;
+      font-size: 2.8rem;
+    }
+    @include sp {
+      &--prev,
+      &--next {
+        top: auto;
+        bottom: 12px;
+        transform: none;
+      }
+    }
+  }
+}
+
+
+/*
+## View Transitions
+内容：写真が広がる動きの速さと、ページ移動のときの切り替え。
+     ページ移動（cross-document view transitions）は、対応ブラウザだけで動く。動きを減らす設定のときは使わない。
+     上部のバーは .header_4 に名前を付けてあるので、ページを移っても動かさず、中身だけを入れ替える。
+     写真ビューアの動き（JS の startViewTransition）と混ざらないよう、ページ移動には種類 page を付けて分ける。
+*/
+
+::view-transition-group(viewer-photo) {
+  animation-duration: .38s;
+  animation-timing-function: cubic-bezier(.2, .7, .3, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+    types: page;
+  }
+}
+
+// 動きを減らす設定のときは、ページ移動の切り替えを止める。
+// （@media の中の @view-transition だけでは止まらないブラウザがあったので、はっきり none を書き、動きも消す）
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+:root:active-view-transition-type(page) {
+  &::view-transition-old(root) {
+    animation: page_1_out .18s ease-in both;
+  }
+  &::view-transition-new(root) {
+    animation: page_1_in .32s cubic-bezier(.2, .7, .3, 1) .06s both;
+  }
+}
+
+@keyframes page_1_out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page_1_in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+
+// 画面に入るとき、少し下から浮かび上がる（scroll-driven animations 用。名前は共通で使う）
+@keyframes reveal_1 {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+
+/*
+## .jump_1
+使用箇所：VR機材（用途への移動）
+*/
+
+.jump_1 {
+  margin-top: var(--space-3);
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    min-height: 40px;
+    padding: 4px 16px;
+    font-weight: 700;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+  }
+  &__count {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+
+/*
+## .list_14
+使用箇所：VR機材
+内容：機材ごとのカード（アイコンまたは写真・名前・何のためのものか・自分の使い方・どこで見られるか）。
+     リンクは「○○で見る」だけにして、カード全体へ広げる（::after）。説明文の中の用語ボタン（term_1）はリンクより上に置いて押せるようにする
+*/
+
+.list_14 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  &__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .list_14__shop {
+      text-decoration: underline;
+    }
+
+    // キーボードで選んだときは、カード全体に枠を出す
+    &:has(.list_14__shop:focus-visible) {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+  }
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    font-size: 2.2rem;
+    color: var(--color-link);
+    background: var(--color-bg);
+    border-radius: 50%;
+  }
+  &__image img {
+    display: block;
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background: var(--color-bg);
+    border-radius: 8px;
+  }
+  &__body {
+    display: grid;
+    gap: 4px;
+  }
+  &__name {
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 1.35;
+  }
+  &__what {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+  &__note {
+    padding-left: 10px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+    border-left: 3px solid var(--color-line);
+  }
+  &__shop {
+    justify-self: start;
+    margin-top: 2px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+    .top_1 & {
+      color: var(--color-link);
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+    }
+    .top_1 &:focus-visible {
+      outline: 0;
+    }
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .list_14__item {
+      animation: reveal_1 linear both;
+      animation-range: entry 0% entry 90%;
+      animation-timeline: view();
+    }
+  }
+}
+
+
+/*
+## .term_1
+使用箇所：VR機材（説明文の中の用語）
+内容：押すと用語の説明が開くボタンと、その説明（popover。HTML だけで開閉し、外を押すか Esc で閉じる）
+*/
+
+.term_1 {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+  cursor: help;
+  background: none;
+  border: 0;
+  &:hover {
+    color: var(--color-link);
+  }
+
+  &__pop {
+    box-sizing: border-box;
+    width: min(100% - 32px, 28em);
+    margin: auto;
+    padding: var(--space-3);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgb(0 0 0 / 25%);
+    &::backdrop {
+      background: rgb(0 0 0 / 35%);
+    }
+  }
+
+  &__title {
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 1.4;
+  }
+
+  &__body {
+    margin-top: var(--space-1);
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+
+  &__close {
+    min-height: 44px;
+    margin-top: var(--space-2);
+    padding: 0 var(--space-3);
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: 100vw;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+  }
+}
+
+// 開くとき、ふわっと現れる（動きを減らす設定のときは、すぐ出す）
+@media (prefers-reduced-motion: no-preference) {
+  .term_1__pop {
+    transition: opacity .18s, transform .18s, overlay .18s allow-discrete, display .18s allow-discrete;
+    &:popover-open {
+      @starting-style {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+    }
+    &:not(:popover-open) {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+}
+
+
+/*
+## .list_15
+使用箇所：回想（Vimeo と Cloudflare R2 の動画）
+*/
+
+.list_15 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+  iframe,
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 0;
+    border-radius: 6px;
+  }
+}
+
+
+/*
+## .team_1
+使用箇所：Claude Code の使い方「構成」
+内容：自分 → Claude Code → エージェント・スキル・覚え書き・MCP、を縦の線でつないだ図
+*/
+
+.team_1 {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--space-3);
+
+  &__node {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 30em;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    &--me,
+    &--hub {
+      text-align: center;
+    }
+    &--hub {
+      color: var(--color-bg);
+      background: var(--color-text);
+      border-color: var(--color-text);
+      .team_1__note {
+        color: inherit;
+        opacity: .85;
+      }
+    }
+  }
+
+  &__link {
+    width: 2px;
+    height: var(--space-3);
+    background: var(--color-line);
+  }
+
+  &__name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.35;
+  }
+
+  &__role {
+    margin-left: .4em;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__note {
+    margin-top: 4px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  &__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3) var(--space-2);
+    width: 100%;
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--color-line);
+    @include sp {
+      grid-template-columns: 1fr;
+    }
+    .team_1__node {
+      max-width: none;
+    }
+    ul {
+      display: grid;
+      gap: 10px;
+    }
+  }
+
+  &__h {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__groupnote {
+    margin: -4px 0 10px;
+    font-size: 1.3rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  &__name a {
+    color: var(--color-link);
+  }
+}
+
+
+/*
+## .flow_1
+使用箇所：Claude Code の使い方「依頼から公開まで」
+内容：手順（本当に順番があるので番号を付ける）
+*/
+
+.flow_1 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  counter-reset: flow_1;
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+
+  &__step {
+    position: relative;
+    padding-top: 44px;
+    counter-increment: flow_1;
+    &::before {
+      content: counter(flow_1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      font-weight: 900;
+      color: var(--color-bg);
+      background: var(--color-text);
+      border-radius: 50%;
+    }
+    @include sp {
+      padding: 0 0 0 48px;
+    }
+  }
+
+  // その手順を誰がするか（ぬにふちさか・意匠家・技師・Claude Code）
+  &__who {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__title {
+    font-size: 1.7rem;
+    font-weight: 900;
+  }
+
+  &__note {
+    margin-top: 4px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+}
+
+
+/*
+## .rules_1
+使用箇所：Claude Code の使い方「決めているルール」
+*/
+
+.rules_1 {
+  display: grid;
+  gap: 8px;
+  margin-top: var(--space-2);
+  li {
+    position: relative;
+    padding-left: 1.4em;
+    &::before {
+      content: "";
+      position: absolute;
+      top: .7em;
+      left: .2em;
+      width: .5em;
+      height: .5em;
+      background: var(--color-text-muted);
+      border-radius: 50%;
+    }
+  }
+}
+
+
+/*
+## .examples_1
+使用箇所：Claude Code の使い方「作ったもの」
+*/
+
+.examples_1 {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 44em;
+  margin-top: var(--space-2);
+  dt {
+    font-size: 1.7rem;
+    font-weight: 900;
+  }
+  dd {
+    margin-top: 4px;
+    line-height: 1.8;
+  }
+}
+
+
+/*
+## .word_1
+使用箇所：Claude Code の使い方（writing-plans などのスキル名）
+内容：ハイフンを含む語を、途中で折り返さない
+*/
+
+.word_1 {
+  white-space: nowrap;
+}
+
+
+/*
+## .device_1
+使用箇所：はじめてのVRChat「遊べる機器」
+内容：機器ごとのカード（アイコン・名前・説明・関係するページへのリンク）
+*/
+
+.device_1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    box-sizing: border-box;
+    padding: var(--space-2) var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    color: var(--color-link);
+    background: var(--color-bg);
+    border-radius: 50%;
+  }
+
+  &__name {
+    margin-top: 12px;
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+
+  &__note {
+    margin-top: 4px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  &__link {
+    margin-top: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+}
+
+
+/*
+## .examples_1--grid
+使用箇所：はじめてのVRChat「知っておくと楽なこと」
+内容：examples_1 を2列に並べる
+*/
+
+.examples_1--grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  max-width: none;
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/*
+## .next_1
+使用箇所：はじめてのVRChat「次に読む」、作品一覧・よくある質問の行き来
+内容：ほかのページへの案内（名前と、そこに何があるかの一文）
+*/
+
+.next_1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  a {
+    display: grid;
+    gap: 4px;
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--space-2);
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .next_1__text {
+      text-decoration: underline;
+    }
+  }
+  &__text {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--color-link);
+    &::after {
+      content: " →";
+    }
+  }
+  &__note {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .world_1
+使用箇所：お気に入りワールド、トップページ「お気に入りワールド」
+内容：ワールドのカード（写真・名前・作者と対応機器・紹介文）。カード全体が VRChat 公式サイトのワールドのページへのリンク。
+     写真は公式サムネイルと同じ 4:3
+*/
+
+.world_1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    display: flex;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .world_1__name {
+      text-decoration: underline;
+    }
+    &:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  &__photo {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--color-bg);
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .3s;
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 4px;
+    padding: var(--space-2);
+  }
+
+  &__name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-link);
+  }
+
+  &__meta {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+  }
+
+  &__note {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+}
+
+
+/*
+## .filter_1
+使用箇所：作品一覧（種類で絞り込む）
+内容：ラジオボタンを丸いボタンの形にする。選んだ種類は .products_1 の :has() で読む
+*/
+
+.filter_1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  &__legend {
+    padding: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  &__option {
+    position: relative;
+    input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    > span {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      box-sizing: border-box;
+      min-height: 40px;
+      padding: 4px 16px;
+      font-weight: 700;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 100vw;
+      transition: border-color .15s;
+    }
+    &:hover > span {
+      border-color: var(--color-text-muted);
+    }
+    input:checked + span {
+      color: var(--color-bg);
+      background: var(--color-text);
+      border-color: var(--color-text);
+    }
+    input:checked + span .filter_1__count {
+      color: inherit;
+    }
+    input:focus-visible + span {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  &__count {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// 選んだ種類だけを残す
+@each $kind in shader, gimmick, tool {
+  .products_1:has(#filter-#{$kind}:checked) .list_16__item:not([data-kind="#{$kind}"]) {
+    display: none;
+  }
+}
+
+
+/*
+## .list_16
+使用箇所：作品一覧
+内容：作品のカード（画像・種類・名前・何ができるか・対応や必要なもの・説明書と BOOTH へのリンク）
+*/
+
+.list_16 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  @include sp {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  &__image {
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--color-bg);
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    gap: 6px;
+    padding: var(--space-2);
+  }
+
+  &__kind {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  &__desc {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  &__spec {
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    margin-top: 6px;
+    padding-top: 10px;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    border-top: 1px solid var(--color-line);
+    > div {
+      display: grid;
+      grid-template-columns: 6.5em 1fr;
+      gap: 8px;
+    }
+    dt {
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 8px;
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      font-weight: 700;
+    }
+  }
+}
+
+
+/*
+## .faq_1
+使用箇所：作品のよくある質問
+内容：質問を押すと答えが開く（details）。答えの下に、関係する作品の説明書へのリンク
+*/
+
+.faq_1 {
+  display: grid;
+  gap: 8px;
+  max-width: 48em;
+  margin-top: var(--space-2);
+
+  &__item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &[open] {
+      border-color: var(--color-text-muted);
+    }
+  }
+
+  &__q {
+    position: relative;
+    display: block;
+    padding: 14px 48px 14px var(--space-2);
+    font-weight: 700;
+    line-height: 1.6;
+    list-style: none;
+    cursor: pointer;
+    border-radius: 10px;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid currentcolor;
+      border-bottom: 2px solid currentcolor;
+      transform: translateY(-75%) rotate(45deg);
+      .faq_1__item[open] & {
+        transform: translateY(-25%) rotate(-135deg);
+      }
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__a {
+    padding: 0 var(--space-2) var(--space-2);
+    line-height: 1.8;
+  }
+
+  &__related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: baseline;
+    margin-top: 10px;
+    font-size: 1.3rem;
+  }
+
+  &__label {
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .table_3
+使用箇所：作品のよくある質問（同期パラメータ・更新履歴）
+内容：文字の多い表。狭い画面では表だけを横に動かせるようにする
+*/
+
+.table_3 {
+  overflow-x: auto;
+  margin-top: var(--space-2);
+  table {
+    min-width: 36em;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 10px 16px 10px 0;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-line);
+  }
+  thead th {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+  }
+  tbody th {
+    font-weight: 700;
+  }
+  &__nowrap {
+    white-space: nowrap;
+  }
+  &__list {
+    display: grid;
+    gap: 4px;
+    li {
+      position: relative;
+      padding-left: 1em;
+      &::before {
+        content: "・";
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+}
+
+
+/*
+## .list_17
+使用箇所：トップページ「note」
+内容：note の記事。アイキャッチ画像（無い記事は題名を大きく出す）・題名・公開日。カード全体が記事へのリンク
+*/
+
+.list_17 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @media (width <= 1023px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include sp {
+    // 画像の width 属性（1280）で列が広がらないよう、最小幅を 0 にする
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  a {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .list_17__title {
+      text-decoration: underline;
+    }
+  }
+
+  // note のアイキャッチは 1280×670（1.91:1）
+  &__image {
+    display: block;
+    aspect-ratio: 1280 / 670;
+    background: var(--color-bg);
+    img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &--text {
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+      padding: var(--space-2) var(--space-3);
+      font-size: 1.7rem;
+      font-weight: 900;
+      line-height: 1.5;
+      text-align: center;
+      text-wrap: balance;
+      border-bottom: 1px solid var(--color-line);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 4px;
+    align-content: space-between;
+    padding: 12px var(--space-2) var(--space-2);
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+
+  &__date {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+
+/*
+## .article_1
+使用箇所：アバター改変の解説（各回）
+内容：記事の本文。読みやすい行の長さに抑え、節どうしの間を少し詰める
+*/
+
+.article_1 {
+  &__series {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  &__lead {
+    max-width: 40em;
+    margin-top: var(--space-2);
+    font-size: 1.7rem;
+    line-height: 1.9;
+  }
+
+  &__section {
+    max-width: 52em;
+  }
+
+  &__p {
+    max-width: 40em;
+    margin-top: var(--space-2);
+    line-height: 1.9;
+  }
+
+  code {
+    padding: 1px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9em;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .examples_1 dd {
+    max-width: 40em;
+  }
+}
+
+
+/*
+## .scale_1
+使用箇所：アバター改変の解説「Render Queue」
+内容：Render Queue のおもな数字を、小さい順に並べた目盛り。2500 の境目と、半透明（3000）に印を付ける
+*/
+
+.scale_1 {
+  margin: var(--space-3) 0 0;
+
+  &__caption {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin-top: var(--space-1);
+    border-top: 4px solid var(--color-line);
+    @include sp {
+      grid-template-columns: 1fr;
+      border-top: 0;
+      border-left: 4px solid var(--color-line);
+    }
+  }
+
+  &__step {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    align-content: start;
+    padding: 14px 12px 0 0;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--color-text);
+      border: 2px solid var(--color-bg);
+      border-radius: 50%;
+    }
+    @include sp {
+      padding: 8px 0 8px 20px;
+      &::before {
+        top: 14px;
+        left: -10px;
+      }
+    }
+
+    &--border::before {
+      width: 4px;
+      height: 20px;
+      top: -14px;
+      left: 2px;
+      border: 0;
+      border-radius: 0;
+      @include sp {
+        width: 20px;
+        height: 4px;
+        top: 18px;
+        left: -14px;
+      }
+    }
+
+    &--transparent .scale_1__value {
+      color: var(--color-link);
+    }
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__name {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  &__note {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .demo_1
+使用箇所：アバター改変の解説「Render Queue」（動かして確かめる図。動きは queue-demo.js）
+内容：水面とアバターのパーツを重ねた図・数字のスライダー・距離の切り替え・描く順番と結果。
+     図は絵なので、ライトでもダークでも同じ色にする
+*/
+
+.demo_1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  @include sp {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  &__stage {
+    position: relative;
+    grid-row: span 2;
+    overflow: hidden;
+    min-height: 240px;
+    background: linear-gradient(#bcdcf2, #e3f1fa 55%);
+    border-radius: 8px;
+    @include sp {
+      grid-row: auto;
+      min-height: 200px;
+    }
+  }
+
+  &__water,
+  &__part {
+    position: absolute;
+    display: grid;
+    padding: 8px 12px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d1b2a;
+    transition: background-color .2s;
+  }
+
+  &__water {
+    inset: 50% 0 0;
+    place-items: end start;
+    background: rgb(20 90 170 / 60%);
+  }
+
+  &__part {
+    top: 18%;
+    left: 30%;
+    width: 40%;
+    height: 64%;
+    place-items: start center;
+    text-align: center;
+    background: rgb(240 90 150 / 85%);
+    border-radius: 40% 40% 12px 12px;
+  }
+
+  &__controls {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  &__label {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__value {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__range input {
+    width: 100%;
+    min-height: 32px;
+    accent-color: var(--color-link);
+  }
+
+  &__distance {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    label {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      min-height: 32px;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    input {
+      flex: none;
+      accent-color: var(--color-link);
+    }
+  }
+
+  &__output {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+  }
+
+  &__order {
+    display: grid;
+    gap: 4px;
+    padding-left: 1.6em;
+    font-weight: 700;
+    list-style: decimal;
+  }
+
+  &__why {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+  }
+
+  &__result {
+    padding: 10px 14px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.6;
+    background: var(--color-bg);
+    border-left: 4px solid var(--color-line);
+    border-radius: 4px;
+    &.is_ok {
+      border-left-color: light-dark(#2e7d32, #81c784);
+      &::before {
+        content: "✓ ";
+      }
+    }
+    &.is_ng {
+      border-left-color: light-dark(#b3261e, #f2b8b5);
+      &::before {
+        content: "✕ ";
+      }
+    }
+  }
+}
+
+
+/*
+## .case_1
+使用箇所：アバター改変の解説（よくある困りごと）
+内容：困りごとごとのカード（起きること・原因・直し方）
+*/
+
+.case_1 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  @include sp {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  &__item {
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  &__title {
+    font-size: 1.7rem;
+    font-weight: 900;
+  }
+
+  &__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    line-height: 1.7;
+    dt {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+  }
+}
+
+
+/*
+## .steps_1
+使用箇所：アバター改変の解説（手順）
+内容：番号付きの手順。flow_1 より文が長いときに使う縦並び
+*/
+
+.steps_1 {
+  display: grid;
+  gap: 12px;
+  max-width: 40em;
+  margin-top: var(--space-2);
+  counter-reset: steps_1;
+  li {
+    position: relative;
+    padding-left: 40px;
+    line-height: 1.8;
+    counter-increment: steps_1;
+    &::before {
+      content: counter(steps_1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--color-bg);
+      background: var(--color-text);
+      border-radius: 50%;
+    }
+  }
+}
+
+
+/*
+## .series_1
+使用箇所：アバター改変の解説（一覧）
+内容：連載の回の一覧（第何回・題名・内容の一文・公開日）。カード全体が記事へのリンク
+*/
+
+.series_1 {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 48em;
+  a {
+    display: grid;
+    gap: 4px;
+    padding: var(--space-2) var(--space-3);
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    transition: border-color .15s;
+    .top_1 & {
+      color: var(--color-text);
+    }
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+    &:hover .series_1__title {
+      text-decoration: underline;
+    }
+    @include sp {
+      padding: var(--space-2);
+    }
+  }
+  &__no {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+  &__title {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.4;
+    color: var(--color-link);
+  }
+  &__desc {
+    line-height: 1.7;
+  }
+  &__date {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .series_1__part
+使用箇所：アバター改変の解説（一覧「順番に読む」）
+内容：連載を部に分けたときの、部の見出し（第◯部）と一文。部の中に series_1 を置く
+*/
+
+.series_1__part {
+  margin-top: var(--space-4);
+  .series_1 {
+    margin-top: var(--space-2);
+  }
+}
+
+.series_1__h {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  @include sp {
+    font-size: 1.8rem;
+  }
+}
+
+.series_1__partno {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.series_1__lead {
+  max-width: 40em;
+  margin-top: var(--space-1);
+  line-height: 1.8;
+}
+
+
+/*
+## .finder_1
+使用箇所：アバター改変の解説（一覧「困りごとから探す」。絞り込みは tips-finder.js）
+内容：困りごと（逆引き）の一覧。行全体が、記事の中の節へのリンク。
+     種類とことばで絞り込む部品は、JS が動くときだけ出す
+*/
+
+.finder_1 {
+  &__controls {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 48em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__search {
+    display: grid;
+    gap: 8px;
+  }
+
+  &__input {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 28em;
+    min-height: 44px;
+    padding: 8px 14px;
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  &__count {
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__group {
+    max-width: 48em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__h {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  &__list {
+    display: grid;
+    gap: 8px;
+    margin-top: var(--space-1);
+    li[hidden] {
+      display: none;
+    }
+    a {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px var(--space-2);
+      align-items: center;
+      padding: 12px var(--space-2);
+      text-decoration: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: 10px;
+      transition: border-color .15s;
+      .top_1 & {
+        color: var(--color-text);
+      }
+      &:hover {
+        border-color: var(--color-text-muted);
+      }
+      &:hover .finder_1__q {
+        text-decoration: underline;
+      }
+      @include sp {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__q {
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--color-link);
+  }
+
+  &__to {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    text-align: right;
+    &::after {
+      content: " →";
+    }
+    @include sp {
+      text-align: left;
+    }
+  }
+
+  &__none {
+    max-width: 40em;
+    margin-top: var(--space-3);
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+
+/*
+## .next_1--pager
+使用箇所：アバター改変の解説（各回の下の、前の回・次の回）
+内容：next_1 を2列にし、前の回は左、次の回は右に置く。前の回の矢印は左向き
+*/
+
+.next_1--pager {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 52em;
+  @include sp {
+    grid-template-columns: 1fr;
+  }
+  .next_1__next {
+    grid-column: 2;
+    text-align: right;
+    @include sp {
+      grid-column: auto;
+      text-align: left;
+    }
+  }
+  .next_1__prev .next_1__text {
+    &::before {
+      content: "← ";
+    }
+    &::after {
+      content: none;
+    }
+  }
+}
+
+
+/*
+## .case_1__text
+使用箇所：はじめてのVRChat「マイクの設定」のよくある困りごと
+内容：case_1 のカードに、起きること・原因・直し方に分けずに一続きの文を置くとき
+*/
+
+.case_1__text {
+  margin-top: 8px;
+  font-size: 1.4rem;
+  line-height: 1.7;
+}
+
+
+/*
+## .route_1
+使用箇所：はじめてのVRChat「マイクの設定」（声が届く順番）、アバター改変の解説（値が上書きされる流れ）
+内容：左から右へ順に進むものを、矢印でつないだ箱で並べる。狭い画面では上から下へ。is_ng の箱は、おかしくなったところ
+*/
+
+.route_1 {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 28px;
+  margin-top: var(--space-3);
+  @include sp {
+    grid-auto-flow: row;
+    gap: 24px;
+  }
+
+  &__step {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    padding: 12px 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    &:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -22px;
+      font-weight: 900;
+      color: var(--color-text-muted);
+      transform: translateY(-50%);
+      @include sp {
+        content: "↓";
+        inset: auto auto -24px 50%;
+        transform: translateX(-50%);
+      }
+    }
+    &.is_ng {
+      border-color: light-dark(#b3261e, #f2b8b5);
+      border-width: 2px;
+    }
+  }
+
+  &__head {
+    font-weight: 900;
+  }
+
+  &__note {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
+## .mock_1
+使用箇所：はじめてのVRChat「マイクの設定」、アバター改変の解説
+内容：再現図。ソフトの設定画面を、説明に要る項目だけ HTML で描き直したもの（本物の画面写真ではない）。中身は _mock.ejs
+     番号（__mark）と、下の説明（__notes）の番号がそろう。画面は絵なので、ライトでもダークでも同じ色にする
+     --vrchat：VRChat のメニュー / --windows：Windows 11 の設定 / --dialog：昔からある Windows の小さな画面 / --unity：Unity のエディター
+*/
+
+.mock_1 {
+  --m-bg: #f3f3f3;
+  --m-bar: #e9e9e9;
+  --m-panel: #fbfbfb;
+  --m-text: #1b1b1b;
+  --m-muted: #5f5f5f;
+  --m-line: #d6d6d6;
+  --m-accent: #005fb8;
+  --m-on-accent: #fff;
+  --m-mark: #f5a623;
+
+  margin-top: var(--space-3);
+
+  &__figure {
+    margin: 0;
+  }
+
+  &--vrchat {
+    --m-bg: #10222a;
+    --m-bar: #0b1a20;
+    --m-panel: #1a323c;
+    --m-text: #e6f3f5;
+    --m-muted: #9fbac2;
+    --m-line: #2f4d58;
+    --m-accent: #35c8bc;
+    --m-on-accent: #062a27;
+  }
+
+  &--dialog {
+    --m-bg: #f0f0f0;
+    --m-bar: #fff;
+    --m-panel: #f0f0f0;
+    --m-text: #000;
+    --m-muted: #444;
+    --m-line: #adadad;
+    --m-accent: #0067c0;
+  }
+
+  &--vcc {
+    --m-bg: #1c1f26;
+    --m-bar: #14161b;
+    --m-panel: #252a33;
+    --m-text: #e8eaf0;
+    --m-muted: #a3a9b8;
+    --m-line: #353b47;
+    --m-accent: #3b82f6;
+    --m-on-accent: #fff;
+  }
+
+  &--hub {
+    --m-bg: #222;
+    --m-bar: #191919;
+    --m-panel: #2b2b2b;
+    --m-text: #e4e4e4;
+    --m-muted: #a8a8a8;
+    --m-line: #3a3a3a;
+    --m-accent: #2196f3;
+    --m-on-accent: #fff;
+  }
+
+  &--alcom {
+    --m-bg: #fff;
+    --m-bar: #f4f4f5;
+    --m-panel: #fff;
+    --m-text: #18181b;
+    --m-muted: #52525b;
+    --m-line: #e4e4e7;
+    --m-accent: #18181b;
+    --m-on-accent: #fff;
+  }
+
+  &--unity {
+    --m-bg: #383838;
+    --m-bar: #282828;
+    --m-panel: #3e3e3e;
+    --m-text: #d2d2d2;
+    --m-muted: #9a9a9a;
+    --m-line: #232323;
+    --m-accent: #4c7fbf;
+  }
+
+  &__screens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 12px;
+    max-width: 760px;
+  }
+
+  &__screen {
+    overflow: hidden;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--m-text);
+    background: var(--m-bg);
+    border: 1px solid var(--m-line);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+  }
+
+  &__bar {
+    padding: 8px 14px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--m-muted);
+    background: var(--m-bar);
+    border-bottom: 1px solid var(--m-line);
+  }
+
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 8px 10px 0;
+    border-bottom: 1px solid var(--m-line);
+    span {
+      padding: 3px 10px;
+      font-size: 1.2rem;
+      border: 1px solid transparent;
+      border-bottom: 0;
+    }
+    .is_on {
+      font-weight: 700;
+      background: var(--m-bar);
+      border-color: var(--m-line);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  &__head {
+    padding: 0 2px;
+    font-weight: 700;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    align-items: center;
+    padding: 8px 10px;
+    background: var(--m-panel);
+    border: 1px solid var(--m-line);
+    border-radius: 6px;
+    &.is_hot {
+      outline: 2px solid var(--m-mark);
+      outline-offset: -1px;
+    }
+  }
+
+  &__mark,
+  &__notes li::before {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #1b1b1b;
+    background: var(--m-mark);
+    border-radius: 50%;
+  }
+
+  &__label {
+    flex: 1 1 11em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &__control {
+    display: flex;
+    flex: 1 1 14em;
+    gap: 10px;
+    align-items: center;
+    min-width: 0;
+  }
+
+  // ラジオボタン・チェックは、名前の文がそのまま項目になるので、行いっぱいに使う
+  &__row--radio &__control,
+  &__row--check &__control {
+    flex-basis: 100%;
+  }
+
+  &__select {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 10px;
+    overflow-wrap: anywhere;
+    border: 1px solid var(--m-line);
+    border-radius: 4px;
+    &::after {
+      content: " ▾";
+      color: var(--m-muted);
+    }
+  }
+
+  &__slider,
+  &__meter {
+    position: relative;
+    flex: 1;
+    height: 6px;
+    background: var(--m-line);
+    border-radius: 3px;
+    > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: var(--m-accent);
+      border-radius: 3px;
+    }
+  }
+
+  &__slider > span {
+    width: var(--v);
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -7px;
+      width: 14px;
+      height: 14px;
+      background: var(--m-accent);
+      border: 2px solid var(--m-panel);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__meter {
+    height: 10px;
+    > span {
+      width: var(--level);
+      background: #3cc36a;
+    }
+    &.has_threshold::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: var(--threshold);
+      width: 3px;
+      height: 20px;
+      background: var(--m-text);
+      border-radius: 1px;
+    }
+  }
+
+  &__num {
+    flex: none;
+    min-width: 3.2em;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__toggle {
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 20px;
+    background: var(--m-line);
+    border-radius: 10px;
+    > span {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: var(--m-panel);
+      border-radius: 50%;
+    }
+    &.is_on {
+      background: var(--m-accent);
+      > span {
+        left: 23px;
+      }
+    }
+    + .mock_1__num {
+      min-width: 0;
+      text-align: left;
+    }
+  }
+
+  &__seg {
+    display: inline-flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    border: 1px solid var(--m-accent);
+    border-radius: 6px;
+    span {
+      padding: 3px 12px;
+    }
+    .is_on {
+      font-weight: 700;
+      color: var(--m-on-accent);
+      background: var(--m-accent);
+    }
+  }
+
+  &__radio {
+    display: grid;
+    gap: 6px;
+    span {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      &::before {
+        content: "";
+        flex: none;
+        box-sizing: border-box;
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--m-muted);
+        border-radius: 50%;
+      }
+    }
+    .is_on::before {
+      border: 5px solid var(--m-accent);
+    }
+  }
+
+  &__check {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    &::before {
+      content: "";
+      display: grid;
+      flex: none;
+      place-items: center;
+      box-sizing: border-box;
+      width: 16px;
+      height: 16px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #fff;
+      border: 1px solid var(--m-muted);
+      border-radius: 2px;
+    }
+    &.is_on::before {
+      content: "✓";
+      background: var(--m-accent);
+      border-color: var(--m-accent);
+    }
+  }
+
+  &__value {
+    min-width: 4em;
+    margin-left: auto;
+    padding: 1px 8px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    background: #2a2a2a;
+    border: 1px solid var(--m-line);
+    border-radius: 3px;
+  }
+
+  &--vcc &__value,
+  &--hub &__value,
+  &--alcom &__value {
+    min-width: 0;
+    margin-left: 0;
+    text-align: left;
+    background: var(--m-bar);
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 3px 12px;
+    font-weight: 700;
+    color: var(--m-on-accent);
+    background: var(--m-accent);
+    border-radius: 4px;
+  }
+
+  &__caption {
+    margin-top: 8px;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  &__notes {
+    display: grid;
+    gap: 10px;
+    max-width: 40em;
+    margin-top: var(--space-2);
+    counter-reset: mock_1;
+    li {
+      position: relative;
+      padding-left: 34px;
+      line-height: 1.8;
+      counter-increment: mock_1;
+      &::before {
+        content: counter(mock_1);
+        position: absolute;
+        top: .2em;
+        left: 0;
+      }
+    }
+  }
+}
+
+
+/*
+## .demo_2
+使用箇所：アバター改変の解説「Unity と VRChat で見た目が変わる」（動かして確かめる図。動きは shape-demo.js）
+内容：Unity と VRChat の顔を並べ、値・Write Defaults・いまのステートを変えると、VRChat の顔が変わる。
+     スライダーや結果の文は demo_1 の部品を使う。顔は絵なので、ライトでもダークでも同じ色にする
+*/
+
+.demo_2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  @include sp {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  &__faces {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-row: span 2;
+    gap: 12px;
+    align-content: start;
+    @include sp {
+      grid-row: auto;
+    }
+  }
+
+  &__face {
+    display: grid;
+    gap: 6px;
+    justify-items: center;
+    padding: 12px 8px;
+    text-align: center;
+    background: linear-gradient(#e3f1fa, #f7fbfe);
+    border-radius: 8px;
+  }
+
+  &__who {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0d1b2a;
+  }
+
+  &__svg {
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+  }
+
+  &__num {
+    font-size: 1.3rem;
+    color: #0d1b2a;
+    font-variant-numeric: tabular-nums;
+    span {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+  }
+
+  &__controls {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  &__output {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+  }
+}
