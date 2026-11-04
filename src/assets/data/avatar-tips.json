@@ -1,10 +1,50 @@
 {
-  "_note": "アバター改変の解説の一覧（/avatar-tips/）。no は読む順番（第◯回）。新しい回を足すときは、ここに1件足して part と no を決め、src/avatar-tips/<slug>/ を作る。英語（en）は、日本語版の内容が固まってから足す。problems は一覧の「困りごとから探す」（逆引き）。slug と hash（記事の中の見出しの id）で記事の場所を指す",
+  "_note": "アバター改変の解説の一覧（/avatar-tips/）。no は読む順番（第◯回）。新しい回を足すときは、ここに1件足して part と no を決め、src/avatar-tips/<slug>/ を作る。日本語（ja）と英語（en）の両方を書く。problems は一覧の「困りごとから探す」（逆引き）。slug と hash（記事の中の見出しの id）で記事の場所を指す",
   "parts": [
-    { "id": "start", "title": { "ja": "はじめる" }, "lead": { "ja": "道具を入れて、アバターをアップロードし、服を着せるまで。" } },
-    { "id": "light", "title": { "ja": "軽くして、多くの人に見てもらう" }, "lead": { "ja": "パフォーマンスランクと、Quest・スマホ対応。" } },
-    { "id": "gimmick", "title": { "ja": "Animator でギミックを自分で作る" }, "lead": { "ja": "Animator のしくみから、オンオフ・段階・表情・触れて反応するギミック、動かないときの確かめ方まで。この順に読むと、自分でギミックを組めるようになります。" } },
-    { "id": "look", "title": { "ja": "見た目が思ったとおりにならない" }, "lead": { "ja": "Unity と VRChat での見た目の違いと、半透明の描く順番。" } }
+    {
+      "id": "start",
+      "title": {
+        "ja": "はじめる",
+        "en": "Getting started"
+      },
+      "lead": {
+        "ja": "道具を入れて、アバターをアップロードし、服を着せるまで。",
+        "en": "Installing the tools, uploading your avatar, and dressing it in outfits."
+      }
+    },
+    {
+      "id": "light",
+      "title": {
+        "ja": "軽くして、多くの人に見てもらう",
+        "en": "Lighter avatars, seen by more people"
+      },
+      "lead": {
+        "ja": "パフォーマンスランクと、Quest・スマホ対応。",
+        "en": "Performance ranks, and Quest and mobile support."
+      }
+    },
+    {
+      "id": "gimmick",
+      "title": {
+        "ja": "Animator でギミックを自分で作る",
+        "en": "Building gimmicks yourself with the Animator"
+      },
+      "lead": {
+        "ja": "Animator のしくみから、オンオフ・段階・表情・触れて反応するギミック、動かないときの確かめ方まで。この順に読むと、自分でギミックを組めるようになります。",
+        "en": "From how the Animator works to toggles, multi-step and gradual changes, expressions, touch reactions, and what to check when a gimmick doesn't work. Read in this order and you'll be able to build gimmicks on your own."
+      }
+    },
+    {
+      "id": "look",
+      "title": {
+        "ja": "見た目が思ったとおりにならない",
+        "en": "When it doesn't look the way you expected"
+      },
+      "lead": {
+        "ja": "Unity と VRChat での見た目の違いと、半透明の描く順番。",
+        "en": "Why your avatar looks different in Unity and VRChat, and the draw order of transparent parts."
+      }
+    }
   ],
   "articles": [
     {
@@ -12,199 +52,651 @@
       "part": "start",
       "slug": "setup",
       "published": "2026-11-03",
-      "title": { "ja": "VCC・ALCOM・Unity の入れ方" },
-      "desc": { "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。" }
+      "title": {
+        "ja": "VCC・ALCOM・Unity の入れ方",
+        "en": "Installing VCC, ALCOM and Unity"
+      },
+      "desc": {
+        "ja": "改変に要る Unity Hub と Unity、VCC と ALCOM。それぞれの役目とどちらを選ぶか、入れる手順をまとめました。",
+        "en": "Unity Hub, Unity, VCC and ALCOM: what each one does, which to choose, and how to install them."
+      }
     },
     {
       "no": 2,
       "part": "start",
       "slug": "upload",
       "published": "2026-11-03",
-      "title": { "ja": "アップロードのしかた" },
-      "desc": { "ja": "買ったアバターを VRChat にアップロードするまで。シェーダーの順番、Builder の見方、更新と Blueprint ID をまとめました。" }
+      "title": {
+        "ja": "アップロードのしかた",
+        "en": "How to upload"
+      },
+      "desc": {
+        "ja": "買ったアバターを VRChat にアップロードするまで。シェーダーの順番、Builder の見方、更新と Blueprint ID をまとめました。",
+        "en": "From a purchased avatar to VRChat: the order to import shaders, how to read the Builder, updating, and Blueprint IDs."
+      }
     },
     {
       "no": 3,
       "part": "start",
       "slug": "outfit",
       "published": "2026-11-03",
-      "title": { "ja": "衣装を着せる" },
-      "desc": { "ja": "買った衣装を Modular Avatar で着せる手順と、体の突き抜けの直し方、メニューで服をオンオフする方法をまとめました。" }
+      "title": {
+        "ja": "衣装を着せる",
+        "en": "Dressing your avatar"
+      },
+      "desc": {
+        "ja": "買った衣装を Modular Avatar で着せる手順と、体の突き抜けの直し方、メニューで服をオンオフする方法をまとめました。",
+        "en": "Putting purchased outfits on with Modular Avatar, fixing skin poking through, and toggling outfits from the menu."
+      }
     },
     {
       "no": 4,
       "part": "light",
       "slug": "performance",
       "published": "2026-11-03",
-      "title": { "ja": "パフォーマンスランクと軽量化" },
-      "desc": { "ja": "アバターのランクは、いちばん低い項目で決まります。上限の表と、AAO などで軽くする方法をまとめました。" }
+      "title": {
+        "ja": "パフォーマンスランクと軽量化",
+        "en": "Performance ranks and optimization"
+      },
+      "desc": {
+        "ja": "アバターのランクは、いちばん低い項目で決まります。上限の表と、AAO などで軽くする方法をまとめました。",
+        "en": "Your avatar's rank is decided by its worst stat. The limit tables, and how to lighten your avatar with tools like AAO."
+      }
     },
     {
       "no": 5,
       "part": "light",
       "slug": "quest",
       "published": "2026-11-03",
-      "title": { "ja": "Quest・スマホ対応" },
-      "desc": { "ja": "Quest やスマホの人に見てもらうには、軽くした Android 版が要ります。使えないもの、ランクの基準、作り方をまとめました。" }
+      "title": {
+        "ja": "Quest・スマホ対応",
+        "en": "Quest and mobile support"
+      },
+      "desc": {
+        "ja": "Quest やスマホの人に見てもらうには、軽くした Android 版が要ります。使えないもの、ランクの基準、作り方をまとめました。",
+        "en": "To be seen by Quest and mobile users, you need a lighter Android version. What can't be used, the rank limits, and how to make one."
+      }
     },
     {
       "no": 6,
       "part": "gimmick",
       "slug": "animator-basics",
       "published": "2026-11-03",
-      "title": { "ja": "Animator のしくみ" },
-      "desc": { "ja": "メニューを押してから見た目が変わるまでに、何が動いているのか。FX などのレイヤー、ステート、トランジション、パラメーターの役目をまとめました。" }
+      "title": {
+        "ja": "Animator のしくみ",
+        "en": "How the Animator works"
+      },
+      "desc": {
+        "ja": "メニューを押してから見た目が変わるまでに、何が動いているのか。FX などのレイヤー、ステート、トランジション、パラメーターの役目をまとめました。",
+        "en": "What happens between pressing a menu item and your avatar changing. The roles of layers like FX, states, transitions, and parameters."
+      }
     },
     {
       "no": 7,
       "part": "gimmick",
       "slug": "animation-clip",
       "published": "2026-11-03",
-      "title": { "ja": "アニメーションを作る" },
-      "desc": { "ja": "ギミックの見た目の変化は、アニメーションクリップに書きます。録画で作る手順、動かせるもの、パスが切れたときの直し方をまとめました。" }
+      "title": {
+        "ja": "アニメーションを作る",
+        "en": "Making animations"
+      },
+      "desc": {
+        "ja": "ギミックの見た目の変化は、アニメーションクリップに書きます。録画で作る手順、動かせるもの、パスが切れたときの直し方をまとめました。",
+        "en": "A gimmick's visual change is written in an animation clip. How to record one, what you can animate, and how to fix broken paths."
+      }
     },
     {
       "no": 8,
       "part": "gimmick",
       "slug": "toggle",
       "published": "2026-11-03",
-      "title": { "ja": "メニューでオンオフするギミックを作る" },
-      "desc": { "ja": "小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。パラメーター、メニュー、アバターへのつなぎ方まで一通り。" }
+      "title": {
+        "ja": "メニューでオンオフするギミックを作る",
+        "en": "Building a menu toggle"
+      },
+      "desc": {
+        "ja": "小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。パラメーター、メニュー、アバターへのつなぎ方まで一通り。",
+        "en": "Build a gimmick that shows and hides an accessory from the menu, starting from the Animator. Parameters, the menu, and hooking it up to your avatar."
+      }
     },
     {
       "no": 9,
       "part": "gimmick",
       "slug": "radial",
       "published": "2026-11-03",
-      "title": { "ja": "段階で切り替える・少しずつ変えるギミック" },
-      "desc": { "ja": "服を何着かから選ぶ（Int）、色や大きさを回して変える（Float と Radial Puppet）。Motion Time と Blend Tree の使い方をまとめました。" }
+      "title": {
+        "ja": "段階で切り替える・少しずつ変えるギミック",
+        "en": "Switching in steps and changing gradually"
+      },
+      "desc": {
+        "ja": "服を何着かから選ぶ（Int）、色や大きさを回して変える（Float と Radial Puppet）。Motion Time と Blend Tree の使い方をまとめました。",
+        "en": "Choose one of several outfits (Int), or turn a dial to change color or size (Float and Radial Puppet). How to use Motion Time and Blend Trees."
+      }
     },
     {
       "no": 10,
       "part": "gimmick",
       "slug": "gesture",
       "published": "2026-11-03",
-      "title": { "ja": "ハンドサインで表情を変える" },
-      "desc": { "ja": "GestureLeft・GestureRight の番号で表情を切り替えます。左右の手の優先、まばたきや口との重なり、握りの強さの使い方まで。" }
+      "title": {
+        "ja": "ハンドサインで表情を変える",
+        "en": "Changing expressions with hand gestures"
+      },
+      "desc": {
+        "ja": "GestureLeft・GestureRight の番号で表情を切り替えます。左右の手の優先、まばたきや口との重なり、握りの強さの使い方まで。",
+        "en": "Switch facial expressions with the GestureLeft and GestureRight numbers. Which hand wins, overlap with blinking and lip sync, and using grip strength."
+      }
     },
     {
       "no": 11,
       "part": "gimmick",
       "slug": "contact",
       "published": "2026-11-03",
-      "title": { "ja": "触ると反応するギミック" },
-      "desc": { "ja": "頭をなでると頬が赤くなる、髪をつかむと表情が変わる。Contact と PhysBone のパラメーターで、触れたことを Animator に伝えます。" }
+      "title": {
+        "ja": "触ると反応するギミック",
+        "en": "Gimmicks that react to touch"
+      },
+      "desc": {
+        "ja": "頭をなでると頬が赤くなる、髪をつかむと表情が変わる。Contact と PhysBone のパラメーターで、触れたことを Animator に伝えます。",
+        "en": "Blush when your head is patted, change expression when your hair is grabbed. Contacts and PhysBone parameters tell the Animator you were touched."
+      }
     },
     {
       "no": 12,
       "part": "gimmick",
       "slug": "gimmick-debug",
       "published": "2026-11-03",
-      "title": { "ja": "ギミックが動かないとき" },
-      "desc": { "ja": "メニューを押しても動かない、自分にしか見えない、ワールドを移ると戻る。確かめる順番と、よくある原因の一覧です。" }
+      "title": {
+        "ja": "ギミックが動かないとき",
+        "en": "When a gimmick doesn't work"
+      },
+      "desc": {
+        "ja": "メニューを押しても動かない、自分にしか見えない、ワールドを移ると戻る。確かめる順番と、よくある原因の一覧です。",
+        "en": "Nothing happens from the menu, only you can see it, it resets when you change worlds. The order to check things, and a list of common causes."
+      }
     },
     {
       "no": 13,
       "part": "look",
       "slug": "unity-vs-vrchat",
       "published": "2026-11-03",
-      "title": { "ja": "Unity と VRChat で見た目が変わる" },
-      "desc": { "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。" }
+      "title": {
+        "ja": "Unity と VRChat で見た目が変わる",
+        "en": "It looks different in Unity and VRChat"
+      },
+      "desc": {
+        "ja": "Unity で整えた表情や体の形が、VRChat では元に戻る。その多くは、FX の Animator が BlendShape を書き換えているためです。",
+        "en": "Expressions or body shapes you set in Unity snap back in VRChat. Usually it's because the FX Animator is overwriting the BlendShapes."
+      }
     },
     {
       "no": 14,
       "part": "look",
       "slug": "render-queue",
       "published": "2026-11-02",
-      "title": { "ja": "Render Queue（描画の順番）" },
-      "desc": { "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。" }
+      "title": {
+        "ja": "Render Queue（描画の順番）",
+        "en": "Render Queue (draw order)"
+      },
+      "desc": {
+        "ja": "半透明の髪や服が角度で消える、水面に隠れる。その多くは、描く順番の数字で直せます。",
+        "en": "Transparent hair or clothes vanish at certain angles or hide behind water. Most of the time, the draw order number fixes it."
+      }
     }
   ],
   "problems": [
     {
       "id": "install",
-      "title": { "ja": "入れる・アップロードする" },
+      "title": {
+        "ja": "入れる・アップロードする",
+        "en": "Installing and uploading"
+      },
       "items": [
-        { "q": { "ja": "改変を始めたいが、何を入れればよいか分からない" }, "slug": "setup", "hash": "parts" },
-        { "q": { "ja": "VCC と ALCOM のどちらを使えばよいか迷う" }, "slug": "setup", "hash": "choose" },
-        { "q": { "ja": "Mac で改変したい" }, "slug": "setup", "hash": "mac" },
-        { "q": { "ja": "Unity がライセンスのエラーで開かない" }, "slug": "setup", "hash": "cases" },
-        { "q": { "ja": "ツールやシェーダーをプロジェクトに足したい" }, "slug": "setup", "hash": "packages" },
-        { "q": { "ja": "VRChat SDK のメニューや Builder が出ない" }, "slug": "upload", "hash": "cases" },
-        { "q": { "ja": "「Build and Publish」が押せない" }, "slug": "upload", "hash": "cases" },
-        { "q": { "ja": "Validations に出たメッセージの意味が分からない" }, "slug": "upload", "hash": "validations" },
-        { "q": { "ja": "アップロードしたら、別のアバターが上書きされた" }, "slug": "upload", "hash": "update" },
-        { "q": { "ja": "改変したアバターを、上書きせずに別のアバターとして分けたい" }, "slug": "upload", "hash": "update" }
+        {
+          "q": {
+            "ja": "改変を始めたいが、何を入れればよいか分からない",
+            "en": "I want to start editing avatars but don't know what to install"
+          },
+          "slug": "setup",
+          "hash": "parts"
+        },
+        {
+          "q": {
+            "ja": "VCC と ALCOM のどちらを使えばよいか迷う",
+            "en": "I can't decide between VCC and ALCOM"
+          },
+          "slug": "setup",
+          "hash": "choose"
+        },
+        {
+          "q": {
+            "ja": "Mac で改変したい",
+            "en": "I want to edit avatars on a Mac"
+          },
+          "slug": "setup",
+          "hash": "mac"
+        },
+        {
+          "q": {
+            "ja": "Unity がライセンスのエラーで開かない",
+            "en": "Unity won't open because of a license error"
+          },
+          "slug": "setup",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "ツールやシェーダーをプロジェクトに足したい",
+            "en": "I want to add tools or shaders to my project"
+          },
+          "slug": "setup",
+          "hash": "packages"
+        },
+        {
+          "q": {
+            "ja": "VRChat SDK のメニューや Builder が出ない",
+            "en": "The VRChat SDK menu or the Builder doesn't appear"
+          },
+          "slug": "upload",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "「Build and Publish」が押せない",
+            "en": "I can't press \"Build and Publish\""
+          },
+          "slug": "upload",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "Validations に出たメッセージの意味が分からない",
+            "en": "I don't understand the messages in Validations"
+          },
+          "slug": "upload",
+          "hash": "validations"
+        },
+        {
+          "q": {
+            "ja": "アップロードしたら、別のアバターが上書きされた",
+            "en": "Uploading overwrote a different avatar"
+          },
+          "slug": "upload",
+          "hash": "update"
+        },
+        {
+          "q": {
+            "ja": "改変したアバターを、上書きせずに別のアバターとして分けたい",
+            "en": "I want to upload my edited avatar as a separate avatar instead of overwriting"
+          },
+          "slug": "upload",
+          "hash": "update"
+        }
       ]
     },
     {
       "id": "outfit",
-      "title": { "ja": "服を着せる" },
+      "title": {
+        "ja": "服を着せる",
+        "en": "Outfits"
+      },
       "items": [
-        { "q": { "ja": "買った衣装を着せたい" }, "slug": "outfit", "hash": "steps" },
-        { "q": { "ja": "動くと服がついてこない" }, "slug": "outfit", "hash": "cases" },
-        { "q": { "ja": "体が服から突き抜ける" }, "slug": "outfit", "hash": "shrink" },
-        { "q": { "ja": "髪やスカートの揺れが二重にかかる" }, "slug": "outfit", "hash": "cases" },
-        { "q": { "ja": "服をメニューで着たり脱いだりしたい（いちばん手早い方法）" }, "slug": "outfit", "hash": "menu" }
+        {
+          "q": {
+            "ja": "買った衣装を着せたい",
+            "en": "I want to put a purchased outfit on my avatar"
+          },
+          "slug": "outfit",
+          "hash": "steps"
+        },
+        {
+          "q": {
+            "ja": "動くと服がついてこない",
+            "en": "The outfit doesn't follow when I move"
+          },
+          "slug": "outfit",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "体が服から突き抜ける",
+            "en": "My body pokes through the clothes"
+          },
+          "slug": "outfit",
+          "hash": "shrink"
+        },
+        {
+          "q": {
+            "ja": "髪やスカートの揺れが二重にかかる",
+            "en": "Hair or skirt physics apply twice"
+          },
+          "slug": "outfit",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "服をメニューで着たり脱いだりしたい（いちばん手早い方法）",
+            "en": "I want to put clothes on and take them off from the menu (the quickest way)"
+          },
+          "slug": "outfit",
+          "hash": "menu"
+        }
       ]
     },
     {
       "id": "light",
-      "title": { "ja": "重さ・Quest・スマホ" },
+      "title": {
+        "ja": "重さ・Quest・スマホ",
+        "en": "Weight, Quest and mobile"
+      },
       "items": [
-        { "q": { "ja": "衣装を足したら Very Poor になった" }, "slug": "performance", "hash": "cases" },
-        { "q": { "ja": "ランクがどの項目で決まっているか見たい" }, "slug": "performance", "hash": "where" },
-        { "q": { "ja": "見た目を変えずにアバターを軽くしたい" }, "slug": "performance", "hash": "aao" },
-        { "q": { "ja": "ほかの人から別の姿に見えている" }, "slug": "performance", "hash": "seen" },
-        { "q": { "ja": "Quest やスマホの人にも見てもらいたい" }, "slug": "quest", "hash": "steps" },
-        { "q": { "ja": "Quest の人から、ぼやけた姿やロボットに見える" }, "slug": "quest", "hash": "cases" },
-        { "q": { "ja": "Quest 版で使えるシェーダーが知りたい" }, "slug": "quest", "hash": "shaders" }
+        {
+          "q": {
+            "ja": "衣装を足したら Very Poor になった",
+            "en": "Adding an outfit made my avatar Very Poor"
+          },
+          "slug": "performance",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "ランクがどの項目で決まっているか見たい",
+            "en": "I want to see which stat decides my rank"
+          },
+          "slug": "performance",
+          "hash": "where"
+        },
+        {
+          "q": {
+            "ja": "見た目を変えずにアバターを軽くしたい",
+            "en": "I want to make my avatar lighter without changing how it looks"
+          },
+          "slug": "performance",
+          "hash": "aao"
+        },
+        {
+          "q": {
+            "ja": "ほかの人から別の姿に見えている",
+            "en": "Other people see a different avatar instead of mine"
+          },
+          "slug": "performance",
+          "hash": "seen"
+        },
+        {
+          "q": {
+            "ja": "Quest やスマホの人にも見てもらいたい",
+            "en": "I want Quest and mobile users to see my avatar too"
+          },
+          "slug": "quest",
+          "hash": "steps"
+        },
+        {
+          "q": {
+            "ja": "Quest の人から、ぼやけた姿やロボットに見える",
+            "en": "Quest users see a blurry figure or a robot"
+          },
+          "slug": "quest",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "Quest 版で使えるシェーダーが知りたい",
+            "en": "I want to know which shaders work on Quest"
+          },
+          "slug": "quest",
+          "hash": "shaders"
+        }
       ]
     },
     {
       "id": "make",
-      "title": { "ja": "ギミックを作りたい" },
+      "title": {
+        "ja": "ギミックを作りたい",
+        "en": "I want to build a gimmick"
+      },
       "items": [
-        { "q": { "ja": "Animator が何をしているのか分からない" }, "slug": "animator-basics", "hash": "picture" },
-        { "q": { "ja": "FX・Gesture などのレイヤーの違いが分からない" }, "slug": "animator-basics", "hash": "layers" },
-        { "q": { "ja": "パラメーターとメニューの関係が分からない" }, "slug": "animator-basics", "hash": "parameters" },
-        { "q": { "ja": "アニメーションクリップの作り方が分からない" }, "slug": "animation-clip", "hash": "record" },
-        { "q": { "ja": "アニメーションで何を動かせるのか知りたい" }, "slug": "animation-clip", "hash": "can" },
-        { "q": { "ja": "小物をメニューで出したり消したりしたい" }, "slug": "toggle", "hash": "plan" },
-        { "q": { "ja": "Modular Avatar を使って、自分で組んだ Animator をアバターにつなぎたい" }, "slug": "toggle", "hash": "connect" },
-        { "q": { "ja": "服を何着かから1つ選んで切り替えたい" }, "slug": "radial", "hash": "int" },
-        { "q": { "ja": "色や大きさを、メニューを回して少しずつ変えたい" }, "slug": "radial", "hash": "float" },
-        { "q": { "ja": "ハンドサインで表情を変えたい" }, "slug": "gesture", "hash": "plan" },
-        { "q": { "ja": "左右の手で違うハンドサインをしたとき、どちらの表情になるか決めたい" }, "slug": "gesture", "hash": "layers" },
-        { "q": { "ja": "頭をなでられたら反応させたい" }, "slug": "contact", "hash": "example" },
-        { "q": { "ja": "髪やしっぽをつかまれたら反応させたい" }, "slug": "contact", "hash": "physbone" }
+        {
+          "q": {
+            "ja": "Animator が何をしているのか分からない",
+            "en": "I don't understand what the Animator does"
+          },
+          "slug": "animator-basics",
+          "hash": "picture"
+        },
+        {
+          "q": {
+            "ja": "FX・Gesture などのレイヤーの違いが分からない",
+            "en": "I don't understand the difference between layers like FX and Gesture"
+          },
+          "slug": "animator-basics",
+          "hash": "layers"
+        },
+        {
+          "q": {
+            "ja": "パラメーターとメニューの関係が分からない",
+            "en": "I don't understand how parameters and the menu are connected"
+          },
+          "slug": "animator-basics",
+          "hash": "parameters"
+        },
+        {
+          "q": {
+            "ja": "アニメーションクリップの作り方が分からない",
+            "en": "I don't know how to make an animation clip"
+          },
+          "slug": "animation-clip",
+          "hash": "record"
+        },
+        {
+          "q": {
+            "ja": "アニメーションで何を動かせるのか知りたい",
+            "en": "I want to know what I can animate"
+          },
+          "slug": "animation-clip",
+          "hash": "can"
+        },
+        {
+          "q": {
+            "ja": "小物をメニューで出したり消したりしたい",
+            "en": "I want to show and hide an accessory from the menu"
+          },
+          "slug": "toggle",
+          "hash": "plan"
+        },
+        {
+          "q": {
+            "ja": "Modular Avatar を使って、自分で組んだ Animator をアバターにつなぎたい",
+            "en": "I want to hook my own Animator up to my avatar with Modular Avatar"
+          },
+          "slug": "toggle",
+          "hash": "connect"
+        },
+        {
+          "q": {
+            "ja": "服を何着かから1つ選んで切り替えたい",
+            "en": "I want to pick one outfit out of several"
+          },
+          "slug": "radial",
+          "hash": "int"
+        },
+        {
+          "q": {
+            "ja": "色や大きさを、メニューを回して少しずつ変えたい",
+            "en": "I want to change color or size gradually by turning a menu dial"
+          },
+          "slug": "radial",
+          "hash": "float"
+        },
+        {
+          "q": {
+            "ja": "ハンドサインで表情を変えたい",
+            "en": "I want to change facial expressions with hand gestures"
+          },
+          "slug": "gesture",
+          "hash": "plan"
+        },
+        {
+          "q": {
+            "ja": "左右の手で違うハンドサインをしたとき、どちらの表情になるか決めたい",
+            "en": "I want to decide which expression wins when my hands make different gestures"
+          },
+          "slug": "gesture",
+          "hash": "layers"
+        },
+        {
+          "q": {
+            "ja": "頭をなでられたら反応させたい",
+            "en": "I want my avatar to react when someone pats its head"
+          },
+          "slug": "contact",
+          "hash": "example"
+        },
+        {
+          "q": {
+            "ja": "髪やしっぽをつかまれたら反応させたい",
+            "en": "I want my avatar to react when its hair or tail is grabbed"
+          },
+          "slug": "contact",
+          "hash": "physbone"
+        }
       ]
     },
     {
       "id": "broken",
-      "title": { "ja": "ギミックが動かない・おかしい" },
+      "title": {
+        "ja": "ギミックが動かない・おかしい",
+        "en": "My gimmick doesn't work or acts strangely"
+      },
       "items": [
-        { "q": { "ja": "メニューを押しても何も起きない" }, "slug": "gimmick-debug", "hash": "checklist" },
-        { "q": { "ja": "どこが悪いのか、確かめる順番が知りたい" }, "slug": "gimmick-debug", "hash": "order" },
-        { "q": { "ja": "自分には見えるのに、ほかの人には見えない" }, "slug": "gimmick-debug", "hash": "checklist" },
-        { "q": { "ja": "ワールドを移ったり、アバターを着替えたりすると、オンオフが元に戻る" }, "slug": "toggle", "hash": "params" },
-        { "q": { "ja": "切り替わるのが一拍遅れる・じわっと変わる" }, "slug": "toggle", "hash": "transitions" },
-        { "q": { "ja": "Animation ウィンドウの項目が黄色くなり「Missing!」と出る" }, "slug": "animation-clip", "hash": "path" },
-        { "q": { "ja": "パラメーターが多すぎてアップロードできない" }, "slug": "gimmick-debug", "hash": "checklist" },
-        { "q": { "ja": "表情のときに、まばたきや口の動きが重なって崩れる" }, "slug": "gesture", "hash": "tracking" },
-        { "q": { "ja": "ハンドサインを戻しても、表情が戻らない" }, "slug": "unity-vs-vrchat", "hash": "cases" }
+        {
+          "q": {
+            "ja": "メニューを押しても何も起きない",
+            "en": "Nothing happens when I press the menu item"
+          },
+          "slug": "gimmick-debug",
+          "hash": "checklist"
+        },
+        {
+          "q": {
+            "ja": "どこが悪いのか、確かめる順番が知りたい",
+            "en": "I want to know what order to check things in to find the problem"
+          },
+          "slug": "gimmick-debug",
+          "hash": "order"
+        },
+        {
+          "q": {
+            "ja": "自分には見えるのに、ほかの人には見えない",
+            "en": "I can see it, but other people can't"
+          },
+          "slug": "gimmick-debug",
+          "hash": "checklist"
+        },
+        {
+          "q": {
+            "ja": "ワールドを移ったり、アバターを着替えたりすると、オンオフが元に戻る",
+            "en": "Toggles reset when I change worlds or switch avatars"
+          },
+          "slug": "toggle",
+          "hash": "params"
+        },
+        {
+          "q": {
+            "ja": "切り替わるのが一拍遅れる・じわっと変わる",
+            "en": "The switch happens a beat late, or fades in slowly"
+          },
+          "slug": "toggle",
+          "hash": "transitions"
+        },
+        {
+          "q": {
+            "ja": "Animation ウィンドウの項目が黄色くなり「Missing!」と出る",
+            "en": "Properties in the Animation window turn yellow and say \"Missing!\""
+          },
+          "slug": "animation-clip",
+          "hash": "path"
+        },
+        {
+          "q": {
+            "ja": "パラメーターが多すぎてアップロードできない",
+            "en": "I can't upload because I have too many parameters"
+          },
+          "slug": "gimmick-debug",
+          "hash": "checklist"
+        },
+        {
+          "q": {
+            "ja": "表情のときに、まばたきや口の動きが重なって崩れる",
+            "en": "Blinking or lip sync messes up my expressions"
+          },
+          "slug": "gesture",
+          "hash": "tracking"
+        },
+        {
+          "q": {
+            "ja": "ハンドサインを戻しても、表情が戻らない",
+            "en": "My expression doesn't go back when I release the gesture"
+          },
+          "slug": "unity-vs-vrchat",
+          "hash": "cases"
+        }
       ]
     },
     {
       "id": "look",
-      "title": { "ja": "見た目がおかしい" },
+      "title": {
+        "ja": "見た目がおかしい",
+        "en": "Something looks wrong"
+      },
       "items": [
-        { "q": { "ja": "アバターや服がピンク色になる" }, "slug": "upload", "hash": "cases" },
-        { "q": { "ja": "Unity で変えた表情が、VRChat では元に戻る" }, "slug": "unity-vs-vrchat", "hash": "cases" },
-        { "q": { "ja": "服に合わせて縮めた体が、VRChat では元に戻る" }, "slug": "unity-vs-vrchat", "hash": "cases" },
-        { "q": { "ja": "Write Defaults の ON と OFF の違いが分からない" }, "slug": "unity-vs-vrchat", "hash": "write-defaults" },
-        { "q": { "ja": "半透明の髪や服が、角度で消えたり出たりする" }, "slug": "render-queue", "hash": "cases" },
-        { "q": { "ja": "髪や服が水面に隠れる" }, "slug": "render-queue", "hash": "cases" }
+        {
+          "q": {
+            "ja": "アバターや服がピンク色になる",
+            "en": "My avatar or clothes turn pink"
+          },
+          "slug": "upload",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "Unity で変えた表情が、VRChat では元に戻る",
+            "en": "An expression I changed in Unity goes back to normal in VRChat"
+          },
+          "slug": "unity-vs-vrchat",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "服に合わせて縮めた体が、VRChat では元に戻る",
+            "en": "The body I shrank to fit the clothes goes back to normal in VRChat"
+          },
+          "slug": "unity-vs-vrchat",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "Write Defaults の ON と OFF の違いが分からない",
+            "en": "I don't understand the difference between Write Defaults ON and OFF"
+          },
+          "slug": "unity-vs-vrchat",
+          "hash": "write-defaults"
+        },
+        {
+          "q": {
+            "ja": "半透明の髪や服が、角度で消えたり出たりする",
+            "en": "Transparent hair or clothes appear and disappear depending on the angle"
+          },
+          "slug": "render-queue",
+          "hash": "cases"
+        },
+        {
+          "q": {
+            "ja": "髪や服が水面に隠れる",
+            "en": "Hair or clothes hide behind water"
+          },
+          "slug": "render-queue",
+          "hash": "cases"
+        }
       ]
     }
   ]

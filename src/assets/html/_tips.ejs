@@ -13,26 +13,46 @@ const dateLabel = (iso) => {
   return isEn ? `${MONTHS_EN[m - 1]} ${d}, ${y}` : `${y}年${m}月${d}日`;
 };
 const problemCount = avatarTips.problems.reduce((n, g) => n + g.items.length, 0);
-// 英語版は、日本語版の内容が固まってから作る（それまで英語の文は置かない）
 const l = {
-  title: "アバター改変の解説",
-  lead: "アバター改変でつまずきやすいところを、1回に1つずつ、仕組みと直し方まで解説する連載です。",
-  scope: "Unity（Built-in Render Pipeline）で作る VRChat のアバターを前提に書いています。",
-  jumpLabel: "このページの中",
-  findTitle: "困りごとから探す",
-  findLead: "やりたいことや、困っていることから、読む回とその中の場所を探せます。",
-  filterLegend: "種類",
-  all: "すべて",
-  searchLabel: "ことばで絞り込む",
-  searchPlaceholder: "例：ピンク、表情、Quest",
-  count: "{n} 件",
-  none: "当てはまる困りごとがありません。ことばを短くするか、下の「順番に読む」から探してください。",
-  readTitle: "順番に読む",
-  readLead: "はじめて改変するときは、第1回から順に読むのがおすすめです。部ごとに、前の回を読んだことを前提にしています。",
-  part: (n) => `第${n}部`,
-  no: (n) => `第${n}回`,
-  more: "これからも回を増やしていきます。",
-};
+  ja: {
+    title: "アバター改変の解説",
+    lead: "アバター改変でつまずきやすいところを、1回に1つずつ、仕組みと直し方まで解説する連載です。",
+    scope: "Unity（Built-in Render Pipeline）で作る VRChat のアバターを前提に書いています。",
+    jumpLabel: "このページの中",
+    findTitle: "困りごとから探す",
+    findLead: "やりたいことや、困っていることから、読む回とその中の場所を探せます。",
+    filterLegend: "種類",
+    all: "すべて",
+    searchLabel: "ことばで絞り込む",
+    searchPlaceholder: "例：ピンク、表情、Quest",
+    count: "{n} 件",
+    none: "当てはまる困りごとがありません。ことばを短くするか、下の「順番に読む」から探してください。",
+    readTitle: "順番に読む",
+    readLead: "はじめて改変するときは、第1回から順に読むのがおすすめです。部ごとに、前の回を読んだことを前提にしています。",
+    part: (n) => `第${n}部`,
+    no: (n) => `第${n}回`,
+    more: "これからも回を増やしていきます。",
+  },
+  en: {
+    title: "Avatar Tips",
+    lead: "A series that explains the places where avatar editing tends to trip you up, one topic at a time, from how it works to how to fix it.",
+    scope: "Written for VRChat avatars made in Unity (Built-in Render Pipeline).",
+    jumpLabel: "On this page",
+    findTitle: "Find by problem",
+    findLead: "Start from what you want to do or what's going wrong, and find which tip to read and where.",
+    filterLegend: "Category",
+    all: "All",
+    searchLabel: "Filter by words",
+    searchPlaceholder: "e.g. pink, expression, Quest",
+    count: "{n} items",
+    none: "No problems match. Try shorter words, or browse \"Read in order\" below.",
+    readTitle: "Read in order",
+    readLead: "If this is your first time editing an avatar, we recommend reading from #1 in order. Each part assumes you've read the tips before it.",
+    part: (n) => `Part ${n}`,
+    no: (n) => `#${n}`,
+    more: "More tips are on the way.",
+  },
+}[pageLocale];
 %><section class="section_2 page_1" aria-labelledby="tips-heading">
   <h1 class="page_1__h1" id="tips-heading"><%= l.title %></h1>
   <p class="section_2__lead"><%= l.lead %></p>

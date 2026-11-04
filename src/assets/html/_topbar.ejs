@@ -7,7 +7,7 @@ const currentPage = typeof current !== "undefined" ? current : "home";
 // enReady：false のページは英語版がまだ無い（日本語版の内容が固まってから作る）。言語切替の English を選べないようにする
 const hasEn = typeof enReady === "undefined" ? true : enReady;
 // 英語版がまだ無い項目は、英語のメニューに出さない
-const EN_PENDING = ["avatar-tips"];
+const EN_PENDING = [];
 const navPage = { faq: "products", worlds: "start", "avatar-tips-article": "avatar-tips" }[currentPage] || currentPage;
 const isEn = pageLocale === "en";
 const t = {

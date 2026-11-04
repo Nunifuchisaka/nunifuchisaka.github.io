@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><%
+const path = "../../";
+const meta = {
+  type: "website",
+  title: "Avatar Tips",
+  description: "A series on the places where VRChat avatar editing tends to trip you up, one topic at a time: installing, uploading, outfits and optimization, through building gimmicks yourself with the Animator. Find the right tip from your problem.",
+  url: "en/avatar-tips/",
+  altUrl: "avatar-tips/",
+  titleSeparator: " | ",
+};
+%>
+<%- include(path + "assets/html/_head",{meta:meta,locale:"en"}) %>
+<%- include(path + "assets/html/_head_top") %>
+<script src="/assets/js/tips-finder.js" defer></script>
+</head>
+<body class="top_1">
+<%- include(path + "assets/html/_body_before",{locale:"en"}) %>
+
+<div id="wrapper">
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips",locale:"en"}) %>
+
+<main id="main">
+<%- include(path + "assets/html/_tips",{locale:"en"}) %>
+</main><!-- /#main -->
+
+<%- include(path + "assets/html/_footer") %>
+</div><!-- /#wrapper -->
+
+<%- include(path + "assets/html/_body_after",{locale:"en"}) %>
+</body>
+</html>

@@ -2539,7 +2539,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 .series_1 {
   display: grid;
   gap: var(--space-2);
-  max-width: 48em;
   a {
     display: grid;
     gap: 4px;
@@ -2633,7 +2632,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   &__controls {
     display: grid;
     gap: var(--space-2);
-    max-width: 48em;
     margin-top: var(--space-3);
     &[hidden] {
       display: none;
@@ -2669,7 +2667,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
   }
 
   &__group {
-    max-width: 48em;
     margin-top: var(--space-3);
     &[hidden] {
       display: none;
@@ -2752,7 +2749,6 @@ $font: "Zen Kaku Gothic Antique", $gothic;
 
 .next_1--pager {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 52em;
   @include sp {
     grid-template-columns: 1fr;
   }
