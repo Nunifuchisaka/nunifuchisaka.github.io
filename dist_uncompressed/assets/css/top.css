@@ -162,6 +162,7 @@
      1. @starting-style ……… 開いたとき、バナー→アイコン→名前→読み→紹介文の順に浮かび上がる
      2. @property ……………… アイコンの縁を氷の光がゆっくり一周する（conic-gradient の角度を直接アニメーションさせる）
      3. animation-timeline … スクロールに合わせてバナーが奥へ沈む（ページの読み進みに連動する視差）
+     4. 霜（assets/js/frost.js）… 写真の上に WebGL2 の canvas を重ね、写実的な霜を描く。なぞると溶けて凍り直す
 */
 @property --profile-glint {
   syntax: "<angle>";
@@ -189,6 +190,10 @@
   overflow: clip;
   border-radius: 8px;
 }
+.profile_2__picture {
+  position: relative;
+  aspect-ratio: 3/1;
+}
 .profile_2__banner img {
   display: block;
   width: 100%;
@@ -198,6 +203,15 @@
      object-fit: cover;
   background: var(--color-surface);
   border-radius: 8px;
+}
+.profile_2__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: pan-y;
 }
 .profile_2__body {
   display: grid;
@@ -2970,7 +2984,7 @@
     transition-delay: 0.5s;
   }
   @supports (animation-timeline: view()) {
-    .profile_2__banner img {
+    .profile_2__picture {
       animation: profile_2-sink linear both;
       animation-timeline: view(block);
       animation-range: exit;

@@ -206,3 +206,19 @@ const versions = [
   </section>
   <p class="section_2__more"><a href="<%= prefix %>/products/"><%= l.products %></a></p>
 </section>
+<%
+// 質問と答えを、検索エンジンや AI が読める形（FAQPage の構造化データ）でも書き出す。中身は上の faq と同じ
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": pageLocale,
+  "url": SITE_URL + (isEn ? "en/" : "") + "faq/",
+  "mainEntity": faq.map((item) => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": { "@type": "Answer", "text": item.a },
+  })),
+};
+%><script type="application/ld+json">
+<%- JSON.stringify(faqJsonLd, null, 2).replace(/</g, "\\u003c") %>
+</script>
