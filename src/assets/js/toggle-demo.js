@@ -41,7 +41,8 @@ document.querySelectorAll(".js_toggle_demo").forEach((demo) => {
       if (!exit) reasons.push(t.exitNg);
       if (!reasons.length) reasons.push(t.ok);
     }
-    why.textContent = reasons.join("");
+    // 理由の文のつなぎ。英語のページは data-sep に空白を入れる（日本語は詰めてつなぐ）
+    why.textContent = reasons.join(t.sep || "");
     result.textContent = fill(t.result, { s: self ? t.shown : t.hidden, o: other ? t.shown : t.hidden });
     result.classList.toggle("is_ok", on && self && other && exit);
     result.classList.toggle("is_ng", on && !(self && other && exit));

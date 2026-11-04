@@ -7,6 +7,7 @@ const meta = {
   title: "メニューでオンオフするギミックを作る",
   description: "帽子などの小物をメニューで出したり消したりするギミックを、Animator から自分で組みます。オンとオフのクリップ、レイヤーとトランジション、Expression Parameters、メニュー、Modular Avatar でのつなぎ方まで、再現図と動かして確かめられる図つきで解説。",
   url: "avatar-tips/toggle/",
+  altUrl: "en/avatar-tips/toggle/",
   titleSeparator: " | ",
 };
 %>
@@ -18,7 +19,7 @@ const meta = {
 <%- include(path + "assets/html/_body_before") %>
 
 <div id="wrapper">
-<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article",enReady:false}) %>
+<%- include(path + "assets/html/_topbar",{current:"avatar-tips-article"}) %>
 
 <main id="main">
 <%- include(path + "assets/html/_tips-toggle") %>
