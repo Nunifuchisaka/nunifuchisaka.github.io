@@ -4,7 +4,7 @@ const manners = [
     id: "distance",
     title: "初めて会う人には、距離をとってあいさつする",
     image: "distance",
-    alt: "二人のアバターが、間に十分な空間を空けて手を振り合う挿絵",
+    alt: "距離を空けて向かい合う二人のアバター。一人が手を上げ、もう一人が会釈している。",
     caption: "心地よい距離は人それぞれ。まずは少し離れて、あいさつから。",
     lead: "顔を近づけたり、頭や体に触れる動きをしたりする前に、相手に確認しましょう。",
     paragraphs: [
@@ -17,7 +17,7 @@ const manners = [
     id: "rules",
     title: "ワールドやイベントのルールを、入口で確認する",
     image: "rules",
-    alt: "ワールドの入口で、二人のアバターが撮影や音に関する案内板を確認する挿絵",
+    alt: "撮影禁止と音に関するマークが描かれた案内板を確認する二人のアバター。",
     caption: "入ったら、まず入口の案内を確認。分からないことは主催者やスタッフへ。",
     lead: "入口の看板、ワールドの説明、イベントの参加案内を読み、その場所の過ごし方に合わせましょう。",
     paragraphs: [
@@ -30,7 +30,7 @@ const manners = [
     id: "photos",
     title: "写真を撮る前と、SNSに載せる前に確認する",
     image: "photos",
-    alt: "カメラを構える前に、撮影するアバターが被写体の二人から了承を得る挿絵",
+    alt: "カメラを持つ撮影者に、被写体の二人が親指を立てたり会釈したりして了承を示す。",
     caption: "撮影してよいかと、公開してよいかは、別々に確認します。",
     lead: "写る人には撮影前に声をかけ、公開するときは、載せる場所や名前を出してよいかも確認しましょう。",
     paragraphs: [
@@ -43,7 +43,7 @@ const manners = [
     id: "effects",
     title: "音や光の演出は、周りに合わせて控えめにする",
     image: "effects",
-    alt: "会話中のアバターが、手のひらに小さく穏やかな光の演出を出す挿絵",
+    alt: "小さな雪の結晶を手のひらに出して相手に見せるアバターと、足元の小さなスピーカー。",
     caption: "見せたい演出は、周りに確認してから、小さく短く。",
     lead: "大きな音、強い点滅、視界を覆うエフェクトは、突然出さず、使う前に周りに確認しましょう。",
     paragraphs: [
@@ -58,7 +58,7 @@ const manners = [
   <% manners.forEach(function (item, index) { %>
     <article class="manners_1__item" aria-labelledby="manners-<%= item.id %>-heading">
       <figure class="manners_1__figure">
-        <img src="/assets/img/start/manners-<%= item.image %>-v2.webp" alt="<%= item.alt %>" width="960" height="640" loading="lazy" decoding="async">
+        <img src="/assets/img/start/manners-<%= item.image %>-v3.webp" alt="<%= item.alt %>" width="960" height="640" loading="lazy" decoding="async">
         <figcaption><%= item.caption %></figcaption>
       </figure>
       <div class="manners_1__body">
