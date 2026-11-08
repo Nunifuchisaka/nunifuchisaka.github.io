@@ -1571,6 +1571,108 @@ $font-mincho: "Hiragino Mincho ProN", "ヒラギノ明朝 ProN", "Yu Mincho", yu
 
 
 /*
+## .manners_1
+使用箇所：はじめてのVRChat「マナー」
+内容：項目ごとの挿絵と詳しい説明。スマートフォンでは縦に並べる
+*/
+
+.manners_1 {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+
+  &__item {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-line);
+    @include sp {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-2);
+    }
+  }
+
+  &__figure {
+    margin: 0;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    figcaption {
+      margin-top: 8px;
+      font-size: 1.3rem;
+      line-height: 1.7;
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__number {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.5;
+  }
+
+  &__lead {
+    margin-top: 12px;
+    font-weight: 700;
+  }
+
+  &__text {
+    margin-top: 12px;
+    line-height: 1.9;
+  }
+
+  &__example {
+    margin-top: var(--space-2);
+    padding: 12px var(--space-2);
+    font-size: 1.4rem;
+    background: var(--color-surface);
+    border-left: 3px solid var(--color-line);
+    border-radius: 0 6px 6px 0;
+  }
+
+  &__help {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    @include sp {
+      padding: var(--space-2);
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    p {
+      margin-top: 12px;
+      line-height: 1.9;
+    }
+  }
+
+  &__sources {
+    margin-top: var(--space-2);
+    font-size: 1.3rem;
+    line-height: 1.9;
+    color: var(--color-text-muted);
+  }
+}
+
+
+/*
 ## .word_1
 使用箇所：Claude Code の使い方（writing-plans などのスキル名）
 内容：ハイフンを含む語を、途中で折り返さない

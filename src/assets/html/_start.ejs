@@ -72,12 +72,6 @@ const l = isEn ? {
     { title: "Quest と PC", note: "Quest だけで遊ぶときは、Quest に対応したアバターだけが本来の姿で見えます。対応していないアバターは、代わりの姿で表示されます。" },
   ],
   mannersTitle: "マナー",
-  manners: [
-    "初めて会った人に、いきなり触れたり、近づきすぎたりしない。",
-    "入口の看板など、ワールドのルールを読む。",
-    "写真を載せるときは、写っている人に聞く。",
-    "周りに人がいるときは、大きな音や光るエフェクトを控えめにする。",
-  ],
   nextTitle: "次に読む",
   next: [
     { href: `${prefix}/equipment/`, text: "VR機材", note: "使っている機材と、有線VR・無線VRなどの言葉の説明" },
@@ -147,11 +141,15 @@ const l = isEn ? {
 
 <section class="section_2" id="manners" aria-labelledby="manners-heading">
   <h2 class="section_2__h1" id="manners-heading"><%= l.mannersTitle %></h2>
+  <% if (isEn) { %>
   <ul class="rules_1">
     <% l.manners.forEach(function (rule) { %>
       <li><%= rule %></li>
     <% }); %>
   </ul>
+  <% } else { %>
+    <%- include("_start-manners") %>
+  <% } %>
 </section>
 
 <section class="section_2" id="next" aria-labelledby="next-heading">
